@@ -43,6 +43,221 @@ function StatRing({ value, max, label, color = '#D21515' }: { value: number; max
   );
 }
 
+interface HeatSpot {
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+  size: string;
+  color: string;
+  pulseDelay?: number;
+}
+
+function HeatmapField({ position, playerId }: { position: string; playerId: string }) {
+  let spots: HeatSpot[] = [];
+  let zoneLabel = "Terço Médio";
+  let heatDescription = "Distribuição posicional equilibrada.";
+  let stats = {
+    defensiveThird: "33%",
+    midfieldThird: "33%",
+    attackingThird: "33%",
+  };
+
+  const posLower = position.toLowerCase();
+
+  if (posLower.includes("guarda-redes") || posLower.includes("guarda redes")) {
+    zoneLabel = "Área de Baliza Própria";
+    heatDescription = "Actuação estritamente defensiva na proteção do golo.";
+    stats = { defensiveThird: "95%", midfieldThird: "5%", attackingThird: "0%" };
+    spots = [
+      { bottom: "8%", left: "calc(50% - 20px)", size: "w-10 h-10", color: "bg-red-500/40", pulseDelay: 0 },
+      { bottom: "5%", left: "calc(50% - 32px)", size: "w-16 h-16", color: "bg-red-500/25", pulseDelay: 0.2 },
+      { bottom: "12%", left: "calc(50% - 48px)", size: "w-24 h-16", color: "bg-red-500/15", pulseDelay: 0.4 },
+    ];
+  } else if (posLower.includes("defesa esquerdo") || posLower.includes("ala esquerda")) {
+    zoneLabel = "Ala Esquerda Recuada/Média";
+    heatDescription = "Forte presença na faixa esquerda defensiva, com incursões de apoio até à linha média.";
+    stats = { defensiveThird: "55%", midfieldThird: "35%", attackingThird: "10%" };
+    spots = [
+      { bottom: "25%", left: "8%", size: "w-12 h-20", color: "bg-red-500/35", pulseDelay: 0.1 },
+      { bottom: "45%", left: "10%", size: "w-10 h-16", color: "bg-red-500/25", pulseDelay: 0.3 },
+      { bottom: "15%", left: "12%", size: "w-14 h-16", color: "bg-red-500/20", pulseDelay: 0.5 },
+      { bottom: "65%", left: "15%", size: "w-8 h-12", color: "bg-red-500/15", pulseDelay: 0.2 },
+    ];
+  } else if (posLower.includes("defesa")) {
+    zoneLabel = "Terço Defensivo Central";
+    heatDescription = "Muralha defensiva central. Acção concentrada na entrada e interior da grande área recuada.";
+    stats = { defensiveThird: "75%", midfieldThird: "20%", attackingThird: "5%" };
+    spots = [
+      { bottom: "20%", left: "calc(50% - 24px)", size: "w-12 h-12", color: "bg-amber-500/40", pulseDelay: 0.1 },
+      { bottom: "15%", left: "calc(50% - 40px)", size: "w-20 h-12", color: "bg-amber-500/25", pulseDelay: 0.3 },
+      { bottom: "30%", left: "calc(50% - 28px)", size: "w-14 h-14", color: "bg-amber-500/20", pulseDelay: 0.5 },
+    ];
+  } else if (posLower === "extremo" || posLower.includes("extremo") || posLower.includes("médio / extremo")) {
+    const isRightWinger = playerId === "gibele" || playerId === "jaredi";
+    if (isRightWinger) {
+      zoneLabel = "Corredor Lateral Direito Ofensivo";
+      heatDescription = "Aceleração e cruzamentos do corredor direito, com diagonais para dentro da grande área.";
+      stats = { defensiveThird: "10%", midfieldThird: "35%", attackingThird: "55%" };
+      spots = [
+        { top: "20%", right: "8%", size: "w-12 h-24", color: "bg-amber-500/40", pulseDelay: 0.2 },
+        { top: "35%", right: "12%", size: "w-10 h-16", color: "bg-amber-500/30", pulseDelay: 0.4 },
+        { top: "15%", right: "25%", size: "w-12 h-12", color: "bg-red-500/30", pulseDelay: 0.1 },
+        { top: "45%", right: "15%", size: "w-8 h-12", color: "bg-amber-500/15", pulseDelay: 0.5 },
+      ];
+    } else {
+      zoneLabel = "Ala Ofensiva (Esquerda/Direita)";
+      heatDescription = "Pressão e velocidade na ala. Linha de fundo e passes de rutura para a área de finalização.";
+      stats = { defensiveThird: "10%", midfieldThird: "40%", attackingThird: "50%" };
+      spots = [
+        { top: "25%", left: "10%", size: "w-12 h-20", color: "bg-red-500/35", pulseDelay: 0.1 },
+        { top: "25%", right: "12%", size: "w-10 h-16", color: "bg-red-500/25", pulseDelay: 0.3 },
+        { top: "40%", left: "15%", size: "w-10 h-12", color: "bg-amber-500/20", pulseDelay: 0.5 },
+        { top: "15%", left: "20%", size: "w-8 h-10", color: "bg-red-500/30", pulseDelay: 0.2 },
+      ];
+    }
+  } else if (posLower.includes("médio ofensivo") || posLower.includes("ofensivo")) {
+    zoneLabel = "Entre Linhas (Zone 14)";
+    heatDescription = "Posicionamento estratégico à boca da grande área. Elevada taxa de assistências e remates.";
+    stats = { defensiveThird: "15%", midfieldThird: "45%", attackingThird: "40%" };
+    spots = [
+      { top: "28%", left: "calc(50% - 24px)", size: "w-12 h-12", color: "bg-red-500/45", pulseDelay: 0.1 },
+      { top: "35%", left: "calc(50% - 36px)", size: "w-18 h-18", color: "bg-red-500/30", pulseDelay: 0.3 },
+      { top: "22%", left: "calc(50% - 16px)", size: "w-8 h-8", color: "bg-red-500/40", pulseDelay: 0.5 },
+      { top: "30%", left: "calc(50% - 60px)", size: "w-30 h-12", color: "bg-amber-500/20", pulseDelay: 0.2 },
+    ];
+  } else if (posLower.includes("médio")) {
+    zoneLabel = "Círculo Central & Box-to-Box";
+    heatDescription = "Construção de jogo de transição. Distribuição fluida e contenção na faixa central do campo.";
+    stats = { defensiveThird: "25%", midfieldThird: "55%", attackingThird: "20%" };
+    spots = [
+      { top: "calc(50% - 20px)", left: "calc(50% - 20px)", size: "w-10 h-10", color: "bg-amber-500/40", pulseDelay: 0 },
+      { top: "calc(50% - 32px)", left: "calc(50% - 32px)", size: "w-16 h-16", color: "bg-amber-500/30", pulseDelay: 0.2 },
+      { top: "calc(45% - 40px)", left: "calc(45% - 40px)", size: "w-20 h-20", color: "bg-amber-500/20", pulseDelay: 0.4 },
+      { top: "calc(55% - 24px)", left: "calc(55% - 24px)", size: "w-12 h-12", color: "bg-amber-500/20", pulseDelay: 0.6 },
+    ];
+  } else if (posLower.includes("avançado") || posLower.includes("avancado")) {
+    zoneLabel = "Grande Área Adversária";
+    heatDescription = "Área de finalização. Presença centralizada na grande área do oponente, com forte pressão de golo.";
+    stats = { defensiveThird: "5%", midfieldThird: "20%", attackingThird: "75%" };
+    spots = [
+      { top: "12%", left: "calc(50% - 24px)", size: "w-12 h-12", color: "bg-red-500/50", pulseDelay: 0.1 },
+      { top: "18%", left: "calc(50% - 36px)", size: "w-18 h-18", color: "bg-red-500/35", pulseDelay: 0.3 },
+      { top: "8%", left: "calc(50% - 16px)", size: "w-8 h-8", color: "bg-red-500/40", pulseDelay: 0.5 },
+      { top: "25%", left: "calc(50% - 48px)", size: "w-24 h-16", color: "bg-red-500/15", pulseDelay: 0.2 },
+    ];
+  }
+
+  return (
+    <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6 space-y-6 relative overflow-hidden">
+      {/* Scanline sweep */}
+      <motion.div
+        className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent pointer-events-none z-0 shadow-[0_0_8px_rgba(210,21,21,0.5)]"
+        animate={{ top: ['0%', '100%'] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+      />
+
+      <h3 className="text-md font-display text-white uppercase tracking-wider flex items-center gap-2 relative z-10">
+        <Activity size={16} className="text-accent" /> Mapa de Calor Posicional
+      </h3>
+
+      <div className="grid grid-cols-1 gap-4 relative z-10">
+        {/* The Pitch rendering */}
+        <div className="relative w-full aspect-[2/3] max-w-[200px] mx-auto bg-zinc-900/60 rounded-xl border border-zinc-800/80 p-4 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] overflow-hidden">
+          
+          {/* Field Lines */}
+          <div className="absolute inset-4 border border-zinc-800/40">
+            {/* Halfway Line */}
+            <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-zinc-800/40 -translate-y-1/2" />
+            
+            {/* Center Circle */}
+            <div className="absolute top-1/2 left-1/2 w-14 h-14 border border-zinc-800/40 rounded-full -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-zinc-800/50 rounded-full -translate-x-1/2 -translate-y-1/2" />
+
+            {/* Penalty Box Top */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-8 border-b border-x border-zinc-800/40">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-2.5 border-b border-x border-zinc-800/20" />
+            </div>
+
+            {/* Penalty Box Bottom */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-8 border-t border-x border-zinc-800/40">
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-2.5 border-t border-x border-zinc-800/20" />
+            </div>
+          </div>
+
+          {/* Heat spots overlays */}
+          {spots.map((spot, idx) => {
+            const posStyle: React.CSSProperties = {};
+            if (spot.top) posStyle.top = spot.top;
+            if (spot.bottom) posStyle.bottom = spot.bottom;
+            if (spot.left) posStyle.left = spot.left;
+            if (spot.right) posStyle.right = spot.right;
+
+            return (
+              <motion.div
+                key={idx}
+                style={posStyle}
+                className={`absolute rounded-full filter blur-[12px] mix-blend-screen pointer-events-none ${spot.size} ${spot.color}`}
+                animate={{
+                  scale: [0.95, 1.1, 0.95],
+                  opacity: [0.75, 0.95, 0.75]
+                }}
+                transition={{
+                  duration: 3 + idx,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: spot.pulseDelay || 0
+                }}
+              />
+            );
+          })}
+        </div>
+
+        {/* Heat Details metadata */}
+        <div className="space-y-4 font-mono text-[11px] border-t border-zinc-900/60 pt-4">
+          <div>
+            <span className="text-zinc-500 uppercase block text-[9px] mb-0.5">Foco de Acção Principal</span>
+            <span className="font-bold text-white uppercase text-xs">{zoneLabel}</span>
+          </div>
+          <p className="text-zinc-400 text-[10px] leading-relaxed">
+            {heatDescription}
+          </p>
+          
+          {/* Positional distribution bars */}
+          <div className="space-y-2 text-[9px] text-zinc-500 uppercase pt-2 border-t border-zinc-900/40">
+            <span className="block mb-1 text-zinc-400 font-semibold">Território Ocupado</span>
+            
+            <div className="flex items-center justify-between gap-2">
+              <span className="w-16">Defesa:</span>
+              <div className="flex-1 h-1 bg-zinc-900 rounded-full overflow-hidden">
+                <div className="h-full bg-red-500/60 rounded-full" style={{ width: stats.defensiveThird }} />
+              </div>
+              <span className="w-8 text-right font-bold text-zinc-400">{stats.defensiveThird}</span>
+            </div>
+
+            <div className="flex items-center justify-between gap-2">
+              <span className="w-16">Meio-Campo:</span>
+              <div className="flex-1 h-1 bg-zinc-900 rounded-full overflow-hidden">
+                <div className="h-full bg-amber-500/60 rounded-full" style={{ width: stats.midfieldThird }} />
+              </div>
+              <span className="w-8 text-right font-bold text-zinc-400">{stats.midfieldThird}</span>
+            </div>
+
+            <div className="flex items-center justify-between gap-2">
+              <span className="w-16">Ataque:</span>
+              <div className="flex-1 h-1 bg-zinc-900 rounded-full overflow-hidden">
+                <div className="h-full bg-green-500/60 rounded-full" style={{ width: stats.attackingThird }} />
+              </div>
+              <span className="w-8 text-right font-bold text-zinc-400">{stats.attackingThird}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </AnimatedCard>
+  );
+}
+
 export default function PlayerDetailClient({ player, team }: PlayerDetailClientProps) {
   // Goals classification
   const allPlayers = getPlayers();
@@ -275,6 +490,9 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
               {player.bio || 'Sem biografia detalhada registada no banco de dados da Federação Angolana de Futebol.'}
             </p>
           </AnimatedCard>
+
+          {/* Heatmap Field */}
+          <HeatmapField position={player.position} playerId={player.id} />
 
           {/* League Stats Sidebar */}
           <div className="bg-primary/5 border border-primary/20 p-6 rounded-2xl h-fit space-y-6">
