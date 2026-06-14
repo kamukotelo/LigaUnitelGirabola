@@ -1,0 +1,98 @@
+'use client';
+
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { MapPin, User, Award, Zap } from 'lucide-react';
+import { TEAMS } from '@/lib/data';
+import AnimatedCard from '@/components/ui/AnimatedCard';
+
+export default function TeamsPage() {
+  return (
+    <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      {/* Page Header */}
+      <div className="mb-12">
+        <div className="flex items-center gap-2 mb-2">
+          <Zap size={14} className="text-accent animate-pulse" />
+          <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-semibold">
+            EQUIPAS_OFICIAIS
+          </span>
+        </div>
+        <h1 className="text-4xl md:text-6xl font-display text-white uppercase leading-none">
+          Clubes do <span className="text-primary italic">Girabola</span>
+        </h1>
+        <p className="text-sm text-zinc-400 mt-2 font-mono uppercase tracking-wider">
+          Lista das 16 equipas participantes na edição 2025/2026
+        </p>
+      </div>
+
+      {/* Grid of Teams */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {TEAMS.map((team, idx) => {
+          // Highlight first-class traditional clubs (Petro, 1º de Agosto, Kabuscorp, Sagrada, Interclube, Wiliete)
+          const isGiant = ['petro', 'dago', 'kabuscorp', 'sagrada', 'interclube', 'wiliete'].includes(team.id);
+
+          return (
+            <motion.div
+              key={team.id}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: idx * 0.02 }}
+              className="h-full"
+            >
+              <Link href={`/teams/${team.id}`} className="block h-full cursor-pointer">
+                <AnimatedCard
+                  variant={isGiant ? 'holographic' : 'hud'}
+                  className="bg-zinc-950/30 hover:bg-zinc-900/40 border-zinc-900 h-full flex flex-col justify-between"
+                >
+                  {/* Header: Logo initials / Nickname */}
+                  <div>
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center font-display text-lg text-primary uppercase select-none shadow-[2px_2px_0px_rgba(255,255,255,0.03)] font-extrabold">
+                        {team.shortName.substring(0, 2)}
+                      </div>
+                      <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">
+                        Fundado em {team.founded}
+                      </span>
+                    </div>
+
+                    {/* Names */}
+                    <h3 className="text-lg font-display text-white uppercase leading-snug truncate" title={team.name}>
+                      {team.shortName}
+                    </h3>
+                    <p className="text-[10px] text-zinc-500 font-mono truncate mb-4">
+                      {team.name}
+                    </p>
+                  </div>
+
+                  {/* Details List */}
+                  <div className="space-y-2.5 pt-4 border-t border-zinc-900/60 text-xs font-mono text-zinc-400">
+                    <div className="flex items-center gap-2">
+                      <MapPin size={13} className="text-zinc-600 flex-shrink-0" />
+                      <span className="truncate">{team.city}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Award size={13} className="text-zinc-600 flex-shrink-0" />
+                      <span className="truncate" title={team.stadium}>{team.stadium}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <User size={13} className="text-zinc-600 flex-shrink-0" />
+                      <span className="truncate">{team.coach}</span>
+                    </div>
+                  </div>
+
+                  {/* Footer Colors */}
+                  <div className="mt-5 pt-3 border-t border-zinc-900/40 flex justify-between items-center text-[9px] font-mono text-zinc-500">
+                    <span>CORES:</span>
+                    <span className="text-zinc-300 font-bold uppercase">{team.colors}</span>
+                  </div>
+                </AnimatedCard>
+              </Link>
+            </motion.div>
+          );
+        })}
+      </div>
+
+    </div>
+  );
+}

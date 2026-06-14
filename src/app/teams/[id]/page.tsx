@@ -1,0 +1,34 @@
+import React from 'react';
+import { getTeamById, getPlayersByTeam, getMatchesByTeam, getStandingByTeamId, getTeams } from '@/lib/data';
+import TeamDetailClient from '@/components/TeamDetailClient';
+
+// Static params generation for Next.js build optimization
+export function generateStaticParams() {
+  return getTeams().map((t) => ({ id: t.id }));
+}
+
+export default async function TeamDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const team = getTeamById(id);
+  
+  if (!team) {
+    return (
+      <div className="py-24 text-center">
+        <h2 className="text-2xl font-display text-white uppercase mb-2">Equipa Não Encontrada</h2>
+      </div>
+    );
+  }
+
+  const players = getPlayersByTeam(team.id);
+  const matches = getMatchesByTeam(team.shortName);
+  const standing = getStandingByTeamId(team.id);
+
+  return (
+    <TeamDetailClient 
+      team={team} 
+      players={players} 
+      matches={matches} 
+      standing={standing} 
+    />
+  );
+}
