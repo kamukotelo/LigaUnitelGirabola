@@ -195,7 +195,7 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
             
             <div className="space-y-4">
               {matches.slice(0, 3).map((match) => {
-                const isHome = match.homeTeam === team.shortName;
+                const isHome = match.homeTeamId === team.id;
                 const opponent = isHome ? match.awayTeam : match.homeTeam;
                 const isFinished = match.status === 'finished';
 

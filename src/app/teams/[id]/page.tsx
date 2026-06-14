@@ -20,7 +20,7 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ id:
   }
 
   const players = getPlayersByTeam(team.id);
-  const matches = getMatchesByTeam(team.shortName);
+  const matches = getMatchesByTeam(team.id);
   const standing = getStandingByTeamId(team.id);
 
   return (

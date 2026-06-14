@@ -128,34 +128,175 @@ export const STANDINGS: StandingEntry[] = [
   { position: 16, teamId: 'guelson', teamName: 'Guelson FC', played: 30, won: 4, drawn: 8, lost: 18, goalsFor: 18, goalsAgainst: 43, goalDifference: -25, points: 20, form: ['L', 'L', 'L', 'W', 'L'] }
 ];
 
-// ── 3. CALENDÁRIO E JOGOS ──────────────────────────────────────────
-export const MATCHES: Match[] = [
-  // Jornada 29
-  { id: 'm-2901', round: 29, homeTeamId: 'petro', awayTeamId: 'lundasul', homeTeam: 'Petro de Luanda', awayTeam: 'Desportivo da Lunda Sul', homeScore: 3, awayScore: 0, score: '3-0', date: '2026-05-02T16:00:00+01:00', stadium: 'Estádio 11 de Novembro', status: 'finished' },
-  { id: 'm-2902', round: 29, homeTeamId: 'dago', awayTeamId: 'kabuscorp', homeTeam: '1.º de Agosto', awayTeam: 'Kabuscorp', homeScore: 2, awayScore: 0, score: '2-0', date: '2026-05-02T15:30:00+01:00', stadium: 'Estádio França Ndalu', status: 'finished' },
-  { id: 'm-2903', round: 29, homeTeamId: 'wiliete', awayTeamId: 'interclube', homeTeam: 'Wiliete', awayTeam: 'Interclube', homeScore: 2, awayScore: 1, score: '2-1', date: '2026-05-03T16:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', status: 'finished' },
-  { id: 'm-2904', round: 29, homeTeamId: 'sagrada', awayTeamId: 'bravos', homeTeam: 'Sagrada Esperança', awayTeam: 'Bravos do Maquis', homeScore: 1, awayScore: 1, score: '1-1', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Sagrada Esperança', status: 'finished' },
-  { id: 'm-2905', round: 29, homeTeamId: 'libolo', awayTeamId: 'lobito', homeTeam: 'Recreativo do Libolo', awayTeam: 'Académica do Lobito', homeScore: 1, awayScore: 1, score: '1-1', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Municipal de Calulo', status: 'finished' },
-  { id: 'm-2906', round: 29, homeTeamId: 'saosalvador', awayTeamId: 'luandacity', homeTeam: 'São Salvador do Kongo', awayTeam: 'Luanda City', homeScore: 1, awayScore: 0, score: '1-0', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Álvaro Buta', status: 'finished' },
-  { id: 'm-2907', round: 29, homeTeamId: 'primeiromaio', awayTeamId: 'redonda', homeTeam: '1.º de Maio', awayTeam: 'Redonda FC', homeScore: 2, awayScore: 2, score: '2-2', date: '2026-05-02T15:30:00+01:00', stadium: 'Estádio Municipal do Lobito', status: 'finished' },
-  { id: 'm-2908', round: 29, homeTeamId: 'guelson', awayTeamId: 'desphuila', homeTeam: 'Guelson FC', awayTeam: 'Desportivo da Huíla', homeScore: 0, awayScore: 2, score: '0-2', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio da Cidadela', status: 'finished' },
+// ── 3. CALENDÁRIO E JOGOS (GERADO AUTOMATICAMENTE E DETERMINISTICAMENTE) ──
+function getDeterministicScore(homeId: string, awayId: string, round: number): { homeScore: number, awayScore: number, score: string } {
+  let hash = 0;
+  const str = `${homeId}-${awayId}-${round}`;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  hash = Math.abs(hash);
+  
+  let homeGoals = hash % 3; // 0, 1, 2
+  let awayGoals = (hash >> 2) % 3; // 0, 1, 2
+  
+  const homeRank = STANDINGS.find(s => s.teamId === homeId)?.position || 8;
+  const awayRank = STANDINGS.find(s => s.teamId === awayId)?.position || 8;
+  
+  if (homeRank < awayRank - 3) {
+    homeGoals += 1;
+  } else if (awayRank < homeRank - 3) {
+    awayGoals += 1;
+  }
+  
+  return {
+    homeScore: homeGoals,
+    awayScore: awayGoals,
+    score: `${homeGoals}-${awayGoals}`
+  };
+}
 
-  // Jornada 30
-  { id: 'm-3001', round: 30, homeTeamId: 'lundasul', awayTeamId: 'dago', homeTeam: 'Desportivo da Lunda Sul', awayTeam: '1.º de Agosto', homeScore: 1, awayScore: 2, score: '1-2', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio das Mangueiras', status: 'finished' },
-  { id: 'm-3002', round: 30, homeTeamId: 'kabuscorp', awayTeamId: 'petro', homeTeam: 'Kabuscorp', awayTeam: 'Petro de Luanda', homeScore: 1, awayScore: 2, score: '1-2', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio dos Coqueiros', status: 'finished' },
-  { id: 'm-3003', round: 30, homeTeamId: 'interclube', awayTeamId: 'wiliete', homeTeam: 'Interclube', awayTeam: 'Wiliete', homeScore: 0, awayScore: 2, score: '0-2', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio 22 de Junho', status: 'finished' },
-  { id: 'm-3004', round: 30, homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', homeScore: 2, awayScore: 0, score: '2-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio Mundunduleno', status: 'finished' },
-  { id: 'm-3005', round: 30, homeTeamId: 'lobito', awayTeamId: 'libolo', homeTeam: 'Académica do Lobito', awayTeam: 'Recreativo do Libolo', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio do Buraco', status: 'finished' },
-  { id: 'm-3006', round: 30, homeTeamId: 'luandacity', awayTeamId: 'saosalvador', homeTeam: 'Luanda City', awayTeam: 'São Salvador do Kongo', homeScore: 0, awayScore: 0, score: '0-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio dos Coqueiros', status: 'finished' },
-  { id: 'm-3007', round: 30, homeTeam: 'Redonda FC', awayTeam: '1.º de Maio', homeTeamId: 'redonda', awayTeamId: 'primeiromaio', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio da Cidadela', status: 'finished' },
-  { id: 'm-3008', round: 30, homeTeam: 'Desportivo da Huíla', awayTeam: 'Guelson FC', homeTeamId: 'desphuila', awayTeamId: 'guelson', homeScore: 3, awayScore: 0, score: '3-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio da Tundavala', status: 'finished' },
+function generateAllMatches(): Match[] {
+  const teamIds = TEAMS.map(t => t.id);
+  const n = teamIds.length;
+  const list = [...teamIds];
+  const generated: Match[] = [];
+  let matchIdCounter = 1;
 
-  // Mocks Futuros
-  { id: 'm-f001', round: 1, homeTeamId: 'petro', awayTeamId: 'wiliete', homeTeam: 'Petro de Luanda', awayTeam: 'Wiliete de Benguela', homeScore: 0, awayScore: 0, date: '2026-07-25T16:00:00+01:00', stadium: 'Estádio 11 de Novembro', status: 'scheduled' },
-  { id: 'm-f002', round: 1, homeTeamId: 'dago', awayTeamId: 'sagrada', homeTeam: '1.º de Agosto', awayTeam: 'Sagrada Esperança', homeScore: 0, awayScore: 0, date: '2026-07-26T15:30:00+01:00', stadium: 'Estádio França Ndalu', status: 'scheduled' },
-  { id: 'm-f003', round: 1, homeTeamId: 'interclube', awayTeamId: 'kabuscorp', homeTeam: 'Interclube', awayTeam: 'Kabuscorp', homeScore: 0, awayScore: 0, date: '2026-07-26T16:00:00+01:00', stadium: 'Estádio 22 de Junho', status: 'scheduled' },
-  { id: 'm-f004', round: 1, homeTeamId: 'bravos', awayTeamId: 'desphuila', homeTeam: 'Bravos do Maquis', awayTeam: 'Desportivo da Huíla', homeScore: 0, awayScore: 0, date: '2026-07-26T15:00:00+01:00', stadium: 'Estádio Mundunduleno', status: 'scheduled' }
-];
+  // Primeira Volta (Jornadas 1 a 15)
+  for (let round = 1; round <= 15; round++) {
+    for (let i = 0; i < n / 2; i++) {
+      const home = list[i];
+      const away = list[n - 1 - i];
+      
+      const homeId = round % 2 === 0 ? home : away;
+      const awayId = round % 2 === 0 ? away : home;
+      
+      const homeTeamObj = TEAMS.find(t => t.id === homeId)!;
+      const awayTeamObj = TEAMS.find(t => t.id === awayId)!;
+
+      const status: 'finished' | 'scheduled' = round <= 20 ? 'finished' : 'scheduled';
+      const { homeScore, awayScore, score } = getDeterministicScore(homeId, awayId, round);
+
+      const startDate = new Date('2025-10-11T16:00:00+01:00');
+      const matchDate = new Date(startDate.getTime());
+      matchDate.setDate(startDate.getDate() + (round - 1) * 7);
+      
+      const offsetHash = (round + homeId.charCodeAt(0) + awayId.charCodeAt(0)) % 4;
+      if (offsetHash === 1) {
+        matchDate.setDate(matchDate.getDate() + 1);
+      } else if (offsetHash === 2) {
+        matchDate.setDate(matchDate.getDate() + 1);
+        matchDate.setHours(15, 30);
+      } else if (offsetHash === 3) {
+        matchDate.setHours(15, 30);
+      }
+
+      generated.push({
+        id: `m-${round}-${matchIdCounter++}`,
+        homeTeamId: homeId,
+        awayTeamId: awayId,
+        homeTeam: homeTeamObj.name,
+        awayTeam: awayTeamObj.name,
+        homeScore: status === 'finished' ? homeScore : 0,
+        awayScore: status === 'finished' ? awayScore : 0,
+        score: status === 'finished' ? score : undefined,
+        date: matchDate.toISOString(),
+        stadium: homeTeamObj.stadium,
+        status,
+        round
+      });
+    }
+
+    list.splice(1, 0, list.pop()!);
+  }
+
+  // Segunda Volta (Jornadas 16 a 30)
+  const firstLegMatches = [...generated];
+  for (let round = 16; round <= 30; round++) {
+    const correspondingFirstLegRound = round - 15;
+    const roundMatches = firstLegMatches.filter(m => m.round === correspondingFirstLegRound);
+    
+    for (let j = 0; j < roundMatches.length; j++) {
+      const firstLegMatch = roundMatches[j];
+      const homeId = firstLegMatch.awayTeamId;
+      const awayId = firstLegMatch.homeTeamId;
+      
+      const homeTeamObj = TEAMS.find(t => t.id === homeId)!;
+      const awayTeamObj = TEAMS.find(t => t.id === awayId)!;
+
+      // Definir jornadas 16 a 20 como terminadas (feitas).
+      // 21 a 28 como agendadas (não feitas).
+      // 29 e 30 como concluídas (feitas).
+      let status: 'finished' | 'scheduled' = 'scheduled';
+      if (round <= 20 || round === 29 || round === 30) {
+        status = 'finished';
+      }
+
+      const { homeScore, awayScore, score } = getDeterministicScore(homeId, awayId, round);
+
+      const startDate = new Date('2025-10-11T16:00:00+01:00');
+      const matchDate = new Date(startDate.getTime());
+      matchDate.setDate(startDate.getDate() + (round - 1) * 7);
+      
+      const offsetHash = (round + homeId.charCodeAt(0) + awayId.charCodeAt(0)) % 4;
+      if (offsetHash === 1) {
+        matchDate.setDate(matchDate.getDate() + 1);
+      } else if (offsetHash === 2) {
+        matchDate.setDate(matchDate.getDate() + 1);
+        matchDate.setHours(15, 30);
+      } else if (offsetHash === 3) {
+        matchDate.setHours(15, 30);
+      }
+
+      generated.push({
+        id: `m-${round}-${matchIdCounter++}`,
+        homeTeamId: homeId,
+        awayTeamId: awayId,
+        homeTeam: homeTeamObj.name,
+        awayTeam: awayTeamObj.name,
+        homeScore: status === 'finished' ? homeScore : 0,
+        awayScore: status === 'finished' ? awayScore : 0,
+        score: status === 'finished' ? score : undefined,
+        date: matchDate.toISOString(),
+        stadium: homeTeamObj.stadium,
+        status,
+        round
+      });
+    }
+  }
+
+  // Substituir as jornadas 29 e 30 pelos resultados mockados originais e conhecidos
+  const originalRound29 = [
+    { id: 'm-2901', round: 29, homeTeamId: 'petro', awayTeamId: 'lundasul', homeTeam: 'Petro de Luanda', awayTeam: 'Desportivo da Lunda Sul', homeScore: 3, awayScore: 0, score: '3-0', date: '2026-05-02T16:00:00+01:00', stadium: 'Estádio 11 de Novembro', status: 'finished' as const },
+    { id: 'm-2902', round: 29, homeTeamId: 'dago', awayTeamId: 'kabuscorp', homeTeam: '1.º de Agosto', awayTeam: 'Kabuscorp', homeScore: 2, awayScore: 0, score: '2-0', date: '2026-05-02T15:30:00+01:00', stadium: 'Estádio França Ndalu', status: 'finished' as const },
+    { id: 'm-2903', round: 29, homeTeamId: 'wiliete', awayTeamId: 'interclube', homeTeam: 'Wiliete', awayTeam: 'Interclube', homeScore: 2, awayScore: 1, score: '2-1', date: '2026-05-03T16:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', status: 'finished' as const },
+    { id: 'm-2904', round: 29, homeTeamId: 'sagrada', awayTeamId: 'bravos', homeTeam: 'Sagrada Esperança', awayTeam: 'Bravos do Maquis', homeScore: 1, awayScore: 1, score: '1-1', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Sagrada Esperança', status: 'finished' as const },
+    { id: 'm-2905', round: 29, homeTeamId: 'libolo', awayTeamId: 'lobito', homeTeam: 'Recreativo do Libolo', awayTeam: 'Académica do Lobito', homeScore: 1, awayScore: 1, score: '1-1', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Municipal de Calulo', status: 'finished' as const },
+    { id: 'm-2906', round: 29, homeTeamId: 'saosalvador', awayTeamId: 'luandacity', homeTeam: 'São Salvador do Kongo', awayTeam: 'Luanda City', homeScore: 1, awayScore: 0, score: '1-0', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Álvaro Buta', status: 'finished' as const },
+    { id: 'm-2907', round: 29, homeTeamId: 'primeiromaio', awayTeamId: 'redonda', homeTeam: '1.º de Maio', awayTeam: 'Redonda FC', homeScore: 2, awayScore: 2, score: '2-2', date: '2026-05-02T15:30:00+01:00', stadium: 'Estádio Municipal do Lobito', status: 'finished' as const },
+    { id: 'm-2908', round: 29, homeTeamId: 'guelson', awayTeamId: 'desphuila', homeTeam: 'Guelson FC', awayTeam: 'Desportivo da Huíla', homeScore: 0, awayScore: 2, score: '0-2', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio da Cidadela', status: 'finished' as const },
+  ];
+
+  const originalRound30 = [
+    { id: 'm-3001', round: 30, homeTeamId: 'lundasul', awayTeamId: 'dago', homeTeam: 'Desportivo da Lunda Sul', awayTeam: '1.º de Agosto', homeScore: 1, awayScore: 2, score: '1-2', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio das Mangueiras', status: 'finished' as const },
+    { id: 'm-3002', round: 30, homeTeamId: 'kabuscorp', awayTeamId: 'petro', homeTeam: 'Kabuscorp', awayTeam: 'Petro de Luanda', homeScore: 1, awayScore: 2, score: '1-2', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio dos Coqueiros', status: 'finished' as const },
+    { id: 'm-3003', round: 30, homeTeamId: 'interclube', awayTeamId: 'wiliete', homeTeam: 'Interclube', awayTeam: 'Wiliete', homeScore: 0, awayScore: 2, score: '0-2', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio 22 de Junho', status: 'finished' as const },
+    { id: 'm-3004', round: 30, homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', homeScore: 2, awayScore: 0, score: '2-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio Mundunduleno', status: 'finished' as const },
+    { id: 'm-3005', round: 30, homeTeamId: 'lobito', awayTeamId: 'libolo', homeTeam: 'Académica do Lobito', awayTeam: 'Recreativo do Libolo', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio do Buraco', status: 'finished' as const },
+    { id: 'm-3006', round: 30, homeTeamId: 'luandacity', awayTeamId: 'saosalvador', homeTeam: 'Luanda City', awayTeam: 'São Salvador do Kongo', homeScore: 0, awayScore: 0, score: '0-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio dos Coqueiros', status: 'finished' as const },
+    { id: 'm-3007', round: 30, homeTeamId: 'redonda', awayTeamId: 'primeiromaio', homeTeam: 'Redonda FC', awayTeam: '1.º de Maio', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio da Cidadela', status: 'finished' as const },
+    { id: 'm-3008', round: 30, homeTeamId: 'desphuila', awayTeamId: 'guelson', homeTeam: 'Desportivo da Huíla', awayTeam: 'Guelson FC', homeScore: 3, awayScore: 0, score: '3-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio da Tundavala', status: 'finished' as const },
+  ];
+
+  const filtered = generated.filter(m => m.round !== 29 && m.round !== 30);
+  return [...filtered, ...originalRound29, ...originalRound30].sort((a, b) => {
+    if (a.round !== b.round) return a.round - b.round;
+    return a.id.localeCompare(b.id);
+  });
+}
+
+export const MATCHES: Match[] = generateAllMatches();
 
 // ── 4. LISTA COMPLETA DE JOGADORES ──────────────────────────────────
 export const PLAYERS: Player[] = [
@@ -563,8 +704,8 @@ export function getMatches(): Match[] {
   return MATCHES;
 }
 
-export function getMatchesByTeam(teamShortName: string): Match[] {
-  return MATCHES.filter(m => m.homeTeam === teamShortName || m.awayTeam === teamShortName);
+export function getMatchesByTeam(teamId: string): Match[] {
+  return MATCHES.filter(m => m.homeTeamId === teamId || m.awayTeamId === teamId);
 }
 
 export function getPlayers(): Player[] {
