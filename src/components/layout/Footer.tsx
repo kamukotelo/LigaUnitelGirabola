@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import { Globe, Flame, ShieldAlert } from 'lucide-react';
+import { Globe, Flame, ShieldAlert, Lock } from 'lucide-react';
+import Brand from './Brand';
 
 export default function Footer() {
   return (
@@ -9,20 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo & Description */}
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-4 group">
-              <div className="p-1 bg-black/30 border border-zinc-800 rounded-xl group-hover:border-accent transition-all duration-300 flex items-center justify-center w-10 h-10">
-                <Image
-                  src="/logo-girabola.png"
-                  alt="Girabola Logo"
-                  className="h-8 w-8 object-contain"
-                  width={32}
-                  height={32}
-                />
-              </div>
-              <span className="font-display text-lg uppercase tracking-wider font-extrabold text-white">
-                GIRA<span className="text-accent">BOLA</span>
-              </span>
-            </Link>
+            <Brand size="md" className="mb-4" />
             <p className="text-sm text-zinc-400 max-w-sm">
               Website oficial de resultados e estatísticas do Campeonato Nacional de Futebol de Angola, baseado no Futibool Engine.
             </p>
@@ -63,13 +50,18 @@ export default function Footer() {
               <li>
                 <Link href="#" className="hover:text-accent transition-colors">Políticas de Privacidade</Link>
               </li>
+              <li>
+                <Link href="/admin" className="inline-flex items-center gap-1.5 text-zinc-600 hover:text-accent transition-colors">
+                  <Lock className="h-3 w-3" /> Administração
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 pt-8 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
           <div>
-            &copy; {new Date().getFullYear()} Liga Girabola. Todos os direitos reservados.
+            &copy; {new Date().getFullYear()} Liga Unitel Girabola. Todos os direitos reservados.
           </div>
           <div className="flex gap-4">
             <a href="#" className="hover:text-white transition-colors">

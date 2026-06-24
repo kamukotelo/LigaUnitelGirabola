@@ -5,16 +5,16 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Activity, Award, Star, Calendar, Users,
-  BarChart3, ShieldCheck, ExternalLink, Fingerprint, FileText,
-  Plane, HeartPulse, Loader2, CheckCircle2, AlertTriangle, BadgeCheck
+  BarChart3, AlertTriangle, Shield, CheckCircle2,
+  RefreshCw, Check, X, ExternalLink
 } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
 } from 'recharts';
 import {
   Player, Team, getPlayers, getMatches,
-  getPlayerRatings, getRecentRatings, getDetailedMetrics, getFifaConnectStatus,
-  type FifaCheckKey
+  getPlayerRatings, getRecentRatings, getDetailedMetrics,
+  getFifaConnectStatus, FIFA_CHECK_META, FifaCheckKey
 } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 
@@ -278,7 +278,7 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
   );
 }
 
-// ── ABA 2: Estatísticas Detalhadas (Sofascore / ZeroZero) ──────────
+// ── ABA 2: Estatísticas Detalhadas (avaliação técnica ANCAF & Sofascore/ZeroZero) ──────────
 function StatsTab({ player }: { player: Player }) {
   const ratings = getPlayerRatings(player);
   const recent = getRecentRatings(player);
@@ -300,23 +300,18 @@ function StatsTab({ player }: { player: Player }) {
     <div className="space-y-8">
       <div className="flex justify-end"><DemoBadge /></div>
 
-      {/* Widgets Sofascore / ZeroZero */}
+      {/* Índices de avaliação técnica (ANCAF) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {([
-          { name: 'Sofascore', value: ratings.sofascore, url: ratings.sofascoreUrl, accent: '#374df5' },
-          { name: 'ZeroZero', value: ratings.zerozero, url: ratings.zerozeroUrl, accent: '#e11d48' },
+          { name: 'Índice Sofascore', value: ratings.sofascore, accent: '#00F5FF', caption: 'Rating Sofascore Integrado' },
+          { name: 'Rating ZeroZero', value: ratings.zerozero, accent: '#F9C304', caption: 'Rating ZeroZero Integrado' },
         ] as const).map((src) => (
           <AnimatedCard key={src.name} variant="holographic" className="bg-zinc-950/40 border-zinc-900 p-6">
             <div className="flex items-center justify-between mb-4">
               <span className="font-display text-white uppercase tracking-wider text-sm">{src.name}</span>
-              <a
-                href={src.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest text-zinc-400 hover:text-accent transition-colors"
-              >
-                Ver perfil <ExternalLink size={11} />
-              </a>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">
+                {src.caption}
+              </span>
             </div>
             <div className="flex items-end gap-3">
               <span
@@ -331,10 +326,49 @@ function StatsTab({ player }: { player: Player }) {
         ))}
       </div>
 
+      {/* Ligações externas Sofascore e ZeroZero */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a 
+          href={ratings.sofascoreUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center justify-between p-5 bg-gradient-to-r from-blue-950/20 to-blue-900/10 hover:from-blue-900/30 hover:to-blue-800/20 border border-blue-900/30 hover:border-blue-700/50 rounded-2xl transition-all duration-300 group"
+        >
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+              <span className="text-xs font-bold text-white font-mono uppercase tracking-wider">Perfil Sofascore</span>
+            </div>
+            <p className="text-[10px] text-zinc-500 font-mono">Ficha técnica e análise posicional estatística.</p>
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] font-mono text-blue-400 group-hover:text-blue-300">
+            Aceder <ExternalLink size={12} />
+          </div>
+        </a>
+
+        <a 
+          href={ratings.zerozeroUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center justify-between p-5 bg-gradient-to-r from-emerald-950/20 to-emerald-900/10 hover:from-emerald-900/30 hover:to-emerald-800/20 border border-emerald-900/30 hover:border-emerald-700/50 rounded-2xl transition-all duration-300 group"
+        >
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <span className="text-xs font-bold text-white font-mono uppercase tracking-wider">Perfil ZeroZero</span>
+            </div>
+            <p className="text-[10px] text-zinc-500 font-mono">Consulte o histórico de clubes, carreira e estatísticas da época.</p>
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400 group-hover:text-emerald-300">
+            Aceder <ExternalLink size={12} />
+          </div>
+        </a>
+      </div>
+
       {/* Tendência últimos 5 jogos */}
       <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
         <h3 className="text-md font-display text-white uppercase tracking-wider mb-6 flex items-center gap-2">
-          <BarChart3 size={16} className="text-accent" /> Tendência · Últimos 5 Jogos
+          <BarChart3 size={16} className="text-accent" /> Tendência de Forma · Últimos 5 Jogos
         </h3>
         <div className="h-56 w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -399,147 +433,213 @@ function StatsTab({ player }: { player: Player }) {
   );
 }
 
-// ── ABA 3: Inscrição FIFA Connect (simulador de demonstração) ──────
-const FIFA_CHECK_LABELS: { key: FifaCheckKey; label: string; icon: React.ElementType }[] = [
-  { key: 'identity', label: 'Verificação de Identidade', icon: Fingerprint },
-  { key: 'contract', label: 'Contrato Registado', icon: FileText },
-  { key: 'itc', label: 'Certificado ITC', icon: Plane },
-  { key: 'insurance', label: 'Seguro Desportivo', icon: HeartPulse },
-];
-
+// ── ABA 3: Sistema de Inscrição & Validação (FIFA Connect) ──────────
 function FifaConnectTab({ player }: { player: Player }) {
-  const initial = getFifaConnectStatus(player);
-  const [phase, setPhase] = useState<'idle' | 'processing' | 'validated'>('idle');
-  const [activeStep, setActiveStep] = useState(-1);
+  const metaStatus = getFifaConnectStatus(player);
+  const [simulationStep, setSimulationStep] = useState<number>(-1);
+  const [isSimulating, setIsSimulating] = useState<boolean>(false);
+  const [simulationLogs, setSimulationLogs] = useState<string[]>([]);
+  const [currentChecks, setCurrentChecks] = useState<Record<FifaCheckKey, boolean>>(metaStatus.checks);
+  const [finalStatus, setFinalStatus] = useState<'pending' | 'validated'>(metaStatus.status);
 
-  const allChecksPass = FIFA_CHECK_LABELS.every((c) => initial.checks[c.key]);
+  const startSimulation = () => {
+    setIsSimulating(true);
+    setSimulationStep(0);
+    setSimulationLogs(["[CONEXÃO] A estabelecer ligação segura com o gateway da FIFA (FIFA Connect API)..."]);
 
-  const runValidation = () => {
-    if (phase === 'processing') return;
-    setPhase('processing');
-    setActiveStep(0);
-    let step = 0;
-    const timer = setInterval(() => {
-      step += 1;
-      if (step >= FIFA_CHECK_LABELS.length) {
-        clearInterval(timer);
-        setActiveStep(FIFA_CHECK_LABELS.length);
-        setTimeout(() => setPhase(allChecksPass ? 'validated' : 'idle'), 600);
-      } else {
-        setActiveStep(step);
-      }
-    }, 850);
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[AUTENTICAÇÃO] Credenciais da Federação Angolana de Futebol (FAF) validadas com sucesso."]);
+      setSimulationStep(1);
+    }, 1000);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, `[CONSULTA] A verificar ID FIFA do atleta: ${player.fifaConnectId || 'Pendente'}...`]);
+      setCurrentChecks(prev => ({ ...prev, identity: true }));
+      setSimulationStep(2);
+    }, 2200);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[CONTRATO] A auditar contrato de trabalho desportivo ativo com o clube do Girabola..."]);
+      setCurrentChecks(prev => ({ ...prev, contract: true }));
+      setSimulationStep(3);
+    }, 3400);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[ITC] Verificação de conformidade do Certificado de Transferência Internacional (ITC)..."]);
+      setCurrentChecks(prev => ({ ...prev, itc: true }));
+      setSimulationStep(4);
+    }, 4600);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[SAÚDE/SEGURO] A verificar a vigência da ficha de exames médicos e seguro de acidentes..."]);
+      setCurrentChecks(prev => ({ ...prev, insurance: true }));
+      setSimulationStep(5);
+    }, 5800);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[SUCESSO] Sincronização e auditoria concluídas! Inscrição FIFA Connect Validada com sucesso."]);
+      setFinalStatus('validated');
+      setIsSimulating(false);
+      setSimulationStep(6);
+    }, 7000);
+  };
+
+  const getStatusColor = (status: 'pending' | 'validated') => {
+    return status === 'validated' 
+      ? 'text-green-400 border-green-500/30 bg-green-500/10' 
+      : 'text-amber-400 border-amber-500/30 bg-amber-500/10';
   };
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-end"><DemoBadge /></div>
+    <div className="space-y-8 font-mono">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-zinc-900 pb-6">
+        <div>
+          <h2 className="text-xl font-display text-white uppercase tracking-wider flex items-center gap-2">
+            <Shield size={20} className="text-accent" /> Validação de Inscrição FIFA Connect
+          </h2>
+          <p className="text-xs text-zinc-400 mt-1 font-mono">
+            Roadmap FAF: Sistema digital integrado de elegibilidade e licenciamento internacional de atletas.
+          </p>
+        </div>
+        <div className={`px-4 py-2 border rounded-xl font-bold uppercase text-xs tracking-wider flex items-center gap-2 ${getStatusColor(finalStatus)}`}>
+          <span className={`w-2 h-2 rounded-full ${finalStatus === 'validated' ? 'bg-green-500 animate-pulse' : 'bg-amber-500 animate-pulse'}`} />
+          {finalStatus === 'validated' ? 'Inscrição Ativa FIFA' : 'Pendente de Auditoria'}
+        </div>
+      </div>
 
-      <AnimatedCard variant="holographic" className="bg-zinc-950/40 border-zinc-900 p-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div className="flex items-center gap-3">
-            <ShieldCheck size={22} className="text-accent" />
-            <div>
-              <h3 className="font-display text-white uppercase tracking-wider text-md">Estado FIFA Connect</h3>
-              <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                Plataforma de Gestão de Conformidade
-              </p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Compliance Checklist and ID Card */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Card de Identidade FIFA */}
+          <div className="bg-zinc-950/60 border border-zinc-900 rounded-2xl p-6 relative overflow-hidden hud-panel">
+            <div className="absolute top-4 right-4 text-[9px] text-zinc-600 uppercase">
+              FIFA Digital ID Card
+            </div>
+            <div className="flex gap-4 items-center">
+              <div className="w-16 h-16 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center text-zinc-500 flex-shrink-0">
+                <Users size={28} />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] text-zinc-500 uppercase">Nome de Inscrição</span>
+                <div className="text-md font-bold text-white uppercase font-display">{player.name}</div>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-zinc-400">
+                  <span>FIFA ID: <strong className="text-accent">{player.fifaConnectId || 'PENDENTE'}</strong></span>
+                  <span>Data Início: <strong className="text-white">{player.fifaConnectRegDate || 'N/A'}</strong></span>
+                </div>
+              </div>
             </div>
           </div>
-          <span
-            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full font-mono text-[10px] uppercase tracking-widest border ${
-              phase === 'validated'
-                ? 'bg-green-500/10 border-green-500/40 text-green-400'
-                : phase === 'processing'
-                ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300'
-                : 'bg-amber-500/10 border-amber-500/40 text-amber-400'
-            }`}
-          >
-            {phase === 'validated' ? <BadgeCheck size={12} /> : phase === 'processing' ? <Loader2 size={12} className="animate-spin" /> : <AlertTriangle size={12} />}
-            {phase === 'validated' ? 'Validado' : phase === 'processing' ? 'A processar' : 'Pendente'}
-          </span>
+
+          {/* Compliance Items */}
+          <div className="bg-zinc-900/20 border border-zinc-900 rounded-2xl p-6 space-y-4">
+            <h3 className="text-sm font-display text-white uppercase tracking-wider mb-2">Lista de Verificação de Conformidade</h3>
+            <div className="divide-y divide-zinc-900/60">
+              {FIFA_CHECK_META.map((item) => {
+                const checked = currentChecks[item.key];
+                return (
+                  <div key={item.key} className="flex items-center justify-between py-3.5 first:pt-0 last:pb-0">
+                    <span className="text-xs text-zinc-400">{item.label}</span>
+                    <div className="flex items-center gap-2">
+                      {checked ? (
+                        <span className="flex items-center gap-1 text-[10px] text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded">
+                          <Check size={12} /> CONCLUÍDO
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded animate-pulse">
+                          <AlertTriangle size={12} /> PENDENTE
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        {/* Lista de conformidade */}
-        <div className="space-y-3 pt-4 border-t border-zinc-900/60">
-          {FIFA_CHECK_LABELS.map((check, idx) => {
-            const Icon = check.icon;
-            const passed = initial.checks[check.key];
-            const isAuditing = phase === 'processing' && activeStep === idx;
-            const isAudited = (phase === 'processing' && activeStep > idx) || phase === 'validated';
-            return (
-              <div
-                key={check.key}
-                className={`flex items-center justify-between p-3.5 rounded-xl border transition-colors ${
-                  isAuditing ? 'bg-cyan-500/5 border-cyan-500/30' : 'bg-black/40 border-zinc-900'
-                }`}
-              >
-                <span className="flex items-center gap-3 font-mono text-xs text-zinc-300">
-                  <Icon size={15} className="text-zinc-500" /> {check.label}
+        {/* Simulation Sandbox Console */}
+        <div className="space-y-6">
+          <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 flex flex-col justify-between h-full min-h-[350px] relative overflow-hidden">
+            {/* Holographic scanning decoration */}
+            <div className="absolute inset-0 pointer-events-none opacity-5 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_4px,3px_100%]" />
+            
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
+                <span className="text-[10px] uppercase font-bold text-accent tracking-widest flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" />
+                  FIFA Console Gateway
                 </span>
-                <span className="flex items-center gap-2 text-[10px] font-mono uppercase">
-                  {isAuditing ? (
-                    <span className="text-cyan-300 flex items-center gap-1.5"><Loader2 size={13} className="animate-spin" /> A auditar</span>
-                  ) : isAudited || phase === 'idle' ? (
-                    passed ? (
-                      <span className="text-green-400 flex items-center gap-1.5"><CheckCircle2 size={14} /> Conforme</span>
-                    ) : (
-                      <span className="text-red-400 flex items-center gap-1.5"><AlertTriangle size={14} /> Pendente</span>
-                    )
-                  ) : null}
-                </span>
+                <span className="text-[9px] text-zinc-600">v2.1-connected</span>
               </div>
-            );
-          })}
-        </div>
 
-        {/* Certificado / Ação */}
-        <div className="mt-6 pt-6 border-t border-zinc-900/60">
-          <AnimatePresence mode="wait">
-            {phase === 'validated' ? (
-              <motion.div
-                key="cert"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-4 p-4 rounded-xl bg-green-500/5 border border-green-500/30"
-              >
-                <BadgeCheck size={32} className="text-green-400 flex-shrink-0" />
-                <div>
-                  <p className="font-display text-white uppercase tracking-wider text-sm">Certificado de Elegibilidade Emitido</p>
-                  <p className="text-[10px] font-mono text-zinc-500">
-                    Ref. simulada: FC-{player.id.toUpperCase().slice(0, 6)}-{new Date().getFullYear()}
-                  </p>
-                </div>
-              </motion.div>
-            ) : (
-              <motion.button
-                key="btn"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                onClick={runValidation}
-                disabled={phase === 'processing'}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-xs uppercase tracking-widest hover:bg-accent/20 transition-colors disabled:opacity-60"
-              >
-                {phase === 'processing' ? (
-                  <><Loader2 size={14} className="animate-spin" /> A validar elegibilidade…</>
-                ) : (
-                  <><ShieldCheck size={14} /> Validar Elegibilidade FIFA Connect</>
+              {/* Console log display */}
+              <div className="space-y-2 h-44 overflow-y-auto scrollbar-none text-[10px] text-zinc-500 leading-relaxed font-mono">
+                {simulationLogs.map((log, i) => (
+                  <div key={i} className={i === simulationLogs.length - 1 ? 'text-zinc-300 font-bold' : ''}>
+                    {log}
+                  </div>
+                ))}
+                {isSimulating && (
+                  <div className="flex items-center gap-2 text-accent mt-2 animate-pulse">
+                    <RefreshCw size={10} className="animate-spin" />
+                    Ligação ativa com o servidor FIFA Connect...
+                  </div>
                 )}
-              </motion.button>
-            )}
-          </AnimatePresence>
-          {phase === 'idle' && !allChecksPass && (
-            <p className="text-[10px] font-mono text-amber-400/80 mt-3 text-center">
-              Existem requisitos pendentes — a simulação manterá o estado como pendente.
-            </p>
-          )}
+                {simulationStep === -1 && (
+                  <div className="text-zinc-600 italic">
+                    Consola pronta para auditoria. Clique no botão de simulação para iniciar a verificação de elegibilidade em tempo real.
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-zinc-900 mt-auto">
+              {simulationStep === 6 ? (
+                <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3 text-center space-y-2">
+                  <div className="text-[10px] text-green-400 font-bold uppercase tracking-wider flex items-center justify-center gap-1">
+                    <CheckCircle2 size={12} /> Elegibilidade Aprovada
+                  </div>
+                  <div className="text-[8px] text-zinc-500">
+                    CERT: FIFA-CONNECT/FAF-OK-{player.id.slice(0,6).toUpperCase()}
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setSimulationStep(-1);
+                      setSimulationLogs([]);
+                      setCurrentChecks(metaStatus.checks);
+                      setFinalStatus(metaStatus.status);
+                    }}
+                    className="w-full py-1.5 bg-zinc-900 hover:bg-zinc-800 rounded-lg text-[10px] text-zinc-400 font-bold uppercase transition-colors"
+                  >
+                    Simular Novamente
+                  </button>
+                </div>
+              ) : (
+                <button
+                  disabled={isSimulating}
+                  onClick={startSimulation}
+                  className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-zinc-900 disabled:text-zinc-600 rounded-xl text-xs text-white font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  {isSimulating ? (
+                    <>
+                      <RefreshCw size={12} className="animate-spin" /> A Auditar Requisitos...
+                    </>
+                  ) : (
+                    <>
+                      <Shield size={12} /> Simular Validação FIFA
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-      </AnimatedCard>
+      </div>
     </div>
   );
 }
 
-type TabKey = 'perfil' | 'estatisticas' | 'fifa';
+type TabKey = 'perfil' | 'estatisticas' | 'fifaconnect';
 
 export default function PlayerDetailClient({ player, team }: PlayerDetailClientProps) {
   // Goals classification
@@ -571,7 +671,7 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
   const tabs: { key: TabKey; label: string; icon: React.ElementType }[] = [
     { key: 'perfil', label: 'Perfil Geral', icon: Star },
     { key: 'estatisticas', label: 'Estatísticas', icon: BarChart3 },
-    { key: 'fifa', label: 'FIFA Connect', icon: ShieldCheck },
+    { key: 'fifaconnect', label: 'FIFA Connect', icon: Shield },
   ];
 
   return (
@@ -667,7 +767,7 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
           transition={{ duration: 0.25 }}
         >
           {activeTab === 'estatisticas' && <StatsTab player={player} />}
-          {activeTab === 'fifa' && <FifaConnectTab player={player} />}
+          {activeTab === 'fifaconnect' && <FifaConnectTab player={player} />}
           {activeTab === 'perfil' && (
       /* Grid Layout */
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

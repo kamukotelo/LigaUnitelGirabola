@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { NAV_LINKS } from '@/pages.config';
+import Brand from './Brand';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -17,20 +17,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo / Brand */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="p-1 bg-black/30 border border-zinc-800 rounded-xl group-hover:border-accent transition-all duration-300 flex items-center justify-center w-12 h-12">
-                <Image
-                  src="/logo-girabola.png"
-                  alt="Girabola Logo"
-                  className="h-10 w-10 object-contain"
-                  width={40}
-                  height={40}
-                />
-              </div>
-              <span className="font-display text-xl uppercase tracking-wider font-extrabold text-white">
-                GIRA<span className="text-accent">BOLA</span>
-              </span>
-            </Link>
+            <Brand size="md" />
           </div>
 
           {/* Desktop Nav Links */}

@@ -7,10 +7,10 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: {
-    default: "Girabola — Campeonato Nacional de Futebol de Angola",
-    template: "%s | Girabola",
+    default: "Liga Unitel Girabola — Campeonato Nacional de Futebol de Angola",
+    template: "%s | Liga Unitel Girabola",
   },
-  description: "Portal digital oficial do Campeonato Nacional de Futebol de Angola (Girabola). Acompanhe classificações, resultados, equipas e estatísticas em tempo real.",
+  description: "Portal digital oficial da Liga Unitel Girabola, o Campeonato Nacional de Futebol de Angola. Acompanhe classificações, resultados, equipas e estatísticas em tempo real.",
 };
 
 export default function RootLayout({

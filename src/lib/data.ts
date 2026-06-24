@@ -77,7 +77,31 @@ export interface Player extends PlayerStats {
     apps: number;
     goals: number;
   }[];
+  sofascoreId?: string;
+  sofascoreUrl?: string;
+  sofascoreRating?: number;
+  zerozeroId?: string;
+  zerozeroUrl?: string;
+  zerozeroRating?: number;
+  fifaConnectId?: string;
+  fifaConnectStatus?: 'active' | 'pending' | 'rejected' | 'unregistered';
+  fifaConnectRegDate?: string;
+  detailedStats?: {
+    passingAccuracy: number;
+    longPassesAccuracy: number;
+    aerialDuelsWon: number;
+    groundDuelsWon: number;
+    tacklesPerMatch: number;
+    keyPassesPerMatch: number;
+    minutesPlayed: number;
+    yellowCards: number;
+    redCards: number;
+    shotsOnTargetPerMatch?: number;
+    successfulDribbles?: number;
+    ratingTrend: number[];
+  };
 }
+
 
 // ── Estatísticas externas e validação (dados simulados / demonstração) ──
 export interface ExternalRatings {
@@ -322,7 +346,7 @@ function generateAllMatches(): Match[] {
 export const MATCHES: Match[] = generateAllMatches();
 
 // ── 4. LISTA COMPLETA DE JOGADORES ──────────────────────────────────
-export const PLAYERS: Player[] = [
+const PLAYERS_RAW: Player[] = [
   // Avançados
   {
     id: 'dago-tshibamba',
@@ -640,6 +664,115 @@ export const PLAYERS: Player[] = [
     ]
   }
 ];
+
+function simpleHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash);
+}
+
+function enrichPlayer(p: Player): Player {
+  const hash = simpleHash(p.name);
+  const positionLower = p.position.toLowerCase();
+
+  // Deterministic ratings
+  const sofascoreRating = parseFloat((7.1 + (hash % 13) * 0.1).toFixed(2));
+  const zerozeroRating = parseFloat((sofascoreRating - 0.2 - (hash % 3) * 0.1).toFixed(2));
+
+  // FIFA Connect
+  const isPending = p.name.includes('Keliano') || p.name.includes('Jaredi') || p.name.includes('Lepua');
+  const fifaConnectStatus = isPending ? 'pending' : 'active';
+  const fifaConnectId = `FIFA-AO-${100000 + (hash % 900000)}`;
+  const fifaConnectRegDate = `2025-08-${10 + (hash % 18)}`;
+
+  // Detailed stats
+  let passingAccuracy = 75 + (hash % 15);
+  let longPassesAccuracy = 55 + (hash % 20);
+  let aerialDuelsWon = 45 + (hash % 35);
+  let groundDuelsWon = 50 + (hash % 25);
+  let tacklesPerMatch = parseFloat((0.8 + (hash % 10) * 0.3).toFixed(1));
+  let keyPassesPerMatch = parseFloat((0.4 + (hash % 12) * 0.2).toFixed(1));
+  let shotsOnTargetPerMatch = parseFloat((0.2 + (hash % 15) * 0.2).toFixed(1));
+  let successfulDribbles = 50 + (hash % 30);
+
+  if (positionLower.includes('avançado') || positionLower.includes('avancado')) {
+    passingAccuracy = 72 + (hash % 12);
+    longPassesAccuracy = 50 + (hash % 15);
+    aerialDuelsWon = 58 + (hash % 25);
+    groundDuelsWon = 48 + (hash % 20);
+    tacklesPerMatch = parseFloat((0.2 + (hash % 5) * 0.1).toFixed(1));
+    keyPassesPerMatch = parseFloat((0.8 + (hash % 10) * 0.2).toFixed(1));
+    shotsOnTargetPerMatch = parseFloat((1.2 + (hash % 10) * 0.3).toFixed(1));
+    successfulDribbles = 60 + (hash % 25);
+  } else if (positionLower.includes('médio') || positionLower.includes('medio')) {
+    passingAccuracy = 84 + (hash % 10);
+    longPassesAccuracy = 65 + (hash % 20);
+    aerialDuelsWon = 42 + (hash % 20);
+    groundDuelsWon = 52 + (hash % 18);
+    tacklesPerMatch = parseFloat((1.5 + (hash % 8) * 0.3).toFixed(1));
+    keyPassesPerMatch = parseFloat((1.4 + (hash % 8) * 0.2).toFixed(1));
+    shotsOnTargetPerMatch = parseFloat((0.4 + (hash % 8) * 0.2).toFixed(1));
+    successfulDribbles = 58 + (hash % 20);
+  } else if (positionLower.includes('defesa')) {
+    passingAccuracy = 78 + (hash % 10);
+    longPassesAccuracy = 58 + (hash % 22);
+    aerialDuelsWon = 64 + (hash % 20);
+    groundDuelsWon = 56 + (hash % 15);
+    tacklesPerMatch = parseFloat((2.0 + (hash % 6) * 0.4).toFixed(1));
+    keyPassesPerMatch = parseFloat((0.2 + (hash % 5) * 0.1).toFixed(1));
+    shotsOnTargetPerMatch = parseFloat((0.1 + (hash % 4) * 0.1).toFixed(1));
+    successfulDribbles = 38 + (hash % 15);
+  } else if (positionLower.includes('guarda-redes') || positionLower.includes('guarda redes') || positionLower.includes('goleiro')) {
+    passingAccuracy = 65 + (hash % 15);
+    longPassesAccuracy = 42 + (hash % 28);
+    aerialDuelsWon = 82 + (hash % 15);
+    groundDuelsWon = 38 + (hash % 20);
+    tacklesPerMatch = 0.1;
+    keyPassesPerMatch = 0.0;
+    shotsOnTargetPerMatch = 0.0;
+    successfulDribbles = 5 + (hash % 10);
+  }
+
+  // ratingTrend
+  const ratingTrend = [
+    parseFloat((sofascoreRating - 0.3 + (hash % 4) * 0.2).toFixed(2)),
+    parseFloat((sofascoreRating - 0.1 + ((hash + 1) % 4) * 0.2).toFixed(2)),
+    parseFloat((sofascoreRating - 0.4 + ((hash + 2) % 5) * 0.2).toFixed(2)),
+    parseFloat((sofascoreRating + 0.2 - ((hash + 3) % 4) * 0.15).toFixed(2)),
+    sofascoreRating
+  ];
+
+  return {
+    ...p,
+    sofascoreId: `sofa_${p.id}`,
+    sofascoreUrl: `https://www.sofascore.com/pt/jogador/${p.id}/${10000 + (hash % 90000)}`,
+    sofascoreRating,
+    zerozeroId: `zz_${p.id}`,
+    zerozeroUrl: `https://www.zerozero.pt/jogador.php?id=${20000 + (hash % 80000)}`,
+    zerozeroRating,
+    fifaConnectId,
+    fifaConnectStatus,
+    fifaConnectRegDate,
+    detailedStats: {
+      passingAccuracy,
+      longPassesAccuracy,
+      aerialDuelsWon,
+      groundDuelsWon,
+      tacklesPerMatch,
+      keyPassesPerMatch,
+      minutesPlayed: p.appearances * 90 - (hash % 5) * 15,
+      yellowCards: hash % 6,
+      redCards: hash % 15 === 0 ? 1 : 0,
+      shotsOnTargetPerMatch,
+      successfulDribbles,
+      ratingTrend
+    }
+  };
+}
+
+export const PLAYERS: Player[] = PLAYERS_RAW.map(enrichPlayer);
 
 // ── 5. ESTATÍSTICAS DE LÍDERES ──────────────────────────────────────
 export const TOP_SCORERS: PlayerStats[] = PLAYERS
