@@ -10,8 +10,46 @@ export const metadata: Metadata = {
     default: "Liga Unitel Girabola — Campeonato Nacional de Futebol de Angola",
     template: "%s | Liga Unitel Girabola",
   },
-  description: "Portal digital oficial da Liga Unitel Girabola, o Campeonato Nacional de Futebol de Angola. Acompanhe classificações, resultados, equipas e estatísticas em tempo real.",
+  description:
+    "Portal digital oficial da Liga Unitel Girabola, o Campeonato Nacional de Futebol de Angola. Acompanhe classificações, resultados, equipas e estatísticas em tempo real.",
+  metadataBase: new URL("https://liga-unitel-girabola.vercel.app"),
+
+  /* ── Open Graph (Facebook, WhatsApp, LinkedIn, etc.) ── */
+  openGraph: {
+    type: "website",
+    url: "https://liga-unitel-girabola.vercel.app",
+    siteName: "Liga Unitel Girabola",
+    title: "Liga Unitel Girabola — Campeonato Nacional de Futebol de Angola",
+    description:
+      "Acompanhe classificações, resultados, equipas e estatísticas da Liga Unitel Girabola em tempo real.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Liga Unitel Girabola — Portal Oficial",
+      },
+    ],
+    locale: "pt_AO",
+  },
+
+  /* ── Twitter / X Card ── */
+  twitter: {
+    card: "summary_large_image",
+    title: "Liga Unitel Girabola",
+    description:
+      "Portal digital oficial da Liga Unitel Girabola — Campeonato Nacional de Futebol de Angola.",
+    images: ["/og-image.png"],
+  },
+
+  /* ── Ícones do site ── */
+  icons: {
+    icon: "/logo-girabola.png",
+    apple: "/logo-girabola.png",
+    shortcut: "/logo-girabola.png",
+  },
 };
+
 
 export default function RootLayout({
   children,
