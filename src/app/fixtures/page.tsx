@@ -1,29 +1,123 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Zap, Clock } from 'lucide-react';
-import { MATCHES } from '@/lib/data';
+import { Calendar, MapPin, Zap, Clock, Trophy, Target, CalendarDays, Flag } from 'lucide-react';
+import { MATCHES, Match } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+
+type StatusFilter = 'all' | 'finished' | 'scheduled';
+
+function MatchCard({ match }: { match: Match }) {
+  const isFinished = match.status === 'finished';
+  const isLive = match.status === 'live';
+  const formattedDate = new Date(match.date).toLocaleDateString('pt-AO', {
+    day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
+  });
+
+  return (
+    <Link href={`/matches/${match.id}`} className="block h-full group">
+      <AnimatedCard
+        variant="hud"
+        className="bg-zinc-950/30 hover:bg-zinc-900/30 hover:border-accent/30 border-zinc-900 relative p-5 sm:p-6 h-full flex flex-col justify-between cursor-pointer transition-colors"
+      >
+        {/* Top meta */}
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-[9px] font-mono bg-zinc-800/80 text-zinc-400 border border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">
+            Jornada {match.round}
+          </span>
+          {isFinished ? (
+            <span className="text-[9px] font-mono bg-zinc-900 text-zinc-500 border border-zinc-800/60 px-2 py-0.5 rounded uppercase tracking-wider">
+              Terminado
+            </span>
+          ) : isLive ? (
+            <span className="text-[9px] font-mono bg-green-500/20 text-green-500 border border-green-500/40 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 status-pulse" /> Live
+            </span>
+          ) : (
+            <span className="text-[9px] font-mono bg-primary/20 text-primary border border-primary/40 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1">
+              <Calendar size={10} /> Agendado
+            </span>
+          )}
+        </div>
+
+        {/* Scoreboard */}
+        <div className="flex items-center justify-between gap-2 py-4 border-y border-zinc-900/60 my-2">
+          <div className="flex-1 text-right font-bold text-sm md:text-base text-white truncate" title={match.homeTeam}>
+            {match.homeTeam}
+          </div>
+          {isFinished ? (
+            <div className="px-3 py-2 bg-primary/10 border border-primary/20 rounded-xl font-mono text-lg font-black text-white text-center min-w-[4.5rem] flex justify-center items-center select-none shadow-[inset_0_0_15px_rgba(210,21,21,0.05)]">
+              {match.score}
+            </div>
+          ) : (
+            <div className="px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl font-mono text-[10px] font-bold text-zinc-400 text-center min-w-[4.5rem] flex flex-col justify-center items-center">
+              <Clock size={12} className="mb-0.5 text-accent animate-pulse" /> VS
+            </div>
+          )}
+          <div className="flex-1 text-left font-bold text-sm md:text-base text-white truncate" title={match.awayTeam}>
+            {match.awayTeam}
+          </div>
+        </div>
+
+        {/* Bottom info */}
+        <div className="flex flex-col gap-2 mt-4 text-[11px] text-zinc-400 font-mono">
+          <div className="flex items-center gap-2">
+            <MapPin size={12} className="text-zinc-600 flex-shrink-0" />
+            <span className="truncate">{match.stadium}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Calendar size={12} className="text-zinc-600 flex-shrink-0" />
+            <span>{formattedDate}</span>
+          </div>
+        </div>
+      </AnimatedCard>
+    </Link>
+  );
+}
 
 export default function FixturesPage() {
   const [selectedRound, setSelectedRound] = useState<number | 'all'>('all');
-  const [filterStatus, setFilterStatus] = useState<'all' | 'finished' | 'scheduled'>('all');
-
-  // Filter logic
-  const filteredMatches = MATCHES.filter((match) => {
-    const roundMatch = selectedRound === 'all' ? true : match.round === selectedRound;
-    const statusMatch = filterStatus === 'all' ? true : match.status === filterStatus;
-    return roundMatch && statusMatch;
-  });
+  const [filterStatus, setFilterStatus] = useState<StatusFilter>('all');
 
   const rounds = Array.from(new Set(MATCHES.map((m) => m.round))).sort((a, b) => a - b);
 
+  // Resumo da época
+  const finishedMatches = MATCHES.filter((m) => m.status === 'finished');
+  const totalGoals = finishedMatches.reduce((s, m) => s + m.homeScore + m.awayScore, 0);
+  const nextRound = rounds.find((r) => MATCHES.some((m) => m.round === r && m.status !== 'finished'));
+  const playedRounds = rounds.filter((r) => MATCHES.filter((m) => m.round === r).every((m) => m.status === 'finished')).length;
+
+  const seasonStats = [
+    { label: 'Jornadas', value: `${playedRounds}/${rounds.length}`, icon: CalendarDays },
+    { label: 'Jogos Disputados', value: finishedMatches.length, icon: Trophy },
+    { label: 'Golos Marcados', value: totalGoals, icon: Target },
+    { label: 'Próxima Jornada', value: nextRound ? `J${nextRound}` : '—', icon: Flag },
+  ];
+
+  const statusOptions: { key: StatusFilter; label: string }[] = [
+    { key: 'all', label: 'Todos' },
+    { key: 'finished', label: 'Concluídos' },
+    { key: 'scheduled', label: 'Agendados' },
+  ];
+
+  // Jornadas visíveis + filtragem por estado
+  const visibleRounds = (selectedRound === 'all' ? rounds : [selectedRound])
+    .map((round) => ({
+      round,
+      matches: MATCHES.filter(
+        (m) => m.round === round && (filterStatus === 'all' || m.status === filterStatus)
+      ),
+    }))
+    .filter((g) => g.matches.length > 0);
+
+  const hasResults = visibleRounds.length > 0;
+
   return (
-    <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      
-      {/* Page Header */}
-      <div className="mb-12">
+    <div className="py-10 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Cabeçalho */}
+      <div className="mb-8">
         <div className="flex items-center gap-2 mb-2">
           <Zap size={14} className="text-accent animate-pulse" />
           <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-semibold">
@@ -34,155 +128,121 @@ export default function FixturesPage() {
           Jogos e <span className="text-primary italic">Resultados</span>
         </h1>
         <p className="text-sm text-zinc-400 mt-2 font-mono uppercase tracking-wider">
-          Acompanhe o percurso do Girabola 2025/2026 e próximos embates
+          Época Girabola 2025/2026 · percurso completo e próximos embates
         </p>
       </div>
 
-      {/* Filter Toolbar */}
-      <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center mb-8 bg-zinc-900/40 p-4 border border-zinc-800/80 rounded-2xl backdrop-blur-sm">
-        
-        {/* Round Filter */}
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-xs font-mono text-zinc-400 uppercase mr-2">Filtrar Jornada:</span>
-          <button
-            onClick={() => setSelectedRound('all')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
-              selectedRound === 'all'
-                ? 'bg-primary text-white border-b border-primary-light'
-                : 'bg-zinc-950 text-zinc-400 hover:text-white border border-zinc-800'
-            }`}
-          >
-            TODAS
-          </button>
-          {rounds.map((round) => (
+      {/* Resumo da época */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8">
+        {seasonStats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm flex items-center gap-3"
+            >
+              <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+                <Icon size={16} className="text-primary" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-display text-xl sm:text-2xl text-white font-black leading-none">{stat.value}</p>
+                <p className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase tracking-wider mt-1 truncate">{stat.label}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Barra de filtros */}
+      <div className="bg-zinc-900/40 border border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm mb-8 space-y-4">
+        {/* Estado */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Estado</span>
+          <div className="flex gap-1.5 bg-zinc-950/60 p-1 rounded-xl border border-zinc-800 w-full sm:w-auto">
+            {statusOptions.map((opt) => (
+              <button
+                key={opt.key}
+                onClick={() => setFilterStatus(opt.key)}
+                className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
+                  filterStatus === opt.key ? 'bg-primary text-white' : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Jornadas (scroll horizontal) */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Jornada</span>
+          <div className="flex gap-2 overflow-x-auto pb-1 -mb-1 snap-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <button
-              key={round}
-              onClick={() => setSelectedRound(round)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
-                selectedRound === round
-                  ? 'bg-primary text-white border-b border-primary-light'
+              onClick={() => setSelectedRound('all')}
+              className={`snap-start px-3 py-1.5 rounded-lg text-xs font-semibold font-mono whitespace-nowrap transition-all flex-shrink-0 ${
+                selectedRound === 'all'
+                  ? 'bg-accent text-black'
                   : 'bg-zinc-950 text-zinc-400 hover:text-white border border-zinc-800'
               }`}
             >
-              JORNADA {round}
+              TODAS
             </button>
-          ))}
-        </div>
-
-        {/* Status Filter */}
-        <div className="flex gap-2 items-center">
-          <span className="text-xs font-mono text-zinc-400 uppercase mr-2">Estado:</span>
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value as 'all' | 'finished' | 'scheduled')}
-            className="bg-zinc-950 text-zinc-300 border border-zinc-800 rounded-lg p-2 text-xs font-mono outline-none focus:border-accent"
-          >
-            <option value="all">TODOS</option>
-            <option value="finished">CONCLUÍDOS</option>
-            <option value="scheduled">AGENDADOS</option>
-          </select>
+            {rounds.map((round) => (
+              <button
+                key={round}
+                onClick={() => setSelectedRound(round)}
+                className={`snap-start px-3 py-1.5 rounded-lg text-xs font-semibold font-mono whitespace-nowrap transition-all flex-shrink-0 ${
+                  selectedRound === round
+                    ? 'bg-accent text-black'
+                    : 'bg-zinc-950 text-zinc-400 hover:text-white border border-zinc-800'
+                }`}
+              >
+                J{round}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Match List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <AnimatePresence mode="popLayout">
-          {filteredMatches.length > 0 ? (
-            filteredMatches.map((match) => {
-              const isFinished = match.status === 'finished';
-              const isLive = match.status === 'live';
-              const formattedDate = new Date(match.date).toLocaleDateString('pt-AO', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-              });
-
-              return (
-                <motion.div
-                  key={match.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <AnimatedCard
-                    variant="hud"
-                    className="bg-zinc-950/30 hover:bg-zinc-900/30 border-zinc-900 relative p-6 h-full flex flex-col justify-between"
-                  >
-                    {/* Top Meta info */}
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-[9px] font-mono bg-zinc-800/80 text-zinc-400 border border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">
-                        Jornada {match.round}
-                      </span>
-                      
-                      <div className="flex items-center gap-2">
-                        {isFinished ? (
-                          <span className="text-[9px] font-mono bg-zinc-900 text-zinc-500 border border-zinc-800/60 px-2 py-0.5 rounded uppercase tracking-wider">
-                            Terminado
-                          </span>
-                        ) : isLive ? (
-                          <span className="text-[9px] font-mono bg-green-500/20 text-green-500 border border-green-500/40 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 status-pulse" />
-                            Live
-                          </span>
-                        ) : (
-                          <span className="text-[9px] font-mono bg-primary/20 text-primary border border-primary/40 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1">
-                            <Calendar size={10} />
-                            Agendado
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Scoreboard / Competitors */}
-                    <div className="flex items-center justify-between py-4 border-y border-zinc-900/60 my-2">
-                      <div className="flex-1 text-right pr-4 font-bold text-sm md:text-md text-white truncate" title={match.homeTeam}>
-                        {match.homeTeam}
-                      </div>
-
-                      {/* Result Box */}
-                      {isFinished ? (
-                        <div className="px-4 py-2 bg-primary/10 border border-primary/20 rounded-xl font-mono text-lg font-black text-white text-center w-20 flex justify-center items-center select-none shadow-[inset_0_0_15px_rgba(210,21,21,0.05)]">
-                          {match.score}
-                        </div>
-                      ) : (
-                        <div className="px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl font-mono text-[10px] font-bold text-zinc-400 text-center w-20 flex flex-col justify-center items-center">
-                          <Clock size={12} className="mb-0.5 text-accent animate-pulse" />
-                          VS
-                        </div>
-                      )}
-
-                      <div className="flex-1 text-left pl-4 font-bold text-sm md:text-md text-white truncate" title={match.awayTeam}>
-                        {match.awayTeam}
-                      </div>
-                    </div>
-
-                    {/* Bottom Stadium / Date info */}
-                    <div className="flex flex-col gap-2 mt-4 text-[11px] text-zinc-400 font-mono">
-                      <div className="flex items-center gap-2">
-                        <MapPin size={12} className="text-zinc-600" />
-                        <span className="truncate">{match.stadium}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Calendar size={12} className="text-zinc-600" />
-                        <span>{formattedDate}</span>
-                      </div>
-                    </div>
-                  </AnimatedCard>
-                </motion.div>
-              );
-            })
-          ) : (
-            <div className="col-span-2 text-center py-16">
-              <p className="text-zinc-500 font-mono">Nenhum jogo encontrado com os filtros selecionados.</p>
-            </div>
-          )}
-        </AnimatePresence>
-      </div>
-
+      {/* Lista de jogos agrupada por jornada */}
+      {hasResults ? (
+        <div className="space-y-10">
+          {visibleRounds.map((group) => {
+            const groupDate = new Date(group.matches[0].date).toLocaleDateString('pt-AO', {
+              day: '2-digit', month: 'long', year: 'numeric',
+            });
+            return (
+              <section key={group.round}>
+                <div className="flex items-center gap-3 mb-4">
+                  <h2 className="font-display text-white uppercase text-lg tracking-wider">Jornada {group.round}</h2>
+                  <span className="h-px flex-1 bg-gradient-to-r from-zinc-800 to-transparent" />
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider hidden sm:block">{groupDate}</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+                  <AnimatePresence mode="popLayout">
+                    {group.matches.map((match) => (
+                      <motion.div
+                        key={match.id}
+                        layout
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <MatchCard match={match} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="text-center py-16">
+          <p className="text-zinc-500 font-mono">Nenhum jogo encontrado com os filtros selecionados.</p>
+        </div>
+      )}
     </div>
   );
 }

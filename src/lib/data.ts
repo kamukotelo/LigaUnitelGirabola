@@ -743,6 +743,10 @@ export function getPlayerById(id: string): Player | undefined {
   return PLAYERS.find(p => p.id === id);
 }
 
+export function getMatchById(id: string): Match | undefined {
+  return MATCHES.find(m => m.id === id);
+}
+
 export function getTopScorers(): PlayerStats[] {
   return TOP_SCORERS;
 }
@@ -834,5 +838,258 @@ export function getFifaConnectStatus(p: Player): FifaConnectStatus {
       itc: seed % 3 === 0,
       insurance: seed % 5 !== 0,
     },
+  };
+}
+
+// ── FIFA CONNECT — METADADOS E REGISTOS (ÁREA ADMINISTRATIVA) ──────────
+// Etiquetas centralizadas dos requisitos de conformidade FIFA Connect.
+export const FIFA_CHECK_META: { key: FifaCheckKey; label: string }[] = [
+  { key: 'identity', label: 'Verificação de Identidade' },
+  { key: 'contract', label: 'Contrato Registado' },
+  { key: 'itc', label: 'Certificado ITC' },
+  { key: 'insurance', label: 'Seguro Desportivo' },
+];
+
+export interface FifaConnectRecord {
+  player: Player;
+  status: FifaConnectStatus;
+  eligible: boolean; // todos os requisitos cumpridos
+}
+
+// Lista completa de jogadores com o respetivo estado FIFA Connect (uso administrativo).
+export function getPlayerFifaRecords(): FifaConnectRecord[] {
+  return PLAYERS.map((player) => {
+    const status = getFifaConnectStatus(player);
+    const eligible = FIFA_CHECK_META.every((c) => status.checks[c.key]);
+    return { player, status, eligible };
+  });
+}
+
+// ── DETALHE DE JOGO (ESTATÍSTICAS, ESCALAÇÕES E EVENTOS — DERIVADOS) ──
+// NOTA: Todos os dados de detalhe de jogo são SIMULADOS, gerados de forma
+// determinística a partir do id e do resultado do jogo. Escalações combinam
+// jogadores reais do plantel (com link) e jogadores gerados para completar 11.
+
+export type PitchPosition = 'GK' | 'DEF' | 'MID' | 'FWD';
+
+export interface MatchTeamStats {
+  possession: number;       // %
+  shots: number;
+  shotsOnTarget: number;
+  corners: number;
+  fouls: number;
+  offsides: number;
+  yellowCards: number;
+  redCards: number;
+  passes: number;
+  passAccuracy: number;     // %
+  saves: number;
+}
+
+export interface LineupPlayer {
+  name: string;
+  playerId?: string;        // presente apenas se for jogador real
+  number: number;
+  position: PitchPosition;
+  rating: number;           // 0–10
+  isStarter: boolean;
+}
+
+export interface MatchEventDetail {
+  minute: number;
+  type: 'goal' | 'yellow' | 'red' | 'sub';
+  team: 'home' | 'away';
+  player: string;
+  playerId?: string;
+  assist?: string;
+  playerOut?: string;       // para substituições
+  detail?: string;          // ex.: 'Grande penalidade'
+}
+
+export interface MatchDetail {
+  match: Match;
+  homeStats: MatchTeamStats;
+  awayStats: MatchTeamStats;
+  homeLineup: LineupPlayer[];
+  awayLineup: LineupPlayer[];
+  formationHome: string;
+  formationAway: string;
+  events: MatchEventDetail[];
+  attendance: number;
+  referee: string;
+  manOfTheMatch: { name: string; playerId?: string; rating: number; team: 'home' | 'away' };
+}
+
+const SQUAD_FIRST = ['Manuel', 'João', 'Pedro', 'Alberto', 'Geraldo', 'Mateus', 'Domingos', 'Carlos', 'Bruno', 'Hélder', 'Nuno', 'Ivo', 'Cláudio', 'Wilson', 'Fredy', 'Gilberto', 'Yuri', 'Dani', 'Zito', 'Job', 'Edmilson', 'Buatu', 'Picas', 'Bastos'];
+const SQUAD_LAST = ['Cabungula', 'Capita', 'Buá', 'Catraio', 'Mavinga', 'Manucho', 'Bero', 'Lamá', 'Quinito', 'Bokila', 'Kialonda', 'Afonso', 'Nzola', 'Caboco', 'Wilá', 'Fabrício', 'Massunguna', 'Ginga', 'Depú', 'Isaac', 'Gelson', 'Tó Carneiro', 'Macaia', 'Bambi'];
+const REFEREES = ['Hélder Malembe', 'António Caetano', 'José Ndala', 'Olímpio Capassassa', 'Bruno Quissanga', 'Edgar Sousa', 'Telmo Domingos'];
+
+function seededInt(seed: number, salt: number, min: number, max: number): number {
+  const x = Math.abs(Math.sin(seed * 374761 + salt * 99991) * 43758.5453);
+  return min + Math.floor((x - Math.floor(x)) * (max - min + 1));
+}
+
+function mapPitchPosition(p: string): PitchPosition {
+  const s = p.toLowerCase();
+  if (s.includes('guarda')) return 'GK';
+  if (s.includes('defesa') || s.includes('lateral') || s.includes('central')) return 'DEF';
+  if (s.includes('médio') || s.includes('medio')) return 'MID';
+  return 'FWD';
+}
+
+// Estrutura 4-3-3: titulares + suplentes (1 GK, 2 DEF, 2 MID, 2 FWD)
+const STARTER_SLOTS: PitchPosition[] = ['GK', 'DEF', 'DEF', 'DEF', 'DEF', 'MID', 'MID', 'MID', 'FWD', 'FWD', 'FWD'];
+const SUB_SLOTS: PitchPosition[] = ['GK', 'DEF', 'DEF', 'MID', 'MID', 'FWD', 'FWD'];
+
+function buildLineup(teamId: string, seed: number): LineupPlayer[] {
+  const real = getPlayersByTeam(teamId);
+  const realByPos: Record<PitchPosition, Player[]> = { GK: [], DEF: [], MID: [], FWD: [] };
+  real.forEach(p => realByPos[mapPitchPosition(p.position)].push(p));
+
+  const usedNumbers = new Set<number>();
+  const lineup: LineupPlayer[] = [];
+  const slots = [...STARTER_SLOTS.map(s => ({ pos: s, starter: true })), ...SUB_SLOTS.map(s => ({ pos: s, starter: false }))];
+
+  slots.forEach((slot, idx) => {
+    const realPick = realByPos[slot.pos].shift();
+    if (realPick) {
+      let num = realPick.jerseyNumber;
+      while (usedNumbers.has(num)) num++;
+      usedNumbers.add(num);
+      const r = baseRating(realPick) + (seededInt(seed, idx + 50, -4, 6) / 10);
+      lineup.push({
+        name: realPick.name,
+        playerId: realPick.id,
+        number: num,
+        position: slot.pos,
+        rating: Math.min(Math.max(Math.round(r * 10) / 10, 5.5), 9.5),
+        isStarter: slot.starter,
+      });
+    } else {
+      const fn = SQUAD_FIRST[seededInt(seed, idx * 7 + 1, 0, SQUAD_FIRST.length - 1)];
+      const ln = SQUAD_LAST[seededInt(seed, idx * 13 + 3, 0, SQUAD_LAST.length - 1)];
+      let num = seededInt(seed, idx * 3 + 2, 1, 30);
+      while (usedNumbers.has(num)) num = (num % 30) + 1;
+      usedNumbers.add(num);
+      const base = slot.starter ? 6.2 : 5.9;
+      lineup.push({
+        name: `${fn} ${ln}`,
+        number: num,
+        position: slot.pos,
+        rating: Math.round((base + seededInt(seed, idx + 200, 0, 14) / 10) * 10) / 10,
+        isStarter: slot.starter,
+      });
+    }
+  });
+
+  return lineup;
+}
+
+function buildTeamStats(seed: number, goalsFor: number, goalsAgainst: number, possession: number): MatchTeamStats {
+  const shotsOnTarget = Math.max(goalsFor, goalsFor + seededInt(seed, 11, 1, 4));
+  const shots = shotsOnTarget + seededInt(seed, 12, 3, 9);
+  return {
+    possession,
+    shots,
+    shotsOnTarget,
+    corners: seededInt(seed, 13, 2, 9),
+    fouls: seededInt(seed, 14, 7, 17),
+    offsides: seededInt(seed, 15, 0, 5),
+    yellowCards: seededInt(seed, 16, 1, 4),
+    redCards: seededInt(seed, 17, 0, 12) === 0 ? 1 : 0,
+    passes: 280 + Math.round(possession * seededInt(seed, 18, 4, 7)),
+    passAccuracy: seededInt(seed, 19, 70, 90),
+    saves: Math.max(0, seededInt(seed, 20, 1, 5)),
+  };
+}
+
+function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: number): LineupPlayer[] {
+  if (count <= 0) return [];
+  const candidates = lineup.filter(p => p.isStarter && p.position !== 'GK')
+    .sort((a, b) => {
+      const wa = a.position === 'FWD' ? 3 : a.position === 'MID' ? 2 : 1;
+      const wb = b.position === 'FWD' ? 3 : b.position === 'MID' ? 2 : 1;
+      return wb - wa;
+    });
+  const out: LineupPlayer[] = [];
+  for (let i = 0; i < count; i++) {
+    const idx = seededInt(seed, salt + i, 0, Math.min(candidates.length - 1, 4));
+    out.push(candidates[idx] || candidates[0]);
+  }
+  return out;
+}
+
+export function getMatchDetail(match: Match): MatchDetail {
+  const seed = hashString(match.id);
+  const homeLineup = buildLineup(match.homeTeamId, seed);
+  const awayLineup = buildLineup(match.awayTeamId, seed + 7);
+
+  const possessionHome = seededInt(seed, 1, 40, 62);
+  const homeStats = buildTeamStats(seed, match.homeScore, match.awayScore, possessionHome);
+  const awayStats = buildTeamStats(seed + 31, match.awayScore, match.homeScore, 100 - possessionHome);
+  // Coerência das defesas: defesas do GR = remates à baliza do adversário - golos sofridos
+  homeStats.saves = Math.max(0, awayStats.shotsOnTarget - match.awayScore);
+  awayStats.saves = Math.max(0, homeStats.shotsOnTarget - match.homeScore);
+
+  const events: MatchEventDetail[] = [];
+
+  if (match.status === 'finished') {
+    // Golos
+    const homeScorers = pickScorers(homeLineup, match.homeScore, seed, 100);
+    const awayScorers = pickScorers(awayLineup, match.awayScore, seed, 200);
+    homeScorers.forEach((s, i) => {
+      const isPen = seededInt(seed, 300 + i, 0, 6) === 0;
+      events.push({
+        minute: seededInt(seed, 310 + i, 3, 89),
+        type: 'goal', team: 'home', player: s.name, playerId: s.playerId,
+        detail: isPen ? 'Grande penalidade' : undefined,
+      });
+      s.rating = Math.min(s.rating + 0.6, 9.9);
+    });
+    awayScorers.forEach((s, i) => {
+      const isPen = seededInt(seed, 400 + i, 0, 6) === 0;
+      events.push({
+        minute: seededInt(seed, 410 + i, 3, 89),
+        type: 'goal', team: 'away', player: s.name, playerId: s.playerId,
+        detail: isPen ? 'Grande penalidade' : undefined,
+      });
+      s.rating = Math.min(s.rating + 0.6, 9.9);
+    });
+
+    // Cartões amarelos (mostra até 2 por equipa)
+    const homeYellow = pickScorers(homeLineup, Math.min(homeStats.yellowCards, 2), seed, 500);
+    homeYellow.forEach((p, i) => events.push({ minute: seededInt(seed, 510 + i, 20, 88), type: 'yellow', team: 'home', player: p.name, playerId: p.playerId }));
+    const awayYellow = pickScorers(awayLineup, Math.min(awayStats.yellowCards, 2), seed, 600);
+    awayYellow.forEach((p, i) => events.push({ minute: seededInt(seed, 610 + i, 20, 88), type: 'yellow', team: 'away', player: p.name, playerId: p.playerId }));
+
+    // Substituições (2 por equipa)
+    const homeSubsIn = homeLineup.filter(p => !p.isStarter).slice(0, 2);
+    const homeSubsOut = homeLineup.filter(p => p.isStarter && p.position !== 'GK').slice(-2);
+    homeSubsIn.forEach((p, i) => events.push({ minute: seededInt(seed, 710 + i, 55, 85), type: 'sub', team: 'home', player: p.name, playerId: p.playerId, playerOut: homeSubsOut[i]?.name }));
+    const awaySubsIn = awayLineup.filter(p => !p.isStarter).slice(0, 2);
+    const awaySubsOut = awayLineup.filter(p => p.isStarter && p.position !== 'GK').slice(-2);
+    awaySubsIn.forEach((p, i) => events.push({ minute: seededInt(seed, 810 + i, 55, 85), type: 'sub', team: 'away', player: p.name, playerId: p.playerId, playerOut: awaySubsOut[i]?.name }));
+  }
+
+  events.sort((a, b) => a.minute - b.minute);
+
+  const allStarters = [...homeLineup.filter(p => p.isStarter).map(p => ({ ...p, team: 'home' as const })), ...awayLineup.filter(p => p.isStarter).map(p => ({ ...p, team: 'away' as const }))];
+  const motmSrc = allStarters.sort((a, b) => b.rating - a.rating)[0];
+  const manOfTheMatch = { name: motmSrc.name, playerId: motmSrc.playerId, rating: motmSrc.rating, team: motmSrc.team };
+
+  const capacity = TEAMS.find(t => t.id === match.homeTeamId)?.stadiumCapacity ?? 10000;
+
+  return {
+    match,
+    homeStats,
+    awayStats,
+    homeLineup,
+    awayLineup,
+    formationHome: '4-3-3',
+    formationAway: '4-3-3',
+    events,
+    attendance: match.status === 'finished' ? Math.round(capacity * (seededInt(seed, 2, 55, 95) / 100)) : 0,
+    referee: REFEREES[seededInt(seed, 3, 0, REFEREES.length - 1)],
+    manOfTheMatch,
   };
 }
