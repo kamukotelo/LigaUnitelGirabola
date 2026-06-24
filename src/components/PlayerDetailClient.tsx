@@ -1,11 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Activity, Award, Star, Calendar, Users } from 'lucide-react';
-import { Player, Team, getPlayers, getMatches } from '@/lib/data';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowLeft, Activity, Award, Star, Calendar, Users,
+  BarChart3, ShieldCheck, ExternalLink, Fingerprint, FileText,
+  Plane, HeartPulse, Loader2, CheckCircle2, AlertTriangle, BadgeCheck
+} from 'lucide-react';
+import {
+  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
+} from 'recharts';
+import {
+  Player, Team, getPlayers, getMatches,
+  getPlayerRatings, getRecentRatings, getDetailedMetrics, getFifaConnectStatus,
+  type FifaCheckKey
+} from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+
+// Etiqueta de transparência: dados simulados, não oficiais.
+function DemoBadge() {
+  return (
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px] font-mono uppercase tracking-widest">
+      <AlertTriangle size={10} /> Demonstração · dados não oficiais
+    </span>
+  );
+}
 
 interface PlayerDetailClientProps {
   player: Player;
@@ -258,6 +278,269 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
   );
 }
 
+// ── ABA 2: Estatísticas Detalhadas (Sofascore / ZeroZero) ──────────
+function StatsTab({ player }: { player: Player }) {
+  const ratings = getPlayerRatings(player);
+  const recent = getRecentRatings(player);
+  const metrics = getDetailedMetrics(player);
+
+  const ratingColor = (r: number) =>
+    r >= 8 ? '#22c55e' : r >= 7 ? '#00F5FF' : r >= 6 ? '#F9C304' : '#ef4444';
+
+  const metricGrid = [
+    { label: 'Precisão de Passe', value: `${metrics.passAccuracy}%` },
+    { label: 'Duelos Ganhos', value: `${metrics.duelsWon}%` },
+    { label: 'Remates à Baliza', value: `${metrics.shotsOnTarget}%` },
+    { label: 'Cartões Amarelos', value: metrics.yellowCards },
+    { label: 'Cartões Vermelhos', value: metrics.redCards },
+    { label: 'Minutos Jogados', value: `${metrics.minutesPlayed}'` },
+  ];
+
+  return (
+    <div className="space-y-8">
+      <div className="flex justify-end"><DemoBadge /></div>
+
+      {/* Widgets Sofascore / ZeroZero */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {([
+          { name: 'Sofascore', value: ratings.sofascore, url: ratings.sofascoreUrl, accent: '#374df5' },
+          { name: 'ZeroZero', value: ratings.zerozero, url: ratings.zerozeroUrl, accent: '#e11d48' },
+        ] as const).map((src) => (
+          <AnimatedCard key={src.name} variant="holographic" className="bg-zinc-950/40 border-zinc-900 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <span className="font-display text-white uppercase tracking-wider text-sm">{src.name}</span>
+              <a
+                href={src.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest text-zinc-400 hover:text-accent transition-colors"
+              >
+                Ver perfil <ExternalLink size={11} />
+              </a>
+            </div>
+            <div className="flex items-end gap-3">
+              <span
+                className="font-display text-5xl font-black leading-none"
+                style={{ color: src.accent }}
+              >
+                {src.value.toFixed(1)}
+              </span>
+              <span className="text-[10px] font-mono text-zinc-500 uppercase mb-1.5">Rating médio</span>
+            </div>
+          </AnimatedCard>
+        ))}
+      </div>
+
+      {/* Tendência últimos 5 jogos */}
+      <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
+        <h3 className="text-md font-display text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+          <BarChart3 size={16} className="text-accent" /> Tendência · Últimos 5 Jogos
+        </h3>
+        <div className="h-56 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={recent} margin={{ top: 10, right: 12, left: -18, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
+              <XAxis dataKey="match" stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} />
+              <YAxis domain={[5, 10]} stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} />
+              <Tooltip
+                contentStyle={{
+                  background: '#09090b',
+                  border: '1px solid #27272a',
+                  borderRadius: 12,
+                  fontSize: 12,
+                  fontFamily: 'monospace',
+                }}
+                labelStyle={{ color: '#a1a1aa' }}
+                formatter={(v) => [Number(v).toFixed(1), 'Rating']}
+              />
+              <Line
+                type="monotone"
+                dataKey="rating"
+                stroke="#00F5FF"
+                strokeWidth={2.5}
+                dot={{ r: 4, fill: '#00F5FF', stroke: '#09090b', strokeWidth: 2 }}
+                activeDot={{ r: 6 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="flex flex-wrap gap-2 mt-4">
+          {recent.map((r) => (
+            <span
+              key={r.match}
+              className="px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold border"
+              style={{
+                color: ratingColor(r.rating),
+                borderColor: `${ratingColor(r.rating)}40`,
+                background: `${ratingColor(r.rating)}12`,
+              }}
+            >
+              {r.match}: {r.rating.toFixed(1)}
+            </span>
+          ))}
+        </div>
+      </AnimatedCard>
+
+      {/* Grelha de métricas */}
+      <div className="bg-zinc-900/30 border border-zinc-900 p-6 rounded-2xl">
+        <h3 className="text-md font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <Activity size={16} className="text-primary" /> Métricas de Rendimento
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-900/60 font-mono">
+          {metricGrid.map((m) => (
+            <div key={m.label} className="bg-black/40 rounded-xl p-3.5">
+              <span className="text-[9px] text-zinc-500 uppercase block mb-1">{m.label}</span>
+              <span className="font-bold text-white text-lg block">{m.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── ABA 3: Inscrição FIFA Connect (simulador de demonstração) ──────
+const FIFA_CHECK_LABELS: { key: FifaCheckKey; label: string; icon: React.ElementType }[] = [
+  { key: 'identity', label: 'Verificação de Identidade', icon: Fingerprint },
+  { key: 'contract', label: 'Contrato Registado', icon: FileText },
+  { key: 'itc', label: 'Certificado ITC', icon: Plane },
+  { key: 'insurance', label: 'Seguro Desportivo', icon: HeartPulse },
+];
+
+function FifaConnectTab({ player }: { player: Player }) {
+  const initial = getFifaConnectStatus(player);
+  const [phase, setPhase] = useState<'idle' | 'processing' | 'validated'>('idle');
+  const [activeStep, setActiveStep] = useState(-1);
+
+  const allChecksPass = FIFA_CHECK_LABELS.every((c) => initial.checks[c.key]);
+
+  const runValidation = () => {
+    if (phase === 'processing') return;
+    setPhase('processing');
+    setActiveStep(0);
+    let step = 0;
+    const timer = setInterval(() => {
+      step += 1;
+      if (step >= FIFA_CHECK_LABELS.length) {
+        clearInterval(timer);
+        setActiveStep(FIFA_CHECK_LABELS.length);
+        setTimeout(() => setPhase(allChecksPass ? 'validated' : 'idle'), 600);
+      } else {
+        setActiveStep(step);
+      }
+    }, 850);
+  };
+
+  return (
+    <div className="space-y-8">
+      <div className="flex justify-end"><DemoBadge /></div>
+
+      <AnimatedCard variant="holographic" className="bg-zinc-950/40 border-zinc-900 p-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <ShieldCheck size={22} className="text-accent" />
+            <div>
+              <h3 className="font-display text-white uppercase tracking-wider text-md">Estado FIFA Connect</h3>
+              <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                Plataforma de Gestão de Conformidade
+              </p>
+            </div>
+          </div>
+          <span
+            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full font-mono text-[10px] uppercase tracking-widest border ${
+              phase === 'validated'
+                ? 'bg-green-500/10 border-green-500/40 text-green-400'
+                : phase === 'processing'
+                ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300'
+                : 'bg-amber-500/10 border-amber-500/40 text-amber-400'
+            }`}
+          >
+            {phase === 'validated' ? <BadgeCheck size={12} /> : phase === 'processing' ? <Loader2 size={12} className="animate-spin" /> : <AlertTriangle size={12} />}
+            {phase === 'validated' ? 'Validado' : phase === 'processing' ? 'A processar' : 'Pendente'}
+          </span>
+        </div>
+
+        {/* Lista de conformidade */}
+        <div className="space-y-3 pt-4 border-t border-zinc-900/60">
+          {FIFA_CHECK_LABELS.map((check, idx) => {
+            const Icon = check.icon;
+            const passed = initial.checks[check.key];
+            const isAuditing = phase === 'processing' && activeStep === idx;
+            const isAudited = (phase === 'processing' && activeStep > idx) || phase === 'validated';
+            return (
+              <div
+                key={check.key}
+                className={`flex items-center justify-between p-3.5 rounded-xl border transition-colors ${
+                  isAuditing ? 'bg-cyan-500/5 border-cyan-500/30' : 'bg-black/40 border-zinc-900'
+                }`}
+              >
+                <span className="flex items-center gap-3 font-mono text-xs text-zinc-300">
+                  <Icon size={15} className="text-zinc-500" /> {check.label}
+                </span>
+                <span className="flex items-center gap-2 text-[10px] font-mono uppercase">
+                  {isAuditing ? (
+                    <span className="text-cyan-300 flex items-center gap-1.5"><Loader2 size={13} className="animate-spin" /> A auditar</span>
+                  ) : isAudited || phase === 'idle' ? (
+                    passed ? (
+                      <span className="text-green-400 flex items-center gap-1.5"><CheckCircle2 size={14} /> Conforme</span>
+                    ) : (
+                      <span className="text-red-400 flex items-center gap-1.5"><AlertTriangle size={14} /> Pendente</span>
+                    )
+                  ) : null}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Certificado / Ação */}
+        <div className="mt-6 pt-6 border-t border-zinc-900/60">
+          <AnimatePresence mode="wait">
+            {phase === 'validated' ? (
+              <motion.div
+                key="cert"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center gap-4 p-4 rounded-xl bg-green-500/5 border border-green-500/30"
+              >
+                <BadgeCheck size={32} className="text-green-400 flex-shrink-0" />
+                <div>
+                  <p className="font-display text-white uppercase tracking-wider text-sm">Certificado de Elegibilidade Emitido</p>
+                  <p className="text-[10px] font-mono text-zinc-500">
+                    Ref. simulada: FC-{player.id.toUpperCase().slice(0, 6)}-{new Date().getFullYear()}
+                  </p>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.button
+                key="btn"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                onClick={runValidation}
+                disabled={phase === 'processing'}
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-xs uppercase tracking-widest hover:bg-accent/20 transition-colors disabled:opacity-60"
+              >
+                {phase === 'processing' ? (
+                  <><Loader2 size={14} className="animate-spin" /> A validar elegibilidade…</>
+                ) : (
+                  <><ShieldCheck size={14} /> Validar Elegibilidade FIFA Connect</>
+                )}
+              </motion.button>
+            )}
+          </AnimatePresence>
+          {phase === 'idle' && !allChecksPass && (
+            <p className="text-[10px] font-mono text-amber-400/80 mt-3 text-center">
+              Existem requisitos pendentes — a simulação manterá o estado como pendente.
+            </p>
+          )}
+        </div>
+      </AnimatedCard>
+    </div>
+  );
+}
+
+type TabKey = 'perfil' | 'estatisticas' | 'fifa';
+
 export default function PlayerDetailClient({ player, team }: PlayerDetailClientProps) {
   // Goals classification
   const allPlayers = getPlayers();
@@ -283,6 +566,13 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
   ];
 
   const clubColor = team?.colorsHex ? team.colorsHex[0] : '#D21515';
+
+  const [activeTab, setActiveTab] = useState<TabKey>('perfil');
+  const tabs: { key: TabKey; label: string; icon: React.ElementType }[] = [
+    { key: 'perfil', label: 'Perfil Geral', icon: Star },
+    { key: 'estatisticas', label: 'Estatísticas', icon: BarChart3 },
+    { key: 'fifa', label: 'FIFA Connect', icon: ShieldCheck },
+  ];
 
   return (
     <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 font-sans">
@@ -343,9 +633,45 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
         </div>
       </AnimatedCard>
 
-      {/* Grid Layout */}
+      {/* Barra de Abas */}
+      <div className="flex flex-wrap gap-2 mb-8 border-b border-zinc-900/80">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={`relative flex items-center gap-2 px-4 py-3 font-mono text-[11px] uppercase tracking-widest transition-colors ${
+                isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'
+              }`}
+            >
+              <Icon size={14} className={isActive ? 'text-accent' : ''} /> {tab.label}
+              {isActive && (
+                <motion.span
+                  layoutId="activeTabUnderline"
+                  className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-accent"
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, x: 16 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -16 }}
+          transition={{ duration: 0.25 }}
+        >
+          {activeTab === 'estatisticas' && <StatsTab player={player} />}
+          {activeTab === 'fifa' && <FifaConnectTab player={player} />}
+          {activeTab === 'perfil' && (
+      /* Grid Layout */
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Left Columns: Stats Breakdown */}
         <div className="lg:col-span-2 space-y-8">
           
@@ -519,6 +845,9 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
         </div>
 
       </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
 
     </div>
   );

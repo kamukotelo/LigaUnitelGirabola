@@ -79,6 +79,29 @@ export interface Player extends PlayerStats {
   }[];
 }
 
+// ── Estatísticas externas e validação (dados simulados / demonstração) ──
+export interface ExternalRatings {
+  sofascore: number;       // 0.0 – 10.0 (simulado)
+  zerozero: number;        // 0.0 – 10.0 (simulado)
+  sofascoreUrl: string;    // deep-link de pesquisa real
+  zerozeroUrl: string;     // deep-link de pesquisa real
+}
+
+export interface DetailedMetrics {
+  passAccuracy: number;    // %
+  duelsWon: number;        // %
+  shotsOnTarget: number;   // %
+  yellowCards: number;
+  redCards: number;
+  minutesPlayed: number;
+}
+
+export type FifaCheckKey = 'identity' | 'contract' | 'itc' | 'insurance';
+export interface FifaConnectStatus {
+  status: 'pending' | 'validated';
+  checks: Record<FifaCheckKey, boolean>;
+}
+
 export interface NewsArticle {
   id: string;
   title: string;
@@ -734,4 +757,82 @@ export function getNewsArticles(): NewsArticle[] {
 
 export function getNewsArticleById(id: string): NewsArticle | undefined {
   return newsMock.find(n => n.id === id);
+}
+
+// ── ESTATÍSTICAS EXTERNAS & FIFA CONNECT (DERIVADAS DETERMINISTICAMENTE) ──
+// NOTA: Todos os valores abaixo são SIMULADOS para fins de demonstração.
+// Derivam dos atributos do jogador para serem estáveis e consistentes entre
+// recarregamentos. Não provêm de scraping nem de APIs oficiais.
+
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash);
+}
+
+function avgAttributes(p: Player): number {
+  const a = p.attributes;
+  return (a.pace + a.shooting + a.passing + a.dribbling + a.defending + a.physical) / 6;
+}
+
+// Rating base 0–10 derivado da média de atributos e do impacto ofensivo.
+function baseRating(p: Player): number {
+  const attrScore = avgAttributes(p) / 99; // 0–1
+  const impact = (p.goals + p.assists) / Math.max(p.appearances, 1); // golos+assists por jogo
+  const raw = 6.0 + attrScore * 2.6 + Math.min(impact, 1.2) * 1.0;
+  return Math.min(Math.max(raw, 5.5), 9.8);
+}
+
+export function getPlayerRatings(p: Player): ExternalRatings {
+  const base = baseRating(p);
+  const jitter = (hashString(p.id) % 30) / 100; // 0.00–0.29
+  const sofascore = Math.min(Math.round((base + jitter) * 10) / 10, 10);
+  const zerozero = Math.min(Math.round((base - 0.15 + jitter / 2) * 10) / 10, 10);
+  const query = encodeURIComponent(p.name);
+  return {
+    sofascore,
+    zerozero,
+    sofascoreUrl: `https://www.sofascore.com/search?q=${query}`,
+    zerozeroUrl: `https://www.zerozero.pt/pesquisa.php?search=${query}`,
+  };
+}
+
+// Tendência dos últimos 5 jogos (do mais antigo para o mais recente).
+export function getRecentRatings(p: Player): { match: string; rating: number }[] {
+  const base = baseRating(p);
+  const seed = hashString(p.id);
+  return Array.from({ length: 5 }, (_, i) => {
+    const delta = (((seed >> (i * 2)) % 13) - 6) / 10; // -0.6 a +0.6
+    const rating = Math.min(Math.max(Math.round((base + delta) * 10) / 10, 5.0), 9.9);
+    return { match: `J${i + 1}`, rating };
+  });
+}
+
+export function getDetailedMetrics(p: Player): DetailedMetrics {
+  const a = p.attributes;
+  const seed = hashString(p.id);
+  return {
+    passAccuracy: Math.min(60 + Math.round(a.passing * 0.35) + (seed % 5), 99),
+    duelsWon: Math.min(35 + Math.round(a.physical * 0.4) + (seed % 7), 90),
+    shotsOnTarget: Math.min(30 + Math.round(a.shooting * 0.4) + (seed % 6), 85),
+    yellowCards: seed % 6,
+    redCards: seed % 11 === 0 ? 1 : 0,
+    minutesPlayed: p.appearances * 90 - (seed % p.appearances || 0) * 12,
+  };
+}
+
+export function getFifaConnectStatus(p: Player): FifaConnectStatus {
+  // Estado inicial determinístico: a maioria com pendências para o simulador.
+  const seed = hashString(p.id);
+  return {
+    status: 'pending',
+    checks: {
+      identity: true,
+      contract: seed % 2 === 0,
+      itc: seed % 3 === 0,
+      insurance: seed % 5 !== 0,
+    },
+  };
 }
