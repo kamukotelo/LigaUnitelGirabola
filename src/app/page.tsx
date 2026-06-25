@@ -55,18 +55,6 @@ function DataParticles() {
   );
 }
 
-/* ── HUD Corner Brackets ──────────────────────────────────────── */
-function HudBrackets() {
-  return (
-    <div className="absolute inset-0 pointer-events-none">
-      <span className="absolute top-2 left-2 w-4 h-4 border-t border-l border-accent/60" />
-      <span className="absolute top-2 right-2 w-4 h-4 border-t border-r border-accent/60" />
-      <span className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-accent/60" />
-      <span className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-accent/60" />
-    </div>
-  );
-}
-
 /* ── Radar Sweep ─────────────────────────────────────────────── */
 function RadarSweep() {
   return (
@@ -85,6 +73,112 @@ function RadarSweep() {
       />
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+      </div>
+    </div>
+  );
+}
+
+/* ── Stylized Soccer Ball ─────────────────────────────────────── */
+function SoccerBall({ size = 58 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <circle cx="50" cy="50" r="46" fill="#FAFAFA" stroke="#0B0B12" strokeWidth="2.5" />
+      <polygon points="50,36 63.3,45.7 58.2,61.3 41.8,61.3 36.7,45.7" fill="#0B0B12" />
+      <g stroke="#0B0B12" strokeWidth="2.5" strokeLinecap="round">
+        <line x1="50" y1="36" x2="50" y2="6" />
+        <line x1="63.3" y1="45.7" x2="91" y2="36" />
+        <line x1="58.2" y1="61.3" x2="74" y2="85" />
+        <line x1="41.8" y1="61.3" x2="26" y2="85" />
+        <line x1="36.7" y1="45.7" x2="9" y2="36" />
+      </g>
+      <g fill="#0B0B12">
+        <circle cx="50" cy="9" r="4" />
+        <circle cx="88" cy="38" r="4" />
+        <circle cx="73" cy="83" r="4" />
+        <circle cx="27" cy="83" r="4" />
+        <circle cx="12" cy="38" r="4" />
+      </g>
+    </svg>
+  );
+}
+
+/* ── Girabola / Angolan football animated scene ───────────────── */
+function PitchOrbit() {
+  // Cores da bandeira de Angola (vermelho, preto) + dourado do emblema
+  const satellites = [
+    { color: '#D21515', glow: 'rgba(210,21,21,0.85)' },
+    { color: '#0B0B12', glow: 'rgba(255,255,255,0.35)' },
+    { color: '#F9C304', glow: 'rgba(249,195,4,0.9)' },
+  ];
+
+  return (
+    <div className="relative w-[440px] h-[460px] flex items-center justify-center select-none" aria-hidden>
+      {/* Glow base */}
+      <div
+        className="absolute w-72 h-72 rounded-full blur-3xl"
+        style={{ background: 'radial-gradient(circle, rgba(210,21,21,0.28), rgba(249,195,4,0.12) 55%, transparent 72%)' }}
+      />
+
+      {/* Varredura radar */}
+      <motion.div
+        className="absolute w-[340px] h-[340px] rounded-full"
+        style={{ background: 'conic-gradient(from 0deg, transparent 0deg, rgba(249,195,4,0.20) 40deg, transparent 95deg)' }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
+      />
+
+      {/* Linhas do campo (círculo central + meio-campo) */}
+      <div className="absolute w-[340px] h-[340px] rounded-full border border-primary/25" />
+      <div className="absolute w-[250px] h-[250px] rounded-full border border-accent/20" />
+      <div className="absolute w-[150px] h-[150px] rounded-full border-2 border-white/15" />
+      <div className="absolute w-[340px] h-px bg-primary/20" />
+      <div className="absolute w-px h-[340px] bg-primary/10" />
+      <div className="absolute w-2 h-2 rounded-full bg-accent shadow-[0_0_12px_rgba(249,195,4,0.9)]" />
+
+      {/* Brasão Girabola em marca-d'água */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/logo-girabola.svg" alt="" className="absolute w-28 h-28 object-contain opacity-[0.07]" />
+
+      {/* Órbita da bola */}
+      <motion.div
+        className="absolute w-[340px] h-[340px]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
+      >
+        <motion.div
+          className="absolute left-1/2 -top-4 -translate-x-1/2 drop-shadow-[0_0_14px_rgba(0,0,0,0.65)]"
+          animate={{ rotate: -360 }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: 'linear' }}
+        >
+          <SoccerBall size={58} />
+        </motion.div>
+      </motion.div>
+
+      {/* Satélites nas cores de Angola */}
+      <motion.div
+        className="absolute w-[250px] h-[250px]"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 13, repeat: Infinity, ease: 'linear' }}
+      >
+        {satellites.map((s, i) => (
+          <span
+            key={i}
+            className="absolute left-1/2 top-1/2 w-3 h-3 -ml-1.5 -mt-1.5 rounded-full"
+            style={{
+              backgroundColor: s.color,
+              boxShadow: `0 0 12px ${s.glow}`,
+              transform: `rotate(${i * 120}deg) translateY(-125px)`,
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Etiqueta */}
+      <div className="absolute bottom-2 flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-green-500 status-pulse" />
+        <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-accent/80">
+          Girabola · Angola
+        </span>
       </div>
     </div>
   );
@@ -197,39 +291,7 @@ export default function Home() {
           </div>
 
           <div className="hidden lg:block relative justify-self-center">
-            <div className="relative holo-card">
-              <HudBrackets />
-              <div className="w-[400px] h-[480px] brutalist-card bg-zinc-900 border border-zinc-800 flex flex-col justify-between p-8 relative overflow-hidden">
-                <div className="absolute top-4 right-4">
-                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                    LIGA_OFICIAL
-                  </span>
-                </div>
-                
-                <div className="flex-1 flex flex-col items-center justify-center gap-6 mt-4">
-                  <div className="relative w-48 h-48 flex items-center justify-center p-4 rounded-3xl bg-zinc-950/80 border border-zinc-800 shadow-[0_0_50px_rgba(210,21,21,0.15)]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/logo-girabola.svg"
-                      alt="Girabola Logo"
-                      className="w-40 h-40 object-contain animate-pulse"
-                      width={160}
-                      height={160}
-                    />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-2xl font-display text-white uppercase leading-tight tracking-wider mb-2">
-                      GIRABOLA 2025/2026
-                    </h3>
-                    <p className="text-xs font-mono text-accent uppercase tracking-widest hover:text-white transition-colors">
-                      <Link href="/teams/petro">
-                        Pentacampeão: Petro de Luanda
-                      </Link>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <PitchOrbit />
           </div>
         </div>
       </section>
