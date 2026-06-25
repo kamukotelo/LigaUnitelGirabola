@@ -4,7 +4,6 @@ import { motion, useInView, useMotionValue, useSpring, useTransform } from 'fram
 import { ArrowRight, Trophy, Calendar, Shield, Zap, Activity, Flame } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
 
@@ -160,13 +159,13 @@ export default function Home() {
           <div>
             <h1 className="mb-8">
               <span className="sr-only">Liga Unitel Girabola</span>
-              <Image
-                src="/logo-girabola-horizontal.png"
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-girabola-horizontal.svg"
                 alt="Liga Unitel Girabola"
-                width={635}
-                height={208}
-                priority
-                className={`w-full max-w-[420px] md:max-w-[560px] h-auto object-contain drop-shadow-[0_0_25px_rgba(210,80,0,0.35)] ${
+                width={396}
+                height={219}
+                className={`w-full max-w-[360px] md:max-w-[460px] h-auto object-contain drop-shadow-[0_0_25px_rgba(210,80,0,0.35)] ${
                   glitchActive ? 'glitch-text' : ''
                 }`}
               />
@@ -209,9 +208,10 @@ export default function Home() {
                 
                 <div className="flex-1 flex flex-col items-center justify-center gap-6 mt-4">
                   <div className="relative w-48 h-48 flex items-center justify-center p-4 rounded-3xl bg-zinc-950/80 border border-zinc-800 shadow-[0_0_50px_rgba(210,21,21,0.15)]">
-                    <Image 
-                      src="/logo-girabola.png" 
-                      alt="Girabola Logo" 
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/logo-girabola.svg"
+                      alt="Girabola Logo"
                       className="w-40 h-40 object-contain animate-pulse"
                       width={160}
                       height={160}

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
 type BrandSize = 'sm' | 'md' | 'lg';
 
@@ -17,23 +16,23 @@ interface BrandProps {
 }
 
 /**
- * Marca oficial da competição: logotipo completo "LIGA UNITEL GIRABOLA"
- * (escudo + texto já incluídos na imagem oficial).
- * Usar sempre este componente para representar o nome da liga.
+ * Marca oficial da competição: logotipo vetorial "LIGA UNITEL GIRABOLA"
+ * (lockup de duas linhas: escudo + texto). Usar sempre este componente
+ * para representar o nome da liga.
  */
 export default function Brand({ size = 'md', href = '/', className = '' }: BrandProps) {
   const h = IMG_HEIGHT[size];
-  // Proporção vertical do logo ≈ 1.25 : 1 (altura > largura)
-  const w = Math.round(h / 1.25);
+  // Proporção do logotipo de duas linhas ≈ 396 : 219
+  const w = Math.round((h * 396) / 219);
 
   const logo = (
-    <Image
-      src="/logo-girabola.png"
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/logo-girabola-horizontal.svg"
       alt="Liga Unitel Girabola"
       width={w}
       height={h}
       className="object-contain drop-shadow-[0_0_8px_rgba(210,80,0,0.4)] transition-transform duration-300 group-hover:scale-105"
-      priority
     />
   );
 
