@@ -18,10 +18,10 @@ export default function TeamsPage() {
             EQUIPAS_OFICIAIS
           </span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-display text-white uppercase leading-none">
+        <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
           Clubes do <span className="text-primary italic">Girabola</span>
         </h1>
-        <p className="text-sm text-zinc-400 mt-2 font-mono uppercase tracking-wider">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
           Lista das 16 equipas participantes na edição 2025/2026
         </p>
       </div>
@@ -43,12 +43,12 @@ export default function TeamsPage() {
               <Link href={`/teams/${team.id}`} className="block h-full cursor-pointer">
                 <AnimatedCard
                   variant={isGiant ? 'holographic' : 'hud'}
-                  className="bg-zinc-950/30 hover:bg-zinc-900/40 border-zinc-900 h-full flex flex-col justify-between"
+                  className="bg-zinc-100/30 dark:bg-zinc-950/30 hover:bg-white/40 dark:hover:bg-zinc-900/40 border-zinc-200 dark:border-zinc-900 h-full flex flex-col justify-between"
                 >
                   {/* Header: Logo initials / Nickname */}
                   <div>
                     <div className="flex justify-between items-start mb-4">
-                      <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center font-display text-lg text-primary uppercase select-none shadow-[2px_2px_0px_rgba(255,255,255,0.03)] font-extrabold">
+                      <div className="w-12 h-12 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center font-display text-lg text-primary uppercase select-none shadow-[2px_2px_0px_rgba(255,255,255,0.03)] font-extrabold">
                         {team.shortName.substring(0, 2)}
                       </div>
                       <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">
@@ -57,7 +57,7 @@ export default function TeamsPage() {
                     </div>
 
                     {/* Names */}
-                    <h3 className="text-lg font-display text-white uppercase leading-snug truncate" title={team.name}>
+                    <h3 className="text-lg font-display text-foreground uppercase leading-snug truncate" title={team.name}>
                       {team.shortName}
                     </h3>
                     <p className="text-[10px] text-zinc-500 font-mono truncate mb-4">
@@ -66,7 +66,7 @@ export default function TeamsPage() {
                   </div>
 
                   {/* Details List */}
-                  <div className="space-y-2.5 pt-4 border-t border-zinc-900/60 text-xs font-mono text-zinc-400">
+                  <div className="space-y-2.5 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-xs font-mono text-zinc-600 dark:text-zinc-400">
                     <div className="flex items-center gap-2">
                       <MapPin size={13} className="text-zinc-600 flex-shrink-0" />
                       <span className="truncate">{team.city}</span>
@@ -82,9 +82,9 @@ export default function TeamsPage() {
                   </div>
 
                   {/* Footer Colors */}
-                  <div className="mt-5 pt-3 border-t border-zinc-900/40 flex justify-between items-center text-[9px] font-mono text-zinc-500">
+                  <div className="mt-5 pt-3 border-t border-zinc-200/40 dark:border-zinc-900/40 flex justify-between items-center text-[9px] font-mono text-zinc-500">
                     <span>CORES:</span>
-                    <span className="text-zinc-300 font-bold uppercase">{team.colors}</span>
+                    <span className="text-zinc-700 dark:text-zinc-300 font-bold uppercase">{team.colors}</span>
                   </div>
                 </AnimatedCard>
               </Link>

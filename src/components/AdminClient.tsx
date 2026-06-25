@@ -96,14 +96,14 @@ export default function AdminClient() {
                 CONSOLA_ADMINISTRATIVA_ANCAF
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-display text-white uppercase leading-none">
+            <h1 className="text-3xl md:text-4xl font-display text-foreground uppercase leading-none">
               Gestão da <span className="text-primary italic">Plataforma</span>
             </h1>
           </div>
           <div className="flex items-center gap-2">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-900/60 border border-zinc-800 text-zinc-300 font-mono text-[11px] uppercase tracking-widest hover:text-white hover:border-zinc-700 transition-colors"
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-[11px] uppercase tracking-widest hover:text-foreground hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
             >
               <Home size={13} /> Ver site
             </Link>
@@ -129,7 +129,7 @@ export default function AdminClient() {
                   className={`flex-shrink-0 flex items-center gap-2.5 px-4 py-3 rounded-xl font-mono text-[11px] uppercase tracking-widest transition-colors text-left ${
                     active
                       ? 'bg-accent/10 border border-accent/40 text-accent'
-                      : 'bg-zinc-950/40 border border-zinc-900 text-zinc-400 hover:text-white hover:border-zinc-800'
+                      : 'bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:border-zinc-200 dark:hover:border-zinc-800'
                   }`}
                 >
                   <Icon size={15} /> {item.label}
@@ -186,14 +186,14 @@ function LoginGate({ onSuccess }: { onSuccess: () => void }) {
         onSubmit={submit}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-sm bg-zinc-950/60 border border-zinc-900 rounded-2xl p-8 backdrop-blur-md"
+        className="w-full max-w-sm bg-zinc-100/60 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-8 backdrop-blur-md"
       >
         <div className="flex items-center gap-3 mb-2">
           <div className="p-2.5 rounded-xl bg-accent/10 border border-accent/30 text-accent">
             <Lock size={20} />
           </div>
           <div>
-            <h1 className="font-display text-white uppercase tracking-wider text-lg leading-none">Área Restrita</h1>
+            <h1 className="font-display text-foreground uppercase tracking-wider text-lg leading-none">Área Restrita</h1>
             <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mt-1">Acesso Administrativo ANCAF</p>
           </div>
         </div>
@@ -209,14 +209,14 @@ function LoginGate({ onSuccess }: { onSuccess: () => void }) {
             onChange={(e) => { setCode(e.target.value); setError(false); }}
             placeholder="Credencial de acesso"
             autoFocus
-            className={`w-full bg-black/50 border rounded-xl py-3 pl-4 pr-11 text-sm text-white font-mono outline-none transition-colors ${
-              error ? 'border-red-500/60' : 'border-zinc-800 focus:border-accent'
+            className={`w-full bg-zinc-100 dark:bg-black/50 border rounded-xl py-3 pl-4 pr-11 text-sm text-foreground font-mono outline-none transition-colors ${
+              error ? 'border-red-500/60' : 'border-zinc-200 dark:border-zinc-800 focus:border-accent'
             }`}
           />
           <button
             type="button"
             onClick={() => setShow((s) => !s)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
           >
             {show ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>
@@ -236,7 +236,7 @@ function LoginGate({ onSuccess }: { onSuccess: () => void }) {
         </button>
 
         <p className="text-[10px] font-mono text-zinc-600 mt-5 text-center">
-          Ambiente de demonstração · credencial: <span className="text-zinc-400">ancaf2026</span>
+          Ambiente de demonstração · credencial: <span className="text-zinc-600 dark:text-zinc-400">ancaf2026</span>
         </p>
       </motion.form>
     </div>
@@ -251,25 +251,25 @@ function SectionHeader({ icon: Icon, title, subtitle }: { icon: React.ElementTyp
         <Icon size={14} className="text-accent" />
         <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-semibold">{subtitle}</span>
       </div>
-      <h2 className="text-2xl md:text-3xl font-display text-white uppercase leading-none">{title}</h2>
+      <h2 className="text-2xl md:text-3xl font-display text-foreground uppercase leading-none">{title}</h2>
     </div>
   );
 }
 
 function Panel({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`bg-zinc-950/40 border border-zinc-900 rounded-2xl p-6 ${className}`}>{children}</div>
+    <div className={`bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-6 ${className}`}>{children}</div>
   );
 }
 
 function ConnectionBadge({ icon: Icon, label, endpoint, ok = true }: { icon: React.ElementType; label: string; endpoint: string; ok?: boolean }) {
   return (
-    <div className="flex items-center gap-3 bg-black/40 border border-zinc-900 rounded-xl p-4">
+    <div className="flex items-center gap-3 bg-zinc-100 dark:bg-black/40 border border-zinc-200 dark:border-zinc-900 rounded-xl p-4">
       <div className={`p-2 rounded-lg ${ok ? 'bg-green-500/10 text-green-400' : 'bg-amber-500/10 text-amber-400'}`}>
         <Icon size={18} />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="font-mono text-xs text-zinc-200 truncate">{label}</p>
+        <p className="font-mono text-xs text-zinc-800 dark:text-zinc-200 truncate">{label}</p>
         <p className="text-[10px] font-mono text-zinc-600 truncate">{endpoint}</p>
       </div>
       <span className={`inline-flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-widest ${ok ? 'text-green-400' : 'text-amber-400'}`}>
@@ -304,7 +304,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
 
       {/* Estado das ligações */}
       <Panel>
-        <h3 className="text-sm font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+        <h3 className="text-sm font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
           <Radio size={15} className="text-accent" /> Estado das Ligações
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -319,9 +319,9 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
         {kpis.map((k) => {
           const Icon = k.icon;
           return (
-            <div key={k.label} className="bg-zinc-950/40 border border-zinc-900 rounded-2xl p-5">
+            <div key={k.label} className="bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-5">
               <Icon size={16} className="text-zinc-600 mb-3" />
-              <p className="font-display text-3xl font-black text-white leading-none">{k.value}</p>
+              <p className="font-display text-3xl font-black text-foreground leading-none">{k.value}</p>
               <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mt-2">{k.label}</p>
             </div>
           );
@@ -330,14 +330,14 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
 
       {/* Atalhos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <button onClick={() => onGo('calendar')} className="text-left bg-zinc-950/40 border border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
+        <button onClick={() => onGo('calendar')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
           <CalendarDays size={18} className="text-accent mb-3" />
-          <p className="font-display text-white uppercase tracking-wider text-sm">Definir Calendário</p>
+          <p className="font-display text-foreground uppercase tracking-wider text-sm">Definir Calendário</p>
           <p className="text-[11px] font-mono text-zinc-500 mt-1">Gerir jornadas via ANCAF_CALENDAR</p>
         </button>
-        <button onClick={() => onGo('fifa')} className="text-left bg-zinc-950/40 border border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
+        <button onClick={() => onGo('fifa')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
           <ShieldCheck size={18} className="text-accent mb-3" />
-          <p className="font-display text-white uppercase tracking-wider text-sm">Gerir FIFA Connect</p>
+          <p className="font-display text-foreground uppercase tracking-wider text-sm">Gerir FIFA Connect</p>
           <p className="text-[11px] font-mono text-zinc-500 mt-1">Validar elegibilidade dos jogadores</p>
         </button>
       </div>
@@ -421,7 +421,7 @@ function CalendarSection() {
               <Radio size={20} className={syncing ? 'animate-pulse' : ''} />
             </div>
             <div>
-              <p className="font-display text-white uppercase tracking-wider text-sm flex items-center gap-2">
+              <p className="font-display text-foreground uppercase tracking-wider text-sm flex items-center gap-2">
                 ANCAF_CALENDAR
                 <span className="inline-flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-widest text-green-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Conectado
@@ -435,7 +435,7 @@ function CalendarSection() {
           <div className="flex items-center gap-2">
             <button
               onClick={exportCalendar}
-              className="inline-flex items-center gap-2 px-3 py-2.5 rounded-xl bg-zinc-900/60 border border-zinc-800 text-zinc-300 font-mono text-[11px] uppercase tracking-widest hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-[11px] uppercase tracking-widest hover:text-foreground transition-colors"
             >
               <Download size={13} /> Exportar
             </button>
@@ -453,13 +453,13 @@ function CalendarSection() {
 
       {/* Seletor de jornada */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs font-mono text-zinc-400 uppercase mr-1">Jornada:</span>
+        <span className="text-xs font-mono text-zinc-600 dark:text-zinc-400 uppercase mr-1">Jornada:</span>
         {rounds.map((r) => (
           <button
             key={r}
             onClick={() => setRound(r)}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
-              round === r ? 'bg-primary text-white' : 'bg-zinc-950 text-zinc-400 hover:text-white border border-zinc-800'
+              round === r ? 'bg-primary text-white' : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 hover:text-foreground border border-zinc-200 dark:border-zinc-800'
             }`}
           >
             {r}
@@ -487,7 +487,7 @@ function CalendarSection() {
           return (
             <Panel key={m.id} className={isEdited ? 'border-accent/30' : ''}>
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[9px] font-mono bg-zinc-800/80 text-zinc-400 border border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">
+                <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">
                   {m.homeTeam} vs {m.awayTeam}
                 </span>
                 {isEdited && (
@@ -615,7 +615,7 @@ function FifaSection() {
           { label: 'Pendentes', value: records.length - eligibleCount, color: '#f59e0b' },
           { label: 'Conformidade', value: `${conformity}%`, color: '#00F5FF' },
         ].map((s) => (
-          <div key={s.label} className="bg-zinc-950/40 border border-zinc-900 rounded-2xl p-4">
+          <div key={s.label} className="bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-4">
             <p className="font-display text-2xl font-black leading-none" style={{ color: s.color }}>{s.value}</p>
             <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mt-2">{s.label}</p>
           </div>
@@ -646,7 +646,7 @@ function FifaSection() {
                   key={f.k}
                   onClick={() => setFilter(f.k)}
                   className={`px-3 py-2 rounded-lg text-[11px] font-mono uppercase tracking-widest transition-colors ${
-                    filter === f.k ? 'bg-primary text-white' : 'bg-zinc-950 text-zinc-400 border border-zinc-800 hover:text-white'
+                    filter === f.k ? 'bg-primary text-white' : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 hover:text-foreground'
                   }`}
                 >
                   {f.l}
@@ -663,11 +663,11 @@ function FifaSection() {
                   key={r.player.id}
                   onClick={() => setSelectedId(r.player.id)}
                   className={`w-full text-left flex items-center justify-between gap-3 p-3.5 rounded-xl border transition-colors ${
-                    active ? 'bg-accent/5 border-accent/40' : 'bg-black/40 border-zinc-900 hover:border-zinc-800'
+                    active ? 'bg-accent/5 border-accent/40' : 'bg-zinc-100 dark:bg-black/40 border-zinc-200 dark:border-zinc-900 hover:border-zinc-200 dark:hover:border-zinc-800'
                   }`}
                 >
                   <div className="min-w-0">
-                    <p className="text-sm text-white font-semibold truncate">{r.player.name}</p>
+                    <p className="text-sm text-foreground font-semibold truncate">{r.player.name}</p>
                     <p className="text-[10px] font-mono text-zinc-500 uppercase truncate">{r.player.club} · {r.player.position}</p>
                   </div>
                   <span className={`flex-shrink-0 inline-flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-widest px-2 py-1 rounded-full border ${
@@ -729,9 +729,9 @@ function FifaValidator({ record }: { record: ReturnType<typeof getPlayerFifaReco
   };
 
   return (
-    <div className="bg-zinc-950/40 border border-zinc-900 rounded-2xl p-6 h-fit lg:sticky lg:top-6">
+    <div className="bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-6 h-fit lg:sticky lg:top-6">
       <div className="flex items-center justify-between mb-1">
-        <h3 className="font-display text-white uppercase tracking-wider text-sm">{record.player.name}</h3>
+        <h3 className="font-display text-foreground uppercase tracking-wider text-sm">{record.player.name}</h3>
         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[9px] uppercase tracking-widest border ${
           phase === 'validated'
             ? 'bg-green-500/10 border-green-500/40 text-green-400'
@@ -747,7 +747,7 @@ function FifaValidator({ record }: { record: ReturnType<typeof getPlayerFifaReco
         {record.player.club} · Plataforma de Conformidade
       </p>
 
-      <div className="space-y-2.5 pt-4 border-t border-zinc-900/60">
+      <div className="space-y-2.5 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60">
         {FIFA_CHECK_META.map((check, idx) => {
           const Icon = CHECK_ICONS[check.key];
           const passed = record.status.checks[check.key];
@@ -757,10 +757,10 @@ function FifaValidator({ record }: { record: ReturnType<typeof getPlayerFifaReco
             <div
               key={check.key}
               className={`flex items-center justify-between p-3 rounded-xl border transition-colors ${
-                isAuditing ? 'bg-cyan-500/5 border-cyan-500/30' : 'bg-black/40 border-zinc-900'
+                isAuditing ? 'bg-cyan-500/5 border-cyan-500/30' : 'bg-zinc-100 dark:bg-black/40 border-zinc-200 dark:border-zinc-900'
               }`}
             >
-              <span className="flex items-center gap-2.5 font-mono text-[11px] text-zinc-300">
+              <span className="flex items-center gap-2.5 font-mono text-[11px] text-zinc-700 dark:text-zinc-300">
                 <Icon size={14} className="text-zinc-500" /> {check.label}
               </span>
               <span className="text-[10px] font-mono uppercase">
@@ -779,7 +779,7 @@ function FifaValidator({ record }: { record: ReturnType<typeof getPlayerFifaReco
         })}
       </div>
 
-      <div className="mt-5 pt-5 border-t border-zinc-900/60">
+      <div className="mt-5 pt-5 border-t border-zinc-200/60 dark:border-zinc-900/60">
         <AnimatePresence mode="wait">
           {phase === 'validated' ? (
             <motion.div
@@ -790,7 +790,7 @@ function FifaValidator({ record }: { record: ReturnType<typeof getPlayerFifaReco
             >
               <BadgeCheck size={28} className="text-green-400 flex-shrink-0" />
               <div>
-                <p className="font-display text-white uppercase tracking-wider text-xs">Certificado Emitido</p>
+                <p className="font-display text-foreground uppercase tracking-wider text-xs">Certificado Emitido</p>
                 <p className="text-[10px] font-mono text-zinc-500">
                   Ref. FC-{record.player.id.toUpperCase().slice(0, 6)}-{new Date().getFullYear()}
                 </p>
@@ -837,7 +837,7 @@ function TeamsSection() {
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-zinc-900 text-[10px] font-mono uppercase tracking-widest text-zinc-500">
+              <tr className="border-b border-zinc-200 dark:border-zinc-900 text-[10px] font-mono uppercase tracking-widest text-zinc-500">
                 <th className="px-4 py-3">Clube</th>
                 <th className="px-4 py-3 hidden sm:table-cell">Cidade</th>
                 <th className="px-4 py-3 hidden md:table-cell">Estádio</th>
@@ -849,15 +849,15 @@ function TeamsSection() {
               {TEAMS.map((t) => {
                 const s = posByTeam.get(t.id);
                 return (
-                  <tr key={t.id} className="border-b border-zinc-900/50 hover:bg-white/[0.02]">
+                  <tr key={t.id} className="border-b border-zinc-200/50 dark:border-zinc-900/50 hover:bg-white/[0.02]">
                     <td className="px-4 py-3">
-                      <Link href={`/teams/${t.id}`} className="text-sm text-white font-semibold hover:text-accent transition-colors">{t.name}</Link>
+                      <Link href={`/teams/${t.id}`} className="text-sm text-foreground font-semibold hover:text-accent transition-colors">{t.name}</Link>
                       <p className="text-[10px] font-mono text-zinc-600">Fund. {t.founded}</p>
                     </td>
-                    <td className="px-4 py-3 hidden sm:table-cell text-zinc-400 font-mono text-xs">{t.city}</td>
-                    <td className="px-4 py-3 hidden md:table-cell text-zinc-400 font-mono text-xs">{t.stadium}</td>
-                    <td className="px-4 py-3 hidden lg:table-cell text-zinc-400 font-mono text-xs">{t.coach}</td>
-                    <td className="px-4 py-3 text-right font-mono text-sm font-bold text-white">{s?.points ?? '—'}</td>
+                    <td className="px-4 py-3 hidden sm:table-cell text-zinc-600 dark:text-zinc-400 font-mono text-xs">{t.city}</td>
+                    <td className="px-4 py-3 hidden md:table-cell text-zinc-600 dark:text-zinc-400 font-mono text-xs">{t.stadium}</td>
+                    <td className="px-4 py-3 hidden lg:table-cell text-zinc-600 dark:text-zinc-400 font-mono text-xs">{t.coach}</td>
+                    <td className="px-4 py-3 text-right font-mono text-sm font-bold text-foreground">{s?.points ?? '—'}</td>
                   </tr>
                 );
               })}
@@ -881,8 +881,8 @@ function NewsSection() {
         {news.map((n) => (
           <Panel key={n.id} className="flex items-start justify-between gap-4">
             <div className="min-w-0">
-              <span className="text-[9px] font-mono bg-zinc-800/80 text-zinc-400 border border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">{n.category}</span>
-              <p className="text-sm text-white font-semibold mt-2">{n.title}</p>
+              <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">{n.category}</span>
+              <p className="text-sm text-foreground font-semibold mt-2">{n.title}</p>
               <p className="text-[11px] font-mono text-zinc-500 mt-1 line-clamp-2">{n.summary}</p>
             </div>
             <span className="flex-shrink-0 text-[10px] font-mono text-zinc-600">

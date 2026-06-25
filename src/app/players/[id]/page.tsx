@@ -14,7 +14,7 @@ export default async function PlayerDetailPage({ params }: { params: Promise<{ i
   if (!player) {
     return (
       <div className="py-24 text-center">
-        <h2 className="text-2xl font-display text-white uppercase mb-2">Jogador Não Encontrado</h2>
+        <h2 className="text-2xl font-display text-foreground uppercase mb-2">Jogador Não Encontrado</h2>
       </div>
     );
   }

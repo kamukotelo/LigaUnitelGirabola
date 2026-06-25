@@ -55,7 +55,7 @@ function StatRing({ value, max, label, color = '#D21515' }: { value: number; max
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-display text-sm text-white font-extrabold">{value}</span>
+          <span className="font-display text-sm text-foreground font-extrabold">{value}</span>
         </div>
       </div>
       <p className="text-[9px] font-mono uppercase tracking-widest text-zinc-500 mt-2 text-center">{label}</p>
@@ -169,7 +169,7 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
   }
 
   return (
-    <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6 space-y-6 relative overflow-hidden">
+    <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6 space-y-6 relative overflow-hidden">
       {/* Scanline sweep */}
       <motion.div
         className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent pointer-events-none z-0 shadow-[0_0_8px_rgba(210,21,21,0.5)]"
@@ -177,31 +177,31 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
         transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
       />
 
-      <h3 className="text-md font-display text-white uppercase tracking-wider flex items-center gap-2 relative z-10">
+      <h3 className="text-md font-display text-foreground uppercase tracking-wider flex items-center gap-2 relative z-10">
         <Activity size={16} className="text-accent" /> Mapa de Calor Posicional
       </h3>
 
       <div className="grid grid-cols-1 gap-4 relative z-10">
         {/* The Pitch rendering */}
-        <div className="relative w-full aspect-[2/3] max-w-[200px] mx-auto bg-zinc-900/60 rounded-xl border border-zinc-800/80 p-4 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] overflow-hidden">
+        <div className="relative w-full aspect-[2/3] max-w-[200px] mx-auto bg-white/60 dark:bg-zinc-900/60 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 p-4 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] overflow-hidden">
           
           {/* Field Lines */}
-          <div className="absolute inset-4 border border-zinc-800/40">
+          <div className="absolute inset-4 border border-zinc-200/40 dark:border-zinc-800/40">
             {/* Halfway Line */}
-            <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-zinc-800/40 -translate-y-1/2" />
+            <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-zinc-200/40 dark:bg-zinc-800/40 -translate-y-1/2" />
             
             {/* Center Circle */}
-            <div className="absolute top-1/2 left-1/2 w-14 h-14 border border-zinc-800/40 rounded-full -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-zinc-800/50 rounded-full -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute top-1/2 left-1/2 w-14 h-14 border border-zinc-200/40 dark:border-zinc-800/40 rounded-full -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-full -translate-x-1/2 -translate-y-1/2" />
 
             {/* Penalty Box Top */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-8 border-b border-x border-zinc-800/40">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-2.5 border-b border-x border-zinc-800/20" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-8 border-b border-x border-zinc-200/40 dark:border-zinc-800/40">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-2.5 border-b border-x border-zinc-200/20 dark:border-zinc-800/20" />
             </div>
 
             {/* Penalty Box Bottom */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-8 border-t border-x border-zinc-800/40">
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-2.5 border-t border-x border-zinc-800/20" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-8 border-t border-x border-zinc-200/40 dark:border-zinc-800/40">
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-2.5 border-t border-x border-zinc-200/20 dark:border-zinc-800/20" />
             </div>
           </div>
 
@@ -234,41 +234,41 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
         </div>
 
         {/* Heat Details metadata */}
-        <div className="space-y-4 font-mono text-[11px] border-t border-zinc-900/60 pt-4">
+        <div className="space-y-4 font-mono text-[11px] border-t border-zinc-200/60 dark:border-zinc-900/60 pt-4">
           <div>
             <span className="text-zinc-500 uppercase block text-[9px] mb-0.5">Foco de Acção Principal</span>
-            <span className="font-bold text-white uppercase text-xs">{zoneLabel}</span>
+            <span className="font-bold text-foreground uppercase text-xs">{zoneLabel}</span>
           </div>
-          <p className="text-zinc-400 text-[10px] leading-relaxed">
+          <p className="text-zinc-600 dark:text-zinc-400 text-[10px] leading-relaxed">
             {heatDescription}
           </p>
           
           {/* Positional distribution bars */}
-          <div className="space-y-2 text-[9px] text-zinc-500 uppercase pt-2 border-t border-zinc-900/40">
-            <span className="block mb-1 text-zinc-400 font-semibold">Território Ocupado</span>
+          <div className="space-y-2 text-[9px] text-zinc-500 uppercase pt-2 border-t border-zinc-200/40 dark:border-zinc-900/40">
+            <span className="block mb-1 text-zinc-600 dark:text-zinc-400 font-semibold">Território Ocupado</span>
             
             <div className="flex items-center justify-between gap-2">
               <span className="w-16">Defesa:</span>
-              <div className="flex-1 h-1 bg-zinc-900 rounded-full overflow-hidden">
+              <div className="flex-1 h-1 bg-white dark:bg-zinc-900 rounded-full overflow-hidden">
                 <div className="h-full bg-red-500/60 rounded-full" style={{ width: stats.defensiveThird }} />
               </div>
-              <span className="w-8 text-right font-bold text-zinc-400">{stats.defensiveThird}</span>
+              <span className="w-8 text-right font-bold text-zinc-600 dark:text-zinc-400">{stats.defensiveThird}</span>
             </div>
 
             <div className="flex items-center justify-between gap-2">
               <span className="w-16">Meio-Campo:</span>
-              <div className="flex-1 h-1 bg-zinc-900 rounded-full overflow-hidden">
+              <div className="flex-1 h-1 bg-white dark:bg-zinc-900 rounded-full overflow-hidden">
                 <div className="h-full bg-amber-500/60 rounded-full" style={{ width: stats.midfieldThird }} />
               </div>
-              <span className="w-8 text-right font-bold text-zinc-400">{stats.midfieldThird}</span>
+              <span className="w-8 text-right font-bold text-zinc-600 dark:text-zinc-400">{stats.midfieldThird}</span>
             </div>
 
             <div className="flex items-center justify-between gap-2">
               <span className="w-16">Ataque:</span>
-              <div className="flex-1 h-1 bg-zinc-900 rounded-full overflow-hidden">
+              <div className="flex-1 h-1 bg-white dark:bg-zinc-900 rounded-full overflow-hidden">
                 <div className="h-full bg-green-500/60 rounded-full" style={{ width: stats.attackingThird }} />
               </div>
-              <span className="w-8 text-right font-bold text-zinc-400">{stats.attackingThird}</span>
+              <span className="w-8 text-right font-bold text-zinc-600 dark:text-zinc-400">{stats.attackingThird}</span>
             </div>
           </div>
         </div>
@@ -306,9 +306,9 @@ function StatsTab({ player }: { player: Player }) {
           { name: 'Índice Sofascore', value: ratings.sofascore, accent: '#00F5FF', caption: 'Rating Sofascore Integrado' },
           { name: 'Rating ZeroZero', value: ratings.zerozero, accent: '#F9C304', caption: 'Rating ZeroZero Integrado' },
         ] as const).map((src) => (
-          <AnimatedCard key={src.name} variant="holographic" className="bg-zinc-950/40 border-zinc-900 p-6">
+          <AnimatedCard key={src.name} variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
             <div className="flex items-center justify-between mb-4">
-              <span className="font-display text-white uppercase tracking-wider text-sm">{src.name}</span>
+              <span className="font-display text-foreground uppercase tracking-wider text-sm">{src.name}</span>
               <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">
                 {src.caption}
               </span>
@@ -337,7 +337,7 @@ function StatsTab({ player }: { player: Player }) {
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-              <span className="text-xs font-bold text-white font-mono uppercase tracking-wider">Perfil Sofascore</span>
+              <span className="text-xs font-bold text-foreground font-mono uppercase tracking-wider">Perfil Sofascore</span>
             </div>
             <p className="text-[10px] text-zinc-500 font-mono">Ficha técnica e análise posicional estatística.</p>
           </div>
@@ -355,7 +355,7 @@ function StatsTab({ player }: { player: Player }) {
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-              <span className="text-xs font-bold text-white font-mono uppercase tracking-wider">Perfil ZeroZero</span>
+              <span className="text-xs font-bold text-foreground font-mono uppercase tracking-wider">Perfil ZeroZero</span>
             </div>
             <p className="text-[10px] text-zinc-500 font-mono">Consulte o histórico de clubes, carreira e estatísticas da época.</p>
           </div>
@@ -366,8 +366,8 @@ function StatsTab({ player }: { player: Player }) {
       </div>
 
       {/* Tendência últimos 5 jogos */}
-      <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
-        <h3 className="text-md font-display text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+      <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
+        <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
           <BarChart3 size={16} className="text-accent" /> Tendência de Forma · Últimos 5 Jogos
         </h3>
         <div className="h-56 w-full">
@@ -416,15 +416,15 @@ function StatsTab({ player }: { player: Player }) {
       </AnimatedCard>
 
       {/* Grelha de métricas */}
-      <div className="bg-zinc-900/30 border border-zinc-900 p-6 rounded-2xl">
-        <h3 className="text-md font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+      <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-6 rounded-2xl">
+        <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
           <Activity size={16} className="text-primary" /> Métricas de Rendimento
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-900/60 font-mono">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 font-mono">
           {metricGrid.map((m) => (
-            <div key={m.label} className="bg-black/40 rounded-xl p-3.5">
+            <div key={m.label} className="bg-zinc-100 dark:bg-black/40 rounded-xl p-3.5">
               <span className="text-[9px] text-zinc-500 uppercase block mb-1">{m.label}</span>
-              <span className="font-bold text-white text-lg block">{m.value}</span>
+              <span className="font-bold text-foreground text-lg block">{m.value}</span>
             </div>
           ))}
         </div>
@@ -492,12 +492,12 @@ function FifaConnectTab({ player }: { player: Player }) {
 
   return (
     <div className="space-y-8 font-mono">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-zinc-900 pb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-zinc-200 dark:border-zinc-900 pb-6">
         <div>
-          <h2 className="text-xl font-display text-white uppercase tracking-wider flex items-center gap-2">
+          <h2 className="text-xl font-display text-foreground uppercase tracking-wider flex items-center gap-2">
             <Shield size={20} className="text-accent" /> Validação de Inscrição FIFA Connect
           </h2>
-          <p className="text-xs text-zinc-400 mt-1 font-mono">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 font-mono">
             Roadmap FAF: Sistema digital integrado de elegibilidade e licenciamento internacional de atletas.
           </p>
         </div>
@@ -511,34 +511,34 @@ function FifaConnectTab({ player }: { player: Player }) {
         {/* Compliance Checklist and ID Card */}
         <div className="lg:col-span-2 space-y-6">
           {/* Card de Identidade FIFA */}
-          <div className="bg-zinc-950/60 border border-zinc-900 rounded-2xl p-6 relative overflow-hidden hud-panel">
+          <div className="bg-zinc-100/60 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-6 relative overflow-hidden hud-panel">
             <div className="absolute top-4 right-4 text-[9px] text-zinc-600 uppercase">
               FIFA Digital ID Card
             </div>
             <div className="flex gap-4 items-center">
-              <div className="w-16 h-16 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center text-zinc-500 flex-shrink-0">
+              <div className="w-16 h-16 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl flex items-center justify-center text-zinc-500 flex-shrink-0">
                 <Users size={28} />
               </div>
               <div className="space-y-1">
                 <span className="text-[10px] text-zinc-500 uppercase">Nome de Inscrição</span>
-                <div className="text-md font-bold text-white uppercase font-display">{player.name}</div>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-zinc-400">
+                <div className="text-md font-bold text-foreground uppercase font-display">{player.name}</div>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-zinc-600 dark:text-zinc-400">
                   <span>FIFA ID: <strong className="text-accent">{player.fifaConnectId || 'PENDENTE'}</strong></span>
-                  <span>Data Início: <strong className="text-white">{player.fifaConnectRegDate || 'N/A'}</strong></span>
+                  <span>Data Início: <strong className="text-foreground">{player.fifaConnectRegDate || 'N/A'}</strong></span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Compliance Items */}
-          <div className="bg-zinc-900/20 border border-zinc-900 rounded-2xl p-6 space-y-4">
-            <h3 className="text-sm font-display text-white uppercase tracking-wider mb-2">Lista de Verificação de Conformidade</h3>
-            <div className="divide-y divide-zinc-900/60">
+          <div className="bg-white/20 dark:bg-zinc-900/20 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-6 space-y-4">
+            <h3 className="text-sm font-display text-foreground uppercase tracking-wider mb-2">Lista de Verificação de Conformidade</h3>
+            <div className="divide-y divide-zinc-200/60 dark:divide-zinc-900/60">
               {FIFA_CHECK_META.map((item) => {
                 const checked = currentChecks[item.key];
                 return (
                   <div key={item.key} className="flex items-center justify-between py-3.5 first:pt-0 last:pb-0">
-                    <span className="text-xs text-zinc-400">{item.label}</span>
+                    <span className="text-xs text-zinc-600 dark:text-zinc-400">{item.label}</span>
                     <div className="flex items-center gap-2">
                       {checked ? (
                         <span className="flex items-center gap-1 text-[10px] text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded">
@@ -559,12 +559,12 @@ function FifaConnectTab({ player }: { player: Player }) {
 
         {/* Simulation Sandbox Console */}
         <div className="space-y-6">
-          <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 flex flex-col justify-between h-full min-h-[350px] relative overflow-hidden">
+          <div className="bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-6 flex flex-col justify-between h-full min-h-[350px] relative overflow-hidden">
             {/* Holographic scanning decoration */}
             <div className="absolute inset-0 pointer-events-none opacity-5 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_4px,3px_100%]" />
             
             <div className="space-y-4">
-              <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
+              <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-900 pb-3">
                 <span className="text-[10px] uppercase font-bold text-accent tracking-widest flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" />
                   FIFA Console Gateway
@@ -575,7 +575,7 @@ function FifaConnectTab({ player }: { player: Player }) {
               {/* Console log display */}
               <div className="space-y-2 h-44 overflow-y-auto scrollbar-none text-[10px] text-zinc-500 leading-relaxed font-mono">
                 {simulationLogs.map((log, i) => (
-                  <div key={i} className={i === simulationLogs.length - 1 ? 'text-zinc-300 font-bold' : ''}>
+                  <div key={i} className={i === simulationLogs.length - 1 ? 'text-zinc-700 dark:text-zinc-300 font-bold' : ''}>
                     {log}
                   </div>
                 ))}
@@ -593,7 +593,7 @@ function FifaConnectTab({ player }: { player: Player }) {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-zinc-900 mt-auto">
+            <div className="pt-4 border-t border-zinc-200 dark:border-zinc-900 mt-auto">
               {simulationStep === 6 ? (
                 <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3 text-center space-y-2">
                   <div className="text-[10px] text-green-400 font-bold uppercase tracking-wider flex items-center justify-center gap-1">
@@ -609,7 +609,7 @@ function FifaConnectTab({ player }: { player: Player }) {
                       setCurrentChecks(metaStatus.checks);
                       setFinalStatus(metaStatus.status);
                     }}
-                    className="w-full py-1.5 bg-zinc-900 hover:bg-zinc-800 rounded-lg text-[10px] text-zinc-400 font-bold uppercase transition-colors"
+                    className="w-full py-1.5 bg-white dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-lg text-[10px] text-zinc-600 dark:text-zinc-400 font-bold uppercase transition-colors"
                   >
                     Simular Novamente
                   </button>
@@ -618,7 +618,7 @@ function FifaConnectTab({ player }: { player: Player }) {
                 <button
                   disabled={isSimulating}
                   onClick={startSimulation}
-                  className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-zinc-900 disabled:text-zinc-600 rounded-xl text-xs text-white font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-white dark:bg-zinc-900 disabled:text-zinc-600 rounded-xl text-xs text-foreground font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer"
                 >
                   {isSimulating ? (
                     <>
@@ -689,7 +689,7 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
       </Link>
 
       {/* Profile Header */}
-      <AnimatedCard variant="holographic" className="bg-zinc-950/40 border-zinc-900/80 p-8 mb-12 relative overflow-hidden">
+      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-8 mb-12 relative overflow-hidden">
         <div className="absolute top-4 right-4 flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
           <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">
@@ -699,12 +699,12 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
 
         <div className="flex flex-col md:flex-row gap-8 items-center md:items-end text-center md:text-left">
           {/* Jersey Card */}
-          <div className="w-40 h-52 bg-zinc-900 rounded-2xl overflow-hidden running-border relative flex-shrink-0">
+          <div className="w-40 h-52 bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden running-border relative flex-shrink-0">
             <div className="absolute top-2 left-2 bg-primary text-white rounded-lg px-2.5 py-1 font-display text-2xl font-black">
               {player.jerseyNumber}
             </div>
             {/* Fallback image */}
-            <div className="w-full h-full flex items-center justify-center bg-zinc-800/60 text-zinc-600">
+            <div className="w-full h-full flex items-center justify-center bg-zinc-200/60 dark:bg-zinc-800/60 text-zinc-600">
               <Users size={48} className="animate-pulse" />
             </div>
           </div>
@@ -714,16 +714,16 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
               <span className="text-[10px] font-mono text-accent uppercase tracking-widest font-semibold block mb-1">
                 {player.position}
               </span>
-              <h1 className="text-4xl md:text-5xl font-display text-white uppercase leading-none font-black">
+              <h1 className="text-4xl md:text-5xl font-display text-foreground uppercase leading-none font-black">
                 {player.name}
               </h1>
-              <p className="text-zinc-400 font-mono text-xs uppercase tracking-wider mt-1">
+              <p className="text-zinc-600 dark:text-zinc-400 font-mono text-xs uppercase tracking-wider mt-1">
                 {player.nationality} · Idade: {player.age} anos · Altura: {player.height}
               </p>
             </div>
 
             {/* Stat Rings */}
-            <div className="flex flex-wrap gap-6 justify-center md:justify-start pt-2 border-t border-zinc-900/60">
+            <div className="flex flex-wrap gap-6 justify-center md:justify-start pt-2 border-t border-zinc-200/60 dark:border-zinc-900/60">
               <StatRing value={player.goals} max={maxGoals} label="Golos" color="#D21515" />
               <StatRing value={player.assists} max={15} label="Assistências" color="#F9C304" />
               <StatRing value={player.appearances} max={30} label="Jogos" color="#00F5FF" />
@@ -734,7 +734,7 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
       </AnimatedCard>
 
       {/* Barra de Abas */}
-      <div className="flex flex-wrap gap-2 mb-8 border-b border-zinc-900/80">
+      <div className="flex flex-wrap gap-2 mb-8 border-b border-zinc-200/80 dark:border-zinc-900/80">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.key;
@@ -743,7 +743,7 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
               className={`relative flex items-center gap-2 px-4 py-3 font-mono text-[11px] uppercase tracking-widest transition-colors ${
-                isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'
+                isActive ? 'text-foreground' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'
               }`}
             >
               <Icon size={14} className={isActive ? 'text-accent' : ''} /> {tab.label}
@@ -776,23 +776,23 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
         <div className="lg:col-span-2 space-y-8">
           
           {/* Biometric & Profile Card */}
-          <div className="bg-zinc-900/30 border border-zinc-900 p-6 rounded-2xl">
-            <h3 className="text-md font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-6 rounded-2xl">
+            <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <Star size={16} className="text-primary" /> Perfil Físico & Biográfico
             </h3>
             
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-900/60 text-xs font-mono">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-xs font-mono">
               <div>
                 <span className="text-[9px] text-zinc-500 uppercase block mb-1">Altura</span>
-                <span className="font-bold text-white text-md block">{player.height || 'N/A'}</span>
+                <span className="font-bold text-foreground text-md block">{player.height || 'N/A'}</span>
               </div>
               <div>
                 <span className="text-[9px] text-zinc-500 uppercase block mb-1">Peso</span>
-                <span className="font-bold text-white text-md block">{player.weight || 'N/A'}</span>
+                <span className="font-bold text-foreground text-md block">{player.weight || 'N/A'}</span>
               </div>
               <div>
                 <span className="text-[9px] text-zinc-500 uppercase block mb-1">Clube</span>
-                <span className="font-bold text-white text-md block">
+                <span className="font-bold text-foreground text-md block">
                   {team ? (
                     <Link href={`/teams/${team.id}`} className="hover:text-primary transition-colors">
                       {team.name}
@@ -806,8 +806,8 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
           </div>
 
           {/* HUD Attributes Panel */}
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-8">
-            <h3 className="text-md font-display text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+          <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-8">
+            <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
               <Activity size={18} className="text-accent" /> Matriz de Atributos (HUD)
             </h3>
 
@@ -815,12 +815,12 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
               {attrList.map((attr, idx) => (
                 <div key={idx} className="space-y-2">
                   <div className="flex justify-between text-xs font-mono">
-                    <span className="text-zinc-400 uppercase">{attr.label}</span>
-                    <span className="text-white font-extrabold">{attr.value} / 99</span>
+                    <span className="text-zinc-600 dark:text-zinc-400 uppercase">{attr.label}</span>
+                    <span className="text-foreground font-extrabold">{attr.value} / 99</span>
                   </div>
                   
                   {/* Progress Meter bar */}
-                  <div className="h-2 w-full bg-zinc-900 rounded-full border border-zinc-800/80 overflow-hidden">
+                  <div className="h-2 w-full bg-white dark:bg-zinc-900 rounded-full border border-zinc-200/80 dark:border-zinc-800/80 overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${(attr.value / 99) * 100}%` }}
@@ -834,12 +834,12 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
           </AnimatedCard>
 
           {/* Histórico Recente de Jogos do Clube */}
-          <div className="bg-zinc-900/30 border border-zinc-900 p-6 rounded-2xl">
-            <h3 className="text-md font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-6 rounded-2xl">
+            <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <Calendar size={16} className="text-primary" /> Resultados Recentes
             </h3>
             
-            <div className="space-y-3 pt-4 border-t border-zinc-900/60">
+            <div className="space-y-3 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60">
               {teamMatches.length > 0 ? (
                 teamMatches.map((m) => {
                   const isHome = m.homeTeamId === player.teamId;
@@ -849,18 +849,18 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
                     : (m.awayScore > m.homeScore ? 'V' : m.awayScore < m.homeScore ? 'D' : 'E');
 
                   return (
-                    <div key={m.id} className="flex justify-between p-3.5 bg-black/40 rounded-xl items-center font-mono text-xs">
+                    <div key={m.id} className="flex justify-between p-3.5 bg-zinc-100 dark:bg-black/40 rounded-xl items-center font-mono text-xs">
                       <span className={`w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold ${
                         result === 'V' 
                           ? 'bg-green-500/10 border border-green-500/30 text-green-400' 
                           : result === 'D' 
                           ? 'bg-red-500/10 border border-red-500/30 text-red-400' 
-                          : 'bg-zinc-800/30 border border-zinc-700/30 text-zinc-400'
+                          : 'bg-zinc-200/30 dark:bg-zinc-800/30 border border-zinc-300/30 dark:border-zinc-700/30 text-zinc-600 dark:text-zinc-400'
                       }`}>
                         {result}
                       </span>
-                      <span className="text-zinc-300 font-semibold">{isHome ? 'Casa' : 'Fora'} vs {opponent}</span>
-                      <span className="font-bold text-white">{m.homeScore} - {m.awayScore}</span>
+                      <span className="text-zinc-700 dark:text-zinc-300 font-semibold">{isHome ? 'Casa' : 'Fora'} vs {opponent}</span>
+                      <span className="font-bold text-foreground">{m.homeScore} - {m.awayScore}</span>
                     </div>
                   );
                 })
@@ -872,26 +872,26 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
 
           {/* Career History */}
           {player.careerHistory && (
-            <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-8">
-              <h3 className="text-md font-display text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+            <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-8">
+              <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
                 <Award size={18} className="text-accent" /> Histórico da Carreira
               </h3>
               
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse min-w-[400px] font-mono text-xs text-zinc-400">
+                <table className="w-full text-left border-collapse min-w-[400px] font-mono text-xs text-zinc-600 dark:text-zinc-400">
                   <thead>
-                    <tr className="border-b border-zinc-900 pb-2 text-[10px] text-zinc-500 uppercase">
+                    <tr className="border-b border-zinc-200 dark:border-zinc-900 pb-2 text-[10px] text-zinc-500 uppercase">
                       <th className="py-2">Temporada</th>
                       <th className="py-2">Clube</th>
                       <th className="py-2 text-center">Jogos</th>
                       <th className="py-2 text-center">Golos</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-zinc-900/60">
+                  <tbody className="divide-y divide-zinc-200/60 dark:divide-zinc-900/60">
                     {player.careerHistory.map((item, idx) => (
-                      <tr key={idx} className="hover:bg-zinc-900/20">
-                        <td className="py-3 font-bold text-white">{item.season}</td>
-                        <td className="py-3 font-semibold text-zinc-300">{item.club}</td>
+                      <tr key={idx} className="hover:bg-white/20 dark:hover:bg-zinc-900/20">
+                        <td className="py-3 font-bold text-foreground">{item.season}</td>
+                        <td className="py-3 font-semibold text-zinc-700 dark:text-zinc-300">{item.club}</td>
                         <td className="py-3 text-center">{item.apps}</td>
                         <td className="py-3 text-center font-extrabold text-primary">{item.goals}</td>
                       </tr>
@@ -908,11 +908,11 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
         <div className="space-y-8">
           
           {/* Biography */}
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6 space-y-4">
-            <h3 className="text-md font-display text-white uppercase tracking-wider flex items-center gap-2">
+          <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6 space-y-4">
+            <h3 className="text-md font-display text-foreground uppercase tracking-wider flex items-center gap-2">
               <Award size={16} className="text-accent" /> Biografia Técnica
             </h3>
-            <p className="text-xs text-zinc-400 leading-relaxed font-mono">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed font-mono">
               {player.bio || 'Sem biografia detalhada registada no banco de dados da Federação Angolana de Futebol.'}
             </p>
           </AnimatedCard>
@@ -922,22 +922,22 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
 
           {/* League Stats Sidebar */}
           <div className="bg-primary/5 border border-primary/20 p-6 rounded-2xl h-fit space-y-6">
-            <h3 className="text-md font-display uppercase flex items-center gap-2 text-white">
+            <h3 className="text-md font-display uppercase flex items-center gap-2 text-foreground">
               <Activity size={14} className="text-accent" /> Estatísticas da Liga
             </h3>
             
             <div className="space-y-4 font-mono text-xs">
-              <div className="flex justify-between border-b border-zinc-900/60 pb-2.5">
+              <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
                 <span className="text-zinc-500">Class. Golos</span>
-                <span className="font-bold text-white">#{goalRank}º</span>
+                <span className="font-bold text-foreground">#{goalRank}º</span>
               </div>
-              <div className="flex justify-between border-b border-zinc-900/60 pb-2.5">
+              <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
                 <span className="text-zinc-500">Golos por Jogo</span>
-                <span className="font-bold text-white">{(player.goals / (player.appearances || 1)).toFixed(2)}</span>
+                <span className="font-bold text-foreground">{(player.goals / (player.appearances || 1)).toFixed(2)}</span>
               </div>
               <div className="flex justify-between pb-1">
                 <span className="text-zinc-500">Minutos Jogados</span>
-                <span className="font-bold text-white">{player.appearances * 90}{"'"}</span>
+                <span className="font-bold text-foreground">{player.appearances * 90}{"'"}</span>
               </div>
             </div>
           </div>

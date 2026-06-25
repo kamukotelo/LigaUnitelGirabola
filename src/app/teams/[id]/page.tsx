@@ -14,7 +14,7 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ id:
   if (!team) {
     return (
       <div className="py-24 text-center">
-        <h2 className="text-2xl font-display text-white uppercase mb-2">Equipa Não Encontrada</h2>
+        <h2 className="text-2xl font-display text-foreground uppercase mb-2">Equipa Não Encontrada</h2>
       </div>
     );
   }

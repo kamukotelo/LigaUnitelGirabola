@@ -13,6 +13,7 @@
     --success: #047857;
     --card: #FFFFFF;
     --border: #E2E4EA;
+    --muted: #52525B;
     --glass: rgba(255, 255, 255, 0.82);
     --neon: #B8860B;
     --cyber: #0E7490;
@@ -28,6 +29,7 @@
     --success: #10B981;
     --card: #18181B;
     --border: #27272A;
+    --muted: #A1A1AA;
     --glass: rgba(24, 24, 27, 0.8);
     --neon: #F9C304;
     --cyber: #00F5FF;
@@ -251,7 +253,8 @@
   --color-success: var(--success);
   --color-card: var(--card);
   --color-border: var(--border);
-  
+  --color-muted: var(--muted);
+
   --font-sans: "Inter", sans-serif;
   --font-display: "Archivo Black", sans-serif;
 }

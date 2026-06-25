@@ -37,10 +37,10 @@ export default function ContactPage() {
             CENTRO_DE_CONTACTO
           </span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-display text-white uppercase leading-none">
+        <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
           Contacte o <span className="text-primary italic">Girabola</span>
         </h1>
-        <p className="text-sm text-zinc-400 mt-2 font-mono uppercase tracking-wider">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
           Canal oficial para credenciação, parcerias e informações de imprensa
         </p>
       </div>
@@ -49,7 +49,7 @@ export default function ContactPage() {
         
         {/* Contact Form Container */}
         <div className="lg:col-span-2">
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-8 relative overflow-hidden">
+          <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-8 relative overflow-hidden">
             
             {/* HUD Corner Accents */}
             <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-accent/40" />
@@ -78,7 +78,7 @@ export default function ContactPage() {
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-zinc-900/60 border border-zinc-800 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono"
+                        className="w-full bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono"
                         placeholder="EX: JOÃO MANUEL"
                       />
                     </div>
@@ -93,7 +93,7 @@ export default function ContactPage() {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-zinc-900/60 border border-zinc-800 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono"
+                        className="w-full bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono"
                         placeholder="EX: JOAO@DOMINIO.AO"
                       />
                     </div>
@@ -107,7 +107,7 @@ export default function ContactPage() {
                     <select
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full bg-zinc-900/60 border border-zinc-800 text-zinc-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono"
+                      className="w-full bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono"
                     >
                       <option value="geral">INFORMAÇÕES GERAIS</option>
                       <option value="media">CREDENCIAÇÃO DE IMPRENSA</option>
@@ -126,7 +126,7 @@ export default function ContactPage() {
                       rows={5}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full bg-zinc-900/60 border border-zinc-800 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono"
+                      className="w-full bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono"
                       placeholder="ESCREVA A SUA MENSAGEM AQUI..."
                     />
                   </div>
@@ -156,10 +156,10 @@ export default function ContactPage() {
                   className="flex flex-col items-center justify-center py-12 text-center"
                 >
                   <CheckCircle className="h-16 w-16 text-green-500 mb-4 animate-bounce" />
-                  <h3 className="text-2xl font-display text-white uppercase mb-2">
+                  <h3 className="text-2xl font-display text-foreground uppercase mb-2">
                     Transmissão Concluída!
                   </h3>
-                  <p className="text-zinc-400 font-mono text-sm max-w-sm mb-6">
+                  <p className="text-zinc-600 dark:text-zinc-400 font-mono text-sm max-w-sm mb-6">
                     A sua mensagem foi encriptada e enviada com sucesso para os nossos servidores. Responderemos o mais breve possível.
                   </p>
                   <FuturisticButton variant="outline" onClick={() => setIsSuccess(false)}>
@@ -174,16 +174,16 @@ export default function ContactPage() {
         {/* Sidebar Info */}
         <div className="space-y-6">
           
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6 space-y-6">
-            <h3 className="text-lg font-display text-white uppercase tracking-wider mb-2 flex items-center gap-2">
+          <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6 space-y-6">
+            <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-2 flex items-center gap-2">
               <Zap size={16} className="text-accent" /> Escritório Central
             </h3>
 
-            <div className="space-y-4 text-xs font-mono text-zinc-400">
+            <div className="space-y-4 text-xs font-mono text-zinc-600 dark:text-zinc-400">
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="text-primary mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-white uppercase">Morada</h4>
+                  <h4 className="font-bold text-foreground uppercase">Morada</h4>
                   <p className="mt-1">
                     Complexo Desportivo da Cidadela<br />
                     Distrito Urbano do Rangel<br />
@@ -195,7 +195,7 @@ export default function ContactPage() {
               <div className="flex items-start gap-3">
                 <Phone size={16} className="text-primary mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-white uppercase">Telefone</h4>
+                  <h4 className="font-bold text-foreground uppercase">Telefone</h4>
                   <p className="mt-1">+244 923 000 000</p>
                 </div>
               </div>
@@ -203,7 +203,7 @@ export default function ContactPage() {
               <div className="flex items-start gap-3">
                 <Mail size={16} className="text-primary mt-0.5 flex-shrink-0" />
                 <div>
-                  <h4 className="font-bold text-white uppercase">Email</h4>
+                  <h4 className="font-bold text-foreground uppercase">Email</h4>
                   <p className="mt-1 hover:text-primary transition-colors">
                     info@girabola.co.ao
                   </p>
@@ -212,11 +212,11 @@ export default function ContactPage() {
             </div>
           </AnimatedCard>
 
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
-            <h3 className="text-lg font-display text-white uppercase tracking-wider mb-4">
+          <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
+            <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4">
               Apoio Técnico
             </h3>
-            <p className="text-xs text-zinc-400 font-mono leading-relaxed">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 font-mono leading-relaxed">
               Para problemas de acesso à Área de Clubes ou falhas na plataforma digital, contacte a equipa de engenharia de software em: <span className="text-primary font-bold">suporte@girabola.co.ao</span>
             </p>
           </AnimatedCard>

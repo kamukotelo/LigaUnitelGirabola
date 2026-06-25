@@ -27,22 +27,22 @@ export default function StatsPage() {
             ESTATISTICAS_DA_LIGA
           </span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-display text-white uppercase leading-none">
+        <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
           Líderes de <span className="text-primary italic">Rendimento</span>
         </h1>
-        <p className="text-sm text-zinc-400 mt-2 font-mono uppercase tracking-wider">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
           Jogadores em destaque na temporada 2025/2026 do futebol angolano
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-zinc-900 mb-8 max-w-md">
+      <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 max-w-md">
         <button
           onClick={() => setActiveTab('scorers')}
           className={`flex-1 py-4 text-center text-xs font-mono uppercase tracking-wider font-extrabold border-b-2 transition-all duration-200 ${
             activeTab === 'scorers'
               ? 'text-accent border-accent bg-accent/5'
-              : 'text-zinc-500 border-transparent hover:text-white hover:bg-white/5'
+              : 'text-zinc-500 border-transparent hover:text-foreground hover:bg-white/5'
           }`}
         >
           ⚽ Melhores Marcadores
@@ -52,7 +52,7 @@ export default function StatsPage() {
           className={`flex-1 py-4 text-center text-xs font-mono uppercase tracking-wider font-extrabold border-b-2 transition-all duration-200 ${
             activeTab === 'assists'
               ? 'text-accent border-accent bg-accent/5'
-              : 'text-zinc-500 border-transparent hover:text-white hover:bg-white/5'
+              : 'text-zinc-500 border-transparent hover:text-foreground hover:bg-white/5'
           }`}
         >
           🎯 Assistências
@@ -83,7 +83,7 @@ export default function StatsPage() {
                   <AnimatedCard
                     key={player.id}
                     variant={isLeader ? 'holographic' : 'hud'}
-                    className="bg-zinc-950/30 border-zinc-900/60 p-6 flex flex-col md:flex-row md:items-center justify-between gap-6"
+                    className="bg-zinc-100/30 dark:bg-zinc-950/30 border-zinc-200/60 dark:border-zinc-900/60 p-6 flex flex-col md:flex-row md:items-center justify-between gap-6"
                   >
                     
                     {/* Rank, Name & Club */}
@@ -94,7 +94,7 @@ export default function StatsPage() {
                         {idx + 1}
                       </span>
                       <div>
-                        <h3 className="text-white font-bold uppercase text-md flex items-center gap-2">
+                        <h3 className="text-foreground font-bold uppercase text-md flex items-center gap-2">
                           <Link href={`/players/${player.id}`} className="hover:text-primary transition-colors">
                             {player.name}
                           </Link>
@@ -117,7 +117,7 @@ export default function StatsPage() {
                         <span>Percentual sobre líder</span>
                         <span>{percent}%</span>
                       </div>
-                      <div className="w-full h-2 bg-zinc-900/80 rounded-full border border-zinc-800/60 overflow-hidden relative">
+                      <div className="w-full h-2 bg-white/80 dark:bg-zinc-900/80 rounded-full border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden relative">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${percent}%` }}
@@ -134,7 +134,7 @@ export default function StatsPage() {
                     {/* Score Value Display */}
                     <div className="text-center md:text-right pl-4">
                       <span className={`text-4xl font-display font-black tracking-tighter ${
-                        isLeader ? 'text-accent' : 'text-white'
+                        isLeader ? 'text-accent' : 'text-foreground'
                       }`}>
                         {value}
                       </span>
@@ -153,26 +153,26 @@ export default function StatsPage() {
         {/* Info Box Sidebar */}
         <div className="space-y-6">
           
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
-            <h3 className="text-lg font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
+            <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <Flame size={16} className="text-accent" /> Perfil em Foco
             </h3>
             
-            <div className="space-y-4 text-xs text-zinc-400">
-              <div className="p-4 bg-zinc-900/50 border border-zinc-800 rounded-xl">
-                <h4 className="font-bold text-white text-md uppercase">Dagó Tshibamba</h4>
+            <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-400">
+              <div className="p-4 bg-white/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl">
+                <h4 className="font-bold text-foreground text-md uppercase">Dagó Tshibamba</h4>
                 <p className="text-accent font-mono text-[10px] mt-0.5">CLUBE DESPORTIVO 1.º DE AGOSTO</p>
                 <div className="grid grid-cols-3 gap-2 mt-4 text-center font-mono">
-                  <div className="bg-black/30 p-2 rounded-lg border border-zinc-900">
-                    <span className="text-white font-bold block text-sm">28</span>
+                  <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
+                    <span className="text-foreground font-bold block text-sm">28</span>
                     <span className="text-[8px] text-zinc-500 uppercase">Jogos</span>
                   </div>
-                  <div className="bg-black/30 p-2 rounded-lg border border-zinc-900">
+                  <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
                     <span className="text-accent font-bold block text-sm">18</span>
                     <span className="text-[8px] text-zinc-500 uppercase">Golos</span>
                   </div>
-                  <div className="bg-black/30 p-2 rounded-lg border border-zinc-900">
-                    <span className="text-white font-bold block text-sm">4</span>
+                  <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
+                    <span className="text-foreground font-bold block text-sm">4</span>
                     <span className="text-[8px] text-zinc-500 uppercase">Assists</span>
                   </div>
                 </div>
@@ -183,11 +183,11 @@ export default function StatsPage() {
             </div>
           </AnimatedCard>
 
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
-            <h3 className="text-lg font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
+            <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <Award size={16} className="text-accent" /> Troféu Bola de Ouro
             </h3>
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400">
               A FAF (Federação Angolana de Futebol) atribui no final de cada época o prémio oficial de melhor marcador e melhor jogador da liga. A cerimónia oficial da época 2025/2026 está agendada para o mês de Julho em Luanda.
             </p>
           </AnimatedCard>

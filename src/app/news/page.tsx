@@ -9,7 +9,7 @@ export default function NewsPage() {
   const news = getNewsArticles();
 
   return (
-    <main className="py-12 min-h-screen bg-black text-white relative z-10">
+    <main className="py-12 min-h-screen bg-background dark:bg-black text-foreground relative z-10">
       <div className="cyber-grid-bg absolute inset-0 opacity-20 pointer-events-none z-0" />
       <div className="scanline-overlay" />
 
@@ -21,10 +21,10 @@ export default function NewsPage() {
               MÉDIA CENTER · GIRABOLA
             </span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-display uppercase leading-none text-white">
+          <h1 className="text-5xl md:text-7xl font-display uppercase leading-none text-foreground">
             Notícias
           </h1>
-          <p className="text-zinc-400 font-mono text-sm tracking-widest mt-2 uppercase">
+          <p className="text-zinc-600 dark:text-zinc-400 font-mono text-sm tracking-widest mt-2 uppercase">
             O ritmo diário do campeonato nacional angolano
           </p>
         </header>
@@ -37,10 +37,10 @@ export default function NewsPage() {
                 {article.category}
               </span>
               <p className="text-[10px] text-zinc-500 font-mono mt-3">{article.date}</p>
-              <h3 className="text-xl font-display uppercase text-white mt-2 mb-3 line-clamp-2 leading-tight">
+              <h3 className="text-xl font-display uppercase text-foreground mt-2 mb-3 line-clamp-2 leading-tight">
                 {article.title}
               </h3>
-              <p className="text-sm text-zinc-400 line-clamp-3 mb-6 font-mono leading-relaxed">
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3 mb-6 font-mono leading-relaxed">
                 {article.summary}
               </p>
               {/* Note: since there is no news article subpage implemented, we can link it back or keep it dynamic, let's keep it simple */}

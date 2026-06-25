@@ -41,21 +41,21 @@ function StatBar({ label, home, away, suffix = '' }: { label: string; home: numb
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between font-mono text-xs">
-        <span className={`font-bold ${homeWins ? 'text-white' : 'text-zinc-500'}`}>{home}{suffix}</span>
+        <span className={`font-bold ${homeWins ? 'text-foreground' : 'text-zinc-500'}`}>{home}{suffix}</span>
         <span className="text-zinc-500 uppercase text-[10px] tracking-wider">{label}</span>
-        <span className={`font-bold ${!homeWins ? 'text-white' : 'text-zinc-500'}`}>{away}{suffix}</span>
+        <span className={`font-bold ${!homeWins ? 'text-foreground' : 'text-zinc-500'}`}>{away}{suffix}</span>
       </div>
       <div className="flex gap-1 h-2">
         <div className="flex-1 flex justify-end">
           <motion.div
             initial={{ width: 0 }} animate={{ width: `${homePct}%` }} transition={{ duration: 0.7 }}
-            className={`h-full rounded-l-full ${homeWins ? 'bg-primary' : 'bg-zinc-700'}`}
+            className={`h-full rounded-l-full ${homeWins ? 'bg-primary' : 'bg-zinc-300 dark:bg-zinc-700'}`}
           />
         </div>
         <div className="flex-1">
           <motion.div
             initial={{ width: 0 }} animate={{ width: `${100 - homePct}%` }} transition={{ duration: 0.7 }}
-            className={`h-full rounded-r-full ${!homeWins ? 'bg-accent' : 'bg-zinc-700'}`}
+            className={`h-full rounded-r-full ${!homeWins ? 'bg-accent' : 'bg-zinc-300 dark:bg-zinc-700'}`}
           />
         </div>
       </div>
@@ -66,9 +66,9 @@ function StatBar({ label, home, away, suffix = '' }: { label: string; home: numb
 function StatsTab({ home, away, isFinished }: { home: MatchTeamStats; away: MatchTeamStats; isFinished: boolean }) {
   if (!isFinished) {
     return (
-      <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-10 text-center">
+      <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-10 text-center">
         <Clock size={28} className="text-accent mx-auto mb-4" />
-        <p className="text-sm font-mono text-zinc-400 uppercase tracking-wider">
+        <p className="text-sm font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
           Estatísticas disponíveis após a realização do jogo.
         </p>
       </AnimatedCard>
@@ -88,7 +88,7 @@ function StatsTab({ home, away, isFinished }: { home: MatchTeamStats; away: Matc
     { label: 'Cartões vermelhos', h: home.redCards, a: away.redCards },
   ];
   return (
-    <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6 sm:p-8 space-y-5">
+    <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6 sm:p-8 space-y-5">
       {rows.map((r) => (
         <StatBar key={r.label} label={r.label} home={r.h} away={r.a} suffix={r.suffix} />
       ))}
@@ -103,10 +103,10 @@ function LineupColumn({ title, accent, lineup, isFinished }: { title: string; ac
   const groups: PitchPosition[] = ['GK', 'DEF', 'MID', 'FWD'];
 
   const Row = ({ p }: { p: LineupPlayer }) => (
-    <div className="flex items-center justify-between py-2 border-b border-zinc-900/50 font-mono text-xs">
+    <div className="flex items-center justify-between py-2 border-b border-zinc-200/50 dark:border-zinc-900/50 font-mono text-xs">
       <div className="flex items-center gap-3 min-w-0">
         <span className="w-6 text-center text-zinc-500 flex-shrink-0">{p.number}</span>
-        <span className="text-zinc-200 truncate"><PlayerName p={p} /></span>
+        <span className="text-zinc-800 dark:text-zinc-200 truncate"><PlayerName p={p} /></span>
       </div>
       {isFinished && (
         <span
@@ -123,7 +123,7 @@ function LineupColumn({ title, accent, lineup, isFinished }: { title: string; ac
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <span className="w-2.5 h-2.5 rounded-full" style={{ background: accent }} />
-        <h4 className="font-display text-white uppercase tracking-wider text-sm">{title}</h4>
+        <h4 className="font-display text-foreground uppercase tracking-wider text-sm">{title}</h4>
       </div>
       <div>
         {groups.map((g) => {
@@ -159,8 +159,8 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
   return (
     <div className="space-y-8">
       {/* Cronologia */}
-      <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
-        <h3 className="text-md font-display text-white uppercase tracking-wider mb-5 flex items-center gap-2">
+      <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
+        <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-5 flex items-center gap-2">
           <Activity size={16} className="text-accent" /> Cronologia do Jogo
         </h3>
         {events.length === 0 ? (
@@ -175,7 +175,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
                 <span className="font-mono text-[11px] text-zinc-500 w-9 flex-shrink-0">{e.minute}{"'"}</span>
                 <span className="flex-shrink-0"><EventIcon type={e.type} /></span>
                 <div className={`flex flex-col ${e.team === 'away' ? 'items-end' : ''}`}>
-                  <span className="font-mono text-xs text-white">
+                  <span className="font-mono text-xs text-foreground">
                     {e.playerId ? <Link href={`/players/${e.playerId}`} className="hover:text-accent transition-colors">{e.player}</Link> : e.player}
                     {e.detail && <span className="text-zinc-500"> · {e.detail}</span>}
                   </span>
@@ -193,8 +193,8 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
       {/* Destaque + informações */}
       <div className={`grid grid-cols-1 gap-6 ${events.length > 0 ? 'sm:grid-cols-2' : ''}`}>
         {events.length > 0 && (
-        <AnimatedCard variant="holographic" className="bg-zinc-950/40 border-zinc-900 p-6">
-          <h3 className="text-md font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+        <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
+          <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
             <Trophy size={16} className="text-primary" /> Homem do Jogo
           </h3>
           <div className="flex items-center gap-4">
@@ -205,7 +205,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
               {manOfTheMatch.rating.toFixed(1)}
             </div>
             <div>
-              <p className="font-display text-white uppercase text-lg leading-tight">
+              <p className="font-display text-foreground uppercase text-lg leading-tight">
                 {manOfTheMatch.playerId ? (
                   <Link href={`/players/${manOfTheMatch.playerId}`} className="hover:text-accent transition-colors">{manOfTheMatch.name}</Link>
                 ) : manOfTheMatch.name}
@@ -218,19 +218,19 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
         </AnimatedCard>
         )}
 
-        <div className="bg-zinc-900/30 border border-zinc-900 p-6 rounded-2xl space-y-4 font-mono text-xs">
+        <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-6 rounded-2xl space-y-4 font-mono text-xs">
           <div className="flex items-center gap-3">
-            <MapPin size={14} className="text-zinc-600" /> <span className="text-zinc-300">{match.stadium}</span>
+            <MapPin size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">{match.stadium}</span>
           </div>
           <div className="flex items-center gap-3">
-            <Users size={14} className="text-zinc-600" /> <span className="text-zinc-300">{attendance > 0 ? `${attendance.toLocaleString('pt-AO')} espetadores` : 'A definir'}</span>
+            <Users size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">{attendance > 0 ? `${attendance.toLocaleString('pt-AO')} espetadores` : 'A definir'}</span>
           </div>
           <div className="flex items-center gap-3">
-            <Flag size={14} className="text-zinc-600" /> <span className="text-zinc-300">Árbitro: {referee}</span>
+            <Flag size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">Árbitro: {referee}</span>
           </div>
           <div className="flex items-center gap-3">
             <Calendar size={14} className="text-zinc-600" />
-            <span className="text-zinc-300">
+            <span className="text-zinc-700 dark:text-zinc-300">
               {new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>
@@ -263,7 +263,7 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
       </Link>
 
       {/* Placar */}
-      <AnimatedCard variant="holographic" className="bg-zinc-950/40 border-zinc-900/80 p-8 mb-8 relative overflow-hidden">
+      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-8 mb-8 relative overflow-hidden">
         <div
           className="absolute top-0 left-0 w-1/2 h-full opacity-[0.07] pointer-events-none"
           style={{ background: `radial-gradient(circle at left, ${homeColor}, transparent 70%)` }}
@@ -274,7 +274,7 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
         />
 
         <div className="flex justify-center mb-6 relative z-10">
-          <span className="text-[9px] font-mono bg-zinc-800/80 text-zinc-400 border border-zinc-800 px-3 py-1 rounded-full uppercase tracking-widest">
+          <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-full uppercase tracking-widest">
             Jornada {match.round} · {isFinished ? 'Terminado' : 'Agendado'}
           </span>
         </div>
@@ -282,38 +282,38 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
         <div className="grid grid-cols-3 items-center gap-4 relative z-10">
           {/* Casa */}
           <Link href={homeTeam ? `/teams/${homeTeam.id}` : '#'} className="text-center group">
-            <div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center font-display font-black text-xl text-white" style={{ background: `${homeColor}22`, border: `1px solid ${homeColor}66` }}>
+            <div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center font-display font-black text-xl text-foreground" style={{ background: `${homeColor}22`, border: `1px solid ${homeColor}66` }}>
               {homeTeam?.shortName ?? match.homeTeam.slice(0, 3).toUpperCase()}
             </div>
-            <p className="font-display text-white uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.homeTeam}</p>
+            <p className="font-display text-foreground uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.homeTeam}</p>
           </Link>
 
           {/* Resultado */}
           <div className="text-center">
             {isFinished ? (
-              <div className="font-display text-5xl md:text-6xl font-black text-white tracking-tight">
+              <div className="font-display text-5xl md:text-6xl font-black text-foreground tracking-tight">
                 {match.homeScore}<span className="text-zinc-700 mx-2">:</span>{match.awayScore}
               </div>
             ) : (
               <div className="flex flex-col items-center gap-1">
                 <Clock size={22} className="text-accent animate-pulse" />
-                <span className="font-mono text-zinc-400 text-sm">VS</span>
+                <span className="font-mono text-zinc-600 dark:text-zinc-400 text-sm">VS</span>
               </div>
             )}
           </div>
 
           {/* Fora */}
           <Link href={awayTeam ? `/teams/${awayTeam.id}` : '#'} className="text-center group">
-            <div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center font-display font-black text-xl text-white" style={{ background: `${awayColor}22`, border: `1px solid ${awayColor}66` }}>
+            <div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center font-display font-black text-xl text-foreground" style={{ background: `${awayColor}22`, border: `1px solid ${awayColor}66` }}>
               {awayTeam?.shortName ?? match.awayTeam.slice(0, 3).toUpperCase()}
             </div>
-            <p className="font-display text-white uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.awayTeam}</p>
+            <p className="font-display text-foreground uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.awayTeam}</p>
           </Link>
         </div>
       </AnimatedCard>
 
       {/* Abas */}
-      <div className="flex flex-wrap gap-2 mb-8 border-b border-zinc-900/80">
+      <div className="flex flex-wrap gap-2 mb-8 border-b border-zinc-200/80 dark:border-zinc-900/80">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.key;
@@ -321,7 +321,7 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`relative flex items-center gap-2 px-4 py-3 font-mono text-[11px] uppercase tracking-widest transition-colors ${isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
+              className={`relative flex items-center gap-2 px-4 py-3 font-mono text-[11px] uppercase tracking-widest transition-colors ${isActive ? 'text-foreground' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
             >
               <Icon size={14} className={isActive ? 'text-accent' : ''} /> {tab.label}
               {isActive && <motion.span layoutId="matchTabUnderline" className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-accent" />}
