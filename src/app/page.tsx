@@ -130,7 +130,7 @@ function PitchOrbit() {
       {/* Linhas do campo (círculo central + meio-campo) */}
       <div className="absolute w-[340px] h-[340px] rounded-full border border-primary/25" />
       <div className="absolute w-[250px] h-[250px] rounded-full border border-accent/20" />
-      <div className="absolute w-[150px] h-[150px] rounded-full border-2 border-white/15" />
+      <div className="absolute w-[150px] h-[150px] rounded-full border-2 border-foreground/20" />
       <div className="absolute w-[340px] h-px bg-primary/20" />
       <div className="absolute w-px h-[340px] bg-primary/10" />
       <div className="absolute w-2 h-2 rounded-full bg-accent shadow-[0_0_12px_rgba(249,195,4,0.9)]" />
@@ -230,8 +230,8 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden">
       {/* ── HERO ──────────────────────────────────────────────── */}
-      <section className="relative h-[85vh] flex items-center bg-black overflow-hidden border-b border-primary/20">
-        <div className="absolute inset-0 angola-field opacity-30" />
+      <section className="relative h-[85vh] flex items-center bg-background overflow-hidden border-b border-primary/20">
+        <div className="absolute inset-0 angola-field opacity-0 dark:opacity-30" />
         <div className="absolute inset-0 cyber-grid-bg" />
         <div className="scanline-overlay" />
         <DataParticles />
@@ -265,7 +265,7 @@ export default function Home() {
               />
             </h1>
 
-            <p className="text-lg md:text-xl text-zinc-300 max-w-xl mb-4 font-bold uppercase tracking-wide">
+            <p className="text-lg md:text-xl text-zinc-700 dark:text-zinc-300 max-w-xl mb-4 font-bold uppercase tracking-wide">
               O maior portal digital do Campeonato Nacional de Futebol de Angola.
             </p>
 
