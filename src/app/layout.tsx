@@ -44,12 +44,9 @@ export const metadata: Metadata = {
 
   /* ── Ícones do site ── */
   icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/logo-girabola.png", type: "image/png" },
-    ],
+    icon: "/logo-girabola.png",
     apple: "/logo-girabola.png",
-    shortcut: "/favicon.svg",
+    shortcut: "/logo-girabola.png",
   },
 };
 
