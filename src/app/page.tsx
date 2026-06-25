@@ -137,7 +137,7 @@ function PitchOrbit() {
 
       {/* Brasão Girabola em marca-d'água */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo-girabola.svg" alt="" className="absolute w-28 h-28 object-contain opacity-[0.07]" />
+      <img src="/logo-girabola.png" alt="" className="absolute w-28 h-28 object-contain opacity-[0.07]" />
 
       {/* Órbita da bola */}
       <motion.div
@@ -255,7 +255,7 @@ export default function Home() {
               <span className="sr-only">Liga Unitel Girabola</span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/logo-girabola-horizontal.svg"
+                src="/logo-girabola-horizontal.png"
                 alt="Liga Unitel Girabola"
                 width={396}
                 height={219}

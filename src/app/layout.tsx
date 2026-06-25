@@ -3,8 +3,6 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
-import Image from "next/image";
-
 export const metadata: Metadata = {
   title: {
     default: "Liga Unitel Girabola — Campeonato Nacional de Futebol de Angola",
@@ -44,7 +42,7 @@ export const metadata: Metadata = {
 
   /* ── Ícones do site ── */
   icons: {
-    icon: "/logo-girabola.png",
+    icon: [{ url: "/logo-girabola.png", type: "image/png" }],
     apple: "/logo-girabola.png",
     shortcut: "/logo-girabola.png",
   },
@@ -76,13 +74,13 @@ export default function RootLayout({
             <div className="holo-logo-glow" />
             <div className="holo-logo-ring-outer" />
             <div className="holo-logo-ring-inner" />
-            <Image 
-              src="/logo-girabola.png" 
-              alt="Hologram Logo" 
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-girabola.png"
+              alt="Hologram Logo"
               className="holo-logo-image"
               width={500}
               height={500}
-              priority
             />
             <div className="holo-logo-scanner" />
           </div>

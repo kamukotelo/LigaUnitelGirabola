@@ -28,7 +28,7 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
   const logo = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/logo-girabola-horizontal.svg"
+      src="/logo-girabola-horizontal.png"
       alt="Liga Unitel Girabola"
       width={w}
       height={h}
