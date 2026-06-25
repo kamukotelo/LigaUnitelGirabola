@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
+import { getNewsArticles } from '@/lib/data';
 
 /* ── Animated Number Counter ─────────────────────────────────── */
 function AnimatedCounter({ value }: { value: number }) {
@@ -203,29 +204,7 @@ export default function Home() {
     { label: 'Golos Marcados (Dagó)', value: 18, icon: Flame },
   ];
 
-  const news = [
-    {
-      id: '1',
-      title: 'Petro de Luanda sagra-se Pentacampeão Nacional após vitória categórica',
-      category: 'Competição',
-      date: '09 Mai 2026',
-      summary: 'Os tricolores garantiram o seu 5º título consecutivo do Girabola com uma vitória emocionante de 2-1 sobre o Kabuscorp do Palanca na última jornada.',
-    },
-    {
-      id: '2',
-      title: 'Dagó Tshibamba conquista Troféu de Melhor Marcador do Girabola',
-      category: 'Individual',
-      date: '10 Mai 2026',
-      summary: 'O avançado congolês do 1.º de Agosto finalizou a temporada com 18 golos marcados, consagrando-se o principal goleador do futebol nacional angolano.',
-    },
-    {
-      id: '3',
-      title: 'Wiliete de Benguela garante histórico 2º lugar e vaga nas competições africanas',
-      category: 'Competição',
-      date: '09 Mai 2026',
-      summary: 'A formação de Benguela venceu o Interclube por 2-0 e garantiu uma participação histórica na Liga dos Campeões da CAF para a próxima época.',
-    },
-  ];
+  const news = getNewsArticles().slice(0, 3);
 
   return (
     <div className="overflow-x-hidden">
@@ -290,7 +269,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hidden lg:block relative justify-self-center">
+          <div className="absolute inset-0 lg:relative lg:inset-auto flex items-center justify-center lg:justify-self-center opacity-20 lg:opacity-100 pointer-events-none lg:pointer-events-auto scale-75 md:scale-90 lg:scale-100 -z-10 lg:z-auto mt-24 lg:mt-0">
             <PitchOrbit />
           </div>
         </div>

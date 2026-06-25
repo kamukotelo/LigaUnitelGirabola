@@ -4,6 +4,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { getNewsArticles } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import Link from 'next/link';
 
 export default function NewsPage() {
   const news = getNewsArticles();
@@ -43,10 +44,9 @@ export default function NewsPage() {
               <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3 mb-6 font-mono leading-relaxed">
                 {article.summary}
               </p>
-              {/* Note: since there is no news article subpage implemented, we can link it back or keep it dynamic, let's keep it simple */}
-              <span className="inline-flex items-center gap-1 text-xs font-mono uppercase text-primary hover:text-accent transition-colors cursor-pointer">
+              <Link href={`/news/${article.id}`} className="inline-flex items-center gap-1 text-xs font-mono uppercase text-primary hover:text-accent transition-colors cursor-pointer">
                 Ler Artigo <ArrowRight size={12} />
-              </span>
+              </Link>
             </AnimatedCard>
           ))}
         </div>

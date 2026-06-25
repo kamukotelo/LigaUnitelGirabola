@@ -137,22 +137,22 @@ export interface NewsArticle {
 
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
 export const TEAMS: Team[] = [
-  { id: 'petro', name: 'Atlético Petróleos de Luanda', shortName: 'PET', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Vermelho', coach: 'Ricardo Chéu', colorsHex: ["#F9C304", "#00529B", "#D21515"] },
-  { id: 'wiliete', name: 'Wiliete de Benguela FC', shortName: 'WILI', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'José Silvestre "Lito" Vidigal', colorsHex: ["#008751", "#F9C304"] },
-  { id: 'dago', name: 'Clube Desportivo Primeiro de Agosto', shortName: 'AGO', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', colorsHex: ["#D21515", "#000000"] },
-  { id: 'desphuila', name: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Mário Soares', colorsHex: ["#D21515", "#FFFFFF"] },
-  { id: 'bravos', name: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Zeca Amaral', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'kabuscorp', name: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Zeca Amaral', colorsHex: ["#D21515", "#FFFFFF"] },
-  { id: 'sagrada', name: 'Grupo Desportivo Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Francisco Moniz "Tusso"', colorsHex: ["#008751", "#000000"] },
-  { id: 'interclube', name: 'Grupo Desportivo Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Luís Gonçalves', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'lundasul', name: 'Clube Desportivo da Lunda Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', colorsHex: ["#008751", "#F9C304"] },
-  { id: 'libolo', name: 'Clube Recreativo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Hélder Teixeira', colorsHex: ["#FF6600", "#00529B"] },
-  { id: 'lobito', name: 'Associação Académica do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'João Pintar', colorsHex: ["#000000", "#FFFFFF"] },
-  { id: 'saosalvador', name: 'Clube Desportivo São Salvador do Kongo', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Findanga Finda', colorsHex: ["#00529B", "#F9C304"] },
-  { id: 'cabinda', name: 'Futebol Clube de Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Verde e Branco', coach: 'Pedro Gonçalves', colorsHex: ["#008751", "#FFFFFF"] },
-  { id: 'primeiromaio', name: 'Estrela Clube 1.º de Maio de Benguela', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal do Lobito', stadiumCapacity: 5000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Agostinho Tramagal', colorsHex: ["#D21515", "#FFFFFF"] },
-  { id: 'caala', name: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio Municipal da Caála', stadiumCapacity: 5000, founded: 1980, colors: 'Azul e Branco', coach: 'Mateus Agostinho', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'fcluanda', name: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 2020, colors: 'Vermelho e Branco', coach: 'Guelson Manuel', colorsHex: ["#D21515", "#FFFFFF"] }
+  { id: 'petro', name: 'Petro de Luanda', shortName: 'PET', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Vermelho', coach: 'Ricardo Chéu', colorsHex: ["#F9C304", "#00529B", "#D21515"] },
+  { id: 'wiliete', name: 'Wiliete de Benguela', shortName: 'WILI', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'José Silvestre "Lito" Vidigal', colorsHex: ["#008751", "#F9C304"] },
+  { id: 'dago', name: '1.º de Agosto', shortName: 'AGO', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', colorsHex: ["#D21515", "#000000"] },
+  { id: 'desphuila', name: 'Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Mário Soares', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'bravos', name: 'Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Zeca Amaral', colorsHex: ["#00529B", "#FFFFFF"] },
+  { id: 'kabuscorp', name: 'Kabuscorp', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Zeca Amaral', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'sagrada', name: 'Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Francisco Moniz "Tusso"', colorsHex: ["#008751", "#000000"] },
+  { id: 'interclube', name: 'Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Luís Gonçalves', colorsHex: ["#00529B", "#FFFFFF"] },
+  { id: 'lundasul', name: 'Desportivo da Lunda Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', colorsHex: ["#008751", "#F9C304"] },
+  { id: 'libolo', name: 'Recreativo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Hélder Teixeira', colorsHex: ["#FF6600", "#00529B"] },
+  { id: 'lobito', name: 'Académica do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'João Pintar', colorsHex: ["#000000", "#FFFFFF"] },
+  { id: 'saosalvador', name: 'São Salvador do Kongo', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Findanga Finda', colorsHex: ["#00529B", "#F9C304"] },
+  { id: 'cabinda', name: 'FC Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Verde e Branco', coach: 'Pedro Gonçalves', colorsHex: ["#008751", "#FFFFFF"] },
+  { id: 'primeiromaio', name: '1.º de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal do Lobito', stadiumCapacity: 5000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Agostinho Tramagal', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'caala', name: 'CR Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio Municipal da Caála', stadiumCapacity: 5000, founded: 1980, colors: 'Azul e Branco', coach: 'Mateus Agostinho', colorsHex: ["#00529B", "#FFFFFF"] },
+  { id: 'fcluanda', name: 'FC Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 2020, colors: 'Vermelho e Branco', coach: 'Guelson Manuel', colorsHex: ["#D21515", "#FFFFFF"] }
 ];
 
 // ── 2. CLASSIFICAÇÃO GERAL ─────────────────────────────────────────
@@ -222,7 +222,7 @@ function generateAllMatches(): Match[] {
       const homeTeamObj = TEAMS.find(t => t.id === homeId)!;
       const awayTeamObj = TEAMS.find(t => t.id === awayId)!;
 
-      const status: 'finished' | 'scheduled' = round <= 20 ? 'finished' : 'scheduled';
+      const status: 'finished' | 'scheduled' = 'finished';
       const { homeScore, awayScore, score } = getDeterministicScore(homeId, awayId, round);
 
       const startDate = new Date('2025-10-11T16:00:00+01:00');
@@ -272,13 +272,8 @@ function generateAllMatches(): Match[] {
       const homeTeamObj = TEAMS.find(t => t.id === homeId)!;
       const awayTeamObj = TEAMS.find(t => t.id === awayId)!;
 
-      // Definir jornadas 16 a 20 como terminadas (feitas).
-      // 21 a 28 como agendadas (não feitas).
-      // 29 e 30 como concluídas (feitas).
-      let status: 'finished' | 'scheduled' = 'scheduled';
-      if (round <= 20 || round === 29 || round === 30) {
-        status = 'finished';
-      }
+      // Definir todas as 30 jornadas como concluídas (feitas) para alinhar com a tabela STANDINGS.
+      let status: 'finished' | 'scheduled' = 'finished';
 
       const { homeScore, awayScore, score } = getDeterministicScore(homeId, awayId, round);
 
@@ -765,6 +760,60 @@ const PLAYERS_RAW: Player[] = [
     careerHistory: [
       { season: '2025/26', club: 'Wiliete de Benguela', apps: 24, goals: 0 }
     ]
+  },
+  {
+    id: 'kabuscorp-player-1', name: 'Mário Costa', club: 'Kabuscorp', teamId: 'kabuscorp', position: 'Avançado',
+    goals: 5, assists: 2, appearances: 20, jerseyNumber: 10, age: 26, nationality: 'Angola', height: '1.80m', weight: '75kg',
+    attributes: { pace: 80, shooting: 75, passing: 70, dribbling: 78, defending: 40, physical: 72 },
+    bio: 'Principal referência ofensiva do Kabuscorp nesta temporada.'
+  },
+  {
+    id: 'desphuila-player-1', name: 'João Vítor', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Médio',
+    goals: 3, assists: 5, appearances: 28, jerseyNumber: 8, age: 24, nationality: 'Angola', height: '1.75m', weight: '70kg',
+    attributes: { pace: 75, shooting: 68, passing: 82, dribbling: 76, defending: 65, physical: 68 },
+    bio: 'Médio criativo e motor da equipa da Huíla.'
+  },
+  {
+    id: 'lundasul-player-1', name: 'Paulo Silva', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Defesa',
+    goals: 1, assists: 1, appearances: 25, jerseyNumber: 4, age: 29, nationality: 'Angola', height: '1.88m', weight: '82kg',
+    attributes: { pace: 65, shooting: 50, passing: 60, dribbling: 55, defending: 80, physical: 85 },
+    bio: 'Defesa central robusto e capitão de equipa.'
+  },
+  {
+    id: 'libolo-player-1', name: 'Rui Carlos', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado',
+    goals: 6, assists: 3, appearances: 22, jerseyNumber: 9, age: 27, nationality: 'Angola', height: '1.82m', weight: '78kg',
+    attributes: { pace: 82, shooting: 78, passing: 65, dribbling: 74, defending: 35, physical: 76 },
+    bio: 'Ponta de lança forte no jogo aéreo.'
+  },
+  {
+    id: 'saosalvador-player-1', name: 'António Ndongala', club: 'São Salvador do Kongo', teamId: 'saosalvador', position: 'Médio',
+    goals: 2, assists: 4, appearances: 26, jerseyNumber: 20, age: 22, nationality: 'Angola', height: '1.72m', weight: '68kg',
+    attributes: { pace: 85, shooting: 65, passing: 78, dribbling: 80, defending: 50, physical: 65 },
+    bio: 'Jovem promessa com grande velocidade e técnica.'
+  },
+  {
+    id: 'cabinda-player-1', name: 'Carlos Manuel', club: 'FC Cabinda', teamId: 'cabinda', position: 'Guarda-redes',
+    goals: 0, assists: 0, appearances: 30, jerseyNumber: 1, age: 31, nationality: 'Angola', height: '1.90m', weight: '85kg',
+    attributes: { pace: 50, shooting: 40, passing: 60, dribbling: 45, defending: 82, physical: 80 },
+    bio: 'Guarda-redes experiente que tem salvo o FC Cabinda em vários jogos.'
+  },
+  {
+    id: 'primeiromaio-player-1', name: 'Edgar Santos', club: '1.º de Maio', teamId: 'primeiromaio', position: 'Extremo',
+    goals: 4, assists: 6, appearances: 24, jerseyNumber: 11, age: 25, nationality: 'Angola', height: '1.76m', weight: '71kg',
+    attributes: { pace: 88, shooting: 72, passing: 75, dribbling: 82, defending: 45, physical: 70 },
+    bio: 'Extremo rápido e especialista em cruzamentos.'
+  },
+  {
+    id: 'caala-player-1', name: 'Vítor Hugo', club: 'CR Cáala', teamId: 'caala', position: 'Médio Ofensivo',
+    goals: 5, assists: 2, appearances: 21, jerseyNumber: 10, age: 28, nationality: 'Angola', height: '1.78m', weight: '74kg',
+    attributes: { pace: 76, shooting: 75, passing: 80, dribbling: 78, defending: 55, physical: 72 },
+    bio: 'O número 10 clássico, responsável pelas bolas paradas da equipa.'
+  },
+  {
+    id: 'fcluanda-player-1', name: 'Bruno Fernando', club: 'FC Luanda', teamId: 'fcluanda', position: 'Defesa',
+    goals: 0, assists: 1, appearances: 27, jerseyNumber: 3, age: 23, nationality: 'Angola', height: '1.83m', weight: '77kg',
+    attributes: { pace: 78, shooting: 55, passing: 68, dribbling: 65, defending: 75, physical: 78 },
+    bio: 'Lateral esquerdo muito ofensivo e incansável.'
   }
 ];
 

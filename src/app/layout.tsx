@@ -46,9 +46,12 @@ export const metadata: Metadata = {
     apple: "/logo-girabola.png",
     shortcut: "/logo-girabola.png",
   },
+  manifest: "/manifest.json",
 };
 
-
+export const viewport = {
+  themeColor: "#00529B",
+};
 export default function RootLayout({
   children,
 }: Readonly<{
