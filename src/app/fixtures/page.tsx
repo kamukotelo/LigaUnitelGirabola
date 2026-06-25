@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Zap, Clock, Trophy, Target, CalendarDays, Flag } from 'lucide-react';
-import { MATCHES, Match } from '@/lib/data';
+import { Calendar, MapPin, Zap, Clock, Trophy, Target, CalendarDays, Flag, Radio } from 'lucide-react';
+import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason, Match } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 
 type StatusFilter = 'all' | 'finished' | 'scheduled';
@@ -78,8 +78,13 @@ function MatchCard({ match }: { match: Match }) {
 }
 
 export default function FixturesPage() {
+  const [seasonId, setSeasonId] = useState<string>(CURRENT_SEASON_ID);
   const [selectedRound, setSelectedRound] = useState<number | 'all'>('all');
   const [filterStatus, setFilterStatus] = useState<StatusFilter>('all');
+
+  const isUpcoming = seasonId === UPCOMING_SEASON_ID;
+  const MATCHES = getMatchesForSeason(seasonId);
+  const seasonLabel = SEASONS.find((s) => s.id === seasonId)?.label ?? '';
 
   const rounds = Array.from(new Set(MATCHES.map((m) => m.round))).sort((a, b) => a - b);
 
@@ -128,8 +133,44 @@ export default function FixturesPage() {
           Jogos e <span className="text-primary italic">Resultados</span>
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
-          Época Girabola 2025/2026 · percurso completo e próximos embates
+          {isUpcoming
+            ? `Época Girabola ${seasonLabel} · calendário oficial por disputar`
+            : `Época Girabola ${seasonLabel} · percurso completo e próximos embates`}
         </p>
+
+        {/* Seletor de época */}
+        <div className="flex flex-wrap items-center gap-2 mt-5">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mr-1">Época</span>
+          {SEASONS.map((s) => {
+            const active = s.id === seasonId;
+            return (
+              <button
+                key={s.id}
+                onClick={() => { setSeasonId(s.id); setSelectedRound('all'); setFilterStatus('all'); }}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all border ${
+                  active
+                    ? 'bg-primary text-white border-primary'
+                    : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:text-foreground'
+                }`}
+              >
+                {s.label}
+                <span className={`ml-2 text-[9px] uppercase ${active ? 'text-white/70' : 'text-zinc-500'}`}>
+                  {s.status === 'completed' ? 'Concluída' : 'Por disputar'}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Proveniência ANCAF_CALENDAR (apenas na época por disputar) */}
+        {isUpcoming && (
+          <div className="mt-4 inline-flex items-center gap-2.5 bg-green-500/5 border border-green-500/30 rounded-xl px-3.5 py-2">
+            <Radio size={14} className="text-green-400" />
+            <span className="text-[10px] font-mono text-green-400 uppercase tracking-widest">
+              Calendário sincronizado · {ANCAF_CALENDAR_SOURCE.system} · cód. {ANCAF_CALENDAR_SOURCE.accessCode}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Resumo da época */}

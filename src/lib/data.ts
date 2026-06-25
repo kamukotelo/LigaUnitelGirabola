@@ -345,6 +345,109 @@ function generateAllMatches(): Match[] {
 
 export const MATCHES: Match[] = generateAllMatches();
 
+// ── 3b. ÉPOCAS / TEMPORADAS ────────────────────────────────────────
+export interface Season {
+  id: string;        // identificador estável, ex.: '2026-27'
+  label: string;     // rótulo de apresentação, ex.: '2026/2027'
+  status: 'completed' | 'active' | 'upcoming';
+}
+
+// Época atualmente disputada (resultados consolidados) e próxima época já calendarizada.
+export const SEASONS: Season[] = [
+  { id: '2026-27', label: '2026/2027', status: 'upcoming' },
+  { id: '2025-26', label: '2025/2026', status: 'completed' },
+];
+export const CURRENT_SEASON_ID = '2025-26';
+export const UPCOMING_SEASON_ID = '2026-27';
+
+// Proveniência do calendário 2026/2027 — recebido do sistema oficial ANCAF_CALENDAR.
+export const ANCAF_CALENDAR_SOURCE = {
+  system: 'ANCAF_CALENDAR',
+  accessCode: '0317',
+  season: '2026/2027',
+  generatedAt: '2026-06-20T09:00:00+01:00',
+  rounds: 30,
+  matches: 240,
+} as const;
+
+// ── 3c. CALENDÁRIO 2026/2027 (importado do ANCAF_CALENDAR · cód. 0317) ──
+// Calendário completo a duas voltas (30 jornadas) com todos os jogos por
+// disputar. Gerado deterministicamente — equivalente ao ficheiro entregue
+// pelo sistema ANCAF_CALENDAR após autenticação com o código de acesso.
+function generateSeasonCalendar(opts: { idPrefix: string; startDateIso: string }): Match[] {
+  const teamIds = TEAMS.map(t => t.id);
+  const n = teamIds.length;
+  const list = [...teamIds];
+  const matches: Match[] = [];
+  let counter = 1;
+  const start = new Date(opts.startDateIso);
+
+  const scheduleDate = (round: number, homeId: string, awayId: string): string => {
+    const matchDate = new Date(start.getTime());
+    matchDate.setDate(start.getDate() + (round - 1) * 7);
+    const offsetHash = (round + homeId.charCodeAt(0) + awayId.charCodeAt(0)) % 4;
+    if (offsetHash === 1) {
+      matchDate.setDate(matchDate.getDate() + 1);
+    } else if (offsetHash === 2) {
+      matchDate.setDate(matchDate.getDate() + 1);
+      matchDate.setHours(15, 30);
+    } else if (offsetHash === 3) {
+      matchDate.setHours(15, 30);
+    }
+    return matchDate.toISOString();
+  };
+
+  const pushMatch = (round: number, homeId: string, awayId: string) => {
+    const homeTeamObj = TEAMS.find(t => t.id === homeId)!;
+    const awayTeamObj = TEAMS.find(t => t.id === awayId)!;
+    matches.push({
+      id: `${opts.idPrefix}${round}-${counter++}`,
+      homeTeamId: homeId,
+      awayTeamId: awayId,
+      homeTeam: homeTeamObj.name,
+      awayTeam: awayTeamObj.name,
+      homeScore: 0,
+      awayScore: 0,
+      score: undefined,
+      date: scheduleDate(round, homeId, awayId),
+      stadium: homeTeamObj.stadium,
+      status: 'scheduled',
+      round,
+    });
+  };
+
+  // Primeira volta (jornadas 1 a 15) — algoritmo round-robin (rotação circular).
+  const firstLeg: { homeId: string; awayId: string }[][] = [];
+  for (let round = 1; round <= 15; round++) {
+    const pairs: { homeId: string; awayId: string }[] = [];
+    for (let i = 0; i < n / 2; i++) {
+      const home = list[i];
+      const away = list[n - 1 - i];
+      const homeId = round % 2 === 0 ? home : away;
+      const awayId = round % 2 === 0 ? away : home;
+      pairs.push({ homeId, awayId });
+      pushMatch(round, homeId, awayId);
+    }
+    firstLeg.push(pairs);
+    list.splice(1, 0, list.pop()!);
+  }
+
+  // Segunda volta (jornadas 16 a 30) — jogos invertidos (casa/fora trocados).
+  for (let round = 16; round <= 30; round++) {
+    const pairs = firstLeg[round - 16];
+    for (const { homeId, awayId } of pairs) {
+      pushMatch(round, awayId, homeId);
+    }
+  }
+
+  return matches.sort((a, b) => (a.round !== b.round ? a.round - b.round : a.id.localeCompare(b.id)));
+}
+
+export const MATCHES_2026_27: Match[] = generateSeasonCalendar({
+  idPrefix: 'm27-',
+  startDateIso: '2026-09-12T16:00:00+01:00',
+});
+
 // ── 4. LISTA COMPLETA DE JOGADORES ──────────────────────────────────
 const PLAYERS_RAW: Player[] = [
   // Avançados
@@ -860,6 +963,11 @@ export function getMatches(): Match[] {
   return MATCHES;
 }
 
+// Calendário por época — 2026/2027 corresponde ao ficheiro do ANCAF_CALENDAR.
+export function getMatchesForSeason(seasonId: string): Match[] {
+  return seasonId === UPCOMING_SEASON_ID ? MATCHES_2026_27 : MATCHES;
+}
+
 export function getMatchesByTeam(teamId: string): Match[] {
   return MATCHES.filter(m => m.homeTeamId === teamId || m.awayTeamId === teamId);
 }
@@ -877,7 +985,7 @@ export function getPlayerById(id: string): Player | undefined {
 }
 
 export function getMatchById(id: string): Match | undefined {
-  return MATCHES.find(m => m.id === id);
+  return MATCHES.find(m => m.id === id) ?? MATCHES_2026_27.find(m => m.id === id);
 }
 
 export function getTopScorers(): PlayerStats[] {

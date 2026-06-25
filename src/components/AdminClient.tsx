@@ -12,6 +12,7 @@ import {
 import {
   MATCHES, TEAMS, PLAYERS, getStandings, getNewsArticles,
   getPlayerFifaRecords, FIFA_CHECK_META,
+  SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason,
   type Match, type FifaCheckKey,
 } from '@/lib/data';
 
@@ -308,7 +309,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
           <Radio size={15} className="text-accent" /> Estado das Ligações
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <ConnectionBadge icon={CalendarDays} label="ANCAF_CALENDAR" endpoint="sync · calendário oficial" />
+          <ConnectionBadge icon={CalendarDays} label="ANCAF_CALENDAR" endpoint={`${ANCAF_CALENDAR_SOURCE.season} · cód. ${ANCAF_CALENDAR_SOURCE.accessCode}`} />
           <ConnectionBadge icon={Database} label="Base de Dados" endpoint="armazenamento · multimédia" />
           <ConnectionBadge icon={Wifi} label="FIFA Connect" endpoint="conformidade · elegibilidade" />
         </div>
@@ -349,8 +350,11 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
 // SECÇÃO: CALENDÁRIO (ligação ANCAF_CALENDAR)
 // ════════════════════════════════════════════════════════════════════════
 function CalendarSection() {
-  const rounds = useMemo(() => Array.from(new Set(MATCHES.map((m) => m.round))).sort((a, b) => a - b), []);
-  const [round, setRound] = useState<number>(rounds[0] ?? 1);
+  const [seasonId, setSeasonId] = useState<string>(UPCOMING_SEASON_ID);
+  const seasonMatches = useMemo(() => getMatchesForSeason(seasonId), [seasonId]);
+  const isUpcoming = seasonId === UPCOMING_SEASON_ID;
+  const rounds = useMemo(() => Array.from(new Set(seasonMatches.map((m) => m.round))).sort((a, b) => a - b), [seasonMatches]);
+  const [round, setRound] = useState<number>(1);
   const [overrides, setOverrides] = useState<Overrides>({});
   const [lastSync, setLastSync] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
@@ -395,16 +399,17 @@ function CalendarSection() {
   };
 
   const merged = (m: Match): Match => ({ ...m, ...overrides[m.id] });
-  const roundMatches = MATCHES.filter((m) => m.round === round).map(merged);
+  const roundMatches = seasonMatches.filter((m) => m.round === round).map(merged);
   const editedCount = Object.keys(overrides).length;
+  const seasonLabel = SEASONS.find((s) => s.id === seasonId)?.label ?? '';
 
   const exportCalendar = () => {
-    const data = MATCHES.map(merged);
+    const data = seasonMatches.map(merged);
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'ancaf-calendar.json';
+    a.download = `ancaf-calendar-${seasonId}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -412,6 +417,27 @@ function CalendarSection() {
   return (
     <div className="space-y-6">
       <SectionHeader icon={CalendarDays} subtitle="DEFINIÇÃO_DO_CALENDÁRIO" title="Calendário · ANCAF_CALENDAR" />
+
+      {/* Seletor de época */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mr-1">Época:</span>
+        {SEASONS.map((s) => (
+          <button
+            key={s.id}
+            onClick={() => { setSeasonId(s.id); setRound(1); }}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all border ${
+              seasonId === s.id
+                ? 'bg-primary text-white border-primary'
+                : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:text-foreground'
+            }`}
+          >
+            {s.label}
+            <span className={`ml-2 text-[9px] uppercase ${seasonId === s.id ? 'text-white/70' : 'text-zinc-500'}`}>
+              {s.status === 'completed' ? 'Concluída' : 'Por disputar'}
+            </span>
+          </button>
+        ))}
+      </div>
 
       {/* Painel de ligação ANCAF_CALENDAR */}
       <Panel>
@@ -428,7 +454,14 @@ function CalendarSection() {
                 </span>
               </p>
               <p className="text-[11px] font-mono text-zinc-500 mt-0.5">
-                Última sincronização: {lastSync ? new Date(lastSync).toLocaleString('pt-AO') : '—'}
+                {isUpcoming ? (
+                  <>Calendário {ANCAF_CALENDAR_SOURCE.season} importado · cód. de acesso <span className="text-green-400">{ANCAF_CALENDAR_SOURCE.accessCode}</span></>
+                ) : (
+                  <>Época {seasonLabel} · resultados consolidados</>
+                )}
+              </p>
+              <p className="text-[11px] font-mono text-zinc-500 mt-0.5">
+                Última sincronização: {lastSync ? new Date(lastSync).toLocaleString('pt-AO') : new Date(ANCAF_CALENDAR_SOURCE.generatedAt).toLocaleString('pt-AO')}
               </p>
             </div>
           </div>

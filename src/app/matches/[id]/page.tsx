@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import { getMatchById, getMatchDetail, getMatches, getTeamById } from '@/lib/data';
+import { getMatchById, getMatchDetail, getMatches, getMatchesForSeason, UPCOMING_SEASON_ID, getTeamById } from '@/lib/data';
 import MatchDetailClient from '@/components/MatchDetailClient';
 
-// Geração estática dos jogos para otimização de build
+// Geração estática dos jogos (ambas as épocas) para otimização de build
 export function generateStaticParams() {
-  return getMatches().map((m) => ({ id: m.id }));
+  return [...getMatches(), ...getMatchesForSeason(UPCOMING_SEASON_ID)].map((m) => ({ id: m.id }));
 }
 
 export default async function MatchDetailPage({ params }: { params: Promise<{ id: string }> }) {

@@ -3,6 +3,11 @@
   "name": "Portal Girabola Masculino",
   "icons": [
     {
+      "src": "logo-girabola.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
       "src": "logo-girabola.png",
       "type": "image/png",
       "sizes": "192x192"
