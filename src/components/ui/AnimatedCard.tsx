@@ -21,11 +21,11 @@ export default function AnimatedCard({
       case 'brutalist':
         return 'brutalist-card';
       case 'holographic':
-        return 'holo-card bg-card border border-zinc-800/80 rounded-2xl shadow-lg';
+        return 'holo-card bg-card border border-zinc-200 dark:border-zinc-800/80 rounded-2xl shadow-lg';
       case 'hud':
         return 'hud-panel relative rounded-lg';
       default:
-        return 'bg-card border border-zinc-800/80 rounded-2xl hover:border-zinc-700/80 shadow-md transition-all duration-300';
+        return 'bg-card border border-zinc-200 dark:border-zinc-800/80 rounded-2xl hover:border-zinc-300 dark:hover:border-zinc-700/80 shadow-md transition-all duration-300';
     }
   };
 

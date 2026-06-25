@@ -200,7 +200,7 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
                 const isFinished = match.status === 'finished';
 
                 return (
-                  <div key={match.id} className="p-3 bg-zinc-900/30 border border-zinc-900 rounded-xl flex items-center justify-between gap-4 font-mono text-xs">
+                  <Link key={match.id} href={`/matches/${match.id}`} className="p-3 bg-zinc-900/30 border border-zinc-900 hover:border-accent/30 transition-colors rounded-xl flex items-center justify-between gap-4 font-mono text-xs">
                     <div>
                       <span className="text-[8px] text-zinc-500 block uppercase">JORNADA {match.round}</span>
                       <span className="text-white font-bold block truncate max-w-[120px]">{opponent}</span>
@@ -217,7 +217,7 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
                         VS
                       </div>
                     )}
-                  </div>
+                  </Link>
                 );
               })}
             </div>

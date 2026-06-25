@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS public.teams_masculino (
     ga INT DEFAULT 0,
     gd INT DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
+);                                                                                                
 
 -- Jogadores Masculinos com Atributos Alargados
 CREATE TABLE IF NOT EXISTS public.players_masculino (

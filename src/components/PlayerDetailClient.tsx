@@ -1,11 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Activity, Award, Star, Calendar, Users } from 'lucide-react';
-import { Player, Team, getPlayers, getMatches } from '@/lib/data';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowLeft, Activity, Award, Star, Calendar, Users,
+  BarChart3, AlertTriangle, Shield, CheckCircle2,
+  RefreshCw, Check, X, ExternalLink
+} from 'lucide-react';
+import {
+  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
+} from 'recharts';
+import {
+  Player, Team, getPlayers, getMatches,
+  getPlayerRatings, getRecentRatings, getDetailedMetrics,
+  getFifaConnectStatus, FIFA_CHECK_META, FifaCheckKey
+} from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+
+// Etiqueta de transparência: dados simulados, não oficiais.
+function DemoBadge() {
+  return (
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px] font-mono uppercase tracking-widest">
+      <AlertTriangle size={10} /> Demonstração · dados não oficiais
+    </span>
+  );
+}
 
 interface PlayerDetailClientProps {
   player: Player;
@@ -258,6 +278,369 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
   );
 }
 
+// ── ABA 2: Estatísticas Detalhadas (avaliação técnica ANCAF & Sofascore/ZeroZero) ──────────
+function StatsTab({ player }: { player: Player }) {
+  const ratings = getPlayerRatings(player);
+  const recent = getRecentRatings(player);
+  const metrics = getDetailedMetrics(player);
+
+  const ratingColor = (r: number) =>
+    r >= 8 ? '#22c55e' : r >= 7 ? '#00F5FF' : r >= 6 ? '#F9C304' : '#ef4444';
+
+  const metricGrid = [
+    { label: 'Precisão de Passe', value: `${metrics.passAccuracy}%` },
+    { label: 'Duelos Ganhos', value: `${metrics.duelsWon}%` },
+    { label: 'Remates à Baliza', value: `${metrics.shotsOnTarget}%` },
+    { label: 'Cartões Amarelos', value: metrics.yellowCards },
+    { label: 'Cartões Vermelhos', value: metrics.redCards },
+    { label: 'Minutos Jogados', value: `${metrics.minutesPlayed}'` },
+  ];
+
+  return (
+    <div className="space-y-8">
+      <div className="flex justify-end"><DemoBadge /></div>
+
+      {/* Índices de avaliação técnica (ANCAF) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {([
+          { name: 'Índice Sofascore', value: ratings.sofascore, accent: '#00F5FF', caption: 'Rating Sofascore Integrado' },
+          { name: 'Rating ZeroZero', value: ratings.zerozero, accent: '#F9C304', caption: 'Rating ZeroZero Integrado' },
+        ] as const).map((src) => (
+          <AnimatedCard key={src.name} variant="holographic" className="bg-zinc-950/40 border-zinc-900 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <span className="font-display text-white uppercase tracking-wider text-sm">{src.name}</span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">
+                {src.caption}
+              </span>
+            </div>
+            <div className="flex items-end gap-3">
+              <span
+                className="font-display text-5xl font-black leading-none"
+                style={{ color: src.accent }}
+              >
+                {src.value.toFixed(1)}
+              </span>
+              <span className="text-[10px] font-mono text-zinc-500 uppercase mb-1.5">Rating médio</span>
+            </div>
+          </AnimatedCard>
+        ))}
+      </div>
+
+      {/* Ligações externas Sofascore e ZeroZero */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a 
+          href={ratings.sofascoreUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center justify-between p-5 bg-gradient-to-r from-blue-950/20 to-blue-900/10 hover:from-blue-900/30 hover:to-blue-800/20 border border-blue-900/30 hover:border-blue-700/50 rounded-2xl transition-all duration-300 group"
+        >
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+              <span className="text-xs font-bold text-white font-mono uppercase tracking-wider">Perfil Sofascore</span>
+            </div>
+            <p className="text-[10px] text-zinc-500 font-mono">Ficha técnica e análise posicional estatística.</p>
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] font-mono text-blue-400 group-hover:text-blue-300">
+            Aceder <ExternalLink size={12} />
+          </div>
+        </a>
+
+        <a 
+          href={ratings.zerozeroUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center justify-between p-5 bg-gradient-to-r from-emerald-950/20 to-emerald-900/10 hover:from-emerald-900/30 hover:to-emerald-800/20 border border-emerald-900/30 hover:border-emerald-700/50 rounded-2xl transition-all duration-300 group"
+        >
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <span className="text-xs font-bold text-white font-mono uppercase tracking-wider">Perfil ZeroZero</span>
+            </div>
+            <p className="text-[10px] text-zinc-500 font-mono">Consulte o histórico de clubes, carreira e estatísticas da época.</p>
+          </div>
+          <div className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400 group-hover:text-emerald-300">
+            Aceder <ExternalLink size={12} />
+          </div>
+        </a>
+      </div>
+
+      {/* Tendência últimos 5 jogos */}
+      <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
+        <h3 className="text-md font-display text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+          <BarChart3 size={16} className="text-accent" /> Tendência de Forma · Últimos 5 Jogos
+        </h3>
+        <div className="h-56 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={recent} margin={{ top: 10, right: 12, left: -18, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
+              <XAxis dataKey="match" stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} />
+              <YAxis domain={[5, 10]} stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} />
+              <Tooltip
+                contentStyle={{
+                  background: '#09090b',
+                  border: '1px solid #27272a',
+                  borderRadius: 12,
+                  fontSize: 12,
+                  fontFamily: 'monospace',
+                }}
+                labelStyle={{ color: '#a1a1aa' }}
+                formatter={(v) => [Number(v).toFixed(1), 'Rating']}
+              />
+              <Line
+                type="monotone"
+                dataKey="rating"
+                stroke="#00F5FF"
+                strokeWidth={2.5}
+                dot={{ r: 4, fill: '#00F5FF', stroke: '#09090b', strokeWidth: 2 }}
+                activeDot={{ r: 6 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="flex flex-wrap gap-2 mt-4">
+          {recent.map((r) => (
+            <span
+              key={r.match}
+              className="px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold border"
+              style={{
+                color: ratingColor(r.rating),
+                borderColor: `${ratingColor(r.rating)}40`,
+                background: `${ratingColor(r.rating)}12`,
+              }}
+            >
+              {r.match}: {r.rating.toFixed(1)}
+            </span>
+          ))}
+        </div>
+      </AnimatedCard>
+
+      {/* Grelha de métricas */}
+      <div className="bg-zinc-900/30 border border-zinc-900 p-6 rounded-2xl">
+        <h3 className="text-md font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <Activity size={16} className="text-primary" /> Métricas de Rendimento
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-900/60 font-mono">
+          {metricGrid.map((m) => (
+            <div key={m.label} className="bg-black/40 rounded-xl p-3.5">
+              <span className="text-[9px] text-zinc-500 uppercase block mb-1">{m.label}</span>
+              <span className="font-bold text-white text-lg block">{m.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── ABA 3: Sistema de Inscrição & Validação (FIFA Connect) ──────────
+function FifaConnectTab({ player }: { player: Player }) {
+  const metaStatus = getFifaConnectStatus(player);
+  const [simulationStep, setSimulationStep] = useState<number>(-1);
+  const [isSimulating, setIsSimulating] = useState<boolean>(false);
+  const [simulationLogs, setSimulationLogs] = useState<string[]>([]);
+  const [currentChecks, setCurrentChecks] = useState<Record<FifaCheckKey, boolean>>(metaStatus.checks);
+  const [finalStatus, setFinalStatus] = useState<'pending' | 'validated'>(metaStatus.status);
+
+  const startSimulation = () => {
+    setIsSimulating(true);
+    setSimulationStep(0);
+    setSimulationLogs(["[CONEXÃO] A estabelecer ligação segura com o gateway da FIFA (FIFA Connect API)..."]);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[AUTENTICAÇÃO] Credenciais da Federação Angolana de Futebol (FAF) validadas com sucesso."]);
+      setSimulationStep(1);
+    }, 1000);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, `[CONSULTA] A verificar ID FIFA do atleta: ${player.fifaConnectId || 'Pendente'}...`]);
+      setCurrentChecks(prev => ({ ...prev, identity: true }));
+      setSimulationStep(2);
+    }, 2200);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[CONTRATO] A auditar contrato de trabalho desportivo ativo com o clube do Girabola..."]);
+      setCurrentChecks(prev => ({ ...prev, contract: true }));
+      setSimulationStep(3);
+    }, 3400);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[ITC] Verificação de conformidade do Certificado de Transferência Internacional (ITC)..."]);
+      setCurrentChecks(prev => ({ ...prev, itc: true }));
+      setSimulationStep(4);
+    }, 4600);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[SAÚDE/SEGURO] A verificar a vigência da ficha de exames médicos e seguro de acidentes..."]);
+      setCurrentChecks(prev => ({ ...prev, insurance: true }));
+      setSimulationStep(5);
+    }, 5800);
+
+    setTimeout(() => {
+      setSimulationLogs(prev => [...prev, "[SUCESSO] Sincronização e auditoria concluídas! Inscrição FIFA Connect Validada com sucesso."]);
+      setFinalStatus('validated');
+      setIsSimulating(false);
+      setSimulationStep(6);
+    }, 7000);
+  };
+
+  const getStatusColor = (status: 'pending' | 'validated') => {
+    return status === 'validated' 
+      ? 'text-green-400 border-green-500/30 bg-green-500/10' 
+      : 'text-amber-400 border-amber-500/30 bg-amber-500/10';
+  };
+
+  return (
+    <div className="space-y-8 font-mono">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-zinc-900 pb-6">
+        <div>
+          <h2 className="text-xl font-display text-white uppercase tracking-wider flex items-center gap-2">
+            <Shield size={20} className="text-accent" /> Validação de Inscrição FIFA Connect
+          </h2>
+          <p className="text-xs text-zinc-400 mt-1 font-mono">
+            Roadmap FAF: Sistema digital integrado de elegibilidade e licenciamento internacional de atletas.
+          </p>
+        </div>
+        <div className={`px-4 py-2 border rounded-xl font-bold uppercase text-xs tracking-wider flex items-center gap-2 ${getStatusColor(finalStatus)}`}>
+          <span className={`w-2 h-2 rounded-full ${finalStatus === 'validated' ? 'bg-green-500 animate-pulse' : 'bg-amber-500 animate-pulse'}`} />
+          {finalStatus === 'validated' ? 'Inscrição Ativa FIFA' : 'Pendente de Auditoria'}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Compliance Checklist and ID Card */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Card de Identidade FIFA */}
+          <div className="bg-zinc-950/60 border border-zinc-900 rounded-2xl p-6 relative overflow-hidden hud-panel">
+            <div className="absolute top-4 right-4 text-[9px] text-zinc-600 uppercase">
+              FIFA Digital ID Card
+            </div>
+            <div className="flex gap-4 items-center">
+              <div className="w-16 h-16 bg-zinc-900 border border-zinc-800 rounded-xl flex items-center justify-center text-zinc-500 flex-shrink-0">
+                <Users size={28} />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] text-zinc-500 uppercase">Nome de Inscrição</span>
+                <div className="text-md font-bold text-white uppercase font-display">{player.name}</div>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-zinc-400">
+                  <span>FIFA ID: <strong className="text-accent">{player.fifaConnectId || 'PENDENTE'}</strong></span>
+                  <span>Data Início: <strong className="text-white">{player.fifaConnectRegDate || 'N/A'}</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Compliance Items */}
+          <div className="bg-zinc-900/20 border border-zinc-900 rounded-2xl p-6 space-y-4">
+            <h3 className="text-sm font-display text-white uppercase tracking-wider mb-2">Lista de Verificação de Conformidade</h3>
+            <div className="divide-y divide-zinc-900/60">
+              {FIFA_CHECK_META.map((item) => {
+                const checked = currentChecks[item.key];
+                return (
+                  <div key={item.key} className="flex items-center justify-between py-3.5 first:pt-0 last:pb-0">
+                    <span className="text-xs text-zinc-400">{item.label}</span>
+                    <div className="flex items-center gap-2">
+                      {checked ? (
+                        <span className="flex items-center gap-1 text-[10px] text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded">
+                          <Check size={12} /> CONCLUÍDO
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 text-[10px] text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded animate-pulse">
+                          <AlertTriangle size={12} /> PENDENTE
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Simulation Sandbox Console */}
+        <div className="space-y-6">
+          <div className="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 flex flex-col justify-between h-full min-h-[350px] relative overflow-hidden">
+            {/* Holographic scanning decoration */}
+            <div className="absolute inset-0 pointer-events-none opacity-5 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_4px,3px_100%]" />
+            
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
+                <span className="text-[10px] uppercase font-bold text-accent tracking-widest flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-ping" />
+                  FIFA Console Gateway
+                </span>
+                <span className="text-[9px] text-zinc-600">v2.1-connected</span>
+              </div>
+
+              {/* Console log display */}
+              <div className="space-y-2 h-44 overflow-y-auto scrollbar-none text-[10px] text-zinc-500 leading-relaxed font-mono">
+                {simulationLogs.map((log, i) => (
+                  <div key={i} className={i === simulationLogs.length - 1 ? 'text-zinc-300 font-bold' : ''}>
+                    {log}
+                  </div>
+                ))}
+                {isSimulating && (
+                  <div className="flex items-center gap-2 text-accent mt-2 animate-pulse">
+                    <RefreshCw size={10} className="animate-spin" />
+                    Ligação ativa com o servidor FIFA Connect...
+                  </div>
+                )}
+                {simulationStep === -1 && (
+                  <div className="text-zinc-600 italic">
+                    Consola pronta para auditoria. Clique no botão de simulação para iniciar a verificação de elegibilidade em tempo real.
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-zinc-900 mt-auto">
+              {simulationStep === 6 ? (
+                <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3 text-center space-y-2">
+                  <div className="text-[10px] text-green-400 font-bold uppercase tracking-wider flex items-center justify-center gap-1">
+                    <CheckCircle2 size={12} /> Elegibilidade Aprovada
+                  </div>
+                  <div className="text-[8px] text-zinc-500">
+                    CERT: FIFA-CONNECT/FAF-OK-{player.id.slice(0,6).toUpperCase()}
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setSimulationStep(-1);
+                      setSimulationLogs([]);
+                      setCurrentChecks(metaStatus.checks);
+                      setFinalStatus(metaStatus.status);
+                    }}
+                    className="w-full py-1.5 bg-zinc-900 hover:bg-zinc-800 rounded-lg text-[10px] text-zinc-400 font-bold uppercase transition-colors"
+                  >
+                    Simular Novamente
+                  </button>
+                </div>
+              ) : (
+                <button
+                  disabled={isSimulating}
+                  onClick={startSimulation}
+                  className="w-full py-3 bg-accent hover:bg-accent/90 disabled:bg-zinc-900 disabled:text-zinc-600 rounded-xl text-xs text-white font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  {isSimulating ? (
+                    <>
+                      <RefreshCw size={12} className="animate-spin" /> A Auditar Requisitos...
+                    </>
+                  ) : (
+                    <>
+                      <Shield size={12} /> Simular Validação FIFA
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type TabKey = 'perfil' | 'estatisticas' | 'fifaconnect';
+
 export default function PlayerDetailClient({ player, team }: PlayerDetailClientProps) {
   // Goals classification
   const allPlayers = getPlayers();
@@ -283,6 +666,13 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
   ];
 
   const clubColor = team?.colorsHex ? team.colorsHex[0] : '#D21515';
+
+  const [activeTab, setActiveTab] = useState<TabKey>('perfil');
+  const tabs: { key: TabKey; label: string; icon: React.ElementType }[] = [
+    { key: 'perfil', label: 'Perfil Geral', icon: Star },
+    { key: 'estatisticas', label: 'Estatísticas', icon: BarChart3 },
+    { key: 'fifaconnect', label: 'FIFA Connect', icon: Shield },
+  ];
 
   return (
     <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 font-sans">
@@ -343,9 +733,45 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
         </div>
       </AnimatedCard>
 
-      {/* Grid Layout */}
+      {/* Barra de Abas */}
+      <div className="flex flex-wrap gap-2 mb-8 border-b border-zinc-900/80">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.key;
+          return (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={`relative flex items-center gap-2 px-4 py-3 font-mono text-[11px] uppercase tracking-widest transition-colors ${
+                isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'
+              }`}
+            >
+              <Icon size={14} className={isActive ? 'text-accent' : ''} /> {tab.label}
+              {isActive && (
+                <motion.span
+                  layoutId="activeTabUnderline"
+                  className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-accent"
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, x: 16 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -16 }}
+          transition={{ duration: 0.25 }}
+        >
+          {activeTab === 'estatisticas' && <StatsTab player={player} />}
+          {activeTab === 'fifaconnect' && <FifaConnectTab player={player} />}
+          {activeTab === 'perfil' && (
+      /* Grid Layout */
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Left Columns: Stats Breakdown */}
         <div className="lg:col-span-2 space-y-8">
           
@@ -519,6 +945,9 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
         </div>
 
       </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
 
     </div>
   );

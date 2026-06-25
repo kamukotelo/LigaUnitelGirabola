@@ -18,10 +18,10 @@ export default function StandingsPage() {
             TABELA_GERAL
           </span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-display text-white uppercase leading-none">
+        <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
           Classificação <span className="text-primary italic">Girabola</span>
         </h1>
-        <p className="text-sm text-zinc-400 mt-2 font-mono uppercase tracking-wider">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
           Época 2025/2026 · Classificação Final Oficial
         </p>
       </div>
@@ -31,10 +31,10 @@ export default function StandingsPage() {
         
         {/* Table Container */}
         <div className="xl:col-span-3 overflow-hidden">
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-0 overflow-x-auto">
+          <AnimatedCard variant="hud" className="p-0 overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[700px]">
               <thead>
-                <tr className="border-b border-zinc-800/80 bg-zinc-900/40 text-[11px] font-mono text-zinc-400 uppercase tracking-wider">
+                <tr className="border-b border-zinc-200 dark:border-zinc-800/80 bg-zinc-100/60 dark:bg-zinc-900/40 text-[11px] font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
                   <th className="py-4 px-4 text-center w-12">#</th>
                   <th className="py-4 px-4">Clube</th>
                   <th className="py-4 px-3 text-center w-14">J</th>
@@ -43,11 +43,11 @@ export default function StandingsPage() {
                   <th className="py-4 px-3 text-center w-12">D</th>
                   <th className="py-4 px-3 text-center w-20">Golos</th>
                   <th className="py-4 px-3 text-center w-14">DG</th>
-                  <th className="py-4 px-4 text-center w-16 bg-primary/10 text-white font-bold">PTS</th>
+                  <th className="py-4 px-4 text-center w-16 bg-primary/10 text-primary dark:text-white font-bold">PTS</th>
                   <th className="py-4 px-4 text-center w-36">Forma</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-900/60">
+              <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
                 {STANDINGS.map((row, i) => {
                   // Style configurations for zones
                   const isChampion = row.position === 1;
@@ -55,8 +55,8 @@ export default function StandingsPage() {
                   const isCafConfederation = row.position === 3;
                   const isRelegated = row.position >= 14;
 
-                  let rowBg = 'hover:bg-zinc-900/20';
-                  let posColor = 'text-zinc-400';
+                  let rowBg = 'hover:bg-zinc-100 dark:hover:bg-zinc-900/20';
+                  let posColor = 'text-zinc-600 dark:text-zinc-400';
                   let borderIndicator = 'border-l-2 border-transparent';
 
                   if (isChampion) {
@@ -91,9 +91,9 @@ export default function StandingsPage() {
                       </td>
 
                       {/* Team Name */}
-                      <td className="py-4 px-4 font-semibold text-white">
+                      <td className="py-4 px-4 font-semibold text-foreground">
                         <div className="flex items-center gap-3">
-                          <span className="w-2.5 h-2.5 rounded-full bg-zinc-800 border border-zinc-700" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-700" />
                           <Link href={`/teams/${row.teamId}`} className="hover:text-primary transition-colors">
                             {row.teamName}
                             {isChampion && (
@@ -106,17 +106,17 @@ export default function StandingsPage() {
                       </td>
 
                       {/* Match Stats */}
-                      <td className="py-4 px-3 text-center font-mono text-zinc-300">{row.played}</td>
-                      <td className="py-4 px-3 text-center font-mono text-zinc-400">{row.won}</td>
-                      <td className="py-4 px-3 text-center font-mono text-zinc-400">{row.drawn}</td>
-                      <td className="py-4 px-3 text-center font-mono text-zinc-400">{row.lost}</td>
-                      <td className="py-4 px-3 text-center font-mono text-zinc-400 text-xs">{row.goalsFor}-{row.goalsAgainst}</td>
+                      <td className="py-4 px-3 text-center font-mono text-zinc-700 dark:text-zinc-300">{row.played}</td>
+                      <td className="py-4 px-3 text-center font-mono text-zinc-600 dark:text-zinc-400">{row.won}</td>
+                      <td className="py-4 px-3 text-center font-mono text-zinc-600 dark:text-zinc-400">{row.drawn}</td>
+                      <td className="py-4 px-3 text-center font-mono text-zinc-600 dark:text-zinc-400">{row.lost}</td>
+                      <td className="py-4 px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs">{row.goalsFor}-{row.goalsAgainst}</td>
                       <td className={`py-4 px-3 text-center font-mono font-semibold text-xs ${row.goalDifference >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                         {row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}
                       </td>
 
                       {/* Points */}
-                      <td className="py-4 px-4 text-center font-mono font-extrabold text-md bg-primary/5 text-white">
+                      <td className="py-4 px-4 text-center font-mono font-extrabold text-md bg-primary/5 text-primary dark:text-white">
                         {row.points}
                       </td>
 
@@ -124,14 +124,14 @@ export default function StandingsPage() {
                       <td className="py-4 px-4">
                         <div className="flex justify-center gap-1.5">
                           {row.form.map((result, idx) => {
-                            let dotBg = 'bg-zinc-700';
-                            let textColor = 'text-white';
+                            let dotBg = 'bg-zinc-300 dark:bg-zinc-700';
+                            let textColor = 'text-zinc-700 dark:text-white';
                             if (result === 'W') {
                               dotBg = 'bg-green-500/10 border border-green-500/40';
-                              textColor = 'text-green-500';
+                              textColor = 'text-green-600 dark:text-green-500';
                             } else if (result === 'D') {
-                              dotBg = 'bg-zinc-700/10 border border-zinc-500/30';
-                              textColor = 'text-zinc-400';
+                              dotBg = 'bg-zinc-500/10 border border-zinc-500/30';
+                              textColor = 'text-zinc-500';
                             } else if (result === 'L') {
                               dotBg = 'bg-red-500/10 border border-red-500/40';
                               textColor = 'text-red-500';
@@ -160,8 +160,8 @@ export default function StandingsPage() {
         <div className="space-y-6">
           
           {/* Legend Card */}
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
-            <h3 className="text-lg font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <AnimatedCard variant="hud" className="p-6">
+            <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <Info size={16} className="text-accent" /> Legenda
             </h3>
             
@@ -169,48 +169,48 @@ export default function StandingsPage() {
               <div className="flex items-start gap-3">
                 <span className="w-1.5 h-6 bg-accent rounded-full block flex-shrink-0" />
                 <div>
-                  <h4 className="font-semibold text-white font-mono uppercase">1º Lugar (Campeão)</h4>
-                  <p className="text-zinc-400">Qualificação direta para a Liga dos Campeões da CAF.</p>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">1º Lugar (Campeão)</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Qualificação direta para a Liga dos Campeões da CAF.</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <span className="w-1.5 h-6 bg-amber-500 rounded-full block flex-shrink-0" />
                 <div>
-                  <h4 className="font-semibold text-white font-mono uppercase">2º Lugar</h4>
-                  <p className="text-zinc-400">Qualificação para a Liga dos Campeões da CAF.</p>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">2º Lugar</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Qualificação para a Liga dos Campeões da CAF.</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <span className="w-1.5 h-6 bg-blue-500 rounded-full block flex-shrink-0" />
                 <div>
-                  <h4 className="font-semibold text-white font-mono uppercase">3º Lugar</h4>
-                  <p className="text-zinc-400">Qualificação para a Taça das Confederações da CAF.</p>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">3º Lugar</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Qualificação para a Taça das Confederações da CAF.</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <span className="w-1.5 h-6 bg-red-600 rounded-full block flex-shrink-0" />
                 <div>
-                  <h4 className="font-semibold text-white font-mono uppercase">14º ao 16º Lugar</h4>
-                  <p className="text-zinc-400">Despromoção à Segunda Divisão Nacional (Gira Angola).</p>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">14º ao 16º Lugar</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Despromoção à Segunda Divisão Nacional (Gira Angola).</p>
                 </div>
               </div>
             </div>
           </AnimatedCard>
 
           {/* Quick Stats Summary */}
-          <AnimatedCard variant="hud" className="bg-zinc-950/40 border-zinc-900 p-6">
-            <h3 className="text-lg font-display text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <AnimatedCard variant="hud" className="p-6">
+            <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <Award size={16} className="text-accent" /> Curiosidades
             </h3>
-            <div className="space-y-4 text-xs text-zinc-400">
+            <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-400">
               <p>
-                ⚽ O <strong className="text-white">Petro de Luanda</strong> registou a melhor defesa do campeonato, sofrendo apenas <strong className="text-accent">18 golos</strong> em 30 jogos.
+                ⚽ O <strong className="text-foreground">Petro de Luanda</strong> registou a melhor defesa do campeonato, sofrendo apenas <strong className="text-accent">18 golos</strong> em 30 jogos.
               </p>
               <p>
-                🔥 O <strong className="text-white">Wiliete de Benguela</strong> obteve o maior número de golos marcados no seu estádio municipal.
+                🔥 O <strong className="text-foreground">Wiliete de Benguela</strong> obteve o maior número de golos marcados no seu estádio municipal.
               </p>
               <p>
                 🏆 O título de 2025/2026 representa o pentacampeonato oficial para a galeria dos tricolores.

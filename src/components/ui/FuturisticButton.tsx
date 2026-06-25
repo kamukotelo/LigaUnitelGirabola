@@ -24,7 +24,7 @@ export default function FuturisticButton({
       case 'neon':
         return 'running-border bg-black text-white hover:text-cyan-400 font-bold py-2.5 px-6 rounded-full shadow-lg border border-transparent';
       case 'outline':
-        return 'border border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700 py-2.5 px-6 rounded-full transition-all duration-200 active:scale-95';
+        return 'border border-zinc-300 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-700 py-2.5 px-6 rounded-full transition-all duration-200 active:scale-95';
       default:
         return 'primary-button';
     }
