@@ -158,14 +158,18 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
           <div>
-            <h1
-              className={`text-6xl md:text-8xl font-display text-white leading-[0.85] uppercase mb-8 ${
-                glitchActive ? 'glitch-text' : ''
-              }`}
-              data-text="LIGA GIRABOLA."
-            >
-              LIGA <br />
-              <span className="text-primary italic neon-text">GIRABOLA.</span>
+            <h1 className="mb-8">
+              <span className="sr-only">Liga Unitel Girabola</span>
+              <Image
+                src="/logo-girabola-horizontal.png"
+                alt="Liga Unitel Girabola"
+                width={635}
+                height={208}
+                priority
+                className={`w-full max-w-[420px] md:max-w-[560px] h-auto object-contain drop-shadow-[0_0_25px_rgba(210,80,0,0.35)] ${
+                  glitchActive ? 'glitch-text' : ''
+                }`}
+              />
             </h1>
 
             <p className="text-lg md:text-xl text-zinc-300 max-w-xl mb-4 font-bold uppercase tracking-wide">
@@ -231,13 +235,13 @@ export default function Home() {
       </section>
 
       {/* ── QUICK STATS ───────────────────────────────────────── */}
-      <section className="bg-zinc-950 py-12 border-b border-zinc-900 relative">
+      <section className="bg-zinc-100 dark:bg-zinc-950 py-12 border-b border-zinc-200 dark:border-zinc-900 relative">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
           {stats.map((stat, i) => (
             <AnimatedCard
               key={i}
               variant="hud"
-              className="text-center bg-zinc-900/40 relative overflow-hidden"
+              className="text-center relative overflow-hidden"
               delay={i * 0.1}
             >
               <stat.icon className="text-accent mx-auto mb-3" size={24} />
@@ -272,7 +276,7 @@ export default function Home() {
       </div>
 
       {/* ── NEWS ──────────────────────────────────────────────── */}
-      <section className="py-24 bg-black relative">
+      <section className="py-24 bg-background relative">
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-4">
             <div>
@@ -282,7 +286,7 @@ export default function Home() {
                   FEED_GLOBAL
                 </span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-display uppercase text-white">Notícias Recentes</h2>
+              <h2 className="text-4xl md:text-5xl font-display uppercase text-foreground">Notícias Recentes</h2>
               <p className="text-primary font-bold uppercase tracking-widest text-xs mt-1">
                 Informação em tempo real do ecossistema
               </p>
@@ -298,16 +302,16 @@ export default function Home() {
                 key={article.id}
                 variant="holographic"
                 delay={i * 0.15}
-                className="bg-zinc-900/50 hover:bg-zinc-900 border-zinc-800"
+                className="bg-white/80 hover:bg-white dark:bg-zinc-900/50 dark:hover:bg-zinc-900 border-zinc-200 dark:border-zinc-800"
               >
                 <span className="text-[9px] font-mono uppercase bg-accent text-white px-2 py-1 rounded tracking-wider">
                   {article.category}
                 </span>
                 <p className="text-[10px] text-zinc-500 font-mono mt-3">{article.date}</p>
-                <h3 className="text-xl font-display uppercase text-white mt-2 mb-3 line-clamp-2">
+                <h3 className="text-xl font-display uppercase text-foreground mt-2 mb-3 line-clamp-2">
                   {article.title}
                 </h3>
-                <p className="text-sm text-zinc-400 line-clamp-3 mb-6">{article.summary}</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-3 mb-6">{article.summary}</p>
                 <Link href={`/news/${article.id}`} className="inline-flex items-center gap-1 text-xs font-mono uppercase text-primary hover:text-accent transition-colors">
                   Ler Artigo <ArrowRight size={12} />
                 </Link>

@@ -44,9 +44,12 @@ export const metadata: Metadata = {
 
   /* ── Ícones do site ── */
   icons: {
-    icon: "/logo-girabola.png",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/logo-girabola.png", type: "image/png" },
+    ],
     apple: "/logo-girabola.png",
-    shortcut: "/logo-girabola.png",
+    shortcut: "/favicon.svg",
   },
 };
 
@@ -57,7 +60,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt">
+    <html lang="pt" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}var d=document.documentElement;d.classList.toggle('dark',t==='dark');d.style.colorScheme=t;}catch(e){document.documentElement.classList.add('dark');}})();`,
+          }}
+        />
+      </head>
       <body className="bg-background text-foreground min-h-screen">
         <div className="flex min-h-screen flex-col relative overflow-hidden">
           {/* Futuristic Aurora Blobs in background */}
