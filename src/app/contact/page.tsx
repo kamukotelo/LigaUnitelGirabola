@@ -10,24 +10,69 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: 'geral', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [toasts, setToasts] = useState<{ id: string; text: string; type: 'info' | 'success' }[]>([]);
+
+  const addToast = (text: string, type: 'info' | 'success' = 'info') => {
+    const id = Math.random().toString();
+    setToasts((prev) => [...prev, { id, text, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 4000);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
-    // Simulate API request
+    
+    // Multi-step simulated data transmission
+    addToast("A inicializar canal seguro de dados FAF...", "info");
+    
+    setTimeout(() => {
+      addToast("A encriptar mensagem (padrão militar AES-256)...", "info");
+    }, 800000 / 1000); // 800ms
+
+    setTimeout(() => {
+      addToast("Sinal transmitido. A guardar nos servidores centrais...", "info");
+    }, 1600);
+
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
+      addToast("Mensagem entregue com sucesso!", "success");
       setFormData({ name: '', email: '', subject: 'geral', message: '' });
+      
       // Reset success state after a few seconds
       setTimeout(() => setIsSuccess(false), 5000);
-    }, 2000);
+    }, 2500);
   };
 
   return (
     <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Toast Notification Container */}
+      <div className="fixed top-6 right-6 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none">
+        <AnimatePresence>
+          {toasts.map((toast) => (
+            <motion.div
+              key={toast.id}
+              initial={{ opacity: 0, x: 50, y: -20 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, x: 50 }}
+              className={`p-4 rounded-xl border backdrop-blur-md shadow-lg pointer-events-auto font-mono text-xs uppercase font-bold ${
+                toast.type === 'success'
+                  ? 'bg-green-500/15 border-green-500/40 text-green-500'
+                  : 'bg-accent/15 border-accent/40 text-accent'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <span className={`w-1.5 h-1.5 rounded-full ${toast.type === 'success' ? 'bg-green-500 status-pulse' : 'bg-accent status-pulse'}`} />
+                {toast.text}
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
       
       {/* Page Header */}
       <div className="mb-12">

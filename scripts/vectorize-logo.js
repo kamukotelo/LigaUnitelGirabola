@@ -1,4 +1,5 @@
 /* One-off: traça os PNG oficiais do logo para SVG colorido (imagetracerjs). */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
 const path = require('path');
 const { PNG } = require('pngjs');

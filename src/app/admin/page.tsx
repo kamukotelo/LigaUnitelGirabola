@@ -1,12 +1,17 @@
 import type { Metadata } from 'next';
 import AdminClient from '@/components/AdminClient';
+import AdminGuard from '@/components/AdminGuard';
 
 export const metadata: Metadata = {
-  title: 'Administração ANCAF',
-  description: 'Painel de gestão administrativa do Girabola — uso interno ANCAF.',
+  title: 'Administração FAF',
+  description: 'Painel de gestão administrativa do Girabola — uso interno FAF.',
   robots: { index: false, follow: false },
 };
 
 export default function AdminPage() {
-  return <AdminClient />;
+  return (
+    <AdminGuard>
+      <AdminClient />
+    </AdminGuard>
+  );
 }

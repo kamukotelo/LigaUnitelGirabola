@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Zap, Clock, Trophy, Target, CalendarDays, Flag, Radio } from 'lucide-react';
-import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason, Match } from '@/lib/data';
+import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, FAF_CALENDAR_SOURCE, getMatchesForSeason, Match } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 
 type StatusFilter = 'all' | 'finished' | 'scheduled';
@@ -162,12 +162,12 @@ export default function FixturesPage() {
           })}
         </div>
 
-        {/* Proveniência ANCAF_CALENDAR (apenas na época por disputar) */}
+        {/* Proveniência FAF_CALENDAR (apenas na época por disputar) */}
         {isUpcoming && (
           <div className="mt-4 inline-flex items-center gap-2.5 bg-green-500/5 border border-green-500/30 rounded-xl px-3.5 py-2">
             <Radio size={14} className="text-green-400" />
             <span className="text-[10px] font-mono text-green-400 uppercase tracking-widest">
-              Calendário sincronizado · {ANCAF_CALENDAR_SOURCE.system} · cód. {ANCAF_CALENDAR_SOURCE.accessCode}
+              Calendário sincronizado · {FAF_CALENDAR_SOURCE.system} · cód. {FAF_CALENDAR_SOURCE.accessCode}
             </span>
           </div>
         )}

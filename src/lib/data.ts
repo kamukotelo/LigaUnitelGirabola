@@ -2,8 +2,8 @@
 
 export interface Team {
   id: string;
-  name: string;
-  shortName: string;
+  name: string;          // nome comum do clube, usado em jogos, tabela e listas
+  shortName: string;     // sigla de 3 letras (ex.: PET)
   logoUrl?: string;
   city: string;
   stadium: string;
@@ -142,7 +142,7 @@ export const TEAMS: Team[] = [
   { id: 'dago', name: '1.º de Agosto', shortName: 'AGO', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', colorsHex: ["#D21515", "#000000"] },
   { id: 'desphuila', name: 'Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Mário Soares', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'bravos', name: 'Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Zeca Amaral', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'kabuscorp', name: 'Kabuscorp', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Zeca Amaral', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'kabuscorp', name: 'Kabuscorp', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Kito Ribeiro', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'sagrada', name: 'Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Francisco Moniz "Tusso"', colorsHex: ["#008751", "#000000"] },
   { id: 'interclube', name: 'Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Luís Gonçalves', colorsHex: ["#00529B", "#FFFFFF"] },
   { id: 'lundasul', name: 'Desportivo da Lunda Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', colorsHex: ["#008751", "#F9C304"] },
@@ -152,11 +152,14 @@ export const TEAMS: Team[] = [
   { id: 'cabinda', name: 'FC Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Verde e Branco', coach: 'Pedro Gonçalves', colorsHex: ["#008751", "#FFFFFF"] },
   { id: 'primeiromaio', name: '1.º de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal do Lobito', stadiumCapacity: 5000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Agostinho Tramagal', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'caala', name: 'CR Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio Municipal da Caála', stadiumCapacity: 5000, founded: 1980, colors: 'Azul e Branco', coach: 'Mateus Agostinho', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'fcluanda', name: 'FC Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 2020, colors: 'Vermelho e Branco', coach: 'Guelson Manuel', colorsHex: ["#D21515", "#FFFFFF"] }
+  { id: 'fcluanda', name: 'FC Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Campo da Cidadela', stadiumCapacity: 10000, founded: 2020, colors: 'Vermelho e Branco', coach: 'Guelson Manuel', colorsHex: ["#D21515", "#FFFFFF"] }
 ];
 
-// ── 2. CLASSIFICAÇÃO GERAL ─────────────────────────────────────────
-export const STANDINGS: StandingEntry[] = [
+// ── 2. RANKING-SEMENTE ─────────────────────────────────────────────
+// Força relativa pré-época usada apenas pelo gerador de resultados
+// (getDeterministicScore) para enviesar os jogos. A CLASSIFICAÇÃO
+// MOSTRADA é derivada dos jogos terminados (ver STANDINGS, mais abaixo).
+const SEED_STANDINGS: StandingEntry[] = [
   { position: 1, teamId: 'petro', teamName: 'Petro de Luanda', played: 30, won: 21, drawn: 5, lost: 4, goalsFor: 58, goalsAgainst: 18, goalDifference: 40, points: 68, form: ['W', 'W', 'W', 'D', 'W'] },
   { position: 2, teamId: 'wiliete', teamName: 'Wiliete de Benguela', played: 30, won: 18, drawn: 7, lost: 5, goalsFor: 49, goalsAgainst: 22, goalDifference: 27, points: 61, form: ['W', 'D', 'W', 'W', 'L'] },
   { position: 3, teamId: 'dago', teamName: '1.º de Agosto', played: 30, won: 14, drawn: 9, lost: 7, goalsFor: 42, goalsAgainst: 25, goalDifference: 17, points: 51, form: ['W', 'W', 'D', 'D', 'W'] },
@@ -171,7 +174,7 @@ export const STANDINGS: StandingEntry[] = [
   { position: 12, teamId: 'saosalvador', teamName: 'São Salvador do Kongo', played: 30, won: 8, drawn: 8, lost: 14, goalsFor: 24, goalsAgainst: 38, goalDifference: -14, points: 32, form: ['W', 'L', 'L', 'D', 'W'] },
   { position: 13, teamId: 'cabinda', teamName: 'FC Cabinda', played: 30, won: 7, drawn: 8, lost: 15, goalsFor: 22, goalsAgainst: 39, goalDifference: -17, points: 29, form: ['L', 'W', 'L', 'L', 'D'] },
   { position: 14, teamId: 'primeiromaio', teamName: '1.º de Maio', played: 30, won: 6, drawn: 9, lost: 15, goalsFor: 24, goalsAgainst: 45, goalDifference: -21, points: 27, form: ['D', 'L', 'L', 'W', 'L'] },
-  { position: 15, teamId: 'caala', teamName: 'CR Cáala', played: 30, won: 5, drawn: 9, lost: 16, goalsFor: 21, goalsAgainst: 45, goalDifference: -24, points: 24, form: ['L', 'D', 'D', 'L', 'L'] },
+  { position: 15, teamId: 'caala', teamName: 'CR Caála', played: 30, won: 5, drawn: 9, lost: 16, goalsFor: 21, goalsAgainst: 45, goalDifference: -24, points: 24, form: ['L', 'D', 'D', 'L', 'L'] },
   { position: 16, teamId: 'fcluanda', teamName: 'FC Luanda', played: 30, won: 4, drawn: 8, lost: 18, goalsFor: 18, goalsAgainst: 43, goalDifference: -25, points: 20, form: ['L', 'L', 'L', 'W', 'L'] }
 ];
 
@@ -187,8 +190,8 @@ function getDeterministicScore(homeId: string, awayId: string, round: number): {
   let homeGoals = hash % 3; // 0, 1, 2
   let awayGoals = (hash >> 2) % 3; // 0, 1, 2
   
-  const homeRank = STANDINGS.find(s => s.teamId === homeId)?.position || 8;
-  const awayRank = STANDINGS.find(s => s.teamId === awayId)?.position || 8;
+  const homeRank = SEED_STANDINGS.find(s => s.teamId === homeId)?.position || 8;
+  const awayRank = SEED_STANDINGS.find(s => s.teamId === awayId)?.position || 8;
   
   if (homeRank < awayRank - 3) {
     homeGoals += 1;
@@ -273,7 +276,7 @@ function generateAllMatches(): Match[] {
       const awayTeamObj = TEAMS.find(t => t.id === awayId)!;
 
       // Definir todas as 30 jornadas como concluídas (feitas) para alinhar com a tabela STANDINGS.
-      let status: 'finished' | 'scheduled' = 'finished';
+      const status = 'finished';
 
       const { homeScore, awayScore, score } = getDeterministicScore(homeId, awayId, round);
 
@@ -316,7 +319,7 @@ function generateAllMatches(): Match[] {
     { id: 'm-2904', round: 29, homeTeamId: 'sagrada', awayTeamId: 'bravos', homeTeam: 'Sagrada Esperança', awayTeam: 'Bravos do Maquis', homeScore: 1, awayScore: 1, score: '1-1', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Sagrada Esperança', status: 'finished' as const },
     { id: 'm-2905', round: 29, homeTeamId: 'libolo', awayTeamId: 'lobito', homeTeam: 'Recreativo do Libolo', awayTeam: 'Académica do Lobito', homeScore: 1, awayScore: 1, score: '1-1', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Municipal de Calulo', status: 'finished' as const },
     { id: 'm-2906', round: 29, homeTeamId: 'saosalvador', awayTeamId: 'cabinda', homeTeam: 'São Salvador do Kongo', awayTeam: 'FC Cabinda', homeScore: 1, awayScore: 0, score: '1-0', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Álvaro Buta', status: 'finished' as const },
-    { id: 'm-2907', round: 29, homeTeamId: 'primeiromaio', awayTeamId: 'caala', homeTeam: '1.º de Maio', awayTeam: 'CR Cáala', homeScore: 2, awayScore: 2, score: '2-2', date: '2026-05-02T15:30:00+01:00', stadium: 'Estádio Municipal do Lobito', status: 'finished' as const },
+    { id: 'm-2907', round: 29, homeTeamId: 'primeiromaio', awayTeamId: 'caala', homeTeam: '1.º de Maio', awayTeam: 'CR Caála', homeScore: 2, awayScore: 2, score: '2-2', date: '2026-05-02T15:30:00+01:00', stadium: 'Estádio Municipal do Lobito', status: 'finished' as const },
     { id: 'm-2908', round: 29, homeTeamId: 'fcluanda', awayTeamId: 'desphuila', homeTeam: 'FC Luanda', awayTeam: 'Desportivo da Huíla', homeScore: 0, awayScore: 2, score: '0-2', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio dos Coqueiros', status: 'finished' as const },
   ];
 
@@ -327,7 +330,7 @@ function generateAllMatches(): Match[] {
     { id: 'm-3004', round: 30, homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', homeScore: 2, awayScore: 0, score: '2-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio Mundunduleno', status: 'finished' as const },
     { id: 'm-3005', round: 30, homeTeamId: 'lobito', awayTeamId: 'libolo', homeTeam: 'Académica do Lobito', awayTeam: 'Recreativo do Libolo', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio do Buraco', status: 'finished' as const },
     { id: 'm-3006', round: 30, homeTeamId: 'cabinda', awayTeamId: 'saosalvador', homeTeam: 'FC Cabinda', awayTeam: 'São Salvador do Kongo', homeScore: 0, awayScore: 0, score: '0-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio Nacional do Chiazi', status: 'finished' as const },
-    { id: 'm-3007', round: 30, homeTeamId: 'caala', awayTeamId: 'primeiromaio', homeTeam: 'CR Cáala', awayTeam: '1.º de Maio', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio Municipal da Caála', status: 'finished' as const },
+    { id: 'm-3007', round: 30, homeTeamId: 'caala', awayTeamId: 'primeiromaio', homeTeam: 'CR Caála', awayTeam: '1.º de Maio', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio Municipal da Caála', status: 'finished' as const },
     { id: 'm-3008', round: 30, homeTeamId: 'desphuila', awayTeamId: 'fcluanda', homeTeam: 'Desportivo da Huíla', awayTeam: 'FC Luanda', homeScore: 3, awayScore: 0, score: '3-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio da Tundavala', status: 'finished' as const },
   ];
 
@@ -339,6 +342,61 @@ function generateAllMatches(): Match[] {
 }
 
 export const MATCHES: Match[] = generateAllMatches();
+
+// ── 2b. CLASSIFICAÇÃO DERIVADA DOS JOGOS ───────────────────────────
+// A tabela mostrada no site é calculada a partir dos jogos terminados,
+// garantindo que classificação e resultados coincidem sempre.
+export function computeStandings(matches: Match[]): StandingEntry[] {
+  const acc = new Map<string, Omit<StandingEntry, 'position' | 'goalDifference' | 'form'> & { _matches: Match[] }>();
+  for (const t of TEAMS) {
+    acc.set(t.id, {
+      teamId: t.id, teamName: t.name, played: 0, won: 0, drawn: 0, lost: 0,
+      goalsFor: 0, goalsAgainst: 0, points: 0, _matches: [],
+    });
+  }
+
+  const finished = matches
+    .filter(m => m.status === 'finished')
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  for (const m of finished) {
+    const home = acc.get(m.homeTeamId);
+    const away = acc.get(m.awayTeamId);
+    if (!home || !away) continue;
+    home.played++; away.played++;
+    home.goalsFor += m.homeScore; home.goalsAgainst += m.awayScore;
+    away.goalsFor += m.awayScore; away.goalsAgainst += m.homeScore;
+    home._matches.push(m); away._matches.push(m);
+    if (m.homeScore > m.awayScore) { home.won++; home.points += 3; away.lost++; }
+    else if (m.homeScore < m.awayScore) { away.won++; away.points += 3; home.lost++; }
+    else { home.drawn++; away.drawn++; home.points++; away.points++; }
+  }
+
+  const formFor = (teamId: string, ms: Match[]): ('W' | 'D' | 'L')[] =>
+    ms.slice(-5).map((m) => {
+      const isHome = m.homeTeamId === teamId;
+      const gf = isHome ? m.homeScore : m.awayScore;
+      const ga = isHome ? m.awayScore : m.homeScore;
+      return gf > ga ? 'W' : gf < ga ? 'L' : 'D';
+    });
+
+  return [...acc.values()]
+    .map((e) => ({
+      teamId: e.teamId, teamName: e.teamName, played: e.played, won: e.won,
+      drawn: e.drawn, lost: e.lost, goalsFor: e.goalsFor, goalsAgainst: e.goalsAgainst,
+      goalDifference: e.goalsFor - e.goalsAgainst, points: e.points,
+      form: formFor(e.teamId, e._matches),
+    }))
+    .sort((a, b) =>
+      b.points - a.points ||
+      b.goalDifference - a.goalDifference ||
+      b.goalsFor - a.goalsFor ||
+      a.teamName.localeCompare(b.teamName))
+    .map((e, i) => ({ ...e, position: i + 1 }));
+}
+
+// Classificação da época em curso (2025/2026), derivada dos jogos.
+export const STANDINGS: StandingEntry[] = computeStandings(MATCHES);
 
 // ── 3b. ÉPOCAS / TEMPORADAS ────────────────────────────────────────
 export interface Season {
@@ -355,93 +413,95 @@ export const SEASONS: Season[] = [
 export const CURRENT_SEASON_ID = '2025-26';
 export const UPCOMING_SEASON_ID = '2026-27';
 
-// Proveniência do calendário 2026/2027 — recebido do sistema oficial ANCAF_CALENDAR.
-export const ANCAF_CALENDAR_SOURCE = {
+// Proveniência do calendário 2026/2027 — datas oficiais da Proposta ANCAF
+// 2026-27 e sorteio nº 1357 (entre 8000 calendários pré-validados a 2 voltas).
+export const FAF_CALENDAR_SOURCE = {
   system: 'ANCAF_CALENDAR',
-  accessCode: '0317',
+  accessCode: '1357',
   season: '2026/2027',
   generatedAt: '2026-06-20T09:00:00+01:00',
   rounds: 30,
   matches: 240,
 } as const;
 
-// ── 3c. CALENDÁRIO 2026/2027 (importado do ANCAF_CALENDAR · cód. 0317) ──
-// Calendário completo a duas voltas (30 jornadas) com todos os jogos por
-// disputar. Gerado deterministicamente — equivalente ao ficheiro entregue
-// pelo sistema ANCAF_CALENDAR após autenticação com o código de acesso.
-function generateSeasonCalendar(opts: { idPrefix: string; startDateIso: string }): Match[] {
-  const teamIds = TEAMS.map(t => t.id);
-  const n = teamIds.length;
-  const list = [...teamIds];
-  const matches: Match[] = [];
-  let counter = 1;
-  const start = new Date(opts.startDateIso);
-
-  const scheduleDate = (round: number, homeId: string, awayId: string): string => {
-    const matchDate = new Date(start.getTime());
-    matchDate.setDate(start.getDate() + (round - 1) * 7);
-    const offsetHash = (round + homeId.charCodeAt(0) + awayId.charCodeAt(0)) % 4;
-    if (offsetHash === 1) {
-      matchDate.setDate(matchDate.getDate() + 1);
-    } else if (offsetHash === 2) {
-      matchDate.setDate(matchDate.getDate() + 1);
-      matchDate.setHours(15, 30);
-    } else if (offsetHash === 3) {
-      matchDate.setHours(15, 30);
-    }
-    return matchDate.toISOString();
-  };
-
-  const pushMatch = (round: number, homeId: string, awayId: string) => {
-    const homeTeamObj = TEAMS.find(t => t.id === homeId)!;
-    const awayTeamObj = TEAMS.find(t => t.id === awayId)!;
-    matches.push({
-      id: `${opts.idPrefix}${round}-${counter++}`,
-      homeTeamId: homeId,
-      awayTeamId: awayId,
-      homeTeam: homeTeamObj.name,
-      awayTeam: awayTeamObj.name,
-      homeScore: 0,
-      awayScore: 0,
-      score: undefined,
-      date: scheduleDate(round, homeId, awayId),
-      stadium: homeTeamObj.stadium,
-      status: 'scheduled',
-      round,
-    });
-  };
-
-  // Primeira volta (jornadas 1 a 15) — algoritmo round-robin (rotação circular).
-  const firstLeg: { homeId: string; awayId: string }[][] = [];
-  for (let round = 1; round <= 15; round++) {
-    const pairs: { homeId: string; awayId: string }[] = [];
-    for (let i = 0; i < n / 2; i++) {
-      const home = list[i];
-      const away = list[n - 1 - i];
-      const homeId = round % 2 === 0 ? home : away;
-      const awayId = round % 2 === 0 ? away : home;
-      pairs.push({ homeId, awayId });
-      pushMatch(round, homeId, awayId);
-    }
-    firstLeg.push(pairs);
-    list.splice(1, 0, list.pop()!);
-  }
-
-  // Segunda volta (jornadas 16 a 30) — jogos invertidos (casa/fora trocados).
-  for (let round = 16; round <= 30; round++) {
-    const pairs = firstLeg[round - 16];
-    for (const { homeId, awayId } of pairs) {
-      pushMatch(round, awayId, homeId);
-    }
-  }
-
-  return matches.sort((a, b) => (a.round !== b.round ? a.round - b.round : a.id.localeCompare(b.id)));
+// ── 3c. CALENDÁRIO 2026/2027 (Proposta ANCAF · sorteio nº 1357) ──────
+// Calendário oficial a duas voltas (30 jornadas, 16 equipas, 240 jogos).
+// Datas (fim-de-semana sex-sáb-dom) da Proposta de Calendário ANCAF 2026-27;
+// confrontos do sorteio nº 1357. As 3 equipas promovidas da II Divisão
+// entram como FC Cabinda, CR Caála e FC Luanda (Promovido A/B/C).
+export interface SeasonRound {
+  round: number;
+  dates: string[];        // datas ISO (yyyy-mm-dd) do fim-de-semana da jornada
+  note?: string;          // observação oficial (ex.: semana CAF, clássico)
+  fixtures: [string, string][]; // pares [idCasa, idFora]
 }
 
-export const MATCHES_2026_27: Match[] = generateSeasonCalendar({
-  idPrefix: 'm27-',
-  startDateIso: '2026-09-12T16:00:00+01:00',
-});
+export const CALENDAR_2026_27: SeasonRound[] = [
+  { round: 1, dates: ['2026-08-14', '2026-08-15', '2026-08-16'], fixtures: [['libolo','saosalvador'], ['fcluanda','cabinda'], ['caala','kabuscorp'], ['primeiromaio','dago'], ['petro','lobito'], ['wiliete','sagrada'], ['desphuila','lundasul'], ['interclube','bravos']] },
+  { round: 2, dates: ['2026-08-21', '2026-08-22', '2026-08-23'], fixtures: [['cabinda','libolo'], ['saosalvador','kabuscorp'], ['dago','fcluanda'], ['lobito','caala'], ['sagrada','primeiromaio'], ['lundasul','petro'], ['bravos','wiliete'], ['desphuila','interclube']] },
+  { round: 3, dates: ['2026-08-28', '2026-08-29', '2026-08-30'], fixtures: [['libolo','dago'], ['kabuscorp','lobito'], ['cabinda','sagrada'], ['saosalvador','lundasul'], ['fcluanda','bravos'], ['caala','interclube'], ['primeiromaio','desphuila'], ['petro','wiliete']] },
+  { round: 4, dates: ['2026-09-04', '2026-09-05', '2026-09-06'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['libolo','primeiromaio'], ['petro','caala'], ['wiliete','fcluanda'], ['desphuila','saosalvador'], ['interclube','cabinda'], ['bravos','kabuscorp'], ['lundasul','dago'], ['sagrada','lobito']] },
+  { round: 5, dates: ['2026-09-11', '2026-09-12', '2026-09-13'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['kabuscorp','libolo'], ['dago','cabinda'], ['lobito','saosalvador'], ['fcluanda','sagrada'], ['caala','lundasul'], ['primeiromaio','bravos'], ['interclube','petro'], ['wiliete','desphuila']] },
+  { round: 6, dates: ['2026-09-18', '2026-09-19', '2026-09-20'], fixtures: [['libolo','desphuila'], ['interclube','wiliete'], ['bravos','petro'], ['lundasul','primeiromaio'], ['sagrada','caala'], ['lobito','fcluanda'], ['saosalvador','dago'], ['cabinda','kabuscorp']] },
+  { round: 7, dates: ['2026-10-09', '2026-10-10', '2026-10-11'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['libolo','lundasul'], ['sagrada','bravos'], ['lobito','interclube'], ['desphuila','dago'], ['kabuscorp','wiliete'], ['petro','cabinda'], ['primeiromaio','saosalvador'], ['fcluanda','caala']] },
+  { round: 8, dates: ['2026-10-16', '2026-10-17', '2026-10-18'], fixtures: [['caala','libolo'], ['primeiromaio','fcluanda'], ['saosalvador','petro'], ['wiliete','cabinda'], ['desphuila','kabuscorp'], ['dago','interclube'], ['bravos','lobito'], ['lundasul','sagrada']] },
+  { round: 9, dates: ['2026-10-23', '2026-10-24', '2026-10-25'], note: 'Clássico Petro vs 1.º de Agosto', fixtures: [['libolo','bravos'], ['interclube','lundasul'], ['sagrada','desphuila'], ['lobito','wiliete'], ['petro','dago'], ['kabuscorp','primeiromaio'], ['cabinda','caala'], ['fcluanda','saosalvador']] },
+  { round: 10, dates: ['2026-10-30', '2026-10-31', '2026-11-01'], fixtures: [['wiliete','libolo'], ['desphuila','petro'], ['primeiromaio','interclube'], ['bravos','caala'], ['lundasul','fcluanda'], ['saosalvador','sagrada'], ['lobito','cabinda'], ['dago','kabuscorp']] },
+  { round: 11, dates: ['2026-11-06', '2026-11-07', '2026-11-08'], fixtures: [['libolo','lobito'], ['sagrada','dago'], ['kabuscorp','lundasul'], ['cabinda','bravos'], ['interclube','saosalvador'], ['fcluanda','desphuila'], ['caala','wiliete'], ['petro','primeiromaio']] },
+  { round: 12, dates: ['2026-11-20', '2026-11-21', '2026-11-22'], fixtures: [['libolo','sagrada'], ['lobito','lundasul'], ['dago','bravos'], ['kabuscorp','interclube'], ['desphuila','cabinda'], ['saosalvador','wiliete'], ['fcluanda','petro'], ['primeiromaio','caala']] },
+  { round: 13, dates: ['2026-11-27', '2026-11-28', '2026-11-29'], fixtures: [['petro','libolo'], ['wiliete','primeiromaio'], ['caala','desphuila'], ['interclube','fcluanda'], ['bravos','saosalvador'], ['lundasul','cabinda'], ['sagrada','kabuscorp'], ['lobito','dago']] },
+  { round: 14, dates: ['2026-12-04', '2026-12-05', '2026-12-06'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['libolo','interclube'], ['desphuila','bravos'], ['lundasul','wiliete'], ['sagrada','petro'], ['primeiromaio','lobito'], ['dago','caala'], ['kabuscorp','fcluanda'], ['cabinda','saosalvador']] },
+  { round: 15, dates: ['2026-12-11', '2026-12-12', '2026-12-13'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['fcluanda','libolo'], ['saosalvador','caala'], ['primeiromaio','cabinda'], ['petro','kabuscorp'], ['wiliete','dago'], ['lobito','desphuila'], ['interclube','sagrada'], ['bravos','lundasul']] },
+  { round: 16, dates: ['2027-01-30', '2027-01-31'], fixtures: [['libolo','fcluanda'], ['caala','saosalvador'], ['cabinda','primeiromaio'], ['kabuscorp','petro'], ['dago','wiliete'], ['desphuila','lobito'], ['sagrada','interclube'], ['lundasul','bravos']] },
+  { round: 17, dates: ['2027-02-05', '2027-02-06', '2027-02-07'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['dago','libolo'], ['lobito','kabuscorp'], ['sagrada','cabinda'], ['lundasul','saosalvador'], ['bravos','fcluanda'], ['interclube','caala'], ['desphuila','primeiromaio'], ['wiliete','petro']] },
+  { round: 18, dates: ['2027-02-12', '2027-02-13', '2027-02-14'], fixtures: [['libolo','kabuscorp'], ['cabinda','dago'], ['saosalvador','lobito'], ['sagrada','fcluanda'], ['lundasul','caala'], ['bravos','primeiromaio'], ['petro','interclube'], ['desphuila','wiliete']] },
+  { round: 19, dates: ['2027-02-19', '2027-02-20', '2027-02-21'], note: 'Clássico Petro vs 1.º de Agosto', fixtures: [['bravos','libolo'], ['lundasul','interclube'], ['desphuila','sagrada'], ['wiliete','lobito'], ['dago','petro'], ['primeiromaio','kabuscorp'], ['caala','cabinda'], ['saosalvador','fcluanda']] },
+  { round: 20, dates: ['2027-02-26', '2027-02-27', '2027-02-28'], fixtures: [['libolo','caala'], ['fcluanda','primeiromaio'], ['petro','saosalvador'], ['cabinda','wiliete'], ['kabuscorp','desphuila'], ['interclube','dago'], ['lobito','bravos'], ['sagrada','lundasul']] },
+  { round: 21, dates: ['2027-03-05', '2027-03-06', '2027-03-07'], fixtures: [['lundasul','libolo'], ['bravos','sagrada'], ['interclube','lobito'], ['dago','desphuila'], ['wiliete','kabuscorp'], ['cabinda','petro'], ['saosalvador','primeiromaio'], ['caala','fcluanda']] },
+  { round: 22, dates: ['2027-03-12', '2027-03-13', '2027-03-14'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['sagrada','libolo'], ['lundasul','lobito'], ['bravos','dago'], ['interclube','kabuscorp'], ['cabinda','desphuila'], ['wiliete','saosalvador'], ['petro','fcluanda'], ['caala','primeiromaio']] },
+  { round: 23, dates: ['2027-03-19', '2027-03-20', '2027-03-21'], fixtures: [['primeiromaio','libolo'], ['caala','petro'], ['fcluanda','wiliete'], ['saosalvador','desphuila'], ['cabinda','interclube'], ['kabuscorp','bravos'], ['dago','lundasul'], ['lobito','sagrada']] },
+  { round: 24, dates: ['2027-04-02', '2027-04-03', '2027-04-04'], fixtures: [['lobito','libolo'], ['dago','sagrada'], ['lundasul','kabuscorp'], ['bravos','cabinda'], ['saosalvador','interclube'], ['desphuila','fcluanda'], ['wiliete','caala'], ['primeiromaio','petro']] },
+  { round: 25, dates: ['2027-04-09', '2027-04-10', '2027-04-11'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['libolo','wiliete'], ['petro','desphuila'], ['interclube','primeiromaio'], ['caala','bravos'], ['fcluanda','lundasul'], ['sagrada','saosalvador'], ['cabinda','lobito'], ['kabuscorp','dago']] },
+  { round: 26, dates: ['2027-04-16', '2027-04-17', '2027-04-18'], fixtures: [['desphuila','libolo'], ['wiliete','interclube'], ['petro','bravos'], ['primeiromaio','lundasul'], ['caala','sagrada'], ['fcluanda','lobito'], ['dago','saosalvador'], ['kabuscorp','cabinda']] },
+  { round: 27, dates: ['2027-04-23', '2027-04-24', '2027-04-25'], fixtures: [['libolo','petro'], ['primeiromaio','wiliete'], ['desphuila','caala'], ['fcluanda','interclube'], ['saosalvador','bravos'], ['cabinda','lundasul'], ['kabuscorp','sagrada'], ['dago','lobito']] },
+  { round: 28, dates: ['2027-04-30', '2027-05-01', '2027-05-02'], fixtures: [['saosalvador','libolo'], ['cabinda','fcluanda'], ['kabuscorp','caala'], ['dago','primeiromaio'], ['lobito','petro'], ['sagrada','wiliete'], ['lundasul','desphuila'], ['bravos','interclube']] },
+  { round: 29, dates: ['2027-05-07', '2027-05-08', '2027-05-09'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['interclube','libolo'], ['bravos','desphuila'], ['wiliete','lundasul'], ['petro','sagrada'], ['lobito','primeiromaio'], ['caala','dago'], ['fcluanda','kabuscorp'], ['saosalvador','cabinda']] },
+  { round: 30, dates: ['2027-05-14', '2027-05-15', '2027-05-16'], fixtures: [['libolo','cabinda'], ['kabuscorp','saosalvador'], ['fcluanda','dago'], ['caala','lobito'], ['primeiromaio','sagrada'], ['petro','lundasul'], ['wiliete','bravos'], ['interclube','desphuila']] },
+];
+
+// Constrói os jogos da época a partir do calendário ANCAF, distribuindo os
+// 8 jogos de cada jornada pelos dias do fim-de-semana com horários WAT (+01:00).
+function buildSeasonMatches(rounds: SeasonRound[], idPrefix: string): Match[] {
+  const KICKOFFS = ['15:00', '16:00', '17:30', '19:00'];
+  const matches: Match[] = [];
+  let counter = 1;
+  for (const r of rounds) {
+    const n = r.fixtures.length;
+    const days = r.dates.length;
+    r.fixtures.forEach(([homeId, awayId], i) => {
+      const dayIndex = Math.min(days - 1, Math.floor((i * days) / n));
+      const home = TEAMS.find(t => t.id === homeId)!;
+      const away = TEAMS.find(t => t.id === awayId)!;
+      matches.push({
+        id: `${idPrefix}${r.round}-${counter++}`,
+        homeTeamId: home.id,
+        awayTeamId: away.id,
+        homeTeam: home.name,
+        awayTeam: away.name,
+        homeScore: 0,
+        awayScore: 0,
+        score: undefined,
+        date: `${r.dates[dayIndex]}T${KICKOFFS[i % KICKOFFS.length]}:00+01:00`,
+        stadium: home.stadium,
+        status: 'scheduled',
+        round: r.round,
+      });
+    });
+  }
+  return matches;
+}
+
+export const MATCHES_2026_27: Match[] = buildSeasonMatches(CALENDAR_2026_27, 'm27-');
 
 // ── 4. LISTA COMPLETA DE JOGADORES ──────────────────────────────────
 const PLAYERS_RAW: Player[] = [
@@ -768,10 +828,34 @@ const PLAYERS_RAW: Player[] = [
     bio: 'Principal referência ofensiva do Kabuscorp nesta temporada.'
   },
   {
+    id: 'kabuscorp-player-2', name: 'Lami Muanza', club: 'Kabuscorp', teamId: 'kabuscorp', position: 'Defesa',
+    goals: 1, assists: 1, appearances: 18, jerseyNumber: 4, age: 28, nationality: 'Angola', height: '1.85m', weight: '80kg',
+    attributes: { pace: 70, shooting: 48, passing: 65, dribbling: 60, defending: 78, physical: 82 },
+    bio: 'Defesa central seguro e muito forte no posicionamento defensivo.'
+  },
+  {
+    id: 'kabuscorp-player-3', name: 'Trésor Mputu Jr', club: 'Kabuscorp', teamId: 'kabuscorp', position: 'Médio',
+    goals: 3, assists: 4, appearances: 22, jerseyNumber: 8, age: 24, nationality: 'RD Congo', height: '1.74m', weight: '69kg',
+    attributes: { pace: 78, shooting: 70, passing: 81, dribbling: 83, defending: 50, physical: 70 },
+    bio: 'Médio criativo dotado de excelente visão de jogo e passe curto.'
+  },
+  {
     id: 'desphuila-player-1', name: 'João Vítor', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Médio',
     goals: 3, assists: 5, appearances: 28, jerseyNumber: 8, age: 24, nationality: 'Angola', height: '1.75m', weight: '70kg',
     attributes: { pace: 75, shooting: 68, passing: 82, dribbling: 76, defending: 65, physical: 68 },
     bio: 'Médio criativo e motor da equipa da Huíla.'
+  },
+  {
+    id: 'desphuila-player-2', name: 'Emanuel Tchite', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Avançado',
+    goals: 6, assists: 1, appearances: 24, jerseyNumber: 9, age: 25, nationality: 'Angola', height: '1.82m', weight: '76kg',
+    attributes: { pace: 83, shooting: 77, passing: 64, dribbling: 72, defending: 32, physical: 75 },
+    bio: 'Avançado de mobilidade rápida, letal em transições ofensivas.'
+  },
+  {
+    id: 'desphuila-player-3', name: 'Nani Santos', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Defesa',
+    goals: 0, assists: 1, appearances: 26, jerseyNumber: 3, age: 27, nationality: 'Angola', height: '1.80m', weight: '74kg',
+    attributes: { pace: 74, shooting: 52, passing: 68, dribbling: 64, defending: 79, physical: 77 },
+    bio: 'Lateral esquerdo muito equilibrado no apoio e na marcação.'
   },
   {
     id: 'lundasul-player-1', name: 'Paulo Silva', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Defesa',
@@ -780,10 +864,34 @@ const PLAYERS_RAW: Player[] = [
     bio: 'Defesa central robusto e capitão de equipa.'
   },
   {
+    id: 'lundasul-player-2', name: 'Mussa Kabamba', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Avançado',
+    goals: 7, assists: 2, appearances: 26, jerseyNumber: 11, age: 27, nationality: 'RD Congo', height: '1.80m', weight: '77kg',
+    attributes: { pace: 84, shooting: 79, passing: 65, dribbling: 75, defending: 30, physical: 79 },
+    bio: 'Ponta de lança de referência, especialista em golos na pequena área.'
+  },
+  {
+    id: 'lundasul-player-3', name: 'Tchabalala', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Médio',
+    goals: 2, assists: 3, appearances: 28, jerseyNumber: 6, age: 26, nationality: 'Angola', height: '1.76m', weight: '72kg',
+    attributes: { pace: 75, shooting: 60, passing: 78, dribbling: 72, defending: 76, physical: 78 },
+    bio: 'Médio defensivo incansável na recuperação e distribuição de jogo.'
+  },
+  {
     id: 'libolo-player-1', name: 'Rui Carlos', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado',
     goals: 6, assists: 3, appearances: 22, jerseyNumber: 9, age: 27, nationality: 'Angola', height: '1.82m', weight: '78kg',
     attributes: { pace: 82, shooting: 78, passing: 65, dribbling: 74, defending: 35, physical: 76 },
     bio: 'Ponta de lança forte no jogo aéreo.'
+  },
+  {
+    id: 'libolo-player-2', name: 'Dany Traoré', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Médio',
+    goals: 1, assists: 4, appearances: 20, jerseyNumber: 10, age: 26, nationality: 'Mali', height: '1.78m', weight: '71kg',
+    attributes: { pace: 78, shooting: 72, passing: 83, dribbling: 80, defending: 62, physical: 70 },
+    bio: 'Organizador de jogo inteligente com boa qualidade técnica no meio campo.'
+  },
+  {
+    id: 'libolo-player-3', name: 'Chico Banza', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Defesa',
+    goals: 0, assists: 0, appearances: 21, jerseyNumber: 2, age: 24, nationality: 'Angola', height: '1.83m', weight: '75kg',
+    attributes: { pace: 80, shooting: 45, passing: 70, dribbling: 68, defending: 75, physical: 78 },
+    bio: 'Lateral direito de velocidade constante e excelente atitude defensiva.'
   },
   {
     id: 'saosalvador-player-1', name: 'António Ndongala', club: 'São Salvador do Kongo', teamId: 'saosalvador', position: 'Médio',
@@ -792,10 +900,34 @@ const PLAYERS_RAW: Player[] = [
     bio: 'Jovem promessa com grande velocidade e técnica.'
   },
   {
+    id: 'saosalvador-player-2', name: 'Pedro Mbemba', club: 'São Salvador do Kongo', teamId: 'saosalvador', position: 'Defesa',
+    goals: 0, assists: 1, appearances: 28, jerseyNumber: 4, age: 28, nationality: 'Angola', height: '1.84m', weight: '81kg',
+    attributes: { pace: 70, shooting: 48, passing: 62, dribbling: 58, defending: 78, physical: 80 },
+    bio: 'Muralha defensiva central, temível nos desarmes de recurso.'
+  },
+  {
+    id: 'saosalvador-player-3', name: 'Kikas Varela', club: 'São Salvador do Kongo', teamId: 'saosalvador', position: 'Avançado',
+    goals: 5, assists: 2, appearances: 24, jerseyNumber: 7, age: 25, nationality: 'Angola', height: '1.79m', weight: '73kg',
+    attributes: { pace: 88, shooting: 74, passing: 66, dribbling: 78, defending: 38, physical: 71 },
+    bio: 'Extremo ágil de drible imprevisível no um contra um.'
+  },
+  {
     id: 'cabinda-player-1', name: 'Carlos Manuel', club: 'FC Cabinda', teamId: 'cabinda', position: 'Guarda-redes',
     goals: 0, assists: 0, appearances: 30, jerseyNumber: 1, age: 31, nationality: 'Angola', height: '1.90m', weight: '85kg',
     attributes: { pace: 50, shooting: 40, passing: 60, dribbling: 45, defending: 82, physical: 80 },
     bio: 'Guarda-redes experiente que tem salvo o FC Cabinda em vários jogos.'
+  },
+  {
+    id: 'cabinda-player-2', name: 'Zito Luvumbo', club: 'FC Cabinda', teamId: 'cabinda', position: 'Avançado',
+    goals: 8, assists: 3, appearances: 28, jerseyNumber: 11, age: 23, nationality: 'Angola', height: '1.72m', weight: '67kg',
+    attributes: { pace: 93, shooting: 78, passing: 72, dribbling: 87, defending: 35, physical: 68 },
+    bio: 'Avançado criativo com enorme velocidade, uma grande referência do clube.'
+  },
+  {
+    id: 'cabinda-player-3', name: 'Pacheco Ndulo', club: 'FC Cabinda', teamId: 'cabinda', position: 'Defesa',
+    goals: 1, assists: 0, appearances: 25, jerseyNumber: 3, age: 26, nationality: 'Angola', height: '1.86m', weight: '81kg',
+    attributes: { pace: 72, shooting: 54, passing: 64, dribbling: 60, defending: 79, physical: 83 },
+    bio: 'Defesa central fisicamente forte e muito eficiente no jogo aéreo.'
   },
   {
     id: 'primeiromaio-player-1', name: 'Edgar Santos', club: '1.º de Maio', teamId: 'primeiromaio', position: 'Extremo',
@@ -804,16 +936,106 @@ const PLAYERS_RAW: Player[] = [
     bio: 'Extremo rápido e especialista em cruzamentos.'
   },
   {
-    id: 'caala-player-1', name: 'Vítor Hugo', club: 'CR Cáala', teamId: 'caala', position: 'Médio Ofensivo',
+    id: 'primeiromaio-player-2', name: 'Beto Benguela', club: '1.º de Maio', teamId: 'primeiromaio', position: 'Defesa',
+    goals: 0, assists: 1, appearances: 27, jerseyNumber: 4, age: 29, nationality: 'Angola', height: '1.84m', weight: '79kg',
+    attributes: { pace: 68, shooting: 50, passing: 65, dribbling: 58, defending: 77, physical: 81 },
+    bio: 'Experiente lateral direito que oferece excelente rigor defensivo.'
+  },
+  {
+    id: 'primeiromaio-player-3', name: 'Vado Dias', club: '1.º de Maio', teamId: 'primeiromaio', position: 'Médio',
+    goals: 1, assists: 3, appearances: 25, jerseyNumber: 8, age: 24, nationality: 'Angola', height: '1.75m', weight: '70kg',
+    attributes: { pace: 74, shooting: 66, passing: 78, dribbling: 75, defending: 68, physical: 72 },
+    bio: 'Médio versátil de transição e excelente ética de trabalho no meio.'
+  },
+  {
+    id: 'caala-player-1', name: 'Vítor Hugo', club: 'CR Caála', teamId: 'caala', position: 'Médio Ofensivo',
     goals: 5, assists: 2, appearances: 21, jerseyNumber: 10, age: 28, nationality: 'Angola', height: '1.78m', weight: '74kg',
     attributes: { pace: 76, shooting: 75, passing: 80, dribbling: 78, defending: 55, physical: 72 },
     bio: 'O número 10 clássico, responsável pelas bolas paradas da equipa.'
+  },
+  {
+    id: 'caala-player-2', name: 'Luís Silva', club: 'CR Caála', teamId: 'caala', position: 'Avançado',
+    goals: 6, assists: 1, appearances: 22, jerseyNumber: 9, age: 26, nationality: 'Angola', height: '1.82m', weight: '78kg',
+    attributes: { pace: 80, shooting: 78, passing: 62, dribbling: 73, defending: 30, physical: 79 },
+    bio: 'Ponta de lança letal dentro de área com óptimo sentido de posicionamento.'
+  },
+  {
+    id: 'caala-player-3', name: 'Nelito', club: 'CR Caála', teamId: 'caala', position: 'Defesa',
+    goals: 0, assists: 0, appearances: 24, jerseyNumber: 3, age: 27, nationality: 'Angola', height: '1.85m', weight: '82kg',
+    attributes: { pace: 72, shooting: 48, passing: 65, dribbling: 60, defending: 79, physical: 83 },
+    bio: 'Defesa central implacável na marcação directa ao adversário.'
   },
   {
     id: 'fcluanda-player-1', name: 'Bruno Fernando', club: 'FC Luanda', teamId: 'fcluanda', position: 'Defesa',
     goals: 0, assists: 1, appearances: 27, jerseyNumber: 3, age: 23, nationality: 'Angola', height: '1.83m', weight: '77kg',
     attributes: { pace: 78, shooting: 55, passing: 68, dribbling: 65, defending: 75, physical: 78 },
     bio: 'Lateral esquerdo muito ofensivo e incansável.'
+  },
+  {
+    id: 'fcluanda-player-2', name: 'Miguel Costa', club: 'FC Luanda', teamId: 'fcluanda', position: 'Avançado',
+    goals: 4, assists: 2, appearances: 22, jerseyNumber: 9, age: 25, nationality: 'Angola', height: '1.80m', weight: '76kg',
+    attributes: { pace: 84, shooting: 75, passing: 64, dribbling: 76, defending: 35, physical: 73 },
+    bio: 'Ponta de lança com boa movimentação ofensiva e cabeceamento.'
+  },
+  {
+    id: 'fcluanda-player-3', name: 'Gelson Dala Jr', club: 'FC Luanda', teamId: 'fcluanda', position: 'Médio',
+    goals: 2, assists: 4, appearances: 25, jerseyNumber: 10, age: 22, nationality: 'Angola', height: '1.73m', weight: '68kg',
+    attributes: { pace: 86, shooting: 70, passing: 79, dribbling: 82, defending: 48, physical: 65 },
+    bio: 'Jovem médio ofensivo caracterizado pela sua criatividade e ritmo rápido.'
+  },
+  {
+    id: 'wiliete-player-3', name: 'Karanga', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Médio',
+    goals: 5, assists: 4, appearances: 26, jerseyNumber: 7, age: 25, nationality: 'Angola', height: '1.76m', weight: '72kg',
+    attributes: { pace: 85, shooting: 73, passing: 78, dribbling: 81, defending: 60, physical: 74 },
+    bio: 'Médio polivalente e dinâmico, autor de golos cruciais na campanha do clube.'
+  },
+  {
+    id: 'lobito-player-2', name: 'Gerson Lourenço', club: 'Académica do Lobito', teamId: 'lobito', position: 'Médio',
+    goals: 1, assists: 3, appearances: 24, jerseyNumber: 6, age: 24, nationality: 'Angola', height: '1.78m', weight: '73kg',
+    attributes: { pace: 75, shooting: 62, passing: 76, dribbling: 72, defending: 70, physical: 75 },
+    bio: 'Médio combativo que assegura equilíbrio na transição defensiva.'
+  },
+  {
+    id: 'lobito-player-3', name: 'Ruben Fernandes', club: 'Académica do Lobito', teamId: 'lobito', position: 'Defesa',
+    goals: 0, assists: 0, appearances: 23, jerseyNumber: 4, age: 27, nationality: 'Angola', height: '1.83m', weight: '80kg',
+    attributes: { pace: 70, shooting: 45, passing: 60, dribbling: 55, defending: 78, physical: 82 },
+    bio: 'Defesa central de forte compleição física e excelente desarme por baixo.'
+  },
+  {
+    id: 'interclube-player-2', name: 'Beni Mukendi', club: 'Interclube', teamId: 'interclube', position: 'Médio',
+    goals: 2, assists: 5, appearances: 26, jerseyNumber: 8, age: 23, nationality: 'Angola', height: '1.77m', weight: '71kg',
+    attributes: { pace: 80, shooting: 68, passing: 82, dribbling: 79, defending: 70, physical: 74 },
+    bio: 'Jovem distribuidor dotado de grande qualidade no passe a longa distância.'
+  },
+  {
+    id: 'interclube-player-3', name: 'Carlitos Lemos', club: 'Interclube', teamId: 'interclube', position: 'Defesa',
+    goals: 1, assists: 1, appearances: 27, jerseyNumber: 5, age: 29, nationality: 'Angola', height: '1.86m', weight: '81kg',
+    attributes: { pace: 72, shooting: 50, passing: 70, dribbling: 64, defending: 81, physical: 80 },
+    bio: 'Defesa central experiente e líder da linha recuada do clube.'
+  },
+  {
+    id: 'sagrada-player-2', name: 'Depú Ramos', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Avançado',
+    goals: 7, assists: 1, appearances: 22, jerseyNumber: 9, age: 26, nationality: 'Angola', height: '1.82m', weight: '78kg',
+    attributes: { pace: 85, shooting: 82, passing: 60, dribbling: 72, defending: 35, physical: 78 },
+    bio: 'Avançado centro oportunista com grande presença física e cabeceamento forte.'
+  },
+  {
+    id: 'sagrada-player-3', name: 'Victoriano Victor', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Defesa',
+    goals: 0, assists: 0, appearances: 25, jerseyNumber: 3, age: 27, nationality: 'Angola', height: '1.84m', weight: '80kg',
+    attributes: { pace: 74, shooting: 48, passing: 65, dribbling: 60, defending: 82, physical: 82 },
+    bio: 'Defesa esquerdo muito focado no trabalho tático e cobertura.'
+  },
+  {
+    id: 'bravos-player-2', name: 'Dino Macolo', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado',
+    goals: 5, assists: 3, appearances: 23, jerseyNumber: 7, age: 24, nationality: 'Angola', height: '1.76m', weight: '70kg',
+    attributes: { pace: 89, shooting: 73, passing: 68, dribbling: 81, defending: 32, physical: 68 },
+    bio: 'Extremo veloz com boa qualidade de drible e cruzamentos.'
+  },
+  {
+    id: 'bravos-player-3', name: 'Sérgio Ndala', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Guarda-redes',
+    goals: 0, assists: 0, appearances: 25, jerseyNumber: 12, age: 28, nationality: 'Angola', height: '1.87m', weight: '80kg',
+    attributes: { pace: 52, shooting: 40, passing: 58, dribbling: 50, defending: 79, physical: 76 },
+    bio: 'Guarda-redes de bons reflexos e eficiente no controlo da profundidade.'
   }
 ];
 
@@ -988,6 +1210,22 @@ export const newsMock: NewsArticle[] = [
     date: '10 Mai 2026',
     summary: 'O avançado congolês do 1.º de Agosto finalizou a temporada com 18 golos marcados, consagrando-se o principal goleador do futebol nacional angolano.',
     content: 'O troféu de artilheiro do futebol angolano tem novo dono. O avançado congolês Dagó Tshibamba fechou a época de ouro do 1.º de Agosto com 18 golos apontados na prova. Tshibamba demonstrou regularidade notável, sendo coroado oficialmente como o melhor marcador e grande estrela ofensiva do Girabola.'
+  },
+  {
+    id: 'n5',
+    title: 'Requalificação do Estádio França Ndalu recebe luz verde da FAF',
+    category: 'Infraestrutura',
+    date: '24 Jun 2026',
+    summary: 'A comissão técnica vistoriou as obras e aprovou o relvado para as competições nacionais e internacionais da próxima época.',
+    content: 'O Estádio França Ndalu, casa do 1.º de Agosto, recebeu luz verde da federação para acolher jogos de alto nível na próxima temporada. Após profundas obras de requalificação no relvado e nos balneários, a vistoria técnica da FAF confirmou que o recinto reúne todos os requisitos regulamentares, trazendo grande alento aos adeptos militares que poderão apoiar a equipa no seu reduto principal.'
+  },
+  {
+    id: 'n6',
+    title: 'FAF anuncia sorteio do calendário oficial para o Girabola 2026/2027',
+    category: 'Federação',
+    date: '20 Jun 2026',
+    summary: 'O sorteio oficial definiu as 30 jornadas da nova época desportiva, sob o novo código de verificação unificado.',
+    content: 'A Federação Angolana de Futebol (FAF) realizou o sorteio da nova edição do campeonato nacional no edifício-sede em Luanda. O sorteio estabeleceu um calendário emocionante a duas voltas para as 16 equipas concorrentes. Os jogos terão início a 12 de Setembro de 2026, com o Petro de Luanda a iniciar a defesa do título em casa contra o Desportivo da Lunda Sul.'
   }
 ];
 
@@ -1012,7 +1250,7 @@ export function getMatches(): Match[] {
   return MATCHES;
 }
 
-// Calendário por época — 2026/2027 corresponde ao ficheiro do ANCAF_CALENDAR.
+// Calendário por época — 2026/2027 corresponde ao ficheiro do FAF_CALENDAR.
 export function getMatchesForSeason(seasonId: string): Match[] {
   return seasonId === UPCOMING_SEASON_ID ? MATCHES_2026_27 : MATCHES;
 }
@@ -1058,13 +1296,7 @@ export function getNewsArticleById(id: string): NewsArticle | undefined {
 // Derivam dos atributos do jogador para serem estáveis e consistentes entre
 // recarregamentos. Não provêm de scraping nem de APIs oficiais.
 
-function hashString(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return Math.abs(hash);
-}
+const hashString = simpleHash;
 
 function avgAttributes(p: Player): number {
   const a = p.attributes;

@@ -1,5 +1,6 @@
 /* One-off: limpa os SVG traçados — remove o fundo claro (deixa transparente)
    e adiciona viewBox para escalar corretamente. */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
 const path = require('path');
 

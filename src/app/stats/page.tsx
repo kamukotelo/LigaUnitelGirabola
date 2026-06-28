@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Flame, Award, Shield } from 'lucide-react';
-import { TOP_SCORERS, TOP_ASSISTS } from '@/lib/data';
+import { TOP_SCORERS, TOP_ASSISTS, getPlayers } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 
 export default function StatsPage() {
@@ -15,6 +15,10 @@ export default function StatsPage() {
   const maxAssists = Math.max(...TOP_ASSISTS.map((p) => p.assists));
 
   const players = activeTab === 'scorers' ? TOP_SCORERS : TOP_ASSISTS;
+
+  const allPlayersList = getPlayers();
+  const leaderPlayerStats = TOP_SCORERS[0];
+  const leaderPlayerFull = allPlayersList.find(p => p.id === leaderPlayerStats.id);
 
   return (
     <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -160,25 +164,29 @@ export default function StatsPage() {
             
             <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-400">
               <div className="p-4 bg-white/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl">
-                <h4 className="font-bold text-foreground text-md uppercase">Dagó Tshibamba</h4>
-                <p className="text-accent font-mono text-[10px] mt-0.5">CLUBE DESPORTIVO 1.º DE AGOSTO</p>
+                <h4 className="font-bold text-foreground text-md uppercase">
+                  <Link href={`/players/${leaderPlayerStats.id}`} className="hover:text-primary transition-colors">
+                    {leaderPlayerStats.name}
+                  </Link>
+                </h4>
+                <p className="text-accent font-mono text-[10px] mt-0.5">{leaderPlayerStats.club.toUpperCase()}</p>
                 <div className="grid grid-cols-3 gap-2 mt-4 text-center font-mono">
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
-                    <span className="text-foreground font-bold block text-sm">28</span>
+                    <span className="text-foreground font-bold block text-sm">{leaderPlayerStats.appearances}</span>
                     <span className="text-[8px] text-zinc-500 uppercase">Jogos</span>
                   </div>
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
-                    <span className="text-accent font-bold block text-sm">18</span>
+                    <span className="text-accent font-bold block text-sm">{leaderPlayerStats.goals}</span>
                     <span className="text-[8px] text-zinc-500 uppercase">Golos</span>
                   </div>
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
-                    <span className="text-foreground font-bold block text-sm">4</span>
+                    <span className="text-foreground font-bold block text-sm">{leaderPlayerStats.assists}</span>
                     <span className="text-[8px] text-zinc-500 uppercase">Assists</span>
                   </div>
                 </div>
               </div>
               <p>
-                O avançado congolês foi a peça mais decisiva no ataque da sua equipa, tendo garantido pontos cruciais e alcançado a meta dos 18 golos.
+                {leaderPlayerFull?.bio ?? 'Destaque ofensivo do campeonato.'}
               </p>
             </div>
           </AnimatedCard>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#00529B",
+  themeColor: "#D21515",
 };
 export default function RootLayout({
   children,
@@ -58,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt" suppressHydrationWarning>
+    <html lang="pt-AO" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -77,10 +78,10 @@ export default function RootLayout({
             <div className="holo-logo-glow" />
             <div className="holo-logo-ring-outer" />
             <div className="holo-logo-ring-inner" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/logo-girabola.png"
-              alt="Hologram Logo"
+              alt=""
+              aria-hidden
               className="holo-logo-image"
               width={500}
               height={500}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getNewsArticleById } from '@/lib/data';
+import { getNewsArticleById, getNewsArticles } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Calendar } from 'lucide-react';
@@ -7,6 +7,11 @@ import AnimatedCard from '@/components/ui/AnimatedCard';
 
 interface Props {
   params: Promise<{ id: string }>;
+}
+
+// Geração estática das páginas de notícia (SSG), como os restantes detalhes
+export function generateStaticParams() {
+  return getNewsArticles().map((a) => ({ id: a.id }));
 }
 
 export default async function NewsDetailPage({ params }: Props) {

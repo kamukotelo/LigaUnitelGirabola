@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 type BrandSize = 'sm' | 'md' | 'lg';
 
@@ -26,12 +27,12 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
   const w = Math.round((h * 396) / 219);
 
   const logo = (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+    <Image
       src="/logo-girabola-horizontal.png"
       alt="Liga Unitel Girabola"
       width={w}
       height={h}
+      priority={size === 'lg'}
       className="object-contain drop-shadow-[0_0_8px_rgba(210,80,0,0.4)] transition-transform duration-300 group-hover:scale-105"
     />
   );

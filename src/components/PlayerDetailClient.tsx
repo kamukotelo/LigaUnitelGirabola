@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Activity, Award, Star, Calendar, Users,
   BarChart3, AlertTriangle, Shield, CheckCircle2,
-  RefreshCw, Check, X, ExternalLink
+  RefreshCw, Check, ExternalLink
 } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
@@ -278,7 +278,7 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
   );
 }
 
-// ── ABA 2: Estatísticas Detalhadas (avaliação técnica ANCAF & Sofascore/ZeroZero) ──────────
+// ── ABA 2: Estatísticas Detalhadas (avaliação técnica FAF & Sofascore/ZeroZero) ──────────
 function StatsTab({ player }: { player: Player }) {
   const ratings = getPlayerRatings(player);
   const recent = getRecentRatings(player);
@@ -300,7 +300,7 @@ function StatsTab({ player }: { player: Player }) {
     <div className="space-y-8">
       <div className="flex justify-end"><DemoBadge /></div>
 
-      {/* Índices de avaliação técnica (ANCAF) */}
+      {/* Índices de avaliação técnica (FAF) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {([
           { name: 'Índice Sofascore', value: ratings.sofascore, accent: '#00F5FF', caption: 'Rating Sofascore Integrado' },

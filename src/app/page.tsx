@@ -4,9 +4,10 @@ import { motion, useInView, useMotionValue, useSpring, useTransform } from 'fram
 import { ArrowRight, Trophy, Calendar, Shield, Zap, Activity, Flame } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
-import { getNewsArticles } from '@/lib/data';
+import { getNewsArticles, getTeams, getMatches, getPlayers, STANDINGS, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
 
 /* ── Animated Number Counter ─────────────────────────────────── */
 function AnimatedCounter({ value }: { value: number }) {
@@ -137,8 +138,7 @@ function PitchOrbit() {
       <div className="absolute w-2 h-2 rounded-full bg-accent shadow-[0_0_12px_rgba(249,195,4,0.9)]" />
 
       {/* Brasão Girabola em marca-d'água */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/logo-girabola.png" alt="" className="absolute w-28 h-28 object-contain opacity-[0.07]" />
+      <Image src="/logo-girabola.png" alt="" aria-hidden width={112} height={112} className="absolute w-28 h-28 object-contain opacity-[0.07]" />
 
       {/* Órbita da bola */}
       <motion.div
@@ -187,6 +187,8 @@ function PitchOrbit() {
 
 export default function Home() {
   const [glitchActive, setGlitchActive] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -196,12 +198,37 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Inline Mock Data
+  // Dynamic statistics from helper functions
+  const teamsCount = getTeams().length;
+  const seasonMatches = getMatches();
+  const matchesPlayed = seasonMatches.filter((m) => m.status === 'finished').length;
+  const roundsCount = new Set(seasonMatches.map((m) => m.round)).size;
+  const allPlayers = getPlayers();
+  const topScorer = allPlayers.length > 0 ? [...allPlayers].sort((a, b) => b.goals - a.goals)[0] : null;
+  const topScorerName = topScorer ? topScorer.name.split(' ')[0] : 'Dagó';
+  const topScorerGoals = topScorer ? topScorer.goals : 18;
+  const topScorerFull = topScorer ? topScorer.name : 'Dagó Tshibamba';
+
+  // Época em curso (resultados consolidados) — fonte única em data.ts
+  const activeSeasonLabel = SEASONS.find((s) => s.id === CURRENT_SEASON_ID)?.label ?? '2025/2026';
+
+  // Campeão / vice derivados da classificação (coincidem sempre com a tabela)
+  const champion = STANDINGS[0]?.teamName ?? 'Petro de Luanda';
+  const runnerUp = STANDINGS[1]?.teamName ?? '';
+
+  const tickerItems = [
+    `● ${champion} campeão do Girabola ${activeSeasonLabel}`,
+    `◆ ${topScorerFull} melhor marcador com ${topScorerGoals} golos`,
+    runnerUp ? `▲ ${runnerUp} fecha a época no 2.º lugar` : '',
+    '■ Portal digital do futebol de Angola',
+    '● Cobertura completa em tempo real',
+  ].filter(Boolean);
+
   const stats = [
-    { label: 'Clubes', value: 16, icon: Shield },
-    { label: 'Jogos Disputados', value: 240, icon: Trophy },
-    { label: 'Jornadas', value: 30, icon: Calendar },
-    { label: 'Golos Marcados (Dagó)', value: 18, icon: Flame },
+    { label: 'Clubes', value: teamsCount, icon: Shield },
+    { label: 'Jogos Disputados', value: matchesPlayed, icon: Trophy },
+    { label: 'Jornadas', value: roundsCount, icon: Calendar },
+    { label: 'Golos Marcados (' + topScorerName + ')', value: topScorerGoals, icon: Flame },
   ];
 
   const news = getNewsArticles().slice(0, 3);
@@ -232,12 +259,12 @@ export default function Home() {
           <div>
             <h1 className="mb-8">
               <span className="sr-only">Liga Unitel Girabola</span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src="/logo-girabola-horizontal.png"
                 alt="Liga Unitel Girabola"
                 width={396}
                 height={219}
+                priority
                 className={`w-full max-w-[360px] md:max-w-[460px] h-auto object-contain drop-shadow-[0_0_25px_rgba(210,80,0,0.35)] ${
                   glitchActive ? 'glitch-text' : ''
                 }`}
@@ -251,7 +278,7 @@ export default function Home() {
             <div className="flex items-center gap-3 mb-10">
               <Activity size={14} className="text-accent animate-pulse" />
               <span className="text-[10px] font-mono text-accent/80 tracking-widest uppercase">
-                Edição 2025/2026 · Petro de Luanda Campeão
+                Edição {activeSeasonLabel} · {champion} Campeão
               </span>
             </div>
 
@@ -306,11 +333,9 @@ export default function Home() {
         >
           {Array.from({ length: 4 }).map((_, r) => (
             <span key={r} className="flex gap-12">
-              <span>● PETRO DE LUANDA CAMPEÃO DO GIRABOLA 2025/26</span>
-              <span>◆ DAGÓ TSHIBAMBA COROADO MELHOR MARCADOR COM 18 GOLOS</span>
-              <span>▲ WILIETE DE BENGUELA EM SEGUNDO LUGAR HISTÓRICO</span>
-              <span>■ PORTAL DIGITAL DO FUTEBOL DE ANGOLA</span>
-              <span>● COBERTURA COMPLETA EM TEMPO REAL</span>
+              {tickerItems.map((item, i) => (
+                <span key={i}>{item}</span>
+              ))}
             </span>
           ))}
         </motion.div>
@@ -373,16 +398,37 @@ export default function Home() {
           <p className="text-md text-black font-bold uppercase mb-10 tracking-wide opacity-80 max-w-xl mx-auto">
             Subscreva para receber alertas de golos em tempo real, resumos de jogos e notícias exclusivas do Girabola.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
-            <input
-              type="email"
-              placeholder="O TEU EMAIL"
-              className="flex-grow p-4 text-sm font-bold bg-white text-zinc-900 outline-none rounded-full font-mono text-center sm:text-left sm:px-6"
-            />
-            <FuturisticButton variant="premium">
-              Subscrever
-            </FuturisticButton>
-          </div>
+          {subscribed ? (
+            <div className="bg-white/10 border border-white/20 rounded-2xl p-6 max-w-lg mx-auto text-center backdrop-blur-md">
+              <p className="text-xl text-white font-display uppercase tracking-wider font-extrabold">
+                ✓ SUBSCRITO COM SUCESSO!
+              </p>
+              <p className="text-xs text-black/80 font-mono uppercase mt-2 font-bold">
+                Canal de Alertas ativado para: {newsletterEmail}
+              </p>
+            </div>
+          ) : (
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (newsletterEmail) setSubscribed(true);
+              }}
+              className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto w-full"
+            >
+              <input
+                type="email"
+                required
+                aria-label="Endereço de email para subscrição"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                placeholder="O TEU EMAIL"
+                className="flex-grow p-4 text-sm font-bold bg-white text-zinc-900 outline-none rounded-full font-mono text-center sm:text-left sm:px-6"
+              />
+              <FuturisticButton variant="premium" type="submit">
+                Subscrever
+              </FuturisticButton>
+            </form>
+          )}
         </div>
       </section>
     </div>

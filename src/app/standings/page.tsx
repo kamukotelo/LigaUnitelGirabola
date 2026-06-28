@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Zap, Info, Award } from 'lucide-react';
 import Link from 'next/link';
-import { STANDINGS } from '@/lib/data';
+import { STANDINGS, TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 
 export default function StandingsPage() {
@@ -49,6 +49,7 @@ export default function StandingsPage() {
               </thead>
               <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
                 {STANDINGS.map((row, i) => {
+                  const teamObj = TEAMS.find(t => t.id === row.teamId);
                   // Style configurations for zones
                   const isChampion = row.position === 1;
                   const isCafChampions = row.position <= 2;
@@ -93,7 +94,11 @@ export default function StandingsPage() {
                       {/* Team Name */}
                       <td className="py-4 px-4 font-semibold text-foreground">
                         <div className="flex items-center gap-3">
-                          <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-700" />
+                          <span 
+                            className="w-2.5 h-2.5 rounded-full border border-black/10 dark:border-white/10 shadow-sm"
+                            style={{ backgroundColor: teamObj?.colorsHex?.[0] ?? '#cbd5e1' }}
+                            title={teamObj?.colors}
+                          />
                           <Link href={`/teams/${row.teamId}`} className="hover:text-primary transition-colors">
                             {row.teamName}
                             {isChampion && (

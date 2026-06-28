@@ -22,14 +22,14 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden md:flex space-x-6">
+          <nav className="hidden md:flex space-x-2 lg:space-x-4 xl:space-x-6">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.path;
               return (
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`text-sm font-semibold tracking-wide uppercase px-3 py-2 rounded-lg transition-all duration-200 ${
+                  className={`text-[10px] lg:text-xs xl:text-sm font-semibold tracking-wide uppercase px-2 lg:px-3 py-2 rounded-lg transition-all duration-200 ${
                     isActive
                       ? 'text-accent border-b-2 border-accent'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:bg-foreground/5'

@@ -45,10 +45,10 @@ export default function Footer() {
                 <Link href="/contact" className="hover:text-accent transition-colors">Central de Ajuda</Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-accent transition-colors">Termos de Uso</Link>
+                <span title="Brevemente" className="cursor-not-allowed opacity-50 hover:text-accent transition-colors">Termos de Uso</span>
               </li>
               <li>
-                <Link href="#" className="hover:text-accent transition-colors">Políticas de Privacidade</Link>
+                <span title="Brevemente" className="cursor-not-allowed opacity-50 hover:text-accent transition-colors">Políticas de Privacidade</span>
               </li>
               <li>
                 <Link href="/admin" className="inline-flex items-center gap-1.5 text-zinc-600 hover:text-accent transition-colors">
@@ -64,15 +64,15 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Liga Unitel Girabola. Todos os direitos reservados.
           </div>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-foreground transition-colors">
+            <span title="Brevemente" className="cursor-not-allowed opacity-50 hover:text-foreground transition-colors">
               <Flame className="h-4 w-4" />
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            </span>
+            <span title="Brevemente" className="cursor-not-allowed opacity-50 hover:text-foreground transition-colors">
               <Globe className="h-4 w-4" />
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            </span>
+            <span title="Brevemente" className="cursor-not-allowed opacity-50 hover:text-foreground transition-colors">
               <ShieldAlert className="h-4 w-4" />
-            </a>
+            </span>
           </div>
         </div>
       </div>
