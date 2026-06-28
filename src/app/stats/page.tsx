@@ -91,8 +91,8 @@ export default function StatsPage() {
                   >
                     
                     {/* Rank, Name & Club */}
-                    <div className="flex items-center gap-4 min-w-[250px]">
-                      <span className={`text-2xl font-display font-black w-8 text-center ${
+                    <div className="flex items-center gap-4 min-w-0 md:min-w-[250px] w-full md:w-auto">
+                      <span className={`text-2xl font-display font-black w-8 text-center flex-shrink-0 ${
                         isLeader ? 'text-accent animate-pulse' : 'text-zinc-600'
                       }`}>
                         {idx + 1}

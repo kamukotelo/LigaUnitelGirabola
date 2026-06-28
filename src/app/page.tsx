@@ -114,61 +114,61 @@ function PitchOrbit() {
   ];
 
   return (
-    <div className="relative w-[440px] h-[460px] flex items-center justify-center select-none" aria-hidden>
+    <div className="relative w-[320px] h-[340px] sm:w-[440px] sm:h-[460px] flex items-center justify-center select-none overflow-hidden" aria-hidden>
       {/* Glow base */}
       <div
-        className="absolute w-72 h-72 rounded-full blur-3xl"
+        className="absolute w-56 h-56 sm:w-72 sm:h-72 rounded-full blur-3xl"
         style={{ background: 'radial-gradient(circle, rgba(210,21,21,0.28), rgba(249,195,4,0.12) 55%, transparent 72%)' }}
       />
 
       {/* Varredura radar */}
       <motion.div
-        className="absolute w-[340px] h-[340px] rounded-full"
+        className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] rounded-full"
         style={{ background: 'conic-gradient(from 0deg, transparent 0deg, rgba(249,195,4,0.20) 40deg, transparent 95deg)' }}
         animate={{ rotate: 360 }}
         transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
       />
 
       {/* Linhas do campo (círculo central + meio-campo) */}
-      <div className="absolute w-[340px] h-[340px] rounded-full border border-primary/25" />
-      <div className="absolute w-[250px] h-[250px] rounded-full border border-accent/20" />
-      <div className="absolute w-[150px] h-[150px] rounded-full border-2 border-foreground/20" />
-      <div className="absolute w-[340px] h-px bg-primary/20" />
-      <div className="absolute w-px h-[340px] bg-primary/10" />
+      <div className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] rounded-full border border-primary/25" />
+      <div className="absolute w-[180px] h-[180px] sm:w-[250px] sm:h-[250px] rounded-full border border-accent/20" />
+      <div className="absolute w-[110px] h-[110px] sm:w-[150px] sm:h-[150px] rounded-full border-2 border-foreground/20" />
+      <div className="absolute w-[240px] sm:w-[340px] h-px bg-primary/20" />
+      <div className="absolute w-px h-[240px] sm:h-[340px] bg-primary/10" />
       <div className="absolute w-2 h-2 rounded-full bg-accent shadow-[0_0_12px_rgba(249,195,4,0.9)]" />
 
       {/* Brasão Girabola em marca-d'água */}
-      <Image src="/logo-girabola.png" alt="" aria-hidden width={112} height={112} className="absolute w-28 h-28 object-contain opacity-[0.07]" />
+      <Image src="/logo-girabola.png" alt="" aria-hidden width={80} height={80} className="absolute w-20 h-20 sm:w-28 sm:h-28 object-contain opacity-[0.07]" />
 
       {/* Órbita da bola */}
       <motion.div
-        className="absolute w-[340px] h-[340px]"
+        className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px]"
         animate={{ rotate: 360 }}
         transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
       >
         <motion.div
-          className="absolute left-1/2 -top-4 -translate-x-1/2 drop-shadow-[0_0_14px_rgba(0,0,0,0.65)]"
+          className="absolute left-1/2 -top-3 sm:-top-4 -translate-x-1/2 drop-shadow-[0_0_14px_rgba(0,0,0,0.65)]"
           animate={{ rotate: -360 }}
           transition={{ duration: 2.2, repeat: Infinity, ease: 'linear' }}
         >
-          <SoccerBall size={58} />
+          <SoccerBall size={42} />
         </motion.div>
       </motion.div>
 
       {/* Satélites nas cores de Angola */}
       <motion.div
-        className="absolute w-[250px] h-[250px]"
+        className="absolute w-[180px] h-[180px] sm:w-[250px] sm:h-[250px]"
         animate={{ rotate: -360 }}
         transition={{ duration: 13, repeat: Infinity, ease: 'linear' }}
       >
         {satellites.map((s, i) => (
           <span
             key={i}
-            className="absolute left-1/2 top-1/2 w-3 h-3 -ml-1.5 -mt-1.5 rounded-full"
+            className="absolute left-1/2 top-1/2 w-2 h-2 sm:w-3 sm:h-3 -ml-1 -mt-1 sm:-ml-1.5 sm:-mt-1.5 rounded-full"
             style={{
               backgroundColor: s.color,
               boxShadow: `0 0 12px ${s.glow}`,
-              transform: `rotate(${i * 120}deg) translateY(-125px)`,
+              transform: `rotate(${i * 120}deg) translateY(-90px) sm:translateY(-125px)`,
             }}
           />
         ))}

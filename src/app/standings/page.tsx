@@ -31,20 +31,20 @@ export default function StandingsPage() {
         
         {/* Table Container */}
         <div className="xl:col-span-3 overflow-hidden">
-          <AnimatedCard variant="hud" className="p-0 overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[700px]">
+          <AnimatedCard variant="hud" className="p-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <table className="w-full text-left border-collapse min-w-0 sm:min-w-[700px]">
               <thead>
                 <tr className="border-b border-zinc-200 dark:border-zinc-800/80 bg-zinc-100/60 dark:bg-zinc-900/40 text-[11px] font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
-                  <th className="py-4 px-4 text-center w-12">#</th>
-                  <th className="py-4 px-4">Clube</th>
-                  <th className="py-4 px-3 text-center w-14">J</th>
-                  <th className="py-4 px-3 text-center w-12">V</th>
-                  <th className="py-4 px-3 text-center w-12">E</th>
-                  <th className="py-4 px-3 text-center w-12">D</th>
-                  <th className="py-4 px-3 text-center w-20">Golos</th>
-                  <th className="py-4 px-3 text-center w-14">DG</th>
-                  <th className="py-4 px-4 text-center w-16 bg-primary/10 text-primary dark:text-white font-bold">PTS</th>
-                  <th className="py-4 px-4 text-center w-36">Forma</th>
+                  <th className="py-4 px-3 sm:px-4 text-center w-10 sm:w-12">#</th>
+                  <th className="py-4 px-3 sm:px-4">Clube</th>
+                  <th className="py-4 px-2 sm:px-3 text-center w-10 sm:w-14">J</th>
+                  <th className="py-4 px-2 sm:px-3 text-center w-10 sm:w-12 hidden sm:table-cell">V</th>
+                  <th className="py-4 px-2 sm:px-3 text-center w-10 sm:w-12 hidden sm:table-cell">E</th>
+                  <th className="py-4 px-2 sm:px-3 text-center w-10 sm:w-12 hidden sm:table-cell">D</th>
+                  <th className="py-4 px-2 sm:px-3 text-center w-16 sm:w-20 hidden md:table-cell">Golos</th>
+                  <th className="py-4 px-2 sm:px-3 text-center w-12 sm:w-14">DG</th>
+                  <th className="py-4 px-3 sm:px-4 text-center w-14 sm:w-16 bg-primary/10 text-primary dark:text-white font-bold">PTS</th>
+                  <th className="py-4 px-3 sm:px-4 text-center w-28 sm:w-36 hidden md:table-cell">Forma</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
@@ -81,7 +81,7 @@ export default function StandingsPage() {
                       className={`transition-colors duration-150 ${rowBg}`}
                     >
                       {/* Position Indicator */}
-                      <td className={`py-4 px-4 text-center font-mono ${posColor} ${borderIndicator}`}>
+                      <td className={`py-4 px-3 sm:px-4 text-center font-mono ${posColor} ${borderIndicator}`}>
                         {isChampion ? (
                           <div className="flex justify-center items-center">
                             <Award className="h-5 w-5 text-accent animate-bounce" />
@@ -92,17 +92,17 @@ export default function StandingsPage() {
                       </td>
 
                       {/* Team Name */}
-                      <td className="py-4 px-4 font-semibold text-foreground">
-                        <div className="flex items-center gap-3">
+                      <td className="py-4 px-3 sm:px-4 font-semibold text-foreground">
+                        <div className="flex items-center gap-2 sm:gap-3">
                           <span 
-                            className="w-2.5 h-2.5 rounded-full border border-black/10 dark:border-white/10 shadow-sm"
+                            className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border border-black/10 dark:border-white/10 shadow-sm flex-shrink-0"
                             style={{ backgroundColor: teamObj?.colorsHex?.[0] ?? '#cbd5e1' }}
                             title={teamObj?.colors}
                           />
-                          <Link href={`/teams/${row.teamId}`} className="hover:text-primary transition-colors">
+                          <Link href={`/teams/${row.teamId}`} className="hover:text-primary transition-colors truncate max-w-[100px] sm:max-w-none text-xs sm:text-sm block">
                             {row.teamName}
                             {isChampion && (
-                              <span className="ml-2 text-[9px] font-mono bg-accent/25 text-accent border border-accent/40 px-2 py-0.5 rounded-full">
+                              <span className="ml-1.5 text-[8px] font-mono bg-accent/25 text-accent border border-accent/40 px-1.5 py-0.2 rounded-full hidden sm:inline">
                                 CAMPEÃO
                               </span>
                             )}
@@ -111,23 +111,23 @@ export default function StandingsPage() {
                       </td>
 
                       {/* Match Stats */}
-                      <td className="py-4 px-3 text-center font-mono text-zinc-700 dark:text-zinc-300">{row.played}</td>
-                      <td className="py-4 px-3 text-center font-mono text-zinc-600 dark:text-zinc-400">{row.won}</td>
-                      <td className="py-4 px-3 text-center font-mono text-zinc-600 dark:text-zinc-400">{row.drawn}</td>
-                      <td className="py-4 px-3 text-center font-mono text-zinc-600 dark:text-zinc-400">{row.lost}</td>
-                      <td className="py-4 px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs">{row.goalsFor}-{row.goalsAgainst}</td>
-                      <td className={`py-4 px-3 text-center font-mono font-semibold text-xs ${row.goalDifference >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                      <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-700 dark:text-zinc-300 text-xs sm:text-sm">{row.played}</td>
+                      <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm hidden sm:table-cell">{row.won}</td>
+                      <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm hidden sm:table-cell">{row.drawn}</td>
+                      <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm hidden sm:table-cell">{row.lost}</td>
+                      <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-[10px] sm:text-xs hidden md:table-cell">{row.goalsFor}-{row.goalsAgainst}</td>
+                      <td className={`py-4 px-2 sm:px-3 text-center font-mono font-semibold text-xs ${row.goalDifference >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                         {row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}
                       </td>
 
                       {/* Points */}
-                      <td className="py-4 px-4 text-center font-mono font-extrabold text-md bg-primary/5 text-primary dark:text-white">
+                      <td className="py-4 px-3 sm:px-4 text-center font-mono font-extrabold text-sm sm:text-md bg-primary/5 text-primary dark:text-white">
                         {row.points}
                       </td>
 
                       {/* Form History */}
-                      <td className="py-4 px-4">
-                        <div className="flex justify-center gap-1.5">
+                      <td className="py-4 px-3 sm:px-4 hidden md:table-cell">
+                        <div className="flex justify-center gap-1">
                           {row.form.map((result, idx) => {
                             let dotBg = 'bg-zinc-300 dark:bg-zinc-700';
                             let textColor = 'text-zinc-700 dark:text-white';
@@ -144,7 +144,7 @@ export default function StandingsPage() {
                             return (
                               <span
                                 key={idx}
-                                className={`w-6 h-6 rounded-md flex items-center justify-center font-mono text-[10px] font-bold ${dotBg} ${textColor}`}
+                                className={`w-5 h-5 rounded-md flex items-center justify-center font-mono text-[9px] font-bold ${dotBg} ${textColor}`}
                                 title={result === 'W' ? 'Vitória' : result === 'D' ? 'Empate' : 'Derrota'}
                               >
                                 {result}

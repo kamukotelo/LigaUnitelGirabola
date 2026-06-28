@@ -43,20 +43,20 @@ function MatchCard({ match }: { match: Match }) {
         </div>
 
         {/* Scoreboard */}
-        <div className="flex items-center justify-between gap-2 py-4 border-y border-zinc-200/60 dark:border-zinc-900/60 my-2">
-          <div className="flex-1 text-right font-bold text-sm md:text-base text-foreground truncate" title={match.homeTeam}>
+        <div className="flex items-center justify-between gap-1.5 py-4 border-y border-zinc-200/60 dark:border-zinc-900/60 my-2">
+          <div className="flex-1 text-right font-bold text-xs sm:text-sm md:text-base text-foreground truncate" title={match.homeTeam}>
             {match.homeTeam}
           </div>
           {isFinished ? (
-            <div className="px-3 py-2 bg-primary/10 border border-primary/20 rounded-xl font-mono text-lg font-black text-foreground text-center min-w-[4.5rem] flex justify-center items-center select-none shadow-[inset_0_0_15px_rgba(210,21,21,0.05)]">
+            <div className="px-2 py-1.5 sm:px-3 sm:py-2 bg-primary/10 border border-primary/20 rounded-xl font-mono text-base sm:text-lg font-black text-foreground text-center min-w-[3.5rem] sm:min-w-[4.5rem] flex justify-center items-center select-none shadow-[inset_0_0_15px_rgba(210,21,21,0.05)]">
               {match.score}
             </div>
           ) : (
-            <div className="px-3 py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl font-mono text-[10px] font-bold text-zinc-600 dark:text-zinc-400 text-center min-w-[4.5rem] flex flex-col justify-center items-center">
-              <Clock size={12} className="mb-0.5 text-accent animate-pulse" /> VS
+            <div className="px-2 py-1.5 sm:px-3 sm:py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl font-mono text-[9px] sm:text-[10px] font-bold text-zinc-600 dark:text-zinc-400 text-center min-w-[3.5rem] sm:min-w-[4.5rem] flex flex-col justify-center items-center">
+              <Clock size={10} className="mb-0.5 text-accent animate-pulse" /> VS
             </div>
           )}
-          <div className="flex-1 text-left font-bold text-sm md:text-base text-foreground truncate" title={match.awayTeam}>
+          <div className="flex-1 text-left font-bold text-xs sm:text-sm md:text-base text-foreground truncate" title={match.awayTeam}>
             {match.awayTeam}
           </div>
         </div>

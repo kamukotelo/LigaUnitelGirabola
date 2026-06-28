@@ -23,7 +23,7 @@ export const metadata: Metadata = {
       "Acompanhe classificações, resultados, equipas e estatísticas da Liga Unitel Girabola em tempo real.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-girabola.png",
         width: 1200,
         height: 630,
         alt: "Liga Unitel Girabola — Portal Oficial",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: "Liga Unitel Girabola",
     description:
       "Portal digital oficial da Liga Unitel Girabola — Campeonato Nacional de Futebol de Angola.",
-    images: ["/og-image.png"],
+    images: ["/og-girabola.png"],
   },
 
   /* ── Ícones do site ── */
