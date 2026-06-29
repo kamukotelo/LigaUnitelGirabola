@@ -108,9 +108,9 @@ export default function StatsPage() {
       );
       
       const cleanSheetsMap: Record<string, number> = {
-        'hugo-marques': 16, // Petro de Luanda (18 goals conceded)
-        'titi': 13,         // Wiliete (22 goals conceded)
-        'neblu': 12,        // 1.º de Agosto (25 goals conceded)
+        'hugo-marques': 16, // Petro de Luanda (12 golos sofridos)
+        'titi': 13,         // Wiliete de Benguela (27 golos sofridos)
+        'neblu': 12,        // 1.º de Agosto (21 golos sofridos)
       };
 
       displayPlayers = goalkeepers

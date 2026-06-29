@@ -16,6 +16,11 @@ export default function StandingsPage() {
   const selectedSeason = SEASONS.find(s => s.id === seasonId);
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
 
+  // Curiosidades derivadas da tabela calculada (coincidem sempre com os jogos).
+  const bestDefense = [...standingsList].sort((a, b) => a.goalsAgainst - b.goalsAgainst)[0];
+  const bestAttack = [...standingsList].sort((a, b) => b.goalsFor - a.goalsFor)[0];
+  const champion = standingsList[0];
+
   return (
     <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
@@ -234,23 +239,25 @@ export default function StandingsPage() {
             </div>
           </AnimatedCard>
 
-          {/* Quick Stats Summary */}
-          <AnimatedCard variant="hud" className="p-6">
-            <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Award size={16} className="text-accent" /> Curiosidades
-            </h3>
-            <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-400">
-              <p>
-                ⚽ O <strong className="text-foreground">Petro de Luanda</strong> registou a melhor defesa do campeonato, sofrendo apenas <strong className="text-accent">18 golos</strong> em 30 jogos.
-              </p>
-              <p>
-                🔥 O <strong className="text-foreground">Wiliete de Benguela</strong> obteve o maior número de golos marcados no seu estádio municipal.
-              </p>
-              <p>
-                🏆 O título de 2025/2026 representa o pentacampeonato oficial para a galeria dos tricolores.
-              </p>
-            </div>
-          </AnimatedCard>
+          {/* Curiosidades — derivadas da tabela, apenas para épocas já disputadas */}
+          {!isUpcoming && champion && (
+            <AnimatedCard variant="hud" className="p-6">
+              <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
+                <Award size={16} className="text-accent" /> Curiosidades
+              </h3>
+              <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-400">
+                <p>
+                  ⚽ O <strong className="text-foreground">{bestDefense.teamName}</strong> registou a melhor defesa do campeonato, sofrendo apenas <strong className="text-accent">{bestDefense.goalsAgainst} golos</strong> em {bestDefense.played} jogos.
+                </p>
+                <p>
+                  🔥 O <strong className="text-foreground">{bestAttack.teamName}</strong> foi o ataque mais concretizador, com <strong className="text-accent">{bestAttack.goalsFor} golos</strong> marcados.
+                </p>
+                <p>
+                  🏆 O título de {selectedSeason?.label} pertence ao <strong className="text-foreground">{champion.teamName}</strong>, líder destacado da galeria de campeões do Girabola.
+                </p>
+              </div>
+            </AnimatedCard>
+          )}
 
         </div>
 

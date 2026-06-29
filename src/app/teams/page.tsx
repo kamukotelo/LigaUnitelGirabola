@@ -23,7 +23,7 @@ export default function TeamsPage() {
           Clubes do <span className="text-primary italic">Girabola</span>
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
-          Lista das 16 equipas participantes na edição 2025/2026
+          Lista das 16 equipas participantes no Girabola
         </p>
       </div>
 

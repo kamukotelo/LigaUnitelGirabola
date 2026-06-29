@@ -86,11 +86,11 @@ function drawFixtures(clubs: DrawClub[], isAsymmetric: boolean, rng: () => numbe
 }
 
 // ── Plantel oficial do Girabola 2026/2027 (ordem do sorteio ANCAF) ──────
-// As 16 equipas reutilizam os clubes já definidos em TEAMS (data.ts), incl.
-// os promovidos FC Cabinda, CR Caála, FC Luanda e 1.º de Maio.
+// São exatamente os mesmos 16 clubes já definidos em TEAMS (data.ts). Nomes e
+// estádios espelham TEAMS (fonte única) para evitar divergências entre vistas.
 const DRAW_ROSTER: DrawClub[] = [
   { id: 'petro', name: 'Petro de Luanda', stadium: 'Estádio 11 de Novembro' },
-  { id: 'dago', name: '1.º de Agosto', stadium: 'Estádio 22 de Junho' },
+  { id: 'dago', name: '1.º de Agosto', stadium: 'Estádio França Ndalu' },
   { id: 'sagrada', name: 'Sagrada Esperança', stadium: 'Estádio Sagrada Esperança' },
   { id: 'wiliete', name: 'Wiliete de Benguela', stadium: 'Estádio Nacional de Ombaka' },
   { id: 'kabuscorp', name: 'Kabuscorp', stadium: 'Estádio dos Coqueiros' },
@@ -107,9 +107,9 @@ const DRAW_ROSTER: DrawClub[] = [
   { id: 'primeiromaio', name: '1.º de Maio', stadium: 'Estádio Municipal do Lobito' },
 ];
 
-// As 16 equipas de 2026/2027 já estão todas definidas em TEAMS (data.ts),
-// pelo que não há clubes adicionais a registar. Mantido por compatibilidade
-// com ALL_TEAMS (data.ts), que faz [...TEAMS, ...PROMOTED_2026_27_TEAMS].
+// As 16 equipas de 2026/2027 são as mesmas de TEAMS (data.ts), pelo que não há
+// clubes adicionais a registar. Mantido (lista vazia) por compatibilidade com
+// ALL_TEAMS (data.ts), que faz [...TEAMS, ...PROMOTED_2026_27_TEAMS].
 export const PROMOTED_2026_27_TEAMS: Team[] = [];
 
 const KICKOFFS = ['15:00', '16:00', '17:30', '19:00'];
