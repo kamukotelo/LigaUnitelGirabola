@@ -43,25 +43,40 @@ function MatchCard({ match }: { match: Match }) {
           )}
         </div>
 
-        {/* Scoreboard with Team Crests */}
-        <div className="flex items-center justify-between gap-1.5 py-4 border-y border-zinc-200/60 dark:border-zinc-900/60 my-2">
-          <div className="flex-1 flex items-center justify-end gap-2 font-bold text-xs sm:text-sm md:text-base text-foreground truncate" title={match.homeTeam}>
-            <span className="truncate">{match.homeTeam}</span>
-            <TeamCrest teamId={match.homeTeamId} size={20} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded" />
-          </div>
-          {isFinished ? (
-            <div className="px-2 py-1.5 sm:px-3 sm:py-2 bg-primary/10 border border-primary/20 rounded-xl font-mono text-base sm:text-lg font-black text-foreground text-center min-w-[3.5rem] sm:min-w-[4.5rem] flex justify-center items-center select-none shadow-[inset_0_0_15px_rgba(210,21,21,0.05)]">
-              {match.score}
+        {/* Scoreboard: Vertical layout for readability and responsiveness */}
+        <div className="py-3 border-y border-zinc-200/60 dark:border-zinc-900/60 my-2 space-y-3">
+          {/* Home Team Row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5 font-bold text-xs sm:text-sm md:text-base text-foreground min-w-0 flex-1">
+              <TeamCrest teamId={match.homeTeamId} size={22} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded flex-shrink-0" />
+              <span className="truncate">{match.homeTeam}</span>
             </div>
-          ) : (
-            <div className="px-2 py-1.5 sm:px-3 sm:py-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl font-mono text-[9px] sm:text-[10px] font-bold text-zinc-600 dark:text-zinc-400 text-center min-w-[3.5rem] sm:min-w-[4.5rem] flex flex-col justify-center items-center">
-              <Clock size={10} className="mb-0.5 text-accent animate-pulse" /> VS
+            {isFinished && (
+              <span className="font-mono text-xs sm:text-sm font-black text-foreground ml-3 bg-primary/10 dark:bg-primary/20 border border-primary/20 px-2.5 py-0.5 rounded-lg select-none">
+                {match.score?.split('-')[0]}
+              </span>
+            )}
+          </div>
+
+          {/* Away Team Row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5 font-bold text-xs sm:text-sm md:text-base text-foreground min-w-0 flex-1">
+              <TeamCrest teamId={match.awayTeamId} size={22} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded flex-shrink-0" />
+              <span className="truncate">{match.awayTeam}</span>
+            </div>
+            {isFinished && (
+              <span className="font-mono text-xs sm:text-sm font-black text-foreground ml-3 bg-primary/10 dark:bg-primary/20 border border-primary/20 px-2.5 py-0.5 rounded-lg select-none">
+                {match.score?.split('-')[1]}
+              </span>
+            )}
+          </div>
+
+          {!isFinished && (
+            <div className="pt-1 flex items-center justify-center gap-1 font-mono text-[9px] font-bold text-zinc-500">
+              <Clock size={10} className="text-accent animate-pulse" />
+              <span>AGENDADO</span>
             </div>
           )}
-          <div className="flex-1 flex items-center justify-start gap-2 font-bold text-xs sm:text-sm md:text-base text-foreground truncate" title={match.awayTeam}>
-            <TeamCrest teamId={match.awayTeamId} size={20} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded" />
-            <span className="truncate">{match.awayTeam}</span>
-          </div>
         </div>
 
         {/* Bottom info */}
