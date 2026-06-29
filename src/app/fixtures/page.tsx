@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Zap, Clock, Trophy, Target, CalendarDays, Flag, Radio } from 'lucide-react';
-import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, FAF_CALENDAR_SOURCE, getMatchesForSeason, Match } from '@/lib/data';
+import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, FAF_CALENDAR_SOURCE, getMatchesForSeason, Match, TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -16,6 +16,11 @@ function MatchCard({ match }: { match: Match }) {
   const formattedDate = new Date(match.date).toLocaleDateString('pt-AO', {
     day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
   });
+
+  const homeTeamObj = TEAMS.find((t) => t.id === match.homeTeamId);
+  const awayTeamObj = TEAMS.find((t) => t.id === match.awayTeamId);
+  const homeAbbr = homeTeamObj?.shortName ?? match.homeTeam.substring(0, 3).toUpperCase();
+  const awayAbbr = awayTeamObj?.shortName ?? match.awayTeam.substring(0, 3).toUpperCase();
 
   return (
     <Link href={`/matches/${match.id}`} className="block h-full group">
@@ -46,10 +51,10 @@ function MatchCard({ match }: { match: Match }) {
         {/* Scoreboard: Vertical layout for readability and responsiveness */}
         <div className="py-3 border-y border-zinc-200/60 dark:border-zinc-900/60 my-2 space-y-3">
           {/* Home Team Row */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between" title={match.homeTeam}>
             <div className="flex items-center gap-2.5 font-bold text-xs sm:text-sm md:text-base text-foreground min-w-0 flex-1">
               <TeamCrest teamId={match.homeTeamId} size={22} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded flex-shrink-0" />
-              <span className="truncate">{match.homeTeam}</span>
+              <span className="truncate">{homeAbbr}</span>
             </div>
             {isFinished && (
               <span className="font-mono text-xs sm:text-sm font-black text-foreground ml-3 bg-primary/10 dark:bg-primary/20 border border-primary/20 px-2.5 py-0.5 rounded-lg select-none">
@@ -59,10 +64,10 @@ function MatchCard({ match }: { match: Match }) {
           </div>
 
           {/* Away Team Row */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between" title={match.awayTeam}>
             <div className="flex items-center gap-2.5 font-bold text-xs sm:text-sm md:text-base text-foreground min-w-0 flex-1">
               <TeamCrest teamId={match.awayTeamId} size={22} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded flex-shrink-0" />
-              <span className="truncate">{match.awayTeam}</span>
+              <span className="truncate">{awayAbbr}</span>
             </div>
             {isFinished && (
               <span className="font-mono text-xs sm:text-sm font-black text-foreground ml-3 bg-primary/10 dark:bg-primary/20 border border-primary/20 px-2.5 py-0.5 rounded-lg select-none">
