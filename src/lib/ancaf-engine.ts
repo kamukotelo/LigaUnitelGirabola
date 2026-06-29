@@ -166,7 +166,8 @@ export function generateGirabolaCalendar(seed: number, year: number, idPrefix = 
     const [yy, mo, dd] = ROUND_DATES[fx.round - 1];
     const idxInRound = (counter - 1) % perRound;
     const d = new Date(yy, mo, dd);
-    if (idxInRound >= perRound / 2) d.setDate(d.getDate() + 1); // 2.º bloco no dia seguinte
+    // Para manter a consistência com as datas das jornadas fornecidas, removemos o acréscimo de +1 dia
+    // if (idxInRound >= perRound / 2) d.setDate(d.getDate() + 1);
     const [hh, mm] = KICKOFFS[idxInRound % KICKOFFS.length].split(':');
     d.setHours(Number(hh), Number(mm), 0, 0);
     return {
