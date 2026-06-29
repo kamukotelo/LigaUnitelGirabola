@@ -428,8 +428,8 @@ export const FAF_CALENDAR_SOURCE = {
 // ── 3c. CALENDÁRIO 2026/2027 (motor ANCAF · sorteio nº 1357) ─────────
 // Calendário oficial a duas voltas (30 jornadas, 16 equipas, 240 jogos),
 // gerado pelo motor ANCAF (ancaf-engine.ts) a partir do nº do sorteio.
-// As equipas promovidas da II Divisão (Gira Angola) entram como Santa Rita
-// de Cássia, Desportivo da Lunda Norte, Luanda City e Isaac de Benguela.
+// As 16 equipas (incl. promovidos FC Cabinda, CR Caála, FC Luanda e
+// 1.º de Maio) são as mesmas definidas em TEAMS.
 export interface SeasonRound {
   round: number;
   dates: string[];        // datas ISO (yyyy-mm-dd) da jornada

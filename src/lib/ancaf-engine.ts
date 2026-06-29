@@ -86,7 +86,8 @@ function drawFixtures(clubs: DrawClub[], isAsymmetric: boolean, rng: () => numbe
 }
 
 // ── Plantel oficial do Girabola 2026/2027 (ordem do sorteio ANCAF) ──────
-// IDs reutilizam os clubes já existentes; os 4 promovidos têm IDs novos.
+// As 16 equipas reutilizam os clubes já definidos em TEAMS (data.ts), incl.
+// os promovidos FC Cabinda, CR Caála, FC Luanda e 1.º de Maio.
 const DRAW_ROSTER: DrawClub[] = [
   { id: 'petro', name: 'Petro de Luanda', stadium: 'Estádio 11 de Novembro' },
   { id: 'dago', name: '1.º de Agosto', stadium: 'Estádio 22 de Junho' },
@@ -96,24 +97,20 @@ const DRAW_ROSTER: DrawClub[] = [
   { id: 'interclube', name: 'Interclube', stadium: 'Estádio 22 de Junho' },
   { id: 'desphuila', name: 'Desportivo da Huíla', stadium: 'Estádio da Tundavala' },
   { id: 'bravos', name: 'Bravos do Maquis', stadium: 'Estádio Mundunduleno' },
-  { id: 'santarita', name: 'Santa Rita de Cássia', stadium: 'Estádio 4 de Janeiro' },
+  { id: 'cabinda', name: 'FC Cabinda', stadium: 'Estádio Nacional do Chiazi' },
   { id: 'lobito', name: 'Académica do Lobito', stadium: 'Estádio do Buraco' },
   { id: 'libolo', name: 'Recreativo do Libolo', stadium: 'Estádio Municipal de Calulo' },
   { id: 'saosalvador', name: 'São Salvador do Kongo', stadium: 'Estádio Álvaro Buta' },
   { id: 'lundasul', name: 'Desportivo da Lunda Sul', stadium: 'Estádio das Mangueiras' },
-  { id: 'lundanorte', name: 'Desportivo da Lunda Norte', stadium: 'Estádio Sagrada Esperança' },
-  { id: 'luandacity', name: 'Luanda City', stadium: 'Estádio dos Coqueiros' },
-  { id: 'isaac', name: 'Isaac de Benguela', stadium: 'Estádio Nacional de Ombaka' },
+  { id: 'caala', name: 'CR Caála', stadium: 'Estádio Municipal da Caála' },
+  { id: 'fcluanda', name: 'FC Luanda', stadium: 'Campo da Cidadela' },
+  { id: 'primeiromaio', name: '1.º de Maio', stadium: 'Estádio Municipal do Lobito' },
 ];
 
-// Clubes promovidos da II Divisão (Gira Angola) — entram em 2026/2027.
-// Registados para que páginas de clube e detalhes de jogo os reconheçam.
-export const PROMOTED_2026_27_TEAMS: Team[] = [
-  { id: 'santarita', name: 'Santa Rita de Cássia', shortName: 'SRC', city: 'Uíge', stadium: 'Estádio 4 de Janeiro', stadiumCapacity: 12000, founded: 2005, colors: 'Rosa e Branco', coach: 'A designar', colorsHex: ['#FF007F', '#FFFFFF'] },
-  { id: 'lundanorte', name: 'Desportivo da Lunda Norte', shortName: 'DLN', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 2017, colors: 'Laranja e Branco', coach: 'A designar', colorsHex: ['#E25822', '#FFFFFF'] },
-  { id: 'luandacity', name: 'Luanda City', shortName: 'LCF', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 2019, colors: 'Cinza e Branco', coach: 'A designar', colorsHex: ['#4A5568', '#FFFFFF'] },
-  { id: 'isaac', name: 'Isaac de Benguela', shortName: 'ISA', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2016, colors: 'Vermelho e Branco', coach: 'A designar', colorsHex: ['#FF3333', '#FFFFFF'] },
-];
+// As 16 equipas de 2026/2027 já estão todas definidas em TEAMS (data.ts),
+// pelo que não há clubes adicionais a registar. Mantido por compatibilidade
+// com ALL_TEAMS (data.ts), que faz [...TEAMS, ...PROMOTED_2026_27_TEAMS].
+export const PROMOTED_2026_27_TEAMS: Team[] = [];
 
 const KICKOFFS = ['15:00', '16:00', '17:30', '19:00'];
 const NAME_BY_ID = new Map(DRAW_ROSTER.map((c) => [c.id, c.name]));
