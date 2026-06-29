@@ -302,6 +302,37 @@ export default function FixturesPage() {
         </div>
       </div>
 
+      {/* Paginação de Jornada (Navegador Rápido) */}
+      {selectedRound !== 'all' && (
+        <div className="flex justify-between items-center bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm mb-6 font-mono text-xs select-none">
+          <button
+            onClick={() => setSelectedRound(selectedRound - 1)}
+            disabled={selectedRound === 1}
+            className="px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-white/20 disabled:opacity-40 transition-colors flex items-center gap-1 font-bold text-foreground disabled:cursor-not-allowed"
+          >
+            ◀ Anterior
+          </button>
+          
+          <div className="flex items-center gap-2">
+            <span className="text-zinc-600 dark:text-zinc-400 font-extrabold uppercase">Jornada {selectedRound} de {rounds.length}</span>
+            <button 
+              onClick={() => setSelectedRound('all')}
+              className="text-[10px] bg-accent/10 hover:bg-accent/20 text-accent font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg border border-accent/20 transition-colors"
+            >
+              Ver Todas
+            </button>
+          </div>
+
+          <button
+            onClick={() => setSelectedRound(selectedRound + 1)}
+            disabled={selectedRound === rounds.length}
+            className="px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-white/20 disabled:opacity-40 transition-colors flex items-center gap-1 font-bold text-foreground disabled:cursor-not-allowed"
+          >
+            Próxima ▶
+          </button>
+        </div>
+      )}
+
       {/* Lista de jogos agrupada por jornada */}
       {hasResults ? (
         <div className="space-y-10">
