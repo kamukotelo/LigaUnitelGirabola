@@ -1,4 +1,5 @@
 // Data layer for Girabola 2025/2026 Football Portal
+import { generateGirabolaCalendar, PROMOTED_2026_27_TEAMS } from './ancaf-engine';
 
 export interface Team {
   id: string;
@@ -424,84 +425,38 @@ export const FAF_CALENDAR_SOURCE = {
   matches: 240,
 } as const;
 
-// ── 3c. CALENDÁRIO 2026/2027 (Proposta ANCAF · sorteio nº 1357) ──────
-// Calendário oficial a duas voltas (30 jornadas, 16 equipas, 240 jogos).
-// Datas (fim-de-semana sex-sáb-dom) da Proposta de Calendário ANCAF 2026-27;
-// confrontos do sorteio nº 1357. As 3 equipas promovidas da II Divisão
-// entram como FC Cabinda, CR Caála e FC Luanda (Promovido A/B/C).
+// ── 3c. CALENDÁRIO 2026/2027 (motor ANCAF · sorteio nº 1357) ─────────
+// Calendário oficial a duas voltas (30 jornadas, 16 equipas, 240 jogos),
+// gerado pelo motor ANCAF (ancaf-engine.ts) a partir do nº do sorteio.
+// As equipas promovidas da II Divisão (Gira Angola) entram como Santa Rita
+// de Cássia, Desportivo da Lunda Norte, Luanda City e Isaac de Benguela.
 export interface SeasonRound {
   round: number;
-  dates: string[];        // datas ISO (yyyy-mm-dd) do fim-de-semana da jornada
+  dates: string[];        // datas ISO (yyyy-mm-dd) da jornada
   note?: string;          // observação oficial (ex.: semana CAF, clássico)
   fixtures: [string, string][]; // pares [idCasa, idFora]
 }
 
-export const CALENDAR_2026_27: SeasonRound[] = [
-  { round: 1, dates: ['2026-08-14', '2026-08-15', '2026-08-16'], fixtures: [['libolo','saosalvador'], ['fcluanda','cabinda'], ['caala','kabuscorp'], ['primeiromaio','dago'], ['petro','lobito'], ['wiliete','sagrada'], ['desphuila','lundasul'], ['interclube','bravos']] },
-  { round: 2, dates: ['2026-08-21', '2026-08-22', '2026-08-23'], fixtures: [['cabinda','libolo'], ['saosalvador','kabuscorp'], ['dago','fcluanda'], ['lobito','caala'], ['sagrada','primeiromaio'], ['lundasul','petro'], ['bravos','wiliete'], ['desphuila','interclube']] },
-  { round: 3, dates: ['2026-08-28', '2026-08-29', '2026-08-30'], fixtures: [['libolo','dago'], ['kabuscorp','lobito'], ['cabinda','sagrada'], ['saosalvador','lundasul'], ['fcluanda','bravos'], ['caala','interclube'], ['primeiromaio','desphuila'], ['petro','wiliete']] },
-  { round: 4, dates: ['2026-09-04', '2026-09-05', '2026-09-06'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['libolo','primeiromaio'], ['petro','caala'], ['wiliete','fcluanda'], ['desphuila','saosalvador'], ['interclube','cabinda'], ['bravos','kabuscorp'], ['lundasul','dago'], ['sagrada','lobito']] },
-  { round: 5, dates: ['2026-09-11', '2026-09-12', '2026-09-13'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['kabuscorp','libolo'], ['dago','cabinda'], ['lobito','saosalvador'], ['fcluanda','sagrada'], ['caala','lundasul'], ['primeiromaio','bravos'], ['interclube','petro'], ['wiliete','desphuila']] },
-  { round: 6, dates: ['2026-09-18', '2026-09-19', '2026-09-20'], fixtures: [['libolo','desphuila'], ['interclube','wiliete'], ['bravos','petro'], ['lundasul','primeiromaio'], ['sagrada','caala'], ['lobito','fcluanda'], ['saosalvador','dago'], ['cabinda','kabuscorp']] },
-  { round: 7, dates: ['2026-10-09', '2026-10-10', '2026-10-11'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['libolo','lundasul'], ['sagrada','bravos'], ['lobito','interclube'], ['desphuila','dago'], ['kabuscorp','wiliete'], ['petro','cabinda'], ['primeiromaio','saosalvador'], ['fcluanda','caala']] },
-  { round: 8, dates: ['2026-10-16', '2026-10-17', '2026-10-18'], fixtures: [['caala','libolo'], ['primeiromaio','fcluanda'], ['saosalvador','petro'], ['wiliete','cabinda'], ['desphuila','kabuscorp'], ['dago','interclube'], ['bravos','lobito'], ['lundasul','sagrada']] },
-  { round: 9, dates: ['2026-10-23', '2026-10-24', '2026-10-25'], note: 'Clássico Petro vs 1.º de Agosto', fixtures: [['libolo','bravos'], ['interclube','lundasul'], ['sagrada','desphuila'], ['lobito','wiliete'], ['petro','dago'], ['kabuscorp','primeiromaio'], ['cabinda','caala'], ['fcluanda','saosalvador']] },
-  { round: 10, dates: ['2026-10-30', '2026-10-31', '2026-11-01'], fixtures: [['wiliete','libolo'], ['desphuila','petro'], ['primeiromaio','interclube'], ['bravos','caala'], ['lundasul','fcluanda'], ['saosalvador','sagrada'], ['lobito','cabinda'], ['dago','kabuscorp']] },
-  { round: 11, dates: ['2026-11-06', '2026-11-07', '2026-11-08'], fixtures: [['libolo','lobito'], ['sagrada','dago'], ['kabuscorp','lundasul'], ['cabinda','bravos'], ['interclube','saosalvador'], ['fcluanda','desphuila'], ['caala','wiliete'], ['petro','primeiromaio']] },
-  { round: 12, dates: ['2026-11-20', '2026-11-21', '2026-11-22'], fixtures: [['libolo','sagrada'], ['lobito','lundasul'], ['dago','bravos'], ['kabuscorp','interclube'], ['desphuila','cabinda'], ['saosalvador','wiliete'], ['fcluanda','petro'], ['primeiromaio','caala']] },
-  { round: 13, dates: ['2026-11-27', '2026-11-28', '2026-11-29'], fixtures: [['petro','libolo'], ['wiliete','primeiromaio'], ['caala','desphuila'], ['interclube','fcluanda'], ['bravos','saosalvador'], ['lundasul','cabinda'], ['sagrada','kabuscorp'], ['lobito','dago']] },
-  { round: 14, dates: ['2026-12-04', '2026-12-05', '2026-12-06'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['libolo','interclube'], ['desphuila','bravos'], ['lundasul','wiliete'], ['sagrada','petro'], ['primeiromaio','lobito'], ['dago','caala'], ['kabuscorp','fcluanda'], ['cabinda','saosalvador']] },
-  { round: 15, dates: ['2026-12-11', '2026-12-12', '2026-12-13'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['fcluanda','libolo'], ['saosalvador','caala'], ['primeiromaio','cabinda'], ['petro','kabuscorp'], ['wiliete','dago'], ['lobito','desphuila'], ['interclube','sagrada'], ['bravos','lundasul']] },
-  { round: 16, dates: ['2027-01-30', '2027-01-31'], fixtures: [['libolo','fcluanda'], ['caala','saosalvador'], ['cabinda','primeiromaio'], ['kabuscorp','petro'], ['dago','wiliete'], ['desphuila','lobito'], ['sagrada','interclube'], ['lundasul','bravos']] },
-  { round: 17, dates: ['2027-02-05', '2027-02-06', '2027-02-07'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['dago','libolo'], ['lobito','kabuscorp'], ['sagrada','cabinda'], ['lundasul','saosalvador'], ['bravos','fcluanda'], ['interclube','caala'], ['desphuila','primeiromaio'], ['wiliete','petro']] },
-  { round: 18, dates: ['2027-02-12', '2027-02-13', '2027-02-14'], fixtures: [['libolo','kabuscorp'], ['cabinda','dago'], ['saosalvador','lobito'], ['sagrada','fcluanda'], ['lundasul','caala'], ['bravos','primeiromaio'], ['petro','interclube'], ['desphuila','wiliete']] },
-  { round: 19, dates: ['2027-02-19', '2027-02-20', '2027-02-21'], note: 'Clássico Petro vs 1.º de Agosto', fixtures: [['bravos','libolo'], ['lundasul','interclube'], ['desphuila','sagrada'], ['wiliete','lobito'], ['dago','petro'], ['primeiromaio','kabuscorp'], ['caala','cabinda'], ['saosalvador','fcluanda']] },
-  { round: 20, dates: ['2027-02-26', '2027-02-27', '2027-02-28'], fixtures: [['libolo','caala'], ['fcluanda','primeiromaio'], ['petro','saosalvador'], ['cabinda','wiliete'], ['kabuscorp','desphuila'], ['interclube','dago'], ['lobito','bravos'], ['sagrada','lundasul']] },
-  { round: 21, dates: ['2027-03-05', '2027-03-06', '2027-03-07'], fixtures: [['lundasul','libolo'], ['bravos','sagrada'], ['interclube','lobito'], ['dago','desphuila'], ['wiliete','kabuscorp'], ['cabinda','petro'], ['saosalvador','primeiromaio'], ['caala','fcluanda']] },
-  { round: 22, dates: ['2027-03-12', '2027-03-13', '2027-03-14'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['sagrada','libolo'], ['lundasul','lobito'], ['bravos','dago'], ['interclube','kabuscorp'], ['cabinda','desphuila'], ['wiliete','saosalvador'], ['petro','fcluanda'], ['caala','primeiromaio']] },
-  { round: 23, dates: ['2027-03-19', '2027-03-20', '2027-03-21'], fixtures: [['primeiromaio','libolo'], ['caala','petro'], ['fcluanda','wiliete'], ['saosalvador','desphuila'], ['cabinda','interclube'], ['kabuscorp','bravos'], ['dago','lundasul'], ['lobito','sagrada']] },
-  { round: 24, dates: ['2027-04-02', '2027-04-03', '2027-04-04'], fixtures: [['lobito','libolo'], ['dago','sagrada'], ['lundasul','kabuscorp'], ['bravos','cabinda'], ['saosalvador','interclube'], ['desphuila','fcluanda'], ['wiliete','caala'], ['primeiromaio','petro']] },
-  { round: 25, dates: ['2027-04-09', '2027-04-10', '2027-04-11'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['libolo','wiliete'], ['petro','desphuila'], ['interclube','primeiromaio'], ['caala','bravos'], ['fcluanda','lundasul'], ['sagrada','saosalvador'], ['cabinda','lobito'], ['kabuscorp','dago']] },
-  { round: 26, dates: ['2027-04-16', '2027-04-17', '2027-04-18'], fixtures: [['desphuila','libolo'], ['wiliete','interclube'], ['petro','bravos'], ['primeiromaio','lundasul'], ['caala','sagrada'], ['fcluanda','lobito'], ['dago','saosalvador'], ['kabuscorp','cabinda']] },
-  { round: 27, dates: ['2027-04-23', '2027-04-24', '2027-04-25'], fixtures: [['libolo','petro'], ['primeiromaio','wiliete'], ['desphuila','caala'], ['fcluanda','interclube'], ['saosalvador','bravos'], ['cabinda','lundasul'], ['kabuscorp','sagrada'], ['dago','lobito']] },
-  { round: 28, dates: ['2027-04-30', '2027-05-01', '2027-05-02'], fixtures: [['saosalvador','libolo'], ['cabinda','fcluanda'], ['kabuscorp','caala'], ['dago','primeiromaio'], ['lobito','petro'], ['sagrada','wiliete'], ['lundasul','desphuila'], ['bravos','interclube']] },
-  { round: 29, dates: ['2027-05-07', '2027-05-08', '2027-05-09'], note: 'Semana c/ jogos CAF (CL/CC)', fixtures: [['interclube','libolo'], ['bravos','desphuila'], ['wiliete','lundasul'], ['petro','sagrada'], ['lobito','primeiromaio'], ['caala','dago'], ['fcluanda','kabuscorp'], ['saosalvador','cabinda']] },
-  { round: 30, dates: ['2027-05-14', '2027-05-15', '2027-05-16'], fixtures: [['libolo','cabinda'], ['kabuscorp','saosalvador'], ['fcluanda','dago'], ['caala','lobito'], ['primeiromaio','sagrada'], ['petro','lundasul'], ['wiliete','bravos'], ['interclube','desphuila']] },
-];
+// Jogos do Girabola 2026/2027 gerados pelo MOTOR ANCAF (ver ancaf-engine.ts):
+// sorteio determinístico a partir do nº do sorteio (seed). Não é escrito à mão.
+export const MATCHES_2026_27: Match[] = generateGirabolaCalendar(
+  Number(FAF_CALENDAR_SOURCE.accessCode),
+  2026,
+  'm27-',
+);
 
-// Constrói os jogos da época a partir do calendário ANCAF, distribuindo os
-// 8 jogos de cada jornada pelos dias do fim-de-semana com horários WAT (+01:00).
-function buildSeasonMatches(rounds: SeasonRound[], idPrefix: string): Match[] {
-  const KICKOFFS = ['15:00', '16:00', '17:30', '19:00'];
-  const matches: Match[] = [];
-  let counter = 1;
-  for (const r of rounds) {
-    const n = r.fixtures.length;
-    const days = r.dates.length;
-    r.fixtures.forEach(([homeId, awayId], i) => {
-      const dayIndex = Math.min(days - 1, Math.floor((i * days) / n));
-      const home = TEAMS.find(t => t.id === homeId)!;
-      const away = TEAMS.find(t => t.id === awayId)!;
-      matches.push({
-        id: `${idPrefix}${r.round}-${counter++}`,
-        homeTeamId: home.id,
-        awayTeamId: away.id,
-        homeTeam: home.name,
-        awayTeam: away.name,
-        homeScore: 0,
-        awayScore: 0,
-        score: undefined,
-        date: `${r.dates[dayIndex]}T${KICKOFFS[i % KICKOFFS.length]}:00+01:00`,
-        stadium: home.stadium,
-        status: 'scheduled',
-        round: r.round,
-      });
-    });
-  }
-  return matches;
-}
-
-export const MATCHES_2026_27: Match[] = buildSeasonMatches(CALENDAR_2026_27, 'm27-');
+// Vista por jornada (confrontos + datas), derivada dos jogos gerados.
+// Mantém a forma SeasonRound consumida pelo endpoint /api/ancaf.
+export const CALENDAR_2026_27: SeasonRound[] = Array.from(
+  MATCHES_2026_27.reduce((map, m) => {
+    const r = map.get(m.round) ?? { round: m.round, dates: [], fixtures: [] };
+    const day = m.date.split('T')[0];
+    if (!r.dates.includes(day)) r.dates.push(day);
+    r.fixtures.push([m.homeTeamId, m.awayTeamId]);
+    map.set(m.round, r);
+    return map;
+  }, new Map<number, SeasonRound>()).values(),
+).sort((a, b) => a.round - b.round);
 
 // ── 4. LISTA COMPLETA DE JOGADORES ──────────────────────────────────
 const PLAYERS_RAW: Player[] = [
@@ -1234,8 +1189,12 @@ export function getTeams(): Team[] {
   return TEAMS;
 }
 
+// Inclui os clubes promovidos de 2026/2027 (motor ANCAF) para que páginas de
+// clube e detalhes de jogo da nova época resolvam corretamente.
+export const ALL_TEAMS: Team[] = [...TEAMS, ...PROMOTED_2026_27_TEAMS];
+
 export function getTeamById(id: string): Team | undefined {
-  return TEAMS.find(t => t.id === id);
+  return ALL_TEAMS.find(t => t.id === id);
 }
 
 export function getStandings(): StandingEntry[] {

@@ -1,10 +1,10 @@
 import React from 'react';
-import { getTeamById, getPlayersByTeam, getMatchesByTeam, getStandingByTeamId, getTeams } from '@/lib/data';
+import { getTeamById, getPlayersByTeam, getMatchesByTeam, getStandingByTeamId, ALL_TEAMS } from '@/lib/data';
 import TeamDetailClient from '@/components/TeamDetailClient';
 
-// Static params generation for Next.js build optimization
+// Static params generation — inclui os clubes promovidos de 2026/2027
 export function generateStaticParams() {
-  return getTeams().map((t) => ({ id: t.id }));
+  return ALL_TEAMS.map((t) => ({ id: t.id }));
 }
 
 export default async function TeamDetailPage({ params }: { params: Promise<{ id: string }> }) {

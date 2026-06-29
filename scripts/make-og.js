@@ -1,5 +1,6 @@
 // Gera a imagem Open Graph (1200×630) usada nas partilhas (WhatsApp, Facebook…)
 // a partir do LOGÓTIPO OFICIAL. Correr: node scripts/make-og.js
+/* eslint-disable @typescript-eslint/no-require-imports */
 const sharp = require('sharp');
 const path = require('path');
 
