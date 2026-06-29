@@ -116,23 +116,56 @@ const KICKOFFS = ['15:00', '16:00', '17:30', '19:00'];
 const NAME_BY_ID = new Map(DRAW_ROSTER.map((c) => [c.id, c.name]));
 const STADIUM_BY_ID = new Map(DRAW_ROSTER.map((c) => [c.id, c.stadium]));
 
+// Datas oficiais das 30 jornadas (Proposta ANCAF 2026/2027). O sorteio
+// determina os CONFRONTOS e o MANDO; estas datas fixam QUANDO cada jornada
+// se disputa (não é progressão semanal — há pausas CAF e de inverno).
+// Formato [ano, mêsIndex(0-11), dia], jornada N em ROUND_DATES[N - 1].
+const ROUND_DATES: readonly [number, number, number][] = [
+  [2026, 7, 22], // J1  22/08/26
+  [2026, 7, 29], // J2  29/08/26
+  [2026, 8, 5],  // J3  05/09/26
+  [2026, 8, 12], // J4  12/09/26
+  [2026, 8, 19], // J5  19/09/26
+  [2026, 9, 10], // J6  10/10/26
+  [2026, 9, 17], // J7  17/10/26
+  [2026, 9, 24], // J8  24/10/26
+  [2026, 9, 31], // J9  31/10/26
+  [2026, 10, 7], // J10 07/11/26
+  [2026, 10, 21],// J11 21/11/26
+  [2026, 10, 28],// J12 28/11/26
+  [2026, 11, 5], // J13 05/12/26
+  [2026, 11, 12],// J14 12/12/26
+  [2026, 11, 19],// J15 19/12/26
+  [2027, 0, 31], // J16 31/01/27
+  [2027, 1, 6],  // J17 06/02/27
+  [2027, 1, 13], // J18 13/02/27
+  [2027, 1, 20], // J19 20/02/27
+  [2027, 1, 27], // J20 27/02/27
+  [2027, 2, 6],  // J21 06/03/27
+  [2027, 2, 13], // J22 13/03/27
+  [2027, 2, 20], // J23 20/03/27
+  [2027, 3, 3],  // J24 03/04/27
+  [2027, 3, 10], // J25 10/04/27
+  [2027, 3, 17], // J26 17/04/27
+  [2027, 3, 24], // J27 24/04/27
+  [2027, 4, 1],  // J28 01/05/27
+  [2027, 4, 8],  // J29 08/05/27
+  [2027, 4, 15], // J30 15/05/27
+];
+
 // Gera o calendário completo do Girabola a partir do número do sorteio ANCAF.
+// O parâmetro `year` é mantido por compatibilidade; as datas das jornadas são
+// fixadas por ROUND_DATES (datas oficiais ANCAF 2026/2027).
 export function generateGirabolaCalendar(seed: number, year: number, idPrefix = 'm27-'): Match[] {
+  void year;
   const fixtures = drawFixtures(DRAW_ROSTER, true, mulberry32(seed));
-  const base = new Date(year, 9, 4); // base de datas do ANCAF: 4 de outubro
   const perRound = DRAW_ROSTER.length / 2;
-  const legRounds = DRAW_ROSTER.length - 1;
-  const secondLegBase = new Date(base.getTime());
-  secondLegBase.setDate(base.getDate() + legRounds * 7 + 14);
 
   let counter = 1;
   return fixtures.map((fx) => {
-    const inSecondLeg = fx.round > legRounds;
-    const legBase = inSecondLeg ? secondLegBase : base;
-    const idxInLeg = inSecondLeg ? fx.round - legRounds - 1 : fx.round - 1;
+    const [yy, mo, dd] = ROUND_DATES[fx.round - 1];
     const idxInRound = (counter - 1) % perRound;
-    const d = new Date(legBase.getTime());
-    d.setDate(legBase.getDate() + idxInLeg * 7);
+    const d = new Date(yy, mo, dd);
     if (idxInRound >= perRound / 2) d.setDate(d.getDate() + 1); // 2.º bloco no dia seguinte
     const [hh, mm] = KICKOFFS[idxInRound % KICKOFFS.length].split(':');
     d.setHours(Number(hh), Number(mm), 0, 0);
