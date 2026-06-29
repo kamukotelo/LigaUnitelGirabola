@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Trophy, MapPin, User, Calendar, Shield, Flame, Users, ArrowLeft } from 'lucide-react';
 import { Team, Player, Match, StandingEntry } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import TeamCrest from '@/components/ui/TeamCrest';
 
 interface TeamDetailClientProps {
   team: Team;
@@ -48,13 +49,8 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
         </div>
 
         <div className="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
-          {/* Logo Badge */}
-          <div 
-            className="w-24 h-24 rounded-3xl bg-zinc-100 dark:bg-black/40 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center font-display text-4xl text-foreground uppercase select-none shadow-[0_0_30px_rgba(255,255,255,0.03)] font-black"
-            style={{ textShadow: `0 0 15px ${clubColor}` }}
-          >
-            {team.shortName.substring(0, 2)}
-          </div>
+          {/* Logo Badge (TeamCrest SVG) */}
+          <TeamCrest teamId={team.id} size={96} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-2.5 rounded-3xl" />
 
           <div className="flex-1 space-y-4">
             <div>

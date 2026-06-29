@@ -225,10 +225,10 @@ export default function Home() {
   ].filter(Boolean);
 
   const stats = [
-    { label: 'Clubes', value: teamsCount, icon: Shield },
-    { label: 'Jogos Disputados', value: matchesPlayed, icon: Trophy },
-    { label: 'Jornadas', value: roundsCount, icon: Calendar },
-    { label: 'Golos Marcados (' + topScorerName + ')', value: topScorerGoals, icon: Flame },
+    { label: 'Clubes', value: teamsCount, icon: Shield, href: '/teams' },
+    { label: 'Jogos Disputados', value: matchesPlayed, icon: Trophy, href: '/fixtures' },
+    { label: 'Jornadas', value: roundsCount, icon: Calendar, href: '/fixtures' },
+    { label: 'Golos Marcados (' + topScorerName + ')', value: topScorerGoals, icon: Flame, href: '/stats' },
   ];
 
   const news = getNewsArticles().slice(0, 3);
@@ -306,20 +306,21 @@ export default function Home() {
       <section className="bg-zinc-100 dark:bg-zinc-950 py-12 border-b border-zinc-200 dark:border-zinc-900 relative">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
           {stats.map((stat, i) => (
-            <AnimatedCard
-              key={i}
-              variant="hud"
-              className="text-center relative overflow-hidden"
-              delay={i * 0.1}
-            >
-              <stat.icon className="text-accent mx-auto mb-3" size={24} />
-              <h4 className="text-4xl font-display text-primary">
-                <AnimatedCounter value={stat.value} />
-              </h4>
-              <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mt-2">
-                {stat.label}
-              </p>
-            </AnimatedCard>
+            <Link key={i} href={stat.href} className="block group">
+              <AnimatedCard
+                variant="hud"
+                className="text-center relative overflow-hidden cursor-pointer hover:border-accent/40 hover:bg-white/40 dark:hover:bg-zinc-900/40 transition-all duration-350"
+                delay={i * 0.1}
+              >
+                <stat.icon className="text-accent mx-auto mb-3 group-hover:scale-110 transition-transform duration-200" size={24} />
+                <h4 className="text-4xl font-display text-primary">
+                  <AnimatedCounter value={stat.value} />
+                </h4>
+                <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mt-2 group-hover:text-primary transition-colors">
+                  {stat.label}
+                </p>
+              </AnimatedCard>
+            </Link>
           ))}
         </div>
       </section>

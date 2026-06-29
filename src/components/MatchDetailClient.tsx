@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import TeamCrest from '@/components/ui/TeamCrest';
 
 interface MatchDetailClientProps {
   detail: MatchDetail;
@@ -282,9 +283,7 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
         <div className="grid grid-cols-3 items-center gap-4 relative z-10">
           {/* Casa */}
           <Link href={homeTeam ? `/teams/${homeTeam.id}` : '#'} className="text-center group">
-            <div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center font-display font-black text-xl text-foreground" style={{ background: `${homeColor}22`, border: `1px solid ${homeColor}66` }}>
-              {homeTeam?.shortName ?? match.homeTeam.slice(0, 3).toUpperCase()}
-            </div>
+            <TeamCrest teamId={match.homeTeamId} size={56} className="mx-auto mb-3 bg-white dark:bg-zinc-900 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800" />
             <p className="font-display text-foreground uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.homeTeam}</p>
           </Link>
 
@@ -304,9 +303,7 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
 
           {/* Fora */}
           <Link href={awayTeam ? `/teams/${awayTeam.id}` : '#'} className="text-center group">
-            <div className="w-14 h-14 mx-auto mb-3 rounded-2xl flex items-center justify-center font-display font-black text-xl text-foreground" style={{ background: `${awayColor}22`, border: `1px solid ${awayColor}66` }}>
-              {awayTeam?.shortName ?? match.awayTeam.slice(0, 3).toUpperCase()}
-            </div>
+            <TeamCrest teamId={match.awayTeamId} size={56} className="mx-auto mb-3 bg-white dark:bg-zinc-900 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800" />
             <p className="font-display text-foreground uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.awayTeam}</p>
           </Link>
         </div>

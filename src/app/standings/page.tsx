@@ -1,12 +1,21 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Info, Award } from 'lucide-react';
 import Link from 'next/link';
-import { STANDINGS, TEAMS } from '@/lib/data';
+import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, getMatchesForSeason, computeStandings, TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import TeamCrest from '@/components/ui/TeamCrest';
 
 export default function StandingsPage() {
+  const [seasonId, setSeasonId] = useState<string>(CURRENT_SEASON_ID);
+  
+  const matches = getMatchesForSeason(seasonId);
+  const standingsList = computeStandings(matches);
+  const selectedSeason = SEASONS.find(s => s.id === seasonId);
+  const isUpcoming = seasonId === UPCOMING_SEASON_ID;
+
   return (
     <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
@@ -22,8 +31,32 @@ export default function StandingsPage() {
           Classificação <span className="text-primary italic">Girabola</span>
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
-          Época 2025/2026 · Classificação Final Oficial
+          Época Girabola {selectedSeason?.label ?? ''} · Classificação {selectedSeason?.status === 'completed' ? 'Final Oficial' : 'Inicializada'}
         </p>
+
+        {/* Seletor de Época */}
+        <div className="flex flex-wrap items-center gap-2 mt-5">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mr-1">Época</span>
+          {SEASONS.map((s) => {
+            const active = s.id === seasonId;
+            return (
+              <button
+                key={s.id}
+                onClick={() => setSeasonId(s.id)}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all border ${
+                  active
+                    ? 'bg-primary text-white border-primary'
+                    : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:text-foreground'
+                }`}
+              >
+                {s.label}
+                <span className={`ml-2 text-[9px] uppercase ${active ? 'text-white/70' : 'text-zinc-500'}`}>
+                  {s.status === 'completed' ? 'Concluída' : 'Por disputar'}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Main Content Grid */}
@@ -48,10 +81,10 @@ export default function StandingsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
-                {STANDINGS.map((row, i) => {
+                {standingsList.map((row, i) => {
                   const teamObj = TEAMS.find(t => t.id === row.teamId);
                   // Style configurations for zones
-                  const isChampion = row.position === 1;
+                  const isChampion = row.position === 1 && !isUpcoming;
                   const isCafChampions = row.position <= 2;
                   const isCafConfederation = row.position === 3;
                   const isRelegated = row.position >= 14;
@@ -91,14 +124,10 @@ export default function StandingsPage() {
                         )}
                       </td>
 
-                      {/* Team Name */}
+                      {/* Team Name and Crest */}
                       <td className="py-4 px-3 sm:px-4 font-semibold text-foreground">
-                        <div className="flex items-center gap-2 sm:gap-3">
-                          <span 
-                            className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border border-black/10 dark:border-white/10 shadow-sm flex-shrink-0"
-                            style={{ backgroundColor: teamObj?.colorsHex?.[0] ?? '#cbd5e1' }}
-                            title={teamObj?.colors}
-                          />
+                        <div className="flex items-center gap-2.5 sm:gap-3.5">
+                          <TeamCrest teamId={row.teamId} size={26} />
                           <Link href={`/teams/${row.teamId}`} className="hover:text-primary transition-colors truncate max-w-[100px] sm:max-w-none text-xs sm:text-sm block">
                             {row.teamName}
                             {isChampion && (

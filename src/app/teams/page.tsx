@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { MapPin, User, Award, Zap } from 'lucide-react';
 import { TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import TeamCrest from '@/components/ui/TeamCrest';
 
 export default function TeamsPage() {
   return (
@@ -45,23 +46,21 @@ export default function TeamsPage() {
                   variant={isGiant ? 'holographic' : 'hud'}
                   className="bg-zinc-100/30 dark:bg-zinc-950/30 hover:bg-white/40 dark:hover:bg-zinc-900/40 border-zinc-200 dark:border-zinc-900 h-full flex flex-col justify-between"
                 >
-                  {/* Header: Logo initials / Nickname */}
+                  {/* Header: Team Crest / Nickname */}
                   <div>
                     <div className="flex justify-between items-start mb-4">
-                      <div className="w-12 h-12 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center font-display text-lg text-primary uppercase select-none shadow-[2px_2px_0px_rgba(255,255,255,0.03)] font-extrabold">
-                        {team.shortName.substring(0, 2)}
-                      </div>
+                      <TeamCrest teamId={team.id} size={48} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1 rounded-2xl" />
                       <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">
                         Fundado em {team.founded}
                       </span>
                     </div>
 
                     {/* Names */}
-                    <h3 className="text-lg font-display text-foreground uppercase leading-snug truncate" title={team.name}>
-                      {team.shortName}
-                    </h3>
-                    <p className="text-[10px] text-zinc-500 font-mono truncate mb-4">
+                    <h3 className="text-xl font-display text-foreground font-black uppercase leading-snug truncate" title={team.name}>
                       {team.name}
+                    </h3>
+                    <p className="text-[10px] text-accent font-mono tracking-widest uppercase mb-4">
+                      {team.shortName}
                     </p>
                   </div>
 

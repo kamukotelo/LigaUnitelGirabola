@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Zap, Clock, Trophy, Target, CalendarDays, Flag, Radio } from 'lucide-react';
 import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, FAF_CALENDAR_SOURCE, getMatchesForSeason, Match } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import TeamCrest from '@/components/ui/TeamCrest';
 
 type StatusFilter = 'all' | 'finished' | 'scheduled';
 
@@ -42,10 +43,11 @@ function MatchCard({ match }: { match: Match }) {
           )}
         </div>
 
-        {/* Scoreboard */}
+        {/* Scoreboard with Team Crests */}
         <div className="flex items-center justify-between gap-1.5 py-4 border-y border-zinc-200/60 dark:border-zinc-900/60 my-2">
-          <div className="flex-1 text-right font-bold text-xs sm:text-sm md:text-base text-foreground truncate" title={match.homeTeam}>
-            {match.homeTeam}
+          <div className="flex-1 flex items-center justify-end gap-2 font-bold text-xs sm:text-sm md:text-base text-foreground truncate" title={match.homeTeam}>
+            <span className="truncate">{match.homeTeam}</span>
+            <TeamCrest teamId={match.homeTeamId} size={20} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded" />
           </div>
           {isFinished ? (
             <div className="px-2 py-1.5 sm:px-3 sm:py-2 bg-primary/10 border border-primary/20 rounded-xl font-mono text-base sm:text-lg font-black text-foreground text-center min-w-[3.5rem] sm:min-w-[4.5rem] flex justify-center items-center select-none shadow-[inset_0_0_15px_rgba(210,21,21,0.05)]">
@@ -56,8 +58,9 @@ function MatchCard({ match }: { match: Match }) {
               <Clock size={10} className="mb-0.5 text-accent animate-pulse" /> VS
             </div>
           )}
-          <div className="flex-1 text-left font-bold text-xs sm:text-sm md:text-base text-foreground truncate" title={match.awayTeam}>
-            {match.awayTeam}
+          <div className="flex-1 flex items-center justify-start gap-2 font-bold text-xs sm:text-sm md:text-base text-foreground truncate" title={match.awayTeam}>
+            <TeamCrest teamId={match.awayTeamId} size={20} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded" />
+            <span className="truncate">{match.awayTeam}</span>
           </div>
         </div>
 
@@ -193,6 +196,60 @@ export default function FixturesPage() {
           );
         })}
       </div>
+
+      {/* Cronograma de Datas das Jornadas (apenas para a época por disputar) */}
+      {isUpcoming && (
+        <AnimatedCard variant="hud" className="mb-8 p-6 bg-primary/5 border border-primary/20">
+          <details className="group cursor-pointer">
+            <summary className="flex justify-between items-center font-display text-foreground uppercase text-xs sm:text-sm tracking-wider list-none select-none">
+              <div className="flex items-center gap-2">
+                <Radio size={14} className="text-accent animate-pulse" />
+                <span>Organização: Datas das Jornadas (SSISTEMA ANCAF CALENDAR)</span>
+              </div>
+              <span className="text-[10px] text-zinc-500 font-mono transition-transform group-open:rotate-180">▼ CLIQUE PARA VER</span>
+            </summary>
+            <div className="mt-5 pt-5 border-t border-zinc-200/60 dark:border-zinc-900/60 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 font-mono text-[11px] text-zinc-600 dark:text-zinc-400">
+              {[
+                { round: 1, date: '22/08/26' },
+                { round: 2, date: '29/08/26' },
+                { round: 3, date: '05/09/26' },
+                { round: 4, date: '12/09/26' },
+                { round: 5, date: '19/09/26' },
+                { round: 6, date: '10/10/26' },
+                { round: 7, date: '17/10/26' },
+                { round: 8, date: '24/10/26' },
+                { round: 9, date: '31/10/26' },
+                { round: 10, date: '07/11/26' },
+                { round: 11, date: '21/11/26' },
+                { round: 12, date: '28/11/26' },
+                { round: 13, date: '05/12/26' },
+                { round: 14, date: '12/12/26' },
+                { round: 15, date: '19/12/26' },
+                { round: 16, date: '31/01/27' },
+                { round: 17, date: '06/02/27' },
+                { round: 18, date: '13/02/27' },
+                { round: 19, date: '20/02/27' },
+                { round: 20, date: '27/02/27' },
+                { round: 21, date: '06/03/27' },
+                { round: 22, date: '13/03/27' },
+                { round: 23, date: '20/03/27' },
+                { round: 24, date: '03/04/27' },
+                { round: 25, date: '10/04/27' },
+                { round: 26, date: '17/04/27' },
+                { round: 27, date: '24/04/27' },
+                { round: 28, date: '01/05/27' },
+                { round: 29, date: '08/05/27' },
+                { round: 30, date: '15/05/27' }
+              ].map((item) => (
+                <div key={item.round} className="flex items-center gap-1.5 hover:text-foreground transition-colors py-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
+                  <span>J{item.round} - {item.date}</span>
+                </div>
+              ))}
+            </div>
+          </details>
+        </AnimatedCard>
+      )}
 
       {/* Barra de filtros */}
       <div className="bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm mb-8 space-y-4">
