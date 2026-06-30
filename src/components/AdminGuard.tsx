@@ -27,7 +27,7 @@ export default function AdminGuard({ children }: AdminGuardProps) {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === '0317' || passcode === 'faf2026') {
+    if (passcode === '0317' || passcode === 'ancaf2026') {
       sessionStorage.setItem('faf_admin_auth', 'true');
       setIsAuthenticated(true);
       setError('');

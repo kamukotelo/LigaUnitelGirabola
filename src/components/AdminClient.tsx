@@ -17,7 +17,7 @@ import {
 } from '@/lib/data';
 
 // ── Configuração local (gate de demonstração / persistência local) ──────
-const PASSCODE = 'faf2026';
+const PASSCODE = 'ancaf2026';
 const AUTH_KEY = 'faf_admin_authed';
 const CAL_KEY = 'faf_calendar_overrides';
 const SYNC_KEY = 'faf_calendar_last_sync';
@@ -248,7 +248,7 @@ function LoginGate({ onSuccess }: { onSuccess: () => void }) {
         </button>
 
         <p className="text-[10px] font-mono text-zinc-600 mt-5 text-center">
-          Ambiente de demonstração · credencial: <span className="text-zinc-600 dark:text-zinc-400">faf2026</span>
+          Ambiente de demonstração · credencial: <span className="text-zinc-600 dark:text-zinc-400">ancaf2026</span>
         </p>
       </motion.form>
     </div>
