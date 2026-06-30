@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { generateGirabolaCalendar } from '@/lib/ancaf-engine';
 import {
-  FAF_CALENDAR_SOURCE,
+  ANCAF_CALENDAR_SOURCE,
   SEASONS,
   UPCOMING_SEASON_ID,
   getTeamById,
@@ -33,8 +33,8 @@ export async function GET(request: Request) {
   const roundParam = searchParams.get('round');
 
   // 1. Obter a semente ativa do Supabase (com fallback)
-  let activeSeedStr = FAF_CALENDAR_SOURCE.accessCode;
-  let dynamicSource = { ...FAF_CALENDAR_SOURCE };
+  let activeSeedStr = ANCAF_CALENDAR_SOURCE.accessCode;
+  let dynamicSource = { ...ANCAF_CALENDAR_SOURCE };
   
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
     try {
@@ -47,9 +47,9 @@ export async function GET(request: Request) {
       if (data && !error) {
         activeSeedStr = data.value;
         dynamicSource = {
-          ...FAF_CALENDAR_SOURCE,
+          ...ANCAF_CALENDAR_SOURCE,
           accessCode: activeSeedStr,
-          generatedAt: data.updated_at || FAF_CALENDAR_SOURCE.generatedAt,
+          generatedAt: data.updated_at || ANCAF_CALENDAR_SOURCE.generatedAt,
         };
       }
     } catch (err) {

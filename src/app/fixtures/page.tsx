@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Zap, Clock, Trophy, Target, CalendarDays, Flag, Radio } from 'lucide-react';
-import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, FAF_CALENDAR_SOURCE, getMatchesForSeason, Match, TEAMS } from '@/lib/data';
+import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason, Match, TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -105,7 +105,7 @@ export default function FixturesPage() {
   const [selectedRound, setSelectedRound] = useState<number | 'all'>('all');
   const [filterStatus, setFilterStatus] = useState<StatusFilter>('all');
   const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
-  const [dynamicSource, setDynamicSource] = useState(FAF_CALENDAR_SOURCE);
+  const [dynamicSource, setDynamicSource] = useState(ANCAF_CALENDAR_SOURCE);
   const [loading, setLoading] = useState(false);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
@@ -219,7 +219,7 @@ export default function FixturesPage() {
           })}
         </div>
 
-        {/* Proveniência FAF_CALENDAR (apenas na época por disputar) */}
+        {/* Proveniência ANCAF_CALENDAR (apenas na época por disputar) */}
         {isUpcoming && (
           <div className="mt-4 inline-flex items-center gap-2.5 bg-green-500/5 border border-green-500/30 rounded-xl px-3.5 py-2">
             <Radio size={14} className="text-green-400" />

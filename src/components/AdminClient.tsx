@@ -12,7 +12,7 @@ import {
 import {
   MATCHES, TEAMS, PLAYERS, getStandings, getNewsArticles,
   getPlayerFifaRecords, FIFA_CHECK_META,
-  SEASONS, UPCOMING_SEASON_ID, FAF_CALENDAR_SOURCE, getMatchesForSeason,
+  SEASONS, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason,
   type Match, type FifaCheckKey,
 } from '@/lib/data';
 
@@ -60,7 +60,7 @@ export default function AdminClient() {
   const [authed, setAuthed] = useState(false);
   const [ready, setReady] = useState(false);
   const [section, setSection] = useState<Section>('dashboard');
-  const [dynamicSource, setDynamicSource] = useState(FAF_CALENDAR_SOURCE);
+  const [dynamicSource, setDynamicSource] = useState(ANCAF_CALENDAR_SOURCE);
 
   useEffect(() => {
     // Leitura segura de armazenamento do browser apenas no cliente (evita mismatch de hidratação).
@@ -90,7 +90,7 @@ export default function AdminClient() {
 
   const navItems: { key: Section; label: string; icon: React.ElementType }[] = [
     { key: 'dashboard', label: 'Painel Geral', icon: LayoutDashboard },
-    { key: 'calendar', label: 'Calendário · FAF', icon: CalendarDays },
+    { key: 'calendar', label: 'Calendário · ANCAF', icon: CalendarDays },
     { key: 'fifa', label: 'FIFA Connect', icon: ShieldCheck },
     { key: 'teams', label: 'Equipas', icon: Users },
     { key: 'news', label: 'Notícias', icon: Newspaper },
@@ -296,7 +296,7 @@ function ConnectionBadge({ icon: Icon, label, endpoint, ok = true }: { icon: Rea
 // SECÇÃO: PAINEL GERAL
 // ════════════════════════════════════════════════════════════════════════
 function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
-  const [dynamicSource, setDynamicSource] = useState(FAF_CALENDAR_SOURCE);
+  const [dynamicSource, setDynamicSource] = useState(ANCAF_CALENDAR_SOURCE);
 
   useEffect(() => {
     fetch('/api/ancaf')
@@ -333,7 +333,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
           <Radio size={15} className="text-accent" /> Estado das Ligações
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <ConnectionBadge icon={CalendarDays} label="FAF_CALENDAR" endpoint={`${dynamicSource.season} · cód. ${dynamicSource.accessCode}`} />
+          <ConnectionBadge icon={CalendarDays} label="ANCAF_CALENDAR" endpoint={`${dynamicSource.season} · cód. ${dynamicSource.accessCode}`} />
           <ConnectionBadge icon={Database} label="Base de Dados" endpoint="armazenamento · multimédia" />
           <ConnectionBadge icon={Wifi} label="FIFA Connect" endpoint="conformidade · elegibilidade" />
         </div>
@@ -358,7 +358,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
         <button onClick={() => onGo('calendar')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
           <CalendarDays size={18} className="text-accent mb-3" />
           <p className="font-display text-foreground uppercase tracking-wider text-sm">Definir Calendário</p>
-          <p className="text-[11px] font-mono text-zinc-500 mt-1">Gerir jornadas via FAF_CALENDAR</p>
+          <p className="text-[11px] font-mono text-zinc-500 mt-1">Gerir jornadas via ANCAF_CALENDAR</p>
         </button>
         <button onClick={() => onGo('fifa')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
           <ShieldCheck size={18} className="text-accent mb-3" />
@@ -371,7 +371,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// SECÇÃO: CALENDÁRIO (ligação FAF_CALENDAR)
+// SECÇÃO: CALENDÁRIO (ligação ANCAF_CALENDAR)
 // ════════════════════════════════════════════════════════════════════════
 function CalendarSection() {
   const [seasonId, setSeasonId] = useState<string>(UPCOMING_SEASON_ID);
@@ -383,7 +383,7 @@ function CalendarSection() {
   const [lastSync, setLastSync] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
   const [savedAt, setSavedAt] = useState<string | null>(null);
-  const [dynamicSource, setDynamicSource] = useState(FAF_CALENDAR_SOURCE);
+  const [dynamicSource, setDynamicSource] = useState(ANCAF_CALENDAR_SOURCE);
 
   // Carregar persistência local e dados da semente
   useEffect(() => {
@@ -459,7 +459,7 @@ function CalendarSection() {
 
   return (
     <div className="space-y-6">
-      <SectionHeader icon={CalendarDays} subtitle="DEFINIÇÃO_DO_CALENDÁRIO" title="Calendário · FAF_CALENDAR" />
+      <SectionHeader icon={CalendarDays} subtitle="DEFINIÇÃO_DO_CALENDÁRIO" title="Calendário · ANCAF_CALENDAR" />
 
       {/* Seletor de época */}
       <div className="flex flex-wrap items-center gap-2">
@@ -482,7 +482,7 @@ function CalendarSection() {
         ))}
       </div>
 
-      {/* Painel de ligação FAF_CALENDAR */}
+      {/* Painel de ligação ANCAF_CALENDAR */}
       <Panel>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -491,7 +491,7 @@ function CalendarSection() {
             </div>
             <div>
               <p className="font-display text-foreground uppercase tracking-wider text-sm flex items-center gap-2">
-                FAF_CALENDAR
+                ANCAF_CALENDAR
                 <span className="inline-flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-widest text-green-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Conectado
                 </span>
