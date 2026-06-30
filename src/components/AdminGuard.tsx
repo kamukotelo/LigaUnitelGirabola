@@ -51,7 +51,7 @@ export default function AdminGuard({ children }: AdminGuardProps) {
             <Lock className="h-7 w-7 text-accent" />
           </div>
           <h2 className="text-2xl font-display text-foreground uppercase tracking-tight">
-            Área Restrita FAF
+            Área Restrita ANCAF
           </h2>
           <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider mt-1">
             Autenticação de Segurança Requerida
@@ -92,7 +92,7 @@ export default function AdminGuard({ children }: AdminGuardProps) {
         </form>
 
         <div className="text-center mt-6 text-[9px] font-mono text-zinc-500 uppercase tracking-widest">
-          SISTEMA DE SEGURANÇA INTEGRADO FAF · COD. 0317
+          SISTEMA DE SEGURANÇA INTEGRADO ANCAF · COD. 0317
         </div>
       </AnimatedCard>
     </div>
