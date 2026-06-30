@@ -555,6 +555,57 @@ function CalendarSection() {
         )}
       </div>
 
+      {/* Nota de revisão — o que está acautelado, restrições e consequências */}
+      <Panel className="border-amber-500/20 bg-amber-500/[0.03]">
+        <details className="group">
+          <summary className="flex items-center justify-between cursor-pointer list-none select-none">
+            <span className="flex items-center gap-2 font-display text-foreground uppercase tracking-wider text-xs sm:text-sm">
+              <ShieldCheck size={15} className="text-amber-400" />
+              Antes de confirmar — o que está acautelado nesta revisão
+            </span>
+            <span className="text-[10px] text-zinc-500 font-mono transition-transform group-open:rotate-180">▼</span>
+          </summary>
+
+          <div className="mt-4 pt-4 border-t border-amber-500/15 grid grid-cols-1 md:grid-cols-3 gap-4 text-[11px] leading-relaxed font-mono">
+            {/* Acautelado */}
+            <div>
+              <p className="flex items-center gap-1.5 text-green-400 uppercase tracking-widest text-[10px] mb-2">
+                <CheckCircle2 size={12} /> Acautelado
+              </p>
+              <ul className="space-y-1.5 text-zinc-600 dark:text-zinc-400">
+                <li>• Confrontos, mando e datas vêm do sorteio ANCAF (cód. {dynamicSource.accessCode}); o editor <strong className="text-foreground">não os recalcula</strong>.</li>
+                <li>• O <strong className="text-foreground">resultado só fica editável</strong> quando o estado do jogo é «Terminado».</li>
+                <li>• As alterações ficam <strong className="text-foreground">apenas neste navegador</strong> e não reescrevem o calendário oficial nem a classificação publicada.</li>
+              </ul>
+            </div>
+
+            {/* Restrições */}
+            <div>
+              <p className="flex items-center gap-1.5 text-amber-400 uppercase tracking-widest text-[10px] mb-2">
+                <AlertTriangle size={12} /> Restrições
+              </p>
+              <ul className="space-y-1.5 text-zinc-600 dark:text-zinc-400">
+                <li>• Não alterar os <strong className="text-foreground">confrontos/equipas</strong> de uma jornada (quebra o equilíbrio do sorteio a duas voltas).</li>
+                <li>• Datas devem manter-se <strong className="text-foreground">dentro do calendário ANCAF</strong> (J1 22/08/26 … J30 15/05/27).</li>
+                <li>• Evitar «Terminado» sem resultado válido, ou resultado sem marcar «Terminado».</li>
+              </ul>
+            </div>
+
+            {/* Consequências */}
+            <div>
+              <p className="flex items-center gap-1.5 text-red-400 uppercase tracking-widest text-[10px] mb-2">
+                <AlertTriangle size={12} /> Se ocorrerem
+              </p>
+              <ul className="space-y-1.5 text-zinc-600 dark:text-zinc-400">
+                <li>• A <strong className="text-foreground">classificação deixa de coincidir</strong> com os jogos (a tabela é derivada dos resultados).</li>
+                <li>• Jogos fora das datas oficiais aparecem <strong className="text-foreground">desalinhados do cronograma</strong> ANCAF.</li>
+                <li>• Limpar os dados do navegador <strong className="text-foreground">apaga as edições locais</strong> — exporte em JSON antes (botão «Exportar»).</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+      </Panel>
+
       {/* Editor de jogos */}
       <div className="space-y-3">
         {roundMatches.map((m) => {
