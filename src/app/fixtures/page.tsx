@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Zap, Clock, Trophy, Target, CalendarDays, Flag, Radio } from 'lucide-react';
-import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, FAF_CALENDAR_SOURCE, CALENDAR_2026_27, getMatchesForSeason, Match, TEAMS } from '@/lib/data';
+import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, FAF_CALENDAR_SOURCE, getMatchesForSeason, Match, TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -104,16 +104,38 @@ export default function FixturesPage() {
   const [seasonId, setSeasonId] = useState<string>(CURRENT_SEASON_ID);
   const [selectedRound, setSelectedRound] = useState<number | 'all'>('all');
   const [filterStatus, setFilterStatus] = useState<StatusFilter>('all');
+  const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
+  const [dynamicSource, setDynamicSource] = useState(FAF_CALENDAR_SOURCE);
+  const [loading, setLoading] = useState(false);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
-  const MATCHES = getMatchesForSeason(seasonId);
+
+  useEffect(() => {
+    if (isUpcoming) {
+      setLoading(true);
+      fetch('/api/ancaf?format=matches')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.matches) {
+            setDynamicMatches(data.matches);
+          }
+          if (data.source) {
+            setDynamicSource(data.source);
+          }
+        })
+        .catch((err) => console.error('Erro ao buscar calendário dinâmico:', err))
+        .finally(() => setLoading(false));
+    }
+  }, [isUpcoming]);
+
+  const MATCHES = isUpcoming && dynamicMatches.length > 0 ? dynamicMatches : getMatchesForSeason(seasonId);
   const seasonLabel = SEASONS.find((s) => s.id === seasonId)?.label ?? '';
 
   const rounds = Array.from(new Set(MATCHES.map((m) => m.round))).sort((a, b) => a - b);
 
   // Resumo da época
   const finishedMatches = MATCHES.filter((m) => m.status === 'finished');
-  const totalGoals = finishedMatches.reduce((s, m) => s + m.homeScore + m.awayScore, 0);
+  const totalGoals = finishedMatches.reduce((s, m) => s + (m.homeScore ?? 0) + (m.awayScore ?? 0), 0);
   const nextRound = rounds.find((r) => MATCHES.some((m) => m.round === r && m.status !== 'finished'));
   const playedRounds = rounds.filter((r) => MATCHES.filter((m) => m.round === r).every((m) => m.status === 'finished')).length;
 
@@ -141,6 +163,18 @@ export default function FixturesPage() {
     .filter((g) => g.matches.length > 0);
 
   const hasResults = visibleRounds.length > 0;
+
+  // Estruturar calendário para visualização rápida de datas
+  const dynamicCalendar = Array.from(
+    MATCHES.reduce((map, m) => {
+      const r = map.get(m.round) ?? { round: m.round, dates: [], fixtures: [] };
+      const day = m.date.split('T')[0];
+      if (!r.dates.includes(day)) r.dates.push(day);
+      r.fixtures.push([m.homeTeamId, m.awayTeamId]);
+      map.set(m.round, r);
+      return map;
+    }, new Map<number, any>()).values(),
+  ).sort((a, b) => a.round - b.round);
 
   return (
     <div className="py-10 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -190,7 +224,7 @@ export default function FixturesPage() {
           <div className="mt-4 inline-flex items-center gap-2.5 bg-green-500/5 border border-green-500/30 rounded-xl px-3.5 py-2">
             <Radio size={14} className="text-green-400" />
             <span className="text-[10px] font-mono text-green-400 uppercase tracking-widest">
-              Calendário sincronizado · {FAF_CALENDAR_SOURCE.system} · cód. {FAF_CALENDAR_SOURCE.accessCode}
+              Calendário sincronizado · {dynamicSource.system} · cód. {dynamicSource.accessCode}
             </span>
           </div>
         )}
@@ -228,17 +262,21 @@ export default function FixturesPage() {
               </div>
               <span className="text-[10px] text-zinc-500 font-mono transition-transform group-open:rotate-180">▼ CLIQUE PARA VER</span>
             </summary>
-            <div className="mt-5 pt-5 border-t border-zinc-200/60 dark:border-zinc-900/60 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 font-mono text-[11px] text-zinc-600 dark:text-zinc-400">
-              {CALENDAR_2026_27.map((r) => {
-                const [yy, mm, dd] = r.dates[0].split('-');
-                return { round: r.round, date: `${dd}/${mm}/${yy.slice(2)}` };
-              }).map((item) => (
-                <div key={item.round} className="flex items-center gap-1.5 hover:text-foreground transition-colors py-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
-                  <span>J{item.round} - {item.date}</span>
-                </div>
-              ))}
-            </div>
+            {loading ? (
+              <div className="mt-5 text-center text-xs font-mono text-zinc-500">A carregar calendário...</div>
+            ) : (
+              <div className="mt-5 pt-5 border-t border-zinc-200/60 dark:border-zinc-900/60 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 font-mono text-[11px] text-zinc-600 dark:text-zinc-400">
+                {dynamicCalendar.map((r) => {
+                  const [yy, mm, dd] = r.dates[0].split('-');
+                  return { round: r.round, date: `${dd}/${mm}/${yy.slice(2)}` };
+                }).map((item) => (
+                  <div key={item.round} className="flex items-center gap-1.5 hover:text-foreground transition-colors py-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
+                    <span>J{item.round} - {item.date}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </details>
         </AnimatedCard>
       )}

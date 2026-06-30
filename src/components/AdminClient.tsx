@@ -60,6 +60,7 @@ export default function AdminClient() {
   const [authed, setAuthed] = useState(false);
   const [ready, setReady] = useState(false);
   const [section, setSection] = useState<Section>('dashboard');
+  const [dynamicSource, setDynamicSource] = useState(FAF_CALENDAR_SOURCE);
 
   useEffect(() => {
     // Leitura segura de armazenamento do browser apenas no cliente (evita mismatch de hidratação).
@@ -67,6 +68,16 @@ export default function AdminClient() {
     setAuthed(sessionStorage.getItem(AUTH_KEY) === '1');
     setReady(true);
     /* eslint-enable react-hooks/set-state-in-effect */
+
+    // Buscar dados reais da semente no arranque
+    fetch('/api/ancaf')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.source) {
+          setDynamicSource(data.source);
+        }
+      })
+      .catch((err) => console.error('Erro ao buscar semente do calendário no painel:', err));
   }, []);
 
   const logout = () => {
@@ -285,6 +296,19 @@ function ConnectionBadge({ icon: Icon, label, endpoint, ok = true }: { icon: Rea
 // SECÇÃO: PAINEL GERAL
 // ════════════════════════════════════════════════════════════════════════
 function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
+  const [dynamicSource, setDynamicSource] = useState(FAF_CALENDAR_SOURCE);
+
+  useEffect(() => {
+    fetch('/api/ancaf')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.source) {
+          setDynamicSource(data.source);
+        }
+      })
+      .catch((err) => console.error('Erro ao buscar semente no dashboard:', err));
+  }, []);
+
   const fifaRecords = useMemo(() => getPlayerFifaRecords(), []);
   const eligible = fifaRecords.filter((r) => r.eligible).length;
   const finished = MATCHES.filter((m) => m.status === 'finished').length;
@@ -309,7 +333,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
           <Radio size={15} className="text-accent" /> Estado das Ligações
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <ConnectionBadge icon={CalendarDays} label="FAF_CALENDAR" endpoint={`${FAF_CALENDAR_SOURCE.season} · cód. ${FAF_CALENDAR_SOURCE.accessCode}`} />
+          <ConnectionBadge icon={CalendarDays} label="FAF_CALENDAR" endpoint={`${dynamicSource.season} · cód. ${dynamicSource.accessCode}`} />
           <ConnectionBadge icon={Database} label="Base de Dados" endpoint="armazenamento · multimédia" />
           <ConnectionBadge icon={Wifi} label="FIFA Connect" endpoint="conformidade · elegibilidade" />
         </div>
@@ -359,8 +383,9 @@ function CalendarSection() {
   const [lastSync, setLastSync] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
   const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [dynamicSource, setDynamicSource] = useState(FAF_CALENDAR_SOURCE);
 
-  // Carregar persistência local
+  // Carregar persistência local e dados da semente
   useEffect(() => {
     // Carregar persistência local apenas no cliente (evita mismatch de hidratação).
     /* eslint-disable react-hooks/set-state-in-effect */
@@ -370,6 +395,16 @@ function CalendarSection() {
     } catch { /* ignorar */ }
     setLastSync(localStorage.getItem(SYNC_KEY));
     /* eslint-enable react-hooks/set-state-in-effect */
+
+    // Buscar dados reais da semente
+    fetch('/api/ancaf')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.source) {
+          setDynamicSource(data.source);
+        }
+      })
+      .catch((err) => console.error('Erro ao buscar semente do calendário:', err));
   }, []);
 
   const persist = (next: Overrides) => {
@@ -390,12 +425,20 @@ function CalendarSection() {
 
   const sync = () => {
     setSyncing(true);
-    setTimeout(() => {
-      const stamp = new Date().toISOString();
-      localStorage.setItem(SYNC_KEY, stamp);
-      setLastSync(stamp);
-      setSyncing(false);
-    }, 1600);
+    fetch('/api/ancaf')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.source) {
+          setDynamicSource(data.source);
+        }
+        const stamp = new Date().toISOString();
+        localStorage.setItem(SYNC_KEY, stamp);
+        setLastSync(stamp);
+      })
+      .catch((err) => console.error('Erro de sincronização:', err))
+      .finally(() => {
+        setSyncing(false);
+      });
   };
 
   const merged = (m: Match): Match => ({ ...m, ...overrides[m.id] });
@@ -455,13 +498,13 @@ function CalendarSection() {
               </p>
               <p className="text-[11px] font-mono text-zinc-500 mt-0.5">
                 {isUpcoming ? (
-                  <>Calendário {FAF_CALENDAR_SOURCE.season} importado · cód. de acesso <span className="text-green-400">{FAF_CALENDAR_SOURCE.accessCode}</span></>
+                  <>Calendário {dynamicSource.season} importado · cód. de acesso <span className="text-green-400">{dynamicSource.accessCode}</span></>
                 ) : (
                   <>Época {seasonLabel} · resultados consolidados</>
                 )}
               </p>
               <p className="text-[11px] font-mono text-zinc-500 mt-0.5">
-                Última sincronização: {lastSync ? new Date(lastSync).toLocaleString('pt-AO') : new Date(FAF_CALENDAR_SOURCE.generatedAt).toLocaleString('pt-AO')}
+                Última sincronização: {lastSync ? new Date(lastSync).toLocaleString('pt-AO') : new Date(dynamicSource.generatedAt).toLocaleString('pt-AO')}
               </p>
             </div>
           </div>
