@@ -17,12 +17,14 @@ import {
   type Match, type FifaCheckKey, type Team, type NewsArticle, type Player,
 } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { generateGirabolaCalendar } from '@/lib/ancaf-engine';
 
 // ── Configuração local (gate de demonstração / persistência local) ──────
 const PASSCODE = 'ancaf2026';
 const AUTH_KEY = 'faf_admin_authed';
 const CAL_KEY = 'faf_calendar_overrides';
 const SYNC_KEY = 'faf_calendar_last_sync';
+const SEED_KEY = 'ancaf_calendar_seed';
 const TEAM_KEY = 'faf_team_overrides';
 const NEWS_KEY = 'faf_news_store';
 const PLAYER_KEY = 'faf_player_overrides';
@@ -394,8 +396,19 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
 // ════════════════════════════════════════════════════════════════════════
 function CalendarSection() {
   const [seasonId, setSeasonId] = useState<string>(UPCOMING_SEASON_ID);
-  const seasonMatches = useMemo(() => getMatchesForSeason(seasonId), [seasonId]);
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
+
+  // Chave do sorteio (seed). Determina o calendário da época futura: chaves
+  // diferentes ⇒ calendários diferentes (todos cumprem as regras ANCAF).
+  const [seed, setSeed] = useState<number>(Number(ANCAF_CALENDAR_SOURCE.accessCode) || 1357);
+  const [seedInput, setSeedInput] = useState<string>(String(ANCAF_CALENDAR_SOURCE.accessCode));
+
+  // A época futura é gerada no cliente a partir da chave (resultados diversos);
+  // a época concluída mantém o histórico consolidado.
+  const seasonMatches = useMemo(
+    () => (isUpcoming ? generateGirabolaCalendar(seed, 2026, 'm27-') : getMatchesForSeason(seasonId)),
+    [isUpcoming, seasonId, seed],
+  );
   const rounds = useMemo(() => Array.from(new Set(seasonMatches.map((m) => m.round))).sort((a, b) => a - b), [seasonMatches]);
   const [round, setRound] = useState<number>(1);
   const [overrides, setOverrides] = useState<Overrides>({});
@@ -413,6 +426,11 @@ function CalendarSection() {
       if (raw) setOverrides(JSON.parse(raw));
     } catch { /* ignorar */ }
     setLastSync(localStorage.getItem(SYNC_KEY));
+    const storedSeed = localStorage.getItem(SEED_KEY);
+    if (storedSeed && Number.isFinite(Number(storedSeed))) {
+      setSeed(Number(storedSeed));
+      setSeedInput(storedSeed);
+    }
     /* eslint-enable react-hooks/set-state-in-effect */
 
     // Buscar dados reais da semente
@@ -459,6 +477,17 @@ function CalendarSection() {
         setSyncing(false);
       });
   };
+
+  // Aplica uma nova chave de sorteio (regenera o calendário no cliente).
+  const applySeed = (value: number) => {
+    const s = Math.max(0, Math.floor(value));
+    setSeed(s);
+    setSeedInput(String(s));
+    localStorage.setItem(SEED_KEY, String(s));
+    setRound(1);
+    setSavedAt(new Date().toISOString());
+  };
+  const randomSeed = () => applySeed(Math.floor(Math.random() * 8000) + 1); // 1..8000
 
   const merged = (m: Match): Match => ({ ...m, ...overrides[m.id] });
   const roundMatches = seasonMatches.filter((m) => m.round === round).map(merged);
@@ -517,7 +546,7 @@ function CalendarSection() {
               </p>
               <p className="text-[11px] font-mono text-zinc-500 mt-0.5">
                 {isUpcoming ? (
-                  <>Calendário {dynamicSource.season} importado · cód. de acesso <span className="text-green-400">{dynamicSource.accessCode}</span></>
+                  <>Calendário {dynamicSource.season} · chave do sorteio <span className="text-green-400">{seed}</span></>
                 ) : (
                   <>Época {seasonLabel} · resultados consolidados</>
                 )}
@@ -545,6 +574,48 @@ function CalendarSection() {
           </div>
         </div>
       </Panel>
+
+      {/* Chave do sorteio — só na época por disputar */}
+      {isUpcoming && (
+        <Panel className="border-accent/20 bg-accent/[0.03]">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <p className="font-display text-foreground uppercase tracking-wider text-sm flex items-center gap-2">
+                <RefreshCw size={14} className="text-accent" /> Chave do Sorteio
+              </p>
+              <p className="text-[11px] font-mono text-zinc-500 mt-1 max-w-md">
+                Cada chave gera um calendário diferente (mesma chave ⇒ sempre o mesmo). Todos cumprem as regras ANCAF (≤2 jogos seguidos casa/fora, 2 voltas, 15/15).
+              </p>
+            </div>
+            <form
+              onSubmit={(e) => { e.preventDefault(); applySeed(Number(seedInput) || 0); }}
+              className="flex items-center gap-2 flex-shrink-0"
+            >
+              <input
+                type="number"
+                min={0}
+                value={seedInput}
+                onChange={(e) => setSeedInput(e.target.value)}
+                className="admin-input w-28 text-center"
+                placeholder="ex.: 1357"
+              />
+              <button
+                type="submit"
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[11px] uppercase tracking-widest hover:bg-accent/20 transition-colors"
+              >
+                <CheckCircle2 size={13} /> Aplicar
+              </button>
+              <button
+                type="button"
+                onClick={randomSeed}
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-primary/10 border border-primary/40 text-primary font-mono text-[11px] uppercase tracking-widest hover:bg-primary/20 transition-colors"
+              >
+                <RefreshCw size={13} /> Sortear
+              </button>
+            </form>
+          </div>
+        </Panel>
+      )}
 
       {/* Seletor de jornada */}
       <div className="flex flex-wrap items-center gap-2">
@@ -592,7 +663,7 @@ function CalendarSection() {
                 <CheckCircle2 size={12} /> Acautelado
               </p>
               <ul className="space-y-1.5 text-zinc-600 dark:text-zinc-400">
-                <li>• Confrontos, mando e datas vêm do sorteio ANCAF (cód. {dynamicSource.accessCode}); o editor <strong className="text-foreground">não os recalcula</strong>.</li>
+                <li>• Confrontos, mando e datas vêm do sorteio ANCAF (chave {seed}); o editor <strong className="text-foreground">não os recalcula</strong>.</li>
                 <li>• O <strong className="text-foreground">resultado só fica editável</strong> quando o estado do jogo é «Terminado».</li>
                 <li>• As alterações ficam <strong className="text-foreground">apenas neste navegador</strong> e não reescrevem o calendário oficial nem a classificação publicada.</li>
               </ul>
