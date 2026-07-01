@@ -7,9 +7,11 @@
 // Algoritmo replicado do ANCAF:
 //   • PRNG mulberry32(seed)
 //   • baralhamento Fisher-Yates das equipas
-//   • 1.ª volta pelo método do círculo (round-robin), mando alternado por jornada
-//   • 2.ª volta ASSIMÉTRICA: as equipas são novamente baralhadas (mesmo PRNG),
-//     garantindo a inversão de mando face à 1.ª volta (não é volta espelhada)
+//   • 1.ª volta pelo método do círculo (round-robin) com atribuição de mando
+//     de-Werra (minimização de "breaks") — REGRA ANCAF: nenhuma equipa joga
+//     mais de 2 jogos seguidos em casa nem 2 seguidos fora.
+//   • 2.ª volta ESPELHADA: mesmos confrontos, mando invertido. Preserva a
+//     regra dos ≤2 consecutivos em toda a época (30 jornadas).
 // ═══════════════════════════════════════════════════════════════════════
 import type { Match, Team } from './data';
 
@@ -26,11 +28,13 @@ function mulberry32(seed: number): () => number {
 interface DrawClub { id: string; name: string; stadium: string; }
 interface DrawFixture { round: number; homeId: string; awayId: string; }
 
-// Sorteio (apenas confrontos + jornadas + mando). Réplica fiel da função do ANCAF.
-function drawFixtures(clubs: DrawClub[], isAsymmetric: boolean, rng: () => number): DrawFixture[] {
+// Sorteio (confrontos + jornadas + mando). O seed determina o baralhamento
+// inicial; a atribuição de mando segue a regra de-Werra (≤2 jogos seguidos em
+// casa/fora) e a 2.ª volta é espelhada.
+function drawFixtures(clubs: DrawClub[], rng: () => number): DrawFixture[] {
   if (clubs.length < 2) return [];
   const teams = [...clubs];
-  // Fisher-Yates
+  // Fisher-Yates (determinístico pelo seed)
   for (let i = teams.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
     [teams[i], teams[j]] = [teams[j], teams[i]];
@@ -40,7 +44,10 @@ function drawFixtures(clubs: DrawClub[], isAsymmetric: boolean, rng: () => numbe
   const perRound = c / 2;       // 8
   const fixtures: DrawFixture[] = [];
 
-  // 1.ª volta (jornadas 1..15)
+  // 1.ª volta (jornadas 1..15) — método do círculo + mando de-Werra.
+  // A alternância do mando por paridade da jornada, com o jogo da equipa fixa
+  // invertido, garante que nenhuma equipa faz mais de 2 jogos seguidos em
+  // casa nem 2 seguidos fora.
   for (let e = 0; e < legRounds; e++) {
     const round = e + 1;
     for (let s = 0; s < perRound; s++) {
@@ -48,39 +55,22 @@ function drawFixtures(clubs: DrawClub[], isAsymmetric: boolean, rng: () => numbe
       let fi = (c - 1 - s + e) % (c - 1);
       if (s === 0) fi = c - 1;
       const a = teams[li], b = teams[fi];
-      const homeFirst = e % 2 === 0;
-      fixtures.push({ round, homeId: homeFirst ? a.id : b.id, awayId: homeFirst ? b.id : a.id });
+      // s === 0 é o jogo da equipa fixa (b): mando invertido face aos restantes.
+      const aIsHome = s === 0 ? e % 2 !== 0 : e % 2 === 0;
+      fixtures.push({
+        round,
+        homeId: aIsHome ? a.id : b.id,
+        awayId: aIsHome ? b.id : a.id,
+      });
     }
   }
 
-  // 2.ª volta (jornadas 16..30) — assimétrica: novo baralhamento + inversão de mando
+  // 2.ª volta (jornadas 16..30) — ESPELHADA: mesmos confrontos, mando invertido.
+  // Como o padrão de mando da 2.ª volta é o complemento exato da 1.ª, a regra
+  // dos ≤2 jogos consecutivos mantém-se em toda a época.
   const firstLeg = [...fixtures];
-  if (isAsymmetric) {
-    const reshuffled = [...teams];
-    for (let i = reshuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(rng() * (i + 1));
-      [reshuffled[i], reshuffled[j]] = [reshuffled[j], reshuffled[i]];
-    }
-    for (let e = 0; e < legRounds; e++) {
-      const round = legRounds + e + 1;
-      for (let s = 0; s < perRound; s++) {
-        const li = (e + s) % (c - 1);
-        let fi = (c - 1 - s + e) % (c - 1);
-        if (s === 0) fi = c - 1;
-        let home = reshuffled[li], away = reshuffled[fi];
-        // garantir mando invertido face à 1.ª volta
-        const prev = firstLeg.find(
-          (m) => (m.homeId === home.id && m.awayId === away.id) || (m.homeId === away.id && m.awayId === home.id),
-        );
-        if (prev && prev.homeId === home.id) { const t = home; home = away; away = t; }
-        fixtures.push({ round, homeId: home.id, awayId: away.id });
-      }
-    }
-  } else {
-    // volta espelhada (mando trocado)
-    for (const m of firstLeg) {
-      fixtures.push({ round: m.round + legRounds, homeId: m.awayId, awayId: m.homeId });
-    }
+  for (const m of firstLeg) {
+    fixtures.push({ round: m.round + legRounds, homeId: m.awayId, awayId: m.homeId });
   }
   return fixtures;
 }
@@ -158,7 +148,7 @@ const ROUND_DATES: readonly [number, number, number][] = [
 // fixadas por ROUND_DATES (datas oficiais ANCAF 2026/2027).
 export function generateGirabolaCalendar(seed: number, year: number, idPrefix = 'm27-'): Match[] {
   void year;
-  const fixtures = drawFixtures(DRAW_ROSTER, true, mulberry32(seed));
+  const fixtures = drawFixtures(DRAW_ROSTER, mulberry32(seed));
   const perRound = DRAW_ROSTER.length / 2;
 
   let counter = 1;

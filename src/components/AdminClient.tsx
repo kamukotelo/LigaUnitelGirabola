@@ -8,12 +8,13 @@ import {
   Lock, LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
   Fingerprint, FileText, Plane, HeartPulse, Loader2, CheckCircle2,
   AlertTriangle, BadgeCheck, Search, Download, Home, Eye, EyeOff,
+  Plus, Trash2, Pencil, Shirt,
 } from 'lucide-react';
 import {
   MATCHES, TEAMS, PLAYERS, getStandings, getNewsArticles,
   getPlayerFifaRecords, FIFA_CHECK_META,
   SEASONS, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason,
-  type Match, type FifaCheckKey,
+  type Match, type FifaCheckKey, type Team, type NewsArticle, type Player,
 } from '@/lib/data';
 
 // ── Configuração local (gate de demonstração / persistência local) ──────
@@ -21,8 +22,24 @@ const PASSCODE = 'ancaf2026';
 const AUTH_KEY = 'faf_admin_authed';
 const CAL_KEY = 'faf_calendar_overrides';
 const SYNC_KEY = 'faf_calendar_last_sync';
+const TEAM_KEY = 'faf_team_overrides';
+const NEWS_KEY = 'faf_news_store';
+const PLAYER_KEY = 'faf_player_overrides';
 
-type Section = 'dashboard' | 'calendar' | 'fifa' | 'teams' | 'news';
+type Section = 'dashboard' | 'calendar' | 'fifa' | 'teams' | 'players' | 'news';
+
+// ── Utilitário genérico de persistência local (overrides do admin) ───────
+function readJSON<T>(key: string, fallback: T): T {
+  try { const raw = localStorage.getItem(key); return raw ? (JSON.parse(raw) as T) : fallback; }
+  catch { return fallback; }
+}
+function downloadJSON(filename: string, data: unknown) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
 
 interface MatchOverride {
   date?: string;
@@ -93,6 +110,7 @@ export default function AdminClient() {
     { key: 'calendar', label: 'Calendário · ANCAF', icon: CalendarDays },
     { key: 'fifa', label: 'FIFA Connect', icon: ShieldCheck },
     { key: 'teams', label: 'Equipas', icon: Users },
+    { key: 'players', label: 'Jogadores', icon: ShieldCheck },
     { key: 'news', label: 'Notícias', icon: Newspaper },
   ];
 
@@ -164,6 +182,7 @@ export default function AdminClient() {
                 {section === 'calendar' && <CalendarSection />}
                 {section === 'fifa' && <FifaSection />}
                 {section === 'teams' && <TeamsSection />}
+                {section === 'players' && <PlayersSection />}
                 {section === 'news' && <NewsSection />}
               </motion.div>
             </AnimatePresence>
@@ -950,74 +969,377 @@ function FifaValidator({ record }: { record: ReturnType<typeof getPlayerFifaReco
   );
 }
 
-// ════════════════════════════════════════════════════════════════════════
-// SECÇÃO: EQUIPAS
-// ════════════════════════════════════════════════════════════════════════
-function TeamsSection() {
-  const standings = useMemo(() => getStandings(), []);
-  const posByTeam = new Map(standings.map((s) => [s.teamId, s]));
-
+// ── Estilos partilhados dos inputs do admin (injetados por secção) ───────
+function AdminInputStyles() {
   return (
-    <div className="space-y-6">
-      <SectionHeader icon={Users} subtitle="CLUBES_PARTICIPANTES" title="Equipas" />
-      <Panel className="p-0 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="border-b border-zinc-200 dark:border-zinc-900 text-[10px] font-mono uppercase tracking-widest text-zinc-500">
-                <th className="px-4 py-3">Clube</th>
-                <th className="px-4 py-3 hidden sm:table-cell">Cidade</th>
-                <th className="px-4 py-3 hidden md:table-cell">Estádio</th>
-                <th className="px-4 py-3 hidden lg:table-cell">Treinador</th>
-                <th className="px-4 py-3 text-right">Pts</th>
-              </tr>
-            </thead>
-            <tbody>
-              {TEAMS.map((t) => {
-                const s = posByTeam.get(t.id);
-                return (
-                  <tr key={t.id} className="border-b border-zinc-200/50 dark:border-zinc-900/50 hover:bg-white/[0.02]">
-                    <td className="px-4 py-3">
-                      <Link href={`/teams/${t.id}`} className="text-sm text-foreground font-semibold hover:text-accent transition-colors">{t.name}</Link>
-                      <p className="text-[10px] font-mono text-zinc-600">Fund. {t.founded}</p>
-                    </td>
-                    <td className="px-4 py-3 hidden sm:table-cell text-zinc-600 dark:text-zinc-400 font-mono text-xs">{t.city}</td>
-                    <td className="px-4 py-3 hidden md:table-cell text-zinc-600 dark:text-zinc-400 font-mono text-xs">{t.stadium}</td>
-                    <td className="px-4 py-3 hidden lg:table-cell text-zinc-600 dark:text-zinc-400 font-mono text-xs">{t.coach}</td>
-                    <td className="px-4 py-3 text-right font-mono text-sm font-bold text-foreground">{s?.points ?? '—'}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </Panel>
+    <style jsx global>{`
+      .admin-input {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid #27272a;
+        border-radius: 0.625rem;
+        padding: 0.55rem 0.7rem;
+        font-size: 0.78rem;
+        font-family: var(--font-mono, monospace);
+        color: #e4e4e7;
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      .admin-input:focus { border-color: #00f5ff; }
+      textarea.admin-input { resize: vertical; min-height: 72px; line-height: 1.5; }
+    `}</style>
+  );
+}
+
+// Barra de estado/ações reutilizada pelos editores (gravação + exportar + repor).
+function EditorToolbar({
+  editedLabel, savedAt, onExport, onReset, extra,
+}: {
+  editedLabel: string;
+  savedAt: string | null;
+  onExport: () => void;
+  onReset?: () => void;
+  extra?: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <span className="text-[11px] font-mono text-zinc-500 inline-flex items-center gap-2">
+        {editedLabel}
+        {savedAt && (
+          <span className="text-green-400 inline-flex items-center gap-1">
+            <Save size={11} /> {new Date(savedAt).toLocaleTimeString('pt-AO')}
+          </span>
+        )}
+      </span>
+      <div className="flex items-center gap-2">
+        {extra}
+        {onReset && (
+          <button
+            onClick={onReset}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-[10px] uppercase tracking-widest hover:bg-red-500/20 transition-colors"
+          >
+            <RefreshCw size={12} /> Repor tudo
+          </button>
+        )}
+        <button
+          onClick={onExport}
+          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-[10px] uppercase tracking-widest hover:text-foreground transition-colors"
+        >
+          <Download size={12} /> Exportar
+        </button>
+      </div>
     </div>
   );
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// SECÇÃO: NOTÍCIAS
+// SECÇÃO: EQUIPAS (edição total dos clubes)
 // ════════════════════════════════════════════════════════════════════════
+function TeamsSection() {
+  const standings = useMemo(() => getStandings(), []);
+  const posByTeam = useMemo(() => new Map(standings.map((s) => [s.teamId, s])), [standings]);
+  const [overrides, setOverrides] = useState<Record<string, Partial<Team>>>({});
+  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setOverrides(readJSON<Record<string, Partial<Team>>>(TEAM_KEY, {}));
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
+
+  const persist = (next: Record<string, Partial<Team>>) => {
+    setOverrides(next);
+    localStorage.setItem(TEAM_KEY, JSON.stringify(next));
+    setSavedAt(new Date().toISOString());
+  };
+  const update = (id: string, patch: Partial<Team>) => persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
+  const resetTeam = (id: string) => { const n = { ...overrides }; delete n[id]; persist(n); };
+  const merged = (t: Team): Team => ({ ...t, ...overrides[t.id] });
+  const editedCount = Object.keys(overrides).length;
+
+  return (
+    <div className="space-y-6">
+      <SectionHeader icon={Users} subtitle="GESTÃO_DE_CLUBES" title="Equipas" />
+      <EditorToolbar
+        editedLabel={editedCount > 0 ? `${editedCount} clube(s) com alterações locais` : 'Sem alterações locais'}
+        savedAt={savedAt}
+        onExport={() => downloadJSON('clubes-ancaf.json', TEAMS.map(merged))}
+        onReset={editedCount > 0 ? () => persist({}) : undefined}
+      />
+
+      <div className="space-y-3">
+        {TEAMS.map((base) => {
+          const t = merged(base);
+          const s = posByTeam.get(base.id);
+          const isOpen = openId === base.id;
+          const isEdited = !!overrides[base.id];
+          const hex = t.colorsHex ?? ['#888888', '#cccccc'];
+          return (
+            <Panel key={base.id} className={isEdited ? 'border-accent/30' : ''}>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex gap-1 flex-shrink-0">
+                    <span className="w-3 h-7 rounded" style={{ background: hex[0] }} />
+                    <span className="w-3 h-7 rounded" style={{ background: hex[1] ?? hex[0] }} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-foreground truncate">
+                      {t.name} <span className="text-zinc-500 font-mono text-[11px]">{t.shortName}</span>
+                      {isEdited && <span className="ml-2 text-[8px] font-mono text-accent uppercase tracking-widest">editado</span>}
+                    </p>
+                    <p className="text-[10px] font-mono text-zinc-600 truncate">{t.city} · {t.stadium} · {s?.points ?? 0} pts</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  {isEdited && (
+                    <button onClick={() => resetTeam(base.id)} className="text-[10px] font-mono text-zinc-500 hover:text-red-400 transition-colors uppercase tracking-widest">Repor</button>
+                  )}
+                  <button onClick={() => setOpenId(isOpen ? null : base.id)} className="inline-flex items-center gap-1.5 text-[10px] font-mono text-accent hover:text-accent/80 transition-colors uppercase tracking-widest">
+                    <Pencil size={12} /> {isOpen ? 'Fechar' : 'Editar'}
+                  </button>
+                </div>
+              </div>
+
+              {isOpen && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60">
+                  <Field label="Nome do clube"><input className="admin-input" value={t.name} onChange={(e) => update(base.id, { name: e.target.value })} /></Field>
+                  <Field label="Sigla"><input className="admin-input" maxLength={4} value={t.shortName} onChange={(e) => update(base.id, { shortName: e.target.value.toUpperCase() })} /></Field>
+                  <Field label="Cidade"><input className="admin-input" value={t.city} onChange={(e) => update(base.id, { city: e.target.value })} /></Field>
+                  <Field label="Estádio"><input className="admin-input" value={t.stadium} onChange={(e) => update(base.id, { stadium: e.target.value })} /></Field>
+                  <Field label="Capacidade"><input type="number" min={0} className="admin-input" value={t.stadiumCapacity} onChange={(e) => update(base.id, { stadiumCapacity: Number(e.target.value) })} /></Field>
+                  <Field label="Ano de fundação"><input type="number" className="admin-input" value={t.founded} onChange={(e) => update(base.id, { founded: Number(e.target.value) })} /></Field>
+                  <Field label="Treinador"><input className="admin-input" value={t.coach} onChange={(e) => update(base.id, { coach: e.target.value })} /></Field>
+                  <Field label="Cores (descrição)"><input className="admin-input" value={t.colors} onChange={(e) => update(base.id, { colors: e.target.value })} /></Field>
+                  <Field label="Paleta (principal · secundária)">
+                    <div className="flex gap-2 items-center">
+                      <input type="color" value={hex[0]} onChange={(e) => update(base.id, { colorsHex: [e.target.value, hex[1] ?? hex[0]] })} className="h-9 w-14 rounded bg-transparent border border-zinc-700 cursor-pointer" />
+                      <input type="color" value={hex[1] ?? hex[0]} onChange={(e) => update(base.id, { colorsHex: [hex[0], e.target.value] })} className="h-9 w-14 rounded bg-transparent border border-zinc-700 cursor-pointer" />
+                    </div>
+                  </Field>
+                </div>
+              )}
+            </Panel>
+          );
+        })}
+      </div>
+      <AdminInputStyles />
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// SECÇÃO: JOGADORES (edição de plantéis)
+// ════════════════════════════════════════════════════════════════════════
+function PlayersSection() {
+  const [overrides, setOverrides] = useState<Record<string, Partial<Player>>>({});
+  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [query, setQuery] = useState('');
+  const [selectedId, setSelectedId] = useState<string>(PLAYERS[0]?.id ?? '');
+
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setOverrides(readJSON<Record<string, Partial<Player>>>(PLAYER_KEY, {}));
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
+
+  const persist = (next: Record<string, Partial<Player>>) => {
+    setOverrides(next);
+    localStorage.setItem(PLAYER_KEY, JSON.stringify(next));
+    setSavedAt(new Date().toISOString());
+  };
+  const update = (id: string, patch: Partial<Player>) => persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
+  const resetPlayer = (id: string) => { const n = { ...overrides }; delete n[id]; persist(n); };
+  const merged = (p: Player): Player => ({ ...p, ...overrides[p.id] });
+  const editedCount = Object.keys(overrides).length;
+
+  const filtered = PLAYERS.filter((p) => p.name.toLowerCase().includes(query.toLowerCase()));
+  const baseSel = PLAYERS.find((p) => p.id === selectedId) ?? filtered[0] ?? PLAYERS[0];
+
+  if (!baseSel) return null;
+  const sel = merged(baseSel);
+  const selEdited = !!overrides[baseSel.id];
+
+  const numField = (label: string, key: 'jerseyNumber' | 'age' | 'goals' | 'assists' | 'appearances', value: number) => (
+    <Field label={label}>
+      <input type="number" min={0} className="admin-input" value={value} onChange={(e) => update(baseSel.id, { [key]: Number(e.target.value) })} />
+    </Field>
+  );
+
+  return (
+    <div className="space-y-6">
+      <SectionHeader icon={Shirt} subtitle="GESTÃO_DE_PLANTÉIS" title="Jogadores" />
+      <EditorToolbar
+        editedLabel={editedCount > 0 ? `${editedCount} jogador(es) com alterações locais` : 'Sem alterações locais'}
+        savedAt={savedAt}
+        onExport={() => downloadJSON('jogadores-ancaf.json', PLAYERS.map(merged))}
+        onReset={editedCount > 0 ? () => persist({}) : undefined}
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6">
+        {/* Lista + pesquisa */}
+        <div className="space-y-3">
+          <div className="relative">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600" />
+            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Pesquisar jogador…" className="admin-input pl-9" />
+          </div>
+          <div className="space-y-2 max-h-[560px] overflow-y-auto pr-1">
+            {filtered.map((p) => {
+              const active = baseSel.id === p.id;
+              const edited = !!overrides[p.id];
+              const m = merged(p);
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => setSelectedId(p.id)}
+                  className={`w-full text-left flex items-center justify-between gap-3 p-3.5 rounded-xl border transition-colors ${
+                    active ? 'bg-accent/5 border-accent/40' : 'bg-zinc-100 dark:bg-black/40 border-zinc-200 dark:border-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-800'
+                  }`}
+                >
+                  <div className="min-w-0">
+                    <p className="text-sm text-foreground font-semibold truncate">
+                      {m.name} {edited && <span className="text-[8px] font-mono text-accent uppercase tracking-widest">editado</span>}
+                    </p>
+                    <p className="text-[10px] font-mono text-zinc-500 uppercase truncate">{m.club} · {m.position}</p>
+                  </div>
+                  <span className="flex-shrink-0 font-mono text-xs text-zinc-500">#{m.jerseyNumber}</span>
+                </button>
+              );
+            })}
+            {filtered.length === 0 && <p className="text-center py-10 text-zinc-600 font-mono text-sm">Nenhum jogador encontrado.</p>}
+          </div>
+        </div>
+
+        {/* Editor do jogador selecionado */}
+        <div className="bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-6 h-fit lg:sticky lg:top-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display text-foreground uppercase tracking-wider text-sm truncate">{sel.name}</h3>
+            {selEdited && (
+              <button onClick={() => resetPlayer(baseSel.id)} className="text-[10px] font-mono text-zinc-500 hover:text-red-400 transition-colors uppercase tracking-widest">Repor</button>
+            )}
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="col-span-2"><Field label="Nome"><input className="admin-input" value={sel.name} onChange={(e) => update(baseSel.id, { name: e.target.value })} /></Field></div>
+            <div className="col-span-2">
+              <Field label="Clube">
+                <select
+                  className="admin-input"
+                  value={sel.teamId}
+                  onChange={(e) => { const tm = TEAMS.find((x) => x.id === e.target.value); update(baseSel.id, { teamId: e.target.value, club: tm?.name ?? sel.club }); }}
+                >
+                  {TEAMS.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
+                </select>
+              </Field>
+            </div>
+            <Field label="Posição"><input className="admin-input" value={sel.position} onChange={(e) => update(baseSel.id, { position: e.target.value })} /></Field>
+            {numField('Nº camisola', 'jerseyNumber', sel.jerseyNumber)}
+            <Field label="Nacionalidade"><input className="admin-input" value={sel.nationality} onChange={(e) => update(baseSel.id, { nationality: e.target.value })} /></Field>
+            {numField('Idade', 'age', sel.age)}
+            {numField('Golos', 'goals', sel.goals)}
+            {numField('Assistências', 'assists', sel.assists)}
+            {numField('Jogos', 'appearances', sel.appearances)}
+          </div>
+        </div>
+      </div>
+      <AdminInputStyles />
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// SECÇÃO: NOTÍCIAS (criar · editar · remover)
+// ════════════════════════════════════════════════════════════════════════
+interface NewsStore { overrides: Record<string, Partial<NewsArticle>>; added: NewsArticle[]; deleted: string[]; }
+
 function NewsSection() {
-  const news = useMemo(() => getNewsArticles(), []);
+  const base = useMemo(() => getNewsArticles(), []);
+  const [store, setStore] = useState<NewsStore>({ overrides: {}, added: [], deleted: [] });
+  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setStore(readJSON<NewsStore>(NEWS_KEY, { overrides: {}, added: [], deleted: [] }));
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
+
+  const persist = (next: NewsStore) => {
+    setStore(next);
+    localStorage.setItem(NEWS_KEY, JSON.stringify(next));
+    setSavedAt(new Date().toISOString());
+  };
+  const updateArt = (id: string, patch: Partial<NewsArticle>) =>
+    persist({ ...store, overrides: { ...store.overrides, [id]: { ...store.overrides[id], ...patch } } });
+  const addArt = () => {
+    const id = `news-custom-${Date.now()}`;
+    const art: NewsArticle = { id, title: 'Nova notícia', category: 'Geral', date: new Date().toISOString(), summary: '', content: '' };
+    persist({ ...store, added: [art, ...store.added] });
+    setOpenId(id);
+  };
+  const deleteArt = (id: string, isAdded: boolean) => {
+    if (isAdded) persist({ ...store, added: store.added.filter((a) => a.id !== id) });
+    else persist({ ...store, deleted: [...store.deleted, id] });
+    if (openId === id) setOpenId(null);
+  };
+
+  const list = [...store.added, ...base]
+    .filter((a) => !store.deleted.includes(a.id))
+    .map((a) => ({ ...a, ...store.overrides[a.id] }));
+  const isAddedId = (id: string) => store.added.some((a) => a.id === id);
+  const editedCount = Object.keys(store.overrides).length + store.added.length + store.deleted.length;
+
   return (
     <div className="space-y-6">
       <SectionHeader icon={Newspaper} subtitle="GESTÃO_DE_CONTEÚDOS" title="Notícias" />
+      <EditorToolbar
+        editedLabel={editedCount > 0 ? `${editedCount} alteração(ões) local(is) · ${list.length} notícias` : `${list.length} notícias`}
+        savedAt={savedAt}
+        onExport={() => downloadJSON('noticias-ancaf.json', list)}
+        onReset={editedCount > 0 ? () => persist({ overrides: {}, added: [], deleted: [] }) : undefined}
+        extra={
+          <button onClick={addArt} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest hover:bg-accent/20 transition-colors">
+            <Plus size={12} /> Nova
+          </button>
+        }
+      />
+
       <div className="space-y-3">
-        {news.map((n) => (
-          <Panel key={n.id} className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">{n.category}</span>
-              <p className="text-sm text-foreground font-semibold mt-2">{n.title}</p>
-              <p className="text-[11px] font-mono text-zinc-500 mt-1 line-clamp-2">{n.summary}</p>
-            </div>
-            <span className="flex-shrink-0 text-[10px] font-mono text-zinc-600">
-              {new Date(n.date).toLocaleDateString('pt-AO')}
-            </span>
-          </Panel>
-        ))}
+        {list.map((n) => {
+          const isOpen = openId === n.id;
+          const added = isAddedId(n.id);
+          const edited = !!store.overrides[n.id] || added;
+          return (
+            <Panel key={n.id} className={edited ? 'border-accent/30' : ''}>
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">{n.category}</span>
+                  {added && <span className="ml-2 text-[8px] font-mono text-accent uppercase tracking-widest">novo</span>}
+                  <p className="text-sm text-foreground font-semibold mt-2 truncate">{n.title}</p>
+                  <p className="text-[11px] font-mono text-zinc-500 mt-1 line-clamp-2">{n.summary}</p>
+                </div>
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  <button onClick={() => deleteArt(n.id, added)} className="text-zinc-500 hover:text-red-400 transition-colors" title="Remover"><Trash2 size={14} /></button>
+                  <button onClick={() => setOpenId(isOpen ? null : n.id)} className="inline-flex items-center gap-1.5 text-[10px] font-mono text-accent hover:text-accent/80 transition-colors uppercase tracking-widest">
+                    <Pencil size={12} /> {isOpen ? 'Fechar' : 'Editar'}
+                  </button>
+                </div>
+              </div>
+
+              {isOpen && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60">
+                  <Field label="Título"><input className="admin-input" value={n.title} onChange={(e) => updateArt(n.id, { title: e.target.value })} /></Field>
+                  <Field label="Categoria"><input className="admin-input" value={n.category} onChange={(e) => updateArt(n.id, { category: e.target.value })} /></Field>
+                  <div className="sm:col-span-2"><Field label="Data"><input className="admin-input" value={n.date} onChange={(e) => updateArt(n.id, { date: e.target.value })} /></Field></div>
+                  <div className="sm:col-span-2"><Field label="Resumo"><textarea className="admin-input" value={n.summary} onChange={(e) => updateArt(n.id, { summary: e.target.value })} /></Field></div>
+                  <div className="sm:col-span-2"><Field label="Conteúdo"><textarea className="admin-input" style={{ minHeight: 140 }} value={n.content ?? ''} onChange={(e) => updateArt(n.id, { content: e.target.value })} /></Field></div>
+                </div>
+              )}
+            </Panel>
+          );
+        })}
+        {list.length === 0 && <p className="text-center py-10 text-zinc-600 font-mono text-sm">Sem notícias. Use «Nova» para criar.</p>}
       </div>
+      <AdminInputStyles />
     </div>
   );
 }
