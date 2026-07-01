@@ -151,8 +151,8 @@ export const TEAMS: Team[] = [
   { id: 'lobito', name: 'Académica do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'João Pintar', colorsHex: ["#000000", "#FFFFFF"] },
   { id: 'saosalvador', name: 'São Salvador do Kongo', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Findanga Finda', colorsHex: ["#00529B", "#F9C304"] },
   { id: 'cabinda', name: 'FC Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Verde e Branco', coach: 'Pedro Gonçalves', colorsHex: ["#008751", "#FFFFFF"] },
-  { id: 'primeiromaio', name: '1.º de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal do Lobito', stadiumCapacity: 5000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Agostinho Tramagal', colorsHex: ["#D21515", "#FFFFFF"] },
-  { id: 'caala', name: 'CR Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio Municipal da Caála', stadiumCapacity: 5000, founded: 1980, colors: 'Azul e Branco', coach: 'Mateus Agostinho', colorsHex: ["#00529B", "#FFFFFF"] },
+  { id: 'primeiromaio', name: '1.º de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal Edelfride Palhares da Costa', stadiumCapacity: 5000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Agostinho Tramagal', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'caala', name: 'CR Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio dos Mártires da Canhala', stadiumCapacity: 5000, founded: 1980, colors: 'Azul e Branco', coach: 'Mateus Agostinho', colorsHex: ["#00529B", "#FFFFFF"] },
   { id: 'fcluanda', name: 'FC Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Campo da Cidadela', stadiumCapacity: 10000, founded: 2020, colors: 'Vermelho e Branco', coach: 'Guelson Manuel', colorsHex: ["#D21515", "#FFFFFF"] }
 ];
 
@@ -320,7 +320,7 @@ function generateAllMatches(): Match[] {
     { id: 'm-2904', round: 29, homeTeamId: 'sagrada', awayTeamId: 'bravos', homeTeam: 'Sagrada Esperança', awayTeam: 'Bravos do Maquis', homeScore: 1, awayScore: 1, score: '1-1', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Sagrada Esperança', status: 'finished' as const },
     { id: 'm-2905', round: 29, homeTeamId: 'libolo', awayTeamId: 'lobito', homeTeam: 'Recreativo do Libolo', awayTeam: 'Académica do Lobito', homeScore: 1, awayScore: 1, score: '1-1', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Municipal de Calulo', status: 'finished' as const },
     { id: 'm-2906', round: 29, homeTeamId: 'saosalvador', awayTeamId: 'cabinda', homeTeam: 'São Salvador do Kongo', awayTeam: 'FC Cabinda', homeScore: 1, awayScore: 0, score: '1-0', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio Álvaro Buta', status: 'finished' as const },
-    { id: 'm-2907', round: 29, homeTeamId: 'primeiromaio', awayTeamId: 'caala', homeTeam: '1.º de Maio', awayTeam: 'CR Caála', homeScore: 2, awayScore: 2, score: '2-2', date: '2026-05-02T15:30:00+01:00', stadium: 'Estádio Municipal do Lobito', status: 'finished' as const },
+    { id: 'm-2907', round: 29, homeTeamId: 'primeiromaio', awayTeamId: 'caala', homeTeam: '1.º de Maio', awayTeam: 'CR Caála', homeScore: 2, awayScore: 2, score: '2-2', date: '2026-05-02T15:30:00+01:00', stadium: 'Estádio Municipal Edelfride Palhares da Costa', status: 'finished' as const },
     { id: 'm-2908', round: 29, homeTeamId: 'fcluanda', awayTeamId: 'desphuila', homeTeam: 'FC Luanda', awayTeam: 'Desportivo da Huíla', homeScore: 0, awayScore: 2, score: '0-2', date: '2026-05-03T15:00:00+01:00', stadium: 'Estádio dos Coqueiros', status: 'finished' as const },
   ];
 
@@ -331,7 +331,7 @@ function generateAllMatches(): Match[] {
     { id: 'm-3004', round: 30, homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', homeScore: 2, awayScore: 0, score: '2-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio Mundunduleno', status: 'finished' as const },
     { id: 'm-3005', round: 30, homeTeamId: 'lobito', awayTeamId: 'libolo', homeTeam: 'Académica do Lobito', awayTeam: 'Recreativo do Libolo', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio do Buraco', status: 'finished' as const },
     { id: 'm-3006', round: 30, homeTeamId: 'cabinda', awayTeamId: 'saosalvador', homeTeam: 'FC Cabinda', awayTeam: 'São Salvador do Kongo', homeScore: 0, awayScore: 0, score: '0-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio Nacional do Chiazi', status: 'finished' as const },
-    { id: 'm-3007', round: 30, homeTeamId: 'caala', awayTeamId: 'primeiromaio', homeTeam: 'CR Caála', awayTeam: '1.º de Maio', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio Municipal da Caála', status: 'finished' as const },
+    { id: 'm-3007', round: 30, homeTeamId: 'caala', awayTeamId: 'primeiromaio', homeTeam: 'CR Caála', awayTeam: '1.º de Maio', homeScore: 0, awayScore: 1, score: '0-1', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio dos Mártires da Canhala', status: 'finished' as const },
     { id: 'm-3008', round: 30, homeTeamId: 'desphuila', awayTeamId: 'fcluanda', homeTeam: 'Desportivo da Huíla', awayTeam: 'FC Luanda', homeScore: 3, awayScore: 0, score: '3-0', date: '2026-05-09T15:30:00+01:00', stadium: 'Estádio da Tundavala', status: 'finished' as const },
   ];
 

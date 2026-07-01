@@ -92,9 +92,9 @@ const DRAW_ROSTER: DrawClub[] = [
   { id: 'libolo', name: 'Recreativo do Libolo', stadium: 'Estádio Municipal de Calulo' },
   { id: 'saosalvador', name: 'São Salvador do Kongo', stadium: 'Estádio Álvaro Buta' },
   { id: 'lundasul', name: 'Desportivo da Lunda Sul', stadium: 'Estádio das Mangueiras' },
-  { id: 'caala', name: 'CR Caála', stadium: 'Estádio Municipal da Caála' },
+  { id: 'caala', name: 'CR Caála', stadium: 'Estádio dos Mártires da Canhala' },
   { id: 'fcluanda', name: 'FC Luanda', stadium: 'Campo da Cidadela' },
-  { id: 'primeiromaio', name: '1.º de Maio', stadium: 'Estádio Municipal do Lobito' },
+  { id: 'primeiromaio', name: '1.º de Maio', stadium: 'Estádio Municipal Edelfride Palhares da Costa' },
 ];
 
 // As 16 equipas de 2026/2027 são as mesmas de TEAMS (data.ts), pelo que não há
