@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ArrowRight } from 'lucide-react';
@@ -12,6 +12,15 @@ import ThemeToggle from './ThemeToggle';
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const menuVariants = {
     closed: {
@@ -39,7 +48,13 @@ export default function Navbar() {
   };
 
   return (
-    <header className="glass-header w-full border-b border-zinc-200 dark:border-zinc-800/80 backdrop-blur-md sticky top-0 z-50">
+    <header
+      className={`glass-header w-full border-b backdrop-blur-md fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ${
+        scrolled
+          ? 'border-zinc-200/80 dark:border-zinc-800/80 shadow-lg shadow-black/10 dark:shadow-black/40'
+          : 'border-zinc-200/40 dark:border-zinc-800/40'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo / Brand */}

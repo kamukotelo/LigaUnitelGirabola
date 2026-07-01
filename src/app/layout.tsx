@@ -68,7 +68,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground min-h-screen">
-        <div className="flex min-h-screen flex-col relative overflow-hidden">
+        <div className="flex min-h-screen flex-col relative">
           {/* Futuristic Aurora Blobs in background */}
           <div className="aurora-orb top-[-10%] left-[-10%]" />
           <div className="aurora-orb bottom-[-10%] right-[-10%] opacity-40" />
@@ -90,7 +90,7 @@ export default function RootLayout({
           </div>
           
           <Navbar />
-          <main className="flex-1 z-10">{children}</main>
+          <main className="flex-1 z-10 pt-20">{children}</main>
           <Footer />
         </div>
       </body>

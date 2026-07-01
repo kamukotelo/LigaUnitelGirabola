@@ -288,7 +288,7 @@ html {
 }
 
 .glass-header {
-  @apply backdrop-blur-md sticky top-0 z-50 border-b border-white/20;
+  @apply backdrop-blur-md border-b border-white/20;
   background-color: var(--glass);
 }
 
