@@ -16,6 +16,7 @@ import {
   SEASONS, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason,
   type Match, type FifaCheckKey, type Team, type NewsArticle, type Player,
 } from '@/lib/data';
+import TeamCrest from '@/components/ui/TeamCrest';
 
 // ── Configuração local (gate de demonstração / persistência local) ──────
 const PASSCODE = 'ancaf2026';
@@ -170,22 +171,21 @@ export default function AdminClient() {
 
           {/* Conteúdo */}
           <div className="min-w-0">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={section}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-              >
-                {section === 'dashboard' && <DashboardSection onGo={setSection} />}
-                {section === 'calendar' && <CalendarSection />}
-                {section === 'fifa' && <FifaSection />}
-                {section === 'teams' && <TeamsSection />}
-                {section === 'players' && <PlayersSection />}
-                {section === 'news' && <NewsSection />}
-              </motion.div>
-            </AnimatePresence>
+            {/* key={section} remonta e reproduz a animação de entrada a cada troca.
+                Sem AnimatePresence mode="wait" (evita deadlock da animação de saída). */}
+            <motion.div
+              key={section}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {section === 'dashboard' && <DashboardSection onGo={setSection} />}
+              {section === 'calendar' && <CalendarSection />}
+              {section === 'fifa' && <FifaSection />}
+              {section === 'teams' && <TeamsSection />}
+              {section === 'players' && <PlayersSection />}
+              {section === 'news' && <NewsSection />}
+            </motion.div>
           </div>
         </div>
       </div>
@@ -1079,9 +1079,12 @@ function TeamsSection() {
             <Panel key={base.id} className={isEdited ? 'border-accent/30' : ''}>
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="flex gap-1 flex-shrink-0">
-                    <span className="w-3 h-7 rounded" style={{ background: hex[0] }} />
-                    <span className="w-3 h-7 rounded" style={{ background: hex[1] ?? hex[0] }} />
+                  <div className="relative flex-shrink-0">
+                    <TeamCrest teamId={base.id} size={40} />
+                    <span className="absolute -bottom-1 -right-1 flex rounded overflow-hidden border border-white/40 dark:border-black/40">
+                      <span className="w-1.5 h-2.5" style={{ background: hex[0] }} />
+                      <span className="w-1.5 h-2.5" style={{ background: hex[1] ?? hex[0] }} />
+                    </span>
                   </div>
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-foreground truncate">
