@@ -283,7 +283,7 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
         <div className="grid grid-cols-3 items-center gap-4 relative z-10">
           {/* Casa */}
           <Link href={homeTeam ? `/teams/${homeTeam.id}` : '#'} className="text-center group">
-            <TeamCrest teamId={match.homeTeamId} size={56} className="mx-auto mb-3 bg-white dark:bg-zinc-900 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800" />
+            <TeamCrest teamId={match.homeTeamId} size={80} className="mx-auto mb-3 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]" />
             <p className="font-display text-foreground uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.homeTeam}</p>
           </Link>
 
@@ -303,7 +303,7 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
 
           {/* Fora */}
           <Link href={awayTeam ? `/teams/${awayTeam.id}` : '#'} className="text-center group">
-            <TeamCrest teamId={match.awayTeamId} size={56} className="mx-auto mb-3 bg-white dark:bg-zinc-900 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800" />
+            <TeamCrest teamId={match.awayTeamId} size={80} className="mx-auto mb-3 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]" />
             <p className="font-display text-foreground uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.awayTeam}</p>
           </Link>
         </div>

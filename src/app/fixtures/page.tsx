@@ -53,7 +53,7 @@ function MatchCard({ match }: { match: Match }) {
           {/* Home Team Row */}
           <div className="flex items-center justify-between" title={match.homeTeam}>
             <div className="flex items-center gap-2.5 font-bold text-xs sm:text-sm md:text-base text-foreground min-w-0 flex-1">
-              <TeamCrest teamId={match.homeTeamId} size={22} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded flex-shrink-0" />
+              <TeamCrest teamId={match.homeTeamId} size={30} className="flex-shrink-0" />
               <span className="truncate">{homeAbbr}</span>
             </div>
             {isFinished && (
@@ -66,7 +66,7 @@ function MatchCard({ match }: { match: Match }) {
           {/* Away Team Row */}
           <div className="flex items-center justify-between" title={match.awayTeam}>
             <div className="flex items-center gap-2.5 font-bold text-xs sm:text-sm md:text-base text-foreground min-w-0 flex-1">
-              <TeamCrest teamId={match.awayTeamId} size={22} className="bg-white dark:bg-zinc-900 p-0.5 border border-zinc-200/60 dark:border-zinc-800/60 rounded flex-shrink-0" />
+              <TeamCrest teamId={match.awayTeamId} size={30} className="flex-shrink-0" />
               <span className="truncate">{awayAbbr}</span>
             </div>
             {isFinished && (

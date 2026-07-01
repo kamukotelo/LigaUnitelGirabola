@@ -49,7 +49,7 @@ export default function TeamsPage() {
                   {/* Header: Team Crest / Nickname */}
                   <div>
                     <div className="flex justify-between items-start mb-4">
-                      <TeamCrest teamId={team.id} size={48} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1 rounded-2xl" />
+                      <TeamCrest teamId={team.id} size={64} className="filter drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]" />
                       <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">
                         Fundado em {team.founded}
                       </span>

@@ -416,7 +416,7 @@ export const UPCOMING_SEASON_ID = '2026-27';
 
 // Proveniência do calendário 2026/2027 — datas oficiais da Proposta ANCAF
 // 2026-27 e sorteio nº 1357 (entre 8000 calendários pré-validados a 2 voltas).
-export const FAF_CALENDAR_SOURCE = {
+export const ANCAF_CALENDAR_SOURCE = {
   system: 'ANCAF_CALENDAR',
   accessCode: '1357',
   season: '2026/2027',
@@ -440,7 +440,7 @@ export interface SeasonRound {
 // Jogos do Girabola 2026/2027 gerados pelo MOTOR ANCAF (ver ancaf-engine.ts):
 // sorteio determinístico a partir do nº do sorteio (seed). Não é escrito à mão.
 export const MATCHES_2026_27: Match[] = generateGirabolaCalendar(
-  Number(FAF_CALENDAR_SOURCE.accessCode),
+  Number(ANCAF_CALENDAR_SOURCE.accessCode),
   2026,
   'm27-',
 );
@@ -1209,7 +1209,7 @@ export function getMatches(): Match[] {
   return MATCHES;
 }
 
-// Calendário por época — 2026/2027 corresponde ao ficheiro do FAF_CALENDAR.
+// Calendário por época — 2026/2027 corresponde ao ficheiro do ANCAF_CALENDAR.
 export function getMatchesForSeason(seasonId: string): Match[] {
   return seasonId === UPCOMING_SEASON_ID ? MATCHES_2026_27 : MATCHES;
 }

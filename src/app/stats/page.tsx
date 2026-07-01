@@ -291,7 +291,7 @@ export default function StatsPage() {
                       }`}>
                         {idx + 1}
                       </span>
-                      <TeamCrest teamId={player.teamId} size={36} className="bg-white dark:bg-zinc-900 p-1.5 rounded-xl border border-zinc-200 dark:border-zinc-800" />
+                      <TeamCrest teamId={player.teamId} size={48} className="filter drop-shadow-[0_0_6px_rgba(255,255,255,0.08)]" />
                       <div className="min-w-0">
                         <h3 className="text-foreground font-bold uppercase text-sm flex items-center gap-2 truncate">
                           <Link href={`/players/${player.id}`} className="hover:text-primary transition-colors truncate">

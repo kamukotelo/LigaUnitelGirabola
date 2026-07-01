@@ -132,7 +132,7 @@ export default function StandingsPage() {
                       {/* Team Name and Crest */}
                       <td className="py-4 px-3 sm:px-4 font-semibold text-foreground">
                         <div className="flex items-center gap-2.5 sm:gap-3.5">
-                          <TeamCrest teamId={row.teamId} size={26} />
+                          <TeamCrest teamId={row.teamId} size={34} />
                           <Link href={`/teams/${row.teamId}`} className="hover:text-primary transition-colors truncate max-w-[100px] sm:max-w-none text-xs sm:text-sm block">
                             {row.teamName}
                             {isChampion && (
