@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
       try {
         const { error } = await supabase
-          .from('configs')
+          .from('ancaf_configs')
           .upsert(
             { key: 'active_calendar_seed', value: seedStr, updated_at: new Date().toISOString() },
             { onConflict: 'key' }

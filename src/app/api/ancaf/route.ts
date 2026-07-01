@@ -39,7 +39,7 @@ export async function GET(request: Request) {
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
     try {
       const { data, error } = await supabase
-        .from('configs')
+        .from('ancaf_configs')
         .select('value, updated_at')
         .eq('key', 'active_calendar_seed')
         .single();
