@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import { generateGirabolaCalendar } from '@/lib/ancaf-engine';
 
 const SYNC_TOKEN = process.env.ANCAF_SYNC_TOKEN;
 
@@ -34,27 +35,67 @@ export async function POST(request: Request) {
 
     const seedStr = String(parsedSeed);
 
-    // 3. Update Supabase Database (if configured)
-    const { error } = await getSupabaseAdmin()
+    // 3. Gerar os jogos da época 2026/2027 dinamicamente com base na semente
+    const matches2026_27 = generateGirabolaCalendar(parsedSeed, 2026, 'm27-');
+
+    const dbMatches = matches2026_27.map(m => ({
+      id: m.id,
+      season_id: '2026-27',
+      round: m.round,
+      home_team_id: m.homeTeamId,
+      away_team_id: m.awayTeamId,
+      home_team: m.homeTeam,
+      away_team: m.awayTeam,
+      home_score: m.homeScore || 0,
+      away_score: m.awayScore || 0,
+      score: m.score || null,
+      date: m.date,
+      stadium: m.stadium,
+      status: m.status
+    }));
+
+    const client = getSupabaseAdmin();
+
+    // 4. Update Supabase Database (active seed e jogos)
+    const { error: seedError } = await client
       .from('ancaf_configs')
       .upsert(
         { key: 'active_calendar_seed', value: seedStr, updated_at: new Date().toISOString() },
-        { onConflict: 'key' },
+        { onConflict: 'key' }
       );
 
-    if (error) {
-      console.error('Falha ao persistir a seed no Supabase:', error.message);
+    if (seedError) {
+      console.error('Falha ao persistir a seed no Supabase (ancaf_configs):', seedError.message);
       return NextResponse.json(
-        { error: 'database_error', message: 'Não foi possível guardar a semente' },
+        { error: 'database_error', message: 'Não foi possível guardar a semente de sorteio' },
         { status: 503 },
       );
     }
 
+    // Persistir também nas tabelas equivalentes com o prefixo liga_
+    await client
+      .from('liga_configs')
+      .upsert(
+        { key: 'active_calendar_seed', value: seedStr, updated_at: new Date().toISOString() },
+        { onConflict: 'key' }
+      );
+
+    // Efetuar upsert dos jogos gerados nas tabelas de correspondências (matches)
+    const { error: matchErrorAncaf } = await client.from('ancaf_matches').upsert(dbMatches, { onConflict: 'id' });
+    if (matchErrorAncaf) {
+      console.error('Falha ao inserir jogos na tabela ancaf_matches:', matchErrorAncaf.message);
+    }
+
+    const { error: matchErrorLiga } = await client.from('liga_matches').upsert(dbMatches, { onConflict: 'id' });
+    if (matchErrorLiga) {
+      console.error('Falha ao inserir jogos na tabela liga_matches:', matchErrorLiga.message);
+    }
+
     return NextResponse.json({
       status: 'ok',
-      message: 'Semente de calendário atualizada com sucesso',
+      message: 'Semente de calendário atualizada e jogos povoados com sucesso para 2026/2027',
       seed: seedStr,
-      persisted: { database: true },
+      persisted: { database: true, matches_count: dbMatches.length },
     });
 
   } catch (err: any) {
