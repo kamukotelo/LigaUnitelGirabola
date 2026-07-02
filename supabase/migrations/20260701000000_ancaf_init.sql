@@ -195,6 +195,24 @@ drop policy if exists "ancaf own profile write" on public.ancaf_profiles;
 create policy "ancaf own profile read"  on public.ancaf_profiles for select using (auth.uid() = id);
 create policy "ancaf own profile write" on public.ancaf_profiles for all    using (auth.uid() = id) with check (auth.uid() = id);
 
+-- Realtime: permite que as páginas abertas reajam imediatamente à publicação
+-- de uma nova semente, sem recarregar o browser.
+alter table public.ancaf_configs replica identity full;
+do $$
+begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (
+       select 1
+       from pg_publication_tables
+       where pubname = 'supabase_realtime'
+         and schemaname = 'public'
+         and tablename = 'ancaf_configs'
+     ) then
+    alter publication supabase_realtime add table public.ancaf_configs;
+  end if;
+end
+$$;
+
 -- ═══════════════════════════════════════════════════════════════════════
 -- SEED — dados de referência estáveis (épocas, semente e as 16 equipas)
 -- Estádios já com as correções: França Ndalu, Mártires da Canhala e

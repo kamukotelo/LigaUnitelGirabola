@@ -8,32 +8,33 @@ interface TeamCrestProps {
   className?: string;
 }
 
-const VALID_TEAMS = new Set([
-  'petro',
-  'wiliete',
-  'dago',
-  'desphuila',
-  'bravos',
-  'kabuscorp',
-  'sagrada',
-  'interclube',
-  'lundasul',
-  'libolo',
-  'lobito',
-  'saosalvador',
-  'cabinda',
-  'primeiromaio',
-  'caala',
-  'fcluanda'
-]);
+const CREST_PATHS: Record<string, string> = {
+  petro: '/Clubes/PETRO DE LUANDA.png',
+  wiliete: '/Clubes/WILIWTE FC.png',
+  dago: '/Clubes/1§ DE AGOSTO.png',
+  desphuila: '/Clubes/CDH.png',
+  bravos: '/Clubes/BRAVOS DO MAQUIS.png',
+  kabuscorp: '/Clubes/KABUSCORP.png',
+  sagrada: '/Clubes/SAGRADA.jpg',
+  interclube: '/Clubes/INTERCLUBE.png',
+  lundasul: '/Clubes/DESPORTIVO LUNDA SUL.png',
+  libolo: '/Clubes/LIBOLO.png',
+  lobito: '/Clubes/ACADEMICA DO LOBITO.png',
+  saosalvador: '/Clubes/SALVADOR DO KONGO.png',
+  primeiromaio: '/Clubes/1§ DE MAIO.png',
+  fcluanda: '/Clubes/LUANDA CITY.png',
+  // Ainda não existem emblemas novos para estes clubes em public/Clubes.
+  cabinda: '/crests/cabinda.png',
+  caala: '/crests/caala.png',
+};
 
 export default function TeamCrest({ teamId, size = 40, className = '' }: TeamCrestProps) {
   const cleanId = teamId.toLowerCase();
   const [hasError, setHasError] = useState(false);
 
-  const isValid = VALID_TEAMS.has(cleanId);
+  const crestPath = CREST_PATHS[cleanId];
 
-  if (!isValid || hasError) {
+  if (!crestPath || hasError) {
     const fallbackText = teamId.slice(0, 2).toUpperCase();
     return (
       <div
@@ -47,7 +48,7 @@ export default function TeamCrest({ teamId, size = 40, className = '' }: TeamCre
 
   return (
     <img
-      src={`/crests/${cleanId}.png`}
+      src={crestPath}
       alt={`Emblema ${teamId}`}
       width={size}
       height={size}

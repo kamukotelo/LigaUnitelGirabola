@@ -1,0 +1,360 @@
+-- ═══════════════════════════════════════════════════════════════════════
+-- LIGA UNITEL GIRABOLA - SETUP DA BASE DE DADOS COMPLETO (SCHEMA + SEEDS)
+-- Prefixo das tabelas: liga_
+-- ═══════════════════════════════════════════════════════════════════════
+
+-- ═══════════════════════════════════════════════════════════════════════
+-- LIGA · INICIALIZAÇÃO DA BASE DE DADOS (de raiz)
+-- Liga Unitel Girabola — plataforma digital
+--
+-- CONVENÇÃO: todas as tabelas do domínio usam o prefixo  liga_
+-- Idempotente: pode ser executado várias vezes (CREATE TABLE IF NOT EXISTS,
+-- policies recriadas com DROP POLICY IF EXISTS, seeds com ON CONFLICT).
+--
+-- Como usar:
+--   • Supabase → SQL Editor → colar este ficheiro → Run
+--   • ou (CLI):  supabase db push
+-- ═══════════════════════════════════════════════════════════════════════
+
+create extension if not exists pgcrypto;      -- gen_random_uuid()
+
+-- Função utilitária: mantém updated_at atualizado.
+create or replace function public.liga_touch_updated_at()
+returns trigger language plpgsql as $$
+begin
+  new.updated_at = timezone('utc', now());
+  return new;
+end;
+$$;
+
+-- ───────────────────────────────────────────────────────────────────────
+-- 1. liga_seasons — épocas do campeonato
+-- ───────────────────────────────────────────────────────────────────────
+create table if not exists public.liga_seasons (
+    id          text primary key,                        -- ex.: '2026-27'
+    label       text not null,                           -- ex.: '2026/2027'
+    status      text not null default 'upcoming'
+                check (status in ('completed', 'active', 'upcoming')),
+    created_at  timestamptz not null default timezone('utc', now())
+);
+
+-- ───────────────────────────────────────────────────────────────────────
+-- 2. liga_teams — clubes participantes
+-- ───────────────────────────────────────────────────────────────────────
+create table if not exists public.liga_teams (
+    id                text primary key,                  -- ex.: 'petro'
+    name              text not null,
+    short_name        text,
+    city              text,
+    stadium           text,
+    stadium_capacity  integer default 0,
+    founded           integer,
+    colors            text,
+    coach             text,
+    colors_hex        text[] default '{}',
+    logo_url          text,
+    created_at        timestamptz not null default timezone('utc', now()),
+    updated_at        timestamptz not null default timezone('utc', now())
+);
+
+-- ───────────────────────────────────────────────────────────────────────
+-- 3. liga_players — plantéis
+-- ───────────────────────────────────────────────────────────────────────
+create table if not exists public.liga_players (
+    id              text primary key,                    -- ex.: 'dago-tshibamba'
+    team_id         text references public.liga_teams(id) on delete set null,
+    name            text not null,
+    position        text,
+    jersey_number   integer,
+    age             integer,
+    nationality     text,
+    height          text,
+    weight          text,
+    goals           integer default 0,
+    assists         integer default 0,
+    appearances     integer default 0,
+    photo_url       text,
+    bio             text,
+    attributes      jsonb default '{}'::jsonb,           -- pace/shooting/...
+    career_history  jsonb default '[]'::jsonb,
+    fifa_connect_status text default 'unregistered'
+                    check (fifa_connect_status in ('active','pending','rejected','unregistered')),
+    created_at      timestamptz not null default timezone('utc', now()),
+    updated_at      timestamptz not null default timezone('utc', now())
+);
+create index if not exists liga_players_team_idx on public.liga_players(team_id);
+
+-- ───────────────────────────────────────────────────────────────────────
+-- 4. liga_matches — jogos / calendário
+-- ───────────────────────────────────────────────────────────────────────
+create table if not exists public.liga_matches (
+    id            text primary key,                      -- ex.: 'm27-1-1'
+    season_id     text references public.liga_seasons(id) on delete cascade,
+    round         integer not null,
+    home_team_id  text references public.liga_teams(id) on delete set null,
+    away_team_id  text references public.liga_teams(id) on delete set null,
+    home_team     text,
+    away_team     text,
+    home_score    integer default 0,
+    away_score    integer default 0,
+    score         text,
+    date          timestamptz not null,
+    stadium       text,
+    status        text not null default 'scheduled'
+                  check (status in ('scheduled','live','finished')),
+    created_at    timestamptz not null default timezone('utc', now()),
+    updated_at    timestamptz not null default timezone('utc', now())
+);
+create index if not exists liga_matches_season_round_idx on public.liga_matches(season_id, round);
+
+-- ───────────────────────────────────────────────────────────────────────
+-- 5. liga_news — notícias
+-- ───────────────────────────────────────────────────────────────────────
+create table if not exists public.liga_news (
+    id           text primary key,
+    title        text not null,
+    category     text default 'Geral',
+    date         timestamptz not null default timezone('utc', now()),
+    summary      text,
+    content      text,
+    cover_url    text,
+    created_at   timestamptz not null default timezone('utc', now()),
+    updated_at   timestamptz not null default timezone('utc', now())
+);
+
+-- ───────────────────────────────────────────────────────────────────────
+-- 6. liga_configs — configuração (ex.: semente ativa do calendário ANCAF)
+-- ───────────────────────────────────────────────────────────────────────
+create table if not exists public.liga_configs (
+    key         text primary key,
+    value       text not null,
+    updated_at  timestamptz not null default timezone('utc', now())
+);
+
+-- ───────────────────────────────────────────────────────────────────────
+-- 7. liga_profiles — perfis / administradores (ligado ao Supabase Auth)
+-- ───────────────────────────────────────────────────────────────────────
+create table if not exists public.liga_profiles (
+    id          uuid primary key references auth.users on delete cascade,
+    full_name   text,
+    role        text not null default 'user' check (role in ('admin','user')),
+    avatar_url  text,
+    created_at  timestamptz not null default timezone('utc', now())
+);
+
+-- ── Triggers de updated_at ──────────────────────────────────────────────
+drop trigger if exists liga_teams_touch   on public.liga_teams;
+drop trigger if exists liga_players_touch on public.liga_players;
+drop trigger if exists liga_matches_touch on public.liga_matches;
+drop trigger if exists liga_news_touch    on public.liga_news;
+drop trigger if exists liga_configs_touch on public.liga_configs;
+create trigger liga_teams_touch   before update on public.liga_teams   for each row execute function public.liga_touch_updated_at();
+create trigger liga_players_touch before update on public.liga_players for each row execute function public.liga_touch_updated_at();
+create trigger liga_matches_touch before update on public.liga_matches for each row execute function public.liga_touch_updated_at();
+create trigger liga_news_touch    before update on public.liga_news    for each row execute function public.liga_touch_updated_at();
+create trigger liga_configs_touch before update on public.liga_configs for each row execute function public.liga_touch_updated_at();
+
+-- ═══════════════════════════════════════════════════════════════════════
+-- ROW LEVEL SECURITY — leitura pública, escrita protegida pela API
+-- ═══════════════════════════════════════════════════════════════════════
+alter table public.liga_seasons  enable row level security;
+alter table public.liga_teams    enable row level security;
+alter table public.liga_players  enable row level security;
+alter table public.liga_matches  enable row level security;
+alter table public.liga_news     enable row level security;
+alter table public.liga_configs  enable row level security;
+alter table public.liga_profiles enable row level security;
+
+-- Leitura pública (o site é público).
+drop policy if exists "ancaf public read seasons"  on public.liga_seasons;
+drop policy if exists "ancaf public read teams"    on public.liga_teams;
+drop policy if exists "ancaf public read players"  on public.liga_players;
+drop policy if exists "ancaf public read matches"  on public.liga_matches;
+drop policy if exists "ancaf public read news"     on public.liga_news;
+drop policy if exists "ancaf public read configs"  on public.liga_configs;
+create policy "ancaf public read seasons"  on public.liga_seasons  for select using (true);
+create policy "ancaf public read teams"    on public.liga_teams    for select using (true);
+create policy "ancaf public read players"  on public.liga_players  for select using (true);
+create policy "ancaf public read matches"  on public.liga_matches  for select using (true);
+create policy "ancaf public read news"     on public.liga_news     for select using (true);
+create policy "ancaf public read configs"  on public.liga_configs  for select using (true);
+
+-- Escrita: reservada ao service_role (usado pelas rotas de API do servidor).
+-- A anon key NÃO tem escrita — a segurança fica na API (token de sync).
+drop policy if exists "ancaf service write seasons"  on public.liga_seasons;
+drop policy if exists "ancaf service write teams"    on public.liga_teams;
+drop policy if exists "ancaf service write players"  on public.liga_players;
+drop policy if exists "ancaf service write matches"  on public.liga_matches;
+drop policy if exists "ancaf service write news"     on public.liga_news;
+drop policy if exists "ancaf service write configs"  on public.liga_configs;
+create policy "ancaf service write seasons"  on public.liga_seasons  for all to service_role using (true) with check (true);
+create policy "ancaf service write teams"    on public.liga_teams    for all to service_role using (true) with check (true);
+create policy "ancaf service write players"  on public.liga_players  for all to service_role using (true) with check (true);
+create policy "ancaf service write matches"  on public.liga_matches  for all to service_role using (true) with check (true);
+create policy "ancaf service write news"     on public.liga_news     for all to service_role using (true) with check (true);
+create policy "ancaf service write configs"  on public.liga_configs  for all to service_role using (true) with check (true);
+
+-- Perfis: cada utilizador lê/edita o seu próprio registo.
+drop policy if exists "ancaf own profile read"  on public.liga_profiles;
+drop policy if exists "ancaf own profile write" on public.liga_profiles;
+create policy "ancaf own profile read"  on public.liga_profiles for select using (auth.uid() = id);
+create policy "ancaf own profile write" on public.liga_profiles for all    using (auth.uid() = id) with check (auth.uid() = id);
+
+-- Realtime: permite que as páginas abertas reajam imediatamente à publicação
+-- de uma nova semente, sem recarregar o browser.
+alter table public.liga_configs replica identity full;
+do $$
+begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (
+       select 1
+       from pg_publication_tables
+       where pubname = 'supabase_realtime'
+         and schemaname = 'public'
+         and tablename = 'liga_configs'
+     ) then
+    alter publication supabase_realtime add table public.liga_configs;
+  end if;
+end
+$$;
+
+-- ═══════════════════════════════════════════════════════════════════════
+-- SEED — dados de referência estáveis (épocas, semente e as 16 equipas)
+-- Estádios já com as correções: França Ndalu, Mártires da Canhala e
+-- Edelfride Palhares da Costa.
+-- ═══════════════════════════════════════════════════════════════════════
+insert into public.liga_configs (key, value) values
+    ('active_calendar_seed', '1357')
+on conflict (key) do nothing;
+
+insert into public.liga_seasons (id, label, status) values
+    ('2026-27', '2026/2027', 'upcoming'),
+    ('2025-26', '2025/2026', 'completed')
+on conflict (id) do update set label = excluded.label, status = excluded.status;
+
+insert into public.liga_teams
+    (id, name, short_name, city, stadium, stadium_capacity, founded, colors, coach, colors_hex) values
+    ('petro',        'Petro de Luanda',         'PET',  'Luanda',       'Estádio 11 de Novembro',                       50000, 1980, 'Amarelo, Azul e Vermelho', 'Ricardo Chéu',                     array['#F9C304','#00529B','#D21515']),
+    ('wiliete',      'Wiliete de Benguela',     'WILI', 'Benguela',     'Estádio Nacional de Ombaka',                   35000, 2018, 'Verde e Amarelo',          'José Silvestre "Lito" Vidigal',    array['#008751','#F9C304']),
+    ('dago',         '1.º de Agosto',           'AGO',  'Luanda',       'Estádio França Ndalu',                         20000, 1977, 'Vermelho e Preto',         'Filipe Nzanza',                    array['#D21515','#000000']),
+    ('desphuila',    'Desportivo da Huíla',     'CDH',  'Lubango',      'Estádio da Tundavala',                         20000, 1998, 'Vermelho e Branco',        'Mário Soares',                     array['#D21515','#FFFFFF']),
+    ('bravos',       'Bravos do Maquis',        'BMQ',  'Luena',        'Estádio Mundunduleno',                          4300, 1983, 'Azul e Branco',            'Zeca Amaral',                      array['#00529B','#FFFFFF']),
+    ('kabuscorp',    'Kabuscorp',               'KAB',  'Luanda',       'Estádio dos Coqueiros',                        12000, 1994, 'Vermelho e Branco',        'Kito Ribeiro',                     array['#D21515','#FFFFFF']),
+    ('sagrada',      'Sagrada Esperança',       'SAG',  'Dundo',        'Estádio Sagrada Esperança',                     8000, 1976, 'Verde e Preto',            'Francisco Moniz "Tusso"',          array['#008751','#000000']),
+    ('interclube',   'Interclube',              'INT',  'Luanda',       'Estádio 22 de Junho',                           8000, 1976, 'Azul e Branco',            'Luís Gonçalves',                   array['#00529B','#FFFFFF']),
+    ('lundasul',     'Desportivo da Lunda Sul', 'DLS',  'Saurimo',      'Estádio das Mangueiras',                        7000, 2020, 'Verde e Amarelo',          'Maurício Marques',                 array['#008751','#F9C304']),
+    ('libolo',       'Recreativo do Libolo',    'CRL',  'Calulo',       'Estádio Municipal de Calulo',                  10000, 1942, 'Laranja e Azul',           'Hélder Teixeira',                  array['#FF6600','#00529B']),
+    ('lobito',       'Académica do Lobito',     'ACA',  'Lobito',       'Estádio do Buraco',                             5000, 1970, 'Preto e Branco',           'João Pintar',                      array['#000000','#FFFFFF']),
+    ('saosalvador',  'São Salvador do Kongo',   'SSK',  'Mbanza Kongo', 'Estádio Álvaro Buta',                           5000, 1999, 'Azul e Amarelo',           'Findanga Finda',                   array['#00529B','#F9C304']),
+    ('cabinda',      'FC Cabinda',              'FCC',  'Cabinda',      'Estádio Nacional do Chiazi',                   25000, 2005, 'Verde e Branco',           'Pedro Gonçalves',                  array['#008751','#FFFFFF']),
+    ('primeiromaio', '1.º de Maio',             'MAI',  'Benguela',     'Estádio Municipal Edelfride Palhares da Costa', 5000, 1981, 'Vermelho e Branco',        'Agostinho Tramagal',               array['#D21515','#FFFFFF']),
+    ('caala',        'CR Caála',                'CRC',  'Caála',        'Estádio dos Mártires da Canhala',               5000, 1980, 'Azul e Branco',            'Mateus Agostinho',                 array['#00529B','#FFFFFF']),
+    ('fcluanda',     'FC Luanda',               'FCL',  'Luanda',       'Campo da Cidadela',                            10000, 2020, 'Vermelho e Branco',        'Guelson Manuel',                   array['#D21515','#FFFFFF'])
+on conflict (id) do update set
+    name = excluded.name, short_name = excluded.short_name, city = excluded.city,
+    stadium = excluded.stadium, stadium_capacity = excluded.stadium_capacity,
+    founded = excluded.founded, colors = excluded.colors, coach = excluded.coach,
+    colors_hex = excluded.colors_hex;
+
+-- FIM — base de dados ANCAF inicializada.
+
+
+-- ───────────────────────────────────────────────────────────────────────
+-- DADOS DE TESTE (MOCKS) - JOGADORES E NOTÍCIAS
+-- ───────────────────────────────────────────────────────────────────────
+
+-- ═══════════════════════════════════════════════════════════════════════
+-- SEED: JOGADORES DO GIRABOLA
+-- Script gerado automaticamente a partir de src/lib/data.ts
+-- ═══════════════════════════════════════════════════════════════════════
+
+INSERT INTO public.liga_players (id, team_id, name, position, jersey_number, age, nationality, height, weight, goals, assists, appearances, photo_url, bio, attributes, career_history, fifa_connect_status) VALUES
+    ('dago-tshibamba', 'dago', 'Dagó Tshibamba', 'Avançado', 9, 28, 'RD Congo', '1.85m', '84kg', 18, 4, 28, NULL, 'Ponta de lança forte, explosivo e extremamente clínico na área. Consagrado melhor marcador do Girabola 2025/2026, foi o pilar ofensivo do 1.º de Agosto na luta pelas competições africanas.', '{"pace":87,"shooting":91,"passing":74,"dribbling":82,"defending":35,"physical":84}'::jsonb, '[{"season":"2025/26","club":"1.º de Agosto","apps":28,"goals":18},{"season":"2024/25","club":"1.º de Agosto","apps":26,"goals":12},{"season":"2023/24","club":"Daring Club Motema Pembe","apps":22,"goals":15}]'::jsonb, 'active'),
+    ('tiago-azulao', 'petro', 'Tiago Azulão', 'Avançado', 9, 35, 'Brasil', '1.79m', '76kg', 13, 4, 24, NULL, 'Uma lenda viva do futebol angolano. O veterano brasileiro Tiago Azulão continua a exibir faro de golo inigualável e liderança estelar, guiando o Petro de Luanda a mais um título nacional.', '{"pace":72,"shooting":89,"passing":78,"dribbling":80,"defending":40,"physical":76}'::jsonb, '[{"season":"2025/26","club":"Petro de Luanda","apps":24,"goals":13},{"season":"2024/25","club":"Petro de Luanda","apps":28,"goals":19},{"season":"2023/24","club":"Petro de Luanda","apps":27,"goals":21}]'::jsonb, 'active'),
+    ('gibele', 'petro', 'Gilberto (Gibelé)', 'Avançado', 7, 23, 'Angola', '1.71m', '68kg', 8, 7, 12, NULL, 'Extremo veloz e virtuoso, conhecido pela sua facilidade no drible de desequilíbrio e cruzamentos precisos que desestabilizam as defesas adversárias.', '{"pace":92,"shooting":82,"passing":80,"dribbling":89,"defending":38,"physical":70}'::jsonb, '[{"season":"2025/26","club":"Petro de Luanda","apps":12,"goals":8}]'::jsonb, 'active'),
+    ('mano-mano', 'wiliete', 'Mano Mano', 'Médio / Extremo', 10, 24, 'Angola', '1.74m', '70kg', 12, 8, 27, NULL, 'Um dos maiores talentos jovens da liga. Mano Mano destaca-se pela sua incrível aceleração e capacidade de criar oportunidades a partir de qualquer flanco, sendo a grande figura da histórica época do Wiliete.', '{"pace":93,"shooting":81,"passing":86,"dribbling":90,"defending":52,"physical":70}'::jsonb, '[{"season":"2025/26","club":"Wiliete de Benguela","apps":27,"goals":12},{"season":"2024/25","club":"Wiliete de Benguela","apps":25,"goals":8},{"season":"2023/24","club":"Académica do Lobito","apps":20,"goals":4}]'::jsonb, 'active'),
+    ('kaporal', 'lobito', 'Kaporal', 'Avançado', 11, 29, 'Angola', '1.88m', '86kg', 11, 1, 25, NULL, 'Avançado centro de grande porte físico, temível no jogo aéreo e especialista em segurar a bola de costas para a baliza. Um herói local na província de Benguela.', '{"pace":84,"shooting":83,"passing":68,"dribbling":77,"defending":30,"physical":86}'::jsonb, '[{"season":"2025/26","club":"Académica do Lobito","apps":25,"goals":11},{"season":"2024/25","club":"Académica do Lobito","apps":22,"goals":9}]'::jsonb, 'active'),
+    ('julinho', 'interclube', 'Julinho', 'Avançado', 7, 26, 'Angola', '1.78m', '73kg', 9, 2, 28, NULL, 'Veloz e oportuno, Julinho é a referência ofensiva do Interclube na ala esquerda, sempre pronto para cortar para dentro e finalizar de pé direito.', '{"pace":86,"shooting":80,"passing":72,"dribbling":81,"defending":44,"physical":73}'::jsonb, '[{"season":"2025/26","club":"Interclube","apps":28,"goals":9},{"season":"2024/25","club":"Interclube","apps":24,"goals":6}]'::jsonb, 'active'),
+    ('keliano', 'dago', 'Manuel Keliano', 'Médio', 8, 21, 'Angola', '1.78m', '72kg', 3, 9, 12, NULL, 'Médio completo com grande visão de jogo e precisão de passe, sendo o organizador central do miolo do Primeiro de Agosto.', '{"pace":80,"shooting":74,"passing":87,"dribbling":82,"defending":78,"physical":79}'::jsonb, '[{"season":"2025/26","club":"1.º de Agosto","apps":12,"goals":3}]'::jsonb, 'pending'),
+    ('jaredi', 'petro', 'Jaredi', 'Extremo', 11, 25, 'Angola', '1.72m', '68kg', 8, 11, 26, NULL, 'O rei das assistências do Girabola. Jaredi exibe excelente criatividade, controlo em espaços curtos e passes cruzados milimétricos que serviram de munição constante para Tiago Azulão.', '{"pace":91,"shooting":78,"passing":88,"dribbling":89,"defending":48,"physical":68}'::jsonb, '[{"season":"2025/26","club":"Petro de Luanda","apps":26,"goals":8},{"season":"2024/25","club":"Interclube","apps":25,"goals":7}]'::jsonb, 'pending'),
+    ('lepua', 'sagrada', 'Lépua', 'Médio Ofensivo', 8, 26, 'Angola', '1.76m', '72kg', 7, 7, 23, NULL, 'Maestro criativo do meio campo diamantífero do Sagrada Esperança. Excelente visão de jogo e precisão em lances de bola parada.', '{"pace":80,"shooting":79,"passing":85,"dribbling":84,"defending":55,"physical":72}'::jsonb, '[{"season":"2025/26","club":"Sagrada Esperança","apps":23,"goals":7},{"season":"2024/25","club":"Sagrada Esperança","apps":26,"goals":5}]'::jsonb, 'active'),
+    ('macusa', 'bravos', 'Macusa', 'Médio', 14, 27, 'Angola', '1.80m', '77kg', 4, 6, 25, NULL, 'Médio box-to-box versátil, Macusa dita o ritmo dos Bravos do Maquis com compostura na posse de bola e forte capacidade de desarme no miolo.', '{"pace":78,"shooting":72,"passing":81,"dribbling":79,"defending":70,"physical":77}'::jsonb, '[{"season":"2025/26","club":"Bravos do Maquis","apps":25,"goals":4}]'::jsonb, 'active'),
+    ('to-carneiro', 'petro', 'Tó Carneiro', 'Defesa Esquerdo', 2, 30, 'Angola', '1.78m', '78kg', 2, 5, 28, NULL, 'Consistente e infatigável. Tó Carneiro é o dono incontestável da ala esquerda do campeão nacional, garantindo solidez defensiva e excelente apoio no corredor ofensivo.', '{"pace":82,"shooting":65,"passing":80,"dribbling":76,"defending":81,"physical":78}'::jsonb, '[{"season":"2025/26","club":"Petro de Luanda","apps":28,"goals":2},{"season":"2024/25","club":"Petro de Luanda","apps":26,"goals":1}]'::jsonb, 'active'),
+    ('bobo', 'dago', 'Bobo Ungenda', 'Defesa', 4, 33, 'RDC', '1.87m', '82kg', 1, 1, 12, NULL, 'Uma autêntica muralha no centro da defesa. Bobo Ungenda destaca-se pela sua superioridade física nos duelos individuais e excelente leitura de jogo.', '{"pace":68,"shooting":50,"passing":65,"dribbling":58,"defending":88,"physical":90}'::jsonb, '[{"season":"2025/26","club":"1.º de Agosto","apps":12,"goals":1}]'::jsonb, 'active'),
+    ('hugo-marques', 'petro', 'Hugo Marques', 'Guarda-redes', 1, 37, 'Angola', '1.91m', '88kg', 0, 0, 26, NULL, 'Guarda-redes experiente, internacional pela seleção angolana. Foi o menos batido da liga, mostrando agilidade de elite debaixo das traves.', '{"pace":50,"shooting":45,"passing":68,"dribbling":55,"defending":86,"physical":74}'::jsonb, '[{"season":"2025/26","club":"Petro de Luanda","apps":26,"goals":0},{"season":"2024/25","club":"Petro de Luanda","apps":27,"goals":0}]'::jsonb, 'active'),
+    ('neblu', 'dago', 'Neblú', 'Guarda-redes', 22, 32, 'Angola', '1.88m', '78kg', 0, 0, 27, NULL, 'Titular indiscutível da seleção nacional angolana (Palancas Negras) e do 1.º de Agosto, Neblú é reconhecido pela sua excelente envergadura e liderança em campo.', '{"pace":52,"shooting":48,"passing":60,"dribbling":50,"defending":85,"physical":78}'::jsonb, '[{"season":"2025/26","club":"1.º de Agosto","apps":27,"goals":0}]'::jsonb, 'active'),
+    ('titi', 'wiliete', 'Titi', 'Guarda-redes', 12, 27, 'Angola', '1.85m', '72kg', 0, 0, 24, NULL, 'Guarda-redes dinâmico e elástico do Wiliete de Benguela. Peça fundamental no sistema defensivo de Lito Vidigal.', '{"pace":55,"shooting":40,"passing":62,"dribbling":52,"defending":80,"physical":72}'::jsonb, '[{"season":"2025/26","club":"Wiliete de Benguela","apps":24,"goals":0}]'::jsonb, 'active'),
+    ('kabuscorp-player-1', 'kabuscorp', 'Mário Costa', 'Avançado', 10, 26, 'Angola', '1.80m', '75kg', 5, 2, 20, NULL, 'Principal referência ofensiva do Kabuscorp nesta temporada.', '{"pace":80,"shooting":75,"passing":70,"dribbling":78,"defending":40,"physical":72}'::jsonb, '[]'::jsonb, 'active'),
+    ('kabuscorp-player-2', 'kabuscorp', 'Lami Muanza', 'Defesa', 4, 28, 'Angola', '1.85m', '80kg', 1, 1, 18, NULL, 'Defesa central seguro e muito forte no posicionamento defensivo.', '{"pace":70,"shooting":48,"passing":65,"dribbling":60,"defending":78,"physical":82}'::jsonb, '[]'::jsonb, 'active'),
+    ('kabuscorp-player-3', 'kabuscorp', 'Trésor Mputu Jr', 'Médio', 8, 24, 'RD Congo', '1.74m', '69kg', 3, 4, 22, NULL, 'Médio criativo dotado de excelente visão de jogo e passe curto.', '{"pace":78,"shooting":70,"passing":81,"dribbling":83,"defending":50,"physical":70}'::jsonb, '[]'::jsonb, 'active'),
+    ('desphuila-player-1', 'desphuila', 'João Vítor', 'Médio', 8, 24, 'Angola', '1.75m', '70kg', 3, 5, 28, NULL, 'Médio criativo e motor da equipa da Huíla.', '{"pace":75,"shooting":68,"passing":82,"dribbling":76,"defending":65,"physical":68}'::jsonb, '[]'::jsonb, 'active'),
+    ('desphuila-player-2', 'desphuila', 'Emanuel Tchite', 'Avançado', 9, 25, 'Angola', '1.82m', '76kg', 6, 1, 24, NULL, 'Avançado de mobilidade rápida, letal em transições ofensivas.', '{"pace":83,"shooting":77,"passing":64,"dribbling":72,"defending":32,"physical":75}'::jsonb, '[]'::jsonb, 'active'),
+    ('desphuila-player-3', 'desphuila', 'Nani Santos', 'Defesa', 3, 27, 'Angola', '1.80m', '74kg', 0, 1, 26, NULL, 'Lateral esquerdo muito equilibrado no apoio e na marcação.', '{"pace":74,"shooting":52,"passing":68,"dribbling":64,"defending":79,"physical":77}'::jsonb, '[]'::jsonb, 'active'),
+    ('lundasul-player-1', 'lundasul', 'Paulo Silva', 'Defesa', 4, 29, 'Angola', '1.88m', '82kg', 1, 1, 25, NULL, 'Defesa central robusto e capitão de equipa.', '{"pace":65,"shooting":50,"passing":60,"dribbling":55,"defending":80,"physical":85}'::jsonb, '[]'::jsonb, 'active'),
+    ('lundasul-player-2', 'lundasul', 'Mussa Kabamba', 'Avançado', 11, 27, 'RD Congo', '1.80m', '77kg', 7, 2, 26, NULL, 'Ponta de lança de referência, especialista em golos na pequena área.', '{"pace":84,"shooting":79,"passing":65,"dribbling":75,"defending":30,"physical":79}'::jsonb, '[]'::jsonb, 'active'),
+    ('lundasul-player-3', 'lundasul', 'Tchabalala', 'Médio', 6, 26, 'Angola', '1.76m', '72kg', 2, 3, 28, NULL, 'Médio defensivo incansável na recuperação e distribuição de jogo.', '{"pace":75,"shooting":60,"passing":78,"dribbling":72,"defending":76,"physical":78}'::jsonb, '[]'::jsonb, 'active'),
+    ('libolo-player-1', 'libolo', 'Rui Carlos', 'Avançado', 9, 27, 'Angola', '1.82m', '78kg', 6, 3, 22, NULL, 'Ponta de lança forte no jogo aéreo.', '{"pace":82,"shooting":78,"passing":65,"dribbling":74,"defending":35,"physical":76}'::jsonb, '[]'::jsonb, 'active'),
+    ('libolo-player-2', 'libolo', 'Dany Traoré', 'Médio', 10, 26, 'Mali', '1.78m', '71kg', 1, 4, 20, NULL, 'Organizador de jogo inteligente com boa qualidade técnica no meio campo.', '{"pace":78,"shooting":72,"passing":83,"dribbling":80,"defending":62,"physical":70}'::jsonb, '[]'::jsonb, 'active'),
+    ('libolo-player-3', 'libolo', 'Chico Banza', 'Defesa', 2, 24, 'Angola', '1.83m', '75kg', 0, 0, 21, NULL, 'Lateral direito de velocidade constante e excelente atitude defensiva.', '{"pace":80,"shooting":45,"passing":70,"dribbling":68,"defending":75,"physical":78}'::jsonb, '[]'::jsonb, 'active'),
+    ('saosalvador-player-1', 'saosalvador', 'António Ndongala', 'Médio', 20, 22, 'Angola', '1.72m', '68kg', 2, 4, 26, NULL, 'Jovem promessa com grande velocidade e técnica.', '{"pace":85,"shooting":65,"passing":78,"dribbling":80,"defending":50,"physical":65}'::jsonb, '[]'::jsonb, 'active'),
+    ('saosalvador-player-2', 'saosalvador', 'Pedro Mbemba', 'Defesa', 4, 28, 'Angola', '1.84m', '81kg', 0, 1, 28, NULL, 'Muralha defensiva central, temível nos desarmes de recurso.', '{"pace":70,"shooting":48,"passing":62,"dribbling":58,"defending":78,"physical":80}'::jsonb, '[]'::jsonb, 'active'),
+    ('saosalvador-player-3', 'saosalvador', 'Kikas Varela', 'Avançado', 7, 25, 'Angola', '1.79m', '73kg', 5, 2, 24, NULL, 'Extremo ágil de drible imprevisível no um contra um.', '{"pace":88,"shooting":74,"passing":66,"dribbling":78,"defending":38,"physical":71}'::jsonb, '[]'::jsonb, 'active'),
+    ('cabinda-player-1', 'cabinda', 'Carlos Manuel', 'Guarda-redes', 1, 31, 'Angola', '1.90m', '85kg', 0, 0, 30, NULL, 'Guarda-redes experiente que tem salvo o FC Cabinda em vários jogos.', '{"pace":50,"shooting":40,"passing":60,"dribbling":45,"defending":82,"physical":80}'::jsonb, '[]'::jsonb, 'active'),
+    ('cabinda-player-2', 'cabinda', 'Zito Luvumbo', 'Avançado', 11, 23, 'Angola', '1.72m', '67kg', 8, 3, 28, NULL, 'Avançado criativo com enorme velocidade, uma grande referência do clube.', '{"pace":93,"shooting":78,"passing":72,"dribbling":87,"defending":35,"physical":68}'::jsonb, '[]'::jsonb, 'active'),
+    ('cabinda-player-3', 'cabinda', 'Pacheco Ndulo', 'Defesa', 3, 26, 'Angola', '1.86m', '81kg', 1, 0, 25, NULL, 'Defesa central fisicamente forte e muito eficiente no jogo aéreo.', '{"pace":72,"shooting":54,"passing":64,"dribbling":60,"defending":79,"physical":83}'::jsonb, '[]'::jsonb, 'active'),
+    ('primeiromaio-player-1', 'primeiromaio', 'Edgar Santos', 'Extremo', 11, 25, 'Angola', '1.76m', '71kg', 4, 6, 24, NULL, 'Extremo rápido e especialista em cruzamentos.', '{"pace":88,"shooting":72,"passing":75,"dribbling":82,"defending":45,"physical":70}'::jsonb, '[]'::jsonb, 'active'),
+    ('primeiromaio-player-2', 'primeiromaio', 'Beto Benguela', 'Defesa', 4, 29, 'Angola', '1.84m', '79kg', 0, 1, 27, NULL, 'Experiente lateral direito que oferece excelente rigor defensivo.', '{"pace":68,"shooting":50,"passing":65,"dribbling":58,"defending":77,"physical":81}'::jsonb, '[]'::jsonb, 'active'),
+    ('primeiromaio-player-3', 'primeiromaio', 'Vado Dias', 'Médio', 8, 24, 'Angola', '1.75m', '70kg', 1, 3, 25, NULL, 'Médio versátil de transição e excelente ética de trabalho no meio.', '{"pace":74,"shooting":66,"passing":78,"dribbling":75,"defending":68,"physical":72}'::jsonb, '[]'::jsonb, 'active'),
+    ('caala-player-1', 'caala', 'Vítor Hugo', 'Médio Ofensivo', 10, 28, 'Angola', '1.78m', '74kg', 5, 2, 21, NULL, 'O número 10 clássico, responsável pelas bolas paradas da equipa.', '{"pace":76,"shooting":75,"passing":80,"dribbling":78,"defending":55,"physical":72}'::jsonb, '[]'::jsonb, 'active'),
+    ('caala-player-2', 'caala', 'Luís Silva', 'Avançado', 9, 26, 'Angola', '1.82m', '78kg', 6, 1, 22, NULL, 'Ponta de lança letal dentro de área com óptimo sentido de posicionamento.', '{"pace":80,"shooting":78,"passing":62,"dribbling":73,"defending":30,"physical":79}'::jsonb, '[]'::jsonb, 'active'),
+    ('caala-player-3', 'caala', 'Nelito', 'Defesa', 3, 27, 'Angola', '1.85m', '82kg', 0, 0, 24, NULL, 'Defesa central implacável na marcação directa ao adversário.', '{"pace":72,"shooting":48,"passing":65,"dribbling":60,"defending":79,"physical":83}'::jsonb, '[]'::jsonb, 'active'),
+    ('fcluanda-player-1', 'fcluanda', 'Bruno Fernando', 'Defesa', 3, 23, 'Angola', '1.83m', '77kg', 0, 1, 27, NULL, 'Lateral esquerdo muito ofensivo e incansável.', '{"pace":78,"shooting":55,"passing":68,"dribbling":65,"defending":75,"physical":78}'::jsonb, '[]'::jsonb, 'active'),
+    ('fcluanda-player-2', 'fcluanda', 'Miguel Costa', 'Avançado', 9, 25, 'Angola', '1.80m', '76kg', 4, 2, 22, NULL, 'Ponta de lança com boa movimentação ofensiva e cabeceamento.', '{"pace":84,"shooting":75,"passing":64,"dribbling":76,"defending":35,"physical":73}'::jsonb, '[]'::jsonb, 'active'),
+    ('fcluanda-player-3', 'fcluanda', 'Gelson Dala Jr', 'Médio', 10, 22, 'Angola', '1.73m', '68kg', 2, 4, 25, NULL, 'Jovem médio ofensivo caracterizado pela sua criatividade e ritmo rápido.', '{"pace":86,"shooting":70,"passing":79,"dribbling":82,"defending":48,"physical":65}'::jsonb, '[]'::jsonb, 'active'),
+    ('wiliete-player-3', 'wiliete', 'Karanga', 'Médio', 7, 25, 'Angola', '1.76m', '72kg', 5, 4, 26, NULL, 'Médio polivalente e dinâmico, autor de golos cruciais na campanha do clube.', '{"pace":85,"shooting":73,"passing":78,"dribbling":81,"defending":60,"physical":74}'::jsonb, '[]'::jsonb, 'active'),
+    ('lobito-player-2', 'lobito', 'Gerson Lourenço', 'Médio', 6, 24, 'Angola', '1.78m', '73kg', 1, 3, 24, NULL, 'Médio combativo que assegura equilíbrio na transição defensiva.', '{"pace":75,"shooting":62,"passing":76,"dribbling":72,"defending":70,"physical":75}'::jsonb, '[]'::jsonb, 'active'),
+    ('lobito-player-3', 'lobito', 'Ruben Fernandes', 'Defesa', 4, 27, 'Angola', '1.83m', '80kg', 0, 0, 23, NULL, 'Defesa central de forte compleição física e excelente desarme por baixo.', '{"pace":70,"shooting":45,"passing":60,"dribbling":55,"defending":78,"physical":82}'::jsonb, '[]'::jsonb, 'active'),
+    ('interclube-player-2', 'interclube', 'Beni Mukendi', 'Médio', 8, 23, 'Angola', '1.77m', '71kg', 2, 5, 26, NULL, 'Jovem distribuidor dotado de grande qualidade no passe a longa distância.', '{"pace":80,"shooting":68,"passing":82,"dribbling":79,"defending":70,"physical":74}'::jsonb, '[]'::jsonb, 'active'),
+    ('interclube-player-3', 'interclube', 'Carlitos Lemos', 'Defesa', 5, 29, 'Angola', '1.86m', '81kg', 1, 1, 27, NULL, 'Defesa central experiente e líder da linha recuada do clube.', '{"pace":72,"shooting":50,"passing":70,"dribbling":64,"defending":81,"physical":80}'::jsonb, '[]'::jsonb, 'active'),
+    ('sagrada-player-2', 'sagrada', 'Depú Ramos', 'Avançado', 9, 26, 'Angola', '1.82m', '78kg', 7, 1, 22, NULL, 'Avançado centro oportunista com grande presença física e cabeceamento forte.', '{"pace":85,"shooting":82,"passing":60,"dribbling":72,"defending":35,"physical":78}'::jsonb, '[]'::jsonb, 'active'),
+    ('sagrada-player-3', 'sagrada', 'Victoriano Victor', 'Defesa', 3, 27, 'Angola', '1.84m', '80kg', 0, 0, 25, NULL, 'Defesa esquerdo muito focado no trabalho tático e cobertura.', '{"pace":74,"shooting":48,"passing":65,"dribbling":60,"defending":82,"physical":82}'::jsonb, '[]'::jsonb, 'active'),
+    ('bravos-player-2', 'bravos', 'Dino Macolo', 'Avançado', 7, 24, 'Angola', '1.76m', '70kg', 5, 3, 23, NULL, 'Extremo veloz com boa qualidade de drible e cruzamentos.', '{"pace":89,"shooting":73,"passing":68,"dribbling":81,"defending":32,"physical":68}'::jsonb, '[]'::jsonb, 'active'),
+    ('bravos-player-3', 'bravos', 'Sérgio Ndala', 'Guarda-redes', 12, 28, 'Angola', '1.87m', '80kg', 0, 0, 25, NULL, 'Guarda-redes de bons reflexos e eficiente no controlo da profundidade.', '{"pace":52,"shooting":40,"passing":58,"dribbling":50,"defending":79,"physical":76}'::jsonb, '[]'::jsonb, 'active')
+ON CONFLICT (id) DO UPDATE SET
+    team_id = excluded.team_id,
+    name = excluded.name,
+    position = excluded.position,
+    jersey_number = excluded.jersey_number,
+    age = excluded.age,
+    nationality = excluded.nationality,
+    height = excluded.height,
+    weight = excluded.weight,
+    goals = excluded.goals,
+    assists = excluded.assists,
+    appearances = excluded.appearances,
+    photo_url = excluded.photo_url,
+    bio = excluded.bio,
+    attributes = excluded.attributes,
+    career_history = excluded.career_history,
+    fifa_connect_status = excluded.fifa_connect_status;
+
+
+-- ═══════════════════════════════════════════════════════════════════════
+-- SEED: NOTÍCIAS (liga_news)
+-- ═══════════════════════════════════════════════════════════════════════
+
+INSERT INTO public.liga_news (id, title, category, date, summary, content, cover_url) VALUES
+    ('n1', 'Petro de Luanda vence o clássico no 11 de Novembro contra 1.º de Agosto', 'Girabola', '2026-06-13 12:00:00+01', 'Com golo solitário de Tiago Azulão aos 88 minutos, os tricolores asseguraram a liderança da tabela.', 'O clássico dos clássicos do futebol angolano terminou com a vitória tangencial do Petro de Luanda sobre o rival Primeiro de Agosto. Num jogo tenso e disputado taticamente, o avançado brasileiro Tiago Azulão voltou a ser decisivo, finalizando de cabeça um cruzamento milimétrico de Jaredi aos 88 minutos, despoletando a loucura no Estádio 11 de Novembro. Esta vitória consolida a liderança isolada dos tricolores na presente campanha de preparação da liga.', NULL),
+    ('n2', 'Manuel Keliano destaca subida de rendimento no meio-campo', 'Entrevista', '2026-06-12 12:00:00+01', 'O internacional angolano analisou a fase positiva da equipa e o próximo jogo contra o Kabuscorp.', 'Em conferência de imprensa após os treinos do Primeiro de Agosto no complexo França Ndalu, o jovem virtuoso Manuel Keliano analisou a rápida transição da equipa para novos esquemas táticos. Keliano expressou que a intensidade imposta nos treinos começa a traduzir-se em exibições de classe, sublinhando que o grupo está altamente focado em garantir a vitória no próximo desafio contra o Kabuscorp do Palanca.', NULL),
+    ('n3', 'Wiliete de Benguela garante histórico 2º lugar e vaga nas competições africanas', 'Competição', '2026-05-09 12:00:00+01', 'A formação de Benguela venceu o Interclube por 2-0 e garantiu uma participação histórica na Liga dos Campeões da CAF para a próxima época.', 'Benguela está em festa. O Wiliete de Benguela bateu o Interclube por duas bolas a zero no Estádio Nacional de Ombaka e carimbou a sua vaga oficial na Liga dos Campeões da CAF da próxima época. Com golos de Mano Mano e Karanga, a formação dirigida por Lito Vidigal coroou uma campanha fenomenal no Girabola, consagrando-se como a grande surpresa do futebol nacional angolano.', NULL),
+    ('n4', 'Dagó Tshibamba conquista Troféu de Melhor Marcador do Girabola', 'Individual', '2026-05-10 12:00:00+01', 'O avançado congolês do 1.º de Agosto finalizou a temporada com 18 golos marcados, consagrando-se o principal goleador do futebol nacional angolano.', 'O troféu de artilheiro do futebol angolano tem novo dono. O avançado congolês Dagó Tshibamba fechou a época de ouro do 1.º de Agosto com 18 golos apontados na prova. Tshibamba demonstrou regularidade notável, sendo coroado oficialmente como o melhor marcador e grande estrela ofensiva do Girabola.', NULL),
+    ('n5', 'Requalificação do Estádio França Ndalu recebe luz verde da FAF', 'Infraestrutura', '2026-06-24 12:00:00+01', 'A comissão técnica vistoriou as obras e aprovou o relvado para as competições nacionais e internacionais da próxima época.', 'O Estádio França Ndalu, casa do 1.º de Agosto, recebeu luz verde da federação para acolher jogos de alto nível na próxima temporada. Após profundas obras de requalificação no relvado e nos balneários, a vistoria técnica da FAF confirmou que o recinto reúne todos os requisitos regulamentares, trazendo grande alento aos adeptos militares que poderão apoiar a equipa no seu reduto principal.', NULL),
+    ('n6', 'FAF anuncia sorteio do calendário oficial para o Girabola 2026/2027', 'Federação', '2026-06-20 12:00:00+01', 'O sorteio oficial definiu as 30 jornadas da nova época desportiva, sob o novo código de verificação unificado.', 'A Federação Angolana de Futebol (FAF) realizou o sorteio da nova edição do campeonato nacional no edifício-sede em Luanda. O sorteio estabeleceu um calendário emocionante a duas voltas para as 16 equipas concorrentes. Os jogos terão início a 12 de Setembro de 2026, com o Petro de Luanda a iniciar a defesa do título em casa contra o Desportivo da Lunda Sul.', NULL)
+ON CONFLICT (id) DO UPDATE SET
+    title = excluded.title,
+    category = excluded.category,
+    date = excluded.date,
+    summary = excluded.summary,
+    content = excluded.content,
+    cover_url = excluded.cover_url;
+
