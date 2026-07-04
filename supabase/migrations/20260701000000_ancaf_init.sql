@@ -219,7 +219,8 @@ $$;
 -- Edelfride Palhares da Costa.
 -- ═══════════════════════════════════════════════════════════════════════
 insert into public.ancaf_configs (key, value) values
-    ('active_calendar_seed', '1357')
+    ('active_calendar_index', '1357'),
+    ('active_calendar_seed', '2877')
 on conflict (key) do nothing;
 
 insert into public.ancaf_seasons (id, label, status) values
@@ -242,7 +243,7 @@ insert into public.ancaf_teams
     ('lobito',       'Académica do Lobito',     'ACA',  'Lobito',       'Estádio do Buraco',                             5000, 1970, 'Preto e Branco',           'João Pintar',                      array['#000000','#FFFFFF']),
     ('saosalvador',  'São Salvador do Kongo',   'SSK',  'Mbanza Kongo', 'Estádio Álvaro Buta',                           5000, 1999, 'Azul e Amarelo',           'Findanga Finda',                   array['#00529B','#F9C304']),
     ('cabinda',      'FC Cabinda',              'FCC',  'Cabinda',      'Estádio Nacional do Chiazi',                   25000, 2005, 'Verde e Branco',           'Pedro Gonçalves',                  array['#008751','#FFFFFF']),
-    ('primeiromaio', '1.º de Maio',             'MAI',  'Benguela',     'Estádio Municipal Edelfride Palhares da Costa', 5000, 1981, 'Vermelho e Branco',        'Agostinho Tramagal',               array['#D21515','#FFFFFF']),
+    ('primeiromaio', '1.º de Maio',             'MAI',  'Benguela',     'Estádio de São Filipe',                         5000, 1981, 'Vermelho e Branco',        'Agostinho Tramagal',               array['#D21515','#FFFFFF']),
     ('caala',        'CR Caála',                'CRC',  'Caála',        'Estádio dos Mártires da Canhala',               5000, 1980, 'Azul e Branco',            'Mateus Agostinho',                 array['#00529B','#FFFFFF']),
     ('fcluanda',     'FC Luanda',               'FCL',  'Luanda',       'Campo da Cidadela',                            10000, 2020, 'Vermelho e Branco',        'Guelson Manuel',                   array['#D21515','#FFFFFF'])
 on conflict (id) do update set

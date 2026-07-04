@@ -11,7 +11,7 @@ interface TeamCrestProps {
 const CREST_PATHS: Record<string, string> = {
   petro: '/Clubes/PETRO DE LUANDA.png',
   wiliete: '/Clubes/WILIWTE FC.png',
-  dago: '/Clubes/1§ DE AGOSTO.png',
+  dago: '/Clubes/1%C2%A7%20DE%20AGOSTO.png',
   desphuila: '/Clubes/CDH.png',
   bravos: '/Clubes/BRAVOS DO MAQUIS.png',
   kabuscorp: '/Clubes/KABUSCORP.png',
@@ -21,7 +21,7 @@ const CREST_PATHS: Record<string, string> = {
   libolo: '/Clubes/LIBOLO.png',
   lobito: '/Clubes/ACADEMICA DO LOBITO.png',
   saosalvador: '/Clubes/SALVADOR DO KONGO.png',
-  primeiromaio: '/Clubes/1§ DE MAIO.png',
+  primeiromaio: '/Clubes/1%C2%A7%20DE%20MAIO.png',
   fcluanda: '/Clubes/LUANDA CITY.png',
   // Ainda não existem emblemas novos para estes clubes em public/Clubes.
   cabinda: '/crests/cabinda.png',

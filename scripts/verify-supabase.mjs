@@ -1,12 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Aceita o nome novo (PUBLISHABLE_KEY) do dashboard Supabase além do legado (ANON_KEY).
+const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 const missing = [
   ['NEXT_PUBLIC_SUPABASE_URL', url],
-  ['NEXT_PUBLIC_SUPABASE_ANON_KEY', anonKey],
+  ['NEXT_PUBLIC_SUPABASE_ANON_KEY (ou NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)', anonKey],
   ['SUPABASE_SERVICE_ROLE_KEY', serviceRoleKey],
 ].filter(([, value]) => !value).map(([name]) => name);
 

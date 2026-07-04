@@ -4,17 +4,22 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Zap, Clock, Trophy, Target, CalendarDays, Flag, Radio } from 'lucide-react';
-import { SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason, Match, TEAMS } from '@/lib/data';
+import { SEASONS, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason, Match, TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { supabase } from '@/lib/supabase';
 
 type StatusFilter = 'all' | 'finished' | 'scheduled';
+type CalendarRound = { round: number; dates: string[]; fixtures: [string, string][] };
+
+const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
 function MatchCard({ match }: { match: Match }) {
   const isFinished = match.status === 'finished';
   const isLive = match.status === 'live';
   const formattedDate = new Date(match.date).toLocaleDateString('pt-AO', {
     day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
+    timeZone: ANGOLA_TIME_ZONE,
   });
 
   const homeTeamObj = TEAMS.find((t) => t.id === match.homeTeamId);
@@ -101,7 +106,9 @@ function MatchCard({ match }: { match: Match }) {
 }
 
 export default function FixturesPage() {
-  const [seasonId, setSeasonId] = useState<string>(CURRENT_SEASON_ID);
+  // A época 2026/2027 é a época corrente após a publicação do sorteio oficial;
+  // abrir diretamente nela em vez da anterior (2025/2026, já concluída).
+  const [seasonId, setSeasonId] = useState<string>(UPCOMING_SEASON_ID);
   const [selectedRound, setSelectedRound] = useState<number | 'all'>('all');
   const [filterStatus, setFilterStatus] = useState<StatusFilter>('all');
   const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
@@ -111,11 +118,15 @@ export default function FixturesPage() {
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
 
   useEffect(() => {
-    if (isUpcoming) {
+    if (!isUpcoming) return;
+
+    let cancelled = false;
+    const fetchDynamicCalendar = () => {
       setLoading(true);
       fetch('/api/ancaf?format=matches')
         .then((res) => res.json())
         .then((data) => {
+          if (cancelled) return;
           if (data.matches) {
             setDynamicMatches(data.matches);
           }
@@ -124,8 +135,29 @@ export default function FixturesPage() {
           }
         })
         .catch((err) => console.error('Erro ao buscar calendário dinâmico:', err))
-        .finally(() => setLoading(false));
-    }
+        .finally(() => {
+          if (!cancelled) setLoading(false);
+        });
+    };
+
+    fetchDynamicCalendar();
+
+    // Reage em tempo real à publicação de um novo sorteio (FAF Calendar grava
+    // a semente ativa em ancaf_configs) e busca o calendário atualizado sem
+    // precisar de recarregar a página.
+    const channel = supabase
+      .channel('ancaf-active-seed')
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'ancaf_configs', filter: 'key=eq.active_calendar_seed' },
+        () => fetchDynamicCalendar(),
+      )
+      .subscribe();
+
+    return () => {
+      cancelled = true;
+      supabase.removeChannel(channel);
+    };
   }, [isUpcoming]);
 
   const MATCHES = isUpcoming && dynamicMatches.length > 0 ? dynamicMatches : getMatchesForSeason(seasonId);
@@ -173,7 +205,7 @@ export default function FixturesPage() {
       r.fixtures.push([m.homeTeamId, m.awayTeamId]);
       map.set(m.round, r);
       return map;
-    }, new Map<number, any>()).values(),
+    }, new Map<number, CalendarRound>()).values(),
   ).sort((a, b) => a.round - b.round);
 
   return (
@@ -369,6 +401,7 @@ export default function FixturesPage() {
           {visibleRounds.map((group) => {
             const groupDate = new Date(group.matches[0].date).toLocaleDateString('pt-AO', {
               day: '2-digit', month: 'long', year: 'numeric',
+              timeZone: ANGOLA_TIME_ZONE,
             });
             return (
               <section key={group.round}>

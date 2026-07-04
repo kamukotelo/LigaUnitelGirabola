@@ -10,10 +10,42 @@ import {
 } from '@/lib/data';
 
 // ── ENDPOINT ANCAF · GET /api/ancaf ──────────────────────────────────
-// Serve o Calendário ANCAF 2026/2027 dinamicamente com base no seed
-// guardado no Supabase (com fallback para a constante em data.ts).
+// Serve o calendário ANCAF 2026/2027 persistido exatamente como foi recebido
+// do FAF Calendar. O gerador local existe apenas como fallback de arranque.
 
 export const dynamic = 'force-dynamic';
+
+interface DbMatch {
+  id: string;
+  round: number;
+  home_team_id: string;
+  away_team_id: string;
+  home_team: string;
+  away_team: string;
+  home_score: number | null;
+  away_score: number | null;
+  score: string | null;
+  date: string;
+  stadium: string;
+  status: Match['status'];
+}
+
+function fromDbMatch(match: DbMatch): Match {
+  return {
+    id: match.id,
+    round: match.round,
+    homeTeamId: match.home_team_id,
+    awayTeamId: match.away_team_id,
+    homeTeam: match.home_team,
+    awayTeam: match.away_team,
+    homeScore: match.home_score ?? 0,
+    awayScore: match.away_score ?? 0,
+    score: match.score ?? undefined,
+    date: match.date,
+    stadium: match.stadium,
+    status: match.status,
+  };
+}
 
 function resolveFixture([homeId, awayId]: [string, string]) {
   const home = getTeamById(homeId);
@@ -32,35 +64,49 @@ export async function GET(request: Request) {
   const format = searchParams.get('format') ?? 'calendar';
   const roundParam = searchParams.get('round');
 
-  // 1. Obter a semente ativa do Supabase (com fallback)
+  // 1. Obter metadados e jogos persistidos do Supabase (com fallback).
   let activeSeedStr = ANCAF_CALENDAR_SOURCE.accessCode;
   let dynamicSource = { ...ANCAF_CALENDAR_SOURCE };
+  let persistedMatches: Match[] = [];
   
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
     try {
-      const { data, error } = await supabase
+      const [{ data: configs, error: configError }, { data: dbMatches, error: matchesError }] = await Promise.all([
+        supabase
         .from('ancaf_configs')
-        .select('value, updated_at')
-        .eq('key', 'active_calendar_seed')
-        .single();
+        .select('key, value, updated_at')
+        .in('key', ['active_calendar_index', 'active_calendar_seed']),
+        supabase
+          .from('ancaf_matches')
+          .select('id, round, home_team_id, away_team_id, home_team, away_team, home_score, away_score, score, date, stadium, status')
+          .eq('season_id', '2026-27')
+          .order('round')
+          .order('id'),
+      ]);
       
-      if (data && !error) {
-        activeSeedStr = data.value;
+      if (!configError && configs) {
+        const indexConfig = configs.find((config) => config.key === 'active_calendar_index');
+        const seedConfig = configs.find((config) => config.key === 'active_calendar_seed');
+        activeSeedStr = seedConfig?.value ?? activeSeedStr;
         dynamicSource = {
           ...ANCAF_CALENDAR_SOURCE,
-          accessCode: activeSeedStr,
-          generatedAt: data.updated_at || ANCAF_CALENDAR_SOURCE.generatedAt,
+          accessCode: indexConfig?.value ?? ANCAF_CALENDAR_SOURCE.accessCode,
+          generatedAt: indexConfig?.updated_at ?? seedConfig?.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
         };
       }
+      if (!matchesError && dbMatches?.length === 240) {
+        persistedMatches = (dbMatches as DbMatch[]).map(fromDbMatch);
+      }
     } catch (err) {
-      console.error('Erro ao ler semente do Supabase, usando fallback:', err);
+      console.error('Erro ao ler calendário do Supabase, usando fallback:', err);
     }
   }
 
   const activeSeed = Number(activeSeedStr) || 1357;
 
-  // 2. Gerar calendário dinamicamente a partir da semente
-  const matches = generateGirabolaCalendar(activeSeed, 2026, 'm27-');
+  const matches = persistedMatches.length === 240
+    ? persistedMatches
+    : generateGirabolaCalendar(activeSeed, 2026, 'm27-');
 
   // Validação do parâmetro round.
   let round: number | null = null;

@@ -1,7 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+// Supabase renamed the legacy "anon key" to "publishable key" in newer
+// dashboards; accept either env var name so local setups using either
+// naming still work (production on Vercel is configured with ANON_KEY).
+const supabaseAnonKey =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  'placeholder-key';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
