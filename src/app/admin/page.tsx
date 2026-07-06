@@ -4,7 +4,7 @@ import AdminGuard from '@/components/AdminGuard';
 
 export const metadata: Metadata = {
   title: 'Administração FAF',
-  description: 'Painel de gestão administrativa do Girabola — uso interno FAF.',
+  description: 'Painel de gestão administrativa do Liga Unitel Girabola — uso interno FAF.',
   robots: { index: false, follow: false },
 };
 

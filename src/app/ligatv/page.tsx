@@ -18,7 +18,7 @@ export default function LigaTv() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeVideo, setActiveVideo] = useState<VideoHighlight>({
     id: 'live-1',
-    title: 'GIRABOLA 2025/26: Petro de Luanda vs 1º de Agosto [DIRECTO]',
+    title: 'LIGA UNITEL GIRABOLA 2025/26: Petro de Luanda vs 1º de Agosto [DIRECTO]',
     duration: 'LIVE',
     views: '12.4K a assistir',
     category: 'Transmissão Oficial',

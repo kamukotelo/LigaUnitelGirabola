@@ -83,7 +83,7 @@ export default function ContactPage() {
           </span>
         </div>
         <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
-          Contacte o <span className="text-primary italic">Girabola</span>
+          Contacte o <span className="text-primary italic">Liga Unitel Girabola</span>
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
           Canal oficial para credenciação, parcerias e informações de imprensa

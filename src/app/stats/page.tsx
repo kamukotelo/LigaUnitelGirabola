@@ -170,7 +170,7 @@ export default function StatsPage() {
           Líderes de <span className="text-primary italic">Rendimento</span>
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
-          Métricas de jogadores no Campeonato Nacional de Futebol de Angola (Girabola)
+          Métricas de jogadores no Campeonato Nacional de Futebol de Angola (Liga Unitel Girabola)
         </p>
 
         {/* Seletor de Época */}
@@ -372,7 +372,7 @@ export default function StatsPage() {
                   {isUpcoming ? 'Aguardando Época' : leaderPlayer?.name ?? 'Dagó Tshibamba'}
                 </h4>
                 <p className="text-accent font-mono text-[10px] mt-0.5">
-                  {isUpcoming ? 'GIRABOLA 2026/2027' : (leaderPlayer?.club.toUpperCase() ?? '1.º DE AGOSTO')}
+                  {isUpcoming ? 'LIGA UNITEL GIRABOLA 2026/2027' : (leaderPlayer?.club.toUpperCase() ?? '1.º DE AGOSTO')}
                 </p>
                 <div className="grid grid-cols-3 gap-2 mt-4 text-center font-mono">
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">

@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-type BrandSize = 'sm' | 'md' | 'lg';
+type BrandSize = 'sm' | 'md' | 'lg' | 'xl';
 
 /** Altura do logo em px por tamanho. Mínimo de 40px conforme secção 2.7 (Redução) do Manual de Normas. */
 const IMG_HEIGHT: Record<BrandSize, number> = {
   sm: 40,
   md: 56,
   lg: 72,
+  xl: 88,
 };
 
 /**
@@ -15,7 +16,7 @@ const IMG_HEIGHT: Record<BrandSize, number> = {
  * referência é a altura do "G" de Girabola. Aproximamos essa unidade a
  * ~18% da altura do lockup e reservamo-la como espaço livre à volta do logo.
  */
-const PROTECTION_RATIO = 0.18;
+const PROTECTION_RATIO = 0.10;
 
 interface BrandProps {
   size?: BrandSize;
@@ -40,23 +41,29 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
   const w = Math.round((h * 396) / 219);
   const protection = Math.round(h * PROTECTION_RATIO);
 
+  const eager = size === 'lg' || size === 'xl';
+
   const logo = (
     <span className="relative inline-flex items-center" style={{ padding: protection }}>
+      {/* Fundo claro: versão principal a cores (secção 5.1) */}
       <Image
         src="/logo-girabola-horizontal.svg"
         alt="Liga Unitel Girabola"
         width={w}
         height={h}
-        priority={size === 'lg'}
+        priority={eager}
         className="object-contain dark:hidden"
+        style={{ height: `${h}px`, width: 'auto' }}
       />
+      {/* Fundo escuro: versão monocromática negativa (secção 2.3), garantindo o maior contraste */}
       <Image
-        src="/logo-girabola-horizontal-white.svg"
+        src="/logo-girabola-horizontal-white.png"
         alt="Liga Unitel Girabola"
         width={w}
         height={h}
-        priority={size === 'lg'}
+        priority={eager}
         className="hidden object-contain dark:block"
+        style={{ height: `${h}px`, width: 'auto' }}
       />
     </span>
   );

@@ -223,8 +223,8 @@ export default function FixturesPage() {
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
           {isUpcoming
-            ? `Época Girabola ${seasonLabel} · calendário oficial por disputar`
-            : `Época Girabola ${seasonLabel} · percurso completo e próximos embates`}
+            ? `Época Liga Unitel Girabola ${seasonLabel} · calendário oficial por disputar`
+            : `Época Liga Unitel Girabola ${seasonLabel} · percurso completo e próximos embates`}
         </p>
 
         {/* Seletor de época */}

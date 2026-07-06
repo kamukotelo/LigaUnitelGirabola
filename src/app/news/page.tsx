@@ -19,7 +19,7 @@ export default function NewsPage() {
           <div className="flex items-center gap-3 mb-2">
             <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
             <span className="text-[10px] font-mono uppercase text-accent tracking-widest font-semibold">
-              MÉDIA CENTER · GIRABOLA
+              MÉDIA CENTER · LIGA UNITEL GIRABOLA
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-display uppercase leading-none text-foreground">

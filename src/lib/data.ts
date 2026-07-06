@@ -476,7 +476,7 @@ const PLAYERS_RAW: Player[] = [
     height: '1.85m',
     weight: '84kg',
     attributes: { pace: 87, shooting: 91, passing: 74, dribbling: 82, defending: 35, physical: 84 },
-    bio: 'Ponta de lança forte, explosivo e extremamente clínico na área. Consagrado melhor marcador do Girabola 2025/2026, foi o pilar ofensivo do 1.º de Agosto na luta pelas competições africanas.',
+    bio: 'Ponta de lança forte, explosivo e extremamente clínico na área. Consagrado melhor marcador do Liga Unitel Girabola 2025/2026, foi o pilar ofensivo do 1.º de Agosto na luta pelas competições africanas.',
     careerHistory: [
       { season: '2025/26', club: '1.º de Agosto', apps: 28, goals: 18 },
       { season: '2024/25', club: '1.º de Agosto', apps: 26, goals: 12 },
@@ -625,7 +625,7 @@ const PLAYERS_RAW: Player[] = [
     height: '1.72m',
     weight: '68kg',
     attributes: { pace: 91, shooting: 78, passing: 88, dribbling: 89, defending: 48, physical: 68 },
-    bio: 'O rei das assistências do Girabola. Jaredi exibe excelente criatividade, controlo em espaços curtos e passes cruzados milimétricos que serviram de munição constante para Tiago Azulão.',
+    bio: 'O rei das assistências do Liga Unitel Girabola. Jaredi exibe excelente criatividade, controlo em espaços curtos e passes cruzados milimétricos que serviram de munição constante para Tiago Azulão.',
     careerHistory: [
       { season: '2025/26', club: 'Petro de Luanda', apps: 26, goals: 8 },
       { season: '2024/25', club: 'Interclube', apps: 25, goals: 7 }
@@ -1137,7 +1137,7 @@ export const newsMock: NewsArticle[] = [
   {
     id: 'n1',
     title: 'Petro de Luanda vence o clássico no 11 de Novembro contra 1.º de Agosto',
-    category: 'Girabola',
+    category: 'Liga Unitel Girabola',
     date: '13 Jun 2026',
     summary: 'Com golo solitário de Tiago Azulão aos 88 minutos, os tricolores asseguraram a liderança da tabela.',
     content: 'O clássico dos clássicos do futebol angolano terminou com a vitória tangencial do Petro de Luanda sobre o rival Primeiro de Agosto. Num jogo tenso e disputado taticamente, o avançado brasileiro Tiago Azulão voltou a ser decisivo, finalizando de cabeça um cruzamento milimétrico de Jaredi aos 88 minutos, despoletando a loucura no Estádio 11 de Novembro. Esta vitória consolida a liderança isolada dos tricolores na presente campanha de preparação da liga.'
@@ -1156,15 +1156,15 @@ export const newsMock: NewsArticle[] = [
     category: 'Competição',
     date: '09 Mai 2026',
     summary: 'A formação de Benguela venceu o Interclube por 2-0 e garantiu uma participação histórica na Liga dos Campeões da CAF para a próxima época.',
-    content: 'Benguela está em festa. O Wiliete de Benguela bateu o Interclube por duas bolas a zero no Estádio Nacional de Ombaka e carimbou a sua vaga oficial na Liga dos Campeões da CAF da próxima época. Com golos de Mano Mano e Karanga, a formação dirigida por Lito Vidigal coroou uma campanha fenomenal no Girabola, consagrando-se como a grande surpresa do futebol nacional angolano.'
+    content: 'Benguela está em festa. O Wiliete de Benguela bateu o Interclube por duas bolas a zero no Estádio Nacional de Ombaka e carimbou a sua vaga oficial na Liga dos Campeões da CAF da próxima época. Com golos de Mano Mano e Karanga, a formação dirigida por Lito Vidigal coroou uma campanha fenomenal no Liga Unitel Girabola, consagrando-se como a grande surpresa do futebol nacional angolano.'
   },
   {
     id: 'n4',
-    title: 'Dagó Tshibamba conquista Troféu de Melhor Marcador do Girabola',
+    title: 'Dagó Tshibamba conquista Troféu de Melhor Marcador do Liga Unitel Girabola',
     category: 'Individual',
     date: '10 Mai 2026',
     summary: 'O avançado congolês do 1.º de Agosto finalizou a temporada com 18 golos marcados, consagrando-se o principal goleador do futebol nacional angolano.',
-    content: 'O troféu de artilheiro do futebol angolano tem novo dono. O avançado congolês Dagó Tshibamba fechou a época de ouro do 1.º de Agosto com 18 golos apontados na prova. Tshibamba demonstrou regularidade notável, sendo coroado oficialmente como o melhor marcador e grande estrela ofensiva do Girabola.'
+    content: 'O troféu de artilheiro do futebol angolano tem novo dono. O avançado congolês Dagó Tshibamba fechou a época de ouro do 1.º de Agosto com 18 golos apontados na prova. Tshibamba demonstrou regularidade notável, sendo coroado oficialmente como o melhor marcador e grande estrela ofensiva do Liga Unitel Girabola.'
   },
   {
     id: 'n5',
@@ -1176,7 +1176,7 @@ export const newsMock: NewsArticle[] = [
   },
   {
     id: 'n6',
-    title: 'FAF anuncia sorteio do calendário oficial para o Girabola 2026/2027',
+    title: 'FAF anuncia sorteio do calendário oficial para o Liga Unitel Girabola 2026/2027',
     category: 'Federação',
     date: '20 Jun 2026',
     summary: 'O sorteio oficial definiu as 30 jornadas da nova época desportiva, sob o novo código de verificação unificado.',

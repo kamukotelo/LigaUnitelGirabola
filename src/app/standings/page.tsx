@@ -33,10 +33,10 @@ export default function StandingsPage() {
           </span>
         </div>
         <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
-          Classificação <span className="text-primary italic">Girabola</span>
+          Classificação <span className="text-primary italic">Liga Unitel Girabola</span>
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
-          Época Girabola {selectedSeason?.label ?? ''} · Classificação {selectedSeason?.status === 'completed' ? 'Final Oficial' : 'Inicializada'}
+          Época Liga Unitel Girabola {selectedSeason?.label ?? ''} · Classificação {selectedSeason?.status === 'completed' ? 'Final Oficial' : 'Inicializada'}
         </p>
 
         {/* Seletor de Época */}
@@ -253,7 +253,7 @@ export default function StandingsPage() {
                   🔥 O <strong className="text-foreground">{bestAttack.teamName}</strong> foi o ataque mais concretizador, com <strong className="text-accent">{bestAttack.goalsFor} golos</strong> marcados.
                 </p>
                 <p>
-                  🏆 O título de {selectedSeason?.label} pertence ao <strong className="text-foreground">{champion.teamName}</strong>, líder destacado da galeria de campeões do Girabola.
+                  🏆 O título de {selectedSeason?.label} pertence ao <strong className="text-foreground">{champion.teamName}</strong>, líder destacado da galeria de campeões do Liga Unitel Girabola.
                 </p>
               </div>
             </AnimatedCard>

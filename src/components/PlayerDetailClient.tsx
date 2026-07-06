@@ -459,7 +459,7 @@ function FifaConnectTab({ player }: { player: Player }) {
     }, 2200);
 
     setTimeout(() => {
-      setSimulationLogs(prev => [...prev, "[CONTRATO] A auditar contrato de trabalho desportivo ativo com o clube do Girabola..."]);
+      setSimulationLogs(prev => [...prev, "[CONTRATO] A auditar contrato de trabalho desportivo ativo com o clube do Liga Unitel Girabola..."]);
       setCurrentChecks(prev => ({ ...prev, contract: true }));
       setSimulationStep(3);
     }, 3400);
