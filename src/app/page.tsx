@@ -186,17 +186,8 @@ function PitchOrbit() {
 }
 
 export default function Home() {
-  const [glitchActive, setGlitchActive] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setGlitchActive(true);
-      setTimeout(() => setGlitchActive(false), 250);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Dynamic statistics from helper functions
   const teamsCount = getTeams().length;
@@ -260,14 +251,20 @@ export default function Home() {
             <h1 className="mb-8">
               <span className="sr-only">Liga Unitel Girabola</span>
               <Image
-                src="/logo-girabola-horizontal.png"
+                src="/logo-girabola-horizontal.svg"
                 alt="Liga Unitel Girabola"
                 width={396}
                 height={219}
                 priority
-                className={`w-full max-w-[360px] md:max-w-[460px] h-auto object-contain drop-shadow-[0_0_25px_rgba(210,80,0,0.35)] ${
-                  glitchActive ? 'glitch-text' : ''
-                }`}
+                className="w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:hidden"
+              />
+              <Image
+                src="/logo-girabola-horizontal-white.svg"
+                alt="Liga Unitel Girabola"
+                width={396}
+                height={219}
+                priority
+                className="hidden w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:block"
               />
             </h1>
 

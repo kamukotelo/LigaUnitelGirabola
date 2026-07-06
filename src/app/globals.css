@@ -8,8 +8,8 @@
   :root {
     --background: #F7F9FC; /* Um tom ligeiramente mais quente, suave e menos cinza-frio */
     --foreground: #10121C; /* Contraste mais alto, cor de texto mais forte */
-    --primary: #E03E1A;    /* Laranja-avermelhado vibrante (cor institucional/primária) */
-    --accent: #E87A15;     /* Laranja vibrante clássico e soft */
+    --primary: #5C0F8B;    /* Roxo oficial da marca (Manual de Normas 2025, secção 3.1) */
+    --accent: #E6540F;     /* Laranja oficial da marca (Manual de Normas 2025, secção 3.1) */
     --success: #059669;    /* Suave, com melhor legibilidade no claro */
     --card: #FFFFFF;
     --border: #DCDFEA;    /* Bordas com maior contraste para estruturar melhor o layout */
@@ -24,8 +24,8 @@
   .dark {
     --background: #09090B;
     --foreground: #F8FAFC;
-    --primary: #D21515;
-    --accent: #F9C304;
+    --primary: #B368DB;    /* Roxo oficial da marca, aclarado para contraste em fundo escuro */
+    --accent: #F07942;     /* Laranja oficial da marca, aclarado para contraste em fundo escuro */
     --success: #10B981;
     --card: #18181B;
     --border: #27272A;
@@ -255,8 +255,8 @@
   --color-border: var(--border);
   --color-muted: var(--muted);
 
-  --font-sans: "Inter", sans-serif;
-  --font-display: "Archivo Black", sans-serif;
+  --font-sans: var(--font-brand), "Inter", sans-serif;
+  --font-display: var(--font-brand), "Archivo Black", sans-serif;
 }
 
 body {
@@ -443,11 +443,11 @@ html {
 @keyframes holo-pulse {
   0%, 100% {
     transform: scale(1) translateY(0px);
-    filter: drop-shadow(0 0 15px rgba(249, 195, 4, 0.15)) opacity(0.12);
+    filter: opacity(0.12);
   }
   50% {
     transform: scale(1.05) translateY(-10px);
-    filter: drop-shadow(0 0 35px rgba(210, 21, 21, 0.35)) opacity(0.20);
+    filter: opacity(0.20);
   }
 }
 

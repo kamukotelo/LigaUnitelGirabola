@@ -33,7 +33,7 @@ interface PlayerDetailClientProps {
 }
 
 // Circular SVG Stat Ring component
-function StatRing({ value, max, label, color = '#D21515' }: { value: number; max: number; label: string; color?: string }) {
+function StatRing({ value, max, label, color = '#5C0F8B' }: { value: number; max: number; label: string; color?: string }) {
   const pct = Math.min((value / max) * 100, 100);
   const r = 28;
   const circ = 2 * Math.PI * r;
@@ -665,7 +665,7 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
     { label: 'Físico / Resistência', value: player.attributes.physical, color: 'from-orange-500 to-yellow-500' }
   ];
 
-  const clubColor = team?.colorsHex ? team.colorsHex[0] : '#D21515';
+  const clubColor = team?.colorsHex ? team.colorsHex[0] : '#5C0F8B';
 
   const [activeTab, setActiveTab] = useState<TabKey>('perfil');
   const tabs: { key: TabKey; label: string; icon: React.ElementType }[] = [

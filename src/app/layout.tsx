@@ -1,8 +1,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Sora } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+
+/**
+ * Substituto temporário da tipografia corporativa "Intro" (Manual de Normas
+ * 2025, secção 4.1), que exige ficheiros licenciados ainda não disponíveis
+ * no projeto. Sora cobre os pesos Light/Regular/Bold da família Intro.
+ */
+const brandFont = Sora({
+  subsets: ["latin"],
+  variable: "--font-brand",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -51,7 +63,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#D21515",
+  themeColor: "#5C0F8B",
 };
 export default function RootLayout({
   children,
@@ -59,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-AO" suppressHydrationWarning>
+    <html lang="pt-AO" suppressHydrationWarning className={brandFont.variable}>
       <head>
         <script
           dangerouslySetInnerHTML={{

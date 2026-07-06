@@ -248,8 +248,8 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
   const [activeTab, setActiveTab] = useState<TabKey>('resumo');
   const isFinished = match.status === 'finished';
 
-  const homeColor = homeTeam?.colorsHex?.[0] ?? '#D21515';
-  const awayColor = awayTeam?.colorsHex?.[0] ?? '#00F5FF';
+  const homeColor = homeTeam?.colorsHex?.[0] ?? '#5C0F8B';
+  const awayColor = awayTeam?.colorsHex?.[0] ?? '#E6540F';
 
   const tabs: { key: TabKey; label: string; icon: React.ElementType }[] = [
     { key: 'resumo', label: 'Resumo', icon: Activity },

@@ -23,7 +23,7 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
     'Avançado': players.filter((p) => p.position === 'Avançado' || p.position.includes('Ponta de Lança')),
   };
 
-  const clubColor = team.colorsHex ? team.colorsHex[0] : '#D21515';
+  const clubColor = team.colorsHex ? team.colorsHex[0] : '#5C0F8B';
 
   return (
     <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
