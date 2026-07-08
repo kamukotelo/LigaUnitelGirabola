@@ -110,7 +110,7 @@ export default function Navbar() {
           <div className="hidden xl:flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
             <Link href="/contact" className="premium-button text-sm whitespace-nowrap">
-              Área de Clubes
+              Login
             </Link>
           </div>
 
@@ -173,7 +173,7 @@ export default function Navbar() {
                   onClick={() => setIsOpen(false)}
                   className="premium-button w-full text-center text-sm py-4 rounded-xl flex items-center justify-center gap-2"
                 >
-                  <span>Área de Clubes</span>
+                  <span>Login</span>
                   <ArrowRight size={16} />
                 </Link>
               </motion.div>
