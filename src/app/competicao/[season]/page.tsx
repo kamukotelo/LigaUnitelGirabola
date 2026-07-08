@@ -4,7 +4,7 @@ import CompetitionHubClient from '@/components/competition/CompetitionHubClient'
 import { HUB_TABS, HubTab } from '@/components/competition/tabs';
 
 // Hub de competição por época (estilo Liga Portugal):
-// /competicao/{época}?tab=classificacao|calendario|estatisticas|tempo-util|nomeacoes
+// /competicao/{época}?tab=geral|classificacao|calendario|estatisticas|tempo-util|nomeacoes
 export function generateStaticParams() {
   return SEASONS.map((s) => ({ season: s.id }));
 }
@@ -20,10 +20,10 @@ export default async function CompetitionSeasonPage({
   const { tab } = await searchParams;
 
   if (!SEASONS.some((s) => s.id === season)) {
-    redirect(`/competicao/${CURRENT_SEASON_ID}?tab=classificacao`);
+    redirect(`/competicao/${CURRENT_SEASON_ID}?tab=geral`);
   }
 
-  const activeTab: HubTab = HUB_TABS.some((t) => t.key === tab) ? (tab as HubTab) : 'classificacao';
+  const activeTab: HubTab = HUB_TABS.some((t) => t.key === tab) ? (tab as HubTab) : 'geral';
 
   return <CompetitionHubClient seasonId={season} tab={activeTab} />;
 }

@@ -9,6 +9,8 @@ export default async function CompetitionIndexPage({
   searchParams: Promise<{ tab?: string }>;
 }) {
   const { tab } = await searchParams;
-  const season = tab === 'calendario' || tab === 'nomeacoes' ? UPCOMING_SEASON_ID : CURRENT_SEASON_ID;
-  redirect(`/competicao/${season}?tab=${tab ?? 'classificacao'}`);
+  const activeTab = tab ?? 'geral';
+  const onUpcoming = activeTab === 'geral' || activeTab === 'calendario' || activeTab === 'nomeacoes';
+  const season = onUpcoming ? UPCOMING_SEASON_ID : CURRENT_SEASON_ID;
+  redirect(`/competicao/${season}?tab=${activeTab}`);
 }
