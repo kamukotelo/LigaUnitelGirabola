@@ -111,7 +111,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         .sort((a, b) => b.value - a.value || (b.secondaryValue as number) - (a.secondaryValue as number))
         .slice(0, 8);
     } else if (activeTab === 'minutes') {
-      // Minutos jogados (métrica derivada, estilo Liga Portugal)
+      // Minutos jogados (métrica derivada, estilo Liga Angola)
       displayPlayers = [...allPlayers]
         .map((p) => ({
           id: p.id, name: p.name, club: p.club, teamId: p.teamId, position: p.position,

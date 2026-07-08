@@ -3,7 +3,7 @@ import { SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
 import CompetitionHubClient from '@/components/competition/CompetitionHubClient';
 import { HUB_TABS, HubTab } from '@/components/competition/tabs';
 
-// Hub de competição por época (estilo Liga Portugal):
+// Hub de competição por época (estilo Liga Angola):
 // /competicao/{época}?tab=geral|classificacao|calendario|estatisticas|tempo-util|nomeacoes
 export function generateStaticParams() {
   return SEASONS.map((s) => ({ season: s.id }));

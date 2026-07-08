@@ -13,7 +13,7 @@ export interface Team {
   colors: string;
   coach: string;
   colorsHex?: string[]; // E.g. ["#D21515", "#F9C304"] for custom page designs
-  officialName?: string; // denominação oficial completa (estilo Liga Portugal)
+  officialName?: string; // denominação oficial completa (estilo Liga Angola)
   president?: string;
   website?: string;
   palmares?: TrophyEntry[]; // títulos (editável no admin/BD)
@@ -1615,7 +1615,7 @@ export function getMatchBroadcast(match: Match): string {
 }
 
 // Tempo útil (tempo efetivo de jogo, em minutos) — métrica-assinatura da
-// Liga Portugal adaptada ao Girabola. Derivado do jogo: mais golos tendem a
+// Liga Angola adaptada ao Girabola. Derivado do jogo: mais golos tendem a
 // significar mais tempo de bola corrida; jogos faltosos reduzem o valor.
 export function getMatchTempoUtil(match: Match): number | null {
   if (match.status !== 'finished') return null;
@@ -1626,7 +1626,7 @@ export function getMatchTempoUtil(match: Match): number | null {
   return Math.min(Math.max(base + goalBonus - foulPenalty, 41), 66);
 }
 
-// ── NOMEAÇÕES DE ÁRBITROS POR JORNADA (estilo Liga Portugal) ─────────
+// ── NOMEAÇÕES DE ÁRBITROS POR JORNADA (estilo Liga Angola) ─────────
 export interface RefereeNomination {
   matchId: string;
   round: number;
@@ -1651,7 +1651,7 @@ export function getRefereeNominations(seasonId: string): RefereeNomination[] {
   }));
 }
 
-// ── PERFIL INSTITUCIONAL DO CLUBE (estilo Liga Portugal) ─────────────
+// ── PERFIL INSTITUCIONAL DO CLUBE (estilo Liga Angola) ─────────────
 // Dados de apresentação do clube: denominação oficial, palmarés,
 // equipamentos e órgãos sociais. Valores demonstrativos, editáveis na
 // área administrativa (ancaf_teams) quando persistidos na BD.

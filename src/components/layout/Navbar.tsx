@@ -58,12 +58,9 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4 h-20 md:h-24">
-          {/* Logo / Brand + selo institucional ANCAF */}
+          {/* Selo institucional ANCAF (à esquerda, maior) + marca Liga Unitel Girabola */}
           <div className="flex items-center flex-shrink-0">
-            <Brand size="sm" className="xl:hidden" />
-            <Brand size="md" className="hidden xl:flex" />
-
-            <div className="hidden xl:block h-8 w-px bg-zinc-300 dark:bg-zinc-800/80 mx-3 xl:mx-4" />
+            {/* ANCAF — logótipo institucional, agora em primeiro plano à esquerda */}
             <a
               href="https://www.ancaf.ao"
               target="_blank"
@@ -73,14 +70,20 @@ export default function Navbar() {
               <Image
                 src="/logo-ancaf.png"
                 alt="Logotipo ANCAF"
-                width={48}
-                height={48}
-                className="h-10 w-auto object-contain"
+                width={60}
+                height={60}
+                className="h-14 w-auto object-contain"
               />
               <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold group-hover:text-accent transition-colors">
                 Institucional
               </span>
             </a>
+
+            <div className="hidden xl:block h-8 w-px bg-zinc-300 dark:bg-zinc-800/80 mx-3 xl:mx-4" />
+
+            {/* Marca oficial da competição */}
+            <Brand size="sm" className="xl:hidden" />
+            <Brand size="md" className="hidden xl:flex" />
           </div>
 
           {/* Desktop Nav Links — centrados, com espaço garantido */}

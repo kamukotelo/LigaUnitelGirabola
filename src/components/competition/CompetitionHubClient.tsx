@@ -71,7 +71,7 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
         </div>
       </div>
 
-      {/* Layout de duas colunas (estilo Liga Portugal): mini-classificação fixa + conteúdo */}
+      {/* Layout de duas colunas (estilo Liga Angola): mini-classificação fixa + conteúdo */}
       <div className="grid grid-cols-1 xl:grid-cols-[280px_1fr] gap-8 items-start">
 
         {/* Barra lateral: mini-classificação persistente (xl+) */}

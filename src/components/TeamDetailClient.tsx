@@ -133,7 +133,7 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
         </div>
       </AnimatedCard>
 
-      {/* Abas do clube (estilo Liga Portugal) */}
+      {/* Abas do clube (estilo Liga Angola) */}
       <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {TEAM_TABS.map((t) => {
           const Icon = t.icon;

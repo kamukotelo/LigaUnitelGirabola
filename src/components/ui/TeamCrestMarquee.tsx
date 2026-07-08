@@ -6,7 +6,7 @@ import { TEAMS } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 
 // Faixa animada (marquee) com todos os emblemas dos clubes — estilo "WEB CLUBS"
-// do ligaportugal.pt. Deslize horizontal contínuo, pausa ao passar o rato e
+// do Liga Angola. Deslize horizontal contínuo, pausa ao passar o rato e
 // cada emblema abre a página do respetivo clube.
 export default function TeamCrestMarquee({ label = 'Clubes' }: { label?: string }) {
   const CrestSet = ({ ariaHidden = false }: { ariaHidden?: boolean }) => (

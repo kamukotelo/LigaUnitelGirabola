@@ -8,7 +8,7 @@ import TeamCrest from '@/components/ui/TeamCrest';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
-// Cabeçalho de secção com faixa angular vermelha (estilo ligaportugal.pt)
+// Cabeçalho de secção com faixa angular vermelha (estilo Liga Angola)
 function BannerHeading({ icon: Icon, children }: { icon: typeof Video; children: React.ReactNode }) {
   return (
     <div className="inline-flex items-center gap-2 bg-accent text-white px-4 py-2 rounded-lg rounded-bl-none mb-4 shadow-sm">

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { getMatchesForSeason, computeStandings } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 
-// Mini-classificação lateral persistente (estilo ligaportugal.pt): lista
+// Mini-classificação lateral persistente (estilo Liga Angola): lista
 // compacta de todos os clubes com jogos (J) e pontos (P), visível ao lado
 // de qualquer aba do hub de competição.
 export default function MiniStandings({ seasonId }: { seasonId: string }) {

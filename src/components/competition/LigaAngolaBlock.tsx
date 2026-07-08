@@ -24,7 +24,7 @@ import {
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
-export default function LigaPortugalBlock() {
+export default function LigaAngolaBlock() {
   // ─── STATE FOR JOGOS (MATCHES) SWITCHER ───
   const [selectedSeasonId, setSelectedSeasonId] = useState<string>(CURRENT_SEASON_ID);
   const [currentRound, setCurrentRound] = useState<number>(1);

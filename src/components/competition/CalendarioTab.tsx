@@ -283,7 +283,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           </div>
         </div>
 
-        {/* Equipa e Mês (estilo /calendar da Liga Portugal) */}
+        {/* Equipa e Mês (estilo /calendar da Liga Angola) */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Equipa</span>
           <select value={filterTeam} onChange={(e) => setFilterTeam(e.target.value)} className={selectClass}>

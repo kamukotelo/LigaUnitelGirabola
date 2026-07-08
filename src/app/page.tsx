@@ -9,7 +9,7 @@ import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
 import TeamCrest from '@/components/ui/TeamCrest';
 import TeamCrestMarquee from '@/components/ui/TeamCrestMarquee';
-import LigaPortugalBlock from '@/components/competition/LigaPortugalBlock';
+import LigaAngolaBlock from '@/components/competition/LigaAngolaBlock';
 import { getNewsArticles, getTeams, getMatches, getPlayers, getMatchesForSeason, STANDINGS, SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, TEAMS, type Match } from '@/lib/data';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
@@ -190,7 +190,7 @@ function PitchOrbit() {
   );
 }
 
-// Compact match row helper has been migrated to LigaPortugalBlock
+// Compact match row helper has been migrated to LigaAngolaBlock
 
 export default function Home() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -229,7 +229,7 @@ export default function Home() {
     { label: 'Golos Marcados (' + topScorerName + ')', value: topScorerGoals, icon: Flame, href: '/competicao?tab=estatisticas' },
   ];
 
-  // News and match center are now handled dynamically inside LigaPortugalBlock
+  // News and match center are now handled dynamically inside LigaAngolaBlock
 
   return (
     <div className="overflow-x-hidden">
@@ -349,8 +349,8 @@ export default function Home() {
       {/* ── FAIXA DE CLUBES (marquee animado) ─────────────────── */}
       <TeamCrestMarquee />
 
-      {/* ── BLOCO ESTILO LIGA PORTUGAL (Parcerias + Sidebar + Notícias/Vídeos) ── */}
-      <LigaPortugalBlock />
+      {/* ── BLOCO ESTILO LIGA ANGOLA (Parcerias + Sidebar + Notícias/Vídeos) ── */}
+      <LigaAngolaBlock />
 
       {/* ── CTA ───────────────────────────────────────────────── */}
       <section className="py-20 bg-primary relative overflow-hidden">
