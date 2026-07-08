@@ -13,6 +13,12 @@ export interface Team {
   colors: string;
   coach: string;
   colorsHex?: string[]; // E.g. ["#D21515", "#F9C304"] for custom page designs
+  officialName?: string; // denominação oficial completa (estilo Liga Portugal)
+  president?: string;
+  website?: string;
+  palmares?: TrophyEntry[]; // títulos (editável no admin/BD)
+  kits?: KitEntry[];        // equipamentos
+  board?: BoardMember[];    // órgãos sociais / direção
 }
 
 export interface StandingEntry {
@@ -43,6 +49,9 @@ export interface Match {
   stadium: string;
   status: 'scheduled' | 'live' | 'finished';
   round: number;
+  referee?: string;      // preenchido pela BD (ancaf_matches); senão derivado via getMatchOfficials
+  broadcaster?: string;  // transmissão TV; senão derivado via getMatchBroadcast
+  attendance?: number;   // assistência oficial; senão derivada em getMatchDetail
 }
 
 export interface PlayerStats {
@@ -1404,6 +1413,8 @@ export interface MatchDetail {
 const SQUAD_FIRST = ['Manuel', 'João', 'Pedro', 'Alberto', 'Geraldo', 'Mateus', 'Domingos', 'Carlos', 'Bruno', 'Hélder', 'Nuno', 'Ivo', 'Cláudio', 'Wilson', 'Fredy', 'Gilberto', 'Yuri', 'Dani', 'Zito', 'Job', 'Edmilson', 'Buatu', 'Picas', 'Bastos'];
 const SQUAD_LAST = ['Cabungula', 'Capita', 'Buá', 'Catraio', 'Mavinga', 'Manucho', 'Bero', 'Lamá', 'Quinito', 'Bokila', 'Kialonda', 'Afonso', 'Nzola', 'Caboco', 'Wilá', 'Fabrício', 'Massunguna', 'Ginga', 'Depú', 'Isaac', 'Gelson', 'Tó Carneiro', 'Macaia', 'Bambi'];
 const REFEREES = ['Hélder Malembe', 'António Caetano', 'José Ndala', 'Olímpio Capassassa', 'Bruno Quissanga', 'Edgar Sousa', 'Telmo Domingos'];
+const ASSISTANT_REFEREES = ['Jerson Emiliano', 'Marcos dos Santos', 'Ivo Manuel', 'Paulino Kassoma', 'Délcio Cahanda', 'Fernando Muhongo', 'Adolfo Simão', 'Nelson Ephemba'];
+export const BROADCASTERS = ['TPA 1', 'TPA 2', 'ZAP Viva', 'DStv LigaTV', 'Rádio Nacional de Angola'];
 
 function seededInt(seed: number, salt: number, min: number, max: number): number {
   const x = Math.abs(Math.sin(seed * 374761 + salt * 99991) * 43758.5453);
@@ -1569,8 +1580,212 @@ export function getMatchDetail(match: Match): MatchDetail {
     formationHome: '4-3-3',
     formationAway: '4-3-3',
     events,
-    attendance: match.status === 'finished' ? Math.round(capacity * (seededInt(seed, 2, 55, 95) / 100)) : 0,
-    referee: REFEREES[seededInt(seed, 3, 0, REFEREES.length - 1)],
+    attendance: match.attendance ?? (match.status === 'finished' ? Math.round(capacity * (seededInt(seed, 2, 55, 95) / 100)) : 0),
+    referee: match.referee ?? getMatchOfficials(match).referee,
     manOfTheMatch,
   };
+}
+
+// ── FICHA DE JOGO: ARBITRAGEM, TRANSMISSÃO E TEMPO ÚTIL (DERIVADOS) ──
+// Helpers partilhados entre cartões de jogo, ficha de jogo e abas do hub de
+// competição, para que os mesmos dados apareçam de forma consistente em todo
+// o site. Valores da BD (Match.referee/broadcaster) têm sempre prioridade.
+
+export interface MatchOfficials {
+  referee: string;
+  assistants: [string, string];
+  fourth: string;
+}
+
+export function getMatchOfficials(match: Match): MatchOfficials {
+  const seed = hashString(match.id);
+  // salt 3 mantém compatibilidade com o árbitro histórico de getMatchDetail
+  const referee = match.referee ?? REFEREES[seededInt(seed, 3, 0, REFEREES.length - 1)];
+  const a1 = ASSISTANT_REFEREES[seededInt(seed, 31, 0, ASSISTANT_REFEREES.length - 1)];
+  let a2Idx = seededInt(seed, 32, 0, ASSISTANT_REFEREES.length - 1);
+  if (ASSISTANT_REFEREES[a2Idx] === a1) a2Idx = (a2Idx + 1) % ASSISTANT_REFEREES.length;
+  const fourth = REFEREES[(seededInt(seed, 33, 0, REFEREES.length - 1) + 1) % REFEREES.length];
+  return { referee, assistants: [a1, ASSISTANT_REFEREES[a2Idx]], fourth };
+}
+
+export function getMatchBroadcast(match: Match): string {
+  if (match.broadcaster) return match.broadcaster;
+  const seed = hashString(match.id);
+  return BROADCASTERS[seededInt(seed, 41, 0, BROADCASTERS.length - 1)];
+}
+
+// Tempo útil (tempo efetivo de jogo, em minutos) — métrica-assinatura da
+// Liga Portugal adaptada ao Girabola. Derivado do jogo: mais golos tendem a
+// significar mais tempo de bola corrida; jogos faltosos reduzem o valor.
+export function getMatchTempoUtil(match: Match): number | null {
+  if (match.status !== 'finished') return null;
+  const seed = hashString(match.id);
+  const base = seededInt(seed, 42, 46, 58);
+  const goalBonus = Math.min(match.homeScore + match.awayScore, 5);
+  const foulPenalty = seededInt(seed, 43, 0, 4);
+  return Math.min(Math.max(base + goalBonus - foulPenalty, 41), 66);
+}
+
+// ── NOMEAÇÕES DE ÁRBITROS POR JORNADA (estilo Liga Portugal) ─────────
+export interface RefereeNomination {
+  matchId: string;
+  round: number;
+  homeTeamId: string;
+  awayTeamId: string;
+  homeTeam: string;
+  awayTeam: string;
+  date: string;
+  officials: MatchOfficials;
+}
+
+export function getRefereeNominations(seasonId: string): RefereeNomination[] {
+  return getMatchesForSeason(seasonId).map((m) => ({
+    matchId: m.id,
+    round: m.round,
+    homeTeamId: m.homeTeamId,
+    awayTeamId: m.awayTeamId,
+    homeTeam: m.homeTeam,
+    awayTeam: m.awayTeam,
+    date: m.date,
+    officials: getMatchOfficials(m),
+  }));
+}
+
+// ── PERFIL INSTITUCIONAL DO CLUBE (estilo Liga Portugal) ─────────────
+// Dados de apresentação do clube: denominação oficial, palmarés,
+// equipamentos e órgãos sociais. Valores demonstrativos, editáveis na
+// área administrativa (ancaf_teams) quando persistidos na BD.
+
+export interface TrophyEntry {
+  title: string;
+  count: number;
+  seasons?: string[]; // épocas de destaque (mais recentes primeiro)
+}
+
+export interface KitEntry {
+  label: string;      // Principal, Alternativo…
+  colors: string[];   // cores hex do equipamento
+}
+
+export interface BoardMember {
+  role: string;       // ex.: Presidente, Vice-presidente, Diretor Desportivo
+  name: string;
+}
+
+export interface TeamProfile {
+  officialName: string;
+  president?: string;
+  palmares: TrophyEntry[];
+  kits: KitEntry[];
+  board: BoardMember[]; // órgãos sociais / direção
+  socials: { facebook?: string; instagram?: string; youtube?: string };
+  website?: string;
+  mapUrl: string; // link Google Maps do estádio
+}
+
+const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
+  petro: {
+    officialName: 'Atlético Petróleos de Luanda — Futebol',
+    president: 'Tomás Faria',
+    palmares: [
+      { title: 'Liga Unitel Girabola', count: 19, seasons: ['2025/26', '2023/24', '2022/23'] },
+      { title: 'Taça de Angola', count: 12 },
+      { title: 'Supertaça de Angola', count: 8 },
+    ],
+    board: [
+      { role: 'Presidente', name: 'Tomás Faria' },
+      { role: 'Vice-presidente', name: 'Nuno Saraiva' },
+      { role: 'Diretor Desportivo', name: 'Love Kabungula' },
+    ],
+  },
+  dago: {
+    officialName: 'Clube Desportivo 1.º de Agosto — Futebol',
+    president: 'Carlos Hendrick',
+    palmares: [
+      { title: 'Liga Unitel Girabola', count: 13, seasons: ['2018/19', '2017/18', '2016/17'] },
+      { title: 'Taça de Angola', count: 6 },
+      { title: 'Supertaça de Angola', count: 7 },
+    ],
+    board: [
+      { role: 'Presidente', name: 'Carlos Hendrick' },
+      { role: 'Vice-presidente', name: 'Adilson Kiala' },
+      { role: 'Diretor Desportivo', name: 'Beto Almeida' },
+    ],
+  },
+  sagrada: {
+    officialName: 'Clube Desportivo Sagrada Esperança — Futebol',
+    palmares: [
+      { title: 'Liga Unitel Girabola', count: 1, seasons: ['2004/05'] },
+      { title: 'Taça de Angola', count: 2 },
+    ],
+  },
+  interclube: {
+    officialName: 'Grupo Desportivo Interclube — Futebol',
+    palmares: [
+      { title: 'Taça de Angola', count: 3 },
+      { title: 'Supertaça de Angola', count: 1 },
+    ],
+  },
+  libolo: {
+    officialName: 'Clube Recreativo e Desportivo do Libolo — Futebol',
+    palmares: [
+      { title: 'Liga Unitel Girabola', count: 4, seasons: ['2015/16', '2014/15', '2012/13'] },
+      { title: 'Taça de Angola', count: 2 },
+    ],
+  },
+  wiliete: {
+    officialName: 'Wiliete Sport Clube de Benguela — Futebol',
+    palmares: [
+      { title: 'Gira Bola B (2.ª Divisão)', count: 1, seasons: ['2021/22'] },
+    ],
+  },
+  bravos: {
+    officialName: 'Clube Desportivo Bravos do Maquis — Futebol',
+    palmares: [
+      { title: 'Taça de Angola', count: 1, seasons: ['2019/20'] },
+    ],
+  },
+};
+
+export function getTeamProfile(teamId: string): TeamProfile | undefined {
+  const team = getTeamById(teamId);
+  if (!team) return undefined;
+  const kitColors = team.colorsHex && team.colorsHex.length > 0 ? team.colorsHex : ['#5C0F8B', '#E6540F'];
+  const defaults: TeamProfile = {
+    officialName: team.officialName ?? team.name,
+    president: team.president,
+    palmares: [],
+    kits: [
+      { label: 'Principal', colors: kitColors },
+      { label: 'Alternativo', colors: [...kitColors].reverse() },
+    ],
+    board: team.president ? [{ role: 'Presidente', name: team.president }] : [],
+    socials: {
+      facebook: `https://www.facebook.com/search/top?q=${encodeURIComponent(team.name)}`,
+      instagram: `https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(team.name)}`,
+      youtube: `https://www.youtube.com/results?search_query=${encodeURIComponent(team.name)}`,
+    },
+    website: team.website ?? `https://www.google.com/search?q=${encodeURIComponent(`${team.name} site oficial`)}`,
+    mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${team.stadium}, ${team.city}, Angola`)}`,
+  };
+  const override = TEAM_PROFILE_OVERRIDES[teamId];
+  const profile = override
+    ? { ...defaults, ...override, kits: override.kits ?? defaults.kits, board: override.board ?? defaults.board, socials: { ...defaults.socials, ...override.socials } }
+    : defaults;
+  // Campos editados no admin/BD (guardados no próprio Team) têm prioridade
+  // sobre os valores curados em TEAM_PROFILE_OVERRIDES.
+  if (team.officialName) profile.officialName = team.officialName;
+  if (team.president) {
+    profile.president = team.president;
+    // Mantém o presidente da direção sincronizado com o valor editado.
+    const hasPresident = profile.board.some((m) => m.role === 'Presidente');
+    profile.board = hasPresident
+      ? profile.board.map((m) => (m.role === 'Presidente' ? { ...m, name: team.president! } : m))
+      : [{ role: 'Presidente', name: team.president }, ...profile.board];
+  }
+  if (team.website) profile.website = team.website;
+  if (team.palmares) profile.palmares = team.palmares;
+  if (team.kits && team.kits.length > 0) profile.kits = team.kits;
+  if (team.board) profile.board = team.board;
+  return profile;
 }

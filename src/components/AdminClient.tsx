@@ -8,13 +8,14 @@ import {
   Lock, LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
   Fingerprint, FileText, Plane, HeartPulse, Loader2, CheckCircle2,
   AlertTriangle, BadgeCheck, Search, Download, Home, Eye, EyeOff,
-  Plus, Trash2, Pencil, Shirt,
+  Plus, Trash2, Pencil, Shirt, Flag,
 } from 'lucide-react';
 import {
   MATCHES, TEAMS, PLAYERS, getStandings, getNewsArticles,
-  getPlayerFifaRecords, FIFA_CHECK_META,
+  getPlayerFifaRecords, FIFA_CHECK_META, getTeamProfile, getMatchOfficials,
   SEASONS, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason,
   type Match, type FifaCheckKey, type Team, type NewsArticle, type Player,
+  type TrophyEntry, type KitEntry, type BoardMember,
 } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { generateGirabolaCalendar } from '@/lib/ancaf-engine';
@@ -28,8 +29,9 @@ const SEED_KEY = 'ancaf_calendar_seed';
 const TEAM_KEY = 'faf_team_overrides';
 const NEWS_KEY = 'faf_news_store';
 const PLAYER_KEY = 'faf_player_overrides';
+const NOMINATION_KEY = 'faf_nomination_overrides';
 
-type Section = 'dashboard' | 'calendar' | 'fifa' | 'teams' | 'players' | 'news';
+type Section = 'dashboard' | 'calendar' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations';
 
 // ── Utilitário genérico de persistência local (overrides do admin) ───────
 function readJSON<T>(key: string, fallback: T): T {
@@ -51,6 +53,9 @@ interface MatchOverride {
   homeScore?: number;
   awayScore?: number;
   score?: string;
+  referee?: string;
+  broadcaster?: string;
+  attendance?: number;
 }
 type Overrides = Record<string, MatchOverride>;
 
@@ -114,6 +119,7 @@ export default function AdminClient() {
     { key: 'fifa', label: 'FIFA Connect', icon: ShieldCheck },
     { key: 'teams', label: 'Equipas', icon: Users },
     { key: 'players', label: 'Jogadores', icon: ShieldCheck },
+    { key: 'nominations', label: 'Nomeações', icon: Flag },
     { key: 'news', label: 'Notícias', icon: Newspaper },
   ];
 
@@ -186,6 +192,7 @@ export default function AdminClient() {
               {section === 'fifa' && <FifaSection />}
               {section === 'teams' && <TeamsSection />}
               {section === 'players' && <PlayersSection />}
+              {section === 'nominations' && <NominationsSection />}
               {section === 'news' && <NewsSection />}
             </motion.div>
           </div>
@@ -766,6 +773,35 @@ function CalendarSection() {
                     />
                   </div>
                 </Field>
+                <Field label="Árbitro principal">
+                  <input
+                    type="text"
+                    placeholder="Nomeação automática"
+                    value={m.referee ?? ''}
+                    onChange={(e) => update(m.id, { referee: e.target.value || undefined })}
+                    className="admin-input"
+                  />
+                </Field>
+                <Field label="Transmissão TV">
+                  <input
+                    type="text"
+                    placeholder="Atribuição automática"
+                    value={m.broadcaster ?? ''}
+                    onChange={(e) => update(m.id, { broadcaster: e.target.value || undefined })}
+                    className="admin-input"
+                  />
+                </Field>
+                <Field label="Assistência (espectadores)">
+                  <input
+                    type="number"
+                    min={0}
+                    disabled={!finished}
+                    placeholder="Estimada"
+                    value={m.attendance ?? ''}
+                    onChange={(e) => update(m.id, { attendance: e.target.value === '' ? undefined : Number(e.target.value) })}
+                    className="admin-input disabled:opacity-40"
+                  />
+                </Field>
               </div>
             </Panel>
           );
@@ -1184,6 +1220,9 @@ function TeamsSection() {
                   <Field label="Capacidade"><input type="number" min={0} className="admin-input" value={t.stadiumCapacity} onChange={(e) => update(base.id, { stadiumCapacity: Number(e.target.value) })} /></Field>
                   <Field label="Ano de fundação"><input type="number" className="admin-input" value={t.founded} onChange={(e) => update(base.id, { founded: Number(e.target.value) })} /></Field>
                   <Field label="Treinador"><input className="admin-input" value={t.coach} onChange={(e) => update(base.id, { coach: e.target.value })} /></Field>
+                  <Field label="Denominação oficial"><input className="admin-input" placeholder={t.name} value={t.officialName ?? ''} onChange={(e) => update(base.id, { officialName: e.target.value || undefined })} /></Field>
+                  <Field label="Presidente"><input className="admin-input" value={t.president ?? ''} onChange={(e) => update(base.id, { president: e.target.value || undefined })} /></Field>
+                  <Field label="Site oficial"><input className="admin-input" placeholder="https://…" value={t.website ?? ''} onChange={(e) => update(base.id, { website: e.target.value || undefined })} /></Field>
                   <Field label="Cores (descrição)"><input className="admin-input" value={t.colors} onChange={(e) => update(base.id, { colors: e.target.value })} /></Field>
                   <Field label="Paleta (principal · secundária)">
                     <div className="flex gap-2 items-center">
@@ -1193,6 +1232,207 @@ function TeamsSection() {
                   </Field>
                 </div>
               )}
+
+              {isOpen && (
+                <TeamProfileEditor teamId={base.id} team={t} onUpdate={(patch) => update(base.id, patch)} />
+              )}
+            </Panel>
+          );
+        })}
+      </div>
+      <AdminInputStyles />
+    </div>
+  );
+}
+
+// ── Editor de perfil institucional: palmarés, equipamentos e órgãos sociais ──
+function TeamProfileEditor({ teamId, team, onUpdate }: { teamId: string; team: Team; onUpdate: (patch: Partial<Team>) => void }) {
+  const profile = getTeamProfile(teamId);
+  const palmares: TrophyEntry[] = team.palmares ?? profile?.palmares ?? [];
+  const kits: KitEntry[] = team.kits ?? profile?.kits ?? [];
+  const board: BoardMember[] = team.board ?? profile?.board ?? [];
+
+  const patchAt = <T,>(arr: T[], i: number, patch: Partial<T>): T[] => arr.map((x, idx) => (idx === i ? { ...x, ...patch } : x));
+  const removeAt = <T,>(arr: T[], i: number): T[] => arr.filter((_, idx) => idx !== i);
+
+  const rowBtn = 'p-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 transition-colors flex-shrink-0';
+  const addBtn = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/10 border border-accent/30 text-accent font-mono text-[10px] uppercase tracking-widest hover:bg-accent/20 transition-colors';
+
+  return (
+    <div className="mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 space-y-6">
+
+      {/* Palmarés */}
+      <div className="space-y-2.5">
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] font-mono text-accent uppercase tracking-widest flex items-center gap-1.5"><Trophy size={12} /> Palmarés</span>
+          <button className={addBtn} onClick={() => onUpdate({ palmares: [...palmares, { title: '', count: 1 }] })}>
+            <Plus size={11} /> Troféu
+          </button>
+        </div>
+        {palmares.length === 0 && <p className="text-[10px] font-mono text-zinc-500 italic">Sem títulos registados.</p>}
+        {palmares.map((trophy, i) => (
+          <div key={i} className="flex flex-wrap items-center gap-2">
+            <input className="admin-input flex-1 min-w-[140px]" placeholder="Título" value={trophy.title} onChange={(e) => onUpdate({ palmares: patchAt(palmares, i, { title: e.target.value }) })} />
+            <input type="number" min={0} className="admin-input w-16 text-center" value={trophy.count} onChange={(e) => onUpdate({ palmares: patchAt(palmares, i, { count: Number(e.target.value) }) })} />
+            <input className="admin-input flex-1 min-w-[140px]" placeholder="Épocas (ex.: 2025/26, 2023/24)" value={(trophy.seasons ?? []).join(', ')} onChange={(e) => onUpdate({ palmares: patchAt(palmares, i, { seasons: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) }) })} />
+            <button className={rowBtn} onClick={() => onUpdate({ palmares: removeAt(palmares, i) })} aria-label="Remover troféu"><Trash2 size={13} /></button>
+          </div>
+        ))}
+      </div>
+
+      {/* Equipamentos */}
+      <div className="space-y-2.5">
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] font-mono text-accent uppercase tracking-widest flex items-center gap-1.5"><Shirt size={12} /> Equipamentos</span>
+          <button className={addBtn} onClick={() => onUpdate({ kits: [...kits, { label: '', colors: ['#5C0F8B', '#E6540F'] }] })}>
+            <Plus size={11} /> Equipamento
+          </button>
+        </div>
+        {kits.map((kit, i) => {
+          const colors = kit.colors.length > 0 ? kit.colors : ['#5C0F8B', '#E6540F'];
+          return (
+            <div key={i} className="flex flex-wrap items-center gap-2">
+              <input className="admin-input flex-1 min-w-[140px]" placeholder="Ex.: Principal, Alternativo" value={kit.label} onChange={(e) => onUpdate({ kits: patchAt(kits, i, { label: e.target.value }) })} />
+              <input type="color" value={colors[0]} onChange={(e) => onUpdate({ kits: patchAt(kits, i, { colors: [e.target.value, colors[1] ?? colors[0]] }) })} className="h-9 w-14 rounded bg-transparent border border-zinc-700 cursor-pointer flex-shrink-0" />
+              <input type="color" value={colors[1] ?? colors[0]} onChange={(e) => onUpdate({ kits: patchAt(kits, i, { colors: [colors[0], e.target.value] }) })} className="h-9 w-14 rounded bg-transparent border border-zinc-700 cursor-pointer flex-shrink-0" />
+              <button className={rowBtn} onClick={() => onUpdate({ kits: removeAt(kits, i) })} aria-label="Remover equipamento"><Trash2 size={13} /></button>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Órgãos sociais / direção */}
+      <div className="space-y-2.5">
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] font-mono text-accent uppercase tracking-widest flex items-center gap-1.5"><Users size={12} /> Órgãos Sociais</span>
+          <button className={addBtn} onClick={() => onUpdate({ board: [...board, { role: '', name: '' }] })}>
+            <Plus size={11} /> Membro
+          </button>
+        </div>
+        {board.length === 0 && <p className="text-[10px] font-mono text-zinc-500 italic">Sem membros registados.</p>}
+        {board.map((member, i) => (
+          <div key={i} className="flex flex-wrap items-center gap-2">
+            <input className="admin-input flex-1 min-w-[120px]" placeholder="Cargo (ex.: Presidente)" value={member.role} onChange={(e) => onUpdate({ board: patchAt(board, i, { role: e.target.value }) })} />
+            <input className="admin-input flex-1 min-w-[140px]" placeholder="Nome" value={member.name} onChange={(e) => onUpdate({ board: patchAt(board, i, { name: e.target.value }) })} />
+            <button className={rowBtn} onClick={() => onUpdate({ board: removeAt(board, i) })} aria-label="Remover membro"><Trash2 size={13} /></button>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// SECÇÃO: NOMEAÇÕES DE ARBITRAGEM (por jornada)
+// ════════════════════════════════════════════════════════════════════════
+interface NominationOverride {
+  referee?: string;
+  assistants?: [string, string];
+  fourth?: string;
+}
+
+function NominationsSection() {
+  const [seasonId, setSeasonId] = useState<string>(UPCOMING_SEASON_ID);
+  const [round, setRound] = useState<number>(1);
+  const [overrides, setOverrides] = useState<Record<string, NominationOverride>>({});
+  const [savedAt, setSavedAt] = useState<string | null>(null);
+
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setOverrides(readJSON<Record<string, NominationOverride>>(NOMINATION_KEY, {}));
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
+
+  const persist = (next: Record<string, NominationOverride>) => {
+    setOverrides(next);
+    localStorage.setItem(NOMINATION_KEY, JSON.stringify(next));
+    setSavedAt(new Date().toISOString());
+  };
+  const update = (id: string, patch: NominationOverride) => persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
+
+  const matches = useMemo(() => getMatchesForSeason(seasonId), [seasonId]);
+  const rounds = useMemo(() => Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b), [matches]);
+  const roundMatches = matches.filter((m) => m.round === round);
+  const editedCount = Object.keys(overrides).length;
+
+  // Combina nomeação derivada (getMatchOfficials) com os overrides do admin.
+  const resolved = (m: Match) => {
+    const base = getMatchOfficials(m);
+    const o = overrides[m.id] ?? {};
+    return {
+      referee: o.referee ?? base.referee,
+      assistants: o.assistants ?? base.assistants,
+      fourth: o.fourth ?? base.fourth,
+    };
+  };
+
+  return (
+    <div className="space-y-6">
+      <SectionHeader icon={Flag} subtitle="CONSELHO_DE_ARBITRAGEM" title="Nomeações" />
+      <EditorToolbar
+        editedLabel={editedCount > 0 ? `${editedCount} nomeação(ões) com alterações locais` : 'Sem alterações locais'}
+        savedAt={savedAt}
+        onExport={() => downloadJSON('nomeacoes-ancaf.json', matches.map((m) => ({ matchId: m.id, round: m.round, homeTeam: m.homeTeam, awayTeam: m.awayTeam, ...resolved(m) })))}
+        onReset={editedCount > 0 ? () => persist({}) : undefined}
+      />
+
+      {/* Seletores de época e jornada */}
+      <Panel>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest flex-shrink-0">Época</span>
+          <div className="flex gap-1.5">
+            {SEASONS.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => { setSeasonId(s.id); setRound(1); }}
+                className={`px-3 py-1.5 rounded-lg text-[11px] font-mono uppercase tracking-widest transition-colors ${seasonId === s.id ? 'bg-primary text-white' : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 hover:text-foreground'}`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          {rounds.map((r) => (
+            <button
+              key={r}
+              onClick={() => setRound(r)}
+              className={`px-3 py-1.5 rounded-lg text-[11px] font-mono uppercase tracking-widest whitespace-nowrap flex-shrink-0 transition-colors ${round === r ? 'bg-accent text-black' : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 hover:text-foreground'}`}
+            >
+              J{r}
+            </button>
+          ))}
+        </div>
+      </Panel>
+
+      {/* Editor de nomeações da jornada */}
+      <div className="space-y-3">
+        {roundMatches.map((m) => {
+          const nom = resolved(m);
+          const isEdited = !!overrides[m.id];
+          return (
+            <Panel key={m.id} className={isEdited ? 'border-accent/30' : ''}>
+              <div className="flex items-center gap-3 mb-4">
+                <TeamCrest teamId={m.homeTeamId} size={24} />
+                <span className="text-xs font-semibold text-foreground">{m.homeTeam} vs {m.awayTeam}</span>
+                <TeamCrest teamId={m.awayTeamId} size={24} />
+                {isEdited && <span className="text-[8px] font-mono text-accent uppercase tracking-widest">editado</span>}
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <Field label="Árbitro principal">
+                  <input className="admin-input" value={nom.referee} onChange={(e) => update(m.id, { referee: e.target.value })} />
+                </Field>
+                <Field label="1.º Assistente">
+                  <input className="admin-input" value={nom.assistants[0]} onChange={(e) => update(m.id, { assistants: [e.target.value, nom.assistants[1]] })} />
+                </Field>
+                <Field label="2.º Assistente">
+                  <input className="admin-input" value={nom.assistants[1]} onChange={(e) => update(m.id, { assistants: [nom.assistants[0], e.target.value] })} />
+                </Field>
+                <Field label="4.º Árbitro">
+                  <input className="admin-input" value={nom.fourth} onChange={(e) => update(m.id, { fourth: e.target.value })} />
+                </Field>
+              </div>
             </Panel>
           );
         })}

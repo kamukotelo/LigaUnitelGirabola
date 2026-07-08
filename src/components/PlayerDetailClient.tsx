@@ -684,7 +684,7 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
       />
 
       {/* Back Link */}
-      <Link href="/stats" className="inline-flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-8 hover:-translate-x-1 transition-transform">
+      <Link href="/competicao?tab=estatisticas" className="inline-flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-8 hover:-translate-x-1 transition-transform">
         <ArrowLeft size={14} /> Voltar para Líderes
       </Link>
 

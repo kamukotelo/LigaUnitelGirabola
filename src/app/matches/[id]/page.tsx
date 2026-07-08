@@ -16,7 +16,7 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
     return (
       <div className="py-24 text-center">
         <h2 className="text-2xl font-display text-foreground uppercase mb-2">Jogo Não Encontrado</h2>
-        <Link href="/fixtures" className="text-primary font-mono text-xs uppercase tracking-widest">
+        <Link href="/competicao?tab=calendario" className="text-primary font-mono text-xs uppercase tracking-widest">
           Voltar ao Calendário
         </Link>
       </div>

@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, MapPin, Calendar, Users, Activity, Award, BarChart3,
-  Goal, ArrowLeftRight, Flag, Trophy, Clock
+  Goal, ArrowLeftRight, Flag, Trophy, Clock, Tv
 } from 'lucide-react';
-import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition } from '@/lib/data';
+import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition, getMatchOfficials, getMatchBroadcast } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -157,6 +157,8 @@ function EventIcon({ type }: { type: string }) {
 
 function SummaryTab({ detail }: { detail: MatchDetail }) {
   const { events, manOfTheMatch, attendance, referee, match } = detail;
+  const officials = getMatchOfficials(match);
+  const broadcaster = getMatchBroadcast(match);
   return (
     <div className="space-y-8">
       {/* Cronologia */}
@@ -229,6 +231,16 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
           <div className="flex items-center gap-3">
             <Flag size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">Árbitro: {referee}</span>
           </div>
+          <div className="flex items-start gap-3">
+            <Flag size={14} className="text-zinc-600 mt-0.5" />
+            <span className="text-zinc-600 dark:text-zinc-400">
+              Assistentes: {officials.assistants[0]} · {officials.assistants[1]}
+              <span className="block">4.º Árbitro: {officials.fourth}</span>
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Tv size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">Transmissão: {broadcaster}</span>
+          </div>
           <div className="flex items-center gap-3">
             <Calendar size={14} className="text-zinc-600" />
             <span className="text-zinc-700 dark:text-zinc-300">
@@ -259,7 +271,7 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
 
   return (
     <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 font-sans">
-      <Link href="/fixtures" className="inline-flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-8 hover:-translate-x-1 transition-transform">
+      <Link href="/competicao?tab=calendario" className="inline-flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-8 hover:-translate-x-1 transition-transform">
         <ArrowLeft size={14} /> Voltar ao Calendário
       </Link>
 
@@ -274,9 +286,14 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
           style={{ background: `radial-gradient(circle at right, ${awayColor}, transparent 70%)` }}
         />
 
-        <div className="flex justify-center mb-6 relative z-10">
+        <div className="flex flex-col items-center gap-2 mb-6 relative z-10">
           <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-full uppercase tracking-widest">
             Jornada {match.round} · {isFinished ? 'Terminado' : 'Agendado'}
+          </span>
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider flex items-center gap-2 flex-wrap justify-center">
+            <span className="flex items-center gap-1"><Calendar size={10} /> {new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+            <span className="flex items-center gap-1"><MapPin size={10} /> {match.stadium}</span>
+            <span className="flex items-center gap-1 text-accent"><Tv size={10} /> {getMatchBroadcast(match)}</span>
           </span>
         </div>
 

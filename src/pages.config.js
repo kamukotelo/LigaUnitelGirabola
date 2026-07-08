@@ -5,21 +5,13 @@ export const PAGES = {
     path: '/',
     title: 'Home',
   },
-  standings: {
-    path: '/standings',
-    title: 'Classificação',
-  },
-  fixtures: {
-    path: '/fixtures',
-    title: 'Calendário',
+  competition: {
+    path: '/competicao',
+    title: 'Competição',
   },
   teams: {
     path: '/teams',
     title: 'Equipas',
-  },
-  stats: {
-    path: '/stats',
-    title: 'Estatísticas',
   },
   news: {
     path: '/news',
@@ -37,10 +29,8 @@ export const PAGES = {
 
 export const NAV_LINKS = [
   { label: 'Início', path: '/' },
-  { label: 'Classificação', path: '/standings' },
-  { label: 'Calendário', path: '/fixtures' },
+  { label: 'Competição', path: '/competicao' },
   { label: 'Equipas', path: '/teams' },
-  { label: 'Estatísticas', path: '/stats' },
   { label: 'Notícias', path: '/news' },
   { label: 'LigaTV', path: '/ligatv' },
   { label: 'Contacto', path: '/contact' },

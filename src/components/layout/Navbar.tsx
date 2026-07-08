@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -56,23 +57,43 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-24">
-          {/* Logo / Brand */}
-          <div className="flex items-center">
-            <Brand size="lg" />
+        <div className="flex items-center justify-between gap-4 h-20 md:h-24">
+          {/* Logo / Brand + selo institucional ANCAF */}
+          <div className="flex items-center flex-shrink-0">
+            <Brand size="sm" className="xl:hidden" />
+            <Brand size="md" className="hidden xl:flex" />
+
+            <div className="hidden xl:block h-8 w-px bg-zinc-300 dark:bg-zinc-800/80 mx-3 xl:mx-4" />
+            <a
+              href="https://www.ancaf.ao"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden xl:flex items-center gap-2 hover:opacity-85 transition-all group"
+            >
+              <Image
+                src="/logo-ancaf.png"
+                alt="Logotipo ANCAF"
+                width={48}
+                height={48}
+                className="h-10 w-auto object-contain"
+              />
+              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold group-hover:text-accent transition-colors">
+                Institucional
+              </span>
+            </a>
           </div>
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden md:flex space-x-2 lg:space-x-4 xl:space-x-6">
+          {/* Desktop Nav Links — centrados, com espaço garantido */}
+          <nav className="hidden xl:flex items-center gap-2 mx-auto">
             {NAV_LINKS.map((link) => {
-              const isActive = pathname === link.path;
+              const isActive = pathname === link.path || (link.path !== '/' && pathname.startsWith(`${link.path}/`));
               return (
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`text-[10px] lg:text-xs xl:text-sm font-semibold tracking-wide uppercase px-2 lg:px-3 py-2 rounded-lg transition-all duration-200 ${
+                  className={`text-xs font-semibold tracking-wide uppercase px-3 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
                     isActive
-                      ? 'text-accent border-b-2 border-accent'
+                      ? 'text-accent bg-accent/5'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:bg-foreground/5'
                   }`}
                 >
@@ -83,15 +104,15 @@ export default function Navbar() {
           </nav>
 
           {/* Right Action Button */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden xl:flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
-            <Link href="/contact" className="premium-button text-sm">
+            <Link href="/contact" className="premium-button text-sm whitespace-nowrap">
               Área de Clubes
             </Link>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <div className="flex md:hidden items-center gap-1">
+          {/* Mobile / Tablet Menu Toggle */}
+          <div className="flex xl:hidden items-center gap-1 flex-shrink-0">
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -111,7 +132,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 top-20 z-40 bg-background/95 dark:bg-zinc-950/95 backdrop-blur-xl md:hidden overflow-y-auto flex flex-col justify-between"
+            className="fixed inset-0 top-20 z-40 bg-background/95 dark:bg-zinc-950/95 backdrop-blur-xl xl:hidden overflow-y-auto flex flex-col justify-between"
           >
             <motion.div
               variants={menuVariants}
@@ -124,7 +145,7 @@ export default function Navbar() {
                 Navegação Principal
               </div>
               {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.path;
+                const isActive = pathname === link.path || (link.path !== '/' && pathname.startsWith(`${link.path}/`));
                 return (
                   <motion.div key={link.path} variants={itemVariants}>
                     <Link

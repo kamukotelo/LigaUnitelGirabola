@@ -20,10 +20,10 @@ export default function Footer() {
             <h3 className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-widest mb-4">Plataforma</h3>
             <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
               <li>
-                <Link href="/standings" className="hover:text-accent transition-colors">Classificação</Link>
+                <Link href="/competicao?tab=classificacao" className="hover:text-accent transition-colors">Classificação</Link>
               </li>
               <li>
-                <Link href="/fixtures" className="hover:text-accent transition-colors">Calendário</Link>
+                <Link href="/competicao?tab=calendario" className="hover:text-accent transition-colors">Calendário</Link>
               </li>
               <li>
                 <Link href="/teams" className="hover:text-accent transition-colors">Clubes Parceiros</Link>

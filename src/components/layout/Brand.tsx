@@ -5,10 +5,10 @@ type BrandSize = 'sm' | 'md' | 'lg' | 'xl';
 
 /** Altura do logo em px por tamanho. Mínimo de 40px conforme secção 2.7 (Redução) do Manual de Normas. */
 const IMG_HEIGHT: Record<BrandSize, number> = {
-  sm: 40,
-  md: 56,
-  lg: 72,
-  xl: 88,
+  sm: 52,
+  md: 76,
+  lg: 112,
+  xl: 144,
 };
 
 /**
@@ -16,7 +16,7 @@ const IMG_HEIGHT: Record<BrandSize, number> = {
  * referência é a altura do "G" de Girabola. Aproximamos essa unidade a
  * ~18% da altura do lockup e reservamo-la como espaço livre à volta do logo.
  */
-const PROTECTION_RATIO = 0.10;
+const PROTECTION_RATIO = 0.04;
 
 interface BrandProps {
   size?: BrandSize;
@@ -53,7 +53,12 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
         height={h}
         priority={eager}
         className="object-contain dark:hidden"
-        style={{ height: `${h}px`, width: 'auto' }}
+        style={{
+          height: `${h}px`,
+          width: 'auto',
+          marginTop: `-${Math.round(h * 0.22)}px`,
+          marginBottom: `-${Math.round(h * 0.20)}px`,
+        }}
       />
       {/* Fundo escuro: versão monocromática negativa (secção 2.3), garantindo o maior contraste */}
       <Image
@@ -63,7 +68,12 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
         height={h}
         priority={eager}
         className="hidden object-contain dark:block"
-        style={{ height: `${h}px`, width: 'auto' }}
+        style={{
+          height: `${h}px`,
+          width: 'auto',
+          marginTop: `-${Math.round(h * 0.22)}px`,
+          marginBottom: `-${Math.round(h * 0.20)}px`,
+        }}
       />
     </span>
   );
