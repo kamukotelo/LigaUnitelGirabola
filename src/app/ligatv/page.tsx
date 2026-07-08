@@ -2,60 +2,15 @@
 
 import { useState } from 'react';
 import { Play, Tv, Eye, Sparkles, Volume2 } from 'lucide-react';
-
-interface VideoHighlight {
-  id: string;
-  title: string;
-  duration: string;
-  views: string;
-  category: string;
-  thumbnail: string;
-  videoUrl: string;
-  isLive?: boolean;
-}
+import { type VideoHighlight, getVideoHighlights } from '@/lib/data';
 
 export default function LigaTv() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [activeVideo, setActiveVideo] = useState<VideoHighlight>({
-    id: 'live-1',
-    title: 'LIGA UNITEL GIRABOLA 2025/26: Petro de Luanda vs 1º de Agosto [DIRECTO]',
-    duration: 'LIVE',
-    views: '12.4K a assistir',
-    category: 'Transmissão Oficial',
-    thumbnail: '/fields/hud-view.jpg',
-    videoUrl: 'https://www.youtube.com/embed/59J6pB1Q1Fk?autoplay=1',
-    isLive: true,
-  });
+  const videoHighlights = getVideoHighlights();
+  const [activeVideo, setActiveVideo] = useState<VideoHighlight>(videoHighlights[0]);
 
-  const playlist: VideoHighlight[] = [
-    {
-      id: 'v1',
-      title: 'Resumo: Kabuscorp vs Sagrada Esperança (2-0)',
-      duration: '08:24',
-      views: '4.2K visualizações',
-      category: 'Resumos',
-      thumbnail: '/thumbs/resumo1.jpg',
-      videoUrl: 'https://www.youtube.com/embed/p17iPqNlM1w?autoplay=1'
-    },
-    {
-      id: 'v2',
-      title: 'Entrevista: Tiago Azulão analisa o hat-trick histórico',
-      duration: '05:12',
-      views: '2.8K visualizações',
-      category: 'Entrevistas',
-      thumbnail: '/thumbs/entrevista1.jpg',
-      videoUrl: 'https://www.youtube.com/embed/xSdtVv0m4eQ?autoplay=1'
-    },
-    {
-      id: 'v3',
-      title: 'Melhores Momentos da 11ª Jornada - Golos do Mês',
-      duration: '12:40',
-      views: '9.1K visualizações',
-      category: 'Compilações',
-      thumbnail: '/thumbs/golos.jpg',
-      videoUrl: 'https://www.youtube.com/embed/a7Sg-x3gB6o?autoplay=1'
-    },
-  ];
+  const playlist = videoHighlights.slice(1);
+
 
   const handlePlay = () => {
     setIsPlaying(true);
