@@ -8,6 +8,7 @@ import Image from 'next/image';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
 import TeamCrest from '@/components/ui/TeamCrest';
+import TeamCrestMarquee from '@/components/ui/TeamCrestMarquee';
 import { getNewsArticles, getTeams, getMatches, getPlayers, getMatchesForSeason, STANDINGS, SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, TEAMS, type Match } from '@/lib/data';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
@@ -412,6 +413,9 @@ export default function Home() {
           ))}
         </motion.div>
       </div>
+
+      {/* ── FAIXA DE CLUBES (marquee animado) ─────────────────── */}
+      <TeamCrestMarquee />
 
       {/* ── JOGOS (Resultados & Próxima Jornada) ──────────────── */}
       <section className="py-20 bg-background relative">
