@@ -24,9 +24,8 @@ const CREST_PATHS: Record<string, string> = {
   saosalvador: '/Clubes/SALVADOR DO KONGO.png',
   primeiromaio: '/Clubes/1%C2%A7%20DE%20MAIO.png',
   fcluanda: '/Clubes/LUANDA CITY.png',
-  // Ainda não existem emblemas novos para estes clubes em public/Clubes.
-  cabinda: '/crests/cabinda.png',
-  caala: '/crests/caala.png',
+  cabinda: '/Clubes/FC%20CABINDA.png',
+  caala: '/Clubes/CAALA.png',
 };
 
 export default function TeamCrest({ teamId, size = 40, className = '' }: TeamCrestProps) {
