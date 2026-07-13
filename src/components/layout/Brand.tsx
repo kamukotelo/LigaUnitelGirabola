@@ -37,8 +37,9 @@ interface BrandProps {
  */
 export default function Brand({ size = 'md', href = '/', className = '' }: BrandProps) {
   const h = IMG_HEIGHT[size];
-  // Proporção do logotipo de duas linhas ≈ 396 : 219
-  const w = Math.round((h * 396) / 219);
+  // Ambas as versões (a cores e branca) partilham o MESMO enquadramento
+  // 635×208, garantindo tamanho idêntico em modo claro e escuro.
+  const w = Math.round((h * 635) / 208);
   const protection = Math.round(h * PROTECTION_RATIO);
 
   const eager = size === 'lg' || size === 'xl';
@@ -47,7 +48,7 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
     <span className="relative inline-flex items-center" style={{ padding: protection }}>
       {/* Fundo claro: versão principal a cores (secção 5.1) */}
       <Image
-        src="/logo-girabola-horizontal.svg"
+        src="/logo-girabola-horizontal.png"
         alt="Liga Unitel Girabola"
         width={w}
         height={h}
@@ -55,7 +56,7 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
         className="object-contain dark:hidden"
         style={{
           height: `${h}px`,
-          width: 'auto',
+          width: `${w}px`,
           marginTop: `-${Math.round(h * 0.22)}px`,
           marginBottom: `-${Math.round(h * 0.20)}px`,
         }}
@@ -70,7 +71,7 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
         className="hidden object-contain dark:block"
         style={{
           height: `${h}px`,
-          width: 'auto',
+          width: `${w}px`,
           marginTop: `-${Math.round(h * 0.22)}px`,
           marginBottom: `-${Math.round(h * 0.20)}px`,
         }}

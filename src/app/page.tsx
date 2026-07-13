@@ -254,12 +254,12 @@ export default function Home() {
           <div>
             <h1 className="mb-8">
               <span className="sr-only">Liga Unitel Girabola</span>
-              {/* Fundo claro: logótipo principal a cores */}
+              {/* Fundo claro: logótipo principal a cores (mesmo enquadramento do branco) */}
               <Image
-                src="/logo-girabola-horizontal.svg"
+                src="/logo-girabola-horizontal.png"
                 alt="Liga Unitel Girabola"
-                width={396}
-                height={219}
+                width={635}
+                height={208}
                 priority
                 className="w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:hidden"
               />
