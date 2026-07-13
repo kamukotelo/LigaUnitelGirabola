@@ -1808,7 +1808,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   dago: {
     officialName: 'Clube Desportivo 1.º de Agosto — Futebol',
     president: 'Carlos Hendrick',
-    website: 'http://www.primeiroagosto.com/',
+    website: 'https://www.1agosto.com/',
     socials: {
       facebook: 'https://www.facebook.com/clube1deagosto/',
       instagram: 'https://www.instagram.com/cdagosto/',
@@ -1850,7 +1850,6 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   libolo: {
     officialName: 'Clube Recreativo e Desportivo do Libolo — Futebol',
-    website: 'https://recreativolibolo.com/',
     socials: {
       facebook: 'https://www.facebook.com/CRDLibolo/',
       instagram: 'https://www.instagram.com/libolo.oficial/',
@@ -1919,7 +1918,6 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   caala: {
     officialName: 'Clube Recreativo da Caála — Futebol',
-    website: 'http://recreativocaalafutebol.blogspot.com/',
     socials: {
       facebook: 'https://www.facebook.com/ClubeRecreativodaCaala',
     },
