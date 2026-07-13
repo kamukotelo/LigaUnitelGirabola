@@ -1788,6 +1788,12 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   petro: {
     officialName: 'Atlético Petróleos de Luanda — Futebol',
     president: 'Tomás Faria',
+    website: 'https://petroatletico.co.ao/',
+    socials: {
+      facebook: 'https://www.facebook.com/atleticopetroleosluanda',
+      instagram: 'https://www.instagram.com/petro_de_luanda_oficial/',
+      youtube: 'https://www.youtube.com/@petrodeluandaoficial',
+    },
     palmares: [
       { title: 'Liga Unitel Girabola', count: 19, seasons: ['2025/26', '2023/24', '2022/23'] },
       { title: 'Taça de Angola', count: 12 },
@@ -1802,6 +1808,11 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   dago: {
     officialName: 'Clube Desportivo 1.º de Agosto — Futebol',
     president: 'Carlos Hendrick',
+    website: 'http://www.primeiroagosto.com/',
+    socials: {
+      facebook: 'https://www.facebook.com/clube1deagosto/',
+      instagram: 'https://www.instagram.com/cdagosto/',
+    },
     palmares: [
       { title: 'Liga Unitel Girabola', count: 13, seasons: ['2018/19', '2017/18', '2016/17'] },
       { title: 'Taça de Angola', count: 6 },
@@ -1815,6 +1826,11 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   sagrada: {
     officialName: 'Clube Desportivo Sagrada Esperança — Futebol',
+    website: 'https://gdse.ao/',
+    socials: {
+      facebook: 'https://www.facebook.com/cdsagradaesperanca',
+      instagram: 'https://www.instagram.com/cdsagradaesperanca/',
+    },
     palmares: [
       { title: 'Liga Unitel Girabola', count: 1, seasons: ['2004/05'] },
       { title: 'Taça de Angola', count: 2 },
@@ -1822,6 +1838,11 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   interclube: {
     officialName: 'Grupo Desportivo Interclube — Futebol',
+    website: 'http://interclube.co.ao/',
+    socials: {
+      facebook: 'https://www.facebook.com/InterclubeAngolaGDI/',
+      instagram: 'https://www.instagram.com/gdinterclube/',
+    },
     palmares: [
       { title: 'Taça de Angola', count: 3 },
       { title: 'Supertaça de Angola', count: 1 },
@@ -1829,6 +1850,11 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   libolo: {
     officialName: 'Clube Recreativo e Desportivo do Libolo — Futebol',
+    website: 'https://recreativolibolo.com/',
+    socials: {
+      facebook: 'https://www.facebook.com/CRDLibolo/',
+      instagram: 'https://www.instagram.com/libolo.oficial/',
+    },
     palmares: [
       { title: 'Liga Unitel Girabola', count: 4, seasons: ['2015/16', '2014/15', '2012/13'] },
       { title: 'Taça de Angola', count: 2 },
@@ -1836,15 +1862,88 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   wiliete: {
     officialName: 'Wiliete Sport Clube de Benguela — Futebol',
+    website: 'https://wilietesc.ao/',
+    socials: {
+      facebook: 'https://www.facebook.com/WilieteSportClube',
+      instagram: 'https://www.instagram.com/wilietesc/',
+    },
     palmares: [
       { title: 'Gira Bola B (2.ª Divisão)', count: 1, seasons: ['2021/22'] },
     ],
   },
   bravos: {
     officialName: 'Clube Desportivo Bravos do Maquis — Futebol',
+    website: 'https://bravosdomaquis.co.ao/',
+    socials: {
+      facebook: 'https://www.facebook.com/p/Bravos-do-Maquis-do-Moxico-100095414350444/',
+      instagram: 'https://www.instagram.com/bravosdomaquis/',
+    },
     palmares: [
       { title: 'Taça de Angola', count: 1, seasons: ['2019/20'] },
     ],
+  },
+  desphuila: {
+    officialName: 'Clube Desportivo da Huíla — Futebol',
+    socials: {
+      facebook: 'https://www.facebook.com/CDhuila/',
+      instagram: 'https://www.instagram.com/clubedesportivodahuila_/',
+    },
+  },
+  kabuscorp: {
+    officialName: 'Kabuscorp Sport Clube do Palanca — Futebol',
+    socials: {
+      facebook: 'https://www.facebook.com/kabuscorpscp',
+      instagram: 'https://www.instagram.com/kabuscorp.scp/',
+    },
+  },
+  lundasul: {
+    officialName: 'Clube Desportivo da Lunda Sul — Futebol',
+    socials: {
+      facebook: 'https://www.facebook.com/p/Clube-Desportivo-Da-Lunda-Sul-100077348542835/',
+      instagram: 'https://www.instagram.com/clubedesportivodalundasul/',
+    },
+  },
+  lobito: {
+    officialName: 'Académica Petróleos Clube do Lobito — Futebol',
+    socials: {
+      facebook: 'https://www.facebook.com/academicalobito',
+      instagram: 'https://www.instagram.com/academicalobito/',
+    },
+  },
+  saosalvador: {
+    officialName: 'São Salvador do Kongo Futebol Clube — Futebol',
+    socials: {
+      facebook: 'https://www.facebook.com/saosalvadordokongo',
+      instagram: 'https://www.instagram.com/cdsaosalvador/',
+    },
+  },
+  caala: {
+    officialName: 'Clube Recreativo da Caála — Futebol',
+    website: 'http://recreativocaalafutebol.blogspot.com/',
+    socials: {
+      facebook: 'https://www.facebook.com/ClubeRecreativodaCaala',
+    },
+  },
+  cabinda: {
+    officialName: 'Futebol Clube de Cabinda — Futebol',
+    website: 'https://fccabinda.com/',
+    socials: {
+      facebook: 'https://www.facebook.com/fccabinda',
+      instagram: 'https://www.instagram.com/fccabinda',
+    },
+  },
+  primeiromaio: {
+    officialName: 'Estrela Clube Primeiro de Maio — Futebol',
+    socials: {
+      facebook: 'https://www.facebook.com/EstrelaClub1oDeMaioDeBenguela',
+    },
+  },
+  fcluanda: {
+    officialName: 'Futebol Clube de Luanda — Futebol',
+    socials: {
+      facebook: 'https://www.facebook.com/923669860835536',
+      instagram: 'https://www.instagram.com/fcluanda_oficial/',
+    },
   },
 };
 
@@ -1861,12 +1960,8 @@ export function getTeamProfile(teamId: string): TeamProfile | undefined {
       { label: 'Alternativo', colors: [...kitColors].reverse() },
     ],
     board: team.president ? [{ role: 'Presidente', name: team.president }] : [],
-    socials: {
-      facebook: `https://www.facebook.com/search/top?q=${encodeURIComponent(team.name)}`,
-      instagram: `https://www.instagram.com/explore/search/keyword/?q=${encodeURIComponent(team.name)}`,
-      youtube: `https://www.youtube.com/results?search_query=${encodeURIComponent(team.name)}`,
-    },
-    website: team.website ?? `https://www.google.com/search?q=${encodeURIComponent(`${team.name} site oficial`)}`,
+    socials: {},
+    website: team.website,
     mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${team.stadium}, ${team.city}, Angola`)}`,
   };
   const override = TEAM_PROFILE_OVERRIDES[teamId];

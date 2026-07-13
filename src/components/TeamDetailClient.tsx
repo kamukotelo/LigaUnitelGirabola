@@ -43,6 +43,13 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
     const needle = team.name.toLowerCase();
     return n.title.toLowerCase().includes(needle) || (n.summary ?? '').toLowerCase().includes(needle);
   }).slice(0, 3);
+  const socialLinks = profile
+    ? [
+        { network: 'facebook', label: 'Facebook', url: profile.socials.facebook },
+        { network: 'instagram', label: 'Instagram', url: profile.socials.instagram },
+        { network: 'youtube', label: 'YouTube', url: profile.socials.youtube },
+      ].filter((link): link is { network: string; label: string; url: string } => Boolean(link.url))
+    : [];
 
   // Agregados do clube para a aba Estatísticas
   const topScorer = [...players].sort((a, b) => b.goals - a.goals)[0];
@@ -304,7 +311,7 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
             )}
 
             {/* Redes sociais e site oficial */}
-            {profile && (
+            {profile && (profile.website || socialLinks.length > 0) && (
               <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
                 <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Globe size={16} className="text-accent" /> Presença Digital
@@ -315,9 +322,9 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
                       <Globe size={11} /> Site Oficial
                     </a>
                   )}
-                  {Object.entries(profile.socials).map(([network, url]) => url && (
+                  {socialLinks.map(({ network, label, url }) => (
                     <a key={network} href={url} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-foreground transition-colors capitalize">
-                      {network}
+                      {label}
                     </a>
                   ))}
                 </div>

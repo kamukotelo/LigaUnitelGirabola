@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { MapPin, User, Award, Zap } from 'lucide-react';
+import { Globe, MapPin, User, Award, Zap } from 'lucide-react';
 import { TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
@@ -12,19 +12,27 @@ export default function TeamsPage() {
     <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
       {/* Page Header */}
-      <div className="mb-12">
-        <div className="flex items-center gap-2 mb-2">
-          <Zap size={14} className="text-accent animate-pulse" />
-          <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-semibold">
-            EQUIPAS_OFICIAIS
-          </span>
+      <div className="mb-12 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <Zap size={14} className="text-accent animate-pulse" />
+            <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-semibold">
+              EQUIPAS_OFICIAIS
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
+            Clubes do <span className="text-primary italic">Liga Unitel Girabola</span>
+          </h1>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
+            Lista das 16 equipas participantes no Liga Unitel Girabola
+          </p>
         </div>
-        <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
-          Clubes do <span className="text-primary italic">Liga Unitel Girabola</span>
-        </h1>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
-          Lista das 16 equipas participantes no Liga Unitel Girabola
-        </p>
+        <Link
+          href="/teams/presenca-digital"
+          className="inline-flex items-center justify-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-800 px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+        >
+          <Globe size={14} /> Presença Digital
+        </Link>
       </div>
 
       {/* Grid of Teams */}
