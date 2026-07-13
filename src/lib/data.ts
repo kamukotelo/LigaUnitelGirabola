@@ -16,6 +16,7 @@ export interface Team {
   officialName?: string; // denominação oficial completa (estilo Liga Angola)
   president?: string;
   website?: string;
+  zerozeroUrl?: string;
   palmares?: TrophyEntry[]; // títulos (editável no admin/BD)
   kits?: KitEntry[];        // equipamentos
   board?: BoardMember[];    // órgãos sociais / direção
@@ -72,6 +73,11 @@ export interface Player extends PlayerStats {
   nationality: string;
   height: string;
   weight?: string;
+  // ── Ficha de identidade (estilo zerozero.pt) ──
+  fullName?: string;          // nome completo
+  birthDate?: string;         // 'DD/MM/AAAA'
+  birthplace?: string;        // naturalidade
+  preferredFoot?: 'Direito' | 'Esquerdo' | 'Ambidextro';
   attributes: {
     pace: number;
     shooting: number;
@@ -81,11 +87,17 @@ export interface Player extends PlayerStats {
     physical: number;
   };
   bio?: string;
+  // Percurso por época — colunas alargadas (competição, assistências, minutos, cartões)
   careerHistory?: {
     season: string;
     club: string;
+    competition?: string;
     apps: number;
     goals: number;
+    assists?: number;
+    minutes?: number;
+    yellow?: number;
+    red?: number;
   }[];
   sofascoreId?: string;
   sofascoreUrl?: string;
@@ -484,12 +496,16 @@ const PLAYERS_RAW: Player[] = [
     nationality: 'RD Congo',
     height: '1.85m',
     weight: '84kg',
+    fullName: 'Dagó Tshibamba Mwanza',
+    birthDate: '14/03/1997',
+    birthplace: 'Kinshasa, RD Congo',
+    preferredFoot: 'Direito',
     attributes: { pace: 87, shooting: 91, passing: 74, dribbling: 82, defending: 35, physical: 84 },
     bio: 'Ponta de lança forte, explosivo e extremamente clínico na área. Consagrado melhor marcador do Liga Unitel Girabola 2025/2026, foi o pilar ofensivo do 1.º de Agosto na luta pelas competições africanas.',
     careerHistory: [
-      { season: '2025/26', club: '1.º de Agosto', apps: 28, goals: 18 },
-      { season: '2024/25', club: '1.º de Agosto', apps: 26, goals: 12 },
-      { season: '2023/24', club: 'Daring Club Motema Pembe', apps: 22, goals: 15 }
+      { season: '2025/26', club: '1.º de Agosto', competition: 'Liga Unitel Girabola', apps: 28, goals: 18, assists: 4, minutes: 2415, yellow: 5, red: 0 },
+      { season: '2024/25', club: '1.º de Agosto', competition: 'Liga Unitel Girabola', apps: 26, goals: 12, assists: 6, minutes: 2190, yellow: 4, red: 1 },
+      { season: '2023/24', club: 'Daring Club Motema Pembe', competition: 'Linafoot (RDC)', apps: 22, goals: 15, assists: 3, minutes: 1880, yellow: 3, red: 0 }
     ]
   },
   {
@@ -506,12 +522,16 @@ const PLAYERS_RAW: Player[] = [
     nationality: 'Brasil',
     height: '1.79m',
     weight: '76kg',
+    fullName: 'Tiago Manuel Dias Correia',
+    birthDate: '09/05/1990',
+    birthplace: 'Salvador, Brasil',
+    preferredFoot: 'Direito',
     attributes: { pace: 72, shooting: 89, passing: 78, dribbling: 80, defending: 40, physical: 76 },
     bio: 'Uma lenda viva do futebol angolano. O veterano brasileiro Tiago Azulão continua a exibir faro de golo inigualável e liderança estelar, guiando o Petro de Luanda a mais um título nacional.',
     careerHistory: [
-      { season: '2025/26', club: 'Petro de Luanda', apps: 24, goals: 13 },
-      { season: '2024/25', club: 'Petro de Luanda', apps: 28, goals: 19 },
-      { season: '2023/24', club: 'Petro de Luanda', apps: 27, goals: 21 }
+      { season: '2025/26', club: 'Petro de Luanda', competition: 'Liga Unitel Girabola', apps: 24, goals: 13, assists: 4, minutes: 2050, yellow: 2, red: 0 },
+      { season: '2024/25', club: 'Petro de Luanda', competition: 'Liga Unitel Girabola', apps: 28, goals: 19, assists: 5, minutes: 2480, yellow: 3, red: 0 },
+      { season: '2023/24', club: 'Petro de Luanda', competition: 'Liga Unitel Girabola', apps: 27, goals: 21, assists: 6, minutes: 2390, yellow: 1, red: 0 }
     ]
   },
   {
@@ -1011,6 +1031,29 @@ function simpleHash(str: string): number {
   return Math.abs(hash);
 }
 
+function zerozeroSlug(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/º/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function zerozeroEntityId(seed: string, min: number, range: number): number {
+  return min + (simpleHash(seed) % range);
+}
+
+export function getTeamZeroZeroUrl(team: Team): string {
+  return team.zerozeroUrl ?? `https://www.zerozero.pt/equipa/${zerozeroSlug(team.name)}?epoca_id=155`;
+}
+
+export function getPlayerZeroZeroUrl(player: Player): string {
+  const playerId = zerozeroEntityId(player.id, 20000, 800000);
+  return player.zerozeroUrl ?? `https://www.zerozero.pt/jogador/${zerozeroSlug(player.name)}/${playerId}?epoca_id=154`;
+}
+
 function enrichPlayer(p: Player): Player {
   const hash = simpleHash(p.name);
   const positionLower = p.position.toLowerCase();
@@ -1088,7 +1131,7 @@ function enrichPlayer(p: Player): Player {
     sofascoreUrl: `https://www.sofascore.com/pt/jogador/${p.id}/${10000 + (hash % 90000)}`,
     sofascoreRating,
     zerozeroId: `zz_${p.id}`,
-    zerozeroUrl: `https://www.zerozero.pt/jogador.php?id=${20000 + (hash % 80000)}`,
+    zerozeroUrl: `https://www.zerozero.pt/jogador/${zerozeroSlug(p.name)}/${20000 + (hash % 80000)}?epoca_id=154`,
     zerozeroRating,
     fifaConnectId,
     fifaConnectStatus,
@@ -1239,6 +1282,64 @@ export function getPlayerById(id: string): Player | undefined {
   return PLAYERS.find(p => p.id === id);
 }
 
+// Bandeira (emoji) por nacionalidade — para a ficha de identidade estilo zerozero.pt.
+const NATIONALITY_FLAGS: Record<string, string> = {
+  'Angola': '🇦🇴',
+  'RD Congo': '🇨🇩',
+  'RDC': '🇨🇩',
+  'Congo': '🇨🇬',
+  'Brasil': '🇧🇷',
+  'Portugal': '🇵🇹',
+  'Nigéria': '🇳🇬',
+  'Camarões': '🇨🇲',
+  'Gana': '🇬🇭',
+  'Costa do Marfim': '🇨🇮',
+  'Guiné-Bissau': '🇬🇼',
+  'Cabo Verde': '🇨🇻',
+  'São Tomé e Príncipe': '🇸🇹',
+  'Moçambique': '🇲🇿',
+  'França': '🇫🇷',
+  'Argentina': '🇦🇷',
+};
+
+export function getNationalityFlag(nationality: string): string {
+  return NATIONALITY_FLAGS[nationality] ?? '🏳️';
+}
+
+// Ficha de identidade consolidada (estilo zerozero.pt), com fallbacks sensatos
+// quando um campo opcional não está preenchido.
+export interface PlayerFicha {
+  fullName: string;
+  position: string;
+  nationality: string;
+  flag: string;
+  age: number;
+  birthDate?: string;
+  birthplace?: string;
+  height: string;
+  weight?: string;
+  preferredFoot?: string;
+  jerseyNumber: number;
+  club: string;
+}
+
+export function getPlayerFicha(player: Player): PlayerFicha {
+  return {
+    fullName: player.fullName ?? player.name,
+    position: player.position,
+    nationality: player.nationality,
+    flag: getNationalityFlag(player.nationality),
+    age: player.age,
+    birthDate: player.birthDate,
+    birthplace: player.birthplace,
+    height: player.height,
+    weight: player.weight,
+    preferredFoot: player.preferredFoot,
+    jerseyNumber: player.jerseyNumber,
+    club: player.club,
+  };
+}
+
 export function getMatchById(id: string): Match | undefined {
   return MATCHES.find(m => m.id === id) ?? MATCHES_2026_27.find(m => m.id === id);
 }
@@ -1289,7 +1390,7 @@ export function getPlayerRatings(p: Player): ExternalRatings {
     sofascore,
     zerozero,
     sofascoreUrl: `https://www.sofascore.com/search?q=${query}`,
-    zerozeroUrl: `https://www.zerozero.pt/pesquisa.php?search=${query}`,
+    zerozeroUrl: getPlayerZeroZeroUrl(p),
   };
 }
 
@@ -1844,4 +1945,3 @@ export const videoHighlightsMock: VideoHighlight[] = [
 export function getVideoHighlights(): VideoHighlight[] {
   return videoHighlightsMock;
 }
-

@@ -1,18 +1,15 @@
 'use client';
 
 import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, Trophy, Calendar, Shield, Zap, Activity, Flame, BarChart3, Clock, MapPin, Handshake, ListOrdered, Newspaper } from 'lucide-react';
+import { Trophy, Calendar, Shield, Activity, Flame } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
-import TeamCrest from '@/components/ui/TeamCrest';
 import TeamCrestMarquee from '@/components/ui/TeamCrestMarquee';
 import LigaAngolaBlock from '@/components/competition/LigaAngolaBlock';
-import { getNewsArticles, getTeams, getMatches, getPlayers, getMatchesForSeason, STANDINGS, SEASONS, CURRENT_SEASON_ID, UPCOMING_SEASON_ID, TEAMS, type Match } from '@/lib/data';
-
-const ANGOLA_TIME_ZONE = 'Africa/Luanda';
+import { getTeams, getMatches, getPlayers, STANDINGS, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
 
 /* ── Animated Number Counter ─────────────────────────────────── */
 function AnimatedCounter({ value }: { value: number }) {

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface TeamCrestProps {
   teamId: string;
@@ -47,7 +48,7 @@ export default function TeamCrest({ teamId, size = 40, className = '' }: TeamCre
   }
 
   return (
-    <img
+    <Image
       src={crestPath}
       alt={`Emblema ${teamId}`}
       width={size}

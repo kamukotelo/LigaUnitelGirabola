@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ArrowLeft, Activity, Award, Star, Calendar, Users,
+  ArrowLeft, Activity, Award, Star, Calendar, Users, User,
   BarChart3, AlertTriangle, Shield, CheckCircle2,
   RefreshCw, Check, ExternalLink
 } from 'lucide-react';
@@ -14,7 +14,8 @@ import {
 import {
   Player, Team, getPlayers, getMatches,
   getPlayerRatings, getRecentRatings, getDetailedMetrics,
-  getFifaConnectStatus, FIFA_CHECK_META, FifaCheckKey
+  getFifaConnectStatus, FIFA_CHECK_META, FifaCheckKey,
+  getPlayerFicha, getNationalityFlag
 } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 
@@ -717,8 +718,18 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
               <h1 className="text-4xl md:text-5xl font-display text-foreground uppercase leading-none font-black">
                 {player.name}
               </h1>
-              <p className="text-zinc-600 dark:text-zinc-400 font-mono text-xs uppercase tracking-wider mt-1">
-                {player.nationality} · Idade: {player.age} anos · Altura: {player.height}
+              {player.fullName && player.fullName !== player.name && (
+                <p className="text-zinc-500 dark:text-zinc-500 text-sm mt-1.5 italic">{player.fullName}</p>
+              )}
+              <p className="text-zinc-600 dark:text-zinc-400 font-mono text-xs uppercase tracking-wider mt-1 flex flex-wrap items-center justify-center md:justify-start gap-x-2 gap-y-1">
+                <span className="text-base leading-none">{getNationalityFlag(player.nationality)}</span>
+                <span>{player.nationality}</span>
+                <span className="text-zinc-400">·</span>
+                <span>{player.age} anos</span>
+                <span className="text-zinc-400">·</span>
+                <span>{player.height}</span>
+                <span className="text-zinc-400">·</span>
+                <span>Nº {player.jerseyNumber}</span>
               </p>
             </div>
 
@@ -775,34 +786,51 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
         {/* Left Columns: Stats Breakdown */}
         <div className="lg:col-span-2 space-y-8">
           
-          {/* Biometric & Profile Card */}
+          {/* Ficha de identidade (estilo zerozero.pt) */}
           <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-6 rounded-2xl">
             <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Star size={16} className="text-primary" /> Perfil Físico & Biográfico
+              <User size={16} className="text-primary" /> Ficha do Jogador
             </h3>
-            
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-xs font-mono">
-              <div>
-                <span className="text-[9px] text-zinc-500 uppercase block mb-1">Altura</span>
-                <span className="font-bold text-foreground text-md block">{player.height || 'N/A'}</span>
-              </div>
-              <div>
-                <span className="text-[9px] text-zinc-500 uppercase block mb-1">Peso</span>
-                <span className="font-bold text-foreground text-md block">{player.weight || 'N/A'}</span>
-              </div>
-              <div>
-                <span className="text-[9px] text-zinc-500 uppercase block mb-1">Clube</span>
-                <span className="font-bold text-foreground text-md block">
-                  {team ? (
-                    <Link href={`/teams/${team.id}`} className="hover:text-primary transition-colors">
-                      {team.name}
-                    </Link>
+
+            {(() => {
+              const ficha = getPlayerFicha(player);
+              const rows: { label: string; value: React.ReactNode }[] = [
+                { label: 'Nome completo', value: ficha.fullName },
+                { label: 'Posição', value: ficha.position },
+                {
+                  label: 'Nacionalidade',
+                  value: (
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="text-base leading-none">{ficha.flag}</span> {ficha.nationality}
+                    </span>
+                  ),
+                },
+                { label: 'Data de nascimento', value: ficha.birthDate ? `${ficha.birthDate} (${ficha.age} anos)` : `${ficha.age} anos` },
+                { label: 'Naturalidade', value: ficha.birthplace ?? '—' },
+                { label: 'Altura', value: ficha.height || '—' },
+                { label: 'Peso', value: ficha.weight ?? '—' },
+                { label: 'Pé preferido', value: ficha.preferredFoot ?? '—' },
+                { label: 'Nº de camisola', value: ficha.jerseyNumber },
+                {
+                  label: 'Clube atual',
+                  value: team ? (
+                    <Link href={`/teams/${team.id}`} className="text-primary hover:underline">{team.name}</Link>
                   ) : (
-                    player.club
-                  )}
-                </span>
-              </div>
-            </div>
+                    ficha.club
+                  ),
+                },
+              ];
+              return (
+                <dl className="divide-y divide-zinc-200/60 dark:divide-zinc-900/60 text-xs font-mono border-t border-zinc-200/60 dark:border-zinc-900/60">
+                  {rows.map((r) => (
+                    <div key={r.label} className="flex items-center justify-between gap-3 py-2.5">
+                      <dt className="text-[10px] text-zinc-500 uppercase tracking-wide">{r.label}</dt>
+                      <dd className="font-bold text-foreground text-right">{r.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              );
+            })()}
           </div>
 
           {/* HUD Attributes Panel */}
@@ -878,25 +906,61 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
               </h3>
               
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse min-w-[400px] font-mono text-xs text-zinc-600 dark:text-zinc-400">
+                <table className="w-full text-left border-collapse min-w-[560px] font-mono text-xs text-zinc-600 dark:text-zinc-400">
                   <thead>
-                    <tr className="border-b border-zinc-200 dark:border-zinc-900 pb-2 text-[10px] text-zinc-500 uppercase">
-                      <th className="py-2">Temporada</th>
-                      <th className="py-2">Clube</th>
-                      <th className="py-2 text-center">Jogos</th>
-                      <th className="py-2 text-center">Golos</th>
+                    <tr className="border-b border-zinc-200 dark:border-zinc-900 text-[10px] text-zinc-500 uppercase">
+                      <th className="py-2 pr-2">Época</th>
+                      <th className="py-2 pr-2">Clube</th>
+                      <th className="py-2 pr-2">Competição</th>
+                      <th className="py-2 text-center" title="Jogos">J</th>
+                      <th className="py-2 text-center" title="Golos">G</th>
+                      <th className="py-2 text-center" title="Assistências">A</th>
+                      <th className="py-2 text-center" title="Minutos">Min</th>
+                      <th className="py-2 text-center text-yellow-500" title="Cartões amarelos">🟨</th>
+                      <th className="py-2 text-center text-red-500" title="Cartões vermelhos">🟥</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-200/60 dark:divide-zinc-900/60">
                     {player.careerHistory.map((item, idx) => (
                       <tr key={idx} className="hover:bg-white/20 dark:hover:bg-zinc-900/20">
-                        <td className="py-3 font-bold text-foreground">{item.season}</td>
-                        <td className="py-3 font-semibold text-zinc-700 dark:text-zinc-300">{item.club}</td>
+                        <td className="py-3 pr-2 font-bold text-foreground whitespace-nowrap">{item.season}</td>
+                        <td className="py-3 pr-2 font-semibold text-zinc-700 dark:text-zinc-300 whitespace-nowrap">{item.club}</td>
+                        <td className="py-3 pr-2 text-zinc-500 whitespace-nowrap">{item.competition ?? '—'}</td>
                         <td className="py-3 text-center">{item.apps}</td>
                         <td className="py-3 text-center font-extrabold text-primary">{item.goals}</td>
+                        <td className="py-3 text-center">{item.assists ?? '—'}</td>
+                        <td className="py-3 text-center">{item.minutes ? `${item.minutes.toLocaleString('pt-PT')}'` : '—'}</td>
+                        <td className="py-3 text-center">{item.yellow ?? '—'}</td>
+                        <td className="py-3 text-center">{item.red ?? '—'}</td>
                       </tr>
                     ))}
                   </tbody>
+                  {(() => {
+                    const t = player.careerHistory.reduce(
+                      (acc, i) => ({
+                        apps: acc.apps + i.apps,
+                        goals: acc.goals + i.goals,
+                        assists: acc.assists + (i.assists ?? 0),
+                        minutes: acc.minutes + (i.minutes ?? 0),
+                        yellow: acc.yellow + (i.yellow ?? 0),
+                        red: acc.red + (i.red ?? 0),
+                      }),
+                      { apps: 0, goals: 0, assists: 0, minutes: 0, yellow: 0, red: 0 },
+                    );
+                    return (
+                      <tfoot>
+                        <tr className="border-t-2 border-zinc-300 dark:border-zinc-800 text-foreground font-bold">
+                          <td className="py-3 pr-2 uppercase text-[10px] text-accent" colSpan={3}>Total carreira</td>
+                          <td className="py-3 text-center">{t.apps}</td>
+                          <td className="py-3 text-center text-primary">{t.goals}</td>
+                          <td className="py-3 text-center">{t.assists || '—'}</td>
+                          <td className="py-3 text-center">{t.minutes ? `${t.minutes.toLocaleString('pt-PT')}'` : '—'}</td>
+                          <td className="py-3 text-center">{t.yellow || '—'}</td>
+                          <td className="py-3 text-center">{t.red || '—'}</td>
+                        </tr>
+                      </tfoot>
+                    );
+                  })()}
                 </table>
               </div>
             </AnimatedCard>

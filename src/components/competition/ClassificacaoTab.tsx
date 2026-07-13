@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Info, Award } from 'lucide-react';
 import Link from 'next/link';
-import { SEASONS, UPCOMING_SEASON_ID, getMatchesForSeason, computeStandings, TEAMS } from '@/lib/data';
+import { SEASONS, UPCOMING_SEASON_ID, getMatchesForSeason, computeStandings } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 

@@ -5,11 +5,8 @@ import { ExternalLink } from 'lucide-react';
 import { TEAMS } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 
-// Faixa animada (marquee) com todos os emblemas dos clubes — estilo "WEB CLUBS"
-// do Liga Angola. Deslize horizontal contínuo, pausa ao passar o rato e
-// cada emblema abre a página do respetivo clube.
-export default function TeamCrestMarquee({ label = 'Clubes' }: { label?: string }) {
-  const CrestSet = ({ ariaHidden = false }: { ariaHidden?: boolean }) => (
+function CrestSet({ ariaHidden = false }: { ariaHidden?: boolean }) {
+  return (
     <div className="flex items-center gap-3 pr-3" aria-hidden={ariaHidden}>
       {TEAMS.map((t) => (
         <Link
@@ -25,7 +22,12 @@ export default function TeamCrestMarquee({ label = 'Clubes' }: { label?: string 
       ))}
     </div>
   );
+}
 
+// Faixa animada (marquee) com todos os emblemas dos clubes — estilo "WEB CLUBS"
+// do Liga Angola. Deslize horizontal contínuo, pausa ao passar o rato e
+// cada emblema abre a página do respetivo clube.
+export default function TeamCrestMarquee({ label = 'Clubes' }: { label?: string }) {
   return (
     <div className="crest-marquee relative w-full bg-primary overflow-hidden border-y border-primary/40">
       <div className="flex items-stretch">

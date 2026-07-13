@@ -85,7 +85,6 @@ export default function AdminClient() {
   const [authed, setAuthed] = useState(false);
   const [ready, setReady] = useState(false);
   const [section, setSection] = useState<Section>('dashboard');
-  const [dynamicSource, setDynamicSource] = useState(ANCAF_CALENDAR_SOURCE);
 
   useEffect(() => {
     // Leitura segura de armazenamento do browser apenas no cliente (evita mismatch de hidratação).
@@ -93,16 +92,6 @@ export default function AdminClient() {
     setAuthed(sessionStorage.getItem(AUTH_KEY) === '1');
     setReady(true);
     /* eslint-enable react-hooks/set-state-in-effect */
-
-    // Buscar dados reais da semente no arranque
-    fetch('/api/ancaf')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.source) {
-          setDynamicSource(data.source);
-        }
-      })
-      .catch((err) => console.error('Erro ao buscar semente do calendário no painel:', err));
   }, []);
 
   const logout = () => {

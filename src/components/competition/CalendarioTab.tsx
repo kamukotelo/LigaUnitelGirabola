@@ -10,8 +10,25 @@ import TeamCrest from '@/components/ui/TeamCrest';
 import { supabase } from '@/lib/supabase';
 
 type StatusFilter = 'all' | 'finished' | 'scheduled';
+type CalendarFilters = {
+  seasonId: string;
+  selectedRound: number | 'all';
+  filterStatus: StatusFilter;
+  filterTeam: string;
+  filterMonth: string;
+};
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
+
+function getDefaultFilters(seasonId: string): CalendarFilters {
+  return {
+    seasonId,
+    selectedRound: 'all',
+    filterStatus: 'all',
+    filterTeam: 'all',
+    filterMonth: 'all',
+  };
+}
 
 function MatchCard({ match }: { match: Match }) {
   const isFinished = match.status === 'finished';
@@ -118,23 +135,22 @@ function MatchCard({ match }: { match: Match }) {
 }
 
 export default function CalendarioTab({ seasonId }: { seasonId: string }) {
-  const [selectedRound, setSelectedRound] = useState<number | 'all'>('all');
-  const [filterStatus, setFilterStatus] = useState<StatusFilter>('all');
-  const [filterTeam, setFilterTeam] = useState<string>('all');
-  const [filterMonth, setFilterMonth] = useState<string>('all');
+  const [filterState, setFilterState] = useState<CalendarFilters>(() => getDefaultFilters(seasonId));
   const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
   const [dynamicSource, setDynamicSource] = useState(ANCAF_CALENDAR_SOURCE);
   const [loading, setLoading] = useState(false);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
+  const filters = filterState.seasonId === seasonId ? filterState : getDefaultFilters(seasonId);
+  const { selectedRound, filterStatus, filterTeam, filterMonth } = filters;
 
-  // Repor filtros ao trocar de época
-  useEffect(() => {
-    setSelectedRound('all');
-    setFilterStatus('all');
-    setFilterTeam('all');
-    setFilterMonth('all');
-  }, [seasonId]);
+  const updateFilters = (patch: Partial<Omit<CalendarFilters, 'seasonId'>>) => {
+    setFilterState((current) => ({
+      ...(current.seasonId === seasonId ? current : getDefaultFilters(seasonId)),
+      ...patch,
+      seasonId,
+    }));
+  };
 
   useEffect(() => {
     if (!isUpcoming) return;
@@ -272,7 +288,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
             {statusOptions.map((opt) => (
               <button
                 key={opt.key}
-                onClick={() => setFilterStatus(opt.key)}
+                onClick={() => updateFilters({ filterStatus: opt.key })}
                 className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
                   filterStatus === opt.key ? 'bg-primary text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
                 }`}
@@ -286,14 +302,14 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         {/* Equipa e Mês (estilo /calendar da Liga Angola) */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Equipa</span>
-          <select value={filterTeam} onChange={(e) => setFilterTeam(e.target.value)} className={selectClass}>
+          <select value={filterTeam} onChange={(e) => updateFilters({ filterTeam: e.target.value })} className={selectClass}>
             <option value="all">Todas as equipas</option>
             {TEAMS.map((t) => (
               <option key={t.id} value={t.id}>{t.name}</option>
             ))}
           </select>
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-12 sm:text-right flex-shrink-0">Mês</span>
-          <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)} className={selectClass}>
+          <select value={filterMonth} onChange={(e) => updateFilters({ filterMonth: e.target.value })} className={selectClass}>
             <option value="all">Todos os meses</option>
             {months.map(([key, label]) => (
               <option key={key} value={key}>{label}</option>
@@ -306,7 +322,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Jornada</span>
           <div className="flex gap-2 overflow-x-auto pb-1 -mb-1 snap-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <button
-              onClick={() => setSelectedRound('all')}
+              onClick={() => updateFilters({ selectedRound: 'all' })}
               className={`snap-start px-3 py-1.5 rounded-lg text-xs font-semibold font-mono whitespace-nowrap transition-all flex-shrink-0 ${
                 selectedRound === 'all'
                   ? 'bg-accent text-black'
@@ -318,7 +334,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
             {rounds.map((round) => (
               <button
                 key={round}
-                onClick={() => setSelectedRound(round)}
+                onClick={() => updateFilters({ selectedRound: round })}
                 className={`snap-start px-3 py-1.5 rounded-lg text-xs font-semibold font-mono whitespace-nowrap transition-all flex-shrink-0 ${
                   selectedRound === round
                     ? 'bg-accent text-black'
@@ -336,7 +352,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
       {selectedRound !== 'all' && (
         <div className="flex justify-between items-center bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm mb-6 font-mono text-xs select-none">
           <button
-            onClick={() => setSelectedRound(selectedRound - 1)}
+            onClick={() => updateFilters({ selectedRound: selectedRound - 1 })}
             disabled={selectedRound === 1}
             className="px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-white/20 disabled:opacity-40 transition-colors flex items-center gap-1 font-bold text-foreground disabled:cursor-not-allowed"
           >
@@ -346,7 +362,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           <div className="flex items-center gap-2">
             <span className="text-zinc-600 dark:text-zinc-400 font-extrabold uppercase">Jornada {selectedRound} de {rounds.length}</span>
             <button
-              onClick={() => setSelectedRound('all')}
+              onClick={() => updateFilters({ selectedRound: 'all' })}
               className="text-[10px] bg-accent/10 hover:bg-accent/20 text-accent font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg border border-accent/20 transition-colors"
             >
               Ver Todas
@@ -354,7 +370,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           </div>
 
           <button
-            onClick={() => setSelectedRound(selectedRound + 1)}
+            onClick={() => updateFilters({ selectedRound: selectedRound + 1 })}
             disabled={selectedRound === rounds.length}
             className="px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-white/20 disabled:opacity-40 transition-colors flex items-center gap-1 font-bold text-foreground disabled:cursor-not-allowed"
           >

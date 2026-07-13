@@ -1,60 +1,44 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Trophy, Clock, Play, LogIn, ExternalLink } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { ArrowRight, ChevronLeft, ChevronRight, Play, LogIn, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import TeamCrest from '@/components/ui/TeamCrest';
-import AnimatedCard from '@/components/ui/AnimatedCard';
-import FuturisticButton from '@/components/ui/FuturisticButton';
 import {
   getNewsArticles,
-  getMatches,
   getMatchesForSeason,
-  STANDINGS,
-  SEASONS,
   CURRENT_SEASON_ID,
   UPCOMING_SEASON_ID,
   TEAMS,
   computeStandings,
   getVideoHighlights,
-  type Match,
-  type VideoHighlight
 } from '@/lib/data';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
+const TOTAL_ROUNDS = 30;
+
+function getDefaultRoundForSeason(seasonId: string) {
+  if (seasonId !== CURRENT_SEASON_ID) {
+    return 1;
+  }
+
+  const finishedMatches = getMatchesForSeason(seasonId).filter((match) => match.status === 'finished');
+  return finishedMatches.length > 0 ? Math.max(...finishedMatches.map((match) => match.round)) : 1;
+}
 
 export default function LigaAngolaBlock() {
   // ─── STATE FOR JOGOS (MATCHES) SWITCHER ───
   const [selectedSeasonId, setSelectedSeasonId] = useState<string>(CURRENT_SEASON_ID);
-  const [currentRound, setCurrentRound] = useState<number>(1);
-  const [matchesByRound, setMatchesByRound] = useState<Match[]>([]);
+  const [currentRound, setCurrentRound] = useState<number>(() => getDefaultRoundForSeason(CURRENT_SEASON_ID));
 
   // Get all matches for the selected season
   const seasonMatches = getMatchesForSeason(selectedSeasonId);
-  const totalRounds = 30; // standard Girabola has 30 rounds
+  const matchesByRound = seasonMatches.filter((m) => m.round === currentRound);
 
-  // Update matches list when season or round changes
-  useEffect(() => {
-    const roundMatches = seasonMatches.filter((m) => m.round === currentRound);
-    setMatchesByRound(roundMatches);
-  }, [selectedSeasonId, currentRound]);
-
-  // Adjust default round based on season (e.g., show finished round for current season, round 1 for upcoming)
-  useEffect(() => {
-    if (selectedSeasonId === CURRENT_SEASON_ID) {
-      // Find the latest finished match's round, default to it
-      const finishedMatches = seasonMatches.filter(m => m.status === 'finished');
-      if (finishedMatches.length > 0) {
-        const maxFinishedRound = Math.max(...finishedMatches.map(m => m.round));
-        setCurrentRound(maxFinishedRound);
-      } else {
-        setCurrentRound(1);
-      }
-    } else {
-      setCurrentRound(1);
-    }
-  }, [selectedSeasonId]);
+  const selectSeason = (seasonId: string) => {
+    setSelectedSeasonId(seasonId);
+    setCurrentRound(getDefaultRoundForSeason(seasonId));
+  };
 
   // ─── STATE FOR STANDINGS (CLASSIFICAÇÃO) ───
   const [standingsSeasonId, setStandingsSeasonId] = useState<string>(CURRENT_SEASON_ID);
@@ -68,27 +52,18 @@ export default function LigaAngolaBlock() {
   // ─── STATE FOR VIDEOS (VÍDEOS) ───
   const [activeVideoCategory, setActiveVideoCategory] = useState<string>('TODOS');
   const allVideos = getVideoHighlights();
-  const [activeVideo, setActiveVideo] = useState<VideoHighlight>(allVideos[0]);
-  const [filteredVideos, setFilteredVideos] = useState<VideoHighlight[]>(allVideos);
-
-  useEffect(() => {
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(allVideos[0]?.id ?? null);
+  const filteredVideos = useMemo(() => {
     if (activeVideoCategory === 'TODOS') {
-      setFilteredVideos(allVideos);
-      setActiveVideo(allVideos[0]);
-    } else {
-      const filtered = allVideos.filter(v => v.category.toUpperCase() === activeVideoCategory.toUpperCase());
-      setFilteredVideos(filtered);
-      if (filtered.length > 0) {
-        setActiveVideo(filtered[0]);
-      }
+      return allVideos;
     }
-  }, [activeVideoCategory]);
+
+    return allVideos.filter((video) => video.category.toUpperCase() === activeVideoCategory.toUpperCase());
+  }, [activeVideoCategory, allVideos]);
+  const activeVideo = filteredVideos.find((video) => video.id === activeVideoId) ?? filteredVideos[0] ?? allVideos[0];
 
   // ─── HELPER FOR TIME DIFFERENCE (e.g., "há 3 horas") ───
-  const getTimeLabel = (dateStr: string) => {
-    // Standard mock date strings like "13 Jun 2026" or "10 Mai 2026"
-    return `há 3 dias`; // fallback dynamic string representation
-  };
+  const getTimeLabel = (dateStr: string) => dateStr;
 
   return (
     <section className="py-12 bg-background relative overflow-hidden">
@@ -158,7 +133,7 @@ export default function LigaAngolaBlock() {
                 {/* Competition Selector Tabs */}
                 <div className="flex border-b border-zinc-100 dark:border-zinc-900 pb-3 mb-4">
                   <button
-                    onClick={() => setSelectedSeasonId(CURRENT_SEASON_ID)}
+                    onClick={() => selectSeason(CURRENT_SEASON_ID)}
                     className={`flex-1 text-center py-1.5 font-mono text-[10px] uppercase font-bold tracking-wider rounded-lg transition-colors ${
                       selectedSeasonId === CURRENT_SEASON_ID
                         ? 'bg-primary/10 text-primary dark:text-white'
@@ -168,7 +143,7 @@ export default function LigaAngolaBlock() {
                     Girabola 25/26
                   </button>
                   <button
-                    onClick={() => setSelectedSeasonId(UPCOMING_SEASON_ID)}
+                    onClick={() => selectSeason(UPCOMING_SEASON_ID)}
                     className={`flex-1 text-center py-1.5 font-mono text-[10px] uppercase font-bold tracking-wider rounded-lg transition-colors ${
                       selectedSeasonId === UPCOMING_SEASON_ID
                         ? 'bg-[#0B1E43]/10 text-[#0B1E43] dark:text-zinc-300'
@@ -193,8 +168,8 @@ export default function LigaAngolaBlock() {
                     Jornada {currentRound}
                   </span>
                   <button 
-                    onClick={() => currentRound < totalRounds && setCurrentRound(currentRound + 1)}
-                    disabled={currentRound === totalRounds}
+                    onClick={() => currentRound < TOTAL_ROUNDS && setCurrentRound(currentRound + 1)}
+                    disabled={currentRound === TOTAL_ROUNDS}
                     className="p-1 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
                     aria-label="Próxima jornada"
                   >
@@ -487,7 +462,7 @@ export default function LigaAngolaBlock() {
                     {filteredVideos.slice(0, 3).map((video) => (
                       <div 
                         key={video.id} 
-                        onClick={() => setActiveVideo(video)}
+                        onClick={() => setActiveVideoId(video.id)}
                         className={`bg-white dark:bg-zinc-950 border rounded-2xl p-3 shadow-2xs hover:shadow-xs transition-all cursor-pointer group flex gap-3 items-center h-[90px] ${
                           activeVideo.id === video.id 
                             ? 'border-primary dark:border-primary bg-primary/[0.02] dark:bg-primary/[0.02]' 

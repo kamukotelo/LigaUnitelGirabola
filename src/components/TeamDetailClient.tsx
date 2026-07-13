@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Trophy, MapPin, User, Calendar, Shield, Flame, Users, ArrowLeft, Medal, Shirt, Globe, ExternalLink, BarChart3, Newspaper, Building2 } from 'lucide-react';
-import { Team, Player, Match, StandingEntry, getTeamProfile, getNewsArticles } from '@/lib/data';
+import { Team, Player, Match, StandingEntry, getTeamProfile, getNewsArticles, getTeamZeroZeroUrl } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -26,6 +26,7 @@ const TEAM_TABS: { key: TeamTab; label: string; icon: typeof Shield }[] = [
 export default function TeamDetailClient({ team, players, matches, standing }: TeamDetailClientProps) {
   const [tab, setTab] = useState<TeamTab>('geral');
   const profile = getTeamProfile(team.id);
+  const zerozeroUrl = getTeamZeroZeroUrl(team);
 
   // Group players by position
   const playersByPosition = {
@@ -89,6 +90,14 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
                 Fundado em {team.founded} · Alcunha: {team.shortName}
                 {profile?.president && <> · Presidente: {profile.president}</>}
               </p>
+              <a
+                href={zerozeroUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 mt-3 text-[10px] font-mono font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 transition-colors"
+              >
+                Perfil ZeroZero <ExternalLink size={11} />
+              </a>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-xs font-mono text-zinc-600 dark:text-zinc-400">
@@ -159,6 +168,31 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
       {tab === 'geral' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="space-y-8 lg:col-span-1">
+            {/* Ficha do clube (identidade consolidada, estilo zerozero.pt) */}
+            <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
+              <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
+                <Shield size={16} className="text-primary" /> Ficha do Clube
+              </h3>
+              <dl className="divide-y divide-zinc-200/60 dark:divide-zinc-900/60 text-xs font-mono border-t border-zinc-200/60 dark:border-zinc-900/60">
+                {([
+                  ['Nome oficial', profile?.officialName ?? team.name],
+                  ['Alcunha / Sigla', team.shortName],
+                  ['Fundação', String(team.founded)],
+                  ['Cidade', `${team.city}, Angola`],
+                  ['Estádio', team.stadium],
+                  ['Capacidade', `${team.stadiumCapacity.toLocaleString('pt-AO')} lugares`],
+                  ['Cores', team.colors],
+                  ['Treinador', team.coach],
+                  ['Presidente', profile?.president ?? '—'],
+                ] as [string, string][]).map(([label, value]) => (
+                  <div key={label} className="flex items-center justify-between gap-3 py-2.5">
+                    <dt className="text-[10px] text-zinc-500 uppercase tracking-wide">{label}</dt>
+                    <dd className="font-bold text-foreground text-right">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </AnimatedCard>
+
             {/* Standing Position Card */}
             {standing && (
               <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
