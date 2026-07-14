@@ -10,6 +10,7 @@ import {
 import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition, getMatchOfficials, getMatchBroadcast } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { ROUTES } from '@/lib/routes';
 
 interface MatchDetailClientProps {
   detail: MatchDetail;
@@ -271,7 +272,7 @@ export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchD
 
   return (
     <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 font-sans">
-      <Link href="/competicao?tab=calendario" className="inline-flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-8 hover:-translate-x-1 transition-transform">
+      <Link href={ROUTES.calendar} className="inline-flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-8 hover:-translate-x-1 transition-transform">
         <ArrowLeft size={14} /> Voltar ao Calendário
       </Link>
 

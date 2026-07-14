@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Globe, Flame, ShieldAlert, Lock } from 'lucide-react';
 import Brand from './Brand';
+import { ROUTES } from '@/lib/routes';
 
 export default function Footer() {
   return (
@@ -20,19 +21,19 @@ export default function Footer() {
             <h3 className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-widest mb-4">Plataforma</h3>
             <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
               <li>
-                <Link href="/competicao?tab=classificacao" className="hover:text-accent transition-colors">Classificação</Link>
+                <Link href={ROUTES.standings} className="hover:text-accent transition-colors">Classificação</Link>
               </li>
               <li>
-                <Link href="/competicao?tab=calendario" className="hover:text-accent transition-colors">Calendário</Link>
+                <Link href={ROUTES.calendar} className="hover:text-accent transition-colors">Calendário</Link>
               </li>
               <li>
-                <Link href="/teams" className="hover:text-accent transition-colors">Clubes Parceiros</Link>
+                <Link href={ROUTES.teams} className="hover:text-accent transition-colors">Clubes Parceiros</Link>
               </li>
               <li>
-                <Link href="/news" className="hover:text-accent transition-colors">Notícias</Link>
+                <Link href={ROUTES.news} className="hover:text-accent transition-colors">Notícias</Link>
               </li>
               <li>
-                <Link href="/ligatv" className="hover:text-accent transition-colors">LigaTV</Link>
+                <Link href={ROUTES.ligaTv} className="hover:text-accent transition-colors">LigaTV</Link>
               </li>
             </ul>
           </div>
@@ -42,7 +43,7 @@ export default function Footer() {
             <h3 className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-widest mb-4">Suporte</h3>
             <ul className="space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
               <li>
-                <Link href="/contact" className="hover:text-accent transition-colors">Central de Ajuda</Link>
+                <Link href={ROUTES.contact} className="hover:text-accent transition-colors">Central de Ajuda</Link>
               </li>
               <li>
                 <span title="Brevemente" className="cursor-not-allowed opacity-50 hover:text-accent transition-colors">Termos de Uso</span>
@@ -51,7 +52,7 @@ export default function Footer() {
                 <span title="Brevemente" className="cursor-not-allowed opacity-50 hover:text-accent transition-colors">Políticas de Privacidade</span>
               </li>
               <li>
-                <Link href="/admin" className="inline-flex items-center gap-1.5 text-zinc-600 hover:text-accent transition-colors">
+                <Link href={ROUTES.admin} className="inline-flex items-center gap-1.5 text-zinc-600 hover:text-accent transition-colors">
                   <Lock className="h-3 w-3" /> Administração
                 </Link>
               </li>

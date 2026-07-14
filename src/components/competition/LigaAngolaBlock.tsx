@@ -13,6 +13,7 @@ import {
   computeStandings,
   getVideoHighlights,
 } from '@/lib/data';
+import { ROUTES } from '@/lib/routes';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 const TOTAL_ROUNDS = 30;
@@ -228,7 +229,7 @@ export default function LigaAngolaBlock() {
                 </div>
 
                 <div className="border-t border-zinc-100 dark:border-zinc-900 mt-4 pt-3 text-center">
-                  <Link href="/competicao?tab=calendario" className="inline-flex items-center gap-1 text-[10px] font-mono uppercase font-bold text-primary hover:text-accent transition-colors">
+                  <Link href={ROUTES.calendar} className="inline-flex items-center gap-1 text-[10px] font-mono uppercase font-bold text-primary hover:text-accent transition-colors">
                     Ver todos os jogos <ArrowRight size={10} />
                   </Link>
                 </div>
@@ -308,7 +309,7 @@ export default function LigaAngolaBlock() {
                 </ol>
 
                 <div className="border-t border-zinc-100 dark:border-zinc-900 mt-4 pt-3 text-center">
-                  <Link href="/competicao?tab=classificacao" className="inline-flex items-center gap-1 text-[10px] font-mono uppercase font-bold text-primary hover:text-accent transition-colors">
+                  <Link href={ROUTES.standings} className="inline-flex items-center gap-1 text-[10px] font-mono uppercase font-bold text-primary hover:text-accent transition-colors">
                     Ver classificação completa <ArrowRight size={10} />
                   </Link>
                 </div>

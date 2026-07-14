@@ -127,7 +127,8 @@ export default function Navbar() {
           {/* Desktop Nav Links — centrados, com espaço garantido */}
           <nav className="hidden xl:flex items-center gap-2 mx-auto">
             {NAV_LINKS.map((link) => {
-              const isActive = pathname === link.path || (link.path !== '/' && pathname.startsWith(`${link.path}/`));
+              const matchPath = link.match ?? link.path;
+              const isActive = pathname === matchPath || (matchPath !== '/' && pathname.startsWith(`${matchPath}/`));
               return (
                 <Link
                   key={link.path}
@@ -215,10 +216,11 @@ export default function Navbar() {
                 </button>
               </div>
 
-              <nav className="grid min-h-0 flex-1 auto-rows-fr gap-2 overflow-y-auto px-4 py-4 sm:grid-cols-2 sm:gap-3 sm:px-5">
-                {NAV_LINKS.map((link) => {
-                  const isActive = pathname === link.path || (link.path !== '/' && pathname.startsWith(`${link.path}/`));
-                  const Icon = MOBILE_NAV_ICONS[link.path as keyof typeof MOBILE_NAV_ICONS] ?? ArrowRight;
+            <nav className="grid min-h-0 flex-1 auto-rows-fr gap-2 overflow-y-auto px-4 py-4 sm:grid-cols-2 sm:gap-3 sm:px-5">
+              {NAV_LINKS.map((link) => {
+                  const matchPath = link.match ?? link.path;
+                  const isActive = pathname === matchPath || (matchPath !== '/' && pathname.startsWith(`${matchPath}/`));
+                  const Icon = MOBILE_NAV_ICONS[matchPath as keyof typeof MOBILE_NAV_ICONS] ?? ArrowRight;
                   return (
                     <motion.div key={link.path} variants={itemVariants}>
                       <Link

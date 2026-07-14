@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { getMatchById, getMatchDetail, getMatches, getMatchesForSeason, UPCOMING_SEASON_ID, getTeamById } from '@/lib/data';
 import MatchDetailClient from '@/components/MatchDetailClient';
+import { ROUTES } from '@/lib/routes';
 
 // Geração estática dos jogos (ambas as épocas) para otimização de build
 export function generateStaticParams() {
@@ -16,7 +17,7 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
     return (
       <div className="py-24 text-center">
         <h2 className="text-2xl font-display text-foreground uppercase mb-2">Jogo Não Encontrado</h2>
-        <Link href="/competicao?tab=calendario" className="text-primary font-mono text-xs uppercase tracking-widest">
+        <Link href={ROUTES.calendar} className="text-primary font-mono text-xs uppercase tracking-widest">
           Voltar ao Calendário
         </Link>
       </div>

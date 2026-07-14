@@ -10,6 +10,7 @@ import FuturisticButton from '@/components/ui/FuturisticButton';
 import TeamCrestMarquee from '@/components/ui/TeamCrestMarquee';
 import LigaAngolaBlock from '@/components/competition/LigaAngolaBlock';
 import { getTeams, getMatches, getPlayers, STANDINGS, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
+import { ROUTES } from '@/lib/routes';
 
 /* ── Animated Number Counter ─────────────────────────────────── */
 function AnimatedCounter({ value }: { value: number }) {
@@ -220,10 +221,10 @@ export default function Home() {
   ].filter(Boolean);
 
   const stats = [
-    { label: 'Clubes', value: teamsCount, icon: Shield, href: '/teams' },
-    { label: 'Jogos Disputados', value: matchesPlayed, icon: Trophy, href: '/competicao?tab=calendario' },
-    { label: 'Jornadas', value: roundsCount, icon: Calendar, href: '/competicao?tab=calendario' },
-    { label: 'Golos Marcados (' + topScorerName + ')', value: topScorerGoals, icon: Flame, href: '/competicao?tab=estatisticas' },
+    { label: 'Clubes', value: teamsCount, icon: Shield, href: ROUTES.teams },
+    { label: 'Jogos Disputados', value: matchesPlayed, icon: Trophy, href: ROUTES.calendar },
+    { label: 'Jornadas', value: roundsCount, icon: Calendar, href: ROUTES.calendar },
+    { label: 'Golos Marcados (' + topScorerName + ')', value: topScorerGoals, icon: Flame, href: ROUTES.stats },
   ];
 
   // News and match center are now handled dynamically inside LigaAngolaBlock
@@ -286,12 +287,12 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <Link href="/competicao?tab=classificacao">
+              <Link href={ROUTES.standings}>
                 <FuturisticButton variant="neon" glitchText>
                   Classificações
                 </FuturisticButton>
               </Link>
-              <Link href="/competicao?tab=calendario">
+              <Link href={ROUTES.calendar}>
                 <FuturisticButton variant="outline">
                   Resultados
                 </FuturisticButton>

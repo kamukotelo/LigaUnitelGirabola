@@ -18,6 +18,7 @@ import {
   getPlayerFicha, getNationalityFlag
 } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import { ROUTES } from '@/lib/routes';
 
 // Etiqueta de transparência: dados simulados, não oficiais.
 function DemoBadge() {
@@ -646,7 +647,7 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
       />
 
       {/* Back Link */}
-      <Link href="/competicao?tab=estatisticas" className="inline-flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-8 hover:-translate-x-1 transition-transform">
+      <Link href={ROUTES.stats} className="inline-flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-8 hover:-translate-x-1 transition-transform">
         <ArrowLeft size={14} /> Voltar para Líderes
       </Link>
 
