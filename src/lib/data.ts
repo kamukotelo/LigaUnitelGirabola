@@ -1,5 +1,6 @@
 // Data layer for Girabola 2025/2026 Football Portal
-import { generateGirabolaCalendar, PROMOTED_2026_27_TEAMS } from './ancaf-engine';
+import { PROMOTED_2026_27_TEAMS } from './ancaf-engine';
+import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from './published-ancaf-calendar';
 
 export interface Team {
   id: string;
@@ -429,19 +430,19 @@ export const CURRENT_SEASON_ID = '2025-26';
 export const UPCOMING_SEASON_ID = '2026-27';
 
 // Proveniência do calendário 2026/2027 — datas oficiais da Proposta ANCAF
-// 2026-27 e sorteio nº 1357 (entre 8000 calendários pré-validados a 2 voltas).
+// 2026-27 e sorteio oficial publicado pelo gestor ANCAF.
 export const ANCAF_CALENDAR_SOURCE = {
   system: 'ANCAF_CALENDAR',
-  accessCode: '1357',
+  accessCode: PUBLISHED_ANCAF_CALENDAR_SOURCE.accessCode,
   season: '2026/2027',
-  generatedAt: '2026-06-20T09:00:00+01:00',
+  generatedAt: PUBLISHED_ANCAF_CALENDAR_SOURCE.generatedAt,
   rounds: 30,
   matches: 240,
 } as const;
 
-// ── 3c. CALENDÁRIO 2026/2027 (motor ANCAF · sorteio nº 1357) ─────────
+// ── 3c. CALENDÁRIO 2026/2027 (sorteio oficial ANCAF) ─────────────────
 // Calendário oficial a duas voltas (30 jornadas, 16 equipas, 240 jogos),
-// gerado pelo motor ANCAF (ancaf-engine.ts) a partir do nº do sorteio.
+// publicado pelo gestor ANCAF e mantido como fallback público do portal.
 // As 16 equipas (incl. promovidos FC Cabinda, CR Caála, FC Luanda e
 // 1.º de Maio) são as mesmas definidas em TEAMS.
 export interface SeasonRound {
@@ -451,13 +452,10 @@ export interface SeasonRound {
   fixtures: [string, string][]; // pares [idCasa, idFora]
 }
 
-// Jogos do Girabola 2026/2027 gerados pelo MOTOR ANCAF (ver ancaf-engine.ts):
-// sorteio determinístico a partir do nº do sorteio (seed). Não é escrito à mão.
-export const MATCHES_2026_27: Match[] = generateGirabolaCalendar(
-  Number(ANCAF_CALENDAR_SOURCE.accessCode),
-  2026,
-  'm27-',
-);
+// Jogos do Girabola 2026/2027 publicados pelo gestor ANCAF. O endpoint público
+// /api/ancaf prioriza os jogos persistidos no Supabase; se a BD estiver
+// indisponível, este fallback mantém o calendário oficial visível no site.
+export const MATCHES_2026_27: Match[] = PUBLISHED_MATCHES_2026_27;
 
 // Vista por jornada (confrontos + datas), derivada dos jogos gerados.
 // Mantém a forma SeasonRound consumida pelo endpoint /api/ancaf.

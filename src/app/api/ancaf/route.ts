@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
+import { createHash } from 'node:crypto';
 import { supabase } from '@/lib/supabase';
-import { generateGirabolaCalendar } from '@/lib/ancaf-engine';
 import {
   ANCAF_CALENDAR_SOURCE,
   SEASONS,
@@ -8,6 +8,7 @@ import {
   getTeamById,
   Match,
 } from '@/lib/data';
+import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/lib/published-ancaf-calendar';
 
 // ── ENDPOINT ANCAF · GET /api/ancaf ──────────────────────────────────
 // Serve o calendário ANCAF 2026/2027 persistido exatamente como foi recebido
@@ -47,6 +48,19 @@ function fromDbMatch(match: DbMatch): Match {
   };
 }
 
+function fingerprintMatches(matches: Match[]): string {
+  return createHash('sha256')
+    .update(JSON.stringify(matches.map(({ round, homeTeamId, awayTeamId, date }) => ({
+      round,
+      home_team_id: homeTeamId,
+      away_team_id: awayTeamId,
+      date: date.slice(0, 10),
+    }))))
+    .digest('hex');
+}
+
+const PUBLISHED_MATCHES_COMPARISON_FINGERPRINT = fingerprintMatches(PUBLISHED_MATCHES_2026_27);
+
 function resolveFixture([homeId, awayId]: [string, string]) {
   const home = getTeamById(homeId);
   const away = getTeamById(awayId);
@@ -75,7 +89,7 @@ export async function GET(request: Request) {
         supabase
         .from('ancaf_configs')
         .select('key, value, updated_at')
-        .in('key', ['active_calendar_index', 'active_calendar_seed']),
+        .in('key', ['active_calendar_index', 'active_calendar_seed', 'active_calendar_fingerprint']),
         supabase
           .from('ancaf_matches')
           .select('id, round, home_team_id, away_team_id, home_team, away_team, home_score, away_score, score, date, stadium, status')
@@ -87,26 +101,37 @@ export async function GET(request: Request) {
       if (!configError && configs) {
         const indexConfig = configs.find((config) => config.key === 'active_calendar_index');
         const seedConfig = configs.find((config) => config.key === 'active_calendar_seed');
-        activeSeedStr = seedConfig?.value ?? activeSeedStr;
-        dynamicSource = {
-          ...ANCAF_CALENDAR_SOURCE,
-          accessCode: indexConfig?.value ?? ANCAF_CALENDAR_SOURCE.accessCode,
-          generatedAt: indexConfig?.updated_at ?? seedConfig?.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
-        };
-      }
-      if (!matchesError && dbMatches?.length === 240) {
-        persistedMatches = (dbMatches as DbMatch[]).map(fromDbMatch);
+        const fingerprintConfig = configs.find((config) => config.key === 'active_calendar_fingerprint');
+        const hasCompletePublicationMarker =
+          indexConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.accessCode &&
+          seedConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed &&
+          fingerprintConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint;
+        const candidateMatches = !matchesError && dbMatches?.length === 240
+          ? (dbMatches as DbMatch[]).map(fromDbMatch)
+          : [];
+        const matchesFingerprint = candidateMatches.length === 240
+          ? fingerprintMatches(candidateMatches)
+          : null;
+        if (hasCompletePublicationMarker && matchesFingerprint === PUBLISHED_MATCHES_COMPARISON_FINGERPRINT) {
+          activeSeedStr = seedConfig?.value ?? activeSeedStr;
+          dynamicSource = {
+            ...ANCAF_CALENDAR_SOURCE,
+            accessCode: indexConfig?.value ?? ANCAF_CALENDAR_SOURCE.accessCode,
+            generatedAt: fingerprintConfig?.updated_at ?? indexConfig?.updated_at ?? seedConfig?.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
+          };
+          persistedMatches = candidateMatches;
+        }
       }
     } catch (err) {
       console.error('Erro ao ler calendário do Supabase, usando fallback:', err);
     }
   }
 
-  const activeSeed = Number(activeSeedStr) || 1357;
+  void activeSeedStr;
 
   const matches = persistedMatches.length === 240
     ? persistedMatches
-    : generateGirabolaCalendar(activeSeed, 2026, 'm27-');
+    : PUBLISHED_MATCHES_2026_27;
 
   // Validação do parâmetro round.
   let round: number | null = null;
