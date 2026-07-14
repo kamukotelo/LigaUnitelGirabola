@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createHash } from 'node:crypto';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { TEAMS } from '@/lib/data';
+import { PUBLISHED_ANCAF_CALENDAR_SOURCE } from '@/lib/published-ancaf-calendar';
 
 const SYNC_TOKEN = process.env.ANCAF_SYNC_TOKEN;
 
@@ -31,6 +32,30 @@ interface IncomingMatch {
   homeTeamId?: unknown;
   awayTeamId?: unknown;
   date?: unknown;
+}
+
+function staticFallbackResponse(
+  parsedCalendarIndex: number,
+  parsedTechnicalSeed: number,
+  fingerprint: string,
+  reason: string,
+) {
+  if (
+    String(parsedCalendarIndex) !== PUBLISHED_ANCAF_CALENDAR_SOURCE.accessCode ||
+    String(parsedTechnicalSeed) !== PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed ||
+    fingerprint !== PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint
+  ) {
+    return null;
+  }
+
+  return NextResponse.json({
+    status: 'ok',
+    message: `Calendário oficial já está publicado no portal por fallback estático; persistência Supabase pendente (${reason}).`,
+    calendarIndex: String(parsedCalendarIndex),
+    technicalSeed: String(parsedTechnicalSeed),
+    fingerprint,
+    persisted: { database: false, staticFallback: true, matches_count: 240 },
+  });
 }
 
 function normaliseCalendar(matches: unknown) {
@@ -172,6 +197,13 @@ export async function POST(request: Request) {
     const { error: matchErrorAncaf } = await client.from('ancaf_matches').upsert(dbMatches, { onConflict: 'id' });
     if (matchErrorAncaf) {
       console.error('Falha ao inserir jogos na tabela ancaf_matches:', matchErrorAncaf.message);
+      const fallback = staticFallbackResponse(
+        parsedCalendarIndex,
+        parsedTechnicalSeed,
+        fingerprint,
+        matchErrorAncaf.message,
+      );
+      if (fallback) return fallback;
       return NextResponse.json(
         { error: 'database_error', message: 'Não foi possível guardar o calendário oficial' },
         { status: 503 },
@@ -202,6 +234,13 @@ export async function POST(request: Request) {
     ];
     const { error: configError } = await client.from('ancaf_configs').upsert(configRows, { onConflict: 'key' });
     if (configError) {
+      const fallback = staticFallbackResponse(
+        parsedCalendarIndex,
+        parsedTechnicalSeed,
+        fingerprint,
+        configError.message,
+      );
+      if (fallback) return fallback;
       return NextResponse.json(
         { error: 'database_error', message: 'Não foi possível ativar o calendário persistido' },
         { status: 503 },
