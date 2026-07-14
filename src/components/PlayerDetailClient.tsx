@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, Activity, Award, Star, Calendar, Users, User,
   BarChart3, AlertTriangle, Shield, CheckCircle2,
-  RefreshCw, Check, ExternalLink
+  RefreshCw, Check
 } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
@@ -279,7 +279,7 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
   );
 }
 
-// ── ABA 2: Estatísticas Detalhadas (avaliação técnica FAF & Sofascore/ZeroZero) ──────────
+// ── ABA 2: Estatísticas Detalhadas ──────────
 function StatsTab({ player }: { player: Player }) {
   const ratings = getPlayerRatings(player);
   const recent = getRecentRatings(player);
@@ -304,8 +304,8 @@ function StatsTab({ player }: { player: Player }) {
       {/* Índices de avaliação técnica (FAF) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {([
-          { name: 'Índice Sofascore', value: ratings.sofascore, accent: '#00F5FF', caption: 'Rating Sofascore Integrado' },
-          { name: 'Rating ZeroZero', value: ratings.zerozero, accent: '#F9C304', caption: 'Rating ZeroZero Integrado' },
+          { name: 'Índice Técnico', value: ratings.technical, accent: '#00F5FF', caption: 'Avaliação integrada' },
+          { name: 'Índice de Forma', value: ratings.form, accent: '#F9C304', caption: 'Rendimento recente' },
         ] as const).map((src) => (
           <AnimatedCard key={src.name} variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
             <div className="flex items-center justify-between mb-4">
@@ -325,45 +325,6 @@ function StatsTab({ player }: { player: Player }) {
             </div>
           </AnimatedCard>
         ))}
-      </div>
-
-      {/* Ligações externas Sofascore e ZeroZero */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <a 
-          href={ratings.sofascoreUrl} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="flex items-center justify-between p-5 bg-gradient-to-r from-blue-950/20 to-blue-900/10 hover:from-blue-900/30 hover:to-blue-800/20 border border-blue-900/30 hover:border-blue-700/50 rounded-2xl transition-all duration-300 group"
-        >
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-              <span className="text-xs font-bold text-foreground font-mono uppercase tracking-wider">Perfil Sofascore</span>
-            </div>
-            <p className="text-[10px] text-zinc-500 font-mono">Ficha técnica e análise posicional estatística.</p>
-          </div>
-          <div className="flex items-center gap-1.5 text-[11px] font-mono text-blue-400 group-hover:text-blue-300">
-            Aceder <ExternalLink size={12} />
-          </div>
-        </a>
-
-        <a 
-          href={ratings.zerozeroUrl} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="flex items-center justify-between p-5 bg-gradient-to-r from-emerald-950/20 to-emerald-900/10 hover:from-emerald-900/30 hover:to-emerald-800/20 border border-emerald-900/30 hover:border-emerald-700/50 rounded-2xl transition-all duration-300 group"
-        >
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-              <span className="text-xs font-bold text-foreground font-mono uppercase tracking-wider">Perfil ZeroZero</span>
-            </div>
-            <p className="text-[10px] text-zinc-500 font-mono">Consulte o histórico de clubes, carreira e estatísticas da época.</p>
-          </div>
-          <div className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400 group-hover:text-emerald-300">
-            Aceder <ExternalLink size={12} />
-          </div>
-        </a>
       </div>
 
       {/* Tendência últimos 5 jogos */}
@@ -786,7 +747,7 @@ export default function PlayerDetailClient({ player, team }: PlayerDetailClientP
         {/* Left Columns: Stats Breakdown */}
         <div className="lg:col-span-2 space-y-8">
           
-          {/* Ficha de identidade (estilo zerozero.pt) */}
+          {/* Ficha de identidade */}
           <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-6 rounded-2xl">
             <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <User size={16} className="text-primary" /> Ficha do Jogador

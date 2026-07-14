@@ -16,7 +16,6 @@ export interface Team {
   officialName?: string; // denominação oficial completa (estilo Liga Angola)
   president?: string;
   website?: string;
-  zerozeroUrl?: string;
   palmares?: TrophyEntry[]; // títulos (editável no admin/BD)
   kits?: KitEntry[];        // equipamentos
   board?: BoardMember[];    // órgãos sociais / direção
@@ -73,7 +72,7 @@ export interface Player extends PlayerStats {
   nationality: string;
   height: string;
   weight?: string;
-  // ── Ficha de identidade (estilo zerozero.pt) ──
+  // ── Ficha de identidade ──
   fullName?: string;          // nome completo
   birthDate?: string;         // 'DD/MM/AAAA'
   birthplace?: string;        // naturalidade
@@ -99,12 +98,8 @@ export interface Player extends PlayerStats {
     yellow?: number;
     red?: number;
   }[];
-  sofascoreId?: string;
-  sofascoreUrl?: string;
-  sofascoreRating?: number;
-  zerozeroId?: string;
-  zerozeroUrl?: string;
-  zerozeroRating?: number;
+  technicalRating?: number;
+  formRating?: number;
   fifaConnectId?: string;
   fifaConnectStatus?: 'active' | 'pending' | 'rejected' | 'unregistered';
   fifaConnectRegDate?: string;
@@ -127,10 +122,8 @@ export interface Player extends PlayerStats {
 
 // ── Estatísticas externas e validação (dados simulados / demonstração) ──
 export interface ExternalRatings {
-  sofascore: number;       // 0.0 – 10.0 (simulado)
-  zerozero: number;        // 0.0 – 10.0 (simulado)
-  sofascoreUrl: string;    // deep-link de pesquisa real
-  zerozeroUrl: string;     // deep-link de pesquisa real
+  technical: number;       // 0.0 – 10.0 (simulado)
+  form: number;            // 0.0 – 10.0 (simulado)
 }
 
 export interface DetailedMetrics {
@@ -1031,36 +1024,13 @@ function simpleHash(str: string): number {
   return Math.abs(hash);
 }
 
-function zerozeroSlug(value: string): string {
-  return value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/º/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-function zerozeroEntityId(seed: string, min: number, range: number): number {
-  return min + (simpleHash(seed) % range);
-}
-
-export function getTeamZeroZeroUrl(team: Team): string {
-  return team.zerozeroUrl ?? `https://www.zerozero.pt/equipa/${zerozeroSlug(team.name)}?epoca_id=155`;
-}
-
-export function getPlayerZeroZeroUrl(player: Player): string {
-  const playerId = zerozeroEntityId(player.id, 20000, 800000);
-  return player.zerozeroUrl ?? `https://www.zerozero.pt/jogador/${zerozeroSlug(player.name)}/${playerId}?epoca_id=154`;
-}
-
 function enrichPlayer(p: Player): Player {
   const hash = simpleHash(p.name);
   const positionLower = p.position.toLowerCase();
 
   // Deterministic ratings
-  const sofascoreRating = parseFloat((7.1 + (hash % 13) * 0.1).toFixed(2));
-  const zerozeroRating = parseFloat((sofascoreRating - 0.2 - (hash % 3) * 0.1).toFixed(2));
+  const technicalRating = parseFloat((7.1 + (hash % 13) * 0.1).toFixed(2));
+  const formRating = parseFloat((technicalRating - 0.2 - (hash % 3) * 0.1).toFixed(2));
 
   // FIFA Connect
   const isPending = p.name.includes('Keliano') || p.name.includes('Jaredi') || p.name.includes('Lepua');
@@ -1118,21 +1088,17 @@ function enrichPlayer(p: Player): Player {
 
   // ratingTrend
   const ratingTrend = [
-    parseFloat((sofascoreRating - 0.3 + (hash % 4) * 0.2).toFixed(2)),
-    parseFloat((sofascoreRating - 0.1 + ((hash + 1) % 4) * 0.2).toFixed(2)),
-    parseFloat((sofascoreRating - 0.4 + ((hash + 2) % 5) * 0.2).toFixed(2)),
-    parseFloat((sofascoreRating + 0.2 - ((hash + 3) % 4) * 0.15).toFixed(2)),
-    sofascoreRating
+    parseFloat((technicalRating - 0.3 + (hash % 4) * 0.2).toFixed(2)),
+    parseFloat((technicalRating - 0.1 + ((hash + 1) % 4) * 0.2).toFixed(2)),
+    parseFloat((technicalRating - 0.4 + ((hash + 2) % 5) * 0.2).toFixed(2)),
+    parseFloat((technicalRating + 0.2 - ((hash + 3) % 4) * 0.15).toFixed(2)),
+    technicalRating
   ];
 
   return {
     ...p,
-    sofascoreId: `sofa_${p.id}`,
-    sofascoreUrl: `https://www.sofascore.com/pt/jogador/${p.id}/${10000 + (hash % 90000)}`,
-    sofascoreRating,
-    zerozeroId: `zz_${p.id}`,
-    zerozeroUrl: `https://www.zerozero.pt/jogador/${zerozeroSlug(p.name)}/${20000 + (hash % 80000)}?epoca_id=154`,
-    zerozeroRating,
+    technicalRating,
+    formRating,
     fifaConnectId,
     fifaConnectStatus,
     fifaConnectRegDate,
@@ -1282,7 +1248,7 @@ export function getPlayerById(id: string): Player | undefined {
   return PLAYERS.find(p => p.id === id);
 }
 
-// Bandeira (emoji) por nacionalidade — para a ficha de identidade estilo zerozero.pt.
+// Bandeira (emoji) por nacionalidade — para a ficha de identidade.
 const NATIONALITY_FLAGS: Record<string, string> = {
   'Angola': '🇦🇴',
   'RD Congo': '🇨🇩',
@@ -1306,7 +1272,7 @@ export function getNationalityFlag(nationality: string): string {
   return NATIONALITY_FLAGS[nationality] ?? '🏳️';
 }
 
-// Ficha de identidade consolidada (estilo zerozero.pt), com fallbacks sensatos
+// Ficha de identidade consolidada, com fallbacks sensatos
 // quando um campo opcional não está preenchido.
 export interface PlayerFicha {
   fullName: string;
@@ -1383,14 +1349,11 @@ function baseRating(p: Player): number {
 export function getPlayerRatings(p: Player): ExternalRatings {
   const base = baseRating(p);
   const jitter = (hashString(p.id) % 30) / 100; // 0.00–0.29
-  const sofascore = Math.min(Math.round((base + jitter) * 10) / 10, 10);
-  const zerozero = Math.min(Math.round((base - 0.15 + jitter / 2) * 10) / 10, 10);
-  const query = encodeURIComponent(p.name);
+  const technical = Math.min(Math.round((base + jitter) * 10) / 10, 10);
+  const form = Math.min(Math.round((base - 0.15 + jitter / 2) * 10) / 10, 10);
   return {
-    sofascore,
-    zerozero,
-    sofascoreUrl: `https://www.sofascore.com/search?q=${query}`,
-    zerozeroUrl: getPlayerZeroZeroUrl(p),
+    technical,
+    form,
   };
 }
 
@@ -1811,7 +1774,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     website: 'https://www.1agosto.com/',
     socials: {
       facebook: 'https://www.facebook.com/clube1deagosto/',
-      instagram: 'https://www.instagram.com/cdagosto/',
+      instagram: 'https://www.instagram.com/clube1deagosto/',
     },
     palmares: [
       { title: 'Liga Unitel Girabola', count: 13, seasons: ['2018/19', '2017/18', '2016/17'] },
@@ -1828,7 +1791,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     officialName: 'Clube Desportivo Sagrada Esperança — Futebol',
     website: 'https://gdse.ao/',
     socials: {
-      facebook: 'https://www.facebook.com/cdsagradaesperanca',
+      facebook: 'https://www.facebook.com/sagradaesperancaln/',
       instagram: 'https://www.instagram.com/cdsagradaesperanca/',
     },
     palmares: [
@@ -1841,7 +1804,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     website: 'http://interclube.co.ao/',
     socials: {
       facebook: 'https://www.facebook.com/InterclubeAngolaGDI/',
-      instagram: 'https://www.instagram.com/gdinterclube/',
+      instagram: 'https://www.instagram.com/interclube_angola/',
     },
     palmares: [
       { title: 'Taça de Angola', count: 3 },
@@ -1851,8 +1814,8 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   libolo: {
     officialName: 'Clube Recreativo e Desportivo do Libolo — Futebol',
     socials: {
-      facebook: 'https://www.facebook.com/CRDLibolo/',
-      instagram: 'https://www.instagram.com/libolo.oficial/',
+      facebook: 'https://www.facebook.com/recreativo.libolo/',
+      instagram: 'https://www.instagram.com/recreativo.libolo/',
     },
     palmares: [
       { title: 'Liga Unitel Girabola', count: 4, seasons: ['2015/16', '2014/15', '2012/13'] },
@@ -1863,8 +1826,8 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     officialName: 'Wiliete Sport Clube de Benguela — Futebol',
     website: 'https://wilietesc.ao/',
     socials: {
-      facebook: 'https://www.facebook.com/WilieteSportClube',
-      instagram: 'https://www.instagram.com/wilietesc/',
+      facebook: 'https://www.facebook.com/wscbenguela/',
+      instagram: 'https://www.instagram.com/wilietesportclubeoficial/',
     },
     palmares: [
       { title: 'Gira Bola B (2.ª Divisão)', count: 1, seasons: ['2021/22'] },
@@ -1892,7 +1855,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     officialName: 'Kabuscorp Sport Clube do Palanca — Futebol',
     socials: {
       facebook: 'https://www.facebook.com/kabuscorpscp',
-      instagram: 'https://www.instagram.com/kabuscorp.scp/',
+      instagram: 'https://www.instagram.com/kabuscorp_sport_clube/',
     },
   },
   lundasul: {
@@ -1905,8 +1868,8 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   lobito: {
     officialName: 'Académica Petróleos Clube do Lobito — Futebol',
     socials: {
-      facebook: 'https://www.facebook.com/academicalobito',
-      instagram: 'https://www.instagram.com/academicalobito/',
+      facebook: 'https://www.facebook.com/academicadolobito/',
+      instagram: 'https://www.instagram.com/academicadolobito/',
     },
   },
   saosalvador: {

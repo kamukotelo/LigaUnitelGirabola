@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, MapPin, Clock, Trophy, Target, CalendarDays, Flag, Radio, Tv } from 'lucide-react';
-import { UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason, getMatchBroadcast, getMatchOfficials, Match, TEAMS } from '@/lib/data';
+import { UPCOMING_SEASON_ID, getMatchesForSeason, getMatchBroadcast, getMatchOfficials, Match, TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { supabase } from '@/lib/supabase';
@@ -137,7 +137,6 @@ function MatchCard({ match }: { match: Match }) {
 export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   const [filterState, setFilterState] = useState<CalendarFilters>(() => getDefaultFilters(seasonId));
   const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
-  const [dynamicSource, setDynamicSource] = useState(ANCAF_CALENDAR_SOURCE);
   const [loading, setLoading] = useState(false);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
@@ -164,9 +163,6 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           if (cancelled) return;
           if (data.matches) {
             setDynamicMatches(data.matches);
-          }
-          if (data.source) {
-            setDynamicSource(data.source);
           }
         })
         .catch((err) => console.error('Erro ao buscar calendário dinâmico:', err))
@@ -248,12 +244,12 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
   return (
     <div>
-      {/* Proveniência ANCAF_CALENDAR (apenas na época por disputar) */}
+      {/* Estado de sincronização do calendário */}
       {isUpcoming && (
         <div className="mb-6 inline-flex items-center gap-2.5 bg-green-500/5 border border-green-500/30 rounded-xl px-3.5 py-2">
           <Radio size={14} className="text-green-400" />
           <span className="text-[10px] font-mono text-green-400 uppercase tracking-widest">
-            Calendário sincronizado · {dynamicSource.system} · cód. {dynamicSource.accessCode}
+            Calendário sincronizado
           </span>
         </div>
       )}

@@ -1,19 +1,29 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, Home, Trophy, Shield, Newspaper, PlayCircle, MessageCircle, LogIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS } from '@/pages.config';
 import Brand from './Brand';
 import ThemeToggle from './ThemeToggle';
 
+const MOBILE_NAV_ICONS = {
+  '/': Home,
+  '/competicao': Trophy,
+  '/teams': Shield,
+  '/news': Newspaper,
+  '/ligatv': PlayCircle,
+  '/contact': MessageCircle,
+};
+
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const lastPathname = useRef(pathname);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,12 +33,40 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (lastPathname.current === pathname) return;
+
+    lastPathname.current = pathname;
+    const frame = window.requestAnimationFrame(() => setIsOpen(false));
+    return () => window.cancelAnimationFrame(frame);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown, { capture: true });
+    return () => document.removeEventListener('keydown', handleKeyDown, { capture: true });
+  }, [isOpen]);
+
   const menuVariants = {
     closed: {
       opacity: 0,
-      y: -20,
+      y: -12,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.04,
         staggerDirection: -1,
         when: 'afterChildren',
       },
@@ -44,8 +82,8 @@ export default function Navbar() {
   };
 
   const itemVariants = {
-    closed: { opacity: 0, x: -16 },
-    open: { opacity: 1, x: 0 },
+    closed: { opacity: 0, y: 8 },
+    open: { opacity: 1, y: 0 },
   };
 
   return (
@@ -57,7 +95,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4 h-20 md:h-24">
+        <div className="flex h-16 items-center justify-between gap-3 sm:h-[72px] md:h-20 xl:h-24">
           {/* Selo institucional ANCAF (à esquerda, maior) + marca Liga Unitel Girabola */}
           <div className="flex items-center flex-shrink-0">
             {/* ANCAF — logótipo institucional, agora em primeiro plano à esquerda */}
@@ -82,7 +120,7 @@ export default function Navbar() {
             <div className="hidden xl:block h-8 w-px bg-zinc-300 dark:bg-zinc-800/80 mx-3 xl:mx-4" />
 
             {/* Marca oficial da competição */}
-            <Brand size="sm" className="xl:hidden" />
+            <Brand size="sm" className="max-w-[min(58vw,15rem)] overflow-hidden xl:hidden" />
             <Brand size="md" className="hidden xl:flex" />
           </div>
 
@@ -120,7 +158,9 @@ export default function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Alternar menu de navegação"
-              className="inline-flex items-center justify-center p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:bg-zinc-200 dark:hover:bg-zinc-800 focus:outline-none"
+              aria-expanded={isOpen}
+              aria-controls="mobile-navigation"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200/70 bg-white/70 text-zinc-700 shadow-sm transition hover:text-foreground hover:bg-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 dark:border-zinc-800/70 dark:bg-zinc-950/60 dark:text-zinc-300 dark:hover:bg-zinc-900"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -132,66 +172,91 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="mobile-navigation-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 top-20 z-40 bg-background/95 dark:bg-zinc-950/95 backdrop-blur-xl xl:hidden overflow-y-auto flex flex-col justify-between"
+            className="fixed inset-x-0 top-16 z-40 flex h-[calc(100dvh-4rem)] flex-col bg-black/20 backdrop-blur-sm sm:top-[72px] sm:h-[calc(100dvh-72px)] md:top-20 md:h-[calc(100dvh-5rem)] xl:hidden dark:bg-black/45"
+            onClick={() => setIsOpen(false)}
           >
             <motion.div
+              id="mobile-navigation"
               variants={menuVariants}
               initial="closed"
               animate="open"
               exit="closed"
-              className="px-6 py-8 space-y-3 flex-grow"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menu de navegação"
+              onClick={(event) => event.stopPropagation()}
+              className="mx-2 mt-2 flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-3xl border border-zinc-200/80 bg-background/98 shadow-2xl backdrop-blur-xl sm:mx-4 sm:mt-4 dark:border-zinc-800/80 dark:bg-zinc-950/98"
             >
-              <div className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mb-4 border-b border-zinc-200 dark:border-zinc-800 pb-2">
-                Navegação Principal
+              <div className="flex items-center justify-between gap-4 border-b border-zinc-200/80 px-4 py-3 dark:border-zinc-800/80 sm:px-5">
+                <div className="flex items-center gap-3">
+                  <Image
+                    src="/logo-ancaf.png"
+                    alt="Logotipo ANCAF"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 object-contain"
+                  />
+                  <div>
+                    <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Menu oficial</p>
+                    <p className="text-sm font-semibold uppercase leading-tight text-foreground">Liga Unitel Girabola</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Fechar menu"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 text-zinc-600 transition hover:bg-zinc-200 hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.path || (link.path !== '/' && pathname.startsWith(`${link.path}/`));
-                return (
-                  <motion.div key={link.path} variants={itemVariants}>
-                    <Link
-                      href={link.path}
-                      onClick={() => setIsOpen(false)}
-                      className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-md font-semibold tracking-wide uppercase transition-all duration-200 ${
-                        isActive
-                          ? 'bg-accent/10 text-accent border-l-4 border-accent'
-                          : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:bg-zinc-200 dark:hover:bg-zinc-800/50'
-                      }`}
-                    >
-                      <span>{link.label}</span>
-                      <ArrowRight size={14} className="opacity-50" />
-                    </Link>
-                  </motion.div>
-                );
-              })}
 
-              <motion.div variants={itemVariants} className="pt-6">
+              <nav className="grid min-h-0 flex-1 auto-rows-fr gap-2 overflow-y-auto px-4 py-4 sm:grid-cols-2 sm:gap-3 sm:px-5">
+                {NAV_LINKS.map((link) => {
+                  const isActive = pathname === link.path || (link.path !== '/' && pathname.startsWith(`${link.path}/`));
+                  const Icon = MOBILE_NAV_ICONS[link.path as keyof typeof MOBILE_NAV_ICONS] ?? ArrowRight;
+                  return (
+                    <motion.div key={link.path} variants={itemVariants}>
+                      <Link
+                        href={link.path}
+                        onClick={() => setIsOpen(false)}
+                        className={`flex min-h-14 items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all duration-200 sm:min-h-[86px] sm:flex-col sm:items-stretch sm:justify-between sm:p-4 ${
+                          isActive
+                            ? 'border-accent/50 bg-accent/10 text-accent shadow-sm'
+                            : 'border-zinc-200/80 bg-white/65 text-zinc-700 hover:border-zinc-300 hover:bg-white hover:text-foreground dark:border-zinc-800/80 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-900'
+                        }`}
+                        aria-current={isActive ? 'page' : undefined}
+                      >
+                        <span className="flex shrink-0 items-center justify-between gap-3 sm:w-full">
+                          <Icon size={20} />
+                          <ArrowRight size={14} className="hidden opacity-50 sm:block" />
+                        </span>
+                        <span className="min-w-0 flex-1 text-sm font-bold uppercase tracking-wide sm:text-xs">{link.label}</span>
+                        <ArrowRight size={15} className="ml-auto shrink-0 opacity-45 sm:hidden" />
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </nav>
+
+              <motion.div variants={itemVariants} className="border-t border-zinc-200/80 px-4 py-4 dark:border-zinc-800/80 sm:px-5">
                 <Link
                   href="/contact"
                   onClick={() => setIsOpen(false)}
-                  className="premium-button w-full text-center text-sm py-4 rounded-xl flex items-center justify-center gap-2"
+                  className="premium-button flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-center text-sm"
                 >
+                  <LogIn size={17} />
                   <span>Login</span>
                   <ArrowRight size={16} />
                 </Link>
+                <p className="mt-3 text-center text-[9px] font-mono uppercase tracking-widest text-zinc-500">
+                  Campeonato Nacional Oficial de Angola
+                </p>
               </motion.div>
-            </motion.div>
-
-            {/* Mobile Footer Info */}
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="p-6 border-t border-zinc-200 dark:border-zinc-900 bg-zinc-100/50 dark:bg-zinc-950/50 text-center"
-            >
-              <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                Federação Angolana de Futebol
-              </p>
-              <p className="text-[9px] font-mono text-zinc-600 dark:text-zinc-500 mt-1">
-                Campeonato Nacional Oficial de Angola
-              </p>
             </motion.div>
           </motion.div>
         )}
