@@ -216,7 +216,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                 🔥 O <strong className="text-foreground">{bestAttack.teamName}</strong> foi o ataque mais concretizador, com <strong className="text-accent">{bestAttack.goalsFor} golos</strong> marcados.
               </p>
               <p>
-                🏆 O título de {selectedSeason?.label} pertence ao <strong className="text-foreground">{champion.teamName}</strong>, líder destacado da galeria de campeões do Liga Unitel Girabola.
+                🏆 O título de {selectedSeason?.label} pertence ao <strong className="text-foreground">{champion.teamName}</strong>, líder destacado da galeria de campeões da Liga Unitel Girabola.
               </p>
             </div>
           </AnimatedCard>

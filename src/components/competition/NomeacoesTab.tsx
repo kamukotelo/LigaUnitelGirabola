@@ -116,7 +116,7 @@ export default function NomeacoesTab({ seasonId }: { seasonId: string }) {
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
               As equipas de arbitragem de cada jornada são nomeadas pelo Conselho de Arbitragem da FAF
-              e publicadas antes de cada ronda do Liga Unitel Girabola. Cada nomeação inclui o árbitro
+              e publicadas antes de cada ronda da Liga Unitel Girabola. Cada nomeação inclui o árbitro
               principal, os dois árbitros assistentes e o quarto árbitro.
             </p>
           </AnimatedCard>

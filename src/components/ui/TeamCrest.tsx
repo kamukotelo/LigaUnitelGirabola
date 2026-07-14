@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { getTeamById } from '@/lib/data';
 
 interface TeamCrestProps {
   teamId: string;
@@ -23,7 +24,9 @@ const CREST_PATHS: Record<string, string> = {
   lobito: '/Clubes/ACADEMICA DO LOBITO.png',
   saosalvador: '/Clubes/SALVADOR DO KONGO.png',
   primeiromaio: '/Clubes/1%C2%A7%20DE%20MAIO.png',
-  fcluanda: '/Clubes/LUANDA CITY.png',
+  // fcluanda: sem emblema oficial disponível — usa o crachá de reserva com a
+  // sigla do clube, evitando confusão com o FC Cabinda (o ficheiro que existia
+  // era, na verdade, uma cópia do emblema do FC Cabinda).
   cabinda: '/Clubes/FC%20CABINDA.png',
   caala: '/Clubes/CAALA.png',
 };
@@ -35,11 +38,14 @@ export default function TeamCrest({ teamId, size = 40, className = '' }: TeamCre
   const crestPath = CREST_PATHS[cleanId];
 
   if (!crestPath || hasError) {
-    const fallbackText = teamId.slice(0, 2).toUpperCase();
+    // Crachá de reserva distinto: sigla oficial do clube sobre a cor principal.
+    const team = getTeamById(cleanId);
+    const fallbackText = team?.shortName ?? teamId.slice(0, 3).toUpperCase();
+    const bg = team?.colorsHex?.[0] ?? '#5C0F8B';
     return (
       <div
-        className={`flex items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-display font-bold border border-zinc-300 dark:border-zinc-700 text-center select-none ${className}`}
-        style={{ width: size, height: size, fontSize: Math.max(8, size * 0.4) }}
+        className={`flex items-center justify-center rounded-full text-white font-display font-bold border border-black/10 dark:border-white/15 text-center select-none shadow-sm ${className}`}
+        style={{ width: size, height: size, fontSize: Math.max(8, size * 0.32), backgroundColor: bg }}
       >
         {fallbackText}
       </div>

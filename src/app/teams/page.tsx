@@ -21,10 +21,10 @@ export default function TeamsPage() {
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
-            Clubes do <span className="text-primary italic">Liga Unitel Girabola</span>
+            Clubes da <span className="text-primary italic">Liga Unitel Girabola</span>
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
-            Lista das 16 equipas participantes no Liga Unitel Girabola
+            Lista das 16 equipas participantes na Liga Unitel Girabola
           </p>
         </div>
         <Link

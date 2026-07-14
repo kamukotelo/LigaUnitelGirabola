@@ -213,7 +213,7 @@ export default function Home() {
   const runnerUp = STANDINGS[1]?.teamName ?? '';
 
   const tickerItems = [
-    `● ${champion} campeão do Liga Unitel Girabola ${activeSeasonLabel}`,
+    `● ${champion} campeão da Liga Unitel Girabola ${activeSeasonLabel}`,
     `◆ ${topScorerFull} melhor marcador com ${topScorerGoals} golos`,
     runnerUp ? `▲ ${runnerUp} fecha a época no 2.º lugar` : '',
     '■ Portal digital do futebol de Angola',
@@ -361,7 +361,7 @@ export default function Home() {
             RECEBA NOTIFICAÇÕES LIVE
           </h2>
           <p className="text-md text-black font-bold uppercase mb-10 tracking-wide opacity-80 max-w-xl mx-auto">
-            Subscreva para receber alertas de golos em tempo real, resumos de jogos e notícias exclusivas do Liga Unitel Girabola.
+            Subscreva para receber alertas de golos em tempo real, resumos de jogos e notícias exclusivas da Liga Unitel Girabola.
           </p>
           {subscribed ? (
             <div className="bg-white/10 border border-white/20 rounded-2xl p-6 max-w-lg mx-auto text-center backdrop-blur-md">
