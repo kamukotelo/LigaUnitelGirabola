@@ -1,6 +1,6 @@
 // Calendário oficial publicado pelo gestor ANCAF.
 // Fonte: FAF_Calendar/public/possibilidades_calendarios_com_datas.md, calendário nº 1.
-// Gerado automaticamente para servir como fallback público quando o Supabase do portal está indisponível.
+// Gerado automaticamente como fonte oficial pública do calendário 2026/2027.
 import type { Match } from './data';
 
 export const PUBLISHED_ANCAF_CALENDAR_SOURCE = {

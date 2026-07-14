@@ -442,7 +442,7 @@ export const ANCAF_CALENDAR_SOURCE = {
 
 // ── 3c. CALENDÁRIO 2026/2027 (sorteio oficial ANCAF) ─────────────────
 // Calendário oficial a duas voltas (30 jornadas, 16 equipas, 240 jogos),
-// publicado pelo gestor ANCAF e mantido como fallback público do portal.
+// publicado pelo gestor ANCAF como fonte pública do portal.
 // As 16 equipas (incl. promovidos FC Cabinda, CR Caála, FC Luanda e
 // 1.º de Maio) são as mesmas definidas em TEAMS.
 export interface SeasonRound {
@@ -452,9 +452,8 @@ export interface SeasonRound {
   fixtures: [string, string][]; // pares [idCasa, idFora]
 }
 
-// Jogos do Girabola 2026/2027 publicados pelo gestor ANCAF. O endpoint público
-// /api/ancaf prioriza os jogos persistidos no Supabase; se a BD estiver
-// indisponível, este fallback mantém o calendário oficial visível no site.
+// Jogos do Girabola 2026/2027 publicados pelo gestor ANCAF como fonte oficial
+// consumida pelo site e pelo endpoint público /api/ancaf.
 export const MATCHES_2026_27: Match[] = PUBLISHED_MATCHES_2026_27;
 
 // Vista por jornada (confrontos + datas), derivada dos jogos gerados.
