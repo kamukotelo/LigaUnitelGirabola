@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Lock, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Lock, AlertCircle, Loader2 } from 'lucide-react';
 import FuturisticButton from './ui/FuturisticButton';
 import AnimatedCard from './ui/AnimatedCard';
 
@@ -10,41 +10,74 @@ interface AdminGuardProps {
   children: React.ReactNode;
 }
 
+type AuthStatus = 'checking' | 'authed' | 'anon';
+
 export default function AdminGuard({ children }: AdminGuardProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [status, setStatus] = useState<AuthStatus>('checking');
   const [passcode, setPasscode] = useState('');
   const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    // Leitura de sessionStorage apenas no cliente (evita mismatch de hidratação).
-    /* eslint-disable react-hooks/set-state-in-effect */
-    const auth = sessionStorage.getItem('faf_admin_auth');
-    if (auth === 'true') {
-      setIsAuthenticated(true);
-    }
-    /* eslint-enable react-hooks/set-state-in-effect */
+    // A sessão é verificada no servidor (cookie httpOnly). Nenhuma senha é
+    // guardada nem comparada no cliente.
+    let cancelled = false;
+    fetch('/api/admin/session', { cache: 'no-store' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setStatus(data?.authenticated ? 'authed' : 'anon');
+      })
+      .catch(() => {
+        if (!cancelled) setStatus('anon');
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === '0317' || passcode === 'ancaf2026') {
-      sessionStorage.setItem('faf_admin_auth', 'true');
-      setIsAuthenticated(true);
-      setError('');
-    } else {
-      setError('Código de acesso inválido. Acesso negado.');
-      setPasscode('');
+    setSubmitting(true);
+    setError('');
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode }),
+      });
+      if (res.ok) {
+        setStatus('authed');
+        setPasscode('');
+      } else {
+        setError('Código de acesso inválido. Acesso negado.');
+        setPasscode('');
+      }
+    } catch {
+      setError('Falha de ligação ao servidor de autenticação.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  if (isAuthenticated) {
+  if (status === 'checking') {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center p-6 relative z-10">
+        <div className="flex items-center gap-3 text-zinc-500 font-mono text-xs uppercase tracking-widest">
+          <Loader2 className="h-4 w-4 animate-spin text-accent" />
+          A verificar sessão...
+        </div>
+      </div>
+    );
+  }
+
+  if (status === 'authed') {
     return <>{children}</>;
   }
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center p-6 relative z-10">
       <div className="cyber-grid-bg absolute inset-0 opacity-10 pointer-events-none" />
-      
+
       <AnimatedCard variant="hud" className="max-w-md w-full p-8 border-zinc-200 dark:border-zinc-800">
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto rounded-2xl bg-primary/10 border border-primary/25 flex items-center justify-center text-primary mb-4 animate-pulse">
@@ -74,7 +107,7 @@ export default function AdminGuard({ children }: AdminGuardProps) {
           </div>
 
           {error && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               className="flex items-center gap-2 p-3.5 bg-red-500/10 border border-red-500/30 rounded-xl text-red-500 font-mono text-[10px] uppercase font-bold"
@@ -84,9 +117,9 @@ export default function AdminGuard({ children }: AdminGuardProps) {
             </motion.div>
           )}
 
-          <FuturisticButton variant="neon" type="submit" className="w-full">
+          <FuturisticButton variant="neon" type="submit" className="w-full" disabled={submitting}>
             <span className="flex items-center justify-center gap-2">
-              Autenticar Terminal <ShieldCheck size={14} />
+              {submitting ? 'A autenticar...' : 'Autenticar Terminal'} <ShieldCheck size={14} />
             </span>
           </FuturisticButton>
         </form>

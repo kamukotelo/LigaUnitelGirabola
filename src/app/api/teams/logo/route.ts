@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { getTeamById } from '@/lib/data';
+import { ADMIN_COOKIE, isValidSession, verifyPasscode } from '@/lib/admin-auth';
 
 // ── ENDPOINT · POST /api/teams/logo ──────────────────────────────────────
 // Persiste (globalmente) o emblema/logótipo de um clube. Recebe da consola de
@@ -9,10 +11,6 @@ import { getTeamById } from '@/lib/data';
 // A escrita usa o service_role; o acesso é validado pela credencial de gestão.
 
 export const dynamic = 'force-dynamic';
-
-// Credencial de gestão validada no servidor. Configurável por ambiente; o valor
-// por defeito coincide com a credencial da consola (ambiente de demonstração).
-const ADMIN_WRITE_PASSCODE = process.env.ADMIN_WRITE_PASSCODE ?? 'ancaf2026';
 
 const BUCKET = 'team-logos';
 const MAX_DATA_URL_BYTES = 800 * 1024; // ~800 KB por logótipo
@@ -51,8 +49,12 @@ export async function POST(request: Request) {
 
   const { teamId, logoUrl, passcode } = body;
 
-  // 1. Autenticação (credencial de gestão).
-  if (typeof passcode !== 'string' || passcode !== ADMIN_WRITE_PASSCODE) {
+  // 1. Autenticação: cookie de sessão (emitido por /api/admin/login) ou, em
+  //    alternativa, a credencial de gestão no corpo (uso programático). Em
+  //    ambos os casos a validação é feita no servidor.
+  const sessionCookie = (await cookies()).get(ADMIN_COOKIE)?.value;
+  const authorized = isValidSession(sessionCookie) || verifyPasscode(passcode);
+  if (!authorized) {
     return NextResponse.json({ error: 'unauthorized', message: 'Credencial de gestão inválida.' }, { status: 401 });
   }
 

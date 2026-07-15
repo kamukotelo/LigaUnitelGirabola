@@ -22,4 +22,5 @@ export const ROUTES = {
   terms: '/termos',
   privacy: '/privacidade',
   admin: '/admin',
+  login: '/login',
 } as const;

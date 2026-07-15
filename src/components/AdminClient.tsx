@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, CalendarDays, ShieldCheck, Users, Newspaper,
-  Lock, LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
+  LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
   Fingerprint, FileText, Plane, HeartPulse, Loader2, CheckCircle2,
-  AlertTriangle, BadgeCheck, Search, Download, Home, Eye, EyeOff,
+  AlertTriangle, BadgeCheck, Search, Download, Home,
   Plus, Trash2, Pencil, Shirt, Flag, ImagePlus,
 } from 'lucide-react';
 import {
@@ -21,9 +21,9 @@ import TeamCrest from '@/components/ui/TeamCrest';
 import { generateGirabolaCalendar } from '@/lib/ancaf-engine';
 import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
 
-// ── Configuração local (gate de demonstração / persistência local) ──────
-const PASSCODE = 'ancaf2026';
-const AUTH_KEY = 'faf_admin_authed';
+// ── Configuração local (persistência local dos overrides do admin) ──────
+// A autenticação é feita no servidor (ver AdminGuard + /api/admin/*); esta
+// consola só é renderizada quando a sessão é válida.
 const CAL_KEY = 'faf_calendar_overrides';
 const SYNC_KEY = 'faf_calendar_last_sync';
 const SEED_KEY = 'ancaf_calendar_seed';
@@ -82,25 +82,17 @@ function localInputToIso(value: string): string {
 // RAIZ
 // ════════════════════════════════════════════════════════════════════════
 export default function AdminClient() {
-  const [authed, setAuthed] = useState(false);
-  const [ready, setReady] = useState(false);
   const [section, setSection] = useState<Section>('dashboard');
 
-  useEffect(() => {
-    // Leitura segura de armazenamento do browser apenas no cliente (evita mismatch de hidratação).
-    /* eslint-disable react-hooks/set-state-in-effect */
-    setAuthed(sessionStorage.getItem(AUTH_KEY) === '1');
-    setReady(true);
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
-
-  const logout = () => {
-    sessionStorage.removeItem(AUTH_KEY);
-    setAuthed(false);
+  const logout = async () => {
+    // Termina a sessão no servidor (apaga o cookie httpOnly) e volta ao portal.
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch {
+      // Ignora falhas de rede — segue para a página inicial de qualquer forma.
+    }
+    window.location.href = '/';
   };
-
-  if (!ready) return null;
-  if (!authed) return <LoginGate onSuccess={() => setAuthed(true)} />;
 
   const navItems: { key: Section; label: string; icon: React.ElementType }[] = [
     { key: 'dashboard', label: 'Painel Geral', icon: LayoutDashboard },
@@ -187,87 +179,6 @@ export default function AdminClient() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-// ════════════════════════════════════════════════════════════════════════
-// GATE DE ACESSO
-// ════════════════════════════════════════════════════════════════════════
-function LoginGate({ onSuccess }: { onSuccess: () => void }) {
-  const [code, setCode] = useState('');
-  const [show, setShow] = useState(false);
-  const [error, setError] = useState(false);
-
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (code === PASSCODE) {
-      sessionStorage.setItem(AUTH_KEY, '1');
-      onSuccess();
-    } else {
-      setError(true);
-    }
-  };
-
-  return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 relative z-10">
-      <motion.form
-        onSubmit={submit}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-sm bg-zinc-100/60 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-8 backdrop-blur-md"
-      >
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2.5 rounded-xl bg-accent/10 border border-accent/30 text-accent">
-            <Lock size={20} />
-          </div>
-          <div>
-            <h1 className="font-display text-foreground uppercase tracking-wider text-lg leading-none">Área Restrita</h1>
-            <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mt-1">Acesso Administrativo FAF</p>
-          </div>
-        </div>
-
-        <p className="text-xs text-zinc-500 font-mono my-6 leading-relaxed">
-          Introduza a credencial de gestão para aceder à consola da plataforma.
-        </p>
-
-        <div className="relative">
-          <input
-            type={show ? 'text' : 'password'}
-            value={code}
-            onChange={(e) => { setCode(e.target.value); setError(false); }}
-            placeholder="Credencial de acesso"
-            autoFocus
-            className={`w-full bg-zinc-100 dark:bg-black/50 border rounded-xl py-3 pl-4 pr-11 text-sm text-foreground font-mono outline-none transition-colors ${
-              error ? 'border-red-500/60' : 'border-zinc-200 dark:border-zinc-800 focus:border-accent'
-            }`}
-          />
-          <button
-            type="button"
-            onClick={() => setShow((s) => !s)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
-          >
-            {show ? <EyeOff size={16} /> : <Eye size={16} />}
-          </button>
-        </div>
-
-        {error && (
-          <p className="text-[11px] font-mono text-red-400 mt-2 flex items-center gap-1.5">
-            <AlertTriangle size={12} /> Credencial inválida.
-          </p>
-        )}
-
-        <button
-          type="submit"
-          className="w-full mt-6 flex items-center justify-center gap-2 py-3 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-xs uppercase tracking-widest hover:bg-accent/20 transition-colors"
-        >
-          <ShieldCheck size={14} /> Entrar
-        </button>
-
-        <p className="text-[10px] font-mono text-zinc-600 mt-5 text-center">
-          Ambiente de demonstração · credencial: <span className="text-zinc-600 dark:text-zinc-400">ancaf2026</span>
-        </p>
-      </motion.form>
     </div>
   );
 }
@@ -1174,7 +1085,9 @@ function TeamsSection() {
       const res = await fetch('/api/teams/logo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamId, logoUrl, passcode: PASSCODE }),
+        // Autorização via cookie de sessão (enviado automaticamente); a senha
+        // já não vive no código do cliente.
+        body: JSON.stringify({ teamId, logoUrl }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.message || 'Falha ao guardar no servidor.');

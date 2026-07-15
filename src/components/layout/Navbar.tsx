@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Home, Trophy, Shield, Newspaper, PlayCircle, MessageCircle } from 'lucide-react';
+import { Menu, X, ArrowRight, Home, Trophy, Shield, Newspaper, PlayCircle, MessageCircle, LogIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS } from '@/pages.config';
 import Brand from './Brand';
@@ -148,8 +148,8 @@ export default function Navbar() {
           {/* Right Action Button */}
           <div className="hidden xl:flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
-            <Link href="/contact" className="premium-button text-sm whitespace-nowrap">
-              Área de Clubes
+            <Link href="/login" className="premium-button text-sm whitespace-nowrap">
+              Login
             </Link>
           </div>
 
@@ -247,12 +247,12 @@ export default function Navbar() {
 
               <motion.div variants={itemVariants} className="border-t border-zinc-200/80 px-4 py-4 dark:border-zinc-800/80 sm:px-5">
                 <Link
-                  href="/contact"
+                  href="/login"
                   onClick={() => setIsOpen(false)}
                   className="premium-button flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-center text-sm"
                 >
-                  <MessageCircle size={17} />
-                  <span>Área de Clubes</span>
+                  <LogIn size={17} />
+                  <span>Login</span>
                   <ArrowRight size={16} />
                 </Link>
                 <p className="mt-3 text-center text-[9px] font-mono uppercase tracking-widest text-zinc-500">
