@@ -241,6 +241,8 @@ export default function ContactPage() {
                 <Phone size={16} className="text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="font-bold text-foreground uppercase">Telefone</h4>
+                  {/* TODO(pré-lançamento): substituir pelo número de telefone real
+                      da liga. Valor atual é um placeholder de demonstração. */}
                   <p className="mt-1">+244 923 000 000</p>
                 </div>
               </div>
@@ -249,6 +251,9 @@ export default function ContactPage() {
                 <Mail size={16} className="text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="font-bold text-foreground uppercase">Email</h4>
+                  {/* TODO(pré-lançamento): confirmar/atualizar para a caixa de
+                      correio real e operacional (e o domínio final). Endereço
+                      de demonstração. */}
                   <p className="mt-1 hover:text-primary transition-colors">
                     info@girabola.co.ao
                   </p>
@@ -261,6 +266,7 @@ export default function ContactPage() {
             <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4">
               Apoio Técnico
             </h3>
+            {/* TODO(pré-lançamento): confirmar/atualizar o email de suporte real. */}
             <p className="text-xs text-zinc-600 dark:text-zinc-400 font-mono leading-relaxed">
               Para problemas de acesso à Área de Clubes ou falhas na plataforma digital, contacte a equipa de engenharia de software em: <span className="text-primary font-bold">suporte@girabola.co.ao</span>
             </p>

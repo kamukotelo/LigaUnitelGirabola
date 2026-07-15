@@ -4,6 +4,7 @@ import { Sora } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { TeamLogosProvider } from "@/lib/team-logos";
 
 /**
  * Substituto temporário da tipografia corporativa "Intro" (Manual de Normas
@@ -80,6 +81,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground min-h-screen">
+        <TeamLogosProvider>
         <div className="flex min-h-screen flex-col relative">
           {/* Futuristic Aurora Blobs in background */}
           <div className="aurora-orb top-[-10%] left-[-10%]" />
@@ -105,6 +107,7 @@ export default function RootLayout({
           <main className="flex-1 z-10 pt-16 sm:pt-[72px] md:pt-20 xl:pt-28">{children}</main>
           <Footer />
         </div>
+        </TeamLogosProvider>
       </body>
     </html>
   );

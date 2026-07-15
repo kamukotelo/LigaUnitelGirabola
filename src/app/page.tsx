@@ -19,10 +19,22 @@ function AnimatedCounter({ value }: { value: number }) {
   const motionVal = useMotionValue(0);
   const spring = useSpring(motionVal, { stiffness: 80, damping: 20 });
   const display = useTransform(spring, (v) => Math.round(v));
+  const [mounted, setMounted] = useState(false);
+
+  // Marca a hidratação no cliente (sinaliza que já podemos animar).
+  /* eslint-disable-next-line react-hooks/set-state-in-effect */
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (inView) motionVal.set(value);
   }, [inView, motionVal, value]);
+
+  // No render do servidor / sem JavaScript, mostra já o valor final (bom para
+  // SEO e para a primeira pintura). Após a hidratação, o contador anima de 0
+  // até ao valor quando entra no ecrã.
+  if (!mounted) {
+    return <span className="tabular-nums font-display">{value}</span>;
+  }
 
   return (
     <motion.span ref={ref} className="tabular-nums font-display">
@@ -255,10 +267,13 @@ export default function Home() {
           <div>
             <h1 className="mb-8">
               <span className="sr-only">Liga Unitel Girabola</span>
+              {/* As duas imagens são decorativas (alt=""): o rótulo textual acima
+                  (sr-only) fornece o nome acessível único ao leitor de ecrã, e só
+                  uma das versões (clara/escura) fica visível de cada vez. */}
               {/* Fundo claro: logótipo principal a cores (mesmo enquadramento do branco) */}
               <Image
                 src="/logo-girabola-horizontal.png"
-                alt="Liga Unitel Girabola"
+                alt=""
                 width={635}
                 height={208}
                 priority
@@ -267,7 +282,7 @@ export default function Home() {
               {/* Fundo escuro: versão monocromática negativa (inalterada) */}
               <Image
                 src="/logo-girabola-horizontal-white.png"
-                alt="Liga Unitel Girabola"
+                alt=""
                 width={396}
                 height={219}
                 priority

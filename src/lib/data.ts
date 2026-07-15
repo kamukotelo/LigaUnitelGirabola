@@ -146,7 +146,8 @@ export interface NewsArticle {
   id: string;
   title: string;
   category: string;
-  date: string;
+  date: string;      // rótulo de apresentação, ex.: '13 Jun 2026'
+  isoDate: string;   // data ISO (yyyy-mm-dd) usada para ordenação cronológica
   summary: string;
   content?: string;
 }
@@ -1154,6 +1155,7 @@ export const newsMock: NewsArticle[] = [
     title: 'Petro de Luanda vence o clássico no 11 de Novembro contra 1.º de Agosto',
     category: 'Liga Unitel Girabola',
     date: '13 Jun 2026',
+    isoDate: '2026-06-13',
     summary: 'Com golo solitário de Tiago Azulão aos 88 minutos, os tricolores asseguraram a liderança da tabela.',
     content: 'O clássico dos clássicos do futebol angolano terminou com a vitória tangencial do Petro de Luanda sobre o rival Primeiro de Agosto. Num jogo tenso e disputado taticamente, o avançado brasileiro Tiago Azulão voltou a ser decisivo, finalizando de cabeça um cruzamento milimétrico de Jaredi aos 88 minutos, despoletando a loucura no Estádio 11 de Novembro. Esta vitória consolida a liderança isolada dos tricolores na presente campanha de preparação da liga.'
   },
@@ -1162,6 +1164,7 @@ export const newsMock: NewsArticle[] = [
     title: 'Manuel Keliano destaca subida de rendimento no meio-campo',
     category: 'Entrevista',
     date: '12 Jun 2026',
+    isoDate: '2026-06-12',
     summary: 'O internacional angolano analisou a fase positiva da equipa e o próximo jogo contra o Kabuscorp.',
     content: 'Em conferência de imprensa após os treinos do Primeiro de Agosto no complexo França Ndalu, o jovem virtuoso Manuel Keliano analisou a rápida transição da equipa para novos esquemas táticos. Keliano expressou que a intensidade imposta nos treinos começa a traduzir-se em exibições de classe, sublinhando que o grupo está altamente focado em garantir a vitória no próximo desafio contra o Kabuscorp do Palanca.'
   },
@@ -1170,6 +1173,7 @@ export const newsMock: NewsArticle[] = [
     title: 'Wiliete de Benguela garante histórico 2º lugar e vaga nas competições africanas',
     category: 'Competição',
     date: '09 Mai 2026',
+    isoDate: '2026-05-09',
     summary: 'A formação de Benguela venceu o Interclube por 2-0 e garantiu uma participação histórica na Liga dos Campeões da CAF para a próxima época.',
     content: 'Benguela está em festa. O Wiliete de Benguela bateu o Interclube por duas bolas a zero no Estádio Nacional de Ombaka e carimbou a sua vaga oficial na Liga dos Campeões da CAF da próxima época. Com golos de Mano Mano e Karanga, a formação dirigida por Lito Vidigal coroou uma campanha fenomenal no Liga Unitel Girabola, consagrando-se como a grande surpresa do futebol nacional angolano.'
   },
@@ -1178,6 +1182,7 @@ export const newsMock: NewsArticle[] = [
     title: 'Dagó Tshibamba conquista Troféu de Melhor Marcador do Liga Unitel Girabola',
     category: 'Individual',
     date: '10 Mai 2026',
+    isoDate: '2026-05-10',
     summary: 'O avançado congolês do 1.º de Agosto finalizou a temporada com 18 golos marcados, consagrando-se o principal goleador do futebol nacional angolano.',
     content: 'O troféu de artilheiro do futebol angolano tem novo dono. O avançado congolês Dagó Tshibamba fechou a época de ouro do 1.º de Agosto com 18 golos apontados na prova. Tshibamba demonstrou regularidade notável, sendo coroado oficialmente como o melhor marcador e grande estrela ofensiva do Liga Unitel Girabola.'
   },
@@ -1186,6 +1191,7 @@ export const newsMock: NewsArticle[] = [
     title: 'Requalificação do Estádio França Ndalu recebe luz verde da FAF',
     category: 'Infraestrutura',
     date: '24 Jun 2026',
+    isoDate: '2026-06-24',
     summary: 'A comissão técnica vistoriou as obras e aprovou o relvado para as competições nacionais e internacionais da próxima época.',
     content: 'O Estádio França Ndalu, casa do 1.º de Agosto, recebeu luz verde da federação para acolher jogos de alto nível na próxima temporada. Após profundas obras de requalificação no relvado e nos balneários, a vistoria técnica da FAF confirmou que o recinto reúne todos os requisitos regulamentares, trazendo grande alento aos adeptos militares que poderão apoiar a equipa no seu reduto principal.'
   },
@@ -1194,6 +1200,7 @@ export const newsMock: NewsArticle[] = [
     title: 'FAF anuncia sorteio do calendário oficial para o Liga Unitel Girabola 2026/2027',
     category: 'Federação',
     date: '20 Jun 2026',
+    isoDate: '2026-06-20',
     summary: 'O sorteio oficial definiu as 30 jornadas da nova época desportiva, sob o novo código de verificação unificado.',
     content: 'A Federação Angolana de Futebol (FAF) realizou o sorteio da nova edição do campeonato nacional no edifício-sede em Luanda. O sorteio estabeleceu um calendário emocionante a duas voltas para as 16 equipas concorrentes. Os jogos terão início a 12 de Setembro de 2026, com o Petro de Luanda a iniciar a defesa do título em casa contra o Desportivo da Lunda Sul.'
   }
@@ -1316,7 +1323,9 @@ export function getTopAssists(): PlayerStats[] {
 }
 
 export function getNewsArticles(): NewsArticle[] {
-  return newsMock;
+  // Ordena por data cronológica decrescente (mais recente primeiro), usando o
+  // campo ISO para uma ordenação fiável independente do rótulo de apresentação.
+  return [...newsMock].sort((a, b) => b.isoDate.localeCompare(a.isoDate));
 }
 
 export function getNewsArticleById(id: string): NewsArticle | undefined {

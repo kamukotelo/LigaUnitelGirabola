@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Globe, Flame, ShieldAlert, Lock } from 'lucide-react';
+import { Globe, Flame, ShieldAlert } from 'lucide-react';
 import Brand from './Brand';
 import { ROUTES } from '@/lib/routes';
 
@@ -46,15 +46,10 @@ export default function Footer() {
                 <Link href={ROUTES.contact} className="hover:text-accent transition-colors">Central de Ajuda</Link>
               </li>
               <li>
-                <span title="Brevemente" className="cursor-not-allowed opacity-50 hover:text-accent transition-colors">Termos de Uso</span>
+                <Link href={ROUTES.terms} className="hover:text-accent transition-colors">Termos de Uso</Link>
               </li>
               <li>
-                <span title="Brevemente" className="cursor-not-allowed opacity-50 hover:text-accent transition-colors">Políticas de Privacidade</span>
-              </li>
-              <li>
-                <Link href={ROUTES.admin} className="inline-flex items-center gap-1.5 text-zinc-600 hover:text-accent transition-colors">
-                  <Lock className="h-3 w-3" /> Administração
-                </Link>
+                <Link href={ROUTES.privacy} className="hover:text-accent transition-colors">Políticas de Privacidade</Link>
               </li>
             </ul>
           </div>

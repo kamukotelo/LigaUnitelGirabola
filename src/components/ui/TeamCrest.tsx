@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { getTeamById } from '@/lib/data';
+import { useTeamLogoOverride } from '@/lib/team-overrides';
+import { useTeamLogo } from '@/lib/team-logos';
 
 interface TeamCrestProps {
   teamId: string;
@@ -12,8 +14,10 @@ interface TeamCrestProps {
 
 const CREST_PATHS: Record<string, string> = {
   petro: '/Clubes/PETRO DE LUANDA.png',
-  wiliete: '/Clubes/WILIWTE FC.png',
-  dago: '/Clubes/1%C2%A7%20DE%20AGOSTO.png',
+  // Emblemas servidos a partir de nomes ASCII limpos em /crests (evita o erro de
+  // nomenclatura "WILIWTE" e o símbolo "§"/%C2%A7 nos ficheiros de "1.º de ...").
+  wiliete: '/crests/wiliete.png',
+  dago: '/crests/dago.png',
   desphuila: '/Clubes/CDH.png',
   bravos: '/Clubes/BRAVOS DO MAQUIS.png',
   kabuscorp: '/Clubes/KABUSCORP.png',
@@ -23,7 +27,7 @@ const CREST_PATHS: Record<string, string> = {
   libolo: '/Clubes/LIBOLO.png',
   lobito: '/Clubes/ACADEMICA DO LOBITO.png',
   saosalvador: '/Clubes/SALVADOR DO KONGO.png',
-  primeiromaio: '/Clubes/1%C2%A7%20DE%20MAIO.png',
+  primeiromaio: '/crests/primeiromaio.png',
   // fcluanda: sem emblema oficial disponível — usa o crachá de reserva com a
   // sigla do clube, evitando confusão com o FC Cabinda (o ficheiro que existia
   // era, na verdade, uma cópia do emblema do FC Cabinda).
@@ -33,9 +37,24 @@ const CREST_PATHS: Record<string, string> = {
 
 export default function TeamCrest({ teamId, size = 40, className = '' }: TeamCrestProps) {
   const cleanId = teamId.toLowerCase();
-  const [hasError, setHasError] = useState(false);
+  // Guardamos a fonte que falhou (em vez de um booleano) para que um novo
+  // logótipo limpe automaticamente o erro anterior, sem precisar de effect.
+  const [erroredSrc, setErroredSrc] = useState<string | null>(null);
 
-  const crestPath = CREST_PATHS[cleanId];
+  // Prioridade do emblema: (1) logótipo trocado no admin (override local, para
+  // pré-visualização instantânea) → (2) logótipo global persistido no Supabase
+  // → (3) logoUrl definido nos dados do clube → (4) mapa de ficheiros incluídos
+  // → (5) crachá de reserva com a sigla. Trocar o logótipo no admin reflete-se
+  // aqui em tempo real (override local + realtime do Supabase).
+  const overrideLogo = useTeamLogoOverride(cleanId);
+  const persistedLogo = useTeamLogo(cleanId);
+  const dataLogo = getTeamById(cleanId)?.logoUrl;
+  const crestPath = overrideLogo || persistedLogo || dataLogo || CREST_PATHS[cleanId];
+  const hasError = !!crestPath && erroredSrc === crestPath;
+
+  // Fontes personalizadas (upload em data URL ou URL externo) são servidas com
+  // <img> nativo para não dependerem da lista de domínios do next/image.
+  const isCustomSource = !!crestPath && (crestPath.startsWith('data:') || /^https?:\/\//.test(crestPath));
 
   if (!crestPath || hasError) {
     // Crachá de reserva distinto: sigla oficial do clube sobre a cor principal.
@@ -52,13 +71,29 @@ export default function TeamCrest({ teamId, size = 40, className = '' }: TeamCre
     );
   }
 
+  if (isCustomSource) {
+    return (
+      // Fonte personalizada (data URL / URL externo): next/image não a otimiza.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={crestPath}
+        alt={`Emblema ${teamId}`}
+        width={size}
+        height={size}
+        onError={() => setErroredSrc(crestPath)}
+        className={`object-contain select-none flex-shrink-0 ${className}`}
+        style={{ width: size, height: size }}
+      />
+    );
+  }
+
   return (
     <Image
       src={crestPath}
       alt={`Emblema ${teamId}`}
       width={size}
       height={size}
-      onError={() => setHasError(true)}
+      onError={() => setErroredSrc(crestPath)}
       className={`object-contain select-none flex-shrink-0 ${className}`}
       style={{ width: size, height: size }}
     />

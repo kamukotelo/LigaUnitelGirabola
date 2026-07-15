@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Play, LogIn, ExternalLink } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Play, CalendarDays, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import TeamCrest from '@/components/ui/TeamCrest';
 import {
@@ -115,7 +115,7 @@ export default function LigaAngolaBlock() {
               </p>
               <Link href={`/competicao/${UPCOMING_SEASON_ID}?tab=calendario`}>
                 <button className="flex items-center justify-center gap-2 border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all font-mono font-bold text-xs uppercase px-5 py-2.5 rounded-xl shadow-xs">
-                  <LogIn size={13} className="text-accent" /> Iniciar Sessão
+                  <CalendarDays size={13} className="text-accent" /> Ver Calendário
                 </button>
               </Link>
             </div>
@@ -141,7 +141,8 @@ export default function LigaAngolaBlock() {
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                   >
-                    Girabola 25/26
+                    <span className="block leading-tight">Girabola 25/26</span>
+                    <span className="block text-[8px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Época concluída</span>
                   </button>
                   <button
                     onClick={() => selectSeason(UPCOMING_SEASON_ID)}
@@ -151,7 +152,8 @@ export default function LigaAngolaBlock() {
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                   >
-                    Girabola 26/27
+                    <span className="block leading-tight">Girabola 26/27</span>
+                    <span className="block text-[8px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Nova época</span>
                   </button>
                 </div>
 
@@ -257,7 +259,8 @@ export default function LigaAngolaBlock() {
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                   >
-                    Girabola 25/26
+                    <span className="block leading-tight">Girabola 25/26</span>
+                    <span className="block text-[8px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Época concluída</span>
                   </button>
                   <button
                     onClick={() => setStandingsSeasonId(UPCOMING_SEASON_ID)}
@@ -267,7 +270,8 @@ export default function LigaAngolaBlock() {
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                   >
-                    Girabola 26/27
+                    <span className="block leading-tight">Girabola 26/27</span>
+                    <span className="block text-[8px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Nova época</span>
                   </button>
                 </div>
 

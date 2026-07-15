@@ -19,5 +19,7 @@ export const ROUTES = {
   news: '/news',
   ligaTv: '/ligatv',
   contact: '/contact',
+  terms: '/termos',
+  privacy: '/privacidade',
   admin: '/admin',
 } as const;

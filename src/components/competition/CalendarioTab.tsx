@@ -20,10 +20,21 @@ type CalendarFilters = {
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
+// Jornada mostrada por defeito: a próxima por disputar (ou, se a época estiver
+// concluída, a última). Evita renderizar as 240 partidas de uma só vez — o
+// utilizador pode sempre escolher "TODAS". Grande ganho de performance.
+function getDefaultRound(seasonId: string): number | 'all' {
+  const matches = getMatchesForSeason(seasonId);
+  const rounds = Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b);
+  if (rounds.length === 0) return 'all';
+  const nextRound = rounds.find((r) => matches.some((m) => m.round === r && m.status !== 'finished'));
+  return nextRound ?? rounds[rounds.length - 1];
+}
+
 function getDefaultFilters(seasonId: string): CalendarFilters {
   return {
     seasonId,
-    selectedRound: 'all',
+    selectedRound: getDefaultRound(seasonId),
     filterStatus: 'all',
     filterTeam: 'all',
     filterMonth: 'all',

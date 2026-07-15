@@ -92,7 +92,7 @@ export default function AdminGuard({ children }: AdminGuardProps) {
         </form>
 
         <div className="text-center mt-6 text-[9px] font-mono text-zinc-500 uppercase tracking-widest">
-          SISTEMA DE SEGURANÇA INTEGRADO ANCAF · COD. 0317
+          SISTEMA DE SEGURANÇA INTEGRADO ANCAF
         </div>
       </AnimatedCard>
     </div>

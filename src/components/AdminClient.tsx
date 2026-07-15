@@ -8,7 +8,7 @@ import {
   Lock, LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
   Fingerprint, FileText, Plane, HeartPulse, Loader2, CheckCircle2,
   AlertTriangle, BadgeCheck, Search, Download, Home, Eye, EyeOff,
-  Plus, Trash2, Pencil, Shirt, Flag,
+  Plus, Trash2, Pencil, Shirt, Flag, ImagePlus,
 } from 'lucide-react';
 import {
   MATCHES, TEAMS, PLAYERS, getStandings, getNewsArticles,
@@ -19,6 +19,7 @@ import {
 } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { generateGirabolaCalendar } from '@/lib/ancaf-engine';
+import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
 
 // ── Configuração local (gate de demonstração / persistência local) ──────
 const PASSCODE = 'ancaf2026';
@@ -26,7 +27,6 @@ const AUTH_KEY = 'faf_admin_authed';
 const CAL_KEY = 'faf_calendar_overrides';
 const SYNC_KEY = 'faf_calendar_last_sync';
 const SEED_KEY = 'ancaf_calendar_seed';
-const TEAM_KEY = 'faf_team_overrides';
 const NEWS_KEY = 'faf_news_store';
 const PLAYER_KEY = 'faf_player_overrides';
 const NOMINATION_KEY = 'faf_nomination_overrides';
@@ -1138,21 +1138,56 @@ function TeamsSection() {
   const [savedAt, setSavedAt] = useState<string | null>(null);
   const [openId, setOpenId] = useState<string | null>(null);
 
+  const [logoError, setLogoError] = useState<string | null>(null);
+  const [logoSaving, setLogoSaving] = useState<string | null>(null);
+  const [logoSavedId, setLogoSavedId] = useState<string | null>(null);
+
   useEffect(() => {
     /* eslint-disable react-hooks/set-state-in-effect */
-    setOverrides(readJSON<Record<string, Partial<Team>>>(TEAM_KEY, {}));
+    setOverrides(readTeamOverrides());
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   const persist = (next: Record<string, Partial<Team>>) => {
-    setOverrides(next);
-    localStorage.setItem(TEAM_KEY, JSON.stringify(next));
-    setSavedAt(new Date().toISOString());
+    try {
+      // writeTeamOverrides grava e emite o evento que atualiza os emblemas
+      // em todo o portal em tempo real.
+      writeTeamOverrides(next);
+      setOverrides(next);
+      setSavedAt(new Date().toISOString());
+      setLogoError(null);
+    } catch {
+      setLogoError('Sem espaço para guardar o logótipo neste navegador. Use uma imagem mais pequena ou um URL.');
+    }
   };
   const update = (id: string, patch: Partial<Team>) => persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
   const resetTeam = (id: string) => { const n = { ...overrides }; delete n[id]; persist(n); };
   const merged = (t: Team): Team => ({ ...t, ...overrides[t.id] });
   const editedCount = Object.keys(overrides).length;
+
+  // Persiste o logótipo GLOBALMENTE (Supabase). O upload devolve um URL público
+  // que substitui o override local (mais leve que o data URL e canónico).
+  const persistLogoToServer = async (teamId: string, logoUrl: string | null) => {
+    setLogoSaving(teamId);
+    setLogoError(null);
+    try {
+      const res = await fetch('/api/teams/logo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId, logoUrl, passcode: PASSCODE }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || 'Falha ao guardar no servidor.');
+      // Alinha o override local com o que ficou no servidor.
+      update(teamId, { logoUrl: data.logoUrl ?? undefined });
+      setLogoSavedId(teamId);
+      setTimeout(() => setLogoSavedId((cur) => (cur === teamId ? null : cur)), 2500);
+    } catch (e) {
+      setLogoError(e instanceof Error ? e.message : 'Falha ao guardar o logótipo no servidor.');
+    } finally {
+      setLogoSaving((cur) => (cur === teamId ? null : cur));
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -1219,6 +1254,73 @@ function TeamsSection() {
                       <input type="color" value={hex[1] ?? hex[0]} onChange={(e) => update(base.id, { colorsHex: [hex[0], e.target.value] })} className="h-9 w-14 rounded bg-transparent border border-zinc-700 cursor-pointer" />
                     </div>
                   </Field>
+                </div>
+              )}
+
+              {isOpen && (
+                <div className="mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60">
+                  <span className="text-[10px] font-mono text-accent uppercase tracking-widest flex items-center gap-1.5 mb-3">
+                    <ImagePlus size={12} /> Emblema / Logótipo
+                  </span>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex-shrink-0 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-black/40 p-2">
+                      <TeamCrest teamId={base.id} size={56} />
+                    </div>
+                    <div className="flex-1 min-w-[220px] space-y-2">
+                      <label className={`inline-flex w-fit items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest transition-colors ${logoSaving === base.id ? 'opacity-60 cursor-wait' : 'hover:bg-accent/20 cursor-pointer'}`}>
+                        <ImagePlus size={12} /> Carregar imagem
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={logoSaving === base.id}
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            try {
+                              const url = await fileToLogoDataUrl(file);
+                              update(base.id, { logoUrl: url });    // pré-visualização instantânea
+                              await persistLogoToServer(base.id, url); // persiste globalmente
+                            } catch {
+                              setLogoError('Não foi possível processar a imagem.');
+                            }
+                            e.target.value = '';
+                          }}
+                        />
+                      </label>
+                      <input
+                        className="admin-input"
+                        placeholder="ou colar URL do logótipo (https://…)"
+                        defaultValue={t.logoUrl && !t.logoUrl.startsWith('data:') ? t.logoUrl : ''}
+                        onBlur={(e) => {
+                          const val = e.target.value.trim();
+                          const current = t.logoUrl && !t.logoUrl.startsWith('data:') ? t.logoUrl : '';
+                          if (val === current) return;
+                          update(base.id, { logoUrl: val || undefined }); // pré-visualização
+                          persistLogoToServer(base.id, val || null);      // persiste globalmente
+                        }}
+                      />
+                      <p className="text-[9px] font-mono text-zinc-500">
+                        PNG/JPG/SVG · redimensionado automaticamente. Guardado no servidor — aplica-se a todos os visitantes.
+                      </p>
+                      {logoSaving === base.id && (
+                        <p className="text-[10px] font-mono text-accent flex items-center gap-1.5"><Loader2 size={11} className="animate-spin" /> A guardar no servidor…</p>
+                      )}
+                      {logoSavedId === base.id && logoSaving !== base.id && (
+                        <p className="text-[10px] font-mono text-green-400 flex items-center gap-1.5"><CheckCircle2 size={11} /> Emblema publicado globalmente.</p>
+                      )}
+                    </div>
+                    {overrides[base.id]?.logoUrl && (
+                      <button
+                        onClick={() => { update(base.id, { logoUrl: undefined }); persistLogoToServer(base.id, null); }}
+                        disabled={logoSaving === base.id}
+                        className="self-start inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-[10px] uppercase tracking-widest hover:bg-red-500/20 transition-colors disabled:opacity-50"
+                      >
+                        <RefreshCw size={12} /> Repor emblema
+                      </button>
+                    )}
+                  </div>
+                  {logoError && <p className="text-[10px] font-mono text-red-400 mt-2">{logoError}</p>}
                 </div>
               )}
 
@@ -1575,7 +1677,8 @@ function NewsSection() {
     persist({ ...store, overrides: { ...store.overrides, [id]: { ...store.overrides[id], ...patch } } });
   const addArt = () => {
     const id = `news-custom-${Date.now()}`;
-    const art: NewsArticle = { id, title: 'Nova notícia', category: 'Geral', date: new Date().toISOString(), summary: '', content: '' };
+    const now = new Date();
+    const art: NewsArticle = { id, title: 'Nova notícia', category: 'Geral', date: now.toISOString(), isoDate: now.toISOString().slice(0, 10), summary: '', content: '' };
     persist({ ...store, added: [art, ...store.added] });
     setOpenId(id);
   };
