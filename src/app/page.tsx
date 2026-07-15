@@ -9,7 +9,7 @@ import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
 import TeamCrestMarquee from '@/components/ui/TeamCrestMarquee';
 import LigaAngolaBlock from '@/components/competition/LigaAngolaBlock';
-import { getTeams, getMatches, getPlayers, STANDINGS, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
+import { getTeams, getMatches, getPlayers, getStandings, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
 
 /* ── Animated Number Counter ─────────────────────────────────── */
@@ -221,8 +221,9 @@ export default function Home() {
   const activeSeasonLabel = SEASONS.find((s) => s.id === CURRENT_SEASON_ID)?.label ?? '2025/2026';
 
   // Campeão / vice derivados da classificação (coincidem sempre com a tabela)
-  const champion = STANDINGS[0]?.teamName ?? 'Petro de Luanda';
-  const runnerUp = STANDINGS[1]?.teamName ?? '';
+  const standings = getStandings();
+  const champion = standings[0]?.teamName ?? 'Petro de Luanda';
+  const runnerUp = standings[1]?.teamName ?? '';
 
   const tickerItems = [
     `● ${champion} campeão da Liga Unitel Girabola ${activeSeasonLabel}`,

@@ -1206,6 +1206,48 @@ export const newsMock: NewsArticle[] = [
   }
 ];
 
+// ── OVERRIDES DE CONTEÚDO EM RUNTIME (publicados no admin) ──────────
+// A consola de administração publica as suas edições no Supabase
+// (`ancaf_configs`, chaves `override_*`). No cliente, o PortalDataProvider lê
+// esses blocos e chama setPortalOverrides(); os getters abaixo passam então a
+// devolver os dados já com as edições aplicadas — sem alterar os consumidores.
+export interface PortalOverrides {
+  news?: { overrides?: Record<string, Partial<NewsArticle>>; added?: NewsArticle[]; deleted?: string[] };
+  calendar?: Record<string, Partial<Match>>;                                   // por match.id
+  players?: Record<string, Partial<Player>>;                                   // por player.id
+  nominations?: Record<string, Partial<MatchOfficials>>;                       // por match.id
+}
+
+let RUNTIME_OVERRIDES: PortalOverrides = {};
+
+export function setPortalOverrides(next: PortalOverrides): void {
+  RUNTIME_OVERRIDES = next ?? {};
+}
+export function getPortalOverrides(): PortalOverrides {
+  return RUNTIME_OVERRIDES;
+}
+
+// Normaliza um jogo após aplicar um override: mantém `score` e os campos
+// numéricos coerentes (o admin pode editar só o resultado ou só o marcador).
+function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
+  const merged: Match = { ...base, ...patch };
+  const touchedScores = patch.homeScore !== undefined || patch.awayScore !== undefined;
+  if (touchedScores && patch.score === undefined) {
+    merged.score = `${merged.homeScore ?? 0}-${merged.awayScore ?? 0}`;
+  } else if (patch.score !== undefined && !touchedScores) {
+    const [h, a] = String(patch.score).split('-').map((n) => Number.parseInt(n, 10));
+    if (Number.isFinite(h)) merged.homeScore = h;
+    if (Number.isFinite(a)) merged.awayScore = a;
+  }
+  return merged;
+}
+
+function applyMatchOverrides(list: Match[]): Match[] {
+  const ov = RUNTIME_OVERRIDES.calendar;
+  if (!ov) return list;
+  return list.map((m) => (ov[m.id] ? normalizeMatchOverride(m, ov[m.id]) : m));
+}
+
 // ── 7. FUNÇÕES AUXILIARES DE BUSCA ─────────────────────────────────
 export function getTeams(): Team[] {
   return TEAMS;
@@ -1219,37 +1261,47 @@ export function getTeamById(id: string): Team | undefined {
   return ALL_TEAMS.find(t => t.id === id);
 }
 
+// Classificação recalculada a partir dos jogos já com overrides aplicados, para
+// que uma edição de resultado no admin se reflita na tabela pública.
 export function getStandings(): StandingEntry[] {
-  return STANDINGS;
+  return RUNTIME_OVERRIDES.calendar ? computeStandings(getMatches()) : STANDINGS;
 }
 
 export function getStandingByTeamId(teamId: string): StandingEntry | undefined {
-  return STANDINGS.find(s => s.teamId === teamId);
+  return getStandings().find(s => s.teamId === teamId);
 }
 
 export function getMatches(): Match[] {
-  return MATCHES;
+  return applyMatchOverrides(MATCHES);
 }
 
 // Calendário por época — 2026/2027 corresponde ao ficheiro do ANCAF_CALENDAR.
 export function getMatchesForSeason(seasonId: string): Match[] {
-  return seasonId === UPCOMING_SEASON_ID ? MATCHES_2026_27 : MATCHES;
+  return applyMatchOverrides(seasonId === UPCOMING_SEASON_ID ? MATCHES_2026_27 : MATCHES);
 }
 
 export function getMatchesByTeam(teamId: string): Match[] {
-  return MATCHES.filter(m => m.homeTeamId === teamId || m.awayTeamId === teamId);
+  return getMatches().filter(m => m.homeTeamId === teamId || m.awayTeamId === teamId);
+}
+
+// Aplica os overrides de jogador (admin) sobre os dados brutos e reenriquece,
+// para que golos/estatísticas editados sejam recalculados de forma coerente.
+function computePlayers(): Player[] {
+  const ov = RUNTIME_OVERRIDES.players;
+  if (!ov) return PLAYERS;
+  return PLAYERS_RAW.map((p) => (ov[p.id] ? enrichPlayer({ ...p, ...ov[p.id] }) : enrichPlayer(p)));
 }
 
 export function getPlayers(): Player[] {
-  return PLAYERS;
+  return computePlayers();
 }
 
 export function getPlayersByTeam(teamId: string): Player[] {
-  return PLAYERS.filter(p => p.teamId === teamId);
+  return computePlayers().filter(p => p.teamId === teamId);
 }
 
 export function getPlayerById(id: string): Player | undefined {
-  return PLAYERS.find(p => p.id === id);
+  return computePlayers().find(p => p.id === id);
 }
 
 // Bandeira (emoji) por nacionalidade — para a ficha de identidade.
@@ -1323,9 +1375,13 @@ export function getTopAssists(): PlayerStats[] {
 }
 
 export function getNewsArticles(): NewsArticle[] {
-  // Ordena por data cronológica decrescente (mais recente primeiro), usando o
-  // campo ISO para uma ordenação fiável independente do rótulo de apresentação.
-  return [...newsMock].sort((a, b) => b.isoDate.localeCompare(a.isoDate));
+  // Aplica os overrides publicados no admin (edições, novos artigos, remoções)
+  // e ordena por data cronológica decrescente (mais recente primeiro).
+  const ov = RUNTIME_OVERRIDES.news;
+  const deleted = new Set(ov?.deleted ?? []);
+  const edited = newsMock.map((a) => (ov?.overrides?.[a.id] ? { ...a, ...ov.overrides[a.id] } : a));
+  const merged = [...(ov?.added ?? []), ...edited].filter((a) => !deleted.has(a.id));
+  return merged.sort((a, b) => (b.isoDate ?? '').localeCompare(a.isoDate ?? ''));
 }
 
 export function getNewsArticleById(id: string): NewsArticle | undefined {
@@ -1675,7 +1731,10 @@ export function getMatchOfficials(match: Match): MatchOfficials {
   let a2Idx = seededInt(seed, 32, 0, ASSISTANT_REFEREES.length - 1);
   if (ASSISTANT_REFEREES[a2Idx] === a1) a2Idx = (a2Idx + 1) % ASSISTANT_REFEREES.length;
   const fourth = REFEREES[(seededInt(seed, 33, 0, REFEREES.length - 1) + 1) % REFEREES.length];
-  return { referee, assistants: [a1, ASSISTANT_REFEREES[a2Idx]], fourth };
+  const base: MatchOfficials = { referee, assistants: [a1, ASSISTANT_REFEREES[a2Idx]], fourth };
+  // Nomeações publicadas no admin sobrepõem-se ao valor derivado.
+  const ov = RUNTIME_OVERRIDES.nominations?.[match.id];
+  return ov ? { ...base, ...ov } : base;
 }
 
 export function getMatchBroadcast(match: Match): string {

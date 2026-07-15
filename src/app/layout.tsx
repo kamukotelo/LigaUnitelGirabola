@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { TeamLogosProvider } from "@/lib/team-logos";
+import { PortalDataProvider } from "@/lib/portal-overrides";
 
 /**
  * Substituto temporário da tipografia corporativa "Intro" (Manual de Normas
@@ -104,7 +105,9 @@ export default function RootLayout({
           </div>
           
           <Navbar />
-          <main className="flex-1 z-10 pt-16 sm:pt-[72px] md:pt-20 xl:pt-28">{children}</main>
+          <main className="flex-1 z-10 pt-16 sm:pt-[72px] md:pt-20 xl:pt-28">
+            <PortalDataProvider>{children}</PortalDataProvider>
+          </main>
           <Footer />
         </div>
         </TeamLogosProvider>

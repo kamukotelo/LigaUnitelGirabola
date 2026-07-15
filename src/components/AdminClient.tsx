@@ -20,6 +20,7 @@ import {
 import TeamCrest from '@/components/ui/TeamCrest';
 import { generateGirabolaCalendar } from '@/lib/ancaf-engine';
 import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
+import { publishOverride } from '@/lib/portal-overrides';
 
 // ── Configuração local (persistência local dos overrides do admin) ──────
 // A autenticação é feita no servidor (ver AdminGuard + /api/admin/*); esta
@@ -83,6 +84,31 @@ function localInputToIso(value: string): string {
 // ════════════════════════════════════════════════════════════════════════
 export default function AdminClient() {
   const [section, setSection] = useState<Section>('dashboard');
+  const [seeded, setSeeded] = useState(false);
+
+  useEffect(() => {
+    // Semeia o localStorage com os overrides publicados no servidor, para que a
+    // consola edite sobre o estado atual (evita sobrescrever o que já está
+    // publicado com o estado local vazio de um novo dispositivo).
+    let cancelled = false;
+    fetch('/api/admin/overrides', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled || !data?.overrides) return;
+        const o = data.overrides as Record<string, unknown>;
+        if (o.calendar) localStorage.setItem(CAL_KEY, JSON.stringify(o.calendar));
+        if (o.news) localStorage.setItem(NEWS_KEY, JSON.stringify(o.news));
+        if (o.players) localStorage.setItem(PLAYER_KEY, JSON.stringify(o.players));
+        if (o.nominations) localStorage.setItem(NOMINATION_KEY, JSON.stringify(o.nominations));
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setSeeded(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const logout = async () => {
     // Termina a sessão no servidor (apaga o cookie httpOnly) e volta ao portal.
@@ -93,6 +119,17 @@ export default function AdminClient() {
     }
     window.location.href = '/';
   };
+
+  if (!seeded) {
+    return (
+      <div className="min-h-[70vh] flex items-center justify-center">
+        <div className="flex items-center gap-3 text-zinc-500 font-mono text-xs uppercase tracking-widest">
+          <Loader2 className="h-4 w-4 animate-spin text-accent" />
+          A carregar estado publicado...
+        </div>
+      </div>
+    );
+  }
 
   const navItems: { key: Section; label: string; icon: React.ElementType }[] = [
     { key: 'dashboard', label: 'Painel Geral', icon: LayoutDashboard },
@@ -354,6 +391,7 @@ function CalendarSection() {
   const persist = (next: Overrides) => {
     setOverrides(next);
     localStorage.setItem(CAL_KEY, JSON.stringify(next));
+    publishOverride('calendar', next); // publica para o portal público (Supabase)
     setSavedAt(new Date().toISOString());
   };
 
@@ -1351,6 +1389,7 @@ function NominationsSection() {
   const persist = (next: Record<string, NominationOverride>) => {
     setOverrides(next);
     localStorage.setItem(NOMINATION_KEY, JSON.stringify(next));
+    publishOverride('nominations', next); // publica para o portal público (Supabase)
     setSavedAt(new Date().toISOString());
   };
   const update = (id: string, patch: NominationOverride) => persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
@@ -1464,6 +1503,7 @@ function PlayersSection() {
   const persist = (next: Record<string, Partial<Player>>) => {
     setOverrides(next);
     localStorage.setItem(PLAYER_KEY, JSON.stringify(next));
+    publishOverride('players', next); // publica para o portal público (Supabase)
     setSavedAt(new Date().toISOString());
   };
   const update = (id: string, patch: Partial<Player>) => persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
@@ -1584,6 +1624,7 @@ function NewsSection() {
   const persist = (next: NewsStore) => {
     setStore(next);
     localStorage.setItem(NEWS_KEY, JSON.stringify(next));
+    publishOverride('news', next); // publica para o portal público (Supabase)
     setSavedAt(new Date().toISOString());
   };
   const updateArt = (id: string, patch: Partial<NewsArticle>) =>
