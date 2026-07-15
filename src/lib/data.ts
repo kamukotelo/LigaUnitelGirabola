@@ -1777,7 +1777,6 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   dago: {
     officialName: 'Clube Desportivo 1.º de Agosto — Futebol',
     president: 'Carlos Hendrick',
-    website: 'https://www.1agosto.com/',
     socials: {
       facebook: 'https://www.facebook.com/clube1deagosto/',
       instagram: 'https://www.instagram.com/clube1deagosto/',
@@ -1795,7 +1794,6 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   sagrada: {
     officialName: 'Clube Desportivo Sagrada Esperança — Futebol',
-    website: 'https://gdse.ao/',
     socials: {
       facebook: 'https://www.facebook.com/sagradaesperancaln/',
       instagram: 'https://www.instagram.com/cdsagradaesperanca/',
