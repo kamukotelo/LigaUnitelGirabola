@@ -56,6 +56,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'bad_request', message: 'Secção desconhecida.' }, { status: 400 });
   }
 
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !serviceKey || serviceKey === 'your-supabase-service-role-key') {
+    return NextResponse.json(
+      { error: 'server_misconfigured', message: 'Chave de serviço do Supabase não configurada no servidor.' },
+      { status: 503 },
+    );
+  }
+
   let admin;
   try {
     admin = getSupabaseAdmin();
