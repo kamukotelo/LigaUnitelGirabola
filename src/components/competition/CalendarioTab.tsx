@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Clock, Trophy, Target, CalendarDays, Flag, Radio, Tv } from 'lucide-react';
+import { Calendar, MapPin, Clock, Trophy, Target, CalendarDays, Flag, Tv } from 'lucide-react';
 import { UPCOMING_SEASON_ID, getMatchesForSeason, getMatchBroadcast, getMatchOfficials, Match, TEAMS } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';

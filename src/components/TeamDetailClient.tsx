@@ -124,9 +124,9 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
                 )}
               </div>
               <div className="space-y-1">
-                <span className="text-[9px] text-zinc-600 block uppercase">Treinador</span>
+                <span className="text-[9px] text-zinc-600 block uppercase">Apelido</span>
                 <span className="text-foreground font-bold flex items-center justify-center md:justify-start gap-1.5">
-                  <User size={12} className="text-zinc-500" /> {team.coach}
+                  <User size={12} className="text-accent" /> {team.nickname ?? team.shortName}
                 </span>
               </div>
               <div className="space-y-1">
@@ -180,6 +180,7 @@ export default function TeamDetailClient({ team, players, matches, standing }: T
                   ['Estádio', team.stadium],
                   ['Capacidade', `${team.stadiumCapacity.toLocaleString('pt-AO')} lugares`],
                   ['Cores', team.colors],
+                  ['Apelido / Alcunha', team.nickname ?? team.shortName],
                   ['Treinador', team.coach],
                   ['Presidente', profile?.president ?? '—'],
                 ] as [string, string][]).map(([label, value]) => (

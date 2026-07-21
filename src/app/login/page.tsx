@@ -10,8 +10,11 @@ import {
   ArrowLeft, Terminal, ShieldAlert
 } from 'lucide-react';
 import ThemeToggle from '@/components/layout/ThemeToggle';
+import { useBrandLogo } from '@/lib/team-logos';
 
 export default function LoginPage() {
+  const logoAncaf = useBrandLogo('logo_ancaf');
+  const isCustomLogo = logoAncaf.startsWith('data:') || (logoAncaf.startsWith('http') && !logoAncaf.includes('.supabase.co'));
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -93,13 +96,24 @@ export default function LoginPage() {
         {/* Logo and Brand */}
         <div className="text-center">
           <div className="inline-flex items-center gap-3 justify-center mb-4">
-            <Image
-              src="/logo-ancaf.png"
-              alt="ANCAF Logo"
-              width={70}
-              height={70}
-              className="h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(var(--primary),0.2)]"
-            />
+            {isCustomLogo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={logoAncaf}
+                alt="ANCAF Logo"
+                width={70}
+                height={70}
+                className="h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(var(--primary),0.2)]"
+              />
+            ) : (
+              <Image
+                src={logoAncaf}
+                alt="ANCAF Logo"
+                width={70}
+                height={70}
+                className="h-16 w-auto object-contain drop-shadow-[0_0_15px_rgba(var(--primary),0.2)]"
+              />
+            )}
             <div className="h-10 w-px bg-zinc-300 dark:bg-zinc-800" />
             <div className="text-left">
               <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-semibold">

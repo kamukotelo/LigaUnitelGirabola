@@ -21,6 +21,7 @@ import TeamCrest from '@/components/ui/TeamCrest';
 import { generateGirabolaCalendar } from '@/lib/ancaf-engine';
 import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
 import { publishOverride } from '@/lib/portal-overrides';
+import { supabase } from '@/lib/supabase';
 
 // ── Configuração local (persistência local dos overrides do admin) ──────
 // A autenticação é feita no servidor (ver AdminGuard + /api/admin/*); esta
@@ -32,7 +33,7 @@ const NEWS_KEY = 'faf_news_store';
 const PLAYER_KEY = 'faf_player_overrides';
 const NOMINATION_KEY = 'faf_nomination_overrides';
 
-type Section = 'dashboard' | 'calendar' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations';
+type Section = 'dashboard' | 'calendar' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
 
 // ── Utilitário genérico de persistência local (overrides do admin) ───────
 function readJSON<T>(key: string, fallback: T): T {
@@ -139,6 +140,7 @@ export default function AdminClient() {
     { key: 'players', label: 'Jogadores', icon: ShieldCheck },
     { key: 'nominations', label: 'Nomeações', icon: Flag },
     { key: 'news', label: 'Notícias', icon: Newspaper },
+    { key: 'logos', label: 'Logótipos', icon: ImagePlus },
   ];
 
   return (
@@ -212,6 +214,7 @@ export default function AdminClient() {
               {section === 'players' && <PlayersSection />}
               {section === 'nominations' && <NominationsSection />}
               {section === 'news' && <NewsSection />}
+              {section === 'logos' && <LogosSection />}
             </motion.div>
           </div>
         </div>
@@ -1700,6 +1703,343 @@ function NewsSection() {
         {list.length === 0 && <p className="text-center py-10 text-zinc-600 font-mono text-sm">Sem notícias. Use «Nova» para criar.</p>}
       </div>
       <AdminInputStyles />
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════
+// SECÇÃO: LOGÓTIPOS (Gestão centralizada de todos os logótipos)
+// ════════════════════════════════════════════════════════════════════════
+function LogosSection() {
+  const [brandLogos, setBrandLogos] = useState<Record<string, { value: string; updated_at?: string }>>({});
+  const [brandSaving, setBrandSaving] = useState<string | null>(null);
+  const [brandSavedId, setBrandSavedId] = useState<string | null>(null);
+  const [brandError, setBrandError] = useState<string | null>(null);
+
+  // Estados dos Clubes
+  const [overrides, setOverrides] = useState<Record<string, Partial<Team>>>({});
+  const [teamData, setTeamData] = useState<Record<string, { logoUrl?: string; updated_at?: string }>>({});
+  const [logoSaving, setLogoSaving] = useState<string | null>(null);
+  const [logoSavedId, setLogoSavedId] = useState<string | null>(null);
+  const [logoError, setLogoError] = useState<string | null>(null);
+
+  // Formata a data/hora para exibição legível
+  const formatDateTime = (isoString?: string) => {
+    if (!isoString) return 'Padrão do sistema';
+    try {
+      const d = new Date(isoString);
+      if (isNaN(d.getTime())) return 'Padrão do sistema';
+      const pad = (n: number) => n.toString().padStart(2, '0');
+      return `Atualizado em: ${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} às ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    } catch {
+      return 'Padrão do sistema';
+    }
+  };
+
+  // Carregar dados de marca e clubes
+  useEffect(() => {
+    setOverrides(readTeamOverrides());
+
+    const loadConfigs = async () => {
+      const { data } = await supabase
+        .from('ancaf_configs')
+        .select('key, value, updated_at')
+        .in('key', ['logo_vertical', 'logo_horizontal', 'logo_horizontal_white', 'logo_ancaf']);
+      if (data) {
+        const map: Record<string, { value: string; updated_at?: string }> = {};
+        for (const row of data) {
+          map[row.key] = { value: row.value, updated_at: row.updated_at };
+        }
+        setBrandLogos(map);
+      }
+    };
+
+    const loadTeamsData = async () => {
+      const { data } = await supabase
+        .from('ancaf_teams')
+        .select('id, logo_url, updated_at');
+      if (data) {
+        const map: Record<string, { logoUrl?: string; updated_at?: string }> = {};
+        for (const row of data) {
+          map[row.id] = { logoUrl: row.logo_url || undefined, updated_at: row.updated_at };
+        }
+        setTeamData(map);
+      }
+    };
+
+    loadConfigs();
+    loadTeamsData();
+  }, []);
+
+  const persistBrandLogo = async (key: string, logoUrl: string | null) => {
+    setBrandSaving(key);
+    setBrandError(null);
+    try {
+      const res = await fetch('/api/admin/logos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key, logoUrl }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || 'Falha ao guardar no servidor.');
+      
+      setBrandLogos(prev => {
+        const next = { ...prev };
+        if (data.logoUrl) {
+          next[key] = { value: data.logoUrl, updated_at: new Date().toISOString() };
+        } else {
+          delete next[key];
+        }
+        return next;
+      });
+      setBrandSavedId(key);
+      setTimeout(() => setBrandSavedId(cur => cur === key ? null : cur), 2500);
+    } catch (e) {
+      setBrandError(e instanceof Error ? e.message : 'Falha ao guardar o logótipo no servidor.');
+    } finally {
+      setBrandSaving(null);
+    }
+  };
+
+  const persistTeamLogo = (next: Record<string, Partial<Team>>) => {
+    writeTeamOverrides(next);
+    setOverrides(next);
+  };
+
+  const updateTeamLogo = (id: string, patch: Partial<Team>) => {
+    persistTeamLogo({ ...overrides, [id]: { ...overrides[id], ...patch } });
+  };
+
+  const persistLogoToServer = async (teamId: string, logoUrl: string | null) => {
+    setLogoSaving(teamId);
+    setLogoError(null);
+    try {
+      const res = await fetch('/api/teams/logo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId, logoUrl }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || 'Falha ao guardar no servidor.');
+      updateTeamLogo(teamId, { logoUrl: data.logoUrl ?? undefined });
+      setTeamData(prev => ({
+        ...prev,
+        [teamId]: { logoUrl: data.logoUrl || undefined, updated_at: new Date().toISOString() }
+      }));
+      setLogoSavedId(teamId);
+      setTimeout(() => setLogoSavedId(cur => cur === teamId ? null : cur), 2500);
+    } catch (e) {
+      setLogoError(e instanceof Error ? e.message : 'Falha ao guardar o emblema no servidor.');
+    } finally {
+      setLogoSaving(null);
+    }
+  };
+
+  const getBrandLogoUrl = (key: 'logo_vertical' | 'logo_horizontal' | 'logo_horizontal_white' | 'logo_ancaf') => {
+    return brandLogos[key]?.value || (
+      key === 'logo_vertical' ? '/logo-girabola.png' :
+      key === 'logo_horizontal' ? '/logo-girabola-horizontal.png' :
+      key === 'logo_horizontal_white' ? '/logo-girabola-horizontal-white.png' :
+      '/logo-ancaf.png'
+    );
+  };
+
+  const brandItems = [
+    { key: 'logo_vertical', label: 'Logótipo Principal (Vertical)', desc: 'Marca d\'água animada e holograma de fundo.' },
+    { key: 'logo_horizontal', label: 'Logótipo Horizontal (Tema Claro)', desc: 'Cabeçalho e rodapé em fundo claro.' },
+    { key: 'logo_horizontal_white', label: 'Logótipo Horizontal (Tema Escuro)', desc: 'Cabeçalho e rodapé em fundo escuro.' },
+    { key: 'logo_ancaf', label: 'Logótipo Institucional (ANCAF)', desc: 'Menu institucional e ecrã de login.' },
+  ];
+
+  return (
+    <div className="space-y-10">
+      <SectionHeader icon={ImagePlus} subtitle="IDENTIDADE_VISUAL" title="Gestão de Logótipos" />
+
+      {/* ── SECÇÃO 1: LOGÓTIPOS DE MARCA ── */}
+      <div className="space-y-4">
+        <h3 className="text-xs font-mono text-zinc-500 uppercase tracking-widest border-b border-zinc-200/50 dark:border-zinc-800/50 pb-2">Logótipos do Portal (Identidade Visual)</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {brandItems.map((item) => {
+            const currentUrl = getBrandLogoUrl(item.key as any);
+            const isEdited = !!brandLogos[item.key];
+            const isSaving = brandSaving === item.key;
+            const isSaved = brandSavedId === item.key;
+
+            return (
+              <Panel key={item.key} className="flex flex-col gap-4">
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground">{item.label}</h4>
+                  <p className="text-[10px] font-mono text-zinc-500 mt-0.5">{item.desc}</p>
+                </div>
+
+                <div className="flex gap-4 items-center">
+                  <div className="w-20 h-20 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/40 dark:bg-black/30 p-2 flex items-center justify-center flex-shrink-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={currentUrl}
+                      alt={item.label}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+
+                  <div className="flex-1 space-y-2">
+                    <label className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest transition-colors ${isSaving ? 'opacity-60 cursor-wait' : 'hover:bg-accent/20 cursor-pointer'}`}>
+                      <ImagePlus size={12} /> Carregar imagem
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        disabled={isSaving}
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          try {
+                            const url = await fileToLogoDataUrl(file, 512); // Logotipos de marca podem ser maiores
+                            await persistBrandLogo(item.key, url);
+                          } catch {
+                            setBrandError('Erro ao ler a imagem.');
+                          }
+                          e.target.value = '';
+                        }}
+                      />
+                    </label>
+
+                    <input
+                      className="admin-input"
+                      placeholder="ou colar URL externa (https://…)"
+                      defaultValue={brandLogos[item.key]?.value || ''}
+                      onBlur={(e) => {
+                        const val = e.target.value.trim();
+                        if (val === (brandLogos[item.key]?.value || '')) return;
+                        persistBrandLogo(item.key, val || null);
+                      }}
+                    />
+
+                    <p className="text-[9px] font-mono text-zinc-500">
+                      {formatDateTime(brandLogos[item.key]?.updated_at)}
+                    </p>
+
+                    {isSaving && (
+                      <p className="text-[9px] font-mono text-accent flex items-center gap-1"><Loader2 size={10} className="animate-spin" /> A guardar...</p>
+                    )}
+                    {isSaved && !isSaving && (
+                      <p className="text-[9px] font-mono text-green-400 flex items-center gap-1"><CheckCircle2 size={10} /> Atualizado globalmente.</p>
+                    )}
+                  </div>
+
+                  {isEdited && (
+                    <button
+                      onClick={() => persistBrandLogo(item.key, null)}
+                      disabled={isSaving}
+                      className="self-start inline-flex items-center gap-1.5 px-2 py-1.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-[9px] uppercase tracking-wider hover:bg-red-500/20 transition-colors disabled:opacity-50"
+                      title="Repor padrão de fábrica"
+                    >
+                      <RefreshCw size={10} /> Repor
+                    </button>
+                  )}
+                </div>
+              </Panel>
+            );
+          })}
+        </div>
+        {brandError && <p className="text-xs font-mono text-red-400">{brandError}</p>}
+      </div>
+
+      {/* ── SECÇÃO 2: EMBLEMAS DE CLUBES ── */}
+      <div className="space-y-4">
+        <h3 className="text-xs font-mono text-zinc-500 uppercase tracking-widest border-b border-zinc-200/50 dark:border-zinc-800/50 pb-2">Emblemas das Equipas (Atualização Rápida)</h3>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {TEAMS.map((base) => {
+            const overrideEntry = overrides[base.id];
+            const isEdited = !!overrideEntry?.logoUrl;
+            const isSaving = logoSaving === base.id;
+            const isSaved = logoSavedId === base.id;
+
+            return (
+              <Panel key={base.id} className="flex flex-col justify-between gap-3 text-center">
+                <div className="flex flex-col items-center gap-2">
+                  <div className="relative">
+                    <TeamCrest teamId={base.id} size={56} className="bg-white/40 dark:bg-zinc-900/30 p-1.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80" />
+                    {isEdited && (
+                      <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-[8px] font-mono font-bold px-1 rounded uppercase">
+                        editado
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-foreground truncate max-w-[150px]">{base.name}</h4>
+                    <p className="text-[10px] font-mono text-zinc-500">{base.shortName}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-accent/5 border border-accent/25 text-accent font-mono text-[9px] uppercase tracking-wider transition-colors ${isSaving ? 'opacity-60 cursor-wait' : 'hover:bg-accent/10 cursor-pointer'}`}>
+                    <ImagePlus size={10} /> Enviar Ficheiro
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      disabled={isSaving}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        try {
+                          const url = await fileToLogoDataUrl(file);
+                          updateTeamLogo(base.id, { logoUrl: url });
+                          await persistLogoToServer(base.id, url);
+                        } catch {
+                          setLogoError('Erro ao ler imagem.');
+                        }
+                        e.target.value = '';
+                      }}
+                    />
+                  </label>
+
+                  <input
+                    className="admin-input text-center text-[10px]"
+                    placeholder="ou URL externa"
+                    defaultValue={overrideEntry?.logoUrl && !overrideEntry.logoUrl.startsWith('data:') ? overrideEntry.logoUrl : ''}
+                    onBlur={(e) => {
+                      const val = e.target.value.trim();
+                      const current = overrideEntry?.logoUrl && !overrideEntry.logoUrl.startsWith('data:') ? overrideEntry.logoUrl : '';
+                      if (val === current) return;
+                      updateTeamLogo(base.id, { logoUrl: val || undefined });
+                      persistLogoToServer(base.id, val || null);
+                    }}
+                  />
+
+                  <div className="text-[8px] font-mono text-zinc-400 mt-1 min-h-[12px] truncate">
+                    {formatDateTime(teamData[base.id]?.updated_at)}
+                  </div>
+
+                  <div className="flex items-center justify-center gap-2 min-h-[14px]">
+                    {isSaving && (
+                      <span className="text-[8px] font-mono text-accent flex items-center gap-0.5"><Loader2 size={8} className="animate-spin" /> A guardar...</span>
+                    )}
+                    {isSaved && !isSaving && (
+                      <span className="text-[8px] font-mono text-green-400 flex items-center gap-0.5"><CheckCircle2 size={8} /> Guardado</span>
+                    )}
+                    {isEdited && !isSaving && (
+                      <button
+                        onClick={() => {
+                          updateTeamLogo(base.id, { logoUrl: undefined });
+                          persistLogoToServer(base.id, null);
+                        }}
+                        className="text-[8px] font-mono text-red-400 hover:underline uppercase"
+                      >
+                        Repor Original
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </Panel>
+            );
+          })}
+        </div>
+        {logoError && <p className="text-xs font-mono text-red-400 mt-2 text-center">{logoError}</p>}
+      </div>
     </div>
   );
 }

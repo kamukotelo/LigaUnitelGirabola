@@ -80,7 +80,10 @@ export async function GET(request: Request) {
 
   // 1. Obter metadados e jogos persistidos do Supabase (com fallback).
   let activeSeedStr = ANCAF_CALENDAR_SOURCE.accessCode;
-  let dynamicSource = { ...ANCAF_CALENDAR_SOURCE };
+  let dynamicSource = {
+    ...ANCAF_CALENDAR_SOURCE,
+    technicalSeed: PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed as string,
+  };
   let persistedMatches: Match[] = [];
   
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
@@ -102,22 +105,43 @@ export async function GET(request: Request) {
         const indexConfig = configs.find((config) => config.key === 'active_calendar_index');
         const seedConfig = configs.find((config) => config.key === 'active_calendar_seed');
         const fingerprintConfig = configs.find((config) => config.key === 'active_calendar_fingerprint');
-        const hasCompletePublicationMarker =
-          indexConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.accessCode &&
-          seedConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed &&
-          fingerprintConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint;
+        
         const candidateMatches = !matchesError && dbMatches?.length === 240
           ? (dbMatches as DbMatch[]).map(fromDbMatch)
           : [];
         const matchesFingerprint = candidateMatches.length === 240
           ? fingerprintMatches(candidateMatches)
           : null;
-        if (hasCompletePublicationMarker && matchesFingerprint === PUBLISHED_MATCHES_COMPARISON_FINGERPRINT) {
+
+        // Caso 1: As configurações na base de dados coincidem com o calendário oficial estático (Default/Arranque)
+        const isOfficialStaticSource =
+          indexConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.accessCode &&
+          seedConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed &&
+          fingerprintConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint;
+
+        if (isOfficialStaticSource && matchesFingerprint === PUBLISHED_MATCHES_COMPARISON_FINGERPRINT) {
           activeSeedStr = seedConfig?.value ?? activeSeedStr;
           dynamicSource = {
             ...ANCAF_CALENDAR_SOURCE,
             accessCode: indexConfig?.value ?? ANCAF_CALENDAR_SOURCE.accessCode,
+            technicalSeed: seedConfig?.value ?? PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed,
             generatedAt: fingerprintConfig?.updated_at ?? indexConfig?.updated_at ?? seedConfig?.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
+          };
+          persistedMatches = candidateMatches;
+        }
+        // Caso 2: Um novo sorteio foi feito (valores diferentes do oficial estático) e os jogos persitidos na DB estão completos e corretos
+        else if (
+          indexConfig?.value &&
+          seedConfig?.value &&
+          fingerprintConfig?.value &&
+          matchesFingerprint === fingerprintConfig.value
+        ) {
+          activeSeedStr = seedConfig.value;
+          dynamicSource = {
+            ...ANCAF_CALENDAR_SOURCE,
+            accessCode: indexConfig.value,
+            technicalSeed: seedConfig.value,
+            generatedAt: fingerprintConfig.updated_at ?? indexConfig.updated_at ?? seedConfig.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
           };
           persistedMatches = candidateMatches;
         }

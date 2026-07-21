@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:ancaf-reception": "node scripts/test-ancaf-calendar-reception.mjs",
     "supabase:verify": "node scripts/verify-supabase.mjs"
   },
   "dependencies": {

@@ -21,7 +21,7 @@ function isConfigured(): boolean {
 
 /** Publica o bloco de uma secção no servidor (usado pela consola de admin). */
 export async function publishOverride(
-  section: 'news' | 'calendar' | 'players' | 'nominations',
+  section: 'news' | 'calendar' | 'players' | 'nominations' | 'teams',
   value: unknown,
 ): Promise<boolean> {
   try {

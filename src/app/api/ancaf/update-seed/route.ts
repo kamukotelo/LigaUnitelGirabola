@@ -27,6 +27,8 @@ const FAF_TO_PORTAL_TEAM_ID: Record<string, string> = {
   sagrada_esperanca: 'sagrada',
 };
 
+const FORBIDDEN_CLASSIC_ROUNDS = new Set([1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 25, 26, 29, 30]);
+
 interface IncomingMatch {
   round?: unknown;
   homeTeamId?: unknown;
@@ -115,6 +117,36 @@ function normaliseCalendar(matches: unknown) {
   );
   if (!completeRounds || !completePairings) {
     throw new Error('O calendário não forma 30 jornadas completas em casa e fora');
+  }
+
+  const classicRounds = normalised
+    .filter((match) => new Set([match.homeTeamId, match.awayTeamId]).has('petro') &&
+      new Set([match.homeTeamId, match.awayTeamId]).has('dago'))
+    .map((match) => match.round);
+  if (classicRounds.some((round) => FORBIDDEN_CLASSIC_ROUNDS.has(round))) {
+    throw new Error(`O clássico Petro de Luanda–1.º de Agosto não pode ocorrer nas jornadas reservadas: ${classicRounds.join(' e ')}`);
+  }
+
+  for (let round = 1; round <= 30; round++) {
+    const occupiedStadiums = new Set<string>();
+    for (const match of normalised.filter((item) => item.round === round)) {
+      if (occupiedStadiums.has(match.stadium)) {
+        throw new Error(`Conflito de estádio partilhado na Jornada ${round}: ${match.stadium}`);
+      }
+      occupiedStadiums.add(match.stadium);
+    }
+  }
+
+  for (const teamId of portalTeams.keys()) {
+    const sequence = normalised
+      .filter((match) => match.homeTeamId === teamId || match.awayTeamId === teamId)
+      .sort((a, b) => a.round - b.round)
+      .map((match) => match.homeTeamId === teamId ? 'casa' : 'fora');
+    for (let index = 2; index < sequence.length; index++) {
+      if (sequence[index] === sequence[index - 1] && sequence[index] === sequence[index - 2]) {
+        throw new Error(`Mando desequilibrado: ${teamId} tem mais de 2 jogos seguidos em ${sequence[index]}`);
+      }
+    }
   }
 
   return normalised.sort((a, b) => a.round - b.round);

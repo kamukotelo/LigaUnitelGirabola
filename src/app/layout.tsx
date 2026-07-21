@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { TeamLogosProvider } from "@/lib/team-logos";
 import { PortalDataProvider } from "@/lib/portal-overrides";
+import HoloBgLogo from "@/components/layout/HoloBgLogo";
 
 /**
  * Substituto temporário da tipografia corporativa "Intro" (Manual de Normas
@@ -88,24 +89,10 @@ export default function RootLayout({
           <div className="aurora-orb top-[-10%] left-[-10%]" />
           <div className="aurora-orb bottom-[-10%] right-[-10%] opacity-40" />
           
-          {/* Holographic Watermark / HUD Target Reticle background logo */}
-          <div className="holo-bg-logo">
-            <div className="holo-logo-glow" />
-            <div className="holo-logo-ring-outer" />
-            <div className="holo-logo-ring-inner" />
-            <Image
-              src="/logo-girabola.png"
-              alt=""
-              aria-hidden
-              className="holo-logo-image"
-              width={500}
-              height={500}
-            />
-            <div className="holo-logo-scanner" />
-          </div>
+          <HoloBgLogo />
           
           <Navbar />
-          <main className="flex-1 z-10 pt-16 sm:pt-[72px] md:pt-20 xl:pt-28">
+          <main className="flex-1 z-10 pt-16 md:pt-20">
             <PortalDataProvider>{children}</PortalDataProvider>
           </main>
           <Footer />

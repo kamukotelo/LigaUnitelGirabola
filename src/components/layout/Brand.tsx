@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useBrandLogo } from '@/lib/team-logos';
 
 type BrandSize = 'sm' | 'md' | 'lg' | 'xl';
 
@@ -24,6 +27,52 @@ interface BrandProps {
   className?: string;
 }
 
+function BrandImage({
+  src,
+  alt,
+  width,
+  height,
+  className,
+  style,
+  priority,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className?: string;
+  style?: React.CSSProperties;
+  priority?: boolean;
+}) {
+  const isCustom = src.startsWith('data:') || (src.startsWith('http') && !src.includes('.supabase.co'));
+
+  if (isCustom) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+        style={style}
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+      style={style}
+      priority={priority}
+    />
+  );
+}
+
 /**
  * Marca oficial da competição: logotipo vetorial "LIGA UNITEL GIRABOLA"
  * (lockup de duas linhas: escudo + texto). Usar sempre este componente
@@ -44,11 +93,14 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
 
   const eager = size === 'lg' || size === 'xl';
 
+  const logoClear = useBrandLogo('logo_horizontal');
+  const logoDark = useBrandLogo('logo_horizontal_white');
+
   const logo = (
     <span className="relative inline-flex items-center" style={{ padding: protection }}>
       {/* Fundo claro: versão principal a cores (secção 5.1) */}
-      <Image
-        src="/logo-girabola-horizontal.png"
+      <BrandImage
+        src={logoClear}
         alt="Liga Unitel Girabola"
         width={w}
         height={h}
@@ -62,8 +114,8 @@ export default function Brand({ size = 'md', href = '/', className = '' }: Brand
         }}
       />
       {/* Fundo escuro: versão monocromática negativa (secção 2.3), garantindo o maior contraste */}
-      <Image
-        src="/logo-girabola-horizontal-white.png"
+      <BrandImage
+        src={logoDark}
         alt="Liga Unitel Girabola"
         width={w}
         height={h}

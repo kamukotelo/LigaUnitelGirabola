@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS } from '@/pages.config';
 import Brand from './Brand';
 import ThemeToggle from './ThemeToggle';
+import { useBrandLogo } from '@/lib/team-logos';
 
 const MOBILE_NAV_ICONS = {
   '/': Home,
@@ -20,6 +21,8 @@ const MOBILE_NAV_ICONS = {
 };
 
 export default function Navbar() {
+  const logoAncaf = useBrandLogo('logo_ancaf');
+  const isCustomLogo = logoAncaf.startsWith('data:') || (logoAncaf.startsWith('http') && !logoAncaf.includes('.supabase.co'));
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -95,7 +98,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between gap-3 sm:h-[72px] md:h-20 xl:h-24">
+        <div className="flex h-16 items-center justify-between gap-3 md:h-20">
           {/* Selo institucional ANCAF (à esquerda, maior) + marca Liga Unitel Girabola */}
           <div className="flex items-center flex-shrink-0">
             {/* ANCAF — logótipo institucional, agora em primeiro plano à esquerda */}
@@ -105,13 +108,24 @@ export default function Navbar() {
               rel="noopener noreferrer"
               className="hidden xl:flex items-center gap-2 hover:opacity-85 transition-all group"
             >
-              <Image
-                src="/logo-ancaf.png"
-                alt="Logotipo ANCAF"
-                width={60}
-                height={60}
-                className="h-14 w-auto object-contain"
-              />
+              {isCustomLogo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={logoAncaf}
+                  alt="Logotipo ANCAF"
+                  width={48}
+                  height={48}
+                  className="h-12 w-auto object-contain"
+                />
+              ) : (
+                <Image
+                  src={logoAncaf}
+                  alt="Logotipo ANCAF"
+                  width={48}
+                  height={48}
+                  className="h-12 w-auto object-contain"
+                />
+              )}
               <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold group-hover:text-accent transition-colors">
                 Institucional
               </span>
@@ -121,7 +135,7 @@ export default function Navbar() {
 
             {/* Marca oficial da competição */}
             <Brand size="sm" className="max-w-[min(58vw,15rem)] overflow-hidden xl:hidden" />
-            <Brand size="md" className="hidden xl:flex" />
+            <Brand size="sm" className="hidden xl:flex" />
           </div>
 
           {/* Desktop Nav Links — centrados, com espaço garantido */}
@@ -177,7 +191,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-x-0 top-16 z-40 flex h-[calc(100dvh-4rem)] flex-col bg-black/20 backdrop-blur-sm sm:top-[72px] sm:h-[calc(100dvh-72px)] md:top-20 md:h-[calc(100dvh-5rem)] xl:hidden dark:bg-black/45"
+            className="fixed inset-x-0 top-16 z-40 flex h-[calc(100dvh-4rem)] flex-col bg-black/20 backdrop-blur-sm md:top-20 md:h-[calc(100dvh-5rem)] xl:hidden dark:bg-black/45"
             onClick={() => setIsOpen(false)}
           >
             <motion.div
@@ -194,13 +208,24 @@ export default function Navbar() {
             >
               <div className="flex items-center justify-between gap-4 border-b border-zinc-200/80 px-4 py-3 dark:border-zinc-800/80 sm:px-5">
                 <div className="flex items-center gap-3">
-                  <Image
-                    src="/logo-ancaf.png"
-                    alt="Logotipo ANCAF"
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 object-contain"
-                  />
+                  {isCustomLogo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={logoAncaf}
+                      alt="Logotipo ANCAF"
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 object-contain"
+                    />
+                  ) : (
+                    <Image
+                      src={logoAncaf}
+                      alt="Logotipo ANCAF"
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 object-contain"
+                    />
+                  )}
                   <div>
                     <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Menu oficial</p>
                     <p className="text-sm font-semibold uppercase leading-tight text-foreground">Liga Unitel Girabola</p>
