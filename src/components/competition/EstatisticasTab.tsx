@@ -307,10 +307,10 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
 
           <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
             <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Award size={16} className="text-accent" /> Prémios Oficiais FAF
+              <Award size={16} className="text-accent" /> Prêmios oficiais da ANCAF
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              A FAF (Federação Angolana de Futebol) atribui no encerramento oficial de cada campeonato a Bola de Ouro ao Melhor Jogador, o Troféu de Artilheiro (Melhor Marcador), e a Luva de Ouro (Guarda-redes Menos Batido).
+              A ANCAF (Associação Nacional de Clubes Angolanos de Futebol) atribui no encerramento oficial de cada campeonato a Bola de Ouro ao Melhor Jogador, o Troféu de Artilheiro (Melhor Marcador), e a Luva de Ouro (Guarda-redes Menos Batido).
             </p>
           </AnimatedCard>
 

@@ -21,7 +21,7 @@ export const PAGES = {
   },
   ligatv: {
     path: ROUTES.ligaTv,
-    title: 'LigaTV',
+    title: 'Liga TV',
   },
   contact: {
     path: ROUTES.contact,
@@ -34,6 +34,6 @@ export const NAV_LINKS = [
   { label: 'Competição', path: ROUTES.competition, match: '/competicao' },
   { label: 'Equipas', path: ROUTES.teams, match: ROUTES.teams },
   { label: 'Notícias', path: ROUTES.news, match: ROUTES.news },
-  { label: 'LigaTV', path: ROUTES.ligaTv, match: ROUTES.ligaTv },
+  { label: 'Liga TV', path: ROUTES.ligaTv, match: ROUTES.ligaTv },
   { label: 'Contacto', path: ROUTES.contact, match: ROUTES.contact },
 ];

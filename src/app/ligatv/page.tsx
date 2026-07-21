@@ -31,11 +31,11 @@ export default function LigaTv() {
           <div className="flex items-center gap-2 mb-2">
             <span className="status-pulse w-2.5 h-2.5 bg-accent" />
             <span className="text-accent font-mono text-xs uppercase tracking-widest font-semibold">
-              LigaTV Broadcast System
+              Liga TV Broadcast System
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-display uppercase font-black text-foreground leading-none">
-            LIGA<span className="text-accent font-italic">TV</span>
+            LIGA <span className="text-accent font-italic">TV</span>
           </h1>
         </div>
         <Tv className="h-12 w-12 text-primary hidden sm:block animate-pulse" />

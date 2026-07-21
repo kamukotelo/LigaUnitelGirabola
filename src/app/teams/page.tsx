@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Globe, MapPin, User, Award, Zap } from 'lucide-react';
-import { TEAMS } from '@/lib/data';
+import { Globe, MapPin, Tag, Award, Zap } from 'lucide-react';
+import { getTeams } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -37,7 +37,7 @@ export default function TeamsPage() {
 
       {/* Grid of Teams */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {TEAMS.map((team, idx) => {
+        {getTeams().map((team, idx) => {
           // Highlight first-class traditional clubs (Petro, 1º de Agosto, Kabuscorp, Sagrada, Interclube, Wiliete)
           const isGiant = ['petro', 'dago', 'kabuscorp', 'sagrada', 'interclube', 'wiliete'].includes(team.id);
 
@@ -83,8 +83,8 @@ export default function TeamsPage() {
                       <span className="truncate" title={team.stadium}>{team.stadium}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <User size={13} className="text-zinc-600 flex-shrink-0" />
-                      <span className="truncate">{team.coach}</span>
+                      <Tag size={13} className="text-accent flex-shrink-0" />
+                      <span className="truncate font-bold text-accent/80 uppercase tracking-wide">{team.nickname ?? team.shortName}</span>
                     </div>
                   </div>
 

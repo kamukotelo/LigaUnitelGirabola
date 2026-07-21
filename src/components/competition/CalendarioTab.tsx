@@ -8,6 +8,7 @@ import { UPCOMING_SEASON_ID, getMatchesForSeason, getMatchBroadcast, getMatchOff
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { supabase } from '@/lib/supabase';
+import CalendarioPlaneamento from './CalendarioPlaneamento';
 
 type StatusFilter = 'all' | 'finished' | 'scheduled';
 type CalendarFilters = {
@@ -149,6 +150,12 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   const [filterState, setFilterState] = useState<CalendarFilters>(() => getDefaultFilters(seasonId));
   const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(false);
+  const [viewMode, setViewMode] = useState<'lista' | 'planeamento'>('lista');
+  const [syncMeta, setSyncMeta] = useState<{
+    accessCode: string;
+    technicalSeed: string;
+    generatedAt: string;
+  } | null>(null);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const filters = filterState.seasonId === seasonId ? filterState : getDefaultFilters(seasonId);
@@ -174,6 +181,13 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           if (cancelled) return;
           if (data.matches) {
             setDynamicMatches(data.matches);
+          }
+          if (data.source) {
+            setSyncMeta({
+              accessCode: data.source.accessCode,
+              technicalSeed: data.source.technicalSeed || data.source.accessCode,
+              generatedAt: data.generatedAt || data.source.generatedAt || new Date().toISOString(),
+            });
           }
         })
         .catch((err) => console.error('Erro ao buscar calendário dinâmico:', err))
@@ -255,13 +269,68 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
   return (
     <div>
-      {/* Estado de sincronização do calendário */}
+      {/* Seletor de Modo de Visualização */}
+      <div className="flex justify-end mb-6">
+        <div className="flex gap-1 bg-zinc-100/60 dark:bg-zinc-950/60 p-1 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80">
+          <button
+            onClick={() => setViewMode('lista')}
+            className={`px-4 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
+              viewMode === 'lista'
+                ? 'bg-primary text-white shadow-md shadow-primary/20'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
+            }`}
+          >
+            Lista de Jogos
+          </button>
+          <button
+            onClick={() => setViewMode('planeamento')}
+            className={`px-4 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
+              viewMode === 'planeamento'
+                ? 'bg-primary text-white shadow-md shadow-primary/20'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
+            }`}
+          >
+            Grelha de Planeamento
+          </button>
+        </div>
+      </div>
+
+      {viewMode === 'planeamento' ? (
+        <CalendarioPlaneamento />
+      ) : (
+        <>
+          {/* Estado de sincronização do calendário */}
       {isUpcoming && (
-        <div className="mb-6 inline-flex items-center gap-2.5 bg-green-500/5 border border-green-500/30 rounded-xl px-3.5 py-2">
-          <Radio size={14} className="text-green-400" />
-          <span className="text-[10px] font-mono text-green-400 uppercase tracking-widest">
-            Calendário sincronizado
-          </span>
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-green-500/5 border border-green-500/35 rounded-2xl p-4 backdrop-blur-sm">
+          <div className="flex items-center gap-2.5">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+            </span>
+            <span className="text-xs font-bold font-mono text-green-400 uppercase tracking-widest">
+              Calendário Oficial Ativo
+            </span>
+          </div>
+          {syncMeta && (
+            <div className="text-[11px] font-mono text-zinc-400 flex flex-wrap gap-x-4 gap-y-1">
+              <span>
+                Sorteio: <strong className="text-foreground font-semibold">#{syncMeta.accessCode}</strong>
+              </span>
+              <span>
+                Semente: <strong className="text-foreground font-semibold">{syncMeta.technicalSeed}</strong>
+              </span>
+              <span>
+                Sincronizado:{' '}
+                <strong className="text-foreground font-semibold">
+                  {new Date(syncMeta.generatedAt).toLocaleString('pt-AO', {
+                    timeZone: ANGOLA_TIME_ZONE,
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                  })}
+                </strong>
+              </span>
+            </div>
+          )}
         </div>
       )}
 
@@ -429,6 +498,8 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         <div className="text-center py-16">
           <p className="text-zinc-500 font-mono">Nenhum jogo encontrado com os filtros selecionados.</p>
         </div>
+      )}
+        </>
       )}
     </div>
   );

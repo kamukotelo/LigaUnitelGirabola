@@ -33,7 +33,7 @@ export default function Footer() {
                 <Link href={ROUTES.news} className="hover:text-accent transition-colors">Notícias</Link>
               </li>
               <li>
-                <Link href={ROUTES.ligaTv} className="hover:text-accent transition-colors">LigaTV</Link>
+                <Link href={ROUTES.ligaTv} className="hover:text-accent transition-colors">Liga TV</Link>
               </li>
             </ul>
           </div>

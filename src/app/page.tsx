@@ -11,6 +11,7 @@ import TeamCrestMarquee from '@/components/ui/TeamCrestMarquee';
 import LigaAngolaBlock from '@/components/competition/LigaAngolaBlock';
 import { getTeams, getMatches, getPlayers, getStandings, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
+import { useBrandLogo } from '@/lib/team-logos';
 
 /* ── Animated Number Counter ─────────────────────────────────── */
 function AnimatedCounter({ value }: { value: number }) {
@@ -121,6 +122,9 @@ function SoccerBall({ size = 58 }: { size?: number }) {
 
 /* ── Girabola / Angolan football animated scene ───────────────── */
 function PitchOrbit() {
+  const logoVertical = useBrandLogo('logo_vertical');
+  const isCustomVertical = logoVertical.startsWith('data:') || (logoVertical.startsWith('http') && !logoVertical.includes('.supabase.co'));
+
   // Cores da bandeira de Angola (vermelho, preto) + dourado do emblema
   const satellites = [
     { color: '#D21515', glow: 'rgba(210,21,21,0.85)' },
@@ -153,7 +157,24 @@ function PitchOrbit() {
       <div className="absolute w-2 h-2 rounded-full bg-accent shadow-[0_0_12px_rgba(249,195,4,0.9)]" />
 
       {/* Brasão Girabola em marca-d'água */}
-      <Image src="/logo-girabola.png" alt="" aria-hidden width={80} height={80} className="absolute w-20 h-20 sm:w-28 sm:h-28 object-contain opacity-[0.07]" />
+      {isCustomVertical ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={logoVertical}
+          alt=""
+          aria-hidden
+          className="absolute w-20 h-20 sm:w-28 sm:h-28 object-contain opacity-[0.07]"
+        />
+      ) : (
+        <Image
+          src={logoVertical}
+          alt=""
+          aria-hidden
+          width={80}
+          height={80}
+          className="absolute w-20 h-20 sm:w-28 sm:h-28 object-contain opacity-[0.07]"
+        />
+      )}
 
       {/* Órbita da bola */}
       <motion.div
@@ -203,6 +224,11 @@ function PitchOrbit() {
 // Compact match row helper has been migrated to LigaAngolaBlock
 
 export default function Home() {
+  const logoHorizontal = useBrandLogo('logo_horizontal');
+  const logoHorizontalWhite = useBrandLogo('logo_horizontal_white');
+  const isCustomHorizontal = logoHorizontal.startsWith('data:') || (logoHorizontal.startsWith('http') && !logoHorizontal.includes('.supabase.co'));
+  const isCustomHorizontalWhite = logoHorizontalWhite.startsWith('data:') || (logoHorizontalWhite.startsWith('http') && !logoHorizontalWhite.includes('.supabase.co'));
+
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -213,9 +239,10 @@ export default function Home() {
   const roundsCount = new Set(seasonMatches.map((m) => m.round)).size;
   const allPlayers = getPlayers();
   const topScorer = allPlayers.length > 0 ? [...allPlayers].sort((a, b) => b.goals - a.goals)[0] : null;
-  const topScorerName = topScorer ? topScorer.name.split(' ')[0] : 'Dagó';
-  const topScorerGoals = topScorer ? topScorer.goals : 18;
-  const topScorerFull = topScorer ? topScorer.name : 'Dagó Tshibamba';
+  const hasGoals = topScorer && topScorer.goals > 0;
+  const topScorerName = hasGoals ? topScorer.name.split(' ')[0] : 'Dagó';
+  const topScorerGoals = hasGoals ? topScorer.goals : 18;
+  const topScorerFull = hasGoals ? topScorer.name : 'Dagó Tshibamba';
 
   // Época em curso (resultados consolidados) — fonte única em data.ts
   const activeSeasonLabel = SEASONS.find((s) => s.id === CURRENT_SEASON_ID)?.label ?? '2025/2026';
@@ -272,23 +299,41 @@ export default function Home() {
                   (sr-only) fornece o nome acessível único ao leitor de ecrã, e só
                   uma das versões (clara/escura) fica visível de cada vez. */}
               {/* Fundo claro: logótipo principal a cores (mesmo enquadramento do branco) */}
-              <Image
-                src="/logo-girabola-horizontal.png"
-                alt=""
-                width={635}
-                height={208}
-                priority
-                className="w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:hidden"
-              />
+              {isCustomHorizontal ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={logoHorizontal}
+                  alt=""
+                  className="w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:hidden"
+                />
+              ) : (
+                <Image
+                  src={logoHorizontal}
+                  alt=""
+                  width={635}
+                  height={208}
+                  priority
+                  className="w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:hidden"
+                />
+              )}
               {/* Fundo escuro: versão monocromática negativa (inalterada) */}
-              <Image
-                src="/logo-girabola-horizontal-white.png"
-                alt=""
-                width={396}
-                height={219}
-                priority
-                className="hidden w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:block"
-              />
+              {isCustomHorizontalWhite ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={logoHorizontalWhite}
+                  alt=""
+                  className="hidden w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:block"
+                />
+              ) : (
+                <Image
+                  src={logoHorizontalWhite}
+                  alt=""
+                  width={396}
+                  height={219}
+                  priority
+                  className="hidden w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:block"
+                />
+              )}
             </h1>
 
             <p className="text-lg md:text-xl text-zinc-700 dark:text-zinc-300 max-w-xl mb-4 font-bold uppercase tracking-wide">
