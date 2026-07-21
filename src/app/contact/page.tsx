@@ -83,7 +83,7 @@ export default function ContactPage() {
           </span>
         </div>
         <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
-          Contacte o <span className="text-primary italic">Liga Unitel Girabola</span>
+          Contacte a <span className="text-primary italic">Liga Unitel Girabola</span>
         </h1>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
           Canal oficial para credenciação, parcerias e informações de imprensa
@@ -221,7 +221,7 @@ export default function ContactPage() {
           
           <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6 space-y-6">
             <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-2 flex items-center gap-2">
-              <Zap size={16} className="text-accent" /> Escritório Central
+              <Zap size={16} className="text-accent" /> Escritório Central / Sede
             </h3>
 
             <div className="space-y-4 text-xs font-mono text-zinc-600 dark:text-zinc-400">
@@ -230,8 +230,8 @@ export default function ContactPage() {
                 <div>
                   <h4 className="font-bold text-foreground uppercase">Morada</h4>
                   <p className="mt-1">
-                    Complexo Desportivo da Cidadela<br />
-                    Distrito Urbano do Rangel<br />
+                    Rua Comandante Eurico, nº 23<br />
+                    Ingombotas<br />
                     Luanda, Angola
                   </p>
                 </div>
@@ -243,7 +243,7 @@ export default function ContactPage() {
                   <h4 className="font-bold text-foreground uppercase">Telefone</h4>
                   {/* TODO(pré-lançamento): substituir pelo número de telefone real
                       da liga. Valor atual é um placeholder de demonstração. */}
-                  <p className="mt-1">+244 923 000 000</p>
+                  <p className="mt-1">+244 975 218 863</p>
                 </div>
               </div>
 
@@ -255,7 +255,7 @@ export default function ContactPage() {
                       correio real e operacional (e o domínio final). Endereço
                       de demonstração. */}
                   <p className="mt-1 hover:text-primary transition-colors">
-                    info@girabola.co.ao
+                    geral@ancaf.co.ao
                   </p>
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function ContactPage() {
             </h3>
             {/* TODO(pré-lançamento): confirmar/atualizar o email de suporte real. */}
             <p className="text-xs text-zinc-600 dark:text-zinc-400 font-mono leading-relaxed">
-              Para problemas de acesso à Área de Clubes ou falhas na plataforma digital, contacte a equipa de engenharia de software em: <span className="text-primary font-bold">suporte@girabola.co.ao</span>
+              Para problemas de acesso à Área de Clubes ou falhas na plataforma digital, contacte a equipa de engenharia de software em: <span className="text-primary font-bold">it@ancaf.co.ao</span>
             </p>
           </AnimatedCard>
 
