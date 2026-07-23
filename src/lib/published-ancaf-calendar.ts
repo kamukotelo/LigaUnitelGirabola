@@ -7,7 +7,10 @@ export const PUBLISHED_ANCAF_CALENDAR_SOURCE = {
   system: 'ANCAF_CALENDAR',
   accessCode: '1',
   technicalSeed: '1',
-  fingerprint: '7a60f1455f47e31a67bc6949ca705ca9fcd7cf773ae48374eb2e4330a1345830',
+  // Fingerprint data-only (YYYY-MM-DD), coerente com fingerprintMatches (GET) e
+  // com update-seed. O valor antigo ('7a60f145…') usava a data+hora completa e
+  // deixou de coincidir depois de a gravação passar a data-only.
+  fingerprint: '0e6b298b0c744eea04b750b0a248eae4eca9afb8dfbad1e835ea8c0b651672e5',
   season: '2026/2027',
   generatedAt: '2026-07-14T12:00:00+01:00',
   rounds: 30,

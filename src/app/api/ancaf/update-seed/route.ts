@@ -27,6 +27,12 @@ const FAF_TO_PORTAL_TEAM_ID: Record<string, string> = {
   sagrada_esperanca: 'sagrada',
 };
 
+// Tem de coincidir exatamente com o FAF_Calendar (engine.ts: cafRounds ∪
+// forbiddenClassicoRounds) e com possibilidades_calendarios.md (regra 4):
+// jornadas CAF {3,4,7,8,12,13,14,15,20,21,25,26,29,30} ∪ abertura/fecho de
+// volta {1,2,16,17,18,19}. A J14 é jornada da CAF (proibida); a J5 não é CAF
+// nem abertura/fecho (permitida) — e é onde o calendário oficial coloca o
+// clássico. Divergência aqui rejeita calendários que o FAF considera válidos.
 const FORBIDDEN_CLASSIC_ROUNDS = new Set([1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 25, 26, 29, 30]);
 
 interface IncomingMatch {
@@ -212,12 +218,18 @@ export async function POST(request: Request) {
       stadium: m.stadium,
       status: 'scheduled'
     }));
+    // IMPORTANTE: o fingerprint tem de usar a data só com o dia (YYYY-MM-DD),
+    // porque a coluna `date` é timestamptz e o Postgres normaliza o fuso ao
+    // reler — a rota de leitura (GET /api/ancaf, fingerprintMatches) já usa
+    // date.slice(0,10). Se gravarmos aqui com a data+hora completa, o
+    // fingerprint guardado NUNCA coincide com o recalculado na leitura, e um
+    // sorteio novo é descartado (o portal volta a mostrar o calendário nº1).
     const fingerprint = createHash('sha256')
       .update(JSON.stringify(dbMatches.map(({ round, home_team_id, away_team_id, date }) => ({
         round,
         home_team_id,
         away_team_id,
-        date,
+        date: date.slice(0, 10),
       }))))
       .digest('hex');
 
