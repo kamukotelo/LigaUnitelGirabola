@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Sora } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";

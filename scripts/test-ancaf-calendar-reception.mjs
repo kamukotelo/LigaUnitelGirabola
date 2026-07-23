@@ -39,8 +39,8 @@ async function officialPayload() {
   assert.equal(data.count, 240, 'a fonte oficial deve conter 240 jogos');
 
   return {
-    calendarIndex: 1,
-    technicalSeed: 1,
+    calendarIndex: Number(data.source.accessCode),
+    technicalSeed: Number(data.source.technicalSeed),
     seasonId: '2026-27',
     matches: data.matches.map((match) => ({
       round: match.round,
@@ -86,8 +86,8 @@ async function run() {
 
   const classicOnCafRound = structuredClone(payload);
   for (const match of classicOnCafRound.matches) {
-    if (match.round === 3) match.round = 5;
-    else if (match.round === 5) match.round = 3;
+    if (match.round === 3) match.round = 6;
+    else if (match.round === 6) match.round = 3;
   }
   const classicConflict = await postCalendar(classicOnCafRound);
   assert.equal(classicConflict.status, 400, 'o clássico numa jornada CAF deve ser rejeitado');
@@ -114,8 +114,8 @@ async function run() {
   const result = await accepted.json();
   assert.equal(accepted.status, 200, `o calendário oficial sorteado deve ser recebido: ${result.message ?? result.error}`);
   assert.equal(result.status, 'ok');
-  assert.equal(result.calendarIndex, '1');
-  assert.equal(result.technicalSeed, '1');
+  assert.equal(result.calendarIndex, String(payload.calendarIndex));
+  assert.equal(result.technicalSeed, String(payload.technicalSeed));
   assert.equal(result.persisted.matches_count, 240);
   assert.equal(result.persisted.officialSource, true);
 
@@ -127,9 +127,9 @@ async function run() {
     .filter((match) => [match.homeTeamId, match.awayTeamId].includes('petro') &&
       [match.homeTeamId, match.awayTeamId].includes('dago'))
     .map((match) => match.round);
-  assert.deepEqual(classicRounds, [5, 22], 'o calendário oficial deve colocar o clássico nas jornadas 5 e 22');
+  assert.deepEqual(classicRounds, [6, 22], 'o calendário oficial deve colocar o clássico nas jornadas 6 e 22');
 
-  const forbiddenClassicRounds = new Set([1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 25, 26, 29, 30]);
+  const forbiddenClassicRounds = new Set([1, 2, 3, 4, 5, 7, 8, 12, 13, 15, 16, 17, 18, 19, 20, 21, 25, 26, 29, 30]);
   assert.equal(classicRounds.some((round) => forbiddenClassicRounds.has(round)), false);
 
   for (const teamId of new Set(payload.matches.flatMap((match) => [match.homeTeamId, match.awayTeamId]))) {
@@ -143,7 +143,7 @@ async function run() {
   console.log('PASS: receção ANCAF/FAF autenticada e calendário oficial de 240 jogos aceite.');
   console.log('PASS: calendários incompletos, clubes duplicados e tokens inválidos foram rejeitados.');
   console.log('PASS: leitura da Jornada 1 devolveu os oito jogos recebidos.');
-  console.log('PASS: clássico Petro–1.º de Agosto confirmado nas jornadas 5 e 22 e rejeitado em jornada CAF.');
+  console.log('PASS: clássico Petro–1.º de Agosto confirmado nas jornadas 6 e 22 e rejeitado em jornada reservada.');
   console.log('PASS: equilíbrio de mando validado; três jogos seguidos em casa ou fora são rejeitados.');
 }
 

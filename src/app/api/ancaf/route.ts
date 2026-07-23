@@ -83,6 +83,7 @@ export async function GET(request: Request) {
   let dynamicSource = {
     ...ANCAF_CALENDAR_SOURCE,
     technicalSeed: PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed as string,
+    fingerprint: PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint as string,
   };
   let persistedMatches: Match[] = [];
   
@@ -125,6 +126,7 @@ export async function GET(request: Request) {
             ...ANCAF_CALENDAR_SOURCE,
             accessCode: indexConfig?.value ?? ANCAF_CALENDAR_SOURCE.accessCode,
             technicalSeed: seedConfig?.value ?? PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed,
+            fingerprint: fingerprintConfig?.value ?? PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint,
             generatedAt: fingerprintConfig?.updated_at ?? indexConfig?.updated_at ?? seedConfig?.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
           };
           persistedMatches = candidateMatches;
@@ -141,6 +143,7 @@ export async function GET(request: Request) {
             ...ANCAF_CALENDAR_SOURCE,
             accessCode: indexConfig.value,
             technicalSeed: seedConfig.value,
+            fingerprint: fingerprintConfig.value,
             generatedAt: fingerprintConfig.updated_at ?? indexConfig.updated_at ?? seedConfig.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
           };
           persistedMatches = candidateMatches;

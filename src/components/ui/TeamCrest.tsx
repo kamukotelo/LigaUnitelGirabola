@@ -13,26 +13,24 @@ interface TeamCrestProps {
 }
 
 const CREST_PATHS: Record<string, string> = {
-  petro: '/Clubes/PETRO DE LUANDA.png',
-  // Emblemas servidos a partir de nomes ASCII limpos em /crests (evita o erro de
-  // nomenclatura "WILIWTE" e o símbolo "§"/%C2%A7 nos ficheiros de "1.º de ...").
+  // Fonte canónica partilhada com o FAF_Calendar. Cada ID do portal aponta
+  // para uma cópia byte-a-byte do emblema do respetivo ID FAF.
+  petro: '/crests/petro.png',
   wiliete: '/crests/wiliete.png',
   dago: '/crests/dago.png',
-  desphuila: '/Clubes/CDH.png',
-  bravos: '/Clubes/BRAVOS DO MAQUIS.png',
-  kabuscorp: '/Clubes/KABUSCORP.png',
-  sagrada: '/Clubes/SAGRADA.jpg',
-  interclube: '/Clubes/INTERCLUBE.png',
-  lundasul: '/Clubes/DESPORTIVO LUNDA SUL.png',
-  libolo: '/Clubes/LIBOLO.png',
-  lobito: '/Clubes/ACADEMICA DO LOBITO.png',
-  saosalvador: '/Clubes/SALVADOR DO KONGO.png',
+  desphuila: '/crests/desphuila.png',
+  bravos: '/crests/bravos.png',
+  kabuscorp: '/crests/kabuscorp.png',
+  sagrada: '/crests/sagrada.jpg',
+  interclube: '/crests/interclube.png',
+  lundasul: '/crests/lundasul.png',
+  libolo: '/crests/libolo.png',
+  lobito: '/crests/lobito.png',
+  saosalvador: '/crests/saosalvador.png',
   primeiromaio: '/crests/primeiromaio.png',
-  // fcluanda: sem emblema oficial disponível — usa o crachá de reserva com a
-  // sigla do clube, evitando confusão com o FC Cabinda (o ficheiro que existia
-  // era, na verdade, uma cópia do emblema do FC Cabinda).
-  cabinda: '/Clubes/FC%20CABINDA.png',
-  caala: '/Clubes/CAALA.png',
+  fcluanda: '/crests/fcluanda.png',
+  cabinda: '/crests/cabinda.png',
+  caala: '/crests/caala.png',
 };
 
 export default function TeamCrest({ teamId, size = 40, className = '' }: TeamCrestProps) {
