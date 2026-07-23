@@ -27,13 +27,17 @@ const FAF_TO_PORTAL_TEAM_ID: Record<string, string> = {
   sagrada_esperanca: 'sagrada',
 };
 
-// Tem de coincidir exatamente com o FAF_Calendar (engine.ts: cafRounds ∪
-// forbiddenClassicoRounds) e com possibilidades_calendarios.md (regra 4):
-// jornadas CAF {3,4,7,8,12,13,14,15,20,21,25,26,29,30} ∪ abertura/fecho de
-// volta {1,2,16,17,18,19}. A J14 é jornada da CAF (proibida); a J5 não é CAF
-// nem abertura/fecho (permitida) — e é onde o calendário oficial coloca o
-// clássico. Divergência aqui rejeita calendários que o FAF considera válidos.
-const FORBIDDEN_CLASSIC_ROUNDS = new Set([1, 2, 3, 4, 7, 8, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 25, 26, 29, 30]);
+// Tem de coincidir EXATAMENTE com o motor do FAF_Calendar (engine.ts:
+// cafRounds ∪ forbiddenClassicoRounds), que é a fonte da pool ativa 2026/27.
+// Regra canónica atual (ver memória do projeto "classico-forbidden-rounds-sync"
+// e a distribuição real da pool publicada): jornadas CAF
+// {3,4,7,8,12,13,15,20,21,25,26,29,30} ∪ abertura/fecho de volta
+// {1,2,16,17,18,19} — com **J14 permitida** (saiu dos conflitos CAF) e **J5
+// proibida** (início de volta). ~700 dos 8000 calendários da pool colocam o
+// clássico na J14; proibi-la aqui rejeitava-os todos. Nota: a spec antiga
+// possibilidades_calendarios.md (sem datas) ainda reflete a regra anterior
+// (J14 proibida / J5 permitida) e está desatualizada — não usar como fonte.
+const FORBIDDEN_CLASSIC_ROUNDS = new Set([1, 2, 3, 4, 5, 7, 8, 12, 13, 15, 16, 17, 18, 19, 20, 21, 25, 26, 29, 30]);
 
 interface IncomingMatch {
   round?: unknown;
