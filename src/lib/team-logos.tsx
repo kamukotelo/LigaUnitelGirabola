@@ -105,9 +105,9 @@ export function useBrandLogo(key: 'logo_vertical' | 'logo_horizontal' | 'logo_ho
 
   switch (key) {
     case 'logo_vertical':
-      return '/logo-girabola.png';
+      return '/logo-girabola.svg';
     case 'logo_horizontal':
-      return '/logo-girabola-horizontal.png';
+      return '/logo-girabola-horizontal.svg';
     case 'logo_horizontal_white':
       return '/logo-girabola-horizontal-white.png';
     case 'logo_ancaf':

@@ -198,15 +198,19 @@ function PitchOrbit() {
         transition={{ duration: 13, repeat: Infinity, ease: 'linear' }}
       >
         {satellites.map((s, i) => (
-          <span
+          <div
             key={i}
-            className="absolute left-1/2 top-1/2 w-2 h-2 sm:w-3 sm:h-3 -ml-1 -mt-1 sm:-ml-1.5 sm:-mt-1.5 rounded-full"
-            style={{
-              backgroundColor: s.color,
-              boxShadow: `0 0 12px ${s.glow}`,
-              transform: `rotate(${i * 120}deg) translateY(-90px) sm:translateY(-125px)`,
-            }}
-          />
+            className="absolute left-1/2 top-1/2 w-0 h-0"
+            style={{ transform: `rotate(${i * 120}deg)` }}
+          >
+            <span
+              className="absolute w-2 h-2 sm:w-3 sm:h-3 -ml-1 -mt-1 sm:-ml-1.5 sm:-mt-1.5 rounded-full -translate-y-[90px] sm:-translate-y-[125px]"
+              style={{
+                backgroundColor: s.color,
+                boxShadow: `0 0 12px ${s.glow}`,
+              }}
+            />
+          </div>
         ))}
       </motion.div>
 
@@ -349,12 +353,12 @@ export default function Home() {
 
             <div className="flex flex-wrap gap-4">
               <Link href={ROUTES.standings}>
-                <FuturisticButton variant="neon" glitchText>
+                <FuturisticButton variant="neon" glitchText as="span">
                   Classificações
                 </FuturisticButton>
               </Link>
               <Link href={ROUTES.calendar}>
-                <FuturisticButton variant="outline">
+                <FuturisticButton variant="outline" as="span">
                   Resultados
                 </FuturisticButton>
               </Link>
@@ -378,9 +382,9 @@ export default function Home() {
                 delay={i * 0.1}
               >
                 <stat.icon className="text-accent mx-auto mb-3 group-hover:scale-110 transition-transform duration-200" size={24} />
-                <h4 className="text-4xl font-display text-primary">
+                <h2 className="text-4xl font-display text-primary">
                   <AnimatedCounter value={stat.value} />
-                </h4>
+                </h2>
                 <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500 mt-2 group-hover:text-primary transition-colors">
                   {stat.label}
                 </p>

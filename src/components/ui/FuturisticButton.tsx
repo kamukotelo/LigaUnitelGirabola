@@ -8,6 +8,7 @@ interface FuturisticButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
   className?: string;
   variant?: 'primary' | 'premium' | 'neon' | 'outline';
   glitchText?: boolean;
+  as?: 'button' | 'span' | 'div';
 }
 
 export default function FuturisticButton({
@@ -15,6 +16,7 @@ export default function FuturisticButton({
   className = '',
   variant = 'primary',
   glitchText = false,
+  as = 'button',
   ...props
 }: FuturisticButtonProps) {
   const getButtonStyles = () => {
@@ -38,11 +40,41 @@ export default function FuturisticButton({
     children
   );
 
+  const combinedClasses = `${getButtonStyles()} ${className} ${as !== 'button' ? 'inline-block text-center cursor-pointer' : ''}`;
+
+  if (as === 'span') {
+    return (
+      <motion.span
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        className={combinedClasses}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        {...(props as any)}
+      >
+        {content}
+      </motion.span>
+    );
+  }
+
+  if (as === 'div') {
+    return (
+      <motion.div
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        className={combinedClasses}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        {...(props as any)}
+      >
+        {content}
+      </motion.div>
+    );
+  }
+
   return (
     <motion.button
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
-      className={`${getButtonStyles()} ${className}`}
+      className={combinedClasses}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
     >

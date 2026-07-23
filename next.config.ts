@@ -4,9 +4,10 @@ import type { NextConfig } from "next";
 // Nota: 'unsafe-inline'/'unsafe-eval' são necessários ao runtime do Next.js e à
 // framer-motion (estilos e, em dev, avaliação). A afinar para nonces quando o
 // pipeline o permitir. img-src https: cobre os emblemas/avatares remotos.
+const isDev = process.env.NODE_ENV === 'development';
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
