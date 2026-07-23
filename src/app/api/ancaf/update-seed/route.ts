@@ -231,9 +231,17 @@ export async function POST(request: Request) {
       .digest('hex');
 
     const officialResponse = officialPublishedResponse(parsedCalendarIndex, parsedTechnicalSeed, fingerprint);
-    if (officialResponse) return officialResponse;
-
-    const client = getSupabaseAdmin();
+    // Mesmo quando o pedido coincide com o fallback estático, persistimos os
+    // 240 jogos se a base estiver configurada. Caso contrário, um calendário
+    // dinâmico anterior continuaria ativo e o endpoint devolveria um falso
+    // sucesso. O fallback só é usado em ambientes realmente sem Supabase.
+    let client: ReturnType<typeof getSupabaseAdmin>;
+    try {
+      client = getSupabaseAdmin();
+    } catch (error) {
+      if (officialResponse) return officialResponse;
+      throw error;
+    }
 
     // Os jogos são a fonte de verdade. A configuração ativa só muda depois de
     // os 240 registos terem sido persistidos e verificados.
