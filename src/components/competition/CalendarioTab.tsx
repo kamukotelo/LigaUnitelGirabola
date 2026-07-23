@@ -175,7 +175,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
     let cancelled = false;
     const fetchDynamicCalendar = () => {
       setLoading(true);
-      fetch('/api/ancaf?format=matches')
+      fetch('/api/ancaf?format=matches', { cache: 'no-store' })
         .then((res) => res.json())
         .then((data) => {
           if (cancelled) return;

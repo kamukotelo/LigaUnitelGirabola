@@ -1,8 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Zap, LayoutGrid, Trophy, CalendarDays, BarChart3, Timer, Flag } from 'lucide-react';
-import { SEASONS } from '@/lib/data';
+import { SEASONS, UPCOMING_SEASON_ID } from '@/lib/data';
 import { HUB_TABS, HubTab } from './tabs';
 import MiniStandings from './MiniStandings';
 import GeralTab from './GeralTab';
@@ -24,6 +25,19 @@ const TAB_ICONS: Record<HubTab, typeof Trophy> = {
 export default function CompetitionHubClient({ seasonId, tab }: { seasonId: string; tab: HubTab }) {
   const router = useRouter();
   const selectedSeason = SEASONS.find((s) => s.id === seasonId);
+  const [championshipId, setChampionshipId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (seasonId !== UPCOMING_SEASON_ID) return;
+    let cancelled = false;
+    fetch('/api/ancaf?format=matches&round=1', { cache: 'no-store' })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!cancelled) setChampionshipId(data.championshipId ?? data.source?.championshipId ?? data.source?.accessCode ?? null);
+      })
+      .catch((error) => console.error('Erro ao obter ID do campeonato:', error));
+    return () => { cancelled = true; };
+  }, [seasonId]);
 
   const goTo = (nextSeason: string, nextTab: HubTab) => {
     router.replace(`/competicao/${nextSeason}?tab=${nextTab}`, { scroll: false });
@@ -45,6 +59,11 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
         <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
           Época {selectedSeason?.label ?? seasonId} · {selectedSeason?.status === 'completed' ? 'Concluída' : 'Por disputar'} · Campeonato Nacional de Futebol de Angola
         </p>
+        {seasonId === UPCOMING_SEASON_ID && championshipId && (
+          <p className="mt-2 text-xs font-mono font-bold text-green-500 uppercase tracking-wider">
+            ID do Campeonato #{championshipId} · Calendário oficial sincronizado
+          </p>
+        )}
 
         {/* Seletor de Época — partilhado por todas as abas */}
         <div className="flex flex-wrap items-center gap-2 mt-5">

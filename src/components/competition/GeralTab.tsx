@@ -1,9 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Video, Newspaper, Ticket } from 'lucide-react';
-import { getMatchesForSeason, getNewsArticles, Match } from '@/lib/data';
+import { getMatchesForSeason, getNewsArticles, Match, UPCOMING_SEASON_ID } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
@@ -54,7 +54,33 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
 }
 
 export default function GeralTab({ seasonId }: { seasonId: string }) {
-  const matches = useMemo(() => getMatchesForSeason(seasonId), [seasonId]);
+  const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
+
+  useEffect(() => {
+    if (seasonId !== UPCOMING_SEASON_ID) return;
+    let cancelled = false;
+    fetch('/api/ancaf?format=matches', { cache: 'no-store' })
+      .then((response) => {
+        if (!response.ok) throw new Error(`API ANCAF respondeu ${response.status}`);
+        return response.json();
+      })
+      .then((data) => {
+        if (!cancelled && Array.isArray(data.matches) && data.matches.length === 240) {
+          setDynamicMatches(data.matches);
+        }
+      })
+      .catch((error) => console.error('Erro ao obter jogos oficiais do campeonato:', error))
+    return () => { cancelled = true; };
+  }, [seasonId]);
+
+  const loadingCalendar = seasonId === UPCOMING_SEASON_ID && dynamicMatches.length !== 240;
+
+  const matches = useMemo(
+    () => seasonId === UPCOMING_SEASON_ID && dynamicMatches.length === 240
+      ? dynamicMatches
+      : getMatchesForSeason(seasonId),
+    [seasonId, dynamicMatches],
+  );
   const rounds = useMemo(() => Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b), [matches]);
 
   // Abre na próxima jornada por disputar; se todas terminadas, na última.
@@ -88,6 +114,9 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
 
   return (
     <div className="space-y-8">
+      {loadingCalendar && (
+        <p className="text-xs font-mono text-green-500 uppercase tracking-wider">A sincronizar jogos oficiais…</p>
+      )}
       {/* Seletor de jornadas em pílulas */}
       <div className="flex gap-2 overflow-x-auto pb-1 -mb-1 snap-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {rounds.map((r) => (
