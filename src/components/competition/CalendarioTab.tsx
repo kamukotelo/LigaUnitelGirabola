@@ -314,7 +314,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           {syncMeta && (
             <div className="text-[11px] font-mono text-zinc-400 flex flex-wrap gap-x-4 gap-y-1">
               <span>
-                Sorteio: <strong className="text-foreground font-semibold">#{syncMeta.accessCode}</strong>
+                ID do Campeonato: <strong className="text-foreground font-semibold">#{syncMeta.accessCode}</strong>
               </span>
               <span>
                 Semente: <strong className="text-foreground font-semibold">{syncMeta.technicalSeed}</strong>

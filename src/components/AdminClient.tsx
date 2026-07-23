@@ -474,7 +474,7 @@ function CalendarSection() {
               </p>
               <p className="text-[11px] font-mono text-zinc-500 mt-0.5">
                 {isUpcoming ? (
-                  <>Calendário {dynamicSource.season} · n.º sorteado <span className="text-green-400">{dynamicSource.accessCode}</span> · seed <span className="text-green-400">{dynamicSource.technicalSeed ?? '—'}</span></>
+                  <>Calendário {dynamicSource.season} · ID do campeonato <span className="text-green-400">{dynamicSource.accessCode}</span> · seed <span className="text-green-400">{dynamicSource.technicalSeed ?? '—'}</span></>
                 ) : (
                   <>Época {seasonLabel} · resultados consolidados</>
                 )}
@@ -514,7 +514,7 @@ function CalendarSection() {
               <p className="text-[11px] font-mono text-zinc-500 mt-1">Estes dados e os jogos abaixo vêm diretamente de /api/ancaf; não são uma simulação local.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
-              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-3"><span className="block text-zinc-500 text-[10px] uppercase">Número sorteado</span><strong className="text-foreground">{dynamicSource.accessCode}</strong></div>
+              <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-3"><span className="block text-zinc-500 text-[10px] uppercase">ID do campeonato</span><strong className="text-foreground">{dynamicSource.accessCode}</strong></div>
               <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-3"><span className="block text-zinc-500 text-[10px] uppercase">Seed técnica</span><strong className="text-foreground">{dynamicSource.technicalSeed ?? '—'}</strong></div>
               <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-3"><span className="block text-zinc-500 text-[10px] uppercase">Fingerprint</span><strong className="text-foreground break-all text-[10px]">{dynamicSource.fingerprint ?? '—'}</strong></div>
             </div>

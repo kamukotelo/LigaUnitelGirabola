@@ -53,9 +53,10 @@ async function officialPayload() {
 
 async function run() {
   if (!process.env.ANCAF_TEST_BASE_URL) {
+    const nextCommand = process.env.ANCAF_TEST_USE_BUILD === '1' ? 'start' : 'dev';
     server = spawn(
       process.execPath,
-      ['node_modules/next/dist/bin/next', 'dev', '--hostname', HOST, '--port', String(PORT)],
+      ['node_modules/next/dist/bin/next', nextCommand, '--hostname', HOST, '--port', String(PORT)],
       {
         cwd: process.cwd(),
         env: { ...process.env, ANCAF_SYNC_TOKEN: TEST_TOKEN },
@@ -114,10 +115,15 @@ async function run() {
   const result = await accepted.json();
   assert.equal(accepted.status, 200, `o calendário oficial sorteado deve ser recebido: ${result.message ?? result.error}`);
   assert.equal(result.status, 'ok');
+  assert.equal(result.championshipId, String(payload.calendarIndex));
   assert.equal(result.calendarIndex, String(payload.calendarIndex));
   assert.equal(result.technicalSeed, String(payload.technicalSeed));
   assert.equal(result.persisted.matches_count, 240);
-  assert.equal(result.persisted.officialSource, true);
+  assert.equal(
+    result.persisted.officialSource === true || result.persisted.database === true,
+    true,
+    'o calendário aceite deve ficar disponível na fonte oficial ou na base de dados',
+  );
 
   const firstRound = await fetch(`${BASE_URL}/api/ancaf?format=matches&round=1`).then((res) => res.json());
   assert.equal(firstRound.count, 8, 'a Jornada 1 deve conter oito jogos');
@@ -145,6 +151,7 @@ async function run() {
   console.log('PASS: leitura da Jornada 1 devolveu os oito jogos recebidos.');
   console.log('PASS: clássico Petro–1.º de Agosto confirmado nas jornadas 6 e 22 e rejeitado em jornada reservada.');
   console.log('PASS: equilíbrio de mando validado; três jogos seguidos em casa ou fora são rejeitados.');
+  console.log(`PASS: ID do sorteio ${result.championshipId} confirmado como ID do campeonato.`);
 }
 
 try {

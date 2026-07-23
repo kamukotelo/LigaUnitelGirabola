@@ -27,16 +27,8 @@ const FAF_TO_PORTAL_TEAM_ID: Record<string, string> = {
   sagrada_esperanca: 'sagrada',
 };
 
-// Tem de coincidir EXATAMENTE com o motor do FAF_Calendar (engine.ts:
-// cafRounds ∪ forbiddenClassicoRounds), que é a fonte da pool ativa 2026/27.
-// Regra canónica atual (ver memória do projeto "classico-forbidden-rounds-sync"
-// e a distribuição real da pool publicada): jornadas CAF
-// {3,4,7,8,12,13,15,20,21,25,26,29,30} ∪ abertura/fecho de volta
-// {1,2,16,17,18,19} — com **J14 permitida** (saiu dos conflitos CAF) e **J5
-// proibida** (início de volta). ~700 dos 8000 calendários da pool colocam o
-// clássico na J14; proibi-la aqui rejeitava-os todos. Nota: a spec antiga
-// possibilidades_calendarios.md (sem datas) ainda reflete a regra anterior
-// (J14 proibida / J5 permitida) e está desatualizada — não usar como fonte.
+// Tem de coincidir exatamente com a fonte oficial da pool FAF 2026/27:
+// jornadas CAF + abertura/fecho de volta. J14 é permitida e J5 é proibida.
 const FORBIDDEN_CLASSIC_ROUNDS = new Set([1, 2, 3, 4, 5, 7, 8, 12, 13, 15, 16, 17, 18, 19, 20, 21, 25, 26, 29, 30]);
 
 interface IncomingMatch {
@@ -62,6 +54,7 @@ function officialPublishedResponse(
   return NextResponse.json({
     status: 'ok',
     message: 'Calendário oficial publicado no portal LigaUnitel com sucesso.',
+    championshipId: String(parsedCalendarIndex),
     calendarIndex: String(parsedCalendarIndex),
     technicalSeed: String(parsedTechnicalSeed),
     fingerprint,
@@ -287,6 +280,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       status: 'ok',
       message: 'Calendário oficial atualizado e povoado com sucesso para 2026/2027',
+      championshipId: String(parsedCalendarIndex),
       calendarIndex: String(parsedCalendarIndex),
       technicalSeed: String(parsedTechnicalSeed),
       fingerprint,

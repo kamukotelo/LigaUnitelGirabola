@@ -82,6 +82,7 @@ export async function GET(request: Request) {
   let activeSeedStr = ANCAF_CALENDAR_SOURCE.accessCode;
   let dynamicSource = {
     ...ANCAF_CALENDAR_SOURCE,
+    championshipId: ANCAF_CALENDAR_SOURCE.accessCode,
     technicalSeed: PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed as string,
     fingerprint: PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint as string,
   };
@@ -125,6 +126,7 @@ export async function GET(request: Request) {
           dynamicSource = {
             ...ANCAF_CALENDAR_SOURCE,
             accessCode: indexConfig?.value ?? ANCAF_CALENDAR_SOURCE.accessCode,
+            championshipId: indexConfig?.value ?? ANCAF_CALENDAR_SOURCE.accessCode,
             technicalSeed: seedConfig?.value ?? PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed,
             fingerprint: fingerprintConfig?.value ?? PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint,
             generatedAt: fingerprintConfig?.updated_at ?? indexConfig?.updated_at ?? seedConfig?.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
@@ -142,6 +144,7 @@ export async function GET(request: Request) {
           dynamicSource = {
             ...ANCAF_CALENDAR_SOURCE,
             accessCode: indexConfig.value,
+            championshipId: indexConfig.value,
             technicalSeed: seedConfig.value,
             fingerprint: fingerprintConfig.value,
             generatedAt: fingerprintConfig.updated_at ?? indexConfig.updated_at ?? seedConfig.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
@@ -180,6 +183,7 @@ export async function GET(request: Request) {
 
   const meta = {
     source: dynamicSource,
+    championshipId: dynamicSource.championshipId,
     season,
     teams: 16,
     generatedAt: dynamicSource.generatedAt,
