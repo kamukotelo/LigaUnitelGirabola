@@ -83,19 +83,28 @@ export default function RootLayout({
       </head>
       <body className="bg-background text-foreground min-h-screen">
         <TeamLogosProvider>
+        {/* PortalDataProvider envolve todo o layout (e não só o `main`) para que
+            o cabeçalho, o rodapé e a paleta da marca reflitam as edições
+            publicadas na consola de administração. */}
+        <PortalDataProvider>
         <div className="flex min-h-screen flex-col relative">
-          {/* Futuristic Aurora Blobs in background */}
-          <div className="aurora-orb top-[-10%] left-[-10%]" />
-          <div className="aurora-orb bottom-[-10%] right-[-10%] opacity-40" />
-          
+          {/* Camada de fundo fixa: mantém os blobs/holo confinados à viewport
+              para não gerarem overflow (e um espaço vazio) por baixo do rodapé. */}
+          <div className="pointer-events-none fixed inset-0 overflow-hidden -z-10">
+            {/* Futuristic Aurora Blobs in background */}
+            <div className="aurora-orb top-[-10%] left-[-10%]" />
+            <div className="aurora-orb bottom-[-10%] right-[-10%] opacity-40" />
+          </div>
+
           <HoloBgLogo />
-          
+
           <Navbar />
           <main className="flex-1 z-10 pt-16 md:pt-20">
-            <PortalDataProvider>{children}</PortalDataProvider>
+            {children}
           </main>
           <Footer />
         </div>
+        </PortalDataProvider>
         </TeamLogosProvider>
       </body>
     </html>
