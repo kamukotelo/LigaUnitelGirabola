@@ -37,6 +37,8 @@ export interface StandingEntry {
   goalDifference: number;
   points: number;
   form: ('W' | 'D' | 'L')[];
+  goalsVerified?: boolean; // false quando a fonte oficial não publicou GM/GS
+  formVerified?: boolean;  // false quando a fonte oficial não publicou a sequência
 }
 
 export interface Match {
@@ -414,8 +416,50 @@ export function computeStandings(matches: Match[]): StandingEntry[] {
     .map((e, i) => ({ ...e, position: i + 1 }));
 }
 
-// Classificação da época em curso (2025/2026), derivada dos jogos.
-export const STANDINGS: StandingEntry[] = computeStandings(MATCHES);
+// Classificação oficial 2025/2026 publicada pela ANCAF após a 30.ª jornada.
+// A imagem oficial contém J/V/E/D/PTS, mas não GM/GS nem a forma recente;
+// esses campos ficam explicitamente não verificados para a interface não
+// apresentar métricas simuladas como factos oficiais.
+const OFFICIAL_STANDINGS_2025_26: StandingEntry[] = [
+  ['petro', 'Petro de Luanda', 22, 6, 2, 72],
+  ['wiliete', 'Wiliete de Benguela', 18, 8, 4, 62],
+  ['dago', 'CD 1.º de Agosto', 15, 12, 3, 57],
+  ['desphuila', 'Desportivo da Huíla', 12, 10, 8, 46],
+  ['bravos', 'Bravos do Maquis', 12, 6, 12, 42],
+  ['kabuscorp', 'Kabuscorp SC', 10, 12, 8, 42],
+  ['interclube', 'GD Interclube', 9, 13, 8, 40],
+  ['lundasul', 'Desportivo da Lunda Sul', 9, 11, 10, 38],
+  ['primeiromaio', 'Estrela 1.º de Maio', 10, 7, 13, 37],
+  ['sagrada', 'Sagrada Esperança', 8, 12, 10, 36],
+  ['saosalvador', 'São Salvador', 9, 8, 13, 35],
+  ['lobito', 'Académica do Lobito', 8, 11, 11, 35],
+  ['libolo', 'Recreativo do Libolo', 9, 7, 14, 34],
+  ['fcluanda', 'Luanda City', 9, 6, 15, 33],
+  ['redonda', 'Redonda FC', 5, 6, 19, 21],
+  ['guelson', 'Guelson FC', 6, 3, 21, 21],
+].map(([teamId, teamName, won, drawn, lost, points], index) => ({
+  position: index + 1,
+  teamId: String(teamId),
+  teamName: String(teamName),
+  played: 30,
+  won: Number(won),
+  drawn: Number(drawn),
+  lost: Number(lost),
+  goalsFor: 0,
+  goalsAgainst: 0,
+  goalDifference: 0,
+  points: Number(points),
+  form: [],
+  goalsVerified: false,
+  formVerified: false,
+}));
+
+export const OFFICIAL_STANDINGS: Record<string, StandingEntry[]> = {
+  '2025-26': OFFICIAL_STANDINGS_2025_26,
+};
+
+// Classificação da época de referência do portal.
+export const STANDINGS: StandingEntry[] = OFFICIAL_STANDINGS_2025_26;
 
 // ── 3b. ÉPOCAS / TEMPORADAS ────────────────────────────────────────
 export interface Season {
@@ -472,6 +516,8 @@ export const HISTORICAL_TEAMS: Team[] = [
   { id: 'uniao-malanje', name: 'União de Malanje', shortName: 'USM', city: 'Malanje', stadium: 'Estádio 1.º de Maio', stadiumCapacity: 6000, founded: 2019, colors: 'Vermelho e Branco', coach: '—' },
   { id: 'ask-dragao', name: 'ASK Dragão', shortName: 'ASK', city: 'Uíge', stadium: 'Estádio 4 de Janeiro', stadiumCapacity: 12000, founded: 2017, colors: 'Azul e Branco', coach: '—' },
   { id: 'sporting-benguela', name: 'Sporting de Benguela', shortName: 'SBE', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 5000, founded: 1915, colors: 'Verde e Branco', coach: '—' },
+  { id: 'redonda', name: 'Redonda FC', shortName: 'RED', city: 'Luanda', stadium: 'A confirmar', stadiumCapacity: 0, founded: 0, colors: 'Vermelho e Amarelo', coach: '—' },
+  { id: 'guelson', name: 'Guelson FC', shortName: 'GFC', city: 'Luanda', stadium: 'A confirmar', stadiumCapacity: 0, founded: 0, colors: 'Laranja e Preto', coach: '—' },
 ];
 
 // Vista por jornada (confrontos + datas), derivada dos jogos gerados.
@@ -1365,7 +1411,12 @@ export function getTeamById(id: string): Team | undefined {
 // Classificação recalculada a partir dos jogos já com overrides aplicados, para
 // que uma edição de resultado no admin se reflita na tabela pública.
 export function getStandings(): StandingEntry[] {
-  return RUNTIME_OVERRIDES.calendar ? computeStandings(getMatches()) : STANDINGS;
+  return STANDINGS;
+}
+
+/** Classificação por época, priorizando tabelas finais publicadas oficialmente. */
+export function getStandingsForSeason(seasonId: string): StandingEntry[] {
+  return OFFICIAL_STANDINGS[seasonId] ?? computeStandings(getMatchesForSeason(seasonId));
 }
 
 export function getStandingByTeamId(teamId: string): StandingEntry | undefined {

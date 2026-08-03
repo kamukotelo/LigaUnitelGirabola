@@ -10,7 +10,7 @@ import {
   CURRENT_SEASON_ID,
   UPCOMING_SEASON_ID,
   TEAMS,
-  computeStandings,
+  getStandingsForSeason,
   getVideoHighlights,
 } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
@@ -43,7 +43,7 @@ export default function LigaAngolaBlock() {
 
   // ─── STATE FOR STANDINGS (CLASSIFICAÇÃO) ───
   const [standingsSeasonId, setStandingsSeasonId] = useState<string>(CURRENT_SEASON_ID);
-  const standings = computeStandings(getMatchesForSeason(standingsSeasonId)).slice(0, 5);
+  const standings = getStandingsForSeason(standingsSeasonId).slice(0, 5);
 
   // ─── STATE FOR NEWS (NOTÍCIAS) ───
   const news = getNewsArticles().slice(0, 4);

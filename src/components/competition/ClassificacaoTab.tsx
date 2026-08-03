@@ -3,13 +3,12 @@
 import { motion } from 'framer-motion';
 import { Info, Award } from 'lucide-react';
 import Link from 'next/link';
-import { SEASONS, UPCOMING_SEASON_ID, getMatchesForSeason, computeStandings } from '@/lib/data';
+import { SEASONS, UPCOMING_SEASON_ID, getStandingsForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
 export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
-  const matches = getMatchesForSeason(seasonId);
-  const standingsList = computeStandings(matches);
+  const standingsList = getStandingsForSeason(seasonId);
   const selectedSeason = SEASONS.find(s => s.id === seasonId);
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
 
@@ -17,6 +16,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
   const bestDefense = [...standingsList].sort((a, b) => a.goalsAgainst - b.goalsAgainst)[0];
   const bestAttack = [...standingsList].sort((a, b) => b.goalsFor - a.goalsFor)[0];
   const champion = standingsList[0];
+  const hasVerifiedGoals = standingsList.every((row) => row.goalsVerified !== false);
 
   return (
     <div className="space-y-8">
@@ -104,9 +104,11 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                     <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm hidden sm:table-cell">{row.won}</td>
                     <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm hidden sm:table-cell">{row.drawn}</td>
                     <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm hidden sm:table-cell">{row.lost}</td>
-                    <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-[10px] sm:text-xs hidden md:table-cell">{row.goalsFor}-{row.goalsAgainst}</td>
-                    <td className={`py-4 px-2 sm:px-3 text-center font-mono font-semibold text-xs ${row.goalDifference >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}
+                    <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-[10px] sm:text-xs hidden md:table-cell">
+                      {row.goalsVerified === false ? '—' : `${row.goalsFor}-${row.goalsAgainst}`}
+                    </td>
+                    <td className={`py-4 px-2 sm:px-3 text-center font-mono font-semibold text-xs ${row.goalsVerified === false ? 'text-zinc-400' : row.goalDifference >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                      {row.goalsVerified === false ? '—' : row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}
                     </td>
 
                     {/* Points */}
@@ -116,7 +118,9 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
 
                     {/* Form History */}
                     <td className="py-4 px-3 sm:px-4">
-                      <div className="flex justify-center gap-1">
+                      {row.formVerified === false ? (
+                        <span className="block text-center text-[9px] font-mono uppercase tracking-wide text-zinc-400">Não disponível</span>
+                      ) : <div className="flex justify-center gap-1">
                         {row.form.map((result, idx) => {
                           let dotBg = 'bg-zinc-300 dark:bg-zinc-700';
                           let textColor = 'text-zinc-700 dark:text-white';
@@ -140,7 +144,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                             </span>
                           );
                         })}
-                      </div>
+                      </div>}
                     </td>
                   </motion.tr>
                 );
@@ -203,7 +207,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
         </AnimatedCard>
 
         {/* Curiosidades — derivadas da tabela, apenas para épocas já disputadas */}
-        {!isUpcoming && champion && (
+        {!isUpcoming && champion && hasVerifiedGoals && (
           <AnimatedCard variant="hud" className="p-6">
             <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <Award size={16} className="text-accent" /> Curiosidades
