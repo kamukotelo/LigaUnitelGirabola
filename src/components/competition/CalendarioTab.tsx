@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Calendar, MapPin, Clock, Trophy, Target, CalendarDays, Flag, Tv, X } from 'lucide-react';
-import { UPCOMING_SEASON_ID, getMatchesForSeason, getMatchBroadcast, getMatchOfficials, getTeamById, getAllTeams, Match } from '@/lib/data';
-import AnimatedCard from '@/components/ui/AnimatedCard';
+import { Trophy, Target, CalendarDays, Flag, X } from 'lucide-react';
+import { UPCOMING_SEASON_ID, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { supabase } from '@/lib/supabase';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
@@ -43,109 +42,31 @@ function getDefaultFilters(seasonId: string): CalendarFilters {
   };
 }
 
-function MatchCard({ match, emphasis = 'normal' }: { match: Match; emphasis?: 'normal' | 'highlight' | 'muted' }) {
+function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTeamId: string | null }) {
   const isFinished = match.status === 'finished';
-  const isLive = match.status === 'live';
   const matchDate = new Date(match.date);
-  const formattedDate = matchDate.toLocaleDateString('pt-AO', {
-    day: '2-digit', month: 'short', year: 'numeric',
-    timeZone: ANGOLA_TIME_ZONE,
-  });
   const formattedTime = matchDate.toLocaleTimeString('pt-AO', {
     hour: '2-digit', minute: '2-digit',
     timeZone: ANGOLA_TIME_ZONE,
   });
-
-  const homeTeamObj = getTeamById(match.homeTeamId);
-  const awayTeamObj = getTeamById(match.awayTeamId);
-  const homeAbbr = homeTeamObj?.shortName ?? match.homeTeam.substring(0, 3).toUpperCase();
-  const awayAbbr = awayTeamObj?.shortName ?? match.awayTeam.substring(0, 3).toUpperCase();
-  const broadcaster = getMatchBroadcast(match);
-  const referee = getMatchOfficials(match).referee;
+  const selected = selectedTeamId !== null && (match.homeTeamId === selectedTeamId || match.awayTeamId === selectedTeamId);
+  const muted = selectedTeamId !== null && !selected;
+  const homeScore = isFinished ? match.homeScore : '—';
+  const awayScore = isFinished ? match.awayScore : '—';
 
   return (
     <Link
       href={`/matches/${match.id}`}
-      className={`block h-full group transition-all duration-300 ${emphasis === 'muted' ? 'opacity-35 grayscale-[65%] hover:opacity-80 hover:grayscale-0' : emphasis === 'highlight' ? 'relative z-10 scale-[1.01]' : ''}`}
+      className={`group grid grid-cols-[34px_1fr_34px] items-center gap-1.5 border-b border-zinc-200/80 px-2 py-1.5 text-[10px] transition-all last:border-b-0 dark:border-zinc-800/80 sm:text-[11px] ${
+        muted ? 'opacity-30 grayscale hover:opacity-75 hover:grayscale-0' : 'hover:bg-red-50 dark:hover:bg-red-950/20'
+      }`}
+      title={`${match.homeTeam} — ${match.awayTeam} · ${formattedTime}`}
     >
-      <AnimatedCard
-        variant="hud"
-        className={`bg-zinc-100/30 dark:bg-zinc-950/30 hover:bg-white/30 dark:hover:bg-zinc-900/30 border-zinc-200 dark:border-zinc-900 relative p-5 sm:p-6 h-full flex flex-col justify-between cursor-pointer transition-colors ${emphasis === 'highlight' ? 'border-primary/70 ring-2 ring-primary/15 shadow-lg shadow-primary/10' : 'hover:border-accent/30'}`}
-      >
-        {/* Top meta */}
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">
-            Jornada {match.round}
-          </span>
-          {isFinished ? (
-            <span className="text-[9px] font-mono bg-white dark:bg-zinc-900 text-zinc-500 border border-zinc-200/60 dark:border-zinc-800/60 px-2 py-0.5 rounded uppercase tracking-wider">
-              Terminado
-            </span>
-          ) : isLive ? (
-            <span className="text-[9px] font-mono bg-green-500/20 text-green-500 border border-green-500/40 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 status-pulse" /> Live
-            </span>
-          ) : (
-            <span className="text-[9px] font-mono bg-primary/20 text-primary border border-primary/40 px-2 py-0.5 rounded uppercase tracking-wider flex items-center gap-1">
-              <Calendar size={10} /> Agendado
-            </span>
-          )}
-        </div>
-
-        {/* Scoreboard */}
-        <div className="py-3 border-y border-zinc-200/60 dark:border-zinc-900/60 my-2 space-y-3">
-          {/* Home Team Row */}
-          <div className="flex items-center justify-between" title={match.homeTeam}>
-            <div className="flex items-center gap-2.5 font-bold text-xs sm:text-sm md:text-base text-foreground min-w-0 flex-1">
-              <TeamCrest teamId={match.homeTeamId} size={30} className="flex-shrink-0" />
-              <span className="truncate">{homeAbbr}</span>
-            </div>
-            <span className="font-mono text-xs sm:text-sm font-black text-foreground ml-3 bg-primary/10 dark:bg-primary/20 border border-primary/20 px-2.5 py-0.5 rounded-lg select-none">
-              {isFinished ? match.score?.split('-')[0] : '–'}
-            </span>
-          </div>
-
-          {/* Away Team Row */}
-          <div className="flex items-center justify-between" title={match.awayTeam}>
-            <div className="flex items-center gap-2.5 font-bold text-xs sm:text-sm md:text-base text-foreground min-w-0 flex-1">
-              <TeamCrest teamId={match.awayTeamId} size={30} className="flex-shrink-0" />
-              <span className="truncate">{awayAbbr}</span>
-            </div>
-            <span className="font-mono text-xs sm:text-sm font-black text-foreground ml-3 bg-primary/10 dark:bg-primary/20 border border-primary/20 px-2.5 py-0.5 rounded-lg select-none">
-              {isFinished ? match.score?.split('-')[1] : '–'}
-            </span>
-          </div>
-
-          {!isFinished && (
-            <div className="pt-1 flex items-center justify-center gap-1 font-mono text-[9px] font-bold text-zinc-500">
-              <Clock size={10} className="text-accent animate-pulse" />
-              <span>{formattedTime} · HORA DE LUANDA</span>
-            </div>
-          )}
-        </div>
-
-        {/* Bottom info: estádio, data/hora, transmissão e árbitro */}
-        <div className="flex flex-col gap-2 mt-4 text-[11px] text-zinc-600 dark:text-zinc-400 font-mono">
-          <div className="flex items-center gap-2">
-            <MapPin size={12} className="text-zinc-600 flex-shrink-0" />
-            <span className="truncate">{match.stadium}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Calendar size={12} className="text-zinc-600 flex-shrink-0" />
-            <span>{formattedDate} · {formattedTime}</span>
-          </div>
-          <div className="flex items-center justify-between gap-2">
-            <span className="flex items-center gap-2 min-w-0">
-              <Tv size={12} className="text-accent flex-shrink-0" />
-              <span className="truncate">{broadcaster}</span>
-            </span>
-            <span className="flex items-center gap-1.5 text-zinc-500 min-w-0" title={`Árbitro: ${referee}`}>
-              <Flag size={11} className="flex-shrink-0" />
-              <span className="truncate hidden sm:inline">{referee}</span>
-            </span>
-          </div>
-        </div>
-      </AnimatedCard>
+      <span className="text-center font-mono font-bold text-zinc-500">{homeScore}</span>
+      <span className={`min-w-0 truncate text-center font-condensed font-semibold ${selected ? 'font-extrabold text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-200'}`}>
+        {match.homeTeam} <span className="px-0.5 text-zinc-400">–</span> {match.awayTeam}
+      </span>
+      <span className="text-center font-mono font-bold text-zinc-500">{awayScore}</span>
     </Link>
   );
 }
@@ -262,8 +183,6 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
     (filterMonth === 'all' || m.date.startsWith(filterMonth));
 
   const selectedTeam = filterTeam === 'all' ? null : seasonTeams.find((team) => team.id === filterTeam) ?? null;
-  const isSelectedTeamMatch = (match: Match) =>
-    filterTeam !== 'all' && (match.homeTeamId === filterTeam || match.awayTeamId === filterTeam);
 
   // Jornadas visíveis + filtragem por estado/equipa/mês
   const visibleRounds = (selectedRound === 'all' ? rounds : [selectedRound])
@@ -516,39 +435,41 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           <p className="text-zinc-500 font-mono">A carregar calendário...</p>
         </div>
       ) : hasResults ? (
-        <div className="space-y-10">
+        <div className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${selectedRound === 'all' ? 'lg:grid-cols-3 2xl:grid-cols-4' : 'lg:grid-cols-2 xl:grid-cols-3'}`}>
           {visibleRounds.map((group) => {
-            const groupDate = new Date(group.matches[0].date).toLocaleDateString('pt-AO', {
-              day: '2-digit', month: 'long', year: 'numeric',
-              timeZone: ANGOLA_TIME_ZONE,
+            const orderedMatches = [...group.matches].sort((a, b) => a.date.localeCompare(b.date));
+            const firstDate = new Date(orderedMatches[0].date).toLocaleDateString('pt-AO', {
+              day: '2-digit', month: '2-digit', year: 'numeric', timeZone: ANGOLA_TIME_ZONE,
+            });
+            const lastDate = new Date(orderedMatches[orderedMatches.length - 1].date).toLocaleDateString('pt-AO', {
+              day: '2-digit', month: '2-digit', year: 'numeric', timeZone: ANGOLA_TIME_ZONE,
             });
             return (
-              <section key={group.round}>
-                <div className="flex items-center gap-3 mb-4">
-                  <h2 className="font-display text-foreground uppercase text-lg tracking-wider">Jornada {group.round}</h2>
-                  <span className="h-px flex-1 bg-gradient-to-r from-zinc-300 dark:from-zinc-800 to-transparent" />
-                  <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider hidden sm:block">{groupDate}</span>
+              <motion.section
+                key={group.round}
+                layout
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: Math.min(group.round * 0.015, 0.25) }}
+                className="overflow-hidden rounded-[10px] border-[3px] border-zinc-800 bg-[#fffdf8] shadow-[0_5px_0_rgba(24,24,27,0.85)] dark:border-zinc-950 dark:bg-zinc-100"
+              >
+                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 bg-gradient-to-b from-red-500 to-red-700 px-2.5 py-2 text-white">
+                  <span className="font-mono text-[8px] font-bold tracking-tight">{firstDate}</span>
+                  <h2 className="whitespace-nowrap font-display text-sm font-black uppercase tracking-tight sm:text-base">
+                    {group.round}.ª Jornada
+                  </h2>
+                  <span className="text-right font-mono text-[8px] font-bold tracking-tight">{lastDate}</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-                  <AnimatePresence mode="popLayout">
-                    {group.matches.map((match) => (
-                      <motion.div
-                        key={match.id}
-                        layout
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <MatchCard
-                          match={match}
-                          emphasis={filterTeam === 'all' ? 'normal' : isSelectedTeamMatch(match) ? 'highlight' : 'muted'}
-                        />
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
+                <div className="px-1.5 py-1 text-zinc-900">
+                  {orderedMatches.map((match) => (
+                    <CalendarMatchRow
+                      key={match.id}
+                      match={match}
+                      selectedTeamId={filterTeam === 'all' ? null : filterTeam}
+                    />
+                  ))}
                 </div>
-              </section>
+              </motion.section>
             );
           })}
         </div>
