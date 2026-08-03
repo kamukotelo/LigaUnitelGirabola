@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Clock, Trophy, Target, CalendarDays, Flag, Tv } from 'lucide-react';
-import { UPCOMING_SEASON_ID, getMatchesForSeason, getMatchBroadcast, getMatchOfficials, Match, TEAMS } from '@/lib/data';
+import Image from 'next/image';
+import { Calendar, MapPin, Clock, Trophy, Target, CalendarDays, Flag, Tv, X } from 'lucide-react';
+import { UPCOMING_SEASON_ID, getMatchesForSeason, getMatchBroadcast, getMatchOfficials, getTeamById, getAllTeams, Match } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { supabase } from '@/lib/supabase';
@@ -42,7 +43,7 @@ function getDefaultFilters(seasonId: string): CalendarFilters {
   };
 }
 
-function MatchCard({ match }: { match: Match }) {
+function MatchCard({ match, emphasis = 'normal' }: { match: Match; emphasis?: 'normal' | 'highlight' | 'muted' }) {
   const isFinished = match.status === 'finished';
   const isLive = match.status === 'live';
   const matchDate = new Date(match.date);
@@ -55,18 +56,21 @@ function MatchCard({ match }: { match: Match }) {
     timeZone: ANGOLA_TIME_ZONE,
   });
 
-  const homeTeamObj = TEAMS.find((t) => t.id === match.homeTeamId);
-  const awayTeamObj = TEAMS.find((t) => t.id === match.awayTeamId);
+  const homeTeamObj = getTeamById(match.homeTeamId);
+  const awayTeamObj = getTeamById(match.awayTeamId);
   const homeAbbr = homeTeamObj?.shortName ?? match.homeTeam.substring(0, 3).toUpperCase();
   const awayAbbr = awayTeamObj?.shortName ?? match.awayTeam.substring(0, 3).toUpperCase();
   const broadcaster = getMatchBroadcast(match);
   const referee = getMatchOfficials(match).referee;
 
   return (
-    <Link href={`/matches/${match.id}`} className="block h-full group">
+    <Link
+      href={`/matches/${match.id}`}
+      className={`block h-full group transition-all duration-300 ${emphasis === 'muted' ? 'opacity-35 grayscale-[65%] hover:opacity-80 hover:grayscale-0' : emphasis === 'highlight' ? 'relative z-10 scale-[1.01]' : ''}`}
+    >
       <AnimatedCard
         variant="hud"
-        className="bg-zinc-100/30 dark:bg-zinc-950/30 hover:bg-white/30 dark:hover:bg-zinc-900/30 hover:border-accent/30 border-zinc-200 dark:border-zinc-900 relative p-5 sm:p-6 h-full flex flex-col justify-between cursor-pointer transition-colors"
+        className={`bg-zinc-100/30 dark:bg-zinc-950/30 hover:bg-white/30 dark:hover:bg-zinc-900/30 border-zinc-200 dark:border-zinc-900 relative p-5 sm:p-6 h-full flex flex-col justify-between cursor-pointer transition-colors ${emphasis === 'highlight' ? 'border-primary/70 ring-2 ring-primary/15 shadow-lg shadow-primary/10' : 'hover:border-accent/30'}`}
       >
         {/* Top meta */}
         <div className="flex justify-between items-center mb-4">
@@ -218,6 +222,9 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
   const MATCHES = isUpcoming && dynamicMatches.length > 0 ? dynamicMatches : getMatchesForSeason(seasonId);
 
+  const participantIds = new Set(MATCHES.flatMap((match) => [match.homeTeamId, match.awayTeamId]));
+  const seasonTeams = getAllTeams().filter((team) => participantIds.has(team.id));
+
   const rounds = Array.from(new Set(MATCHES.map((m) => m.round))).sort((a, b) => a - b);
 
   // Meses disponíveis (chave yyyy-mm, rótulo pt-AO), na ordem do calendário
@@ -252,8 +259,11 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
   const matchesFilter = (m: Match) =>
     (filterStatus === 'all' || m.status === filterStatus) &&
-    (filterTeam === 'all' || m.homeTeamId === filterTeam || m.awayTeamId === filterTeam) &&
     (filterMonth === 'all' || m.date.startsWith(filterMonth));
+
+  const selectedTeam = filterTeam === 'all' ? null : seasonTeams.find((team) => team.id === filterTeam) ?? null;
+  const isSelectedTeamMatch = (match: Match) =>
+    filterTeam !== 'all' && (match.homeTeamId === filterTeam || match.awayTeamId === filterTeam);
 
   // Jornadas visíveis + filtragem por estado/equipa/mês
   const visibleRounds = (selectedRound === 'all' ? rounds : [selectedRound])
@@ -299,6 +309,58 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         <CalendarioPlaneamento />
       ) : (
         <>
+      {/* Capa e seletor visual de equipa */}
+      <section className="mb-8 overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-primary/15 via-white/60 to-accent/10 dark:from-primary/20 dark:via-zinc-950/80 dark:to-accent/10">
+        <div className="grid gap-5 p-5 sm:p-7 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <p className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-primary">Calendário oficial · {seasonId}</p>
+            <h2 className="mt-2 font-display text-3xl sm:text-4xl uppercase tracking-wide text-foreground">
+              {selectedTeam ? `Jogos do ${selectedTeam.name}` : 'Liga Unitel Girabola'}
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
+              {selectedTeam
+                ? 'Os jogos desta equipa estão destacados. As restantes partidas continuam visíveis em segundo plano.'
+                : 'Escolha um emblema para destacar todos os jogos dessa equipa ao longo do calendário.'}
+            </p>
+          </div>
+          <div className="flex min-h-28 items-center justify-center">
+            {selectedTeam ? (
+              <TeamCrest teamId={selectedTeam.id} size={112} className="drop-shadow-xl" />
+            ) : (
+              <Image src="/logo-ancaf.png" alt="ANCAF" width={132} height={132} className="h-28 w-auto object-contain drop-shadow-xl" />
+            )}
+          </div>
+        </div>
+        <div className="border-t border-zinc-200/70 dark:border-zinc-800/70 bg-white/45 dark:bg-zinc-950/35 p-4 sm:p-5">
+          <div className="flex items-center gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <button
+              type="button"
+              onClick={() => updateFilters({ filterTeam: 'all' })}
+              aria-label="Mostrar todas as equipas"
+              className={`relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl border transition-all ${filterTeam === 'all' ? 'border-primary bg-primary/10 ring-2 ring-primary/20' : 'border-zinc-200 bg-white/60 opacity-60 hover:opacity-100 dark:border-zinc-800 dark:bg-zinc-900/60'}`}
+            >
+              <Image src="/logo-ancaf.png" alt="Todas" width={42} height={42} className="h-10 w-10 object-contain" />
+            </button>
+            {seasonTeams.map((team) => (
+              <button
+                key={team.id}
+                type="button"
+                onClick={() => updateFilters({ filterTeam: team.id })}
+                aria-label={`Destacar jogos do ${team.name}`}
+                title={team.name}
+                className={`flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl border transition-all ${filterTeam === team.id ? 'border-primary bg-primary/10 ring-2 ring-primary/20 scale-105' : 'border-zinc-200 bg-white/60 opacity-60 hover:scale-105 hover:opacity-100 dark:border-zinc-800 dark:bg-zinc-900/60'}`}
+              >
+                <TeamCrest teamId={team.id} size={38} />
+              </button>
+            ))}
+            {selectedTeam && (
+              <button type="button" onClick={() => updateFilters({ filterTeam: 'all' })} className="ml-1 flex flex-shrink-0 items-center gap-1.5 rounded-xl px-3 py-2 text-[10px] font-mono uppercase text-zinc-500 hover:text-foreground">
+                <X size={13} /> Limpar
+              </button>
+            )}
+          </div>
+        </div>
+      </section>
           {/* Estado de sincronização do calendário */}
       {isUpcoming && (
         <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-green-500/5 border border-green-500/35 rounded-2xl p-4 backdrop-blur-sm">
@@ -375,16 +437,9 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           </div>
         </div>
 
-        {/* Equipa e Mês (estilo /calendar da Liga Angola) */}
+        {/* Mês — a equipa é escolhida visualmente pelos emblemas acima */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Equipa</span>
-          <select value={filterTeam} onChange={(e) => updateFilters({ filterTeam: e.target.value })} className={selectClass}>
-            <option value="all">Todas as equipas</option>
-            {TEAMS.map((t) => (
-              <option key={t.id} value={t.id}>{t.name}</option>
-            ))}
-          </select>
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-12 sm:text-right flex-shrink-0">Mês</span>
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Mês</span>
           <select value={filterMonth} onChange={(e) => updateFilters({ filterMonth: e.target.value })} className={selectClass}>
             <option value="all">Todos os meses</option>
             {months.map(([key, label]) => (
@@ -485,7 +540,10 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <MatchCard match={match} />
+                        <MatchCard
+                          match={match}
+                          emphasis={filterTeam === 'all' ? 'normal' : isSelectedTeamMatch(match) ? 'highlight' : 'muted'}
+                        />
                       </motion.div>
                     ))}
                   </AnimatePresence>

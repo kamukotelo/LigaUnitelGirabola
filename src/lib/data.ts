@@ -1,6 +1,7 @@
 // Data layer for Girabola 2025/2026 Football Portal
 import { PROMOTED_2026_27_TEAMS } from './ancaf-engine';
 import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from './published-ancaf-calendar';
+import { HISTORICAL_MATCHES } from './historical-results';
 
 export interface Team {
   id: string;
@@ -155,15 +156,15 @@ export interface NewsArticle {
 
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
 export const TEAMS: Team[] = [
-  { id: 'petro', name: 'Petro de Luanda', shortName: 'PET', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Vermelho', coach: 'Ricardo Chéu', nickname: 'Tricolores', colorsHex: ["#F9C304", "#00529B", "#D21515"] },
-  { id: 'wiliete', name: 'Wiliete de Benguela', shortName: 'WILI', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'José Silvestre "Lito" Vidigal', nickname: 'Wilietes', colorsHex: ["#008751", "#F9C304"] },
-  { id: 'dago', name: '1.º de Agosto', shortName: 'AGO', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', nickname: 'Militares', colorsHex: ["#D21515", "#000000"] },
+  { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'PET', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Vermelho', coach: 'Ricardo Chéu', nickname: 'Tricolores', colorsHex: ["#F9C304", "#00529B", "#D21515"] },
+  { id: 'wiliete', name: 'Wiliete Sport Clube', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'José Silvestre "Lito" Vidigal', nickname: 'Wilietes', colorsHex: ["#008751", "#F9C304"] },
+  { id: 'dago', name: '1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', nickname: 'Militares', colorsHex: ["#D21515", "#000000"] },
   { id: 'desphuila', name: 'Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Mário Soares', nickname: 'Huilanos', colorsHex: ["#D21515", "#FFFFFF"] },
-  { id: 'bravos', name: 'Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Zeca Amaral', nickname: 'MAQUISARDES', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'kabuscorp', name: 'Kabuscorp', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Kito Ribeiro', nickname: 'Palanquinas', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Zeca Amaral', nickname: 'MAQUISARDES', colorsHex: ["#00529B", "#FFFFFF"] },
+  { id: 'kabuscorp', name: 'Kabuscorp do Palanca', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Kito Ribeiro', nickname: 'Palanquinas', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'sagrada', name: 'Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Francisco Moniz "Tusso"', nickname: 'Lundas', colorsHex: ["#008751", "#000000"] },
   { id: 'interclube', name: 'Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Luís Gonçalves', nickname: 'Polícias', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'lundasul', name: 'Desportivo da Lunda Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', nickname: 'Sudistas', colorsHex: ["#008751", "#F9C304"] },
+  { id: 'lundasul', name: 'Desportivo da Lunda-Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', nickname: 'Sudistas', colorsHex: ["#008751", "#F9C304"] },
   { id: 'libolo', name: 'Recreativo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Hélder Teixeira', nickname: 'Libolenses', colorsHex: ["#FF6600", "#00529B"] },
   { id: 'lobito', name: 'Académica do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'João Pintar', nickname: 'Estudantes', colorsHex: ["#000000", "#FFFFFF"] },
   { id: 'saosalvador', name: 'São Salvador do Kongo', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Findanga Finda', nickname: 'Kongos', colorsHex: ["#00529B", "#F9C304"] },
@@ -427,6 +428,9 @@ export interface Season {
 export const SEASONS: Season[] = [
   { id: '2026-27', label: '2026/2027', status: 'upcoming' },
   { id: '2025-26', label: '2025/2026', status: 'completed' },
+  { id: '2024-25', label: '2024/2025', status: 'completed' },
+  { id: '2023-24', label: '2023/2024', status: 'completed' },
+  { id: '2022-23', label: '2022/2023', status: 'completed' },
 ];
 export const CURRENT_SEASON_ID = '2025-26';
 export const UPCOMING_SEASON_ID = '2026-27';
@@ -457,6 +461,18 @@ export interface SeasonRound {
 // Jogos do Girabola 2026/2027 publicados pelo gestor ANCAF como fonte oficial
 // consumida pelo site e pelo endpoint público /api/ancaf.
 export const MATCHES_2026_27: Match[] = PUBLISHED_MATCHES_2026_27;
+
+// Clubes presentes nas três épocas históricas importadas que já não fazem
+// parte da lista principal. Mantêm IDs estáveis para emblemas e páginas.
+export const HISTORICAL_TEAMS: Team[] = [
+  { id: 'isaac-benguela', name: 'Isaac de Benguela', shortName: 'ISA', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Azul e Branco', coach: '—' },
+  { id: 'santa-rita', name: 'Santa Rita de Cássia', shortName: 'SRC', city: 'Uíge', stadium: 'Estádio 4 de Janeiro', stadiumCapacity: 12000, founded: 2015, colors: 'Verde e Branco', coach: '—' },
+  { id: 'carmona', name: 'Carmona Sport Clube', shortName: 'CSC', city: 'Uíge', stadium: 'Estádio 4 de Janeiro', stadiumCapacity: 12000, founded: 2022, colors: 'Azul e Branco', coach: '—' },
+  { id: 'sporting-cabinda', name: 'Sporting de Cabinda', shortName: 'SCA', city: 'Cabinda', stadium: 'Estádio do Tafe', stadiumCapacity: 9000, founded: 1975, colors: 'Verde e Branco', coach: '—' },
+  { id: 'uniao-malanje', name: 'União de Malanje', shortName: 'USM', city: 'Malanje', stadium: 'Estádio 1.º de Maio', stadiumCapacity: 6000, founded: 2019, colors: 'Vermelho e Branco', coach: '—' },
+  { id: 'ask-dragao', name: 'ASK Dragão', shortName: 'ASK', city: 'Uíge', stadium: 'Estádio 4 de Janeiro', stadiumCapacity: 12000, founded: 2017, colors: 'Azul e Branco', coach: '—' },
+  { id: 'sporting-benguela', name: 'Sporting de Benguela', shortName: 'SBE', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 5000, founded: 1915, colors: 'Verde e Branco', coach: '—' },
+];
 
 // Vista por jornada (confrontos + datas), derivada dos jogos gerados.
 // Mantém a forma SeasonRound consumida pelo endpoint /api/ancaf.
@@ -1219,7 +1235,59 @@ export interface PortalOverrides {
   nominations?: Record<string, Partial<MatchOfficials>>;                       // por match.id
   // Overrides de equipas: adds = novas equipas; removed = IDs removidos; overrides = edições
   teams?: { overrides?: Record<string, Partial<Team>>; added?: Team[]; removed?: string[] };
+  site?: Partial<SiteSettings>;                                                // identidade global do portal
 }
+
+// ── IDENTIDADE GLOBAL DO PORTAL (editável no admin) ─────────────────
+// Textos institucionais, contactos e paleta da marca. Publicados sob a chave
+// `override_site` e aplicados em todo o portal pelo SiteSettingsProvider.
+export interface SiteSettings {
+  siteName: string;
+  tagline: string;
+  footerDescription: string;
+  copyright: string;
+  contactEmail: string;
+  contactPhone: string;
+  /** Telefone secundário (exibido no rodapé e página de contacto quando preenchido). */
+  contactPhone2: string;
+  contactAddress: string;
+  facebookUrl: string;
+  instagramUrl: string;
+  youtubeUrl: string;
+  /** URL do perfil no Twitter/X. */
+  twitterUrl: string;
+  /** Email de apoio técnico / TI (exibido na página de contacto). */
+  supportEmail: string;
+  /** Descrição SEO do portal (tag meta description). */
+  metaDescription: string;
+  /** Paleta da marca — aplicada como variáveis CSS (`--primary`, `--accent`). */
+  primaryLight: string;
+  accentLight: string;
+  primaryDark: string;
+  accentDark: string;
+}
+
+export const DEFAULT_SITE_SETTINGS: SiteSettings = {
+  siteName: 'Liga Unitel Girabola',
+  tagline: 'Campeonato Nacional de Futebol de Angola',
+  footerDescription:
+    'Website oficial de resultados e estatísticas do Campeonato Nacional de Futebol de Angola, baseado no Futibool Engine.',
+  copyright: 'Liga Unitel Girabola. Todos os direitos reservados.',
+  contactEmail: 'geral@ancaf.co.ao',
+  contactPhone: '+244 975 218 863',
+  contactPhone2: '',
+  contactAddress: 'Rua Comandante Eurico, nº 23, Ingombotas, Luanda, Angola',
+  facebookUrl: '',
+  instagramUrl: '',
+  youtubeUrl: '',
+  twitterUrl: '',
+  supportEmail: 'it@ancaf.co.ao',
+  metaDescription: 'Resultados ao vivo, classificação, calendário e estatísticas do Campeonato Nacional de Futebol de Angola — Liga Unitel Girabola.',
+  primaryLight: '#5C0F8B',
+  accentLight: '#E6540F',
+  primaryDark: '#B368DB',
+  accentDark: '#F07942',
+};
 
 let RUNTIME_OVERRIDES: PortalOverrides = {};
 
@@ -1228,6 +1296,11 @@ export function setPortalOverrides(next: PortalOverrides): void {
 }
 export function getPortalOverrides(): PortalOverrides {
   return RUNTIME_OVERRIDES;
+}
+
+/** Identidade do portal já com as edições publicadas no admin aplicadas. */
+export function getSiteSettings(): SiteSettings {
+  return { ...DEFAULT_SITE_SETTINGS, ...(RUNTIME_OVERRIDES.site ?? {}) };
 }
 
 // Normaliza um jogo após aplicar um override: mantém `score` e os campos
@@ -1247,8 +1320,14 @@ function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
 
 function applyMatchOverrides(list: Match[]): Match[] {
   const ov = RUNTIME_OVERRIDES.calendar;
-  if (!ov) return list;
-  return list.map((m) => (ov[m.id] ? normalizeMatchOverride(m, ov[m.id]) : m));
+  return list.map((m) => {
+    const named = {
+      ...m,
+      homeTeam: getTeamById(m.homeTeamId)?.name ?? m.homeTeam,
+      awayTeam: getTeamById(m.awayTeamId)?.name ?? m.awayTeam,
+    };
+    return ov?.[m.id] ? normalizeMatchOverride(named, ov[m.id]) : named;
+  });
 }
 
 // ── 7. FUNÇÕES AUXILIARES DE BUSCA ─────────────────────────────────
@@ -1272,11 +1351,12 @@ export function getTeams(): Team[] {
 // jogo da nova época resolvam corretamente.
 export function getAllTeams(): Team[] {
   const teams = getTeams();
-  return [...teams, ...PROMOTED_2026_27_TEAMS.filter((p) => !teams.some((t) => t.id === p.id))];
+  const promoted = PROMOTED_2026_27_TEAMS.filter((p) => !teams.some((t) => t.id === p.id));
+  return [...teams, ...promoted, ...HISTORICAL_TEAMS.filter((h) => !teams.some((t) => t.id === h.id))];
 }
 
 /** Alias estático para compatibilidade — prefer getAllTeams() or getTeams() at runtime. */
-export const ALL_TEAMS: Team[] = [...TEAMS, ...PROMOTED_2026_27_TEAMS];
+export const ALL_TEAMS: Team[] = [...TEAMS, ...PROMOTED_2026_27_TEAMS, ...HISTORICAL_TEAMS];
 
 export function getTeamById(id: string): Team | undefined {
   return getAllTeams().find(t => t.id === id);
@@ -1298,7 +1378,9 @@ export function getMatches(): Match[] {
 
 // Calendário por época — 2026/2027 corresponde ao ficheiro do ANCAF_CALENDAR.
 export function getMatchesForSeason(seasonId: string): Match[] {
-  return applyMatchOverrides(seasonId === UPCOMING_SEASON_ID ? MATCHES_2026_27 : MATCHES);
+  if (seasonId === UPCOMING_SEASON_ID) return applyMatchOverrides(MATCHES_2026_27);
+  if (HISTORICAL_MATCHES[seasonId]) return applyMatchOverrides(HISTORICAL_MATCHES[seasonId]);
+  return applyMatchOverrides(MATCHES);
 }
 
 export function getMatchesByTeam(teamId: string): Match[] {
@@ -1384,7 +1466,9 @@ export function getPlayerFicha(player: Player): PlayerFicha {
 }
 
 export function getMatchById(id: string): Match | undefined {
-  return MATCHES.find(m => m.id === id) ?? MATCHES_2026_27.find(m => m.id === id);
+  return MATCHES.find(m => m.id === id)
+    ?? MATCHES_2026_27.find(m => m.id === id)
+    ?? Object.values(HISTORICAL_MATCHES).flat().find(m => m.id === id);
 }
 
 export function getTopScorers(): PlayerStats[] {

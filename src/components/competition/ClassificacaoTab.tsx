@@ -19,12 +19,12 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
   const champion = standingsList[0];
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+    <div className="space-y-8">
 
       {/* Table Container */}
-      <div className="xl:col-span-3 overflow-hidden">
+      <div className="overflow-hidden">
         <AnimatedCard variant="hud" className="p-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          <table className="w-full text-left border-collapse min-w-0 sm:min-w-[700px]">
+          <table className="w-full text-left border-collapse min-w-[720px]">
             <thead>
               <tr className="border-b border-zinc-200 dark:border-zinc-800/80 bg-zinc-100/60 dark:bg-zinc-900/40 text-[11px] font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
                 <th className="py-4 px-3 sm:px-4 text-center w-10 sm:w-12">#</th>
@@ -36,7 +36,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                 <th className="py-4 px-2 sm:px-3 text-center w-16 sm:w-20 hidden md:table-cell">Golos</th>
                 <th className="py-4 px-2 sm:px-3 text-center w-12 sm:w-14">DG</th>
                 <th className="py-4 px-3 sm:px-4 text-center w-14 sm:w-16 bg-primary/10 text-primary dark:text-white font-bold">PTS</th>
-                <th className="py-4 px-3 sm:px-4 text-center w-28 sm:w-36 hidden md:table-cell">Forma</th>
+                <th className="py-4 px-3 sm:px-4 text-center w-28 sm:w-36">Forma</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
@@ -115,7 +115,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                     </td>
 
                     {/* Form History */}
-                    <td className="py-4 px-3 sm:px-4 hidden md:table-cell">
+                    <td className="py-4 px-3 sm:px-4">
                       <div className="flex justify-center gap-1">
                         {row.form.map((result, idx) => {
                           let dotBg = 'bg-zinc-300 dark:bg-zinc-700';
@@ -150,7 +150,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
         </AnimatedCard>
       </div>
 
-      {/* Sidebar Info */}
+      {/* Legenda abaixo: liberta toda a largura para a classificação */}
       <div className="space-y-6">
 
         {/* Legend Card */}
@@ -159,7 +159,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
             <Info size={16} className="text-accent" /> Legenda
           </h3>
 
-          <div className="space-y-4 text-xs">
+          <div className="grid gap-4 text-xs sm:grid-cols-2 xl:grid-cols-5">
             <div className="flex items-start gap-3">
               <span className="w-1.5 h-6 bg-accent rounded-full block flex-shrink-0" />
               <div>

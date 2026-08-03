@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Video, Newspaper, Ticket } from 'lucide-react';
-import { getMatchesForSeason, getNewsArticles, Match, UPCOMING_SEASON_ID } from '@/lib/data';
+import { Video, Newspaper, Ticket, Tv } from 'lucide-react';
+import { getMatchBroadcast, getMatchesForSeason, getNewsArticles, Match, UPCOMING_SEASON_ID } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
@@ -27,10 +27,13 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
   return (
     <Link
       href={`/matches/${match.id}`}
-      className={`grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-4 px-3 sm:px-5 py-3.5 transition-colors ${
+      className={`grid grid-cols-[72px_1fr_auto_1fr] sm:grid-cols-[150px_1fr_auto_1fr_90px] items-center gap-2 sm:gap-4 px-3 sm:px-5 py-3.5 transition-colors ${
         highlight ? 'bg-primary/5' : 'hover:bg-zinc-100 dark:hover:bg-zinc-900/40'
       }`}
     >
+      <span className="flex items-center gap-1.5 truncate text-[10px] sm:text-xs font-bold text-zinc-600 dark:text-zinc-400" title={`Transmissão: ${getMatchBroadcast(match)}`}>
+        <Tv size={13} className="flex-shrink-0 text-primary" /> {getMatchBroadcast(match)}
+      </span>
       {/* Casa (nome à direita, emblema junto ao resultado) */}
       <div className="flex items-center justify-end gap-2.5 min-w-0">
         <span className="text-xs sm:text-sm font-semibold text-foreground truncate text-right">{match.homeTeam}</span>
@@ -49,6 +52,10 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
         <TeamCrest teamId={match.awayTeamId} size={28} className="flex-shrink-0" />
         <span className="text-xs sm:text-sm font-semibold text-foreground truncate">{match.awayTeam}</span>
       </div>
+
+      <span className="hidden sm:block text-right text-[10px] font-mono uppercase tracking-wider text-zinc-500">
+        {new Date(match.date).toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}
+      </span>
     </Link>
   );
 }
