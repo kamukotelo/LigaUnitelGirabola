@@ -57,14 +57,17 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
   return (
     <Link
       href={`/matches/${match.id}`}
-      className={`group grid grid-cols-[34px_1fr_34px] items-center gap-1.5 border-b border-zinc-200/80 px-2 py-1.5 text-[10px] transition-all last:border-b-0 dark:border-zinc-800/80 sm:text-[11px] ${
+      className={`group grid grid-cols-[minmax(0,1fr)_30px] items-center gap-x-2 gap-y-1 border-b border-zinc-200/80 px-2.5 py-2 text-[10px] transition-all last:border-b-0 dark:border-zinc-800/80 sm:text-[11px] ${
         muted ? 'opacity-30 grayscale hover:opacity-75 hover:grayscale-0' : 'hover:bg-red-50 dark:hover:bg-red-950/20'
       }`}
       title={`${match.homeTeam} — ${match.awayTeam} · ${formattedTime}`}
     >
+      <span className={`min-w-0 whitespace-nowrap text-left font-condensed font-semibold leading-tight ${selected ? 'font-extrabold text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-200'}`}>
+        {match.homeTeam}
+      </span>
       <span className="text-center font-mono font-bold text-zinc-500">{homeScore}</span>
-      <span className={`min-w-0 truncate text-center font-condensed font-semibold ${selected ? 'font-extrabold text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-200'}`}>
-        {match.homeTeam} <span className="px-0.5 text-zinc-400">–</span> {match.awayTeam}
+      <span className={`min-w-0 whitespace-nowrap text-left font-condensed font-semibold leading-tight ${selected ? 'font-extrabold text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-200'}`}>
+        {match.awayTeam}
       </span>
       <span className="text-center font-mono font-bold text-zinc-500">{awayScore}</span>
     </Link>
@@ -435,7 +438,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           <p className="text-zinc-500 font-mono">A carregar calendário...</p>
         </div>
       ) : hasResults ? (
-        <div className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${selectedRound === 'all' ? 'lg:grid-cols-3 2xl:grid-cols-4' : 'lg:grid-cols-2 xl:grid-cols-3'}`}>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
           {visibleRounds.map((group) => {
             const orderedMatches = [...group.matches].sort((a, b) => a.date.localeCompare(b.date));
             const firstDate = new Date(orderedMatches[0].date).toLocaleDateString('pt-AO', {

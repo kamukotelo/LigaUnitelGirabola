@@ -8,18 +8,19 @@ import {
   LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
   Fingerprint, FileText, Plane, HeartPulse, Loader2, CheckCircle2,
   AlertTriangle, BadgeCheck, Search, Download, Home,
-  Plus, Trash2, Pencil, Shirt, Flag, ImagePlus,
+  Plus, Trash2, Pencil, Shirt, Flag, ImagePlus, Palette, Undo2,
 } from 'lucide-react';
 import {
   MATCHES, TEAMS, PLAYERS, getStandings, getNewsArticles,
   getPlayerFifaRecords, FIFA_CHECK_META, getTeamProfile, getMatchOfficials,
   SEASONS, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason,
+  DEFAULT_SITE_SETTINGS,
   type Match, type FifaCheckKey, type Team, type NewsArticle, type Player,
-  type TrophyEntry, type KitEntry, type BoardMember,
+  type TrophyEntry, type KitEntry, type BoardMember, type SiteSettings,
 } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
-import { publishOverride } from '@/lib/portal-overrides';
+import { publishOverride, type OverrideSection } from '@/lib/portal-overrides';
 import { supabase } from '@/lib/supabase';
 
 // ── Configuração local (persistência local dos overrides do admin) ──────
@@ -30,8 +31,160 @@ const SYNC_KEY = 'faf_calendar_last_sync';
 const NEWS_KEY = 'faf_news_store';
 const PLAYER_KEY = 'faf_player_overrides';
 const NOMINATION_KEY = 'faf_nomination_overrides';
+// Chave própria do rascunho de equipas. NÃO reutilizar `faf_team_overrides`
+// (TEAM_OVERRIDES_KEY): esse guarda o mapa plano que alimenta a pré-visualização
+// dos emblemas e as duas formas corromper-se-iam mutuamente.
+const TEAM_KEY = 'faf_team_store';
+const SITE_KEY = 'faf_site_settings';
 
-type Section = 'dashboard' | 'calendar' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
+type Section = 'dashboard' | 'site' | 'calendar' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
+
+// ════════════════════════════════════════════════════════════════════════
+// RASCUNHO EDITÁVEL + GRAVAÇÃO EXPLÍCITA
+// ────────────────────────────────────────────────────────────────────────
+// Cada secção edita um rascunho local. Nada chega ao site público enquanto o
+// utilizador não carregar em «Guardar alterações» — o que evita publicações
+// acidentais a cada tecla e torna claro o que está por confirmar.
+// ════════════════════════════════════════════════════════════════════════
+
+/** Comunica ao painel-raiz se a secção aberta tem alterações por guardar. */
+const DirtyContext = React.createContext<(dirty: boolean) => void>(() => {});
+
+interface DraftController<T> {
+  draft: T;
+  setDraft: (next: T) => void;
+  dirty: boolean;
+  saving: boolean;
+  savedAt: string | null;
+  error: string | null;
+  save: () => Promise<void>;
+  discard: () => void;
+}
+
+function useEditorDraft<T>(section: OverrideSection, storageKey: string, initial: T): DraftController<T> {
+  const [draft, setDraft] = useState<T>(initial);
+  const [baseline, setBaseline] = useState<T>(initial);
+  const [saving, setSaving] = useState(false);
+  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const reportDirty = React.useContext(DirtyContext);
+
+  // O estado publicado já foi semeado no localStorage pelo painel-raiz, por
+  // isso ler daqui devolve o que está efetivamente no ar.
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
+    const stored = readJSON<T>(storageKey, initial);
+    setDraft(stored);
+    setBaseline(stored);
+    /* eslint-enable react-hooks/set-state-in-effect */
+    // `initial` é um valor de arranque estável por secção — não entra nas deps.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storageKey]);
+
+  const dirty = JSON.stringify(draft) !== JSON.stringify(baseline);
+
+  useEffect(() => {
+    reportDirty(dirty);
+    return () => reportDirty(false);
+  }, [dirty, reportDirty]);
+
+  const save = async () => {
+    setSaving(true);
+    setError(null);
+    const ok = await publishOverride(section, draft);
+    if (ok) {
+      localStorage.setItem(storageKey, JSON.stringify(draft));
+      setBaseline(draft);
+      setSavedAt(new Date().toISOString());
+    } else {
+      setError('Não foi possível publicar as alterações. Verifique a ligação e tente novamente.');
+    }
+    setSaving(false);
+  };
+
+  const discard = () => {
+    setDraft(baseline);
+    setError(null);
+  };
+
+  return { draft, setDraft, dirty, saving, savedAt, error, save, discard };
+}
+
+/**
+ * Barra fixa de gravação — mostra quantas alterações estão por publicar e
+ * concentra as ações de guardar/descartar/exportar de cada secção.
+ */
+function SaveBar<T>({
+  ctl, pendingLabel, onExport, onResetAll, extra,
+}: {
+  ctl: DraftController<T>;
+  pendingLabel: string;
+  onExport?: () => void;
+  onResetAll?: () => void;
+  extra?: React.ReactNode;
+}) {
+  const { dirty, saving, savedAt, error, save, discard } = ctl;
+  return (
+    <div className="sticky top-2 z-30 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/85 dark:bg-zinc-950/85 backdrop-blur px-4 py-3 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400 flex items-center gap-2">
+            {dirty ? (
+              <span className="inline-flex items-center gap-1.5 text-amber-500">
+                <AlertTriangle size={12} /> {pendingLabel} por guardar
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 text-green-500">
+                <CheckCircle2 size={12} /> Tudo publicado
+              </span>
+            )}
+          </p>
+          {savedAt && !dirty && (
+            <p className="text-[10px] font-mono text-zinc-500 mt-0.5">
+              Publicado às {new Date(savedAt).toLocaleTimeString('pt-AO')} · visível para todos os visitantes
+            </p>
+          )}
+          {error && <p className="text-[10px] font-mono text-red-400 mt-0.5">{error}</p>}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {extra}
+          {onResetAll && (
+            <button
+              onClick={onResetAll}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-[10px] uppercase tracking-widest hover:bg-red-500/20 transition-colors"
+            >
+              <RefreshCw size={12} /> Repor tudo
+            </button>
+          )}
+          {onExport && (
+            <button
+              onClick={onExport}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-[10px] uppercase tracking-widest hover:text-foreground transition-colors"
+            >
+              <Download size={12} /> Exportar
+            </button>
+          )}
+          <button
+            onClick={discard}
+            disabled={!dirty || saving}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 font-mono text-[10px] uppercase tracking-widest hover:text-foreground transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <Undo2 size={12} /> Descartar
+          </button>
+          <button
+            onClick={save}
+            disabled={!dirty || saving}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-white font-mono text-[10px] uppercase tracking-widest hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {saving ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
+            {saving ? 'A guardar…' : 'Guardar alterações'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ── Utilitário genérico de persistência local (overrides do admin) ───────
 function readJSON<T>(key: string, fallback: T): T {
@@ -84,6 +237,10 @@ function localInputToIso(value: string): string {
 export default function AdminClient() {
   const [section, setSection] = useState<Section>('dashboard');
   const [seeded, setSeeded] = useState(false);
+  // Alterações por guardar na secção aberta — usado para avisar antes de
+  // trocar de secção, sair da consola ou fechar o separador.
+  const [dirty, setDirty] = useState(false);
+  const reportDirty = React.useCallback((d: boolean) => setDirty(d), []);
 
   useEffect(() => {
     // Semeia o localStorage com os overrides publicados no servidor, para que a
@@ -99,6 +256,8 @@ export default function AdminClient() {
         if (o.news) localStorage.setItem(NEWS_KEY, JSON.stringify(o.news));
         if (o.players) localStorage.setItem(PLAYER_KEY, JSON.stringify(o.players));
         if (o.nominations) localStorage.setItem(NOMINATION_KEY, JSON.stringify(o.nominations));
+        if (o.teams) localStorage.setItem(TEAM_KEY, JSON.stringify(o.teams));
+        if (o.site) localStorage.setItem(SITE_KEY, JSON.stringify(o.site));
       })
       .catch(() => {})
       .finally(() => {
@@ -108,6 +267,22 @@ export default function AdminClient() {
       cancelled = true;
     };
   }, []);
+
+  // Aviso do navegador ao fechar/recarregar com alterações por publicar.
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [dirty]);
+
+  /** Só troca de secção depois de confirmar o descarte de alterações pendentes. */
+  const goToSection = (next: Section) => {
+    if (section === next) return;
+    if (dirty && !window.confirm('Tem alterações por guardar nesta secção. Sair sem guardar?')) return;
+    setDirty(false);
+    setSection(next);
+  };
 
   const logout = async () => {
     // Termina a sessão no servidor (apaga o cookie httpOnly) e volta ao portal.
@@ -130,15 +305,41 @@ export default function AdminClient() {
     );
   }
 
-  const navItems: { key: Section; label: string; icon: React.ElementType }[] = [
-    { key: 'dashboard', label: 'Painel Geral', icon: LayoutDashboard },
-    { key: 'calendar', label: 'Calendário · ANCAF', icon: CalendarDays },
-    { key: 'fifa', label: 'FIFA Connect', icon: ShieldCheck },
-    { key: 'teams', label: 'Equipas', icon: Users },
-    { key: 'players', label: 'Jogadores', icon: ShieldCheck },
-    { key: 'nominations', label: 'Nomeações', icon: Flag },
-    { key: 'news', label: 'Notícias', icon: Newspaper },
-    { key: 'logos', label: 'Logótipos', icon: ImagePlus },
+  // Navegação agrupada por domínio — a consola cresceu e uma lista corrida
+  // deixava de deixar claro onde cada tipo de informação se edita.
+  const navGroups: { title: string; items: { key: Section; label: string; icon: React.ElementType }[] }[] = [
+    {
+      title: 'Geral',
+      items: [{ key: 'dashboard', label: 'Painel Geral', icon: LayoutDashboard }],
+    },
+    {
+      title: 'Identidade',
+      items: [
+        { key: 'site', label: 'Site e Marca', icon: Palette },
+        { key: 'logos', label: 'Logótipos', icon: ImagePlus },
+      ],
+    },
+    {
+      title: 'Competição',
+      items: [
+        { key: 'calendar', label: 'Calendário · ANCAF', icon: CalendarDays },
+        { key: 'nominations', label: 'Nomeações', icon: Flag },
+      ],
+    },
+    {
+      title: 'Entidades',
+      items: [
+        { key: 'teams', label: 'Equipas', icon: Users },
+        { key: 'players', label: 'Jogadores', icon: Shirt },
+      ],
+    },
+    {
+      title: 'Conteúdos e Conformidade',
+      items: [
+        { key: 'news', label: 'Notícias', icon: Newspaper },
+        { key: 'fifa', label: 'FIFA Connect', icon: ShieldCheck },
+      ],
+    },
   ];
 
   return (
@@ -158,8 +359,14 @@ export default function AdminClient() {
             </h1>
           </div>
           <div className="flex items-center gap-2">
+            {dirty && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-500 font-mono text-[10px] uppercase tracking-widest">
+                <AlertTriangle size={12} /> Por guardar
+              </span>
+            )}
             <Link
               href="/"
+              target="_blank"
               className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-[11px] uppercase tracking-widest hover:text-foreground hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
             >
               <Home size={13} /> Ver site
@@ -174,46 +381,56 @@ export default function AdminClient() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[230px_1fr] gap-6">
-          {/* Navegação lateral */}
-          <nav className="flex lg:flex-col gap-1.5 overflow-x-auto pb-2 lg:pb-0">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const active = section === item.key;
-              return (
-                <button
-                  key={item.key}
-                  onClick={() => setSection(item.key)}
-                  className={`flex-shrink-0 flex items-center gap-2.5 px-4 py-3 rounded-xl font-mono text-[11px] uppercase tracking-widest transition-colors text-left ${
-                    active
-                      ? 'bg-accent/10 border border-accent/40 text-accent'
-                      : 'bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:border-zinc-200 dark:hover:border-zinc-800'
-                  }`}
-                >
-                  <Icon size={15} /> {item.label}
-                </button>
-              );
-            })}
+          {/* Navegação lateral, agrupada por domínio */}
+          <nav className="flex lg:flex-col gap-4 overflow-x-auto pb-2 lg:pb-0">
+            {navGroups.map((group) => (
+              <div key={group.title} className="flex lg:flex-col gap-1.5 flex-shrink-0">
+                <p className="hidden lg:block text-[9px] font-mono uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600 px-1 mb-0.5">
+                  {group.title}
+                </p>
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  const active = section === item.key;
+                  return (
+                    <button
+                      key={item.key}
+                      onClick={() => goToSection(item.key)}
+                      className={`flex-shrink-0 flex items-center gap-2.5 px-4 py-3 rounded-xl font-mono text-[11px] uppercase tracking-widest transition-colors text-left ${
+                        active
+                          ? 'bg-accent/10 border border-accent/40 text-accent'
+                          : 'bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:border-zinc-200 dark:hover:border-zinc-800'
+                      }`}
+                    >
+                      <Icon size={15} /> {item.label}
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
           </nav>
 
           {/* Conteúdo */}
           <div className="min-w-0">
             {/* key={section} remonta e reproduz a animação de entrada a cada troca.
                 Sem AnimatePresence mode="wait" (evita deadlock da animação de saída). */}
-            <motion.div
-              key={section}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              {section === 'dashboard' && <DashboardSection onGo={setSection} />}
-              {section === 'calendar' && <CalendarSection />}
-              {section === 'fifa' && <FifaSection />}
-              {section === 'teams' && <TeamsSection />}
-              {section === 'players' && <PlayersSection />}
-              {section === 'nominations' && <NominationsSection />}
-              {section === 'news' && <NewsSection />}
-              {section === 'logos' && <LogosSection />}
-            </motion.div>
+            <DirtyContext.Provider value={reportDirty}>
+              <motion.div
+                key={section}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {section === 'dashboard' && <DashboardSection onGo={goToSection} />}
+                {section === 'site' && <SiteSection />}
+                {section === 'calendar' && <CalendarSection />}
+                {section === 'fifa' && <FifaSection />}
+                {section === 'teams' && <TeamsSection />}
+                {section === 'players' && <PlayersSection />}
+                {section === 'nominations' && <NominationsSection />}
+                {section === 'news' && <NewsSection />}
+                {section === 'logos' && <LogosSection />}
+              </motion.div>
+            </DirtyContext.Provider>
           </div>
         </div>
       </div>
@@ -320,7 +537,17 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
       </div>
 
       {/* Atalhos */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <button onClick={() => onGo('site')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
+          <Palette size={18} className="text-accent mb-3" />
+          <p className="font-display text-foreground uppercase tracking-wider text-sm">Site e Marca</p>
+          <p className="text-[11px] font-mono text-zinc-500 mt-1">Cores, textos, contactos e SEO</p>
+        </button>
+        <button onClick={() => onGo('logos')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
+          <ImagePlus size={18} className="text-accent mb-3" />
+          <p className="font-display text-foreground uppercase tracking-wider text-sm">Logótipos</p>
+          <p className="text-[11px] font-mono text-zinc-500 mt-1">Marca oficial e emblemas dos clubes</p>
+        </button>
         <button onClick={() => onGo('calendar')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
           <CalendarDays size={18} className="text-accent mb-3" />
           <p className="font-display text-foreground uppercase tracking-wider text-sm">Definir Calendário</p>
@@ -349,10 +576,10 @@ function CalendarSection() {
   );
   const rounds = useMemo(() => Array.from(new Set(seasonMatches.map((m) => m.round))).sort((a, b) => a - b), [seasonMatches]);
   const [round, setRound] = useState<number>(1);
-  const [overrides, setOverrides] = useState<Overrides>({});
+  const ctl = useEditorDraft<Overrides>('calendar', CAL_KEY, {});
+  const overrides = ctl.draft;
   const [lastSync, setLastSync] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
-  const [savedAt, setSavedAt] = useState<string | null>(null);
   const [dynamicSource, setDynamicSource] = useState<{
     system: string; accessCode: string; technicalSeed?: string; fingerprint?: string;
     season: string; generatedAt: string; rounds: number; matches: number;
@@ -369,14 +596,9 @@ function CalendarSection() {
       return data;
     });
 
-  // Carregar persistência local e dados da semente
+  // Carregar a última sincronização e o calendário oficial servido pela API.
   useEffect(() => {
-    // Carregar persistência local apenas no cliente (evita mismatch de hidratação).
     /* eslint-disable react-hooks/set-state-in-effect */
-    try {
-      const raw = localStorage.getItem(CAL_KEY);
-      if (raw) setOverrides(JSON.parse(raw));
-    } catch { /* ignorar */ }
     setLastSync(localStorage.getItem(SYNC_KEY));
     /* eslint-enable react-hooks/set-state-in-effect */
 
@@ -386,21 +608,14 @@ function CalendarSection() {
       .catch((err) => console.error('Erro ao buscar semente do calendário:', err));
   }, []);
 
-  const persist = (next: Overrides) => {
-    setOverrides(next);
-    localStorage.setItem(CAL_KEY, JSON.stringify(next));
-    publishOverride('calendar', next); // publica para o portal público (Supabase)
-    setSavedAt(new Date().toISOString());
-  };
-
   const update = (id: string, patch: MatchOverride) => {
-    persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
+    ctl.setDraft({ ...overrides, [id]: { ...overrides[id], ...patch } });
   };
 
   const resetRound = (ids: string[]) => {
     const next = { ...overrides };
     ids.forEach((id) => delete next[id]);
-    persist(next);
+    ctl.setDraft(next);
   };
 
   const sync = () => {
@@ -436,6 +651,13 @@ function CalendarSection() {
   return (
     <div className="space-y-6">
       <SectionHeader icon={CalendarDays} subtitle="DEFINIÇÃO_DO_CALENDÁRIO" title="Calendário · ANCAF_CALENDAR" />
+
+      <SaveBar
+        ctl={ctl}
+        pendingLabel={`${editedCount} jogo(s) alterado(s)`}
+        onExport={exportCalendar}
+        onResetAll={editedCount > 0 ? () => ctl.setDraft({}) : undefined}
+      />
 
       {/* Seletor de época */}
       <div className="flex flex-wrap items-center gap-2">
@@ -486,12 +708,6 @@ function CalendarSection() {
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={exportCalendar}
-              className="inline-flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-[11px] uppercase tracking-widest hover:text-foreground transition-colors"
-            >
-              <Download size={13} /> Exportar
-            </button>
-            <button
               onClick={sync}
               disabled={syncing}
               className="inline-flex items-center gap-2 px-3 py-2.5 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[11px] uppercase tracking-widest hover:bg-accent/20 transition-colors disabled:opacity-60"
@@ -538,18 +754,6 @@ function CalendarSection() {
         ))}
       </div>
 
-      {/* Estado de gravação */}
-      <div className="flex items-center justify-between text-[11px] font-mono">
-        <span className="text-zinc-500">
-          {editedCount > 0 ? `${editedCount} jogo(s) com alterações locais` : 'Sem alterações locais'}
-        </span>
-        {savedAt && (
-          <span className="inline-flex items-center gap-1.5 text-green-400">
-            <Save size={12} /> Guardado {new Date(savedAt).toLocaleTimeString('pt-AO')}
-          </span>
-        )}
-      </div>
-
       {/* Nota de revisão — o que está acautelado, restrições e consequências */}
       <Panel className="border-amber-500/20 bg-amber-500/[0.03]">
         <details className="group">
@@ -570,7 +774,7 @@ function CalendarSection() {
               <ul className="space-y-1.5 text-zinc-600 dark:text-zinc-400">
                 <li>• Confrontos, mando e datas vêm do sorteio ANCAF (n.º {dynamicSource.accessCode}, seed {dynamicSource.technicalSeed ?? '—'}); o editor <strong className="text-foreground">não os recalcula</strong>.</li>
                 <li>• O <strong className="text-foreground">resultado só fica editável</strong> quando o estado do jogo é «Terminado».</li>
-                <li>• As alterações ficam <strong className="text-foreground">apenas neste navegador</strong> e não reescrevem o calendário oficial nem a classificação publicada.</li>
+                <li>• As alterações só ficam visíveis no site <strong className="text-foreground">depois de «Guardar alterações»</strong>; até lá são um rascunho neste navegador.</li>
               </ul>
             </div>
 
@@ -594,7 +798,7 @@ function CalendarSection() {
               <ul className="space-y-1.5 text-zinc-600 dark:text-zinc-400">
                 <li>• A <strong className="text-foreground">classificação deixa de coincidir</strong> com os jogos (a tabela é derivada dos resultados).</li>
                 <li>• Jogos fora das datas oficiais aparecem <strong className="text-foreground">desalinhados do cronograma</strong> ANCAF.</li>
-                <li>• Limpar os dados do navegador <strong className="text-foreground">apaga as edições locais</strong> — exporte em JSON antes (botão «Exportar»).</li>
+                <li>• Depois de guardar, a alteração é <strong className="text-foreground">pública e imediata</strong> para todos os visitantes — exporte em JSON antes de mexer em massa.</li>
               </ul>
             </div>
           </div>
@@ -996,43 +1200,108 @@ function AdminInputStyles() {
   );
 }
 
-// Barra de estado/ações reutilizada pelos editores (gravação + exportar + repor).
-function EditorToolbar({
-  editedLabel, savedAt, onExport, onReset, extra,
-}: {
-  editedLabel: string;
-  savedAt: string | null;
-  onExport: () => void;
-  onReset?: () => void;
-  extra?: React.ReactNode;
-}) {
+// ════════════════════════════════════════════════════════════════════════
+// SECÇÃO: SITE E MARCA (identidade global do portal)
+// ════════════════════════════════════════════════════════════════════════
+function SiteSection() {
+  const ctl = useEditorDraft<Partial<SiteSettings>>('site', SITE_KEY, {});
+  const site: SiteSettings = { ...DEFAULT_SITE_SETTINGS, ...ctl.draft };
+  const set = (patch: Partial<SiteSettings>) => ctl.setDraft({ ...ctl.draft, ...patch });
+  const changedCount = Object.keys(ctl.draft).filter(
+    (k) => ctl.draft[k as keyof SiteSettings] !== DEFAULT_SITE_SETTINGS[k as keyof SiteSettings],
+  ).length;
+
+  const colorFields: { key: keyof SiteSettings; label: string }[] = [
+    { key: 'primaryLight', label: 'Primária · tema claro' },
+    { key: 'accentLight', label: 'Acento · tema claro' },
+    { key: 'primaryDark', label: 'Primária · tema escuro' },
+    { key: 'accentDark', label: 'Acento · tema escuro' },
+  ];
+
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <span className="text-[11px] font-mono text-zinc-500 inline-flex items-center gap-2">
-        {editedLabel}
-        {savedAt && (
-          <span className="text-green-400 inline-flex items-center gap-1">
-            <Save size={11} /> {new Date(savedAt).toLocaleTimeString('pt-AO')}
-          </span>
-        )}
-      </span>
-      <div className="flex items-center gap-2">
-        {extra}
-        {onReset && (
-          <button
-            onClick={onReset}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-[10px] uppercase tracking-widest hover:bg-red-500/20 transition-colors"
-          >
-            <RefreshCw size={12} /> Repor tudo
-          </button>
-        )}
-        <button
-          onClick={onExport}
-          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-[10px] uppercase tracking-widest hover:text-foreground transition-colors"
-        >
-          <Download size={12} /> Exportar
-        </button>
-      </div>
+    <div className="space-y-6">
+      <SectionHeader icon={Palette} subtitle="IDENTIDADE_DO_PORTAL" title="Site e Marca" />
+      <SaveBar
+        ctl={ctl}
+        pendingLabel={`${changedCount} campo(s) alterado(s)`}
+        onExport={() => downloadJSON('identidade-site.json', site)}
+        onResetAll={Object.keys(ctl.draft).length > 0 ? () => ctl.setDraft({}) : undefined}
+      />
+
+      <Panel className="space-y-4">
+        <h3 className="text-sm font-display text-foreground uppercase tracking-wider flex items-center gap-2">
+          <FileText size={15} className="text-accent" /> Textos institucionais e SEO
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Field label="Nome do site"><input className="admin-input" value={site.siteName} onChange={(e) => set({ siteName: e.target.value })} /></Field>
+          <Field label="Slogan"><input className="admin-input" value={site.tagline} onChange={(e) => set({ tagline: e.target.value })} /></Field>
+          <div className="sm:col-span-2">
+            <Field label="Descrição SEO do portal (meta description)">
+              <input className="admin-input" value={site.metaDescription} onChange={(e) => set({ metaDescription: e.target.value })} />
+            </Field>
+          </div>
+          <div className="sm:col-span-2">
+            <Field label="Descrição do rodapé">
+              <textarea className="admin-input" value={site.footerDescription} onChange={(e) => set({ footerDescription: e.target.value })} />
+            </Field>
+          </div>
+          <div className="sm:col-span-2">
+            <Field label="Aviso de direitos (rodapé)">
+              <input className="admin-input" value={site.copyright} onChange={(e) => set({ copyright: e.target.value })} />
+            </Field>
+          </div>
+        </div>
+      </Panel>
+
+      <Panel className="space-y-4">
+        <h3 className="text-sm font-display text-foreground uppercase tracking-wider flex items-center gap-2">
+          <Radio size={15} className="text-accent" /> Contactos e redes sociais
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <Field label="Email principal"><input className="admin-input" value={site.contactEmail} onChange={(e) => set({ contactEmail: e.target.value })} /></Field>
+          <Field label="Email de suporte/TI"><input className="admin-input" value={site.supportEmail} onChange={(e) => set({ supportEmail: e.target.value })} /></Field>
+          <Field label="Telefone principal"><input className="admin-input" value={site.contactPhone} onChange={(e) => set({ contactPhone: e.target.value })} /></Field>
+          <Field label="Telefone secundário"><input className="admin-input" placeholder="+244 …" value={site.contactPhone2} onChange={(e) => set({ contactPhone2: e.target.value })} /></Field>
+          <div className="sm:col-span-2">
+            <Field label="Morada oficial"><input className="admin-input" value={site.contactAddress} onChange={(e) => set({ contactAddress: e.target.value })} /></Field>
+          </div>
+          <Field label="Facebook (URL)"><input className="admin-input" placeholder="https://…" value={site.facebookUrl} onChange={(e) => set({ facebookUrl: e.target.value })} /></Field>
+          <Field label="Instagram (URL)"><input className="admin-input" placeholder="https://…" value={site.instagramUrl} onChange={(e) => set({ instagramUrl: e.target.value })} /></Field>
+          <Field label="YouTube (URL)"><input className="admin-input" placeholder="https://…" value={site.youtubeUrl} onChange={(e) => set({ youtubeUrl: e.target.value })} /></Field>
+          <Field label="Twitter / X (URL)"><input className="admin-input" placeholder="https://…" value={site.twitterUrl} onChange={(e) => set({ twitterUrl: e.target.value })} /></Field>
+        </div>
+        <p className="text-[10px] font-mono text-zinc-500">Redes sem URL preenchido não são exibidas no rodapé do site.</p>
+      </Panel>
+
+      <Panel className="space-y-4">
+        <h3 className="text-sm font-display text-foreground uppercase tracking-wider flex items-center gap-2">
+          <Palette size={15} className="text-accent" /> Paleta de cores da marca
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {colorFields.map(({ key, label }) => (
+            <Field key={key} label={label}>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={site[key] as string}
+                  onChange={(e) => set({ [key]: e.target.value } as Partial<SiteSettings>)}
+                  className="h-9 w-14 rounded bg-transparent border border-zinc-700 cursor-pointer flex-shrink-0"
+                />
+                <input
+                  className="admin-input"
+                  value={site[key] as string}
+                  onChange={(e) => set({ [key]: e.target.value } as Partial<SiteSettings>)}
+                />
+              </div>
+            </Field>
+          ))}
+        </div>
+        <p className="text-[10px] font-mono text-zinc-500">
+          Aplicadas como variáveis CSS globais (<span className="text-foreground">--primary</span> e <span className="text-foreground">--accent</span>) em todo o portal em tempo real.
+        </p>
+      </Panel>
+
+      <AdminInputStyles />
     </div>
   );
 }
@@ -1040,37 +1309,38 @@ function EditorToolbar({
 // ════════════════════════════════════════════════════════════════════════
 // SECÇÃO: EQUIPAS (edição total dos clubes)
 // ════════════════════════════════════════════════════════════════════════
+// Forma publicada dos overrides de equipa — tem de coincidir com o que
+// `getTeams()` (data.ts) espera, senão o site público ignora as edições.
+type TeamsStore = { overrides: Record<string, Partial<Team>>; added: Team[]; removed: string[] };
+const EMPTY_TEAMS_STORE: TeamsStore = { overrides: {}, added: [], removed: [] };
+
 function TeamsSection() {
   const standings = useMemo(() => getStandings(), []);
   const posByTeam = useMemo(() => new Map(standings.map((s) => [s.teamId, s])), [standings]);
-  const [overrides, setOverrides] = useState<Record<string, Partial<Team>>>(readTeamOverrides);
-  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const ctl = useEditorDraft<TeamsStore>('teams', TEAM_KEY, EMPTY_TEAMS_STORE);
+  const store = { ...EMPTY_TEAMS_STORE, ...ctl.draft };
+  const overrides = store.overrides;
   const [openId, setOpenId] = useState<string | null>(null);
 
   const [logoError, setLogoError] = useState<string | null>(null);
   const [logoSaving, setLogoSaving] = useState<string | null>(null);
   const [logoSavedId, setLogoSavedId] = useState<string | null>(null);
 
+  // Espelha o rascunho no registo local que alimenta os emblemas em tempo real
+  // (TeamCrest), para que a pré-visualização acompanhe a edição.
   useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
-    setOverrides(readTeamOverrides());
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
-
-  const persist = (next: Record<string, Partial<Team>>) => {
     try {
-      // writeTeamOverrides grava e emite o evento que atualiza os emblemas
-      // em todo o portal em tempo real.
-      writeTeamOverrides(next);
-      setOverrides(next);
-      setSavedAt(new Date().toISOString());
-      setLogoError(null);
+      writeTeamOverrides(overrides);
     } catch {
-      setLogoError('Sem espaço para guardar o logótipo neste navegador. Use uma imagem mais pequena ou um URL.');
+      // Quota do localStorage esgotada — só afeta a pré-visualização local. A
+      // gravação real (servidor) continua a reportar o erro pelo seu caminho.
+      console.warn('Sem espaço local para pré-visualizar os emblemas.');
     }
-  };
-  const update = (id: string, patch: Partial<Team>) => persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
-  const resetTeam = (id: string) => { const n = { ...overrides }; delete n[id]; persist(n); };
+  }, [overrides]);
+
+  const setOverrides = (next: Record<string, Partial<Team>>) => ctl.setDraft({ ...store, overrides: next });
+  const update = (id: string, patch: Partial<Team>) => setOverrides({ ...overrides, [id]: { ...overrides[id], ...patch } });
+  const resetTeam = (id: string) => { const n = { ...overrides }; delete n[id]; setOverrides(n); };
   const merged = (t: Team): Team => ({ ...t, ...overrides[t.id] });
   const editedCount = Object.keys(overrides).length;
 
@@ -1103,12 +1373,16 @@ function TeamsSection() {
   return (
     <div className="space-y-6">
       <SectionHeader icon={Users} subtitle="GESTÃO_DE_CLUBES" title="Equipas" />
-      <EditorToolbar
-        editedLabel={editedCount > 0 ? `${editedCount} clube(s) com alterações locais` : 'Sem alterações locais'}
-        savedAt={savedAt}
+      <SaveBar
+        ctl={ctl}
+        pendingLabel={`${editedCount} clube(s) alterado(s)`}
         onExport={() => downloadJSON('clubes-ancaf.json', TEAMS.map(merged))}
-        onReset={editedCount > 0 ? () => persist({}) : undefined}
+        onResetAll={editedCount > 0 ? () => setOverrides({}) : undefined}
       />
+      <p className="text-[11px] font-mono text-zinc-500 -mt-2">
+        Nome, cidade, estádio, capacidade, treinador, cores, palmarés e órgãos sociais são publicados ao guardar.
+        O <strong className="text-foreground">emblema</strong> é enviado para o servidor no momento do upload.
+      </p>
 
       <div className="space-y-3">
         {TEAMS.map((base) => {
@@ -1337,22 +1611,11 @@ interface NominationOverride {
 function NominationsSection() {
   const [seasonId, setSeasonId] = useState<string>(UPCOMING_SEASON_ID);
   const [round, setRound] = useState<number>(1);
-  const [overrides, setOverrides] = useState<Record<string, NominationOverride>>({});
-  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const ctl = useEditorDraft<Record<string, NominationOverride>>('nominations', NOMINATION_KEY, {});
+  const overrides = ctl.draft;
 
-  useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
-    setOverrides(readJSON<Record<string, NominationOverride>>(NOMINATION_KEY, {}));
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
-
-  const persist = (next: Record<string, NominationOverride>) => {
-    setOverrides(next);
-    localStorage.setItem(NOMINATION_KEY, JSON.stringify(next));
-    publishOverride('nominations', next); // publica para o portal público (Supabase)
-    setSavedAt(new Date().toISOString());
-  };
-  const update = (id: string, patch: NominationOverride) => persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
+  const update = (id: string, patch: NominationOverride) =>
+    ctl.setDraft({ ...overrides, [id]: { ...overrides[id], ...patch } });
 
   const matches = useMemo(() => getMatchesForSeason(seasonId), [seasonId]);
   const rounds = useMemo(() => Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b), [matches]);
@@ -1373,11 +1636,11 @@ function NominationsSection() {
   return (
     <div className="space-y-6">
       <SectionHeader icon={Flag} subtitle="CONSELHO_DE_ARBITRAGEM" title="Nomeações" />
-      <EditorToolbar
-        editedLabel={editedCount > 0 ? `${editedCount} nomeação(ões) com alterações locais` : 'Sem alterações locais'}
-        savedAt={savedAt}
+      <SaveBar
+        ctl={ctl}
+        pendingLabel={`${editedCount} nomeação(ões) alterada(s)`}
         onExport={() => downloadJSON('nomeacoes-ancaf.json', matches.map((m) => ({ matchId: m.id, round: m.round, homeTeam: m.homeTeam, awayTeam: m.awayTeam, ...resolved(m) })))}
-        onReset={editedCount > 0 ? () => persist({}) : undefined}
+        onResetAll={editedCount > 0 ? () => ctl.setDraft({}) : undefined}
       />
 
       {/* Seletores de época e jornada */}
@@ -1449,25 +1712,13 @@ function NominationsSection() {
 // SECÇÃO: JOGADORES (edição de plantéis)
 // ════════════════════════════════════════════════════════════════════════
 function PlayersSection() {
-  const [overrides, setOverrides] = useState<Record<string, Partial<Player>>>({});
-  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const ctl = useEditorDraft<Record<string, Partial<Player>>>('players', PLAYER_KEY, {});
+  const overrides = ctl.draft;
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState<string>(PLAYERS[0]?.id ?? '');
 
-  useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
-    setOverrides(readJSON<Record<string, Partial<Player>>>(PLAYER_KEY, {}));
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
-
-  const persist = (next: Record<string, Partial<Player>>) => {
-    setOverrides(next);
-    localStorage.setItem(PLAYER_KEY, JSON.stringify(next));
-    publishOverride('players', next); // publica para o portal público (Supabase)
-    setSavedAt(new Date().toISOString());
-  };
-  const update = (id: string, patch: Partial<Player>) => persist({ ...overrides, [id]: { ...overrides[id], ...patch } });
-  const resetPlayer = (id: string) => { const n = { ...overrides }; delete n[id]; persist(n); };
+  const update = (id: string, patch: Partial<Player>) => ctl.setDraft({ ...overrides, [id]: { ...overrides[id], ...patch } });
+  const resetPlayer = (id: string) => { const n = { ...overrides }; delete n[id]; ctl.setDraft(n); };
   const merged = (p: Player): Player => ({ ...p, ...overrides[p.id] });
   const editedCount = Object.keys(overrides).length;
 
@@ -1487,11 +1738,11 @@ function PlayersSection() {
   return (
     <div className="space-y-6">
       <SectionHeader icon={Shirt} subtitle="GESTÃO_DE_PLANTÉIS" title="Jogadores" />
-      <EditorToolbar
-        editedLabel={editedCount > 0 ? `${editedCount} jogador(es) com alterações locais` : 'Sem alterações locais'}
-        savedAt={savedAt}
+      <SaveBar
+        ctl={ctl}
+        pendingLabel={`${editedCount} jogador(es) alterado(s)`}
         onExport={() => downloadJSON('jogadores-ancaf.json', PLAYERS.map(merged))}
-        onReset={editedCount > 0 ? () => persist({}) : undefined}
+        onResetAll={editedCount > 0 ? () => ctl.setDraft({}) : undefined}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6">
@@ -1571,22 +1822,11 @@ interface NewsStore { overrides: Record<string, Partial<NewsArticle>>; added: Ne
 
 function NewsSection() {
   const base = useMemo(() => getNewsArticles(), []);
-  const [store, setStore] = useState<NewsStore>({ overrides: {}, added: [], deleted: [] });
-  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const ctl = useEditorDraft<NewsStore>('news', NEWS_KEY, { overrides: {}, added: [], deleted: [] });
+  const store = ctl.draft;
   const [openId, setOpenId] = useState<string | null>(null);
 
-  useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
-    setStore(readJSON<NewsStore>(NEWS_KEY, { overrides: {}, added: [], deleted: [] }));
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
-
-  const persist = (next: NewsStore) => {
-    setStore(next);
-    localStorage.setItem(NEWS_KEY, JSON.stringify(next));
-    publishOverride('news', next); // publica para o portal público (Supabase)
-    setSavedAt(new Date().toISOString());
-  };
+  const persist = ctl.setDraft;
   const updateArt = (id: string, patch: Partial<NewsArticle>) =>
     persist({ ...store, overrides: { ...store.overrides, [id]: { ...store.overrides[id], ...patch } } });
   const addArt = () => {
@@ -1611,11 +1851,11 @@ function NewsSection() {
   return (
     <div className="space-y-6">
       <SectionHeader icon={Newspaper} subtitle="GESTÃO_DE_CONTEÚDOS" title="Notícias" />
-      <EditorToolbar
-        editedLabel={editedCount > 0 ? `${editedCount} alteração(ões) local(is) · ${list.length} notícias` : `${list.length} notícias`}
-        savedAt={savedAt}
+      <SaveBar
+        ctl={ctl}
+        pendingLabel={`${editedCount} alteração(ões) em ${list.length} notícias`}
         onExport={() => downloadJSON('noticias-ancaf.json', list)}
-        onReset={editedCount > 0 ? () => persist({ overrides: {}, added: [], deleted: [] }) : undefined}
+        onResetAll={editedCount > 0 ? () => persist({ overrides: {}, added: [], deleted: [] }) : undefined}
         extra={
           <button onClick={addArt} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest hover:bg-accent/20 transition-colors">
             <Plus size={12} /> Nova
@@ -1673,8 +1913,14 @@ function LogosSection() {
   const [brandSavedId, setBrandSavedId] = useState<string | null>(null);
   const [brandError, setBrandError] = useState<string | null>(null);
 
-  // Estados dos Clubes
+  // Estados dos Clubes. Arranca do registo local existente para não apagar as
+  // edições em curso na secção «Equipas» ao gravar um emblema.
   const [overrides, setOverrides] = useState<Record<string, Partial<Team>>>({});
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
+    setOverrides(readTeamOverrides());
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
   const [teamData, setTeamData] = useState<Record<string, { logoUrl?: string; updated_at?: string }>>({});
   const [logoSaving, setLogoSaving] = useState<string | null>(null);
   const [logoSavedId, setLogoSavedId] = useState<string | null>(null);

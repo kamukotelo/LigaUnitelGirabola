@@ -3,7 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Trophy, MapPin, User, Calendar, Shield, Flame, Users, ArrowLeft, Medal, Shirt, Globe, ExternalLink, BarChart3, Newspaper, Building2 } from 'lucide-react';
-import { Team, Player, Match, StandingEntry, getTeamProfile, getNewsArticles } from '@/lib/data';
+import {
+  Team, Player, Match, StandingEntry, getTeamProfile, getNewsArticles,
+  getTeamById, getPlayersByTeam, getMatchesByTeam, getStandingByTeamId,
+} from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -23,8 +26,19 @@ const TEAM_TABS: { key: TeamTab; label: string; icon: typeof Shield }[] = [
   { key: 'resultados', label: 'Resultados', icon: Calendar },
 ];
 
-export default function TeamDetailClient({ team, players, matches, standing }: TeamDetailClientProps) {
+export default function TeamDetailClient({
+  team: serverTeam, players: serverPlayers, matches: serverMatches, standing: serverStanding,
+}: TeamDetailClientProps) {
   const [tab, setTab] = useState<TeamTab>('geral');
+
+  // A página é renderizada no servidor, onde os overrides publicados no admin
+  // ainda não estão carregados. Reavaliar aqui garante que as edições (nome,
+  // estádio, cores…) aparecem assim que o PortalDataProvider as aplica.
+  const team = getTeamById(serverTeam.id) ?? serverTeam;
+  const players = getPlayersByTeam(serverTeam.id).length ? getPlayersByTeam(serverTeam.id) : serverPlayers;
+  const matches = getMatchesByTeam(serverTeam.id).length ? getMatchesByTeam(serverTeam.id) : serverMatches;
+  const standing = getStandingByTeamId(serverTeam.id) ?? serverStanding;
+
   const profile = getTeamProfile(team.id);
 
   // Group players by position

@@ -23,7 +23,7 @@ export default function MiniStandings({ seasonId }: { seasonId: string }) {
         {standings.map((row) => {
           const isCafChampions = row.position <= 2;
           const isCafConfederation = row.position === 3;
-          const isRelegated = row.position >= 15;
+          const isRelegated = row.position >= 14;
           const marker = isCafChampions
             ? 'border-l-2 border-amber-500'
             : isCafConfederation

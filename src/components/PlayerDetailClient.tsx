@@ -12,7 +12,7 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
 } from 'recharts';
 import {
-  Player, Team, getPlayers, getMatches,
+  Player, Team, getPlayers, getMatches, getPlayerById, getTeamById,
   getPlayerRatings, getRecentRatings, getDetailedMetrics,
   getFifaConnectStatus, FIFA_CHECK_META, FifaCheckKey,
   getPlayerFicha, getNationalityFlag
@@ -604,7 +604,12 @@ function FifaConnectTab({ player }: { player: Player }) {
 
 type TabKey = 'perfil' | 'estatisticas' | 'fifaconnect';
 
-export default function PlayerDetailClient({ player, team }: PlayerDetailClientProps) {
+export default function PlayerDetailClient({ player: serverPlayer, team: serverTeam }: PlayerDetailClientProps) {
+  // A página vem do servidor sem os overrides publicados no admin; reavaliar
+  // aqui aplica as edições de jogador e de clube assim que ficam disponíveis.
+  const player = getPlayerById(serverPlayer.id) ?? serverPlayer;
+  const team = getTeamById(player.teamId) ?? serverTeam;
+
   // Goals classification
   const allPlayers = getPlayers();
   const allGoals = [...allPlayers].sort((a, b) => b.goals - a.goals);

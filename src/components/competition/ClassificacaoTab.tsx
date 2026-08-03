@@ -44,8 +44,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                 const isChampion = row.position === 1 && !isUpcoming;
                 const isCafChampions = row.position <= 2;
                 const isCafConfederation = row.position === 3;
-                const isPlayoff = row.position === 14;
-                const isRelegated = row.position >= 15;
+                const isRelegated = row.position >= 14;
 
                 let rowBg = 'hover:bg-zinc-100 dark:hover:bg-zinc-900/20';
                 let posColor = 'text-zinc-600 dark:text-zinc-400';
@@ -59,8 +58,6 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                   borderIndicator = 'border-l-2 border-amber-500';
                 } else if (isCafConfederation) {
                   borderIndicator = 'border-l-2 border-blue-500';
-                } else if (isPlayoff) {
-                  borderIndicator = 'border-l-2 border-orange-500';
                 } else if (isRelegated) {
                   borderIndicator = 'border-l-2 border-red-600';
                 }
@@ -163,7 +160,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
             <Info size={16} className="text-accent" /> Legenda
           </h3>
 
-          <div className="grid gap-4 text-xs sm:grid-cols-2 xl:grid-cols-5">
+          <div className="grid gap-4 text-xs sm:grid-cols-2 xl:grid-cols-4">
             <div className="flex items-start gap-3">
               <span className="w-1.5 h-6 bg-accent rounded-full block flex-shrink-0" />
               <div>
@@ -189,17 +186,9 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
             </div>
 
             <div className="flex items-start gap-3">
-              <span className="w-1.5 h-6 bg-orange-500 rounded-full block flex-shrink-0" />
-              <div>
-                <h4 className="font-semibold text-foreground font-mono uppercase">14º Lugar</h4>
-                <p className="text-zinc-600 dark:text-zinc-400">Despromoção (play-offs) à Gira Bola B.</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
               <span className="w-1.5 h-6 bg-red-600 rounded-full block flex-shrink-0" />
               <div>
-                <h4 className="font-semibold text-foreground font-mono uppercase">15º e 16º Lugar</h4>
+                <h4 className="font-semibold text-foreground font-mono uppercase">14º, 15º e 16º Lugar</h4>
                 <p className="text-zinc-600 dark:text-zinc-400">Despromoção direta à Gira Bola B.</p>
               </div>
             </div>

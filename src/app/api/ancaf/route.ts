@@ -32,6 +32,8 @@ interface DbMatch {
 }
 
 function fromDbMatch(match: DbMatch): Match {
+  const homeScore = Math.max(0, Math.trunc(match.home_score ?? 0));
+  const awayScore = Math.max(0, Math.trunc(match.away_score ?? 0));
   return {
     id: match.id,
     round: match.round,
@@ -39,9 +41,9 @@ function fromDbMatch(match: DbMatch): Match {
     awayTeamId: match.away_team_id,
     homeTeam: match.home_team,
     awayTeam: match.away_team,
-    homeScore: match.home_score ?? 0,
-    awayScore: match.away_score ?? 0,
-    score: match.score ?? undefined,
+    homeScore,
+    awayScore,
+    score: match.status === 'finished' ? `${homeScore}-${awayScore}` : undefined,
     date: match.date,
     stadium: match.stadium,
     status: match.status,

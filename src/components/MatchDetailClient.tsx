@@ -7,7 +7,7 @@ import {
   ArrowLeft, MapPin, Calendar, Users, Activity, Award, BarChart3,
   Goal, ArrowLeftRight, Flag, Trophy, Clock, Tv
 } from 'lucide-react';
-import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition, getMatchOfficials, getMatchBroadcast } from '@/lib/data';
+import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition, getMatchOfficials, getMatchBroadcast, getTeamById } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { ROUTES } from '@/lib/routes';
@@ -256,9 +256,16 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
 
 type TabKey = 'resumo' | 'estatisticas' | 'escalacoes';
 
-export default function MatchDetailClient({ detail, homeTeam, awayTeam }: MatchDetailClientProps) {
+export default function MatchDetailClient({
+  detail, homeTeam: serverHome, awayTeam: serverAway,
+}: MatchDetailClientProps) {
   const { match } = detail;
   const [activeTab, setActiveTab] = useState<TabKey>('resumo');
+
+  // Os clubes são resolvidos no servidor, antes dos overrides do admin
+  // carregarem; reavaliar aqui aplica nome, cores e estádio já editados.
+  const homeTeam = getTeamById(match.homeTeamId) ?? serverHome;
+  const awayTeam = getTeamById(match.awayTeamId) ?? serverAway;
   const isFinished = match.status === 'finished';
 
   const homeColor = homeTeam?.colorsHex?.[0] ?? '#5C0F8B';

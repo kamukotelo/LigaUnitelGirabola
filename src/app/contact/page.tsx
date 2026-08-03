@@ -5,8 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Send, Mail, Phone, MapPin, CheckCircle } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
+import { useSiteSettings } from '@/lib/portal-overrides';
 
 export default function ContactPage() {
+  const site = useSiteSettings();
   const [formData, setFormData] = useState({ name: '', email: '', subject: 'geral', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -229,11 +231,7 @@ export default function ContactPage() {
                 <MapPin size={16} className="text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="font-bold text-foreground uppercase">Morada</h4>
-                  <p className="mt-1">
-                    Rua Comandante Eurico, nº 23<br />
-                    Ingombotas<br />
-                    Luanda, Angola
-                  </p>
+                  <p className="mt-1">{site.contactAddress}</p>
                 </div>
               </div>
 
@@ -241,7 +239,8 @@ export default function ContactPage() {
                 <Phone size={16} className="text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="font-bold text-foreground uppercase">Telefone</h4>
-                  <p className="mt-1">+244 975 218 863</p>
+                  <p className="mt-1">{site.contactPhone}</p>
+                  {site.contactPhone2 && <p className="mt-0.5 text-zinc-500">{site.contactPhone2}</p>}
                 </div>
               </div>
 
@@ -249,9 +248,9 @@ export default function ContactPage() {
                 <Mail size={16} className="text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="font-bold text-foreground uppercase">Email</h4>
-                  <p className="mt-1 hover:text-primary transition-colors">
-                    geral@ancaf.co.ao
-                  </p>
+                  <a href={`mailto:${site.contactEmail}`} className="mt-1 block hover:text-primary transition-colors">
+                    {site.contactEmail}
+                  </a>
                 </div>
               </div>
             </div>
@@ -262,7 +261,7 @@ export default function ContactPage() {
               Apoio Técnico
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 font-mono leading-relaxed">
-              Para problemas de acesso à Área de Clubes ou falhas na plataforma digital, contacte a equipa de engenharia de software em: <span className="text-primary font-bold">it@ancaf.co.ao</span>
+              Para problemas de acesso à Área de Clubes ou falhas na plataforma digital, contacte a equipa de engenharia de software em: <a href={`mailto:${site.supportEmail}`} className="text-primary font-bold hover:underline">{site.supportEmail}</a>
             </p>
           </AnimatedCard>
 

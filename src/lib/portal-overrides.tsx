@@ -10,20 +10,23 @@
 // obrigar cada consumidor a mudar.
 // ════════════════════════════════════════════════════════════════════════
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { supabase } from './supabase';
-import { setPortalOverrides, type PortalOverrides } from './data';
+import {
+  DEFAULT_SITE_SETTINGS, setPortalOverrides,
+  type PortalOverrides, type SiteSettings,
+} from './data';
 
 function isConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   return !!url && url !== 'https://placeholder.supabase.co';
 }
 
+export type OverrideSection = 'news' | 'calendar' | 'players' | 'nominations' | 'teams' | 'site';
+
 /** Publica o bloco de uma secção no servidor (usado pela consola de admin). */
-export async function publishOverride(
-  section: 'news' | 'calendar' | 'players' | 'nominations' | 'teams',
-  value: unknown,
-): Promise<boolean> {
+export async function publishOverride(section: OverrideSection, value: unknown): Promise<boolean> {
   try {
     const res = await fetch('/api/admin/overrides', {
       method: 'POST',
@@ -36,9 +39,36 @@ export async function publishOverride(
   }
 }
 
+// ── Identidade do portal (nome, textos, contactos, paleta) ───────────────
+// Disponibilizada por contexto para que o cabeçalho, o rodapé e as páginas
+// institucionais reflitam de imediato o que for editado no admin.
+const SiteSettingsContext = React.createContext<SiteSettings>(DEFAULT_SITE_SETTINGS);
+
+export function useSiteSettings(): SiteSettings {
+  return useContext(SiteSettingsContext);
+}
+
+/** Escreve a paleta editada nas variáveis CSS globais (`--primary`/`--accent`). */
+function applyBrandPalette(site: SiteSettings): void {
+  const root = document.documentElement;
+  const dark = root.classList.contains('dark');
+  root.style.setProperty('--primary', dark ? site.primaryDark : site.primaryLight);
+  root.style.setProperty('--accent', dark ? site.accentDark : site.accentLight);
+}
+
 export function PortalDataProvider({ children }: { children: React.ReactNode }) {
   const [version, setVersion] = useState(0);
+  const [site, setSite] = useState<SiteSettings>(DEFAULT_SITE_SETTINGS);
   const lastSig = useRef<string>('{}');
+  const pathname = usePathname();
+
+  // A paleta depende do tema ativo — reaplica quando a classe `dark` muda.
+  useEffect(() => {
+    applyBrandPalette(site);
+    const observer = new MutationObserver(() => applyBrandPalette(site));
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, [site]);
 
   useEffect(() => {
     if (!isConfigured()) return;
@@ -56,6 +86,7 @@ export function PortalDataProvider({ children }: { children: React.ReactNode }) 
         if (sig === lastSig.current) return;
         lastSig.current = sig;
         setPortalOverrides(overrides);
+        setSite({ ...DEFAULT_SITE_SETTINGS, ...(overrides.site ?? {}) });
         setVersion((v) => v + 1);
       } catch {
         // silencioso — o portal continua com os dados base
@@ -77,5 +108,15 @@ export function PortalDataProvider({ children }: { children: React.ReactNode }) 
 
   // Mudar a `key` remonta a subárvore quando novos overrides chegam, obrigando
   // os getters de data.ts a serem reavaliados com os dados atualizados.
-  return <React.Fragment key={version}>{children}</React.Fragment>;
+  //
+  // A consola de administração fica de fora dessa remontagem: publica as suas
+  // próprias alterações, o que dispararia o realtime e faria perder a secção
+  // aberta e o rascunho em edição a cada gravação.
+  const isAdmin = pathname?.startsWith('/admin') ?? false;
+
+  return (
+    <SiteSettingsContext.Provider value={site}>
+      {isAdmin ? children : <React.Fragment key={version}>{children}</React.Fragment>}
+    </SiteSettingsContext.Provider>
+  );
 }

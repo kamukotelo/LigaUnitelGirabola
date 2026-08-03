@@ -159,19 +159,19 @@ export interface NewsArticle {
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'PET', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Vermelho', coach: 'Ricardo Chéu', nickname: 'Tricolores', colorsHex: ["#F9C304", "#00529B", "#D21515"] },
-  { id: 'wiliete', name: 'Wiliete Sport Clube', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'José Silvestre "Lito" Vidigal', nickname: 'Wilietes', colorsHex: ["#008751", "#F9C304"] },
-  { id: 'dago', name: '1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', nickname: 'Militares', colorsHex: ["#D21515", "#000000"] },
+  { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'José Silvestre "Lito" Vidigal', nickname: 'Wilietes', colorsHex: ["#008751", "#F9C304"] },
+  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', nickname: 'Militares', colorsHex: ["#D21515", "#000000"] },
   { id: 'desphuila', name: 'Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Mário Soares', nickname: 'Huilanos', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Zeca Amaral', nickname: 'MAQUISARDES', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'kabuscorp', name: 'Kabuscorp do Palanca', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Kito Ribeiro', nickname: 'Palanquinas', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Kito Ribeiro', nickname: 'Palanquinas', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'sagrada', name: 'Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Francisco Moniz "Tusso"', nickname: 'Lundas', colorsHex: ["#008751", "#000000"] },
-  { id: 'interclube', name: 'Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Luís Gonçalves', nickname: 'Polícias', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'lundasul', name: 'Desportivo da Lunda-Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', nickname: 'Sudistas', colorsHex: ["#008751", "#F9C304"] },
+  { id: 'interclube', name: 'GD Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Luís Gonçalves', nickname: 'Polícias', colorsHex: ["#00529B", "#FFFFFF"] },
+  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', nickname: 'Sudistas', colorsHex: ["#008751", "#F9C304"] },
   { id: 'libolo', name: 'Recreativo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Hélder Teixeira', nickname: 'Libolenses', colorsHex: ["#FF6600", "#00529B"] },
   { id: 'lobito', name: 'Académica do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'João Pintar', nickname: 'Estudantes', colorsHex: ["#000000", "#FFFFFF"] },
-  { id: 'saosalvador', name: 'São Salvador do Kongo', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Findanga Finda', nickname: 'Kongos', colorsHex: ["#00529B", "#F9C304"] },
+  { id: 'saosalvador', name: 'São Salvador', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Findanga Finda', nickname: 'Kongos', colorsHex: ["#00529B", "#F9C304"] },
   { id: 'cabinda', name: 'FC Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Verde e Branco', coach: 'Pedro Gonçalves', nickname: 'Cabindenses', colorsHex: ["#008751", "#FFFFFF"] },
-  { id: 'primeiromaio', name: '1.º de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 5000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Agostinho Tramagal', nickname: 'Proletários', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'primeiromaio', name: 'Estrela 1.º de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 5000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Agostinho Tramagal', nickname: 'Proletários', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'caala', name: 'CR Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio dos Mártires da Canhala', stadiumCapacity: 5000, founded: 1980, colors: 'Azul e Branco', coach: 'Mateus Agostinho', nickname: 'Caalenses', colorsHex: ["#00529B", "#FFFFFF"] },
   { id: 'fcluanda', name: 'FC Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Campo da Cidadela', stadiumCapacity: 10000, founded: 2020, colors: 'Vermelho e Branco', coach: 'Guelson Manuel', nickname: 'Luandenses', colorsHex: ["#D21515", "#FFFFFF"] }
 ];
@@ -209,7 +209,9 @@ function getDeterministicScore(homeId: string, awayId: string, round: number): {
   hash = Math.abs(hash);
   
   let homeGoals = hash % 3; // 0, 1, 2
-  let awayGoals = (hash >> 2) % 3; // 0, 1, 2
+  // `>>` converte o hash para um inteiro de 32 bits com sinal e podia gerar
+  // golos negativos. O deslocamento sem sinal mantém o intervalo esperado.
+  let awayGoals = (hash >>> 2) % 3; // 0, 1, 2
   
   const homeRank = SEED_STANDINGS.find(s => s.teamId === homeId)?.position || 8;
   const awayRank = SEED_STANDINGS.find(s => s.teamId === awayId)?.position || 8;
@@ -1361,6 +1363,13 @@ function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
     if (Number.isFinite(h)) merged.homeScore = h;
     if (Number.isFinite(a)) merged.awayScore = a;
   }
+  // Um resultado de futebol nunca pode ser negativo. Além de proteger dados
+  // antigos, isto impede que um override inválido chegue aos vários placares.
+  merged.homeScore = Math.max(0, Number.isFinite(merged.homeScore) ? Math.trunc(merged.homeScore) : 0);
+  merged.awayScore = Math.max(0, Number.isFinite(merged.awayScore) ? Math.trunc(merged.awayScore) : 0);
+  if (merged.status === 'finished') {
+    merged.score = `${merged.homeScore}-${merged.awayScore}`;
+  }
   return merged;
 }
 
@@ -1372,7 +1381,7 @@ function applyMatchOverrides(list: Match[]): Match[] {
       homeTeam: getTeamById(m.homeTeamId)?.name ?? m.homeTeam,
       awayTeam: getTeamById(m.awayTeamId)?.name ?? m.awayTeam,
     };
-    return ov?.[m.id] ? normalizeMatchOverride(named, ov[m.id]) : named;
+    return normalizeMatchOverride(named, ov?.[m.id] ?? {});
   });
 }
 
@@ -1411,12 +1420,33 @@ export function getTeamById(id: string): Team | undefined {
 // Classificação recalculada a partir dos jogos já com overrides aplicados, para
 // que uma edição de resultado no admin se reflita na tabela pública.
 export function getStandings(): StandingEntry[] {
-  return STANDINGS;
+  return getStandingsForSeason(CURRENT_SEASON_ID);
 }
 
-/** Classificação por época, priorizando tabelas finais publicadas oficialmente. */
+/**
+ * Classificação por época, priorizando tabelas finais publicadas oficialmente.
+ *
+ * A tabela oficial de 2025/2026 só publica J/V/E/D/PTS. A forma, porém, pode
+ * ser recuperada com segurança a partir dos resultados existentes no portal.
+ * Assim preservamos a classificação oficial sem perder os últimos cinco jogos.
+ */
 export function getStandingsForSeason(seasonId: string): StandingEntry[] {
-  return OFFICIAL_STANDINGS[seasonId] ?? computeStandings(getMatchesForSeason(seasonId));
+  const computed = computeStandings(getMatchesForSeason(seasonId));
+  const official = OFFICIAL_STANDINGS[seasonId];
+
+  if (!official) return computed;
+
+  const computedByTeam = new Map(computed.map((row) => [row.teamId, row]));
+  return official.map((row) => {
+    const calculated = computedByTeam.get(row.teamId);
+    if (!calculated?.form.length) return row;
+
+    return {
+      ...row,
+      form: calculated.form,
+      formVerified: true,
+    };
+  });
 }
 
 export function getStandingByTeamId(teamId: string): StandingEntry | undefined {
@@ -1517,9 +1547,10 @@ export function getPlayerFicha(player: Player): PlayerFicha {
 }
 
 export function getMatchById(id: string): Match | undefined {
-  return MATCHES.find(m => m.id === id)
+  const match = MATCHES.find(m => m.id === id)
     ?? MATCHES_2026_27.find(m => m.id === id)
     ?? Object.values(HISTORICAL_MATCHES).flat().find(m => m.id === id);
+  return match ? applyMatchOverrides([match])[0] : undefined;
 }
 
 export function getTopScorers(): PlayerStats[] {
@@ -1696,7 +1727,11 @@ const SQUAD_FIRST = ['Manuel', 'João', 'Pedro', 'Alberto', 'Geraldo', 'Mateus',
 const SQUAD_LAST = ['Cabungula', 'Capita', 'Buá', 'Catraio', 'Mavinga', 'Manucho', 'Bero', 'Lamá', 'Quinito', 'Bokila', 'Kialonda', 'Afonso', 'Nzola', 'Caboco', 'Wilá', 'Fabrício', 'Massunguna', 'Ginga', 'Depú', 'Isaac', 'Gelson', 'Tó Carneiro', 'Macaia', 'Bambi'];
 const REFEREES = ['Hélder Malembe', 'António Caetano', 'José Ndala', 'Olímpio Capassassa', 'Bruno Quissanga', 'Edgar Sousa', 'Telmo Domingos'];
 const ASSISTANT_REFEREES = ['Jerson Emiliano', 'Marcos dos Santos', 'Ivo Manuel', 'Paulino Kassoma', 'Délcio Cahanda', 'Fernando Muhongo', 'Adolfo Simão', 'Nelson Ephemba'];
-export const BROADCASTERS = ['TPA 1', 'TPA 2', 'ZAP Viva', 'DStv LigaTV', 'Rádio Nacional de Angola'];
+export const BROADCASTERS = ['ZSports', 'Por confirmar'];
+
+// Clubes angolanos nas Afro Taças. Nos jogos do Girabola entre duas destas
+// equipas, a transmissão é sempre assegurada pela ZSports.
+const AFRO_CUP_TEAM_IDS = new Set(['petro', 'dago', 'wiliete', 'kabuscorp']);
 
 function seededInt(seed: number, salt: number, min: number, max: number): number {
   const x = Math.abs(Math.sin(seed * 374761 + salt * 99991) * 43758.5453);
@@ -1894,9 +1929,10 @@ export function getMatchOfficials(match: Match): MatchOfficials {
 }
 
 export function getMatchBroadcast(match: Match): string {
-  if (match.broadcaster) return match.broadcaster;
-  const seed = hashString(match.id);
-  return BROADCASTERS[seededInt(seed, 41, 0, BROADCASTERS.length - 1)];
+  const isAfroCupClash = AFRO_CUP_TEAM_IDS.has(match.homeTeamId)
+    && AFRO_CUP_TEAM_IDS.has(match.awayTeamId);
+
+  return isAfroCupClash ? 'ZSports' : 'Por confirmar';
 }
 
 // Tempo útil (tempo efetivo de jogo, em minutos) — métrica-assinatura da

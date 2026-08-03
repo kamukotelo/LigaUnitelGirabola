@@ -10,7 +10,7 @@ import { ADMIN_COOKIE, isValidSession } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 
-const SECTIONS = ['news', 'calendar', 'players', 'nominations', 'teams'] as const;
+const SECTIONS = ['news', 'calendar', 'players', 'nominations', 'teams', 'site'] as const;
 type Section = (typeof SECTIONS)[number];
 const keyFor = (section: Section) => `override_${section}`;
 
