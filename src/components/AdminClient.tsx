@@ -91,15 +91,16 @@ function useEditorDraft<T>(section: OverrideSection, storageKey: string, initial
   const save = async () => {
     setSaving(true);
     setError(null);
-    const ok = await publishOverride(section, draft);
-    if (ok) {
+    try {
+      await publishOverride(section, draft);
       localStorage.setItem(storageKey, JSON.stringify(draft));
       setBaseline(draft);
       setSavedAt(new Date().toISOString());
-    } else {
-      setError('Não foi possível publicar as alterações. Verifique a ligação e tente novamente.');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Não foi possível publicar as alterações.');
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   };
 
   const discard = () => {
@@ -197,6 +198,10 @@ function downloadJSON(filename: string, data: unknown) {
   const a = document.createElement('a');
   a.href = url; a.download = filename; a.click();
   URL.revokeObjectURL(url);
+}
+
+function makeAdminId(prefix: string): string {
+  return `${prefix}-${Date.now()}`;
 }
 
 interface MatchOverride {
@@ -1339,10 +1344,42 @@ function TeamsSection() {
   }, [overrides]);
 
   const setOverrides = (next: Record<string, Partial<Team>>) => ctl.setDraft({ ...store, overrides: next });
-  const update = (id: string, patch: Partial<Team>) => setOverrides({ ...overrides, [id]: { ...overrides[id], ...patch } });
+  const update = (id: string, patch: Partial<Team>) => {
+    if (store.added.some((team) => team.id === id)) {
+      ctl.setDraft({ ...store, added: store.added.map((team) => team.id === id ? { ...team, ...patch } : team) });
+      return;
+    }
+    setOverrides({ ...overrides, [id]: { ...overrides[id], ...patch } });
+  };
   const resetTeam = (id: string) => { const n = { ...overrides }; delete n[id]; setOverrides(n); };
   const merged = (t: Team): Team => ({ ...t, ...overrides[t.id] });
-  const editedCount = Object.keys(overrides).length;
+  const visibleTeams = [...store.added, ...TEAMS]
+    .filter((team) => !store.removed.includes(team.id))
+    .map(merged);
+  const editedCount = Object.keys(overrides).length + store.added.length + store.removed.length;
+
+  const addTeam = () => {
+    const id = makeAdminId('clube');
+    const team: Team = {
+      id, name: 'Novo clube', shortName: 'NOV', city: 'Luanda', stadium: 'Por definir',
+      stadiumCapacity: 0, founded: new Date().getFullYear(), colors: 'Por definir', coach: 'Por definir',
+      colorsHex: ['#5C0F8B', '#E6540F'],
+    };
+    ctl.setDraft({ ...store, added: [team, ...store.added] });
+    setOpenId(id);
+  };
+
+  const removeTeam = (id: string) => {
+    if (!window.confirm('Remover este clube do portal? A alteração só será definitiva depois de guardar.')) return;
+    if (store.added.some((team) => team.id === id)) {
+      ctl.setDraft({ ...store, added: store.added.filter((team) => team.id !== id) });
+    } else {
+      const nextOverrides = { ...overrides };
+      delete nextOverrides[id];
+      ctl.setDraft({ ...store, overrides: nextOverrides, removed: [...new Set([...store.removed, id])] });
+    }
+    setOpenId(null);
+  };
 
   // Persiste o logótipo GLOBALMENTE (Supabase). O upload devolve um URL público
   // que substitui o override local (mais leve que o data URL e canónico).
@@ -1376,8 +1413,13 @@ function TeamsSection() {
       <SaveBar
         ctl={ctl}
         pendingLabel={`${editedCount} clube(s) alterado(s)`}
-        onExport={() => downloadJSON('clubes-ancaf.json', TEAMS.map(merged))}
-        onResetAll={editedCount > 0 ? () => setOverrides({}) : undefined}
+        onExport={() => downloadJSON('clubes-ancaf.json', visibleTeams)}
+        onResetAll={editedCount > 0 ? () => ctl.setDraft(EMPTY_TEAMS_STORE) : undefined}
+        extra={
+          <button onClick={addTeam} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest hover:bg-accent/20 transition-colors">
+            <Plus size={12} /> Novo clube
+          </button>
+        }
       />
       <p className="text-[11px] font-mono text-zinc-500 -mt-2">
         Nome, cidade, estádio, capacidade, treinador, cores, palmarés e órgãos sociais são publicados ao guardar.
@@ -1385,7 +1427,7 @@ function TeamsSection() {
       </p>
 
       <div className="space-y-3">
-        {TEAMS.map((base) => {
+        {visibleTeams.map((base) => {
           const t = merged(base);
           const s = posByTeam.get(base.id);
           const isOpen = openId === base.id;
@@ -1411,6 +1453,7 @@ function TeamsSection() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
+                  <button onClick={() => removeTeam(base.id)} className="text-zinc-500 hover:text-red-400 transition-colors" title="Remover clube"><Trash2 size={14} /></button>
                   {isEdited && (
                     <button onClick={() => resetTeam(base.id)} className="text-[10px] font-mono text-zinc-500 hover:text-red-400 transition-colors uppercase tracking-widest">Repor</button>
                   )}
@@ -1429,6 +1472,7 @@ function TeamsSection() {
                   <Field label="Capacidade"><input type="number" min={0} className="admin-input" value={t.stadiumCapacity} onChange={(e) => update(base.id, { stadiumCapacity: Number(e.target.value) })} /></Field>
                   <Field label="Ano de fundação"><input type="number" className="admin-input" value={t.founded} onChange={(e) => update(base.id, { founded: Number(e.target.value) })} /></Field>
                   <Field label="Treinador"><input className="admin-input" value={t.coach} onChange={(e) => update(base.id, { coach: e.target.value })} /></Field>
+                  <Field label="Apelido / alcunha"><input className="admin-input" placeholder="Ex.: Gorilas do Norte" value={t.nickname ?? ''} onChange={(e) => update(base.id, { nickname: e.target.value || undefined })} /></Field>
                   <Field label="Denominação oficial"><input className="admin-input" placeholder={t.name} value={t.officialName ?? ''} onChange={(e) => update(base.id, { officialName: e.target.value || undefined })} /></Field>
                   <Field label="Presidente"><input className="admin-input" value={t.president ?? ''} onChange={(e) => update(base.id, { president: e.target.value || undefined })} /></Field>
                   <Field label="Site oficial"><input className="admin-input" placeholder="https://…" value={t.website ?? ''} onChange={(e) => update(base.id, { website: e.target.value || undefined })} /></Field>
@@ -1711,23 +1755,72 @@ function NominationsSection() {
 // ════════════════════════════════════════════════════════════════════════
 // SECÇÃO: JOGADORES (edição de plantéis)
 // ════════════════════════════════════════════════════════════════════════
+interface PlayersStore {
+  overrides: Record<string, Partial<Player>>;
+  added: Player[];
+  removed: string[];
+}
+const EMPTY_PLAYERS_STORE: PlayersStore = { overrides: {}, added: [], removed: [] };
+
 function PlayersSection() {
-  const ctl = useEditorDraft<Record<string, Partial<Player>>>('players', PLAYER_KEY, {});
-  const overrides = ctl.draft;
+  const ctl = useEditorDraft<PlayersStore>('players', PLAYER_KEY, EMPTY_PLAYERS_STORE);
+  const rawStore = ctl.draft as PlayersStore | Record<string, Partial<Player>>;
+  const store: PlayersStore = 'overrides' in rawStore || 'added' in rawStore || 'removed' in rawStore
+    ? { ...EMPTY_PLAYERS_STORE, ...rawStore } as PlayersStore
+    : { ...EMPTY_PLAYERS_STORE, overrides: rawStore };
+  const overrides = store.overrides;
   const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState<string>(PLAYERS[0]?.id ?? '');
 
-  const update = (id: string, patch: Partial<Player>) => ctl.setDraft({ ...overrides, [id]: { ...overrides[id], ...patch } });
-  const resetPlayer = (id: string) => { const n = { ...overrides }; delete n[id]; ctl.setDraft(n); };
+  const update = (id: string, patch: Partial<Player>) => {
+    if (store.added.some((player) => player.id === id)) {
+      ctl.setDraft({ ...store, added: store.added.map((player) => player.id === id ? { ...player, ...patch } : player) });
+      return;
+    }
+    ctl.setDraft({ ...store, overrides: { ...overrides, [id]: { ...overrides[id], ...patch } } });
+  };
+  const resetPlayer = (id: string) => {
+    const next = { ...overrides };
+    delete next[id];
+    ctl.setDraft({ ...store, overrides: next });
+  };
   const merged = (p: Player): Player => ({ ...p, ...overrides[p.id] });
-  const editedCount = Object.keys(overrides).length;
+  const allPlayers = [...store.added, ...PLAYERS]
+    .filter((player) => !store.removed.includes(player.id))
+    .map(merged);
+  const editedCount = Object.keys(overrides).length + store.added.length + store.removed.length;
 
-  const filtered = PLAYERS.filter((p) => p.name.toLowerCase().includes(query.toLowerCase()));
-  const baseSel = PLAYERS.find((p) => p.id === selectedId) ?? filtered[0] ?? PLAYERS[0];
+  const addPlayer = () => {
+    const team = TEAMS[0];
+    const id = makeAdminId('jogador');
+    const player: Player = {
+      id, name: 'Novo jogador', club: team?.name ?? 'Sem clube', teamId: team?.id ?? '',
+      position: 'Avançado', goals: 0, assists: 0, appearances: 0, jerseyNumber: 0,
+      age: 18, nationality: 'Angola', height: '1,75 m',
+      attributes: { pace: 50, shooting: 50, passing: 50, dribbling: 50, defending: 50, physical: 50 },
+    };
+    ctl.setDraft({ ...store, added: [player, ...store.added] });
+    setSelectedId(id);
+  };
+
+  const removePlayer = (id: string) => {
+    if (!window.confirm('Remover este jogador do portal? A alteração só será definitiva depois de guardar.')) return;
+    if (store.added.some((player) => player.id === id)) {
+      ctl.setDraft({ ...store, added: store.added.filter((player) => player.id !== id) });
+    } else {
+      const nextOverrides = { ...overrides };
+      delete nextOverrides[id];
+      ctl.setDraft({ ...store, overrides: nextOverrides, removed: [...new Set([...store.removed, id])] });
+    }
+    setSelectedId(allPlayers.find((player) => player.id !== id)?.id ?? '');
+  };
+
+  const filtered = allPlayers.filter((p) => p.name.toLowerCase().includes(query.toLowerCase()));
+  const baseSel = allPlayers.find((p) => p.id === selectedId) ?? filtered[0] ?? allPlayers[0];
 
   if (!baseSel) return null;
   const sel = merged(baseSel);
-  const selEdited = !!overrides[baseSel.id];
+  const selEdited = !!overrides[baseSel.id] || store.added.some((player) => player.id === baseSel.id);
 
   const numField = (label: string, key: 'jerseyNumber' | 'age' | 'goals' | 'assists' | 'appearances', value: number) => (
     <Field label={label}>
@@ -1741,8 +1834,13 @@ function PlayersSection() {
       <SaveBar
         ctl={ctl}
         pendingLabel={`${editedCount} jogador(es) alterado(s)`}
-        onExport={() => downloadJSON('jogadores-ancaf.json', PLAYERS.map(merged))}
-        onResetAll={editedCount > 0 ? () => ctl.setDraft({}) : undefined}
+        onExport={() => downloadJSON('jogadores-ancaf.json', allPlayers)}
+        onResetAll={editedCount > 0 ? () => ctl.setDraft(EMPTY_PLAYERS_STORE) : undefined}
+        extra={
+          <button onClick={addPlayer} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest hover:bg-accent/20 transition-colors">
+            <Plus size={12} /> Novo jogador
+          </button>
+        }
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6">
@@ -1783,9 +1881,12 @@ function PlayersSection() {
         <div className="bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 rounded-2xl p-6 h-fit lg:sticky lg:top-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-display text-foreground uppercase tracking-wider text-sm truncate">{sel.name}</h3>
-            {selEdited && (
-              <button onClick={() => resetPlayer(baseSel.id)} className="text-[10px] font-mono text-zinc-500 hover:text-red-400 transition-colors uppercase tracking-widest">Repor</button>
-            )}
+            <div className="flex items-center gap-3">
+              {selEdited && !store.added.some((player) => player.id === baseSel.id) && (
+                <button onClick={() => resetPlayer(baseSel.id)} className="text-[10px] font-mono text-zinc-500 hover:text-red-400 transition-colors uppercase tracking-widest">Repor</button>
+              )}
+              <button onClick={() => removePlayer(baseSel.id)} className="text-[10px] font-mono text-red-400 hover:text-red-300 transition-colors uppercase tracking-widest">Remover</button>
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2"><Field label="Nome"><input className="admin-input" value={sel.name} onChange={(e) => update(baseSel.id, { name: e.target.value })} /></Field></div>

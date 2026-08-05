@@ -1,13 +1,14 @@
 'use client';
 
 import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Trophy, Calendar, Shield, Activity, Flame } from 'lucide-react';
+import { Trophy, Calendar, Shield, Activity, Flame, ChevronLeft, ChevronRight, Tv, ExternalLink } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
 import TeamCrestMarquee from '@/components/ui/TeamCrestMarquee';
+import TeamCrest from '@/components/ui/TeamCrest';
 import LigaAngolaBlock from '@/components/competition/LigaAngolaBlock';
 import { getTeams, getMatches, getPlayers, getStandings, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
@@ -227,6 +228,246 @@ function PitchOrbit() {
 
 // Compact match row helper has been migrated to LigaAngolaBlock
 
+/* ── Hero com Estrutura Inspirada na Imagem (Estilo Liga Portugal Adaptado à Liga Girabola) ──── */
+const HERO_SLIDES = [
+  {
+    tag: 'LIGA TV',
+    date: 'Em 27/07/2026',
+    title: '"O TORNEIO DE VERÃO DA LIGA UNITEL GIRABOLA É MAIS UM PASSO NA NOSSA ESTRATÉGIA DE VALORIZAÇÃO PARA OS ADEPTOS"',
+    link: '/ligatv',
+    cardTitle: 'LIGA TV APRESENTA',
+    cardSubtitle: 'TORNEIO DE VERÃO',
+    cardTeams: ['petro', 'primeiro_agosto', 'sagrada', 'wiliete'],
+    cardSeason: '2026/27',
+    cardFooter: 'TRANSMISSÃO EXCLUSIVA · DIRECTO HD',
+  },
+  {
+    tag: 'COMPETIÇÕES PROFISSIONAIS',
+    date: 'Em 14/07/2026',
+    title: '"ATRIBUIÇÃO DE COLETES E INSCRIÇÃO DE JORNALISTAS PARA A ÉPOCA 2026/27 DA LIGA UNITEL GIRABOLA"',
+    link: '/news',
+    cardTitle: 'IMPRENSA & COMUNICAÇÃO',
+    cardSubtitle: 'ACREDITAÇÃO DE IMPRENSA',
+    cardTeams: ['academica_lobito', 'bravos_maquis', 'desportivo_huila', 'interclube'],
+    cardSeason: '2026/27',
+    cardFooter: 'PROCESSO ABERTO · PORTAL ANCAF',
+  },
+  {
+    tag: 'INSTITUCIONAL',
+    date: 'Em 10/07/2026',
+    title: '"BOLSA DE VOLUNTÁRIOS PARA AS COMPETIÇÕES PROFISSIONAIS DA LIGA UNITEL GIRABOLA ABERTA"',
+    link: '/news',
+    cardTitle: 'PROGRAMA DE VOLUNTARIADO',
+    cardSubtitle: 'ANCAF & LIGA GIRABOLA',
+    cardTeams: ['kabuscorp', 'lunda_sul', 'santa_rita', 'sporting_cabinda'],
+    cardSeason: '2026/27',
+    cardFooter: 'INSCRIÇÕES ABERTAS · PARCERIA OFICIAL',
+  },
+];
+
+const THUMBNAIL_NEWS = [
+  {
+    tag: 'COMPETIÇÕES PROFISSIONAIS',
+    date: 'Em 14/07/2026',
+    title: 'ATRIBUIÇÃO DE COLETES E INSCRIÇÃO DE JORNALISTAS - ÉPOCA 2026/27',
+    img: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=400&q=80',
+    slideIndex: 1,
+  },
+  {
+    tag: 'LIGA TV',
+    date: 'Em 27/07/2026',
+    title: 'O TORNEIO DE VERÃO DA LIGA UNITEL GIRABOLA É MAIS UM PASSO NA NOSSA...',
+    img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=400&q=80',
+    slideIndex: 0,
+  },
+  {
+    tag: 'INSTITUCIONAL',
+    date: 'Em 10/07/2026',
+    title: 'BOLSA DE VOLUNTÁRIOS PARA AS COMPETIÇÕES PROFISSIONAIS ABERTA',
+    img: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=400&q=80',
+    slideIndex: 2,
+  },
+];
+
+function LigaGirabolaHero() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const prevSlide = () => {
+    setActiveSlide((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setActiveSlide((prev) => (prev === HERO_SLIDES.length - 1 ? 0 : prev + 1));
+  };
+
+  const current = HERO_SLIDES[activeSlide];
+
+  return (
+    <section className="relative bg-background text-foreground pt-20 lg:pt-24 pb-10 overflow-hidden border-b border-primary/20 transition-colors duration-300">
+      {/* Dynamic Background Effects matching site's theme */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-background to-background dark:from-primary/20 dark:via-zinc-950 dark:to-zinc-950 z-0" />
+      <div className="absolute inset-0 cyber-grid-bg opacity-15" />
+      <div className="scanline-overlay opacity-20" />
+
+      {/* Main Hero Container */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[380px] relative">
+
+          {/* Left Arrow */}
+          <button
+            onClick={prevSlide}
+            aria-label="Slide anterior"
+            className="absolute -left-3 lg:left-0 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-card/90 hover:bg-card border border-border text-foreground shadow-md backdrop-blur-md flex items-center justify-center transition-all hover:scale-105"
+          >
+            <ChevronLeft size={22} />
+          </button>
+
+          {/* Main Content Column (7 cols) */}
+          <div className="lg:col-span-7 pl-6 lg:pl-10">
+            <motion.div
+              key={activeSlide}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <span className="bg-accent/10 border border-accent/30 text-accent font-extrabold text-[11px] uppercase px-3 py-1 rounded-md tracking-wider font-mono">
+                  {current.tag}
+                </span>
+                <span className="text-muted text-xs font-mono font-semibold">
+                  {current.date}
+                </span>
+              </div>
+
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight leading-tight text-foreground mb-8 font-display max-w-2xl">
+                {current.title}
+              </h1>
+
+              <div className="flex flex-wrap items-center gap-4">
+                <Link href={current.link}>
+                  <FuturisticButton variant="neon" glitchText as="span">
+                    Saber Mais <ExternalLink size={14} className="inline ml-1" />
+                  </FuturisticButton>
+                </Link>
+                <Link href="/ligatv">
+                  <FuturisticButton variant="outline" as="span">
+                    <Tv size={16} className="inline mr-1 text-accent" /> Ver na Liga TV
+                  </FuturisticButton>
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Featured Tournament / Graphic Box (5 cols) */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end pr-6 lg:pr-10">
+            <motion.div
+              key={`card-${activeSlide}`}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.35 }}
+              className="w-full max-w-md bg-card/95 dark:bg-zinc-900/90 backdrop-blur-xl border border-border dark:border-zinc-800 rounded-2xl p-6 shadow-xl relative overflow-hidden"
+            >
+              <div className="flex items-center justify-between border-b border-border dark:border-zinc-800 pb-4 mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+                    <Tv size={20} />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-mono text-accent uppercase tracking-widest font-extrabold">{current.cardTitle}</p>
+                    <p className="text-base font-black uppercase tracking-wide text-foreground">{current.cardSubtitle}</p>
+                  </div>
+                </div>
+                <span className="text-[10px] font-mono bg-primary/10 text-primary border border-primary/20 px-2.5 py-1 rounded-md font-bold">
+                  {current.cardSeason}
+                </span>
+              </div>
+
+              {/* Team Crests Grid */}
+              <div className="grid grid-cols-4 gap-3 my-6">
+                {current.cardTeams.map((teamId) => (
+                  <Link
+                    key={teamId}
+                    href={`/teams/${teamId}`}
+                    className="flex flex-col items-center justify-center p-3 rounded-xl bg-zinc-100/80 dark:bg-zinc-800/60 hover:bg-primary/10 dark:hover:bg-primary/20 border border-border dark:border-zinc-700/80 transition group"
+                  >
+                    <TeamCrest teamId={teamId} size={40} />
+                    <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-muted group-hover:text-primary mt-2">
+                      {teamId.substring(0, 3)}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-border dark:border-zinc-800 text-xs">
+                <span className="font-mono text-[10px] text-muted uppercase tracking-widest font-bold">
+                  {current.cardFooter}
+                </span>
+                <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase text-emerald-600 dark:text-emerald-400 font-mono">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 status-pulse" />
+                  EM DIRETO
+                </span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Arrow */}
+          <button
+            onClick={nextSlide}
+            aria-label="Próximo slide"
+            className="absolute -right-3 lg:right-0 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-card/90 hover:bg-card border border-border text-foreground shadow-md backdrop-blur-md flex items-center justify-center transition-all hover:scale-105"
+          >
+            <ChevronRight size={22} />
+          </button>
+
+        </div>
+
+        {/* Bottom Thumbnail News Strip */}
+        <div className="mt-8 pt-6 border-t border-border dark:border-zinc-800 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {THUMBNAIL_NEWS.map((news, idx) => {
+              const isActive = activeSlide === news.slideIndex;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => setActiveSlide(news.slideIndex)}
+                  className={`text-left p-3.5 rounded-xl border transition-all flex items-center gap-3.5 ${
+                    isActive
+                      ? 'bg-primary/10 dark:bg-primary/20 border-primary shadow-md'
+                      : 'bg-card/70 dark:bg-zinc-900/50 border-border dark:border-zinc-800 hover:bg-card hover:border-primary/40'
+                  }`}
+                >
+                  <div className="w-16 h-12 rounded-lg overflow-hidden flex-shrink-0 relative bg-zinc-200 dark:bg-zinc-800 border border-border dark:border-zinc-700">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={news.img}
+                      alt={news.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[9px] font-mono font-bold uppercase text-accent">
+                        {news.tag}
+                      </span>
+                      <span className="text-[9px] font-mono text-muted">
+                        {news.date}
+                      </span>
+                    </div>
+                    <p className="text-xs font-bold text-foreground truncate line-clamp-2 leading-tight uppercase">
+                      {news.title}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const logoHorizontal = useBrandLogo('logo_horizontal');
   const logoHorizontalWhite = useBrandLogo('logo_horizontal_white');
@@ -275,101 +516,8 @@ export default function Home() {
 
   return (
     <div className="overflow-x-hidden">
-      {/* ── HERO ──────────────────────────────────────────────── */}
-      <section className="relative h-[85vh] flex items-center bg-background overflow-hidden border-b border-primary/20">
-        <div className="absolute inset-0 angola-field opacity-0 dark:opacity-30" />
-        <div className="absolute inset-0 cyber-grid-bg" />
-        <div className="scanline-overlay" />
-        <DataParticles />
-
-        {/* Decoractive Radar */}
-        <div className="absolute top-10 right-10 opacity-30 hidden lg:block">
-          <RadarSweep />
-        </div>
-
-        {/* Live Indicator */}
-        <div className="absolute top-6 left-6 flex items-center gap-2 z-20">
-          <span className="w-2 h-2 rounded-full bg-green-500 status-pulse" />
-          <span className="text-[10px] font-mono text-green-500 uppercase tracking-widest font-semibold">
-            PLATAFORMA_ONLINE
-          </span>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
-          <div>
-            <h1 className="mb-8">
-              <span className="sr-only">Liga Unitel Girabola</span>
-              {/* As duas imagens são decorativas (alt=""): o rótulo textual acima
-                  (sr-only) fornece o nome acessível único ao leitor de ecrã, e só
-                  uma das versões (clara/escura) fica visível de cada vez. */}
-              {/* Fundo claro: logótipo principal a cores (mesmo enquadramento do branco) */}
-              {isCustomHorizontal ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={logoHorizontal}
-                  alt=""
-                  className="w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:hidden"
-                />
-              ) : (
-                <Image
-                  src={logoHorizontal}
-                  alt=""
-                  width={635}
-                  height={208}
-                  priority
-                  className="w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:hidden"
-                />
-              )}
-              {/* Fundo escuro: versão monocromática negativa (inalterada) */}
-              {isCustomHorizontalWhite ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={logoHorizontalWhite}
-                  alt=""
-                  className="hidden w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:block"
-                />
-              ) : (
-                <Image
-                  src={logoHorizontalWhite}
-                  alt=""
-                  width={396}
-                  height={219}
-                  priority
-                  className="hidden w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:block"
-                />
-              )}
-            </h1>
-
-            <p className="text-lg md:text-xl text-zinc-700 dark:text-zinc-300 max-w-xl mb-4 font-bold uppercase tracking-wide">
-              O maior portal digital do Campeonato Nacional de Futebol de Angola.
-            </p>
-
-            <div className="flex items-center gap-3 mb-10">
-              <Activity size={14} className="text-accent animate-pulse" />
-              <span className="text-[10px] font-mono text-accent/80 tracking-widest uppercase">
-                Edição {activeSeasonLabel} · {champion} Campeão
-              </span>
-            </div>
-
-            <div className="flex flex-wrap gap-4">
-              <Link href={ROUTES.standings}>
-                <FuturisticButton variant="neon" glitchText as="span">
-                  Classificações
-                </FuturisticButton>
-              </Link>
-              <Link href={ROUTES.calendar}>
-                <FuturisticButton variant="outline" as="span">
-                  Resultados
-                </FuturisticButton>
-              </Link>
-            </div>
-          </div>
-
-          <div className="absolute inset-0 lg:relative lg:inset-auto flex items-center justify-center lg:justify-self-center opacity-20 lg:opacity-100 pointer-events-none lg:pointer-events-auto scale-75 md:scale-90 lg:scale-100 -z-10 lg:z-auto mt-24 lg:mt-0">
-            <PitchOrbit />
-          </div>
-        </div>
-      </section>
+      {/* ── HERO ESTILO LIGA PORTUGAL (ADAPTADO À LIGA GIRABOLA) ── */}
+      <LigaGirabolaHero />
 
       {/* ── QUICK STATS ───────────────────────────────────────── */}
       <section className="bg-zinc-100 dark:bg-zinc-950 py-12 border-b border-zinc-200 dark:border-zinc-900 relative">

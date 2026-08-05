@@ -26,16 +26,16 @@ function isConfigured(): boolean {
 export type OverrideSection = 'news' | 'calendar' | 'players' | 'nominations' | 'teams' | 'site';
 
 /** Publica o bloco de uma secção no servidor (usado pela consola de admin). */
-export async function publishOverride(section: OverrideSection, value: unknown): Promise<boolean> {
-  try {
-    const res = await fetch('/api/admin/overrides', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ section, value }),
-    });
-    return res.ok;
-  } catch {
-    return false;
+export async function publishOverride(section: OverrideSection, value: unknown): Promise<void> {
+  const res = await fetch('/api/admin/overrides', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ section, value }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data?.message || `Não foi possível guardar (${res.status}).`);
   }
 }
 

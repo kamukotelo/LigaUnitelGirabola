@@ -56,6 +56,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'bad_request', message: 'Secção desconhecida.' }, { status: 400 });
   }
 
+  let serialized: string;
+  try {
+    serialized = JSON.stringify(value ?? {});
+  } catch {
+    return NextResponse.json({ error: 'bad_request', message: 'Os dados enviados não são válidos.' }, { status: 400 });
+  }
+  if (serialized.length > 2_000_000) {
+    return NextResponse.json({ error: 'payload_too_large', message: 'A secção excede o limite de 2 MB.' }, { status: 413 });
+  }
+
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !serviceKey || serviceKey === 'your-supabase-service-role-key') {
     return NextResponse.json(
@@ -76,7 +86,7 @@ export async function POST(request: Request) {
 
   const { error } = await admin
     .from('ancaf_configs')
-    .upsert({ key: keyFor(section as Section), value: JSON.stringify(value ?? {}) }, { onConflict: 'key' });
+    .upsert({ key: keyFor(section as Section), value: serialized }, { onConflict: 'key' });
 
   if (error) {
     return NextResponse.json({ error: 'write_failed', message: error.message }, { status: 500 });

@@ -163,14 +163,14 @@ export const TEAMS: Team[] = [
   { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', nickname: 'Militares', colorsHex: ["#D21515", "#000000"] },
   { id: 'desphuila', name: 'Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Mário Soares', nickname: 'Huilanos', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Zeca Amaral', nickname: 'MAQUISARDES', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Kito Ribeiro', nickname: 'Palanquinas', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Kito Ribeiro', nickname: 'Planquinos', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'sagrada', name: 'Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Francisco Moniz "Tusso"', nickname: 'Lundas', colorsHex: ["#008751", "#000000"] },
   { id: 'interclube', name: 'GD Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Luís Gonçalves', nickname: 'Polícias', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', nickname: 'Sudistas', colorsHex: ["#008751", "#F9C304"] },
+  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', nickname: 'Tchianda', colorsHex: ["#008751", "#F9C304"] },
   { id: 'libolo', name: 'Recreativo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Hélder Teixeira', nickname: 'Libolenses', colorsHex: ["#FF6600", "#00529B"] },
   { id: 'lobito', name: 'Académica do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'João Pintar', nickname: 'Estudantes', colorsHex: ["#000000", "#FFFFFF"] },
   { id: 'saosalvador', name: 'São Salvador', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Findanga Finda', nickname: 'Kongos', colorsHex: ["#00529B", "#F9C304"] },
-  { id: 'cabinda', name: 'FC Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Verde e Branco', coach: 'Pedro Gonçalves', nickname: 'Cabindenses', colorsHex: ["#008751", "#FFFFFF"] },
+  { id: 'cabinda', name: 'FC Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Verde e Branco', coach: 'Pedro Gonçalves', nickname: 'Gorilas do Norte', colorsHex: ["#008751", "#FFFFFF"] },
   { id: 'primeiromaio', name: 'Estrela 1.º de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 5000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Agostinho Tramagal', nickname: 'Proletários', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'caala', name: 'CR Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio dos Mártires da Canhala', stadiumCapacity: 5000, founded: 1980, colors: 'Azul e Branco', coach: 'Mateus Agostinho', nickname: 'Caalenses', colorsHex: ["#00529B", "#FFFFFF"] },
   { id: 'fcluanda', name: 'FC Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Campo da Cidadela', stadiumCapacity: 10000, founded: 2020, colors: 'Vermelho e Branco', coach: 'Guelson Manuel', nickname: 'Luandenses', colorsHex: ["#D21515", "#FFFFFF"] }
@@ -1279,7 +1279,11 @@ export const newsMock: NewsArticle[] = [
 export interface PortalOverrides {
   news?: { overrides?: Record<string, Partial<NewsArticle>>; added?: NewsArticle[]; deleted?: string[] };
   calendar?: Record<string, Partial<Match>>;                                   // por match.id
-  players?: Record<string, Partial<Player>>;                                   // por player.id
+  players?: Record<string, Partial<Player>> | {
+    overrides?: Record<string, Partial<Player>>;
+    added?: Player[];
+    removed?: string[];
+  };
   nominations?: Record<string, Partial<MatchOfficials>>;                       // por match.id
   // Overrides de equipas: adds = novas equipas; removed = IDs removidos; overrides = edições
   teams?: { overrides?: Record<string, Partial<Team>>; added?: Team[]; removed?: string[] };
@@ -1406,8 +1410,13 @@ export function getTeams(): Team[] {
 // jogo da nova época resolvam corretamente.
 export function getAllTeams(): Team[] {
   const teams = getTeams();
-  const promoted = PROMOTED_2026_27_TEAMS.filter((p) => !teams.some((t) => t.id === p.id));
-  return [...teams, ...promoted, ...HISTORICAL_TEAMS.filter((h) => !teams.some((t) => t.id === h.id))];
+  const removed = new Set(RUNTIME_OVERRIDES.teams?.removed ?? []);
+  const promoted = PROMOTED_2026_27_TEAMS.filter((p) => !removed.has(p.id) && !teams.some((t) => t.id === p.id));
+  return [
+    ...teams,
+    ...promoted,
+    ...HISTORICAL_TEAMS.filter((h) => !removed.has(h.id) && !teams.some((t) => t.id === h.id)),
+  ];
 }
 
 /** Alias estático para compatibilidade — prefer getAllTeams() or getTeams() at runtime. */
@@ -1473,7 +1482,20 @@ export function getMatchesByTeam(teamId: string): Match[] {
 function computePlayers(): Player[] {
   const ov = RUNTIME_OVERRIDES.players;
   if (!ov) return PLAYERS;
-  return PLAYERS_RAW.map((p) => (ov[p.id] ? enrichPlayer({ ...p, ...ov[p.id] }) : enrichPlayer(p)));
+  // Compatibilidade com o formato antigo, que era apenas um mapa id -> patch.
+  const isStore = Object.prototype.hasOwnProperty.call(ov, 'overrides')
+    || Object.prototype.hasOwnProperty.call(ov, 'added')
+    || Object.prototype.hasOwnProperty.call(ov, 'removed');
+  const store = ov as { overrides?: Record<string, Partial<Player>>; added?: Player[]; removed?: string[] };
+  const overrides: Record<string, Partial<Player>> = isStore
+    ? store.overrides ?? {}
+    : ov as Record<string, Partial<Player>>;
+  const removed = new Set<string>(isStore ? store.removed ?? [] : []);
+  const base = PLAYERS_RAW
+    .filter((p) => !removed.has(p.id))
+    .map((p) => enrichPlayer({ ...p, ...overrides[p.id] }));
+  const added = isStore ? (store.added ?? []).filter((p) => !removed.has(p.id)) : [];
+  return [...added.map(enrichPlayer), ...base];
 }
 
 export function getPlayers(): Player[] {
@@ -1566,13 +1588,14 @@ export function getNewsArticles(): NewsArticle[] {
   // e ordena por data cronológica decrescente (mais recente primeiro).
   const ov = RUNTIME_OVERRIDES.news;
   const deleted = new Set(ov?.deleted ?? []);
-  const edited = newsMock.map((a) => (ov?.overrides?.[a.id] ? { ...a, ...ov.overrides[a.id] } : a));
-  const merged = [...(ov?.added ?? []), ...edited].filter((a) => !deleted.has(a.id));
+  const merged = [...(ov?.added ?? []), ...newsMock]
+    .filter((a) => !deleted.has(a.id))
+    .map((a) => (ov?.overrides?.[a.id] ? { ...a, ...ov.overrides[a.id] } : a));
   return merged.sort((a, b) => (b.isoDate ?? '').localeCompare(a.isoDate ?? ''));
 }
 
 export function getNewsArticleById(id: string): NewsArticle | undefined {
-  return newsMock.find(n => n.id === id);
+  return getNewsArticles().find(n => n.id === id);
 }
 
 // ── ESTATÍSTICAS EXTERNAS & FIFA CONNECT (DERIVADAS DETERMINISTICAMENTE) ──
@@ -2015,9 +2038,13 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
       youtube: 'https://www.youtube.com/@petrodeluandaoficial',
     },
     palmares: [
-      { title: 'Liga Unitel Girabola', count: 19, seasons: ['2025/26', '2023/24', '2022/23'] },
-      { title: 'Taça de Angola', count: 12 },
-      { title: 'Supertaça de Angola', count: 8 },
+      { title: 'Liga Unitel Girabola', count: 20, seasons: ['2025/26', '2023/24', '2022/23'] },
+      { title: 'Taça de Angola', count: 15 },
+      { title: 'Supertaça de Angola', count: 9 },
+    ],
+    kits: [
+      { label: 'Principal', colors: ['#F9C304', '#F9C304'] },
+      { label: 'Secundário', colors: ['#000000', '#000000'] },
     ],
     board: [
       { role: 'Presidente', name: 'Tomás Faria' },
