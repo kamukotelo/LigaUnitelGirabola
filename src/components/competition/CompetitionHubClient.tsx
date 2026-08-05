@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Zap, LayoutGrid, Trophy, CalendarDays, BarChart3, Timer, Flag } from 'lucide-react';
-import { SEASONS, UPCOMING_SEASON_ID } from '@/lib/data';
+import { LayoutGrid, Trophy, CalendarDays, BarChart3, Timer, Flag } from 'lucide-react';
+import { SEASONS } from '@/lib/data';
+import PageHeader from '@/components/ui/PageHeader';
 import { HUB_TABS, HubTab } from './tabs';
 import MiniStandings from './MiniStandings';
 import GeralTab from './GeralTab';
@@ -25,49 +25,27 @@ const TAB_ICONS: Record<HubTab, typeof Trophy> = {
 export default function CompetitionHubClient({ seasonId, tab }: { seasonId: string; tab: HubTab }) {
   const router = useRouter();
   const selectedSeason = SEASONS.find((s) => s.id === seasonId);
-  const [championshipId, setChampionshipId] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (seasonId !== UPCOMING_SEASON_ID) return;
-    let cancelled = false;
-    fetch('/api/ancaf?format=matches&round=1', { cache: 'no-store' })
-      .then((response) => response.json())
-      .then((data) => {
-        if (!cancelled) setChampionshipId(data.championshipId ?? data.source?.championshipId ?? data.source?.accessCode ?? null);
-      })
-      .catch((error) => console.error('Erro ao obter ID do campeonato:', error));
-    return () => { cancelled = true; };
-  }, [seasonId]);
 
   const goTo = (nextSeason: string, nextTab: HubTab) => {
     router.replace(`/competicao/${nextSeason}?tab=${nextTab}`, { scroll: false });
+    window.setTimeout(() => window.dispatchEvent(new PopStateEvent('popstate')), 0);
   };
 
   return (
-    <div className="py-10 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="page-shell relative z-10">
       {/* Cabeçalho do hub de competição */}
       <div className="mb-8">
-        <div className="flex items-center gap-2 mb-2">
-          <Zap size={14} className="text-accent animate-pulse" />
-          <span className="text-[10px] font-mono uppercase tracking-widest text-accent font-semibold">
-            HUB_DA_COMPETICAO
-          </span>
-        </div>
-        <h1 className="text-4xl md:text-6xl font-display text-foreground uppercase leading-none">
-          Liga Unitel <span className="text-primary italic">Girabola</span>
-        </h1>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2 font-mono uppercase tracking-wider">
-          Época {selectedSeason?.label ?? seasonId} · {selectedSeason?.status === 'completed' ? 'Concluída' : 'Por disputar'} · Campeonato Nacional de Futebol de Angola
-        </p>
-        {seasonId === UPCOMING_SEASON_ID && championshipId && (
-          <p className="mt-2 text-xs font-mono font-bold text-green-500 uppercase tracking-wider">
-            ID do Campeonato #{championshipId} · Calendário oficial sincronizado
-          </p>
-        )}
+        <PageHeader
+          eyebrow="Competição oficial"
+          title="Liga Unitel"
+          highlight="Girabola"
+          description={`Época ${selectedSeason?.label ?? seasonId} · ${selectedSeason?.status === 'completed' ? 'Concluída' : 'Por disputar'} · Campeonato Nacional de Futebol de Angola`}
+          breadcrumbs={[{ label: 'Início', href: '/' }, { label: 'Competição' }]}
+        />
 
         {/* Seletor de Época — partilhado por todas as abas */}
         <div className="flex flex-wrap items-center gap-2 mt-5">
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider mr-1">Época</span>
+          <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 mr-1">Época selecionada</span>
           {SEASONS.map((s) => {
             const active = s.id === seasonId;
             return (

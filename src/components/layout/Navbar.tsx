@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Home, Trophy, Shield, Newspaper, PlayCircle, MessageCircle, LogIn } from 'lucide-react';
+import { Menu, X, ArrowRight, Home, Trophy, Shield, Newspaper, PlayCircle, CalendarDays, ListOrdered, LogIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS } from '@/pages.config';
 import Brand from './Brand';
@@ -12,18 +12,20 @@ import ThemeToggle from './ThemeToggle';
 import { useBrandLogo } from '@/lib/team-logos';
 
 const MOBILE_NAV_ICONS = {
-  '/': Home,
-  '/competicao': Trophy,
-  '/teams': Shield,
-  '/news': Newspaper,
-  '/ligatv': PlayCircle,
-  '/contact': MessageCircle,
+  'Início': Home,
+  'Competição': Trophy,
+  'Calendário': CalendarDays,
+  'Classificação': ListOrdered,
+  'Equipas': Shield,
+  'Notícias': Newspaper,
+  'Liga TV': PlayCircle,
 };
 
 export default function Navbar() {
   const logoAncaf = useBrandLogo('logo_ancaf');
   const isCustomLogo = logoAncaf.startsWith('data:') || (logoAncaf.startsWith('http') && !logoAncaf.includes('.supabase.co'));
   const pathname = usePathname();
+  const [activeCompetitionTab, setActiveCompetitionTab] = useState('geral');
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const lastPathname = useRef(pathname);
@@ -49,6 +51,15 @@ export default function Navbar() {
     lastPathname.current = pathname;
     const frame = window.requestAnimationFrame(() => setIsOpen(false));
     return () => window.cancelAnimationFrame(frame);
+  }, [pathname]);
+
+  useEffect(() => {
+    const syncCompetitionTab = () => {
+      setActiveCompetitionTab(new URLSearchParams(window.location.search).get('tab') ?? 'geral');
+    };
+    syncCompetitionTab();
+    window.addEventListener('popstate', syncCompetitionTab);
+    return () => window.removeEventListener('popstate', syncCompetitionTab);
   }, [pathname]);
 
   useEffect(() => {
@@ -139,15 +150,16 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Nav Links — centrados, com espaço garantido */}
-          <nav className="hidden xl:flex items-center gap-2 mx-auto">
+          <nav aria-label="Navegação principal" className="hidden xl:flex items-center gap-1 mx-auto">
             {NAV_LINKS.map((link) => {
-              const matchPath = link.match ?? link.path;
-              const isActive = pathname === matchPath || (matchPath !== '/' && pathname.startsWith(`${matchPath}/`));
+              const matchPath = link.match;
+              const isPathActive = pathname === matchPath || (matchPath !== '/' && pathname.startsWith(`${matchPath}/`));
+              const isActive = isPathActive && (!('tab' in link) || link.tab === activeCompetitionTab);
               return (
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`text-xs font-semibold tracking-wide uppercase px-3 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
+                  className={`text-[11px] font-semibold tracking-wide uppercase px-2.5 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
                     isActive
                       ? 'text-accent bg-accent/5'
                       : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:bg-foreground/5'
@@ -162,8 +174,8 @@ export default function Navbar() {
           {/* Right Action Button */}
           <div className="hidden xl:flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
-            <Link href="/login" className="premium-button text-sm whitespace-nowrap">
-              Login
+            <Link href="/login" className="rounded-lg border border-zinc-300 px-3 py-2 text-xs font-bold text-zinc-700 transition hover:border-primary hover:text-primary dark:border-zinc-700 dark:text-zinc-300 whitespace-nowrap">
+              Acesso reservado
             </Link>
           </div>
 
@@ -243,9 +255,10 @@ export default function Navbar() {
 
             <nav className="grid min-h-0 flex-1 auto-rows-fr gap-2 overflow-y-auto px-4 py-4 sm:grid-cols-2 sm:gap-3 sm:px-5">
               {NAV_LINKS.map((link) => {
-                  const matchPath = link.match ?? link.path;
-                  const isActive = pathname === matchPath || (matchPath !== '/' && pathname.startsWith(`${matchPath}/`));
-                  const Icon = MOBILE_NAV_ICONS[matchPath as keyof typeof MOBILE_NAV_ICONS] ?? ArrowRight;
+                  const matchPath = link.match;
+                  const isPathActive = pathname === matchPath || (matchPath !== '/' && pathname.startsWith(`${matchPath}/`));
+                  const isActive = isPathActive && (!('tab' in link) || link.tab === activeCompetitionTab);
+                  const Icon = MOBILE_NAV_ICONS[link.label as keyof typeof MOBILE_NAV_ICONS] ?? ArrowRight;
                   return (
                     <motion.div key={link.path} variants={itemVariants}>
                       <Link
@@ -277,7 +290,7 @@ export default function Navbar() {
                   className="premium-button flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-center text-sm"
                 >
                   <LogIn size={17} />
-                  <span>Login</span>
+                  <span>Acesso reservado</span>
                   <ArrowRight size={16} />
                 </Link>
                 <p className="mt-3 text-center text-[9px] font-mono uppercase tracking-widest text-zinc-500">

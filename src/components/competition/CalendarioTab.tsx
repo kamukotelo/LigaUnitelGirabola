@@ -20,6 +20,7 @@ type CalendarFilters = {
 };
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
+const ROUNDS_PER_PAGE = 3;
 
 // Jornada mostrada por defeito: a próxima por disputar (ou, se a época estiver
 // concluída, a última). Evita renderizar as 240 partidas de uma só vez — o
@@ -78,10 +79,9 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   const [filterState, setFilterState] = useState<CalendarFilters>(() => getDefaultFilters(seasonId));
   const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(false);
+  const [allRoundsPage, setAllRoundsPage] = useState(1);
   const [viewMode, setViewMode] = useState<'lista' | 'planeamento'>('lista');
   const [syncMeta, setSyncMeta] = useState<{
-    accessCode: string;
-    technicalSeed: string;
     generatedAt: string;
   } | null>(null);
 
@@ -90,6 +90,9 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   const { selectedRound, filterStatus, filterTeam, filterMonth } = filters;
 
   const updateFilters = (patch: Partial<Omit<CalendarFilters, 'seasonId'>>) => {
+    if ('selectedRound' in patch || 'filterStatus' in patch || 'filterMonth' in patch || 'filterTeam' in patch) {
+      setAllRoundsPage(1);
+    }
     setFilterState((current) => ({
       ...(current.seasonId === seasonId ? current : getDefaultFilters(seasonId)),
       ...patch,
@@ -112,8 +115,6 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           }
           if (data.source) {
             setSyncMeta({
-              accessCode: data.source.accessCode,
-              technicalSeed: data.source.technicalSeed || data.source.accessCode,
               generatedAt: data.generatedAt || data.source.generatedAt || new Date().toISOString(),
             });
           }
@@ -183,17 +184,23 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
   const matchesFilter = (m: Match) =>
     (filterStatus === 'all' || m.status === filterStatus) &&
-    (filterMonth === 'all' || m.date.startsWith(filterMonth));
+    (filterMonth === 'all' || m.date.startsWith(filterMonth)) &&
+    (filterTeam === 'all' || m.homeTeamId === filterTeam || m.awayTeamId === filterTeam);
 
   const selectedTeam = filterTeam === 'all' ? null : seasonTeams.find((team) => team.id === filterTeam) ?? null;
 
   // Jornadas visíveis + filtragem por estado/equipa/mês
-  const visibleRounds = (selectedRound === 'all' ? rounds : [selectedRound])
+  const filteredRoundGroups = (selectedRound === 'all' ? rounds : [selectedRound])
     .map((round) => ({
       round,
       matches: MATCHES.filter((m) => m.round === round && matchesFilter(m)),
     }))
     .filter((g) => g.matches.length > 0);
+
+  const allRoundsPages = Math.max(1, Math.ceil(filteredRoundGroups.length / ROUNDS_PER_PAGE));
+  const visibleRounds = selectedRound === 'all'
+    ? filteredRoundGroups.slice((allRoundsPage - 1) * ROUNDS_PER_PAGE, allRoundsPage * ROUNDS_PER_PAGE)
+    : filteredRoundGroups;
 
   const hasResults = visibleRounds.length > 0;
 
@@ -235,14 +242,14 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
       <section className="mb-8 overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-primary/15 via-white/60 to-accent/10 dark:from-primary/20 dark:via-zinc-950/80 dark:to-accent/10">
         <div className="grid gap-5 p-5 sm:p-7 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-primary">Calendário oficial · {seasonId}</p>
+            <p className="text-xs font-bold text-primary">Calendário oficial · Época {seasonId.replace('-', '/')}</p>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl uppercase tracking-wide text-foreground">
               {selectedTeam ? `Jogos do ${selectedTeam.name}` : 'Liga Unitel Girabola'}
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-zinc-600 dark:text-zinc-400">
               {selectedTeam
-                ? 'Os jogos desta equipa estão destacados. As restantes partidas continuam visíveis em segundo plano.'
-                : 'Escolha um emblema para destacar todos os jogos dessa equipa ao longo do calendário.'}
+                ? 'A lista mostra apenas os jogos desta equipa. Use os restantes filtros para restringir por jornada, mês ou estado.'
+                : 'Escolha um emblema para mostrar apenas os jogos dessa equipa ao longo do calendário.'}
             </p>
           </div>
           <div className="flex min-h-28 items-center justify-center">
@@ -296,15 +303,9 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
             </span>
           </div>
           {syncMeta && (
-            <div className="text-[11px] font-mono text-zinc-400 flex flex-wrap gap-x-4 gap-y-1">
+            <div className="text-xs text-zinc-500 flex flex-wrap gap-x-4 gap-y-1">
               <span>
-                ID do Campeonato: <strong className="text-foreground font-semibold">#{syncMeta.accessCode}</strong>
-              </span>
-              <span>
-                Semente: <strong className="text-foreground font-semibold">{syncMeta.technicalSeed}</strong>
-              </span>
-              <span>
-                Sincronizado:{' '}
+                Última atualização:{' '}
                 <strong className="text-foreground font-semibold">
                   {new Date(syncMeta.generatedAt).toLocaleString('pt-AO', {
                     timeZone: ANGOLA_TIME_ZONE,
@@ -362,7 +363,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         {/* Mês — a equipa é escolhida visualmente pelos emblemas acima */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Mês</span>
-          <select value={filterMonth} onChange={(e) => updateFilters({ filterMonth: e.target.value })} className={selectClass}>
+          <select aria-label="Filtrar calendário por mês" value={filterMonth} onChange={(e) => updateFilters({ filterMonth: e.target.value })} className={selectClass}>
             <option value="all">Todos os meses</option>
             {months.map(([key, label]) => (
               <option key={key} value={key}>{label}</option>
@@ -430,6 +431,14 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
             Próxima ▶
           </button>
         </div>
+      )}
+
+      {selectedRound === 'all' && filteredRoundGroups.length > ROUNDS_PER_PAGE && (
+        <nav aria-label="Paginação das jornadas" className="mb-6 flex flex-col items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white/50 p-4 text-sm sm:flex-row dark:border-zinc-800 dark:bg-zinc-900/40">
+          <button type="button" disabled={allRoundsPage === 1} onClick={() => setAllRoundsPage((page) => Math.max(1, page - 1))} className="min-h-11 rounded-xl border border-border px-4 font-bold disabled:cursor-not-allowed disabled:opacity-40">Jornadas anteriores</button>
+          <span className="text-sm text-muted">Página {allRoundsPage} de {allRoundsPages} · até {ROUNDS_PER_PAGE} jornadas de cada vez</span>
+          <button type="button" disabled={allRoundsPage === allRoundsPages} onClick={() => setAllRoundsPage((page) => Math.min(allRoundsPages, page + 1))} className="min-h-11 rounded-xl border border-border px-4 font-bold disabled:cursor-not-allowed disabled:opacity-40">Jornadas seguintes</button>
+        </nav>
       )}
 
       {/* Lista de jogos agrupada por jornada */}

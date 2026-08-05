@@ -1,5 +1,46 @@
 @import "tailwindcss";
 
+/* Portal UI primitives: institutional by default, expressive only in feature areas. */
+:root {
+  --content-max: 80rem;
+  --page-gutter: clamp(1rem, 3vw, 2rem);
+  --section-space: clamp(3rem, 6vw, 5.5rem);
+  --surface-radius: 1.25rem;
+  --control-radius: 0.75rem;
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--primary) 32%, transparent);
+}
+
+@layer components {
+  .page-shell {
+    width: min(100%, var(--content-max));
+    margin-inline: auto;
+    padding: 3rem var(--page-gutter) var(--section-space);
+  }
+
+  .page-header { margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+  .page-eyebrow { color: var(--primary); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .page-title { margin-top: .55rem; max-width: 58rem; font-family: var(--font-brand), sans-serif; font-size: clamp(2.25rem, 5vw, 4rem); font-weight: 850; line-height: 1.02; letter-spacing: -.035em; }
+  .page-description { margin-top: 1rem; max-width: 46rem; color: var(--muted); font-size: clamp(.95rem, 1.5vw, 1.075rem); line-height: 1.65; }
+  .surface-panel { border: 1px solid var(--border); border-radius: var(--surface-radius); background: color-mix(in srgb, var(--card) 88%, transparent); box-shadow: 0 14px 36px rgb(0 0 0 / .06); }
+  .field-control { min-height: 2.75rem; width: 100%; border: 1px solid var(--border); border-radius: var(--control-radius); background: var(--card); padding: .7rem .9rem; color: var(--foreground); font-size: .875rem; }
+  .field-label { display: block; margin-bottom: .45rem; color: var(--foreground); font-size: .8rem; font-weight: 700; }
+  .required-mark { color: #dc2626; }
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
 /* Modo escuro baseado na classe .dark (e não na media query do sistema) */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -531,4 +572,3 @@ html {
   box-shadow: 0 0 8px var(--cyber);
   animation: scan-vertical 5s ease-in-out infinite;
 }
-

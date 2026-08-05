@@ -27,9 +27,9 @@ export default function LoginPage() {
   // Add initial console output log lines for futuristic feel
   useEffect(() => {
     const lines = [
-      'SYS_INIT: Consola de Acesso ANCAF v2.5.1',
-      'SYS_AUTH: Ligação segura SSL estabelecida.',
-      'SYS_STATUS: Aguardando credenciais de terminal...'
+      'Área reservada aos representantes oficiais.',
+      'A ligação a esta página é segura.',
+      'Introduza as suas credenciais para continuar.'
     ];
     
     lines.forEach((line, index) => {
@@ -44,7 +44,7 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
 
-    setLogs(prev => [...prev, `AUTH_REQ: Validando acesso para ${email || 'Terminal'}...`]);
+    setLogs(prev => [...prev, `A validar o acesso de ${email || 'utilizador'}...`]);
 
     // A credencial é validada no servidor (/api/admin/login), que emite o cookie
     // httpOnly de sessão. Nenhuma senha é comparada ou guardada no cliente.
@@ -59,8 +59,8 @@ export default function LoginPage() {
         setSuccess(true);
         setLogs(prev => [
           ...prev,
-          'AUTH_RES: Chave descodificada com sucesso.',
-          'SYS_SESSION: Autenticação autorizada.',
+          'Credenciais verificadas com sucesso.',
+          'Acesso autorizado.',
         ]);
         setTimeout(() => {
           router.push('/admin');
@@ -68,12 +68,12 @@ export default function LoginPage() {
       } else {
         setLoading(false);
         setError('Credenciais inválidas. Código de acesso incorreto.');
-        setLogs(prev => [...prev, 'ERR_AUTH: Código de acesso incorreto. Acesso negado.']);
+        setLogs(prev => [...prev, 'Código de acesso incorreto.']);
       }
     } catch {
       setLoading(false);
       setError('Falha de ligação ao servidor de autenticação.');
-      setLogs(prev => [...prev, 'ERR_NET: Falha de ligação ao servidor.']);
+      setLogs(prev => [...prev, 'Falha de ligação ao servidor.']);
     }
   };
 
@@ -258,7 +258,7 @@ export default function LoginPage() {
               {logs.map((log, i) => (
                 <div key={i} className="flex gap-1.5">
                   <span className="text-zinc-600 select-none">&gt;</span>
-                  <span className={log.includes('ERR_') ? 'text-red-400' : log.includes('AUTH_RES') || log.includes('SYS_SESSION') ? 'text-emerald-400' : 'text-zinc-300'}>
+                  <span className={log.includes('incorreto') || log.includes('Falha') ? 'text-red-400' : log.includes('sucesso') || log.includes('autorizado') ? 'text-emerald-400' : 'text-zinc-300'}>
                     {log}
                   </span>
                 </div>
