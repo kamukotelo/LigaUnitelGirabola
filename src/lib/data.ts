@@ -154,6 +154,15 @@ export interface NewsArticle {
   isoDate: string;   // data ISO (yyyy-mm-dd) usada para ordenação cronológica
   summary: string;
   content?: string;
+  /** Fluxo editorial. Apenas conteúdos explicitamente publicados são públicos. */
+  status?: 'draft' | 'pending_review' | 'published' | 'rejected';
+  author?: string;
+  sourceName?: string;
+  sourceUrl?: string;
+  verifiedBy?: string;
+  reviewedAt?: string;
+  publishedAt?: string;
+  aiAssisted?: boolean;
 }
 
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
@@ -1216,6 +1225,76 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'draft-arranque-girabola-2026-27',
+    title: 'ANCAF aponta 22 de agosto para o arranque do Girabola 2026/2027',
+    category: 'Competição',
+    date: '06 ago. 2026',
+    isoDate: '2026-08-06',
+    summary: 'A nova temporada do principal campeonato nacional tem início previsto para 22 de agosto, segundo informação divulgada pela Rádio Nacional de Angola.',
+    content: 'A Liga Unitel Girabola 2026/2027 tem o arranque previsto para 22 de agosto. A informação foi divulgada pela Rádio Nacional de Angola, que atribui a definição do calendário à Associação Nacional dos Clubes Angolanos de Futebol.\n\nA data orienta a preparação dos clubes participantes e o planeamento das jornadas da nova época. A confirmação editorial final deverá considerar qualquer atualização posterior publicada pela organização da competição.',
+    status: 'pending_review',
+    author: 'Redação Liga Unitel Girabola',
+    sourceName: 'Rádio Nacional de Angola',
+    sourceUrl: 'https://rna.ao/rna.ao/2026/07/17/ancaf-define-data-de-arranque-da-liga-unitel-girabola-2026-2027/',
+    aiAssisted: true,
+  },
+  {
+    id: 'draft-deybi-flores-petro',
+    title: 'Deybi Flores reforça o meio-campo do Petro de Luanda',
+    category: 'Mercado',
+    date: '06 ago. 2026',
+    isoDate: '2026-08-06',
+    summary: 'O médio internacional hondurenho surge como reforço do campeão nacional para a preparação da temporada 2026/2027.',
+    content: 'O Petro de Luanda reforçou o meio-campo com o internacional hondurenho Deybi Flores, segundo informação publicada pelo Jornal de Angola. A contratação integra a preparação do plantel tricolor para os desafios da temporada 2026/2027.\n\nAntes da publicação definitiva, a redação deverá confirmar os dados contratuais e a apresentação do atleta nos canais oficiais do clube.',
+    status: 'pending_review',
+    author: 'Redação Liga Unitel Girabola',
+    sourceName: 'Jornal de Angola',
+    sourceUrl: 'https://jornaldeangola.ao/noticias/6/desporto/678493/deybi-flores-refor%C3%A7a-petro-de-luanda',
+    aiAssisted: true,
+  },
+  {
+    id: 'draft-fc-luanda-promocao',
+    title: 'FC Luanda alcança apuramento inédito ao Girabola',
+    category: 'Clubes',
+    date: '06 ago. 2026',
+    isoDate: '2026-08-06',
+    summary: 'O clube da capital garantiu presença na edição 2026/2027 e prepara a primeira participação no principal campeonato nacional.',
+    content: 'O FC Luanda garantiu o apuramento para a Liga Unitel Girabola 2026/2027, num marco descrito como inédito na história do clube. A promoção coloca a formação de Luanda entre os participantes da próxima edição do principal campeonato nacional.\n\nA equipa deverá agora concluir o processo de preparação desportiva e administrativa para a estreia entre a elite do futebol angolano.',
+    status: 'pending_review',
+    author: 'Redação Liga Unitel Girabola',
+    sourceName: 'Jornal O País',
+    sourceUrl: 'https://www.opais.ao/desporto/inedito-fc-luanda-garante-apuramento-ao-girabola-2026-2027/',
+    aiAssisted: true,
+  },
+  {
+    id: 'draft-huila-plantel-renovado',
+    title: 'Desportivo da Huíla abre temporada com plantel renovado',
+    category: 'Pré-época',
+    date: '06 ago. 2026',
+    isoDate: '2026-08-06',
+    summary: 'A formação huilana inicia a preparação para a nova época com uma renovação próxima de metade do plantel.',
+    content: 'O Desportivo da Huíla iniciou a temporada com uma renovação significativa do plantel. Segundo a ANGOP, cerca de 47 por cento do grupo foi renovado para a preparação da Liga Unitel Girabola 2026/2027.\n\nA reformulação procura dar novas opções à equipa técnica e criar condições para uma campanha competitiva no campeonato nacional.',
+    status: 'pending_review',
+    author: 'Redação Liga Unitel Girabola',
+    sourceName: 'ANGOP',
+    sourceUrl: 'https://angop.ao/noticias/desporto/desportivo-da-huila-abre-temporada-com-quase-metade-do-plantel-renovado/',
+    aiAssisted: true,
+  },
+  {
+    id: 'draft-academica-lobito-financiamento',
+    title: 'Académica do Lobito procura apoios para disputar a nova época',
+    category: 'Clubes',
+    date: '06 ago. 2026',
+    isoDate: '2026-08-06',
+    summary: 'A direção da Briosa alerta para necessidades financeiras antes da participação no Girabola 2026/2027.',
+    content: 'A Académica do Lobito procura mobilizar apoios financeiros para assegurar a participação na Liga Unitel Girabola 2026/2027. De acordo com o Jornal de Angola, o clube indicou uma necessidade de 300 milhões de kwanzas no quadro da preparação para a competição.\n\nPor se tratar de informação financeira sensível, o conteúdo deverá receber confirmação direta da direção do clube antes da publicação definitiva.',
+    status: 'pending_review',
+    author: 'Redação Liga Unitel Girabola',
+    sourceName: 'Jornal de Angola',
+    sourceUrl: 'https://jornaldeangola.ao/noticias/6/desporto/680778/acad%C3%A9mica-do-lobito-precisa-de-300-milh%C3%B5es',
+    aiAssisted: true,
+  },
+  {
     id: 'n1',
     title: 'Petro de Luanda vence o clássico no 11 de Novembro contra 1.º de Agosto',
     category: 'Liga Unitel Girabola',
@@ -1590,7 +1669,10 @@ export function getNewsArticles(): NewsArticle[] {
   const deleted = new Set(ov?.deleted ?? []);
   const merged = [...(ov?.added ?? []), ...newsMock]
     .filter((a) => !deleted.has(a.id))
-    .map((a) => (ov?.overrides?.[a.id] ? { ...a, ...ov.overrides[a.id] } : a));
+    .map((a) => (ov?.overrides?.[a.id] ? { ...a, ...ov.overrides[a.id] } : a))
+    // Política editorial fail-closed: conteúdos antigos, rascunhos ou peças
+    // ainda em validação nunca aparecem no portal público.
+    .filter((a) => a.status === 'published');
   return merged.sort((a, b) => (b.isoDate ?? '').localeCompare(a.isoDate ?? ''));
 }
 

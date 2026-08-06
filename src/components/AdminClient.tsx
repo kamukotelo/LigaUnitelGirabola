@@ -11,7 +11,7 @@ import {
   Plus, Trash2, Pencil, Shirt, Flag, ImagePlus, Palette, Undo2,
 } from 'lucide-react';
 import {
-  MATCHES, TEAMS, PLAYERS, getStandings, getNewsArticles,
+  MATCHES, TEAMS, PLAYERS, newsMock, getStandings, getNewsArticles,
   getPlayerFifaRecords, FIFA_CHECK_META, getTeamProfile, getMatchOfficials,
   SEASONS, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason,
   DEFAULT_SITE_SETTINGS,
@@ -1921,8 +1921,27 @@ function PlayersSection() {
 // ════════════════════════════════════════════════════════════════════════
 interface NewsStore { overrides: Record<string, Partial<NewsArticle>>; added: NewsArticle[]; deleted: string[]; }
 
+const NEWS_STATUS_LABELS: Record<NonNullable<NewsArticle['status']>, string> = {
+  draft: 'Rascunho',
+  pending_review: 'A validar',
+  published: 'Publicada',
+  rejected: 'Rejeitada',
+};
+
+function validNewsSource(value?: string): boolean {
+  if (!value) return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' || url.protocol === 'http:';
+  } catch {
+    return false;
+  }
+}
+
 function NewsSection() {
-  const base = useMemo(() => getNewsArticles(), []);
+  // O painel parte do arquivo completo; a filtragem de rascunhos acontece
+  // apenas nos getters usados pelo portal público.
+  const base = useMemo(() => newsMock, []);
   const ctl = useEditorDraft<NewsStore>('news', NEWS_KEY, { overrides: {}, added: [], deleted: [] });
   const store = ctl.draft;
   const [openId, setOpenId] = useState<string | null>(null);
@@ -1933,7 +1952,11 @@ function NewsSection() {
   const addArt = () => {
     const id = `news-custom-${Date.now()}`;
     const now = new Date();
-    const art: NewsArticle = { id, title: 'Nova notícia', category: 'Geral', date: now.toISOString(), isoDate: now.toISOString().slice(0, 10), summary: '', content: '' };
+    const art: NewsArticle = {
+      id, title: 'Nova notícia', category: 'Geral', date: now.toLocaleDateString('pt-AO'),
+      isoDate: now.toISOString().slice(0, 10), summary: '', content: '', status: 'draft',
+      author: '', sourceName: '', sourceUrl: '', verifiedBy: '',
+    };
     persist({ ...store, added: [art, ...store.added] });
     setOpenId(id);
   };
@@ -1969,11 +1992,15 @@ function NewsSection() {
           const isOpen = openId === n.id;
           const added = isAddedId(n.id);
           const edited = !!store.overrides[n.id] || added;
+          const status = n.status ?? 'published';
+          const readyForReview = Boolean(n.title.trim() && n.summary.trim() && n.content?.trim() && n.author?.trim() && n.sourceName?.trim() && validNewsSource(n.sourceUrl));
+          const readyToPublish = readyForReview && Boolean(n.verifiedBy?.trim());
           return (
             <Panel key={n.id} className={edited ? 'border-accent/30' : ''}>
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">{n.category}</span>
+                  <span className={`ml-2 text-[9px] font-mono px-2 py-0.5 rounded uppercase tracking-wider border ${status === 'published' ? 'text-green-500 border-green-500/30 bg-green-500/10' : status === 'pending_review' ? 'text-amber-500 border-amber-500/30 bg-amber-500/10' : status === 'rejected' ? 'text-red-400 border-red-500/30 bg-red-500/10' : 'text-zinc-500 border-zinc-500/30 bg-zinc-500/10'}`}>{NEWS_STATUS_LABELS[status]}</span>
                   {added && <span className="ml-2 text-[8px] font-mono text-accent uppercase tracking-widest">novo</span>}
                   <p className="text-sm text-foreground font-semibold mt-2 truncate">{n.title}</p>
                   <p className="text-[11px] font-mono text-zinc-500 mt-1 line-clamp-2">{n.summary}</p>
@@ -1990,9 +2017,33 @@ function NewsSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60">
                   <Field label="Título"><input className="admin-input" value={n.title} onChange={(e) => updateArt(n.id, { title: e.target.value })} /></Field>
                   <Field label="Categoria"><input className="admin-input" value={n.category} onChange={(e) => updateArt(n.id, { category: e.target.value })} /></Field>
-                  <div className="sm:col-span-2"><Field label="Data"><input className="admin-input" value={n.date} onChange={(e) => updateArt(n.id, { date: e.target.value })} /></Field></div>
+                  <Field label="Data da notícia"><input type="date" className="admin-input" value={n.isoDate} onChange={(e) => updateArt(n.id, { isoDate: e.target.value, date: e.target.value ? new Date(`${e.target.value}T12:00:00`).toLocaleDateString('pt-AO', { day: '2-digit', month: 'short', year: 'numeric' }) : '' })} /></Field>
+                  <Field label="Autor / Redação"><input className="admin-input" value={n.author ?? ''} onChange={(e) => updateArt(n.id, { author: e.target.value })} placeholder="Nome do jornalista ou redação" /></Field>
                   <div className="sm:col-span-2"><Field label="Resumo"><textarea className="admin-input" value={n.summary} onChange={(e) => updateArt(n.id, { summary: e.target.value })} /></Field></div>
                   <div className="sm:col-span-2"><Field label="Conteúdo"><textarea className="admin-input" style={{ minHeight: 140 }} value={n.content ?? ''} onChange={(e) => updateArt(n.id, { content: e.target.value })} /></Field></div>
+                  <Field label="Fonte da informação"><input className="admin-input" value={n.sourceName ?? ''} onChange={(e) => updateArt(n.id, { sourceName: e.target.value })} placeholder="Ex.: Comunicado oficial do clube" /></Field>
+                  <Field label="Ligação da fonte"><input type="url" className="admin-input" value={n.sourceUrl ?? ''} onChange={(e) => updateArt(n.id, { sourceUrl: e.target.value })} placeholder="https://..." /></Field>
+                  <Field label="Validado por"><input className="admin-input" value={n.verifiedBy ?? ''} onChange={(e) => updateArt(n.id, { verifiedBy: e.target.value })} placeholder="Nome do responsável editorial" /></Field>
+                  <label className="flex items-center gap-2 self-end min-h-10 text-xs text-zinc-600 dark:text-zinc-400">
+                    <input type="checkbox" checked={n.aiAssisted ?? false} onChange={(e) => updateArt(n.id, { aiAssisted: e.target.checked })} className="h-4 w-4 accent-[var(--accent)]" />
+                    Texto produzido com assistência de IA
+                  </label>
+                  <div className="flex flex-wrap items-end gap-2">
+                    {status !== 'pending_review' && status !== 'published' && (
+                      <button disabled={!readyForReview} onClick={() => updateArt(n.id, { status: 'pending_review' })} className="px-3 py-2 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-500 text-[10px] font-mono uppercase disabled:opacity-40 disabled:cursor-not-allowed">Enviar para validação</button>
+                    )}
+                    {status !== 'published' && (
+                      <button disabled={!readyToPublish} onClick={() => { const now = new Date().toISOString(); updateArt(n.id, { status: 'published', reviewedAt: now, publishedAt: now }); }} className="px-3 py-2 rounded-xl border border-green-500/30 bg-green-500/10 text-green-500 text-[10px] font-mono uppercase disabled:opacity-40 disabled:cursor-not-allowed"><ShieldCheck size={12} className="inline mr-1" /> Validar e publicar</button>
+                    )}
+                    {status === 'published' && (
+                      <button onClick={() => updateArt(n.id, { status: 'draft', publishedAt: undefined })} className="px-3 py-2 rounded-xl border border-zinc-500/30 bg-zinc-500/10 text-zinc-500 text-[10px] font-mono uppercase">Retirar do portal</button>
+                    )}
+                    {status === 'pending_review' && (
+                      <button onClick={() => updateArt(n.id, { status: 'rejected' })} className="px-3 py-2 rounded-xl border border-red-500/30 bg-red-500/10 text-red-400 text-[10px] font-mono uppercase">Rejeitar</button>
+                    )}
+                  </div>
+                  {!readyForReview && <p className="sm:col-span-2 text-[10px] font-mono text-amber-500">Para validar, preencha título, resumo, conteúdo, autor, fonte e uma ligação válida da fonte.</p>}
+                  {n.reviewedAt && <p className="sm:col-span-2 text-[10px] font-mono text-zinc-500">Última validação: {new Date(n.reviewedAt).toLocaleString('pt-AO')} {n.verifiedBy ? `por ${n.verifiedBy}` : ''}</p>}
                 </div>
               )}
             </Panel>

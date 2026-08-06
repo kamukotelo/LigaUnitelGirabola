@@ -1,25 +1,27 @@
+'use client';
+
 import React from 'react';
-import { getNewsArticleById, getNewsArticles } from '@/lib/data';
-import { notFound } from 'next/navigation';
+import { getNewsArticleById } from '@/lib/data';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Calendar } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 
-interface Props {
-  params: Promise<{ id: string }>;
-}
-
-// Geração estática das páginas de notícia (SSG), como os restantes detalhes
-export function generateStaticParams() {
-  return getNewsArticles().map((a) => ({ id: a.id }));
-}
-
-export default async function NewsDetailPage({ params }: Props) {
-  const { id } = await params;
+export default function NewsDetailPage() {
+  const params = useParams<{ id: string }>();
+  const id = params.id;
   const article = getNewsArticleById(id);
 
   if (!article) {
-    notFound();
+    return (
+      <main className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
+        <div className="text-center">
+          <h1 className="text-2xl font-display uppercase">Notícia não disponível</h1>
+          <p className="mt-2 text-sm text-zinc-500">O conteúdo pode estar a carregar, em validação ou ter sido retirado.</p>
+          <Link href="/news" className="inline-flex mt-6 text-primary hover:text-accent">Voltar às notícias</Link>
+        </div>
+      </main>
+    );
   }
 
   return (
@@ -46,7 +48,11 @@ export default async function NewsDetailPage({ params }: Props) {
             <div className="flex items-center gap-2 text-sm text-zinc-500 font-mono">
               <Calendar size={14} />
               <time>{article.date}</time>
+              {article.author && <span>· Por {article.author}</span>}
             </div>
+            {article.aiAssisted && (
+              <p className="mt-3 text-xs text-zinc-500 font-mono">Texto produzido com assistência de IA e submetido a validação editorial humana.</p>
+            )}
           </header>
 
           <div className="prose prose-zinc dark:prose-invert max-w-none font-mono">
@@ -65,6 +71,16 @@ export default async function NewsDetailPage({ params }: Props) {
                   Conteúdo detalhado indisponível.
                 </p>
               </div>
+            )}
+            {(article.sourceName || article.sourceUrl) && (
+              <aside className="mt-8 border-t border-zinc-200 dark:border-zinc-800 pt-5 text-sm text-zinc-500 font-mono">
+                <span className="font-semibold text-foreground">Fonte verificada: </span>
+                {article.sourceUrl ? (
+                  <a href={article.sourceUrl} target="_blank" rel="noopener noreferrer nofollow" className="text-primary hover:text-accent underline underline-offset-4">
+                    {article.sourceName || article.sourceUrl}
+                  </a>
+                ) : article.sourceName}
+              </aside>
             )}
           </div>
         </AnimatedCard>
