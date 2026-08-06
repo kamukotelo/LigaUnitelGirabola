@@ -114,7 +114,7 @@ export default function Navbar() {
           <div className="flex items-center flex-shrink-0">
             {/* ANCAF — logótipo institucional, agora em primeiro plano à esquerda */}
             <a
-              href="https://www.ancaf.ao"
+              href="https://www.ancaf.co.ao"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden xl:flex items-center gap-2 hover:opacity-85 transition-all group"
