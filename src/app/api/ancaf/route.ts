@@ -79,6 +79,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const format = searchParams.get('format') ?? 'calendar';
   const roundParam = searchParams.get('round');
+  const matchIdParam = searchParams.get('id');
 
   // 1. Obter metadados e jogos persistidos do Supabase (com fallback).
   let activeSeedStr = ANCAF_CALENDAR_SOURCE.accessCode;
@@ -164,6 +165,20 @@ export async function GET(request: Request) {
   const matches = persistedMatches.length === 240
     ? persistedMatches
     : PUBLISHED_MATCHES_2026_27;
+
+  // A página de detalhe consulta exatamente a mesma coleção escolhida acima
+  // (BD validada ou calendário oficial de fallback). Isto evita que um ID de
+  // um novo sorteio abra o confronto antigo incluído no build.
+  if (matchIdParam) {
+    const match = matches.find((item) => item.id === matchIdParam);
+    if (!match) {
+      return NextResponse.json(
+        { error: 'match_not_found', message: 'Jogo não encontrado no calendário ativo.' },
+        { status: 404 },
+      );
+    }
+    return NextResponse.json({ match, source: dynamicSource, generatedAt: dynamicSource.generatedAt });
+  }
 
   // Validação do parâmetro round.
   let round: number | null = null;
