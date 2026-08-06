@@ -80,7 +80,7 @@ export default function LigaAngolaBlock() {
           </div>
           <div className="grid flex-1 grid-cols-2 items-center gap-3 px-4 py-4 sm:grid-cols-4 sm:px-6 md:px-10 w-full">
             <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 font-display text-lg font-black tracking-widest text-[#E6540F] shadow-sm dark:bg-zinc-950">UNITEL</span>
-            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 font-display text-base font-black italic tracking-wider text-zinc-950 shadow-sm dark:bg-zinc-50">ZSPORTS</span>
+            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 font-display text-base font-black italic tracking-wider text-blue-700 shadow-sm dark:bg-zinc-50">ZAP</span>
             <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 text-center font-display text-sm font-black tracking-wide text-[#184F83] shadow-sm dark:bg-zinc-950 dark:text-blue-300">RÁDIO CINCO</span>
             <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 text-center font-display text-sm font-black tracking-wider text-[#1F5C72] shadow-sm dark:bg-zinc-950 dark:text-cyan-300">CHDCP</span>
           </div>

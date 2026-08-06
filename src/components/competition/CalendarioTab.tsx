@@ -20,7 +20,6 @@ type CalendarFilters = {
 };
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
-const ROUNDS_PER_PAGE = 3;
 
 // Jornada mostrada por defeito: a próxima por disputar (ou, se a época estiver
 // concluída, a última). Evita renderizar as 240 partidas de uma só vez — o
@@ -79,7 +78,6 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   const [filterState, setFilterState] = useState<CalendarFilters>(() => getDefaultFilters(seasonId));
   const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
   const [loading, setLoading] = useState(false);
-  const [allRoundsPage, setAllRoundsPage] = useState(1);
   const [viewMode, setViewMode] = useState<'lista' | 'planeamento'>('lista');
   const [syncMeta, setSyncMeta] = useState<{
     generatedAt: string;
@@ -90,9 +88,6 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   const { selectedRound, filterStatus, filterTeam, filterMonth } = filters;
 
   const updateFilters = (patch: Partial<Omit<CalendarFilters, 'seasonId'>>) => {
-    if ('selectedRound' in patch || 'filterStatus' in patch || 'filterMonth' in patch || 'filterTeam' in patch) {
-      setAllRoundsPage(1);
-    }
     setFilterState((current) => ({
       ...(current.seasonId === seasonId ? current : getDefaultFilters(seasonId)),
       ...patch,
@@ -197,10 +192,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
     }))
     .filter((g) => g.matches.length > 0);
 
-  const allRoundsPages = Math.max(1, Math.ceil(filteredRoundGroups.length / ROUNDS_PER_PAGE));
-  const visibleRounds = selectedRound === 'all'
-    ? filteredRoundGroups.slice((allRoundsPage - 1) * ROUNDS_PER_PAGE, allRoundsPage * ROUNDS_PER_PAGE)
-    : filteredRoundGroups;
+  const visibleRounds = filteredRoundGroups;
 
   const hasResults = visibleRounds.length > 0;
 
@@ -274,7 +266,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
               <button
                 key={team.id}
                 type="button"
-                onClick={() => updateFilters({ filterTeam: team.id })}
+                onClick={() => updateFilters({ filterTeam: team.id, selectedRound: 'all' })}
                 aria-label={`Destacar jogos do ${team.name}`}
                 title={team.name}
                 className={`flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl border transition-all ${filterTeam === team.id ? 'border-primary bg-primary/10 ring-2 ring-primary/20 scale-105' : 'border-zinc-200 bg-white/60 opacity-60 hover:scale-105 hover:opacity-100 dark:border-zinc-800 dark:bg-zinc-900/60'}`}
@@ -431,14 +423,6 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
             Próxima ▶
           </button>
         </div>
-      )}
-
-      {selectedRound === 'all' && filteredRoundGroups.length > ROUNDS_PER_PAGE && (
-        <nav aria-label="Paginação das jornadas" className="mb-6 flex flex-col items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white/50 p-4 text-sm sm:flex-row dark:border-zinc-800 dark:bg-zinc-900/40">
-          <button type="button" disabled={allRoundsPage === 1} onClick={() => setAllRoundsPage((page) => Math.max(1, page - 1))} className="min-h-11 rounded-xl border border-border px-4 font-bold disabled:cursor-not-allowed disabled:opacity-40">Jornadas anteriores</button>
-          <span className="text-sm text-muted">Página {allRoundsPage} de {allRoundsPages} · até {ROUNDS_PER_PAGE} jornadas de cada vez</span>
-          <button type="button" disabled={allRoundsPage === allRoundsPages} onClick={() => setAllRoundsPage((page) => Math.min(allRoundsPages, page + 1))} className="min-h-11 rounded-xl border border-border px-4 font-bold disabled:cursor-not-allowed disabled:opacity-40">Jornadas seguintes</button>
-        </nav>
       )}
 
       {/* Lista de jogos agrupada por jornada */}
