@@ -71,20 +71,18 @@ export default function LigaAngolaBlock() {
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         
         {/* ─── 1. PARCERIAS (Sponsor Bar) ─── */}
-        <div className="w-full bg-[#f8fafc] dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl flex flex-col md:flex-row items-center overflow-hidden mb-12 shadow-sm">
+        <div className="w-full bg-[#f8fafc] dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl flex flex-col md:flex-row items-center overflow-hidden mb-12 shadow-sm" aria-label="Parceiros oficiais da Liga Unitel Girabola">
           <div 
             className="bg-[#0B1E43] dark:bg-primary text-white font-display font-black text-xs sm:text-sm uppercase px-8 py-4 relative flex items-center justify-center select-none w-full md:w-auto"
             style={{ clipPath: 'polygon(0 0, 88% 0, 100% 100%, 0 100%)' }}
           >
-            <span className="pr-4 tracking-wider">PARCERIAS</span>
+            <span className="pr-4 tracking-wider">PARCEIROS OFICIAIS</span>
           </div>
-          <div className="flex-1 flex flex-wrap items-center justify-around gap-6 py-4 px-6 md:px-12 w-full">
-            <span className="font-display font-black tracking-widest text-[#E6540F] hover:scale-105 transition-transform duration-350 cursor-pointer">UNITEL</span>
-            <span className="font-display font-bold tracking-wider text-zinc-400 dark:text-zinc-600">FAF</span>
-            <span className="font-display font-black tracking-tight text-[#5C0F8B] dark:text-[#B368DB] hover:scale-105 transition-transform duration-350 cursor-pointer">ANCAF</span>
-            <span className="font-display font-black tracking-normal text-red-600 hover:scale-105 transition-transform duration-350 cursor-pointer">TPA</span>
-            <span className="font-display font-black italic tracking-wider text-blue-700 hover:scale-105 transition-transform duration-350 cursor-pointer">ZAP</span>
-            <span className="font-display font-bold tracking-widest text-zinc-500 hover:scale-105 transition-transform duration-350 cursor-pointer">RÁDIO_NACIONAL</span>
+          <div className="grid flex-1 grid-cols-2 items-center gap-3 px-4 py-4 sm:grid-cols-4 sm:px-6 md:px-10 w-full">
+            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 font-display text-lg font-black tracking-widest text-[#E6540F] shadow-sm dark:bg-zinc-950">UNITEL</span>
+            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 font-display text-base font-black italic tracking-wider text-zinc-950 shadow-sm dark:bg-zinc-50">ZSPORTS</span>
+            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 text-center font-display text-sm font-black tracking-wide text-[#184F83] shadow-sm dark:bg-zinc-950 dark:text-blue-300">RÁDIO CINCO</span>
+            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 text-center font-display text-sm font-black tracking-wider text-[#1F5C72] shadow-sm dark:bg-zinc-950 dark:text-cyan-300">CHDCP</span>
           </div>
         </div>
 
