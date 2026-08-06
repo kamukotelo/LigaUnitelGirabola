@@ -159,11 +159,11 @@ export interface NewsArticle {
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'PET', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Vermelho', coach: 'Ricardo Chéu', nickname: 'Tricolores', colorsHex: ["#F9C304", "#00529B", "#D21515"] },
-  { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'José Silvestre "Lito" Vidigal', nickname: 'Wilietes', colorsHex: ["#008751", "#F9C304"] },
+  { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beto Bianchi', nickname: 'Wilietes', colorsHex: ["#008751", "#F9C304"] },
   { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', nickname: 'Militares', colorsHex: ["#D21515", "#000000"] },
   { id: 'desphuila', name: 'Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Mário Soares', nickname: 'Huilanos', colorsHex: ["#D21515", "#FFFFFF"] },
-  { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Zeca Amaral', nickname: 'MAQUISARDES', colorsHex: ["#00529B", "#FFFFFF"] },
-  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Kito Ribeiro', nickname: 'Planquinos', colorsHex: ["#D21515", "#FFFFFF"] },
+  { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Sandro Mendes', nickname: 'MAQUISARDES', colorsHex: ["#00529B", "#FFFFFF"] },
+  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leo Neiva', nickname: 'Palanquinos', colorsHex: ["#D21515", "#FFFFFF"] },
   { id: 'sagrada', name: 'Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Francisco Moniz "Tusso"', nickname: 'Lundas', colorsHex: ["#008751", "#000000"] },
   { id: 'interclube', name: 'GD Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Luís Gonçalves', nickname: 'Polícias', colorsHex: ["#00529B", "#FFFFFF"] },
   { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurício Marques', nickname: 'Tchianda', colorsHex: ["#008751", "#F9C304"] },
@@ -2054,7 +2054,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   dago: {
     officialName: 'Clube Desportivo 1.º de Agosto — Futebol',
-    president: 'Carlos Hendrick',
+    president: 'Gouveia de Sá Miranda',
     socials: {
       facebook: 'https://www.facebook.com/clube1deagosto/',
       instagram: 'https://www.instagram.com/clube1deagosto/',
@@ -2062,10 +2062,10 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     palmares: [
       { title: 'Liga Unitel Girabola', count: 13, seasons: ['2018/19', '2017/18', '2016/17'] },
       { title: 'Taça de Angola', count: 6 },
-      { title: 'Supertaça de Angola', count: 7 },
+      { title: 'Supertaça de Angola', count: 10 },
     ],
     board: [
-      { role: 'Presidente', name: 'Carlos Hendrick' },
+      { role: 'Presidente', name: 'Gouveia de Sá Miranda' },
       { role: 'Vice-presidente', name: 'Adilson Kiala' },
       { role: 'Diretor Desportivo', name: 'Beto Almeida' },
     ],
@@ -2101,18 +2101,28 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     },
     palmares: [
       { title: 'Liga Unitel Girabola', count: 4, seasons: ['2015/16', '2014/15', '2012/13'] },
-      { title: 'Taça de Angola', count: 2 },
+      { title: 'Taça de Angola', count: 1 },
+      { title: 'Supertaça de Angola', count: 2 },
     ],
   },
   wiliete: {
     officialName: 'Wiliete Sport Clube de Benguela — Futebol',
+    president: 'Wilson Faria',
     website: 'https://wilietesc.ao/',
     socials: {
       facebook: 'https://www.facebook.com/wscbenguela/',
       instagram: 'https://www.instagram.com/wilietesportclubeoficial/',
     },
     palmares: [
+      { title: 'Taça de Angola', count: 1 },
       { title: 'Gira Bola B (2.ª Divisão)', count: 1, seasons: ['2021/22'] },
+    ],
+    kits: [
+      { label: 'Principal', colors: ['#008751', '#F9C304'] },
+      { label: 'Secundário', colors: ['#FFFFFF', '#008751'] },
+    ],
+    board: [
+      { role: 'Presidente', name: 'Wilson Faria' },
     ],
   },
   bravos: {
@@ -2124,6 +2134,10 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     },
     palmares: [
       { title: 'Taça de Angola', count: 1, seasons: ['2019/20'] },
+    ],
+    kits: [
+      { label: 'Principal', colors: ['#00529B', '#FFFFFF'] },
+      { label: 'Secundário', colors: ['#F9C304', '#000000'] },
     ],
   },
   desphuila: {
@@ -2139,6 +2153,11 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
       facebook: 'https://www.facebook.com/kabuscorpscp',
       instagram: 'https://www.instagram.com/kabuscorp_sport_clube/',
     },
+    palmares: [
+      { title: 'Liga Unitel Girabola', count: 1 },
+      { title: 'Taça de Angola', count: 1 },
+      { title: 'Supertaça de Angola', count: 1 },
+    ],
   },
   lundasul: {
     officialName: 'Clube Desportivo da Lunda Sul — Futebol',
@@ -2180,6 +2199,12 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     socials: {
       facebook: 'https://www.facebook.com/EstrelaClub1oDeMaioDeBenguela',
     },
+    palmares: [
+      { title: 'Liga Unitel Girabola', count: 2 },
+      { title: 'Taça de Angola', count: 3 },
+      { title: 'Supertaça de Angola', count: 1 },
+      { title: 'Gira Bola B (2.ª Divisão)', count: 2 },
+    ],
   },
   fcluanda: {
     officialName: 'Futebol Clube de Luanda — Futebol',
