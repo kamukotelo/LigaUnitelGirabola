@@ -176,7 +176,7 @@ export async function POST(request: Request) {
     }
 
     // 2. Parse Body
-    const { calendarIndex, technicalSeed, seasonId, matches } = await request.json();
+    const { calendarIndex, technicalSeed, seasonId, matches, dryRun } = await request.json();
     const parsedCalendarIndex = Number(calendarIndex);
     const parsedTechnicalSeed = Number(technicalSeed);
     if (
@@ -229,6 +229,18 @@ export async function POST(request: Request) {
         date: date.slice(0, 10),
       }))))
       .digest('hex');
+
+    // Pré-verificação usada pela ANCAF antes de abrir a cerimónia. Chega a este
+    // ponto apenas depois de autenticar e validar integralmente os 240 jogos,
+    // mas termina antes de qualquer escrita na base de dados.
+    if (dryRun === true) {
+      return NextResponse.json({
+        status: 'ok', preflight: true,
+        message: 'Contrato de publicação aceite; nenhuma alteração foi gravada.',
+        calendarIndex: parsedCalendarIndex, technicalSeed: parsedTechnicalSeed,
+        matchCount: matches2026_27.length, fingerprint
+      });
+    }
 
     const officialResponse = officialPublishedResponse(parsedCalendarIndex, parsedTechnicalSeed, fingerprint);
     // Mesmo quando o pedido coincide com o fallback estático, persistimos os
