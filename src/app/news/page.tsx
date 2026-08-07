@@ -17,7 +17,7 @@ export default function NewsPage() {
         <PageHeader eyebrow="Atualidade" title="Notícias" description="Informação oficial, entrevistas e destaques do campeonato nacional angolano." breadcrumbs={[{ label: 'Início', href: '/' }, { label: 'Notícias' }]} />
 
         {/* Notícias Grid */}
-        {news.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {news.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 2xl:gap-7">
           {news.map((article, i) => (
             <AnimatedCard key={article.id} variant="holographic" delay={i * 0.1}>
               <span className="text-[9px] font-mono uppercase bg-accent text-white px-2 py-0.5 rounded font-bold tracking-wider">

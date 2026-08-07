@@ -226,7 +226,7 @@ export default function Home() {
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section className="relative min-h-[36rem] lg:min-h-[42rem] flex items-center bg-gradient-to-br from-background via-background to-primary/10 overflow-hidden border-b border-border">
 
-        <div className="max-w-7xl mx-auto px-4 w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
+        <div className="content-shell relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-12 2xl:gap-20">
           <div>
             <h1 className="mb-8">
               <span className="sr-only">Liga Unitel Girabola</span>
@@ -239,7 +239,7 @@ export default function Home() {
                 <img
                   src={logoHorizontal}
                   alt=""
-                  className="w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:hidden"
+                  className="w-full max-w-[360px] md:max-w-[460px] 2xl:max-w-[560px] h-auto object-contain dark:hidden"
                 />
               ) : (
                 <Image
@@ -248,7 +248,7 @@ export default function Home() {
                   width={635}
                   height={208}
                   priority
-                  className="w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:hidden"
+                  className="w-full max-w-[360px] md:max-w-[460px] 2xl:max-w-[560px] h-auto object-contain dark:hidden"
                 />
               )}
               {/* Fundo escuro: versão monocromática negativa (inalterada) */}
@@ -257,7 +257,7 @@ export default function Home() {
                 <img
                   src={logoHorizontalWhite}
                   alt=""
-                  className="hidden w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:block"
+                  className="hidden w-full max-w-[360px] md:max-w-[460px] 2xl:max-w-[560px] h-auto object-contain dark:block"
                 />
               ) : (
                 <Image
@@ -266,12 +266,12 @@ export default function Home() {
                   width={396}
                   height={219}
                   priority
-                  className="hidden w-full max-w-[360px] md:max-w-[460px] h-auto object-contain dark:block"
+                  className="hidden w-full max-w-[360px] md:max-w-[460px] 2xl:max-w-[560px] h-auto object-contain dark:block"
                 />
               )}
             </h1>
 
-            <p className="text-lg md:text-xl text-zinc-700 dark:text-zinc-300 max-w-xl mb-4 font-semibold leading-relaxed">
+            <p className="text-lg md:text-xl 2xl:text-2xl text-zinc-700 dark:text-zinc-300 max-w-xl 2xl:max-w-2xl mb-4 font-semibold leading-relaxed">
               Resultados, calendário, classificação e notícias do Campeonato Nacional de Futebol de Angola.
             </p>
 
@@ -307,7 +307,7 @@ export default function Home() {
 
       {/* ── DESTAQUES DA ÉPOCA ───────────────────────────────── */}
       <section className="bg-zinc-100 dark:bg-zinc-950 py-12 border-b border-zinc-200 dark:border-zinc-900 relative">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
+        <div className="content-shell grid grid-cols-2 md:grid-cols-4 gap-6 2xl:gap-8 relative z-10">
           {stats.map((stat, i) => (
             <Link key={i} href={stat.href} className="block group">
               <AnimatedCard
@@ -329,7 +329,7 @@ export default function Home() {
       </section>
 
       <div className="border-y border-border bg-primary/5 py-4">
-        <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-8 gap-y-2 px-4 text-xs font-semibold text-primary">
+        <div className="content-shell flex flex-wrap justify-center gap-x-8 gap-y-2 text-xs font-semibold text-primary">
           {tickerItems.slice(0, 3).map((item) => <span key={item}>{item.replace(/^[●◆▲■]\s*/, '')}</span>)}
         </div>
       </div>

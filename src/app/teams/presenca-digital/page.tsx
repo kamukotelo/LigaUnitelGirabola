@@ -34,7 +34,7 @@ export default function PresencaDigitalPage() {
   const missingSiteCount = rows.filter((row) => !row.links.website).length;
 
   return (
-    <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="content-shell py-12 relative z-10">
       <div className="mb-8 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <div className="flex items-center gap-2 mb-2">

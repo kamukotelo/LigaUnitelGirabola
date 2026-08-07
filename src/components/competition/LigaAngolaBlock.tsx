@@ -68,7 +68,7 @@ export default function LigaAngolaBlock() {
 
   return (
     <section className="py-12 bg-background relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
+      <div className="content-shell relative z-10">
         
         {/* ─── 1. PARCERIAS (Sponsor Bar) ─── */}
         <div className="w-full bg-[#f8fafc] dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl flex flex-col md:flex-row items-center overflow-hidden mb-12 shadow-sm" aria-label="Parceiros oficiais da Liga Unitel Girabola">

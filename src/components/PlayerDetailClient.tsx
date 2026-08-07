@@ -643,7 +643,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
   ];
 
   return (
-    <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 font-sans">
+    <div className="content-shell py-12 relative z-10 font-sans">
       
       {/* Club theme ambient light glow */}
       <div 

@@ -72,7 +72,7 @@ export default function TeamDetailClient({
   const squadAvgAge = players.length > 0 ? players.reduce((s, p) => s + p.age, 0) / players.length : 0;
 
   return (
-    <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="content-shell py-12 relative z-10">
 
       {/* Club ambient light glow */}
       <div

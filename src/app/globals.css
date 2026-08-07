@@ -2,8 +2,9 @@
 
 /* Portal UI primitives: institutional by default, expressive only in feature areas. */
 :root {
-  --content-max: 80rem;
-  --page-gutter: clamp(1rem, 3vw, 2rem);
+  /* 1728 px ocupa 90% de um ecrã Full HD e mantém uma margem segura em 4K/TV. */
+  --content-max: 108rem;
+  --page-gutter: clamp(1rem, 2.25vw, 3rem);
   --section-space: clamp(3rem, 6vw, 5.5rem);
   --surface-radius: 1.25rem;
   --control-radius: 0.75rem;
@@ -15,6 +16,12 @@
     width: min(100%, var(--content-max));
     margin-inline: auto;
     padding: 3rem var(--page-gutter) var(--section-space);
+  }
+
+  .content-shell {
+    width: min(100%, var(--content-max));
+    margin-inline: auto;
+    padding-inline: var(--page-gutter);
   }
 
   .page-header { margin-bottom: clamp(2rem, 5vw, 3.5rem); }

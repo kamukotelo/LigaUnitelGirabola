@@ -29,6 +29,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const lastPathname = useRef(pathname);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,9 +67,12 @@ export default function Navbar() {
   useEffect(() => {
     if (!isOpen) return;
 
+    closeButtonRef.current?.focus();
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsOpen(false);
+        menuButtonRef.current?.focus();
       }
     };
 
@@ -108,7 +113,7 @@ export default function Navbar() {
           : 'border-zinc-200/40 dark:border-zinc-800/40'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="content-shell">
         <div className="flex h-16 items-center justify-between gap-3 md:h-20">
           {/* Selo institucional ANCAF (à esquerda, maior) + marca Liga Unitel Girabola */}
           <div className="flex items-center flex-shrink-0">
@@ -159,6 +164,7 @@ export default function Navbar() {
                 <Link
                   key={link.path}
                   href={link.path}
+                  onClick={() => setActiveCompetitionTab(('tab' in link && link.tab) || 'geral')}
                   className={`text-[11px] font-semibold tracking-wide uppercase px-2.5 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
                     isActive
                       ? 'text-accent bg-accent/5'
@@ -183,7 +189,9 @@ export default function Navbar() {
           <div className="flex xl:hidden items-center gap-1 flex-shrink-0">
             <ThemeToggle />
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              ref={menuButtonRef}
+              type="button"
+              onClick={() => setIsOpen((open) => !open)}
               aria-label="Alternar menu de navegação"
               aria-expanded={isOpen}
               aria-controls="mobile-navigation"
@@ -203,8 +211,11 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-x-0 top-16 z-40 flex h-[calc(100dvh-4rem)] flex-col bg-black/20 backdrop-blur-sm md:top-20 md:h-[calc(100dvh-5rem)] xl:hidden dark:bg-black/45"
-            onClick={() => setIsOpen(false)}
+            className="fixed inset-x-0 top-16 z-40 flex h-[calc(100dvh-4rem)] flex-col justify-end bg-black/25 backdrop-blur-sm overscroll-contain md:top-20 md:h-[calc(100dvh-5rem)] xl:hidden dark:bg-black/50"
+            onClick={() => {
+              setIsOpen(false);
+              menuButtonRef.current?.focus();
+            }}
           >
             <motion.div
               id="mobile-navigation"
@@ -216,9 +227,10 @@ export default function Navbar() {
               aria-modal="true"
               aria-label="Menu de navegação"
               onClick={(event) => event.stopPropagation()}
-              className="mx-2 mt-2 flex min-h-0 flex-1 flex-col overflow-hidden rounded-t-3xl border border-zinc-200/80 bg-background/98 shadow-2xl backdrop-blur-xl sm:mx-4 sm:mt-4 dark:border-zinc-800/80 dark:bg-zinc-950/98"
+              className="mx-auto flex max-h-[calc(100dvh-4.75rem)] w-full max-w-xl flex-col overflow-hidden rounded-t-3xl border border-b-0 border-zinc-200/80 bg-background/98 shadow-2xl backdrop-blur-xl sm:mb-4 sm:max-h-[calc(100dvh-6rem)] sm:rounded-3xl sm:border-b dark:border-zinc-800/80 dark:bg-zinc-950/98"
             >
-              <div className="flex items-center justify-between gap-4 border-b border-zinc-200/80 px-4 py-3 dark:border-zinc-800/80 sm:px-5">
+              <div className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-zinc-300 dark:bg-zinc-700 sm:hidden" />
+              <div className="flex items-center justify-between gap-4 border-b border-zinc-200/80 px-4 py-2.5 dark:border-zinc-800/80 sm:px-5 sm:py-3">
                 <div className="flex items-center gap-3">
                   {isCustomLogo ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -244,8 +256,12 @@ export default function Navbar() {
                   </div>
                 </div>
                 <button
+                  ref={closeButtonRef}
                   type="button"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    menuButtonRef.current?.focus();
+                  }}
                   aria-label="Fechar menu"
                   className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 text-zinc-600 transition hover:bg-zinc-200 hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
                 >
@@ -253,7 +269,7 @@ export default function Navbar() {
                 </button>
               </div>
 
-            <nav className="grid min-h-0 flex-1 auto-rows-fr gap-2 overflow-y-auto px-4 py-4 sm:grid-cols-2 sm:gap-3 sm:px-5">
+            <nav className="grid min-h-0 grid-cols-2 gap-2 overflow-y-auto overscroll-contain px-3 py-3 sm:gap-3 sm:px-5 sm:py-4">
               {NAV_LINKS.map((link) => {
                   const matchPath = link.match;
                   const isPathActive = pathname === matchPath || (matchPath !== '/' && pathname.startsWith(`${matchPath}/`));
@@ -263,8 +279,11 @@ export default function Navbar() {
                     <motion.div key={link.path} variants={itemVariants}>
                       <Link
                         href={link.path}
-                        onClick={() => setIsOpen(false)}
-                        className={`flex min-h-14 items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all duration-200 sm:min-h-[86px] sm:flex-col sm:items-stretch sm:justify-between sm:p-4 ${
+                        onClick={() => {
+                          setActiveCompetitionTab(('tab' in link && link.tab) || 'geral');
+                          setIsOpen(false);
+                        }}
+                        className={`flex min-h-[4.25rem] items-center gap-2.5 rounded-2xl border px-3 py-3 text-left transition-all duration-200 sm:min-h-[86px] sm:flex-col sm:items-stretch sm:justify-between sm:p-4 ${
                           isActive
                             ? 'border-accent/50 bg-accent/10 text-accent shadow-sm'
                             : 'border-zinc-200/80 bg-white/65 text-zinc-700 hover:border-zinc-300 hover:bg-white hover:text-foreground dark:border-zinc-800/80 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-900'
@@ -275,25 +294,24 @@ export default function Navbar() {
                           <Icon size={20} />
                           <ArrowRight size={14} className="hidden opacity-50 sm:block" />
                         </span>
-                        <span className="min-w-0 flex-1 text-sm font-bold uppercase tracking-wide sm:text-xs">{link.label}</span>
-                        <ArrowRight size={15} className="ml-auto shrink-0 opacity-45 sm:hidden" />
+                        <span className="min-w-0 flex-1 text-[11px] font-bold uppercase leading-tight tracking-wide sm:text-xs">{link.label}</span>
                       </Link>
                     </motion.div>
                   );
                 })}
               </nav>
 
-              <motion.div variants={itemVariants} className="border-t border-zinc-200/80 px-4 py-4 dark:border-zinc-800/80 sm:px-5">
+              <motion.div variants={itemVariants} className="shrink-0 border-t border-zinc-200/80 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 dark:border-zinc-800/80 sm:px-5 sm:pb-4 sm:pt-4">
                 <Link
                   href="/login"
                   onClick={() => setIsOpen(false)}
-                  className="premium-button flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-center text-sm"
+                  className="premium-button flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl py-3 text-center text-sm"
                 >
                   <LogIn size={17} />
                   <span>Acesso reservado</span>
                   <ArrowRight size={16} />
                 </Link>
-                <p className="mt-3 text-center text-[9px] font-mono uppercase tracking-widest text-zinc-500">
+                <p className="mt-2 hidden text-center text-[9px] font-mono uppercase tracking-widest text-zinc-500 sm:block">
                   Campeonato Nacional Oficial de Angola
                 </p>
               </motion.div>
