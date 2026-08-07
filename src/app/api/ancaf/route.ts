@@ -3,7 +3,12 @@ import { createHash } from 'node:crypto';
 import { supabase } from '@/lib/supabase';
 import {
   ANCAF_CALENDAR_SOURCE,
+  CURRENT_SEASON_ID,
+  MATCHES,
+  OFFICIAL_STANDINGS,
   SEASONS,
+  TEAMS,
+  TOP_SCORERS,
   UPCOMING_SEASON_ID,
   getTeamById,
   Match,
@@ -15,6 +20,17 @@ import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/li
 // do FAF Calendar. O gerador local existe apenas como fallback de arranque.
 
 export const dynamic = 'force-dynamic';
+
+const DEFAULT_CAF_TEAM_IDS = ['petro', 'wiliete', 'dago', 'desphuila'];
+
+function getCafTeamIds(): string[] {
+  const configured = process.env.ANCAF_CAF_TEAM_IDS
+    ?.split(',')
+    .map((id) => id.trim())
+    .filter(Boolean);
+
+  return configured?.length === 4 ? configured : DEFAULT_CAF_TEAM_IDS;
+}
 
 interface DbMatch {
   id: string;
@@ -205,6 +221,42 @@ export async function GET(request: Request) {
     teams: 16,
     generatedAt: dynamicSource.generatedAt,
   };
+
+  // Contrato público consumido pelo portal institucional ancaf.co.ao.
+  // Apenas jogos dos quatro representantes CAF entram na faixa de resultados;
+  // os restantes módulos continuam a ser fornecidos pela plataforma da Liga.
+  if (format === 'portal') {
+    const cafTeamIds = getCafTeamIds();
+    const cafTeamSet = new Set(cafTeamIds);
+    const activeResults = matches.filter((match) => match.status === 'finished');
+    const resultPool = activeResults.length > 0 ? activeResults : MATCHES;
+    const cafResults = resultPool
+      .filter((match) =>
+        match.status === 'finished' &&
+        (cafTeamSet.has(match.homeTeamId) || cafTeamSet.has(match.awayTeamId)))
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 12);
+    const upcomingMatches = matches
+      .filter((match) => match.status !== 'finished')
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .slice(0, 8);
+
+    return NextResponse.json({
+      ...meta,
+      integration: {
+        consumer: 'https://www.ancaf.co.ao',
+        provider: 'Liga Unitel Girabola',
+        cafTeamIds,
+      },
+      cafTeams: cafTeamIds
+        .map((teamId) => TEAMS.find((team) => team.id === teamId))
+        .filter(Boolean),
+      cafResults,
+      standings: OFFICIAL_STANDINGS[CURRENT_SEASON_ID] ?? [],
+      scorers: TOP_SCORERS,
+      upcomingMatches,
+    });
+  }
 
   // Formato "matches": jogos já construídos com data/hora e estádio.
   if (format === 'matches') {
