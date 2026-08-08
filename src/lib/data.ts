@@ -2336,6 +2336,12 @@ export function getTeamProfile(teamId: string): TeamProfile | undefined {
   return profile;
 }
 
+/** Nome institucional completo para tabelas e documentos oficiais. */
+export function getTeamFullName(teamId: string, fallback?: string): string {
+  const team = getTeamById(teamId);
+  return getTeamProfile(teamId)?.officialName ?? team?.officialName ?? team?.name ?? fallback ?? teamId;
+}
+
 export interface VideoHighlight {
   id: string;
   title: string;

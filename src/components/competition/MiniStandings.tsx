@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { getStandingsForSeason } from '@/lib/data';
+import { getStandingsForSeason, getTeamFullName } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 
 // Mini-classificação lateral persistente (estilo Liga Angola): lista
@@ -40,7 +40,7 @@ export default function MiniStandings({ seasonId }: { seasonId: string }) {
               >
                 <span className="w-4 text-right text-[11px] font-mono font-bold text-zinc-500 flex-shrink-0">{row.position}</span>
                 <TeamCrest teamId={row.teamId} size={22} className="flex-shrink-0" />
-                <span className="flex-1 text-xs font-semibold text-foreground truncate">{row.teamName}</span>
+                <span className="flex-1 min-w-0 text-[11px] font-semibold leading-tight text-foreground whitespace-normal">{getTeamFullName(row.teamId, row.teamName)}</span>
                 <span className="w-6 text-center text-[11px] font-mono text-zinc-600 dark:text-zinc-400">{row.played}</span>
                 <span className="w-6 text-center text-[11px] font-mono font-extrabold text-primary dark:text-white">{row.points}</span>
               </Link>

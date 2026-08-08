@@ -11,6 +11,7 @@ import {
   UPCOMING_SEASON_ID,
   TEAMS,
   getStandingsForSeason,
+  getTeamFullName,
   getVideoHighlights,
 } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
@@ -301,7 +302,7 @@ export default function LigaAngolaBlock() {
                             {row.position}.
                           </span>
                           <TeamCrest teamId={row.teamId} size={20} className="flex-shrink-0" />
-                          <span className="flex-1 font-semibold text-foreground truncate">{row.teamName}</span>
+                          <span className="flex-1 min-w-0 font-semibold leading-tight text-foreground whitespace-normal">{getTeamFullName(row.teamId, row.teamName)}</span>
                           <span className="w-8 text-center font-mono text-zinc-500 dark:text-zinc-400">{row.played}</span>
                           <span className="w-8 text-center font-mono font-black text-primary dark:text-white">{row.points}</span>
                         </Link>

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Info, Award } from 'lucide-react';
 import Link from 'next/link';
-import { SEASONS, UPCOMING_SEASON_ID, getStandingsForSeason } from '@/lib/data';
+import { SEASONS, UPCOMING_SEASON_ID, getStandingsForSeason, getTeamFullName } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -41,6 +41,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
             </thead>
             <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
               {standingsList.map((row, i) => {
+                const fullTeamName = getTeamFullName(row.teamId, row.teamName);
                 const isChampion = row.position === 1 && !isUpcoming;
                 const isCafChampions = row.position <= 2;
                 const isCafConfederation = row.position === 3;
@@ -85,8 +86,8 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                     <td className="py-4 px-3 sm:px-4 font-semibold text-foreground">
                       <div className="flex items-center gap-2.5 sm:gap-3.5">
                         <TeamCrest teamId={row.teamId} size={34} />
-                        <Link href={`/teams/${row.teamId}`} className="hover:text-primary transition-colors truncate max-w-[100px] sm:max-w-none text-xs sm:text-sm block">
-                          {row.teamName}
+                        <Link href={`/teams/${row.teamId}`} className="hover:text-primary transition-colors whitespace-normal leading-snug text-xs sm:text-sm block min-w-[190px] sm:min-w-[260px]">
+                          {fullTeamName}
                           {isChampion && (
                             <span className="ml-1.5 text-[8px] font-mono bg-accent/25 text-accent border border-accent/40 px-1.5 py-0.2 rounded-full hidden sm:inline">
                               CAMPEÃO
@@ -203,13 +204,13 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
             </h3>
             <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-400">
               <p>
-                ⚽ O <strong className="text-foreground">{bestDefense.teamName}</strong> registou a melhor defesa do campeonato, sofrendo apenas <strong className="text-accent">{bestDefense.goalsAgainst} golos</strong> em {bestDefense.played} jogos.
+                ⚽ O <strong className="text-foreground">{getTeamFullName(bestDefense.teamId, bestDefense.teamName)}</strong> registou a melhor defesa do campeonato, sofrendo apenas <strong className="text-accent">{bestDefense.goalsAgainst} golos</strong> em {bestDefense.played} jogos.
               </p>
               <p>
-                🔥 O <strong className="text-foreground">{bestAttack.teamName}</strong> foi o ataque mais concretizador, com <strong className="text-accent">{bestAttack.goalsFor} golos</strong> marcados.
+                🔥 O <strong className="text-foreground">{getTeamFullName(bestAttack.teamId, bestAttack.teamName)}</strong> foi o ataque mais concretizador, com <strong className="text-accent">{bestAttack.goalsFor} golos</strong> marcados.
               </p>
               <p>
-                🏆 O título de {selectedSeason?.label} pertence ao <strong className="text-foreground">{champion.teamName}</strong>, líder destacado da galeria de campeões da Liga Unitel Girabola.
+                🏆 O título de {selectedSeason?.label} pertence ao <strong className="text-foreground">{getTeamFullName(champion.teamId, champion.teamName)}</strong>, líder destacado da galeria de campeões da Liga Unitel Girabola.
               </p>
             </div>
           </AnimatedCard>
