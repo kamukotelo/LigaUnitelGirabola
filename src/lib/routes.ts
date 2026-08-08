@@ -21,6 +21,6 @@ export const ROUTES = {
   contact: '/contact',
   terms: '/termos',
   privacy: '/privacidade',
-  admin: '/admin',
+  admin: '/adminancaf2026',
   login: '/login',
 } as const;

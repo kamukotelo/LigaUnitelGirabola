@@ -112,7 +112,7 @@ export function PortalDataProvider({ children }: { children: React.ReactNode }) 
   // A consola de administração fica de fora dessa remontagem: publica as suas
   // próprias alterações, o que dispararia o realtime e faria perder a secção
   // aberta e o rascunho em edição a cada gravação.
-  const isAdmin = pathname?.startsWith('/admin') ?? false;
+  const isAdmin = pathname?.startsWith('/adminancaf2026') ?? false;
 
   return (
     <SiteSettingsContext.Provider value={site}>

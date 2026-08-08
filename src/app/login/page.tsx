@@ -63,7 +63,7 @@ export default function LoginPage() {
           'Acesso autorizado.',
         ]);
         setTimeout(() => {
-          router.push('/admin');
+          router.push('/adminancaf2026');
         }, 1200);
       } else {
         setLoading(false);

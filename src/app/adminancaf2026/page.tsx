@@ -3,8 +3,8 @@ import AdminClient from '@/components/AdminClient';
 import AdminGuard from '@/components/AdminGuard';
 
 export const metadata: Metadata = {
-  title: 'Administração FAF',
-  description: 'Painel de gestão administrativa da Liga Unitel Girabola — uso interno FAF.',
+  title: 'Administração ANCAF',
+  description: 'Painel de gestão administrativa da Liga Unitel Girabola — uso interno ANCAF.',
   robots: { index: false, follow: false },
 };
 
