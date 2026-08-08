@@ -1,7 +1,9 @@
 // Gerado por scripts/import-girabola-history.py. Não editar manualmente.
 import type { Match } from './data';
+import { HISTORICAL_MATCHES_2025_26 } from './historical-results-2025-26';
 
 export const HISTORICAL_MATCHES: Record<string, Match[]> = {
+  "2025-26": HISTORICAL_MATCHES_2025_26,
   "2024-25": [
     {
       "id": "hist-2024-25-j1-1",
@@ -9251,9 +9253,9 @@ export const HISTORICAL_MATCHES: Record<string, Match[]> = {
 };
 
 export const HISTORICAL_RESULTS_SOURCE = {
-  provider: 'Futebol 365',
+  provider: 'Dados fornecidos pelo gestor da Liga Unitel Girabola; Futebol 365',
   validationProvider: '365Scores',
   competition: 'Girabola',
-  importedAt: '2026-08-01',
-  seasons: ['2024-25', '2023-24', '2022-23'],
+  importedAt: '2026-08-08',
+  seasons: ['2025-26', '2024-25', '2023-24', '2022-23'],
 } as const;
