@@ -380,9 +380,14 @@ export const MATCHES: Match[] = generateAllMatches();
 // garantindo que classificação e resultados coincidem sempre.
 export function computeStandings(matches: Match[]): StandingEntry[] {
   const acc = new Map<string, Omit<StandingEntry, 'position' | 'goalDifference' | 'form'> & { _matches: Match[] }>();
-  for (const t of TEAMS) {
-    acc.set(t.id, {
-      teamId: t.id, teamName: t.name, played: 0, won: 0, drawn: 0, lost: 0,
+  const participants = new Map<string, string>();
+  for (const match of matches) {
+    participants.set(match.homeTeamId, getTeamById(match.homeTeamId)?.name ?? match.homeTeam);
+    participants.set(match.awayTeamId, getTeamById(match.awayTeamId)?.name ?? match.awayTeam);
+  }
+  for (const [teamId, teamName] of participants) {
+    acc.set(teamId, {
+      teamId, teamName, played: 0, won: 0, drawn: 0, lost: 0,
       goalsFor: 0, goalsAgainst: 0, points: 0, _matches: [],
     });
   }
@@ -1520,6 +1525,13 @@ export function getStandingsForSeason(seasonId: string): StandingEntry[] {
   const official = OFFICIAL_STANDINGS[seasonId];
 
   if (!official) return computed;
+
+  // Ao publicar uma correção de resultado no admin, a classificação passa a
+  // ser recalculada a partir desses jogos. Sem edições, preserva-se a tabela
+  // final oficial registada para a época histórica.
+  const seasonMatchIds = new Set(getMatchesForSeason(seasonId).map((match) => match.id));
+  const hasPublishedResultEdits = Object.keys(RUNTIME_OVERRIDES.calendar ?? {}).some((id) => seasonMatchIds.has(id));
+  if (hasPublishedResultEdits) return computed;
 
   const computedByTeam = new Map(computed.map((row) => [row.teamId, row]));
   return official.map((row) => {

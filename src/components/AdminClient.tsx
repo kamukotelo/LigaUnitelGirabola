@@ -8,13 +8,13 @@ import {
   LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
   Fingerprint, FileText, Plane, HeartPulse, Loader2, CheckCircle2,
   AlertTriangle, BadgeCheck, Search, Download, Home,
-  Plus, Trash2, Pencil, Shirt, Flag, ImagePlus, Palette, Undo2,
+  Plus, Trash2, Pencil, Shirt, Flag, ImagePlus, Palette, Undo2, BarChart3, Sparkles, ExternalLink,
 } from 'lucide-react';
 import {
   MATCHES, TEAMS, PLAYERS, newsMock, getStandings, getNewsArticles,
   getPlayerFifaRecords, FIFA_CHECK_META, getTeamProfile, getMatchOfficials,
   SEASONS, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason,
-  DEFAULT_SITE_SETTINGS,
+  DEFAULT_SITE_SETTINGS, computeStandings, CURRENT_SEASON_ID,
   type Match, type FifaCheckKey, type Team, type NewsArticle, type Player,
   type TrophyEntry, type KitEntry, type BoardMember, type SiteSettings,
 } from '@/lib/data';
@@ -37,7 +37,7 @@ const NOMINATION_KEY = 'faf_nomination_overrides';
 const TEAM_KEY = 'faf_team_store';
 const SITE_KEY = 'faf_site_settings';
 
-type Section = 'dashboard' | 'site' | 'calendar' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
+type Section = 'dashboard' | 'site' | 'calendar' | 'competition' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
 
 // ════════════════════════════════════════════════════════════════════════
 // RASCUNHO EDITÁVEL + GRAVAÇÃO EXPLÍCITA
@@ -328,6 +328,7 @@ export default function AdminClient() {
       title: 'Competição',
       items: [
         { key: 'calendar', label: 'Calendário · ANCAF', icon: CalendarDays },
+        { key: 'competition', label: 'Jogos e Classificação', icon: BarChart3 },
         { key: 'nominations', label: 'Nomeações', icon: Flag },
       ],
     },
@@ -428,6 +429,7 @@ export default function AdminClient() {
                 {section === 'dashboard' && <DashboardSection onGo={goToSection} />}
                 {section === 'site' && <SiteSection />}
                 {section === 'calendar' && <CalendarSection />}
+                {section === 'competition' && <CompetitionSection />}
                 {section === 'fifa' && <FifaSection />}
                 {section === 'teams' && <TeamsSection />}
                 {section === 'players' && <PlayersSection />}
@@ -542,7 +544,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
       </div>
 
       {/* Atalhos */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <button onClick={() => onGo('site')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
           <Palette size={18} className="text-accent mb-3" />
           <p className="font-display text-foreground uppercase tracking-wider text-sm">Site e Marca</p>
@@ -557,6 +559,16 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
           <CalendarDays size={18} className="text-accent mb-3" />
           <p className="font-display text-foreground uppercase tracking-wider text-sm">Definir Calendário</p>
           <p className="text-[11px] font-mono text-zinc-500 mt-1">Gerir jornadas via ANCAF_CALENDAR</p>
+        </button>
+        <button onClick={() => onGo('competition')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
+          <BarChart3 size={18} className="text-accent mb-3" />
+          <p className="font-display text-foreground uppercase tracking-wider text-sm">Jogos e Classificação</p>
+          <p className="text-[11px] font-mono text-zinc-500 mt-1">Atualizar golos, resultados e tabela</p>
+        </button>
+        <button onClick={() => onGo('news')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
+          <Newspaper size={18} className="text-accent mb-3" />
+          <p className="font-display text-foreground uppercase tracking-wider text-sm">Rever Notícias</p>
+          <p className="text-[11px] font-mono text-zinc-500 mt-1">Validar, editar e publicar rapidamente</p>
         </button>
         <button onClick={() => onGo('fifa')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
           <ShieldCheck size={18} className="text-accent mb-3" />
@@ -1917,6 +1929,115 @@ function PlayersSection() {
 }
 
 // ════════════════════════════════════════════════════════════════════════
+// SECÇÃO: JOGOS, GOLOS, RESULTADOS E CLASSIFICAÇÃO
+// ════════════════════════════════════════════════════════════════════════
+function CompetitionSection() {
+  const [seasonId, setSeasonId] = useState(CURRENT_SEASON_ID);
+  const [round, setRound] = useState(1);
+  const ctl = useEditorDraft<Overrides>('calendar', CAL_KEY, {});
+  const matches = useMemo(() => getMatchesForSeason(seasonId), [seasonId]);
+  const mergedMatches = useMemo(() => matches.map((match) => ({ ...match, ...(ctl.draft[match.id] ?? {}) })), [matches, ctl.draft]);
+  const rounds = useMemo(() => Array.from(new Set(matches.map((match) => match.round))).sort((a, b) => a - b), [matches]);
+  const standings = useMemo(() => computeStandings(mergedMatches), [mergedMatches]);
+  const roundMatches = mergedMatches.filter((match) => match.round === round);
+  const editedInSeason = matches.filter((match) => ctl.draft[match.id]).length;
+
+  const update = (match: Match, patch: MatchOverride) => {
+    const current = ctl.draft[match.id] ?? {};
+    const next = { ...current, ...patch };
+    if (typeof next.homeScore === 'number' || typeof next.awayScore === 'number') {
+      const homeScore = next.homeScore ?? match.homeScore;
+      const awayScore = next.awayScore ?? match.awayScore;
+      next.homeScore = homeScore;
+      next.awayScore = awayScore;
+      next.score = `${homeScore}-${awayScore}`;
+    }
+    ctl.setDraft({ ...ctl.draft, [match.id]: next });
+  };
+
+  return (
+    <div className="space-y-6">
+      <SectionHeader icon={BarChart3} subtitle="GESTÃO_DA_COMPETIÇÃO" title="Jogos e Classificação" />
+      <SaveBar
+        ctl={ctl}
+        pendingLabel={`${editedInSeason} jogo(s) alterado(s) nesta época`}
+        onExport={() => downloadJSON(`competicao-${seasonId}.json`, { matches: mergedMatches, standings })}
+      />
+
+      <Panel className="border-accent/20 bg-accent/[0.03]">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <Field label="Época">
+            <select className="admin-input" value={seasonId} onChange={(event) => { setSeasonId(event.target.value); setRound(1); }}>
+              {SEASONS.map((season) => <option key={season.id} value={season.id}>{season.label}</option>)}
+            </select>
+          </Field>
+          <Field label="Jornada">
+            <select className="admin-input" value={round} onChange={(event) => setRound(Number(event.target.value))}>
+              {rounds.map((value) => <option key={value} value={value}>Jornada {value}</option>)}
+            </select>
+          </Field>
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-3">
+            <span className="block text-[9px] font-mono uppercase tracking-widest text-zinc-500">Atualização automática</span>
+            <strong className="text-sm text-green-500">A classificação acompanha os resultados</strong>
+          </div>
+        </div>
+      </Panel>
+
+      <div className="grid grid-cols-1 xl:grid-cols-[1.15fr_.85fr] gap-5 items-start">
+        <div className="space-y-3">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Resultados · Jornada {round}</p>
+          {roundMatches.map((match) => {
+            const edited = Boolean(ctl.draft[match.id]);
+            return (
+              <Panel key={match.id} className={edited ? 'border-accent/40' : ''}>
+                <div className="flex items-center justify-between gap-3 mb-4">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-sm text-foreground truncate">{match.homeTeam} × {match.awayTeam}</p>
+                    <p className="text-[10px] font-mono text-zinc-500 mt-1">{new Date(match.date).toLocaleString('pt-AO')} · {match.stadium}</p>
+                  </div>
+                  {edited && <button className="text-[9px] font-mono uppercase text-red-400" onClick={() => { const next = { ...ctl.draft }; delete next[match.id]; ctl.setDraft(next); }}>Repor</button>}
+                </div>
+                <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-end">
+                  <Field label={match.homeTeam}>
+                    <input aria-label={`Golos de ${match.homeTeam}`} type="number" min={0} className="admin-input text-center text-xl font-bold" value={match.homeScore} onChange={(event) => update(match, { homeScore: Math.max(0, Number(event.target.value)), status: 'finished' })} />
+                  </Field>
+                  <span className="pb-3 text-zinc-500 font-mono">—</span>
+                  <Field label={match.awayTeam}>
+                    <input aria-label={`Golos de ${match.awayTeam}`} type="number" min={0} className="admin-input text-center text-xl font-bold" value={match.awayScore} onChange={(event) => update(match, { awayScore: Math.max(0, Number(event.target.value)), status: 'finished' })} />
+                  </Field>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                  <Field label="Estado">
+                    <select className="admin-input" value={match.status} onChange={(event) => update(match, { status: event.target.value as Match['status'] })}>
+                      <option value="scheduled">Agendado</option><option value="live">Ao vivo</option><option value="finished">Terminado</option>
+                    </select>
+                  </Field>
+                  <Field label="Data e hora"><input type="datetime-local" className="admin-input" value={isoToLocalInput(match.date)} onChange={(event) => update(match, { date: localInputToIso(event.target.value) })} /></Field>
+                </div>
+              </Panel>
+            );
+          })}
+        </div>
+
+        <Panel className="xl:sticky xl:top-24 overflow-hidden p-0">
+          <div className="p-4 border-b border-zinc-200 dark:border-zinc-900">
+            <h3 className="font-display uppercase text-sm text-foreground">Classificação recalculada</h3>
+            <p className="text-[10px] font-mono text-zinc-500 mt-1">Pré-visualização antes da publicação</p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead className="text-[9px] font-mono uppercase text-zinc-500 bg-zinc-100/50 dark:bg-zinc-900/50"><tr><th className="p-2 text-left">#</th><th className="p-2 text-left">Clube</th><th className="p-2">J</th><th className="p-2">DG</th><th className="p-2">Pts</th></tr></thead>
+              <tbody>{standings.map((row) => <tr key={row.teamId} className="border-t border-zinc-200/60 dark:border-zinc-900/60"><td className="p-2 font-mono text-zinc-500">{row.position}</td><td className="p-2 font-medium max-w-44 truncate">{row.teamName}</td><td className="p-2 text-center font-mono">{row.played}</td><td className="p-2 text-center font-mono">{row.goalDifference}</td><td className="p-2 text-center font-bold text-primary">{row.points}</td></tr>)}</tbody>
+            </table>
+          </div>
+        </Panel>
+      </div>
+      <AdminInputStyles />
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════════════════
 // SECÇÃO: NOTÍCIAS (criar · editar · remover)
 // ════════════════════════════════════════════════════════════════════════
 interface NewsStore { overrides: Record<string, Partial<NewsArticle>>; added: NewsArticle[]; deleted: string[]; }
@@ -1945,6 +2066,10 @@ function NewsSection() {
   const ctl = useEditorDraft<NewsStore>('news', NEWS_KEY, { overrides: {}, added: [], deleted: [] });
   const store = ctl.draft;
   const [openId, setOpenId] = useState<string | null>(null);
+  const [query, setQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | NonNullable<NewsArticle['status']>>('all');
+  const [automationRunning, setAutomationRunning] = useState(false);
+  const [automationMessage, setAutomationMessage] = useState<string | null>(null);
 
   const persist = ctl.setDraft;
   const updateArt = (id: string, patch: Partial<NewsArticle>) =>
@@ -1969,8 +2094,32 @@ function NewsSection() {
   const list = [...store.added, ...base]
     .filter((a) => !store.deleted.includes(a.id))
     .map((a) => ({ ...a, ...store.overrides[a.id] }));
+  const visibleList = list.filter((article) => {
+    const status = article.status ?? 'published';
+    const matchesStatus = statusFilter === 'all' || status === statusFilter;
+    const needle = query.trim().toLocaleLowerCase('pt');
+    return matchesStatus && (!needle || `${article.title} ${article.summary} ${article.sourceName ?? ''}`.toLocaleLowerCase('pt').includes(needle));
+  });
   const isAddedId = (id: string) => store.added.some((a) => a.id === id);
   const editedCount = Object.keys(store.overrides).length + store.added.length + store.deleted.length;
+  const fetchWithAi = async () => {
+    setAutomationRunning(true);
+    setAutomationMessage(null);
+    try {
+      const response = await fetch('/api/admin/news/automation', { method: 'POST', credentials: 'same-origin' });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data?.message || 'Não foi possível buscar notícias.');
+      const incoming = (data.articles ?? []) as NewsArticle[];
+      const known = new Set(list.map((article) => article.sourceUrl).filter(Boolean));
+      const fresh = incoming.filter((article) => !known.has(article.sourceUrl));
+      persist({ ...store, added: [...fresh, ...store.added] });
+      setAutomationMessage(fresh.length ? `${fresh.length} notícia(s) adicionada(s) à revisão.` : 'Nenhuma notícia nova encontrada.');
+    } catch (error) {
+      setAutomationMessage(error instanceof Error ? error.message : 'Erro na automação.');
+    } finally {
+      setAutomationRunning(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -1981,14 +2130,29 @@ function NewsSection() {
         onExport={() => downloadJSON('noticias-ancaf.json', list)}
         onResetAll={editedCount > 0 ? () => persist({ overrides: {}, added: [], deleted: [] }) : undefined}
         extra={
-          <button onClick={addArt} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest hover:bg-accent/20 transition-colors">
-            <Plus size={12} /> Nova
-          </button>
+          <>
+            <button onClick={fetchWithAi} disabled={automationRunning} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-violet-500/10 border border-violet-500/30 text-violet-500 font-mono text-[10px] uppercase tracking-widest disabled:opacity-50">
+              {automationRunning ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />} {automationRunning ? 'A pesquisar…' : 'Buscar com IA'}
+            </button>
+            <button onClick={addArt} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest hover:bg-accent/20 transition-colors">
+              <Plus size={12} /> Nova
+            </button>
+          </>
         }
       />
 
+      <Panel className="p-4">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1"><Search size={14} className="absolute left-3 top-3 text-zinc-500" /><input className="admin-input pl-9" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Pesquisar título, resumo ou fonte…" /></div>
+          <select className="admin-input sm:w-48" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as typeof statusFilter)}>
+            <option value="all">Todos os estados</option><option value="pending_review">A validar</option><option value="draft">Rascunhos</option><option value="published">Publicadas</option><option value="rejected">Rejeitadas</option>
+          </select>
+        </div>
+        {automationMessage && <p className="text-[10px] font-mono text-violet-500 mt-3">{automationMessage}</p>}
+      </Panel>
+
       <div className="space-y-3">
-        {list.map((n) => {
+        {visibleList.map((n) => {
           const isOpen = openId === n.id;
           const added = isAddedId(n.id);
           const edited = !!store.overrides[n.id] || added;
@@ -2006,6 +2170,8 @@ function NewsSection() {
                   <p className="text-[11px] font-mono text-zinc-500 mt-1 line-clamp-2">{n.summary}</p>
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
+                  {n.sourceUrl && <a href={n.sourceUrl} target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-accent" title="Abrir fonte"><ExternalLink size={14} /></a>}
+                  {status !== 'published' && <button disabled={!readyToPublish} onClick={() => { const now = new Date().toISOString(); updateArt(n.id, { status: 'published', reviewedAt: now, publishedAt: now }); }} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-green-500/30 bg-green-500/10 text-green-500 text-[9px] font-mono uppercase disabled:opacity-30"><ShieldCheck size={11} /> Publicar</button>}
                   <button onClick={() => deleteArt(n.id, added)} className="text-zinc-500 hover:text-red-400 transition-colors" title="Remover"><Trash2 size={14} /></button>
                   <button onClick={() => setOpenId(isOpen ? null : n.id)} className="inline-flex items-center gap-1.5 text-[10px] font-mono text-accent hover:text-accent/80 transition-colors uppercase tracking-widest">
                     <Pencil size={12} /> {isOpen ? 'Fechar' : 'Editar'}
@@ -2049,7 +2215,7 @@ function NewsSection() {
             </Panel>
           );
         })}
-        {list.length === 0 && <p className="text-center py-10 text-zinc-600 font-mono text-sm">Sem notícias. Use «Nova» para criar.</p>}
+        {visibleList.length === 0 && <p className="text-center py-10 text-zinc-600 font-mono text-sm">Nenhuma notícia corresponde ao filtro.</p>}
       </div>
       <AdminInputStyles />
     </div>
