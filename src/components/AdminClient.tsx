@@ -2159,6 +2159,20 @@ function NewsSection() {
           const status = n.status ?? 'published';
           const readyForReview = Boolean(n.title.trim() && n.summary.trim() && n.content?.trim() && n.author?.trim() && n.sourceName?.trim() && validNewsSource(n.sourceUrl));
           const readyToPublish = readyForReview && Boolean(n.verifiedBy?.trim());
+          const quickPublishReady = Boolean(n.title.trim() && n.summary.trim() && n.content?.trim() && validNewsSource(n.sourceUrl));
+          const quickPublish = () => {
+            if (!quickPublishReady) {
+              setOpenId(n.id);
+              return;
+            }
+            const now = new Date().toISOString();
+            updateArt(n.id, {
+              author: n.author?.trim() || 'Redação Liga Unitel Girabola',
+              sourceName: n.sourceName?.trim() || 'Fonte indicada na ligação',
+              verifiedBy: n.verifiedBy?.trim() || 'Admin ANCAF',
+              status: 'published', reviewedAt: now, publishedAt: now,
+            });
+          };
           return (
             <Panel key={n.id} className={edited ? 'border-accent/30' : ''}>
               <div className="flex items-start justify-between gap-3">
@@ -2171,7 +2185,7 @@ function NewsSection() {
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
                   {n.sourceUrl && <a href={n.sourceUrl} target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-accent" title="Abrir fonte"><ExternalLink size={14} /></a>}
-                  {status !== 'published' && <button disabled={!readyToPublish} onClick={() => { const now = new Date().toISOString(); updateArt(n.id, { status: 'published', reviewedAt: now, publishedAt: now }); }} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-green-500/30 bg-green-500/10 text-green-500 text-[9px] font-mono uppercase disabled:opacity-30"><ShieldCheck size={11} /> Publicar</button>}
+                  {status !== 'published' && <button onClick={quickPublish} title={quickPublishReady ? 'Validar e preparar para publicação' : 'Abra para preencher o conteúdo e a ligação da fonte'} className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-[9px] font-mono uppercase ${quickPublishReady ? 'border-green-500/30 bg-green-500/10 text-green-500 hover:bg-green-500/20' : 'border-amber-500/30 bg-amber-500/10 text-amber-500'}`}><ShieldCheck size={11} /> {quickPublishReady ? 'Publicar' : 'Completar'}</button>}
                   <button onClick={() => deleteArt(n.id, added)} className="text-zinc-500 hover:text-red-400 transition-colors" title="Remover"><Trash2 size={14} /></button>
                   <button onClick={() => setOpenId(isOpen ? null : n.id)} className="inline-flex items-center gap-1.5 text-[10px] font-mono text-accent hover:text-accent/80 transition-colors uppercase tracking-widest">
                     <Pencil size={12} /> {isOpen ? 'Fechar' : 'Editar'}
