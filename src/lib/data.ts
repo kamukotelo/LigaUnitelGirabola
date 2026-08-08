@@ -483,8 +483,6 @@ export const SEASONS: Season[] = [
   { id: '2026-27', label: '2026/2027', status: 'upcoming' },
   { id: '2025-26', label: '2025/2026', status: 'completed' },
   { id: '2024-25', label: '2024/2025', status: 'completed' },
-  { id: '2023-24', label: '2023/2024', status: 'completed' },
-  { id: '2022-23', label: '2022/2023', status: 'completed' },
 ];
 export const CURRENT_SEASON_ID = '2025-26';
 export const UPCOMING_SEASON_ID = '2026-27';
