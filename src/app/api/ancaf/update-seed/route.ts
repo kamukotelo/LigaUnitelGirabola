@@ -2,9 +2,10 @@ import { NextResponse } from 'next/server';
 import { createHash } from 'node:crypto';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { TEAMS } from '@/lib/data';
-import { PUBLISHED_ANCAF_CALENDAR_SOURCE } from '@/lib/published-ancaf-calendar';
 
 const SYNC_TOKEN = process.env.ANCAF_SYNC_TOKEN;
+const CLOSED_SEASON_ID = '2026-27';
+const NEXT_SUBMISSION_SEASON_ID = '2027-28';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,30 +37,6 @@ interface IncomingMatch {
   homeTeamId?: unknown;
   awayTeamId?: unknown;
   date?: unknown;
-}
-
-function officialPublishedResponse(
-  parsedCalendarIndex: number,
-  parsedTechnicalSeed: number,
-  fingerprint: string,
-) {
-  if (
-    String(parsedCalendarIndex) !== PUBLISHED_ANCAF_CALENDAR_SOURCE.accessCode ||
-    String(parsedTechnicalSeed) !== PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed ||
-    fingerprint !== PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint
-  ) {
-    return null;
-  }
-
-  return NextResponse.json({
-    status: 'ok',
-    message: 'Calendário oficial publicado no portal LigaUnitel com sucesso.',
-    championshipId: String(parsedCalendarIndex),
-    calendarIndex: String(parsedCalendarIndex),
-    technicalSeed: String(parsedTechnicalSeed),
-    fingerprint,
-    persisted: { database: false, officialSource: true, matches_count: 240 },
-  });
 }
 
 function normaliseCalendar(matches: unknown) {
@@ -179,20 +156,40 @@ export async function POST(request: Request) {
     const { calendarIndex, technicalSeed, seasonId, matches, dryRun } = await request.json();
     const parsedCalendarIndex = Number(calendarIndex);
     const parsedTechnicalSeed = Number(technicalSeed);
+
+    if (seasonId === CLOSED_SEASON_ID) {
+      return NextResponse.json(
+        {
+          error: 'season_closed',
+          message: 'A época 2026/2027 já foi enviada e publicada no Liga Unitel Girabola. Novos envios estão bloqueados.',
+          closedSeasonId: CLOSED_SEASON_ID,
+          nextSeasonId: NEXT_SUBMISSION_SEASON_ID,
+        },
+        { status: 409 },
+      );
+    }
+
     if (
       !Number.isSafeInteger(parsedCalendarIndex) ||
       parsedCalendarIndex < 1 ||
       parsedCalendarIndex > 8000 ||
       !Number.isSafeInteger(parsedTechnicalSeed) ||
       parsedTechnicalSeed <= 0 ||
-      seasonId !== '2026-27'
+      seasonId !== NEXT_SUBMISSION_SEASON_ID
     ) {
-      return NextResponse.json({ error: 'bad_request', message: 'Metadados do sorteio inválidos' }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'bad_request',
+          message: `Metadados do sorteio inválidos. O próximo envio deve pertencer à época ${NEXT_SUBMISSION_SEASON_ID.replace('-', '/')}.`,
+          nextSeasonId: NEXT_SUBMISSION_SEASON_ID,
+        },
+        { status: 400 },
+      );
     }
 
-    let matches2026_27: ReturnType<typeof normaliseCalendar>;
+    let nextSeasonMatches: ReturnType<typeof normaliseCalendar>;
     try {
-      matches2026_27 = normaliseCalendar(matches);
+      nextSeasonMatches = normaliseCalendar(matches);
     } catch (error) {
       return NextResponse.json(
         { error: 'bad_request', message: error instanceof Error ? error.message : String(error) },
@@ -200,9 +197,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const dbMatches = matches2026_27.map((m, index) => ({
-      id: `m27-${m.round}-${(index % 8) + 1}`,
-      season_id: '2026-27',
+    const dbMatches = nextSeasonMatches.map((m, index) => ({
+      id: `m28-${m.round}-${(index % 8) + 1}`,
+      season_id: NEXT_SUBMISSION_SEASON_ID,
       round: m.round,
       home_team_id: m.homeTeamId,
       away_team_id: m.awayTeamId,
@@ -237,23 +234,42 @@ export async function POST(request: Request) {
       return NextResponse.json({
         status: 'ok', preflight: true,
         message: 'Contrato de publicação aceite; nenhuma alteração foi gravada.',
-        calendarIndex: parsedCalendarIndex, technicalSeed: parsedTechnicalSeed,
-        matchCount: matches2026_27.length, fingerprint
+        championshipId: String(parsedCalendarIndex),
+        calendarIndex: String(parsedCalendarIndex), technicalSeed: String(parsedTechnicalSeed),
+        matchCount: nextSeasonMatches.length, fingerprint,
+        seasonId: NEXT_SUBMISSION_SEASON_ID,
       });
     }
 
-    const officialResponse = officialPublishedResponse(parsedCalendarIndex, parsedTechnicalSeed, fingerprint);
-    // Mesmo quando o pedido coincide com o fallback estático, persistimos os
-    // 240 jogos se a base estiver configurada. Caso contrário, um calendário
-    // dinâmico anterior continuaria ativo e o endpoint devolveria um falso
-    // sucesso. O fallback só é usado em ambientes realmente sem Supabase.
-    let client: ReturnType<typeof getSupabaseAdmin>;
-    try {
-      client = getSupabaseAdmin();
-    } catch (error) {
-      if (officialResponse) return officialResponse;
-      throw error;
+    const client = getSupabaseAdmin();
+    const lockKey = `calendar_${NEXT_SUBMISSION_SEASON_ID}_locked`;
+    const { data: existingLock, error: lockReadError } = await client
+      .from('ancaf_configs')
+      .select('value')
+      .eq('key', lockKey)
+      .maybeSingle();
+    if (lockReadError) throw lockReadError;
+    if (existingLock?.value === 'true') {
+      return NextResponse.json(
+        {
+          error: 'season_closed',
+          message: 'A época 2027/2028 já foi recebida. Reenvios estão bloqueados para proteger o calendário oficial.',
+          closedSeasonId: NEXT_SUBMISSION_SEASON_ID,
+        },
+        { status: 409 },
+      );
     }
+
+    // Garante a existência da época futura antes de inserir jogos sujeitos a FK.
+    const { error: seasonError } = await client.from('ancaf_seasons').upsert(
+      { id: NEXT_SUBMISSION_SEASON_ID, label: '2027/2028', status: 'upcoming' },
+      { onConflict: 'id' },
+    );
+    if (seasonError) throw seasonError;
+    await client.from('liga_seasons').upsert(
+      { id: NEXT_SUBMISSION_SEASON_ID, label: '2027/2028', status: 'upcoming' },
+      { onConflict: 'id' },
+    );
 
     // Os jogos são a fonte de verdade. A configuração ativa só muda depois de
     // os 240 registos terem sido persistidos e verificados.
@@ -274,7 +290,7 @@ export async function POST(request: Request) {
     const { count, error: verifyError } = await client
       .from('ancaf_matches')
       .select('id', { count: 'exact', head: true })
-      .eq('season_id', '2026-27');
+      .eq('season_id', NEXT_SUBMISSION_SEASON_ID);
     if (verifyError || count !== 240) {
       return NextResponse.json(
         { error: 'database_error', message: `Persistência incompleta: ${count ?? 0}/240 jogos` },
@@ -284,9 +300,10 @@ export async function POST(request: Request) {
 
     const updatedAt = new Date().toISOString();
     const configRows = [
-      { key: 'active_calendar_index', value: String(parsedCalendarIndex), updated_at: updatedAt },
-      { key: 'active_calendar_seed', value: String(parsedTechnicalSeed), updated_at: updatedAt },
-      { key: 'active_calendar_fingerprint', value: fingerprint, updated_at: updatedAt },
+      { key: `calendar_${NEXT_SUBMISSION_SEASON_ID}_index`, value: String(parsedCalendarIndex), updated_at: updatedAt },
+      { key: `calendar_${NEXT_SUBMISSION_SEASON_ID}_seed`, value: String(parsedTechnicalSeed), updated_at: updatedAt },
+      { key: `calendar_${NEXT_SUBMISSION_SEASON_ID}_fingerprint`, value: fingerprint, updated_at: updatedAt },
+      { key: lockKey, value: 'true', updated_at: updatedAt },
     ];
     const { error: configError } = await client.from('ancaf_configs').upsert(configRows, { onConflict: 'key' });
     if (configError) {
@@ -299,12 +316,13 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       status: 'ok',
-      message: 'Calendário oficial atualizado e povoado com sucesso para 2026/2027',
+      message: 'Calendário de 2027/2028 recebido e bloqueado contra reenvios. A época 2026/2027 permanece ativa no portal.',
+      seasonId: NEXT_SUBMISSION_SEASON_ID,
       championshipId: String(parsedCalendarIndex),
       calendarIndex: String(parsedCalendarIndex),
       technicalSeed: String(parsedTechnicalSeed),
       fingerprint,
-      persisted: { database: true, matches_count: count },
+      persisted: { database: true, matches_count: count, activated: false, locked: true },
     });
 
   } catch (err: unknown) {

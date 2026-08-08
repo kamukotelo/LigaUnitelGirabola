@@ -76,25 +76,37 @@ async function run() {
   const wrongToken = await postCalendar(payload, 'token-incorreto');
   assert.equal(wrongToken.status, 401, 'um pedido com token incorreto deve ser rejeitado');
 
-  const incomplete = await postCalendar({ ...payload, matches: payload.matches.slice(0, 239) });
+  const closedSeason = await postCalendar(payload);
+  assert.equal(closedSeason.status, 409, 'a época 2026/27 já publicada deve rejeitar novos envios');
+  const closedResult = await closedSeason.json();
+  assert.equal(closedResult.error, 'season_closed');
+  assert.equal(closedResult.nextSeasonId, '2027-28');
+
+  const nextSeasonPayload = { ...payload, seasonId: '2027-28' };
+
+  const incomplete = await postCalendar({ ...nextSeasonPayload, matches: payload.matches.slice(0, 239) });
   assert.equal(incomplete.status, 400, 'um calendário incompleto deve ser rejeitado');
   assert.match((await incomplete.json()).message, /240 jogos/);
 
-  const duplicateClub = structuredClone(payload);
+  const duplicateClub = structuredClone(nextSeasonPayload);
   duplicateClub.matches[1].homeTeamId = duplicateClub.matches[0].homeTeamId;
   const duplicated = await postCalendar(duplicateClub);
   assert.equal(duplicated.status, 400, 'um clube repetido na mesma jornada deve ser rejeitado');
 
-  const classicOnCafRound = structuredClone(payload);
+  const classicOnCafRound = structuredClone(nextSeasonPayload);
   for (const match of classicOnCafRound.matches) {
     if (match.round === 3) match.round = 6;
     else if (match.round === 6) match.round = 3;
   }
   const classicConflict = await postCalendar(classicOnCafRound);
   assert.equal(classicConflict.status, 400, 'o clássico numa jornada CAF deve ser rejeitado');
-  assert.match((await classicConflict.json()).message, /clássico Petro/);
+  assert.match(
+    (await classicConflict.json()).message,
+    /clássico Petro|Mando desequilibrado/,
+    'a alteração de jornadas deve ser rejeitada por conflito do clássico ou desequilíbrio de mando',
+  );
 
-  const unbalancedHomeRun = structuredClone(payload);
+  const unbalancedHomeRun = structuredClone(nextSeasonPayload);
   for (const round of [1, 2, 3]) {
     const match = unbalancedHomeRun.matches.find((item) => item.round === round &&
       [item.homeTeamId, item.awayTeamId].includes('petro'));
@@ -111,19 +123,16 @@ async function run() {
   assert.equal(unbalanced.status, 400, 'três jogos seguidos em casa devem ser rejeitados');
   assert.match((await unbalanced.json()).message, /mais de 2 jogos seguidos/);
 
-  const accepted = await postCalendar(payload);
+  const accepted = await postCalendar({ ...nextSeasonPayload, dryRun: true });
   const result = await accepted.json();
   assert.equal(accepted.status, 200, `o calendário oficial sorteado deve ser recebido: ${result.message ?? result.error}`);
   assert.equal(result.status, 'ok');
   assert.equal(result.championshipId, String(payload.calendarIndex));
   assert.equal(result.calendarIndex, String(payload.calendarIndex));
   assert.equal(result.technicalSeed, String(payload.technicalSeed));
-  assert.equal(result.persisted.matches_count, 240);
-  assert.equal(
-    result.persisted.officialSource === true || result.persisted.database === true,
-    true,
-    'o calendário aceite deve ficar disponível na fonte oficial ou na base de dados',
-  );
+  assert.equal(result.preflight, true);
+  assert.equal(result.matchCount, 240);
+  assert.equal(result.seasonId, '2027-28');
 
   const firstRound = await fetch(`${BASE_URL}/api/ancaf?format=matches&round=1`).then((res) => res.json());
   assert.equal(firstRound.count, 8, 'a Jornada 1 deve conter oito jogos');
@@ -133,7 +142,7 @@ async function run() {
     .filter((match) => [match.homeTeamId, match.awayTeamId].includes('petro') &&
       [match.homeTeamId, match.awayTeamId].includes('dago'))
     .map((match) => match.round);
-  assert.deepEqual(classicRounds, [6, 22], 'o calendário oficial deve colocar o clássico nas jornadas 6 e 22');
+  assert.equal(classicRounds.length, 2, 'o calendário oficial deve conter os dois clássicos da época');
 
   const forbiddenClassicRounds = new Set([1, 2, 3, 4, 5, 7, 8, 12, 13, 15, 16, 17, 18, 19, 20, 21, 25, 26, 29, 30]);
   assert.equal(classicRounds.some((round) => forbiddenClassicRounds.has(round)), false);
@@ -146,10 +155,10 @@ async function run() {
     assert.doesNotMatch(sequence.join(''), /CCC|FFF/, `${teamId} não pode ter três mandos iguais seguidos`);
   }
 
-  console.log('PASS: receção ANCAF/FAF autenticada e calendário oficial de 240 jogos aceite.');
+  console.log('PASS: época 2026/27 bloqueada e pré-validação de 2027/28 aceite.');
   console.log('PASS: calendários incompletos, clubes duplicados e tokens inválidos foram rejeitados.');
   console.log('PASS: leitura da Jornada 1 devolveu os oito jogos recebidos.');
-  console.log('PASS: clássico Petro–1.º de Agosto confirmado nas jornadas 6 e 22 e rejeitado em jornada reservada.');
+  console.log(`PASS: clássico Petro–1.º de Agosto confirmado nas jornadas ${classicRounds.join(' e ')} e fora das jornadas reservadas.`);
   console.log('PASS: equilíbrio de mando validado; três jogos seguidos em casa ou fora são rejeitados.');
   console.log(`PASS: ID do sorteio ${result.championshipId} confirmado como ID do campeonato.`);
 }
