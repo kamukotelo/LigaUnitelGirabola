@@ -427,28 +427,27 @@ export function computeStandings(matches: Match[]): StandingEntry[] {
     .map((e, i) => ({ ...e, position: i + 1 }));
 }
 
-// Classificação oficial 2025/2026 publicada pela ANCAF após a 30.ª jornada.
-// A imagem oficial contém J/V/E/D/PTS, mas não GM/GS nem a forma recente;
-// esses campos ficam explicitamente não verificados para a interface não
-// apresentar métricas simuladas como factos oficiais.
+// Classificação final do Girabola 2025/2026 após a 30.ª jornada.
+// Fonte de atualização: tabela total do Flashscore indicada pelo gestor,
+// conferida com as tabelas finais reproduzidas por BeSoccer e RSSSF.
 const OFFICIAL_STANDINGS_2025_26: StandingEntry[] = [
-  ['petro', 'Petro de Luanda', 22, 6, 2, 72],
-  ['wiliete', 'Wiliete de Benguela', 18, 8, 4, 62],
-  ['dago', 'CD 1.º de Agosto', 15, 12, 3, 57],
-  ['desphuila', 'Desportivo da Huíla', 12, 10, 8, 46],
-  ['bravos', 'Bravos do Maquis', 12, 6, 12, 42],
-  ['kabuscorp', 'Kabuscorp SC', 10, 12, 8, 42],
-  ['interclube', 'GD Interclube', 9, 13, 8, 40],
-  ['lundasul', 'Desportivo da Lunda Sul', 9, 11, 10, 38],
-  ['primeiromaio', 'Estrela 1.º de Maio', 10, 7, 13, 37],
-  ['sagrada', 'Sagrada Esperança', 8, 12, 10, 36],
-  ['saosalvador', 'São Salvador', 9, 8, 13, 35],
-  ['lobito', 'Académica do Lobito', 8, 11, 11, 35],
-  ['libolo', 'Recreativo do Libolo', 9, 7, 14, 34],
-  ['fcluanda', 'Luanda City', 9, 6, 15, 33],
-  ['redonda', 'Redonda FC', 5, 6, 19, 21],
-  ['guelson', 'Guelson FC', 6, 3, 21, 21],
-].map(([teamId, teamName, won, drawn, lost, points], index) => ({
+  ['petro', 'Petro de Luanda', 22, 6, 2, 63, 15, 72],
+  ['wiliete', 'Wiliete Sport Clube', 18, 8, 4, 49, 29, 62],
+  ['dago', 'Clube Desportivo 1.º de Agosto', 15, 12, 3, 47, 22, 57],
+  ['desphuila', 'Clube Desportivo da Huíla', 12, 10, 8, 35, 26, 46],
+  ['kabuscorp', 'Kabuscorp Sport Clube do Palanca', 10, 12, 8, 26, 22, 42],
+  ['bravos', 'Futebol Clube Bravos do Maquis', 12, 6, 12, 33, 30, 42],
+  ['interclube', 'Grupo Desportivo Interclube', 9, 13, 8, 35, 28, 40],
+  ['lundasul', 'Clube Desportivo da Lunda-Sul', 9, 11, 10, 27, 29, 38],
+  ['primeiromaio', 'Estrela Clube Primeiro de Maio', 10, 7, 13, 29, 33, 37],
+  ['sagrada', 'Clube Desportivo Sagrada Esperança', 8, 12, 10, 34, 40, 36],
+  ['saosalvador', 'São Salvador do Kongo Futebol Clube', 9, 8, 13, 27, 33, 35],
+  ['lobito', 'Académica Petróleos Clube do Lobito', 8, 11, 11, 25, 30, 35],
+  ['libolo', 'Clube Recreativo e Desportivo do Libolo', 9, 7, 14, 26, 37, 34],
+  ['luanda-city', 'Luanda City Football Club', 9, 6, 15, 21, 45, 33],
+  ['redonda', 'Redonda Futebol Clube', 5, 6, 19, 15, 47, 21],
+  ['guelson', 'Recreativo Social Desportivo Guelson Futebol Clube', 6, 3, 21, 24, 50, 21],
+].map(([teamId, teamName, won, drawn, lost, goalsFor, goalsAgainst, points], index) => ({
   position: index + 1,
   teamId: String(teamId),
   teamName: String(teamName),
@@ -456,12 +455,12 @@ const OFFICIAL_STANDINGS_2025_26: StandingEntry[] = [
   won: Number(won),
   drawn: Number(drawn),
   lost: Number(lost),
-  goalsFor: 0,
-  goalsAgainst: 0,
-  goalDifference: 0,
+  goalsFor: Number(goalsFor),
+  goalsAgainst: Number(goalsAgainst),
+  goalDifference: Number(goalsFor) - Number(goalsAgainst),
   points: Number(points),
   form: [],
-  goalsVerified: false,
+  goalsVerified: true,
   formVerified: false,
 }));
 
@@ -527,8 +526,9 @@ export const HISTORICAL_TEAMS: Team[] = [
   { id: 'uniao-malanje', name: 'União de Malanje', shortName: 'USM', city: 'Malanje', stadium: 'Estádio 1.º de Maio', stadiumCapacity: 6000, founded: 2019, colors: 'Vermelho e Branco', coach: '—' },
   { id: 'ask-dragao', name: 'ASK Dragão', shortName: 'ASK', city: 'Uíge', stadium: 'Estádio 4 de Janeiro', stadiumCapacity: 12000, founded: 2017, colors: 'Azul e Branco', coach: '—' },
   { id: 'sporting-benguela', name: 'Sporting de Benguela', shortName: 'SBE', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 5000, founded: 1915, colors: 'Verde e Branco', coach: '—' },
-  { id: 'redonda', name: 'Redonda FC', shortName: 'RED', city: 'Luanda', stadium: 'A confirmar', stadiumCapacity: 0, founded: 0, colors: 'Vermelho e Amarelo', coach: '—' },
-  { id: 'guelson', name: 'Guelson FC', shortName: 'GFC', city: 'Luanda', stadium: 'A confirmar', stadiumCapacity: 0, founded: 0, colors: 'Laranja e Preto', coach: '—' },
+  { id: 'redonda', name: 'Redonda FC', officialName: 'Redonda Futebol Clube', shortName: 'RED', city: 'Luanda', stadium: 'A confirmar', stadiumCapacity: 0, founded: 0, colors: 'Vermelho e Amarelo', coach: '—' },
+  { id: 'guelson', name: 'Guelson FC', officialName: 'Recreativo Social Desportivo Guelson Futebol Clube', shortName: 'GFC', city: 'Luanda', stadium: 'A confirmar', stadiumCapacity: 0, founded: 0, colors: 'Laranja e Preto', coach: '—' },
+  { id: 'luanda-city', name: 'Luanda City', officialName: 'Luanda City Football Club', shortName: 'LCF', city: 'Luanda', stadium: 'A confirmar', stadiumCapacity: 0, founded: 0, colors: 'A confirmar', coach: '—' },
 ];
 
 // Vista por jornada (confrontos + datas), derivada dos jogos gerados.
@@ -1514,9 +1514,9 @@ export function getStandings(): StandingEntry[] {
 /**
  * Classificação por época, priorizando tabelas finais publicadas oficialmente.
  *
- * A tabela oficial de 2025/2026 só publica J/V/E/D/PTS. A forma, porém, pode
- * ser recuperada com segurança a partir dos resultados existentes no portal.
- * Assim preservamos a classificação oficial sem perder os últimos cinco jogos.
+ * A tabela final de 2025/2026 publica J/V/E/D, golos e pontos. A forma recente
+ * é recuperada dos resultados existentes no portal quando esses jogos estão
+ * disponíveis, sem alterar os números finais da classificação.
  */
 export function getStandingsForSeason(seasonId: string): StandingEntry[] {
   const computed = computeStandings(getMatchesForSeason(seasonId));
