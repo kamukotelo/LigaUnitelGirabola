@@ -30,8 +30,8 @@ function getDefaultRoundForSeason(seasonId: string) {
 
 export default function LigaAngolaBlock() {
   // ─── STATE FOR JOGOS (MATCHES) SWITCHER ───
-  const [selectedSeasonId, setSelectedSeasonId] = useState<string>(CURRENT_SEASON_ID);
-  const [currentRound, setCurrentRound] = useState<number>(() => getDefaultRoundForSeason(CURRENT_SEASON_ID));
+  const [selectedSeasonId, setSelectedSeasonId] = useState<string>(UPCOMING_SEASON_ID);
+  const [currentRound, setCurrentRound] = useState<number>(() => getDefaultRoundForSeason(UPCOMING_SEASON_ID));
 
   // Get all matches for the selected season
   const seasonMatches = getMatchesForSeason(selectedSeasonId);
@@ -43,7 +43,7 @@ export default function LigaAngolaBlock() {
   };
 
   // ─── STATE FOR STANDINGS (CLASSIFICAÇÃO) ───
-  const [standingsSeasonId, setStandingsSeasonId] = useState<string>(CURRENT_SEASON_ID);
+  const [standingsSeasonId, setStandingsSeasonId] = useState<string>(UPCOMING_SEASON_ID);
   const standings = getStandingsForSeason(standingsSeasonId).slice(0, 5);
 
   // ─── STATE FOR NEWS (NOTÍCIAS) ───
