@@ -659,9 +659,9 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
       {/* Profile Header */}
       <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-8 mb-12 relative overflow-hidden">
         <div className="absolute top-4 right-4 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-          <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">
-            REGISTO_FAF_ATIVO
+          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+          <span className="text-[9px] font-mono text-amber-500 uppercase tracking-widest">
+            EM_ATUALIZAÇÃO
           </span>
         </div>
 

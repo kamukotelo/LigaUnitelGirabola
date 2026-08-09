@@ -88,9 +88,9 @@ export default function TeamDetailClient({
       {/* HUD Header — denominação oficial, fundação, presidente e estádio */}
       <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-8 mb-8 relative overflow-hidden">
         <div className="absolute top-4 right-4 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-green-500 status-pulse" />
-          <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">
-            REGISTO_FAF_ATIVO
+          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+          <span className="text-[9px] font-mono text-amber-500 uppercase tracking-widest">
+            EM_ATUALIZAÇÃO
           </span>
         </div>
 
@@ -411,6 +411,11 @@ export default function TeamDetailClient({
           <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
             <Users size={20} className="text-accent" /> Plantel de Atletas
           </h3>
+
+          <div className="mb-6 rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-amber-500 font-semibold">Plantel em atualização</p>
+            <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Os atletas desta equipa estão pendentes de credenciamento e validação pela FAF.</p>
+          </div>
 
           <div className="space-y-6">
             {Object.entries(playersByPosition).map(([position, list]) => (
