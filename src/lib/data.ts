@@ -2348,7 +2348,10 @@ export function getTeamProfile(teamId: string): TeamProfile | undefined {
 /** Nome institucional completo para tabelas e documentos oficiais. */
 export function getTeamFullName(teamId: string, fallback?: string): string {
   const team = getTeamById(teamId);
-  return getTeamProfile(teamId)?.officialName ?? team?.officialName ?? team?.name ?? fallback ?? teamId;
+  const name = getTeamProfile(teamId)?.officialName ?? team?.officialName ?? team?.name ?? fallback ?? teamId;
+  // “Futebol” era uma etiqueta de modalidade anexada aos perfis, não parte
+  // do nome do clube. Nas tabelas oficiais deve aparecer apenas a denominação.
+  return name.replace(/\s*—\s*Futebol\s*$/i, '').trim();
 }
 
 export interface VideoHighlight {
