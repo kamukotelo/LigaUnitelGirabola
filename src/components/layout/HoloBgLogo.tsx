@@ -18,7 +18,7 @@ export default function HoloBgLogo() {
           src={logo}
           alt=""
           aria-hidden
-          className="holo-logo-image object-contain"
+          className="holo-logo-image object-contain dark:hidden"
           width={500}
           height={500}
           style={{ width: '500px', height: '500px' }}
@@ -28,11 +28,19 @@ export default function HoloBgLogo() {
           src={logo}
           alt=""
           aria-hidden
-          className="holo-logo-image"
+          className="holo-logo-image dark:hidden"
           width={500}
           height={500}
         />
       )}
+      <Image
+        src="/logo-girabola-white.png"
+        alt=""
+        aria-hidden
+        className="holo-logo-image hidden dark:block"
+        width={500}
+        height={500}
+      />
       <div className="holo-logo-scanner" />
     </div>
   );

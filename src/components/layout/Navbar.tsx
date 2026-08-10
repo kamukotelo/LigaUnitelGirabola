@@ -131,7 +131,7 @@ export default function Navbar() {
                   alt="Logotipo ANCAF"
                   width={48}
                   height={48}
-                  className="h-12 w-auto object-contain"
+                  className="h-12 w-auto object-contain dark:brightness-0 dark:invert"
                 />
               ) : (
                 <Image
@@ -139,7 +139,7 @@ export default function Navbar() {
                   alt="Logotipo ANCAF"
                   width={48}
                   height={48}
-                  className="h-12 w-auto object-contain"
+                  className="h-12 w-auto object-contain dark:brightness-0 dark:invert"
                 />
               )}
               <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold group-hover:text-accent transition-colors">
@@ -239,7 +239,7 @@ export default function Navbar() {
                       alt="Logotipo ANCAF"
                       width={40}
                       height={40}
-                      className="h-10 w-10 object-contain"
+                      className="h-10 w-10 object-contain dark:brightness-0 dark:invert"
                     />
                   ) : (
                     <Image
@@ -247,7 +247,7 @@ export default function Navbar() {
                       alt="Logotipo ANCAF"
                       width={40}
                       height={40}
-                      className="h-10 w-10 object-contain"
+                      className="h-10 w-10 object-contain dark:brightness-0 dark:invert"
                     />
                   )}
                   <div>
