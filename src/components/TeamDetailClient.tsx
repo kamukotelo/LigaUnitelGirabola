@@ -86,10 +86,10 @@ export default function TeamDetailClient({
       </Link>
 
       {/* HUD Header — denominação oficial, fundação, presidente e estádio */}
-      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-8 mb-8 relative overflow-hidden">
+      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-8 pt-20 md:pt-8 mb-8 relative overflow-hidden">
         <div className="absolute top-4 right-4 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-          <span className="text-[9px] font-mono text-amber-500 uppercase tracking-widest">
+          <span className="h-3 w-3 shrink-0 rounded-full bg-red-600 animate-pulse" />
+          <span className="update-alert font-mono font-black uppercase tracking-wide">
             EM_ATUALIZAÇÃO
           </span>
         </div>

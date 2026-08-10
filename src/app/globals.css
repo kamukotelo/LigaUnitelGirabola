@@ -48,6 +48,21 @@
   }
 }
 
+@keyframes update-alert-blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: .2; }
+  100% { opacity: 1; }
+}
+
+@layer components {
+  .update-alert {
+    color: #dc2626;
+    font-size: 1.6875rem;
+    line-height: 1;
+    animation: update-alert-blink 1.15s steps(1, end) infinite;
+  }
+}
+
 /* Modo escuro baseado na classe .dark (e não na media query do sistema) */
 @custom-variant dark (&:where(.dark, .dark *));
 
