@@ -58,7 +58,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
     <Link
       href={`/matches/${match.id}`}
       className={`group grid grid-cols-[minmax(0,1fr)_30px] items-center gap-x-2 gap-y-1 border-b border-zinc-200/80 px-2.5 py-2 text-[10px] transition-all last:border-b-0 dark:border-zinc-800/80 sm:text-[11px] ${
-        muted ? 'opacity-30 grayscale hover:opacity-75 hover:grayscale-0' : 'hover:bg-red-50 dark:hover:bg-red-950/20'
+        muted ? 'opacity-30 grayscale hover:opacity-75 hover:grayscale-0' : 'hover:bg-orange-50 dark:hover:bg-orange-950/20'
       }`}
       title={`${match.homeTeam} — ${match.awayTeam} · ${formattedTime}`}
     >
@@ -449,12 +449,12 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
                 transition={{ duration: 0.25, delay: Math.min(group.round * 0.015, 0.25) }}
                 className="overflow-hidden rounded-[10px] border-[3px] border-zinc-800 bg-[#fffdf8] shadow-[0_5px_0_rgba(24,24,27,0.85)] dark:border-zinc-950 dark:bg-zinc-100"
               >
-                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 bg-gradient-to-b from-red-500 to-red-700 px-2.5 py-2 text-white">
-                  <span className="font-mono text-[8px] font-bold tracking-tight">{firstDate}</span>
+                <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 bg-gradient-to-b from-[#F07942] to-[#E6540F] px-2.5 py-2 text-white">
+                  <span className="whitespace-nowrap font-mono text-base font-bold tracking-tight">{firstDate}</span>
                   <h2 className="whitespace-nowrap font-display text-sm font-black uppercase tracking-tight sm:text-base">
                     {group.round}.ª Jornada
                   </h2>
-                  <span className="text-right font-mono text-[8px] font-bold tracking-tight">{lastDate}</span>
+                  <span className="whitespace-nowrap text-right font-mono text-base font-bold tracking-tight">{lastDate}</span>
                 </div>
                 <div className="px-1.5 py-1 text-zinc-900">
                   {orderedMatches.map((match) => (
