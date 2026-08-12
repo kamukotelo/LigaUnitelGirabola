@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Home, Trophy, Shield, Newspaper, PlayCircle, CalendarDays, ListOrdered, LogIn } from 'lucide-react';
+import { Menu, X, ArrowRight, Home, Trophy, Shield, Newspaper, PlayCircle, CalendarDays, ListOrdered, LogIn, Globe2, BriefcaseBusiness, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS } from '@/pages.config';
 import Brand from './Brand';
@@ -20,6 +20,12 @@ const MOBILE_NAV_ICONS = {
   'Notícias': Newspaper,
   'Liga TV': PlayCircle,
 };
+
+const ANCAF_CHANNELS = [
+  { label: 'Portal oficial da ANCAF', href: 'https://ancaf.co.ao/', icon: Globe2 },
+  { label: 'ANCAF no LinkedIn', href: 'https://www.linkedin.com/company/ancaf-liga-profissional-angolana-futebol', icon: BriefcaseBusiness },
+  { label: 'Email da ANCAF', href: 'mailto:info@ancaf.ao', icon: Mail },
+];
 
 export default function Navbar() {
   const logoAncaf = useBrandLogo('logo_ancaf');
@@ -118,12 +124,13 @@ export default function Navbar() {
           {/* Selo institucional ANCAF (à esquerda, maior) + marca Liga Unitel Girabola */}
           <div className="flex items-center flex-shrink-0">
             {/* ANCAF — logótipo institucional, agora em primeiro plano à esquerda */}
-            <a
-              href="https://www.ancaf.co.ao"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden xl:flex items-center gap-2 hover:opacity-85 transition-all group"
-            >
+            <div className="hidden xl:flex items-center gap-2">
+              <a
+                href="https://ancaf.co.ao/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 hover:opacity-85 transition-all group"
+              >
               {isCustomLogo ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -142,10 +149,26 @@ export default function Navbar() {
                   className="h-12 w-auto object-contain dark:brightness-0 dark:invert"
                 />
               )}
-              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold group-hover:text-accent transition-colors">
-                Institucional
-              </span>
-            </a>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold group-hover:text-accent transition-colors">
+                  Institucional
+                </span>
+              </a>
+              <div className="ml-1 flex items-center gap-0.5 border-l border-zinc-200 pl-2 dark:border-zinc-800" aria-label="Canais oficiais da ANCAF">
+                {ANCAF_CHANNELS.map(({ label, href, icon: Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target={href.startsWith('mailto:') ? undefined : '_blank'}
+                    rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                    aria-label={label}
+                    title={label}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 transition hover:bg-accent/10 hover:text-accent focus-visible:ring-2 focus-visible:ring-accent/70 dark:text-zinc-400"
+                  >
+                    <Icon size={15} />
+                  </a>
+                ))}
+              </div>
+            </div>
 
             <div className="hidden xl:block h-8 w-px bg-zinc-300 dark:bg-zinc-800/80 mx-3 xl:mx-4" />
 
@@ -253,6 +276,21 @@ export default function Navbar() {
                   <div>
                     <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">Menu oficial</p>
                     <p className="text-sm font-semibold uppercase leading-tight text-foreground">Liga Unitel Girabola</p>
+                    <div className="mt-1.5 flex items-center gap-1" aria-label="Canais oficiais da ANCAF">
+                      {ANCAF_CHANNELS.map(({ label, href, icon: Icon }) => (
+                        <a
+                          key={label}
+                          href={href}
+                          target={href.startsWith('mailto:') ? undefined : '_blank'}
+                          rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                          aria-label={label}
+                          title={label}
+                          className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-100 text-zinc-500 transition hover:text-accent dark:bg-zinc-800 dark:text-zinc-300"
+                        >
+                          <Icon size={14} />
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </div>
                 <button
