@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Trophy, Target, CalendarDays, Flag, X } from 'lucide-react';
+import { Trophy, Target, CalendarDays, Flag, Tv, X } from 'lucide-react';
 import { UPCOMING_SEASON_ID, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { supabase } from '@/lib/supabase';
@@ -20,6 +20,34 @@ type CalendarFilters = {
 };
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
+
+const FIRST_ROUND_SCHEDULE = [
+  { homeTeamId: 'fcluanda', awayTeamId: 'caala', homeTeam: 'FC Luanda', awayTeam: 'CR Caála', date: '2026-08-22T15:00:00+01:00', stadium: 'Campo da Cidadela' },
+  { homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
+  { homeTeamId: 'dago', awayTeamId: 'desphuila', homeTeam: 'CD 1.º de Agosto', awayTeam: 'Desportivo da Huíla', date: '2026-08-23T16:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
+  { homeTeamId: 'lundasul', awayTeamId: 'petro', homeTeam: 'Desportivo da Lunda Sul', awayTeam: 'Petro de Luanda', date: '2026-08-21T15:00:00+01:00', stadium: 'Estádio das Mangueiras', broadcaster: 'Zsports' },
+  { homeTeamId: 'wiliete', awayTeamId: 'lobito', homeTeam: 'Wiliete de Benguela', awayTeam: 'Académica do Lobito', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', broadcaster: 'Zsports' },
+  { homeTeamId: 'primeiromaio', awayTeamId: 'kabuscorp', homeTeam: 'Estrela 1.º de Maio', awayTeam: 'Kabuscorp SC', date: '2026-08-23T14:00:00+01:00', stadium: 'Estádio de São Filipe', broadcaster: 'Zsports' },
+  { homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional do Chiazi' },
+  { homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
+] as const;
+
+function applyFirstRoundSchedule(matches: Match[]): Match[] {
+  const roundOne = matches.filter((match) => match.round === 1);
+  if (roundOne.length !== FIRST_ROUND_SCHEDULE.length) return matches;
+
+  const scheduledRound = FIRST_ROUND_SCHEDULE.map((fixture, index) => ({
+    ...roundOne[index],
+    ...fixture,
+    homeScore: 0,
+    awayScore: 0,
+    score: undefined,
+    status: 'scheduled' as const,
+    round: 1,
+  }));
+
+  return [...matches.filter((match) => match.round !== 1), ...scheduledRound];
+}
 
 // Jornada mostrada por defeito: a próxima por disputar (ou, se a época estiver
 // concluída, a última). Evita renderizar as 240 partidas de uma só vez — o
@@ -49,6 +77,10 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
     hour: '2-digit', minute: '2-digit',
     timeZone: ANGOLA_TIME_ZONE,
   });
+  const formattedDay = matchDate.toLocaleDateString('pt-AO', {
+    weekday: 'short', day: '2-digit', month: '2-digit',
+    timeZone: ANGOLA_TIME_ZONE,
+  }).replace('.', '');
   const selected = selectedTeamId !== null && (match.homeTeamId === selectedTeamId || match.awayTeamId === selectedTeamId);
   const muted = selectedTeamId !== null && !selected;
   const homeScore = isFinished ? match.homeScore : '—';
@@ -57,19 +89,27 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
   return (
     <Link
       href={`/matches/${match.id}`}
-      className={`group grid grid-cols-[minmax(0,1fr)_30px] items-center gap-x-2 gap-y-1 border-b border-zinc-200/80 px-2.5 py-2 text-[10px] transition-all last:border-b-0 dark:border-zinc-800/80 sm:text-[11px] ${
-        muted ? 'opacity-30 grayscale hover:opacity-75 hover:grayscale-0' : 'hover:bg-orange-50 dark:hover:bg-orange-950/20'
+      className={`group relative z-10 grid grid-cols-[minmax(0,1fr)_30px] items-center gap-x-2 gap-y-1 border-b border-zinc-300/80 px-3 py-2.5 text-[11px] transition-all last:border-b-0 sm:text-xs ${
+        muted ? 'opacity-40 grayscale hover:opacity-80 hover:grayscale-0' : 'hover:bg-orange-50/90'
       }`}
-      title={`${match.homeTeam} — ${match.awayTeam} · ${formattedTime}`}
+      title={`${match.homeTeam} — ${match.awayTeam} · ${formattedDay} · ${formattedTime}`}
     >
-      <span className={`min-w-0 whitespace-nowrap text-left font-condensed font-semibold leading-tight ${selected ? 'font-extrabold text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-200'}`}>
+      <span className={`min-w-0 whitespace-normal text-left font-condensed font-bold leading-tight ${selected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`}>
         {match.homeTeam}
       </span>
-      <span className="text-center font-mono font-bold text-zinc-500">{homeScore}</span>
-      <span className={`min-w-0 whitespace-nowrap text-left font-condensed font-semibold leading-tight ${selected ? 'font-extrabold text-red-600 dark:text-red-400' : 'text-zinc-800 dark:text-zinc-200'}`}>
+      <span className="text-center font-mono font-black text-zinc-700">{homeScore}</span>
+      <span className={`min-w-0 whitespace-normal text-left font-condensed font-bold leading-tight ${selected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`}>
         {match.awayTeam}
       </span>
-      <span className="text-center font-mono font-bold text-zinc-500">{awayScore}</span>
+      <span className="text-center font-mono font-black text-zinc-700">{awayScore}</span>
+      <span className="col-span-2 mt-1 flex flex-wrap items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
+        <span>{formattedDay} · {formattedTime}</span>
+        {match.broadcaster && (
+          <span className="inline-flex items-center gap-1 rounded-full bg-[#5C0F8B] px-2 py-0.5 text-white shadow-sm ring-1 ring-white/40">
+            <Tv size={10} aria-hidden="true" /> Em direto · {match.broadcaster}
+          </span>
+        )}
+      </span>
     </Link>
   );
 }
@@ -140,7 +180,8 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
     };
   }, [isUpcoming]);
 
-  const MATCHES = isUpcoming && dynamicMatches.length > 0 ? dynamicMatches : getMatchesForSeason(seasonId);
+  const rawMatches = isUpcoming && dynamicMatches.length > 0 ? dynamicMatches : getMatchesForSeason(seasonId);
+  const MATCHES = isUpcoming ? applyFirstRoundSchedule(rawMatches) : rawMatches;
 
   const participantIds = new Set(MATCHES.flatMap((match) => [match.homeTeamId, match.awayTeamId]));
   const seasonTeams = getAllTeams().filter((team) => participantIds.has(team.id));
@@ -456,7 +497,15 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
                   </h2>
                   <span className="whitespace-nowrap text-right font-mono text-base font-bold tracking-tight">{lastDate}</span>
                 </div>
-                <div className="px-1.5 py-1 text-zinc-900">
+                <div className="relative isolate overflow-hidden px-1.5 py-1 text-zinc-950">
+                  <Image
+                    src="/logo-ancaf.png"
+                    alt=""
+                    aria-hidden="true"
+                    width={210}
+                    height={210}
+                    className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-auto w-40 -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.14] grayscale sm:w-48"
+                  />
                   {orderedMatches.map((match) => (
                     <CalendarMatchRow
                       key={match.id}
