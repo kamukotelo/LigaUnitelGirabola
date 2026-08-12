@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight, Play, CalendarDays, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import TeamCrest from '@/components/ui/TeamCrest';
 import {
   getNewsArticles,
@@ -18,6 +19,13 @@ import { ROUTES } from '@/lib/routes';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 const TOTAL_ROUNDS = 30;
+
+const OFFICIAL_PARTNERS = [
+  { name: 'Unitel', logo: '/partners/unitel.png', scale: 'scale-[1.6]' },
+  { name: 'Zsports', logo: '/partners/zsports.png', scale: 'scale-[1.55]' },
+  { name: 'Rádio Cinco', logo: '/partners/radio-cinco.png', scale: 'scale-[1.7]' },
+  { name: 'CHDCP', logo: '/partners/chdcp.png', scale: 'scale-[1.5]' },
+] as const;
 
 function getDefaultRoundForSeason(seasonId: string) {
   if (seasonId !== CURRENT_SEASON_ID) {
@@ -79,11 +87,22 @@ export default function LigaAngolaBlock() {
           >
             <span className="pr-4 tracking-wider">PARCEIROS OFICIAIS</span>
           </div>
-          <div className="grid flex-1 grid-cols-2 items-center gap-3 px-4 py-4 sm:grid-cols-4 sm:px-6 md:px-10 w-full">
-            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 font-display text-lg font-black tracking-widest text-[#E6540F] shadow-sm dark:bg-zinc-950">UNITEL</span>
-            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 font-display text-base font-black italic tracking-wider text-blue-700 shadow-sm dark:bg-zinc-50">ZAP</span>
-            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 text-center font-display text-sm font-black tracking-wide text-[#184F83] shadow-sm dark:bg-zinc-950 dark:text-blue-300">RÁDIO CINCO</span>
-            <span className="flex min-h-14 items-center justify-center rounded-lg bg-white px-3 text-center font-display text-sm font-black tracking-wider text-[#1F5C72] shadow-sm dark:bg-zinc-950 dark:text-cyan-300">CHDCP</span>
+          <div className="grid w-full flex-1 grid-cols-2 items-center gap-3 px-4 py-4 sm:grid-cols-4 sm:px-6 md:px-10">
+            {OFFICIAL_PARTNERS.map((partner) => (
+              <div
+                key={partner.name}
+                className="relative flex min-h-20 items-center justify-center overflow-hidden rounded-lg border border-zinc-200/70 bg-white px-3 shadow-sm dark:border-zinc-700/70"
+              >
+                <Image
+                  src={partner.logo}
+                  alt={`Logótipo ${partner.name}`}
+                  width={1182}
+                  height={1182}
+                  sizes="(max-width: 640px) 42vw, 18vw"
+                  className={`h-20 w-20 max-w-none object-contain sm:h-24 sm:w-24 ${partner.scale}`}
+                />
+              </div>
+            ))}
           </div>
         </div>
 
