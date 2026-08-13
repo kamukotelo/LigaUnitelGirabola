@@ -72,9 +72,18 @@ export const FIRST_ROUND_SCHEDULE = [
   { homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
 ] as const;
 
+/** Ordem editorial comum: jornada, data/hora e, em caso de empate, ID. */
+export function sortOfficialMatches(matches: Match[]): Match[] {
+  return [...matches].sort((a, b) =>
+    a.round - b.round
+    || new Date(a.date).getTime() - new Date(b.date).getTime()
+    || a.id.localeCompare(b.id),
+  );
+}
+
 export function applyFirstRoundSchedule(matches: Match[]): Match[] {
   const roundOne = matches.filter((match) => match.round === 1);
-  if (roundOne.length !== FIRST_ROUND_SCHEDULE.length) return matches;
+  if (roundOne.length !== FIRST_ROUND_SCHEDULE.length) return sortOfficialMatches(matches);
 
   const scheduledRound = FIRST_ROUND_SCHEDULE.map((fixture, index) => ({
     ...roundOne[index],
@@ -86,7 +95,7 @@ export function applyFirstRoundSchedule(matches: Match[]): Match[] {
     round: 1,
   }));
 
-  return [...matches.filter((match) => match.round !== 1), ...scheduledRound];
+  return sortOfficialMatches([...matches.filter((match) => match.round !== 1), ...scheduledRound]);
 }
 
 export interface PlayerStats {
