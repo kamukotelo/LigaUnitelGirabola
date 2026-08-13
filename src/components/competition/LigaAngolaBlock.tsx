@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Play, CalendarDays, ExternalLink } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Play, CalendarDays, ExternalLink, Tv } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import TeamCrest from '@/components/ui/TeamCrest';
 import {
   getNewsArticles,
+  getMatchBroadcast,
   getMatchesForSeason,
   CURRENT_SEASON_ID,
   UPCOMING_SEASON_ID,
@@ -16,6 +17,7 @@ import {
   getVideoHighlights,
 } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
+import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 const TOTAL_ROUNDS = 30;
@@ -41,8 +43,8 @@ export default function LigaAngolaBlock() {
   const [selectedSeasonId, setSelectedSeasonId] = useState<string>(UPCOMING_SEASON_ID);
   const [currentRound, setCurrentRound] = useState<number>(() => getDefaultRoundForSeason(UPCOMING_SEASON_ID));
 
-  // Get all matches for the selected season
-  const seasonMatches = getMatchesForSeason(selectedSeasonId);
+  // A mesma fonte oficial consumida pela página Calendário.
+  const { matches: seasonMatches } = useOfficialCalendar(selectedSeasonId);
   const matchesByRound = seasonMatches.filter((m) => m.round === currentRound);
 
   const selectSeason = (seasonId: string) => {
@@ -209,10 +211,11 @@ export default function LigaAngolaBlock() {
                       const awayObj = TEAMS.find((t) => t.id === match.awayTeamId);
                       const homeAbbr = homeObj?.shortName ?? match.homeTeam.substring(0, 3).toUpperCase();
                       const awayAbbr = awayObj?.shortName ?? match.awayTeam.substring(0, 3).toUpperCase();
+                      const broadcast = getMatchBroadcast(match);
 
                       return (
                         <Link href={`/matches/${match.id}`} key={match.id} className="block group">
-                          <div className="flex items-center justify-between py-2.5 px-3 rounded-xl border border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors">
+                          <div className="flex flex-wrap items-center justify-between py-2.5 px-3 rounded-xl border border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors">
                             {/* Home */}
                             <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
                               <span className="truncate text-xs font-bold text-foreground text-right">{homeAbbr}</span>
@@ -237,6 +240,11 @@ export default function LigaAngolaBlock() {
                               <TeamCrest teamId={match.awayTeamId} size={22} className="flex-shrink-0" />
                               <span className="truncate text-xs font-bold text-foreground">{awayAbbr}</span>
                             </div>
+                            {broadcast !== 'Por confirmar' && (
+                              <span className={`mt-1.5 flex basis-full items-center justify-center gap-1 font-mono text-[8px] font-bold uppercase tracking-wide ${match.broadcaster ? 'text-primary dark:text-purple-300' : 'text-amber-700 dark:text-amber-300'}`}>
+                                <Tv size={10} /> {match.broadcaster ? `Em direto · ${broadcast}` : broadcast}
+                              </span>
+                            )}
                           </div>
                         </Link>
                       );

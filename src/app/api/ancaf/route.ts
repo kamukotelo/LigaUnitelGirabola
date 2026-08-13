@@ -10,6 +10,7 @@ import {
   TEAMS,
   TOP_SCORERS,
   UPCOMING_SEASON_ID,
+  applyFirstRoundSchedule,
   getTeamById,
   Match,
 } from '@/lib/data';
@@ -21,7 +22,7 @@ import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/li
 
 export const dynamic = 'force-dynamic';
 
-const DEFAULT_CAF_TEAM_IDS = ['petro', 'wiliete', 'dago', 'desphuila'];
+const DEFAULT_CAF_TEAM_IDS = ['petro', 'wiliete'];
 
 function getCafTeamIds(): string[] {
   const configured = process.env.ANCAF_CAF_TEAM_IDS
@@ -29,7 +30,7 @@ function getCafTeamIds(): string[] {
     .map((id) => id.trim())
     .filter(Boolean);
 
-  return configured?.length === 4 ? configured : DEFAULT_CAF_TEAM_IDS;
+  return configured?.length ? configured : DEFAULT_CAF_TEAM_IDS;
 }
 
 interface DbMatch {
@@ -178,9 +179,11 @@ export async function GET(request: Request) {
 
   void activeSeedStr;
 
-  const matches = persistedMatches.length === 240
-    ? persistedMatches
-    : PUBLISHED_MATCHES_2026_27;
+  const matches = applyFirstRoundSchedule(
+    persistedMatches.length === 240
+      ? persistedMatches
+      : PUBLISHED_MATCHES_2026_27,
+  );
 
   // A página de detalhe consulta exatamente a mesma coleção escolhida acima
   // (BD validada ou calendário oficial de fallback). Isto evita que um ID de
@@ -223,7 +226,7 @@ export async function GET(request: Request) {
   };
 
   // Contrato público consumido pelo portal institucional ancaf.co.ao.
-  // Apenas jogos dos quatro representantes CAF entram na faixa de resultados;
+  // Apenas jogos dos representantes CAF entram na faixa de resultados;
   // os restantes módulos continuam a ser fornecidos pela plataforma da Liga.
   if (format === 'portal') {
     const cafTeamIds = getCafTeamIds();

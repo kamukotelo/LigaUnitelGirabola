@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Trophy, Target, CalendarDays, Flag, Tv, X } from 'lucide-react';
-import { UPCOMING_SEASON_ID, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
+import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { supabase } from '@/lib/supabase';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
@@ -20,34 +20,6 @@ type CalendarFilters = {
 };
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
-
-const FIRST_ROUND_SCHEDULE = [
-  { homeTeamId: 'fcluanda', awayTeamId: 'caala', homeTeam: 'FC Luanda', awayTeam: 'CR Caála', date: '2026-08-22T15:00:00+01:00', stadium: 'Campo da Cidadela' },
-  { homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
-  { homeTeamId: 'dago', awayTeamId: 'desphuila', homeTeam: 'CD 1.º de Agosto', awayTeam: 'Desportivo da Huíla', date: '2026-08-23T16:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
-  { homeTeamId: 'lundasul', awayTeamId: 'petro', homeTeam: 'Desportivo da Lunda Sul', awayTeam: 'Petro de Luanda', date: '2026-08-21T15:00:00+01:00', stadium: 'Estádio das Mangueiras', broadcaster: 'Zsports' },
-  { homeTeamId: 'wiliete', awayTeamId: 'lobito', homeTeam: 'Wiliete de Benguela', awayTeam: 'Académica do Lobito', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', broadcaster: 'Zsports' },
-  { homeTeamId: 'primeiromaio', awayTeamId: 'kabuscorp', homeTeam: 'Estrela 1.º de Maio', awayTeam: 'Kabuscorp SC', date: '2026-08-23T14:00:00+01:00', stadium: 'Estádio de São Filipe', broadcaster: 'Zsports' },
-  { homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional do Chiazi' },
-  { homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
-] as const;
-
-function applyFirstRoundSchedule(matches: Match[]): Match[] {
-  const roundOne = matches.filter((match) => match.round === 1);
-  if (roundOne.length !== FIRST_ROUND_SCHEDULE.length) return matches;
-
-  const scheduledRound = FIRST_ROUND_SCHEDULE.map((fixture, index) => ({
-    ...roundOne[index],
-    ...fixture,
-    homeScore: 0,
-    awayScore: 0,
-    score: undefined,
-    status: 'scheduled' as const,
-    round: 1,
-  }));
-
-  return [...matches.filter((match) => match.round !== 1), ...scheduledRound];
-}
 
 // Jornada mostrada por defeito: a próxima por disputar (ou, se a época estiver
 // concluída, a última). Evita renderizar as 240 partidas de uma só vez — o
@@ -85,6 +57,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
   const muted = selectedTeamId !== null && !selected;
   const homeScore = isFinished ? match.homeScore : '—';
   const awayScore = isFinished ? match.awayScore : '—';
+  const broadcast = getMatchBroadcast(match);
 
   return (
     <Link
@@ -104,9 +77,9 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
       <span className="text-center font-mono font-black text-zinc-700">{awayScore}</span>
       <span className="col-span-2 mt-1 flex flex-wrap items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
         <span>{formattedDay} · {formattedTime}</span>
-        {match.broadcaster && (
-          <span className="inline-flex items-center gap-1 rounded-full bg-[#5C0F8B] px-2 py-0.5 text-white shadow-sm ring-1 ring-white/40">
-            <Tv size={10} aria-hidden="true" /> Em direto · {match.broadcaster}
+        {broadcast !== 'Por confirmar' && (
+          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 shadow-sm ring-1 ${match.broadcaster ? 'bg-[#5C0F8B] text-white ring-white/40' : 'bg-amber-100 text-amber-900 ring-amber-300'}`}>
+            <Tv size={10} aria-hidden="true" /> {match.broadcaster ? `Em direto · ${broadcast}` : broadcast}
           </span>
         )}
       </span>
@@ -180,8 +153,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
     };
   }, [isUpcoming]);
 
-  const rawMatches = isUpcoming && dynamicMatches.length > 0 ? dynamicMatches : getMatchesForSeason(seasonId);
-  const MATCHES = isUpcoming ? applyFirstRoundSchedule(rawMatches) : rawMatches;
+  const MATCHES = isUpcoming && dynamicMatches.length > 0 ? dynamicMatches : getMatchesForSeason(seasonId);
 
   const participantIds = new Set(MATCHES.flatMap((match) => [match.homeTeamId, match.awayTeamId]));
   const seasonTeams = getAllTeams().filter((team) => participantIds.has(team.id));

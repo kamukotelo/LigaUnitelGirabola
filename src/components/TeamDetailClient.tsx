@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { Trophy, MapPin, User, Calendar, Shield, Flame, Users, ArrowLeft, Medal, Shirt, Globe, ExternalLink, BarChart3, Newspaper, Building2 } from 'lucide-react';
 import {
   Team, Player, Match, StandingEntry, getTeamProfile, getNewsArticles,
-  getTeamById, getPlayersByTeam, getMatchesByTeam, getStandingByTeamId,
+  getTeamById, getPlayersByTeam, getStandingByTeamId, UPCOMING_SEASON_ID,
 } from '@/lib/data';
+import { useOfficialCalendar } from '@/lib/use-official-calendar';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -36,7 +37,11 @@ export default function TeamDetailClient({
   // estádio, cores…) aparecem assim que o PortalDataProvider as aplica.
   const team = getTeamById(serverTeam.id) ?? serverTeam;
   const players = getPlayersByTeam(serverTeam.id).length ? getPlayersByTeam(serverTeam.id) : serverPlayers;
-  const matches = getMatchesByTeam(serverTeam.id).length ? getMatchesByTeam(serverTeam.id) : serverMatches;
+  const { matches: officialCalendar } = useOfficialCalendar(UPCOMING_SEASON_ID);
+  const officialTeamMatches = officialCalendar.filter(
+    (match) => match.homeTeamId === serverTeam.id || match.awayTeamId === serverTeam.id,
+  );
+  const matches = officialTeamMatches.length ? officialTeamMatches : serverMatches;
   const standing = getStandingByTeamId(serverTeam.id) ?? serverStanding;
 
   const profile = getTeamProfile(team.id);

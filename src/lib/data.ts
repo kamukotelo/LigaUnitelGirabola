@@ -59,6 +59,36 @@ export interface Match {
   attendance?: number;   // assistência oficial; senão derivada em getMatchDetail
 }
 
+// Programação editorial confirmada da 1.ª jornada. Mantida na camada de dados
+// para que calendário, início, hub, API e ficha de jogo sirvam a mesma verdade.
+export const FIRST_ROUND_SCHEDULE = [
+  { homeTeamId: 'fcluanda', awayTeamId: 'caala', homeTeam: 'FC Luanda', awayTeam: 'CR Caála', date: '2026-08-22T15:00:00+01:00', stadium: 'Campo da Cidadela' },
+  { homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
+  { homeTeamId: 'dago', awayTeamId: 'desphuila', homeTeam: 'CD 1.º de Agosto', awayTeam: 'Desportivo da Huíla', date: '2026-08-23T16:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
+  { homeTeamId: 'lundasul', awayTeamId: 'petro', homeTeam: 'Desportivo da Lunda Sul', awayTeam: 'Petro de Luanda', date: '2026-08-21T15:00:00+01:00', stadium: 'Estádio das Mangueiras', broadcaster: 'Zsports' },
+  { homeTeamId: 'wiliete', awayTeamId: 'lobito', homeTeam: 'Wiliete de Benguela', awayTeam: 'Académica do Lobito', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', broadcaster: 'Zsports' },
+  { homeTeamId: 'primeiromaio', awayTeamId: 'kabuscorp', homeTeam: 'Estrela 1.º de Maio', awayTeam: 'Kabuscorp SC', date: '2026-08-23T14:00:00+01:00', stadium: 'Estádio de São Filipe', broadcaster: 'Zsports' },
+  { homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional do Chiazi' },
+  { homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
+] as const;
+
+export function applyFirstRoundSchedule(matches: Match[]): Match[] {
+  const roundOne = matches.filter((match) => match.round === 1);
+  if (roundOne.length !== FIRST_ROUND_SCHEDULE.length) return matches;
+
+  const scheduledRound = FIRST_ROUND_SCHEDULE.map((fixture, index) => ({
+    ...roundOne[index],
+    ...fixture,
+    homeScore: 0,
+    awayScore: 0,
+    score: undefined,
+    status: 'scheduled' as const,
+    round: 1,
+  }));
+
+  return [...matches.filter((match) => match.round !== 1), ...scheduledRound];
+}
+
 export interface PlayerStats {
   id: string;
   name: string;
@@ -1556,13 +1586,13 @@ export function getMatches(): Match[] {
 
 // Calendário por época — 2026/2027 corresponde ao ficheiro do ANCAF_CALENDAR.
 export function getMatchesForSeason(seasonId: string): Match[] {
-  if (seasonId === UPCOMING_SEASON_ID) return applyMatchOverrides(MATCHES_2026_27);
+  if (seasonId === UPCOMING_SEASON_ID) return applyFirstRoundSchedule(applyMatchOverrides(MATCHES_2026_27));
   if (HISTORICAL_MATCHES[seasonId]) return applyMatchOverrides(HISTORICAL_MATCHES[seasonId]);
   return applyMatchOverrides(MATCHES);
 }
 
-export function getMatchesByTeam(teamId: string): Match[] {
-  return getMatches().filter(m => m.homeTeamId === teamId || m.awayTeamId === teamId);
+export function getMatchesByTeam(teamId: string, seasonId = UPCOMING_SEASON_ID): Match[] {
+  return getMatchesForSeason(seasonId).filter(m => m.homeTeamId === teamId || m.awayTeamId === teamId);
 }
 
 // Aplica os overrides de jogador (admin) sobre os dados brutos e reenriquece,
@@ -1657,8 +1687,8 @@ export function getPlayerFicha(player: Player): PlayerFicha {
 }
 
 export function getMatchById(id: string): Match | undefined {
-  const match = MATCHES.find(m => m.id === id)
-    ?? MATCHES_2026_27.find(m => m.id === id)
+  const match = (id.startsWith('m27-') ? getMatchesForSeason(UPCOMING_SEASON_ID).find(m => m.id === id) : undefined)
+    ?? MATCHES.find(m => m.id === id)
     ?? Object.values(HISTORICAL_MATCHES).flat().find(m => m.id === id);
   return match ? applyMatchOverrides([match])[0] : undefined;
 }
@@ -1845,7 +1875,6 @@ export const BROADCASTERS = ['ZSports', 'Por confirmar'];
 
 // Clubes angolanos nas Afro Taças. Nos jogos do Girabola entre duas destas
 // equipas, a transmissão é sempre assegurada pela ZSports.
-const AFRO_CUP_TEAM_IDS = new Set(['petro', 'dago', 'wiliete', 'kabuscorp']);
 
 function seededInt(seed: number, salt: number, min: number, max: number): number {
   const x = Math.abs(Math.sin(seed * 374761 + salt * 99991) * 43758.5453);
@@ -2043,10 +2072,15 @@ export function getMatchOfficials(match: Match): MatchOfficials {
 }
 
 export function getMatchBroadcast(match: Match): string {
-  const isAfroCupClash = AFRO_CUP_TEAM_IDS.has(match.homeTeamId)
-    && AFRO_CUP_TEAM_IDS.has(match.awayTeamId);
+  if (match.broadcaster) return match.broadcaster;
 
-  return isAfroCupClash ? 'ZSports' : 'Por confirmar';
+  // Petro e Wiliete são os representantes já identificados para as provas
+  // africanas; a existência de transmissão é prevista, mas o canal ainda não.
+  const hasAfricanRepresentative = ['petro', 'wiliete'].some(
+    (teamId) => match.homeTeamId === teamId || match.awayTeamId === teamId,
+  );
+
+  return hasAfricanRepresentative ? 'Transmissão por confirmar' : 'Por confirmar';
 }
 
 // Tempo útil (tempo efetivo de jogo, em minutos) — métrica-assinatura da

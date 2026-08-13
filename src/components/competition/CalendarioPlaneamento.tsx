@@ -209,6 +209,7 @@ export default function CalendarioPlaneamento() {
         <div className="text-xs font-mono text-zinc-600 dark:text-zinc-400 space-y-1">
           <p className="font-bold text-foreground">CALENDÁRIO COMPLETO DE PLANEAMENTO 2026/27</p>
           <p>Esta vista de grelha permite visualizar o planeamento de todas as jornadas e competições desportivas organizadas pela ANCAF e CAF ao longo da época desportiva, organizadas lado a lado.</p>
+          <p className="font-semibold text-amber-700 dark:text-amber-300">Petro de Luanda e Wiliete de Benguela · jogos nas competições africanas com transmissão prevista, canal por confirmar.</p>
         </div>
       </div>
 
