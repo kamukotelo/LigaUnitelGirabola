@@ -212,6 +212,7 @@ export default function LigaAngolaBlock() {
                       const homeAbbr = homeObj?.shortName ?? match.homeTeam.substring(0, 3).toUpperCase();
                       const awayAbbr = awayObj?.shortName ?? match.awayTeam.substring(0, 3).toUpperCase();
                       const broadcast = getMatchBroadcast(match);
+                      const isDeferredBroadcast = broadcast.toLowerCase().includes('diferido');
 
                       return (
                         <Link href={`/matches/${match.id}`} key={match.id} className="block group">
@@ -242,7 +243,7 @@ export default function LigaAngolaBlock() {
                             </div>
                             {broadcast !== 'Por confirmar' && (
                               <span className={`mt-1.5 flex basis-full items-center justify-center gap-1 font-mono text-[8px] font-bold uppercase tracking-wide ${match.broadcaster ? 'text-primary dark:text-purple-300' : 'text-amber-700 dark:text-amber-300'}`}>
-                                <Tv size={10} /> {match.broadcaster ? `Em direto · ${broadcast}` : broadcast}
+                                <Tv size={10} /> {match.broadcaster && !isDeferredBroadcast ? `Em direto · ${broadcast}` : broadcast}
                               </span>
                             )}
                           </div>

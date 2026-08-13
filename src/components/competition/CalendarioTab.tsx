@@ -58,6 +58,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
   const homeScore = isFinished ? match.homeScore : '—';
   const awayScore = isFinished ? match.awayScore : '—';
   const broadcast = getMatchBroadcast(match);
+  const isDeferredBroadcast = broadcast.toLowerCase().includes('diferido');
 
   return (
     <Link
@@ -79,7 +80,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
         <span>{formattedDay} · {formattedTime}</span>
         {broadcast !== 'Por confirmar' && (
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 shadow-sm ring-1 ${match.broadcaster ? 'bg-[#5C0F8B] text-white ring-white/40' : 'bg-amber-100 text-amber-900 ring-amber-300'}`}>
-            <Tv size={10} aria-hidden="true" /> {match.broadcaster ? `Em direto · ${broadcast}` : broadcast}
+            <Tv size={10} aria-hidden="true" /> {match.broadcaster && !isDeferredBroadcast ? `Em direto · ${broadcast}` : broadcast}
           </span>
         )}
       </span>

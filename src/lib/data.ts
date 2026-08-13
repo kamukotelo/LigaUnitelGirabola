@@ -61,15 +61,47 @@ export interface Match {
 
 // Programação editorial confirmada da 1.ª jornada. Mantida na camada de dados
 // para que calendário, início, hub, API e ficha de jogo sirvam a mesma verdade.
-export const FIRST_ROUND_SCHEDULE = [
-  { homeTeamId: 'fcluanda', awayTeamId: 'caala', homeTeam: 'FC Luanda', awayTeam: 'CR Caála', date: '2026-08-22T15:00:00+01:00', stadium: 'Campo da Cidadela' },
-  { homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
-  { homeTeamId: 'dago', awayTeamId: 'desphuila', homeTeam: 'CD 1.º de Agosto', awayTeam: 'Desportivo da Huíla', date: '2026-08-23T16:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
-  { homeTeamId: 'lundasul', awayTeamId: 'petro', homeTeam: 'Desportivo da Lunda Sul', awayTeam: 'Petro de Luanda', date: '2026-08-21T15:00:00+01:00', stadium: 'Estádio das Mangueiras', broadcaster: 'Zsports' },
-  { homeTeamId: 'wiliete', awayTeamId: 'lobito', homeTeam: 'Wiliete de Benguela', awayTeam: 'Académica do Lobito', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', broadcaster: 'Zsports' },
-  { homeTeamId: 'primeiromaio', awayTeamId: 'kabuscorp', homeTeam: 'Estrela 1.º de Maio', awayTeam: 'Kabuscorp SC', date: '2026-08-23T14:00:00+01:00', stadium: 'Estádio de São Filipe', broadcaster: 'Zsports' },
-  { homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional do Chiazi' },
-  { homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
+export const OFFICIAL_MATCH_SCHEDULE = [
+  { round: 1, homeTeamId: 'fcluanda', awayTeamId: 'caala', homeTeam: 'FC Luanda', awayTeam: 'CR Caála', date: '2026-08-22T15:00:00+01:00', stadium: 'Campo da Cidadela' },
+  { round: 1, homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
+  { round: 1, homeTeamId: 'dago', awayTeamId: 'desphuila', homeTeam: 'CD 1.º de Agosto', awayTeam: 'Desportivo da Huíla', date: '2026-08-23T16:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
+  { round: 1, homeTeamId: 'lundasul', awayTeamId: 'petro', homeTeam: 'Desportivo da Lunda Sul', awayTeam: 'Petro de Luanda', date: '2026-08-21T15:00:00+01:00', stadium: 'Estádio das Mangueiras', broadcaster: 'Zsports' },
+  { round: 1, homeTeamId: 'wiliete', awayTeamId: 'lobito', homeTeam: 'Wiliete de Benguela', awayTeam: 'Académica do Lobito', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', broadcaster: 'Zsports' },
+  { round: 1, homeTeamId: 'primeiromaio', awayTeamId: 'kabuscorp', homeTeam: 'Estrela 1.º de Maio', awayTeam: 'Kabuscorp SC', date: '2026-08-23T14:00:00+01:00', stadium: 'Estádio de São Filipe', broadcaster: 'Zsports' },
+  { round: 1, homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional do Chiazi' },
+  { round: 1, homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
+  { round: 2, homeTeamId: 'caala', awayTeamId: 'wiliete', date: '2026-08-27T15:00:00+01:00', broadcaster: 'Zsports · diferido' },
+  { round: 2, homeTeamId: 'kabuscorp', awayTeamId: 'lundasul', date: '2026-08-28T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 2, homeTeamId: 'cabinda', awayTeamId: 'desphuila', date: '2026-08-29T15:00:00+01:00' },
+  { round: 2, homeTeamId: 'sagrada', awayTeamId: 'saosalvador', date: '2026-08-29T15:00:00+01:00' },
+  { round: 2, homeTeamId: 'interclube', awayTeamId: 'fcluanda', date: '2026-08-30T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 2, homeTeamId: 'libolo', awayTeamId: 'bravos', date: '2026-08-30T15:00:00+01:00' },
+  { round: 2, homeTeamId: 'primeiromaio', awayTeamId: 'dago', date: '2026-08-27T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 2, homeTeamId: 'lobito', awayTeamId: 'petro', date: '2026-08-29T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 3, homeTeamId: 'lundasul', awayTeamId: 'caala', date: '2026-09-05T15:00:00+01:00' },
+  { round: 3, homeTeamId: 'desphuila', awayTeamId: 'wiliete', date: '2026-08-31T15:00:00+01:00', broadcaster: 'Zsports · diferido' },
+  { round: 3, homeTeamId: 'sagrada', awayTeamId: 'kabuscorp', date: '2026-09-01T14:00:00+01:00', broadcaster: 'Zsports' },
+  { round: 3, homeTeamId: 'fcluanda', awayTeamId: 'cabinda', date: '2026-09-06T15:00:00+01:00' },
+  { round: 3, homeTeamId: 'bravos', awayTeamId: 'saosalvador', date: '2026-09-06T15:00:00+01:00' },
+  { round: 3, homeTeamId: 'dago', awayTeamId: 'interclube', date: '2026-08-31T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 3, homeTeamId: 'petro', awayTeamId: 'libolo', date: '2026-08-26T16:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 3, homeTeamId: 'lobito', awayTeamId: 'primeiromaio', date: '2026-09-04T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 4, homeTeamId: 'caala', awayTeamId: 'desphuila', date: '2026-09-13T15:00:00+01:00' },
+  { round: 4, homeTeamId: 'lundasul', awayTeamId: 'sagrada', date: '2026-09-13T15:00:00+01:00' },
+  { round: 4, homeTeamId: 'wiliete', awayTeamId: 'fcluanda', date: '2026-09-08T15:00:00+01:00', broadcaster: 'Zsports · diferido' },
+  { round: 4, homeTeamId: 'bravos', awayTeamId: 'kabuscorp', date: '2026-09-09T15:00:00+01:00' },
+  { round: 4, homeTeamId: 'cabinda', awayTeamId: 'dago', date: '2026-09-08T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 4, homeTeamId: 'saosalvador', awayTeamId: 'petro', date: '2026-09-16T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 4, homeTeamId: 'interclube', awayTeamId: 'lobito', date: '2026-09-10T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 4, homeTeamId: 'libolo', awayTeamId: 'primeiromaio', date: '2026-09-12T15:00:00+01:00' },
+  { round: 5, homeTeamId: 'caala', awayTeamId: 'bravos', date: '2026-09-19T15:00:00+01:00' },
+  { round: 5, homeTeamId: 'dago', awayTeamId: 'fcluanda', date: '2026-09-18T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 5, homeTeamId: 'sagrada', awayTeamId: 'petro', date: '2026-09-20T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 5, homeTeamId: 'desphuila', awayTeamId: 'lobito', date: '2026-09-19T15:00:00+01:00' },
+  { round: 5, homeTeamId: 'primeiromaio', awayTeamId: 'lundasul', date: '2026-09-20T15:00:00+01:00' },
+  { round: 5, homeTeamId: 'wiliete', awayTeamId: 'libolo', date: '2026-09-19T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 5, homeTeamId: 'kabuscorp', awayTeamId: 'interclube', date: '2026-09-17T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 5, homeTeamId: 'saosalvador', awayTeamId: 'cabinda', date: '2026-09-20T15:00:00+01:00' },
 ] as const;
 
 /** Ordem editorial comum: jornada, data/hora e, em caso de empate, ID. */
@@ -81,21 +113,26 @@ export function sortOfficialMatches(matches: Match[]): Match[] {
   );
 }
 
-export function applyFirstRoundSchedule(matches: Match[]): Match[] {
-  const roundOne = matches.filter((match) => match.round === 1);
-  if (roundOne.length !== FIRST_ROUND_SCHEDULE.length) return sortOfficialMatches(matches);
+export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
+  const scheduleByFixture = new Map(
+    OFFICIAL_MATCH_SCHEDULE.map((fixture) => [
+      `${fixture.round}:${fixture.homeTeamId}:${fixture.awayTeamId}`,
+      fixture,
+    ]),
+  );
 
-  const scheduledRound = FIRST_ROUND_SCHEDULE.map((fixture, index) => ({
-    ...roundOne[index],
-    ...fixture,
-    homeScore: 0,
-    awayScore: 0,
-    score: undefined,
-    status: 'scheduled' as const,
-    round: 1,
+  return sortOfficialMatches(matches.map((match) => {
+    const fixture = scheduleByFixture.get(`${match.round}:${match.homeTeamId}:${match.awayTeamId}`);
+    if (!fixture) return match;
+    return {
+      ...match,
+      ...fixture,
+      homeScore: 0,
+      awayScore: 0,
+      score: undefined,
+      status: 'scheduled' as const,
+    };
   }));
-
-  return sortOfficialMatches([...matches.filter((match) => match.round !== 1), ...scheduledRound]);
 }
 
 export interface PlayerStats {
@@ -1595,7 +1632,7 @@ export function getMatches(): Match[] {
 
 // Calendário por época — 2026/2027 corresponde ao ficheiro do ANCAF_CALENDAR.
 export function getMatchesForSeason(seasonId: string): Match[] {
-  if (seasonId === UPCOMING_SEASON_ID) return applyFirstRoundSchedule(applyMatchOverrides(MATCHES_2026_27));
+  if (seasonId === UPCOMING_SEASON_ID) return applyOfficialMatchSchedule(applyMatchOverrides(MATCHES_2026_27));
   if (HISTORICAL_MATCHES[seasonId]) return applyMatchOverrides(HISTORICAL_MATCHES[seasonId]);
   return applyMatchOverrides(MATCHES);
 }

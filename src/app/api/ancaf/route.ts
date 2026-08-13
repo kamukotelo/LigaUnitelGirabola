@@ -10,7 +10,7 @@ import {
   TEAMS,
   TOP_SCORERS,
   UPCOMING_SEASON_ID,
-  applyFirstRoundSchedule,
+  applyOfficialMatchSchedule,
   getTeamById,
   Match,
 } from '@/lib/data';
@@ -179,7 +179,7 @@ export async function GET(request: Request) {
 
   void activeSeedStr;
 
-  const matches = applyFirstRoundSchedule(
+  const matches = applyOfficialMatchSchedule(
     persistedMatches.length === 240
       ? persistedMatches
       : PUBLISHED_MATCHES_2026_27,
