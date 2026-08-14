@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { Trophy, Calendar, Shield, Flame } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -46,8 +47,26 @@ function PitchOrbit() {
   const logoVertical = useBrandLogo('logo_vertical');
   const isCustomVertical = logoVertical.startsWith('data:') || (logoVertical.startsWith('http') && !logoVertical.includes('.supabase.co'));
 
+  const satellites = [
+    { color: '#D21515', glow: 'rgba(210,21,21,0.85)' },
+    { color: '#0B0B12', glow: 'rgba(255,255,255,0.35)' },
+    { color: '#F9C304', glow: 'rgba(249,195,4,0.9)' },
+  ];
+
   return (
     <div className="relative w-[320px] h-[340px] sm:w-[440px] sm:h-[460px] flex items-center justify-center select-none overflow-hidden" aria-hidden>
+      <div
+        className="absolute w-56 h-56 sm:w-72 sm:h-72 rounded-full blur-3xl"
+        style={{ background: 'radial-gradient(circle, rgba(210,21,21,0.28), rgba(249,195,4,0.12) 55%, transparent 72%)' }}
+      />
+
+      <motion.div
+        className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] rounded-full"
+        style={{ background: 'conic-gradient(from 0deg, transparent 0deg, rgba(249,195,4,0.20) 40deg, transparent 95deg)' }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
+      />
+
       {/* Linhas do campo (círculo central + meio-campo) */}
       <div className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] rounded-full border border-primary/25" />
       <div className="absolute w-[180px] h-[180px] sm:w-[250px] sm:h-[250px] rounded-full border border-accent/20" />
@@ -76,12 +95,38 @@ function PitchOrbit() {
         />
       )}
 
-      {/* Bola e identidade visual estáticas */}
-      <div className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px]">
-        <div className="absolute left-1/2 -top-3 sm:-top-4 -translate-x-1/2">
+      <motion.div
+        className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
+      >
+        <motion.div
+          className="absolute left-1/2 -top-3 sm:-top-4 -translate-x-1/2 drop-shadow-[0_0_14px_rgba(0,0,0,0.65)]"
+          animate={{ rotate: -360 }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: 'linear' }}
+        >
           <SoccerBall size={42} />
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        className="absolute w-[180px] h-[180px] sm:w-[250px] sm:h-[250px]"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 13, repeat: Infinity, ease: 'linear' }}
+      >
+        {satellites.map((satellite, index) => (
+          <div
+            key={satellite.color}
+            className="absolute left-1/2 top-1/2 h-0 w-0"
+            style={{ transform: `rotate(${index * 120}deg)` }}
+          >
+            <span
+              className="absolute -ml-1 -mt-1 h-2 w-2 -translate-y-[90px] rounded-full sm:-ml-1.5 sm:-mt-1.5 sm:h-3 sm:w-3 sm:-translate-y-[125px]"
+              style={{ backgroundColor: satellite.color, boxShadow: `0 0 12px ${satellite.glow}` }}
+            />
+          </div>
+        ))}
+      </motion.div>
 
       {/* Etiqueta */}
       <div className="absolute bottom-2 flex items-center gap-2">
