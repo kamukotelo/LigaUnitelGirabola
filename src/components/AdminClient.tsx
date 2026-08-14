@@ -58,6 +58,7 @@ interface DraftController<T> {
   savedAt: string | null;
   error: string | null;
   save: () => Promise<void>;
+  publish: (next: T) => Promise<boolean>;
   discard: () => void;
 }
 
@@ -88,19 +89,26 @@ function useEditorDraft<T>(section: OverrideSection, storageKey: string, initial
     return () => reportDirty(false);
   }, [dirty, reportDirty]);
 
-  const save = async () => {
+  const publish = async (next: T): Promise<boolean> => {
     setSaving(true);
     setError(null);
     try {
-      await publishOverride(section, draft);
-      localStorage.setItem(storageKey, JSON.stringify(draft));
-      setBaseline(draft);
+      await publishOverride(section, next);
+      localStorage.setItem(storageKey, JSON.stringify(next));
+      setDraft(next);
+      setBaseline(next);
       setSavedAt(new Date().toISOString());
+      return true;
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Não foi possível publicar as alterações.');
+      return false;
     } finally {
       setSaving(false);
     }
+  };
+
+  const save = async () => {
+    await publish(draft);
   };
 
   const discard = () => {
@@ -108,7 +116,7 @@ function useEditorDraft<T>(section: OverrideSection, storageKey: string, initial
     setError(null);
   };
 
-  return { draft, setDraft, dirty, saving, savedAt, error, save, discard };
+  return { draft, setDraft, dirty, saving, savedAt, error, save, publish, discard };
 }
 
 /**
@@ -2070,6 +2078,7 @@ function NewsSection() {
   const [statusFilter, setStatusFilter] = useState<'all' | NonNullable<NewsArticle['status']>>('all');
   const [automationRunning, setAutomationRunning] = useState(false);
   const [automationMessage, setAutomationMessage] = useState<string | null>(null);
+  const [publishingId, setPublishingId] = useState<string | null>(null);
 
   const persist = ctl.setDraft;
   const updateArt = (id: string, patch: Partial<NewsArticle>) =>
@@ -2102,6 +2111,36 @@ function NewsSection() {
   });
   const isAddedId = (id: string) => store.added.some((a) => a.id === id);
   const editedCount = Object.keys(store.overrides).length + store.added.length + store.deleted.length;
+  const publishArticle = async (article: NewsArticle, completeEditorialFields = false) => {
+    const now = new Date().toISOString();
+    const patch: Partial<NewsArticle> = {
+      status: 'published',
+      reviewedAt: now,
+      publishedAt: now,
+      ...(completeEditorialFields ? {
+        author: article.author?.trim() || 'Redação Liga Unitel Girabola',
+        sourceName: article.sourceName?.trim() || 'Fonte indicada na ligação',
+        verifiedBy: article.verifiedBy?.trim() || 'Admin ANCAF',
+      } : {}),
+    };
+    const next: NewsStore = {
+      ...store,
+      overrides: {
+        ...store.overrides,
+        [article.id]: { ...store.overrides[article.id], ...patch },
+      },
+    };
+
+    setPublishingId(article.id);
+    setAutomationMessage(null);
+    const published = await ctl.publish(next);
+    setPublishingId(null);
+    setAutomationMessage(
+      published
+        ? `“${article.title}” foi validada e publicada no site.`
+        : `Não foi possível publicar “${article.title}”. Verifique o erro apresentado acima.`,
+    );
+  };
   const fetchWithAi = async () => {
     setAutomationRunning(true);
     setAutomationMessage(null);
@@ -2160,18 +2199,12 @@ function NewsSection() {
           const readyForReview = Boolean(n.title.trim() && n.summary.trim() && n.content?.trim() && n.author?.trim() && n.sourceName?.trim() && validNewsSource(n.sourceUrl));
           const readyToPublish = readyForReview && Boolean(n.verifiedBy?.trim());
           const quickPublishReady = Boolean(n.title.trim() && n.summary.trim() && n.content?.trim() && validNewsSource(n.sourceUrl));
-          const quickPublish = () => {
+          const quickPublish = async () => {
             if (!quickPublishReady) {
               setOpenId(n.id);
               return;
             }
-            const now = new Date().toISOString();
-            updateArt(n.id, {
-              author: n.author?.trim() || 'Redação Liga Unitel Girabola',
-              sourceName: n.sourceName?.trim() || 'Fonte indicada na ligação',
-              verifiedBy: n.verifiedBy?.trim() || 'Admin ANCAF',
-              status: 'published', reviewedAt: now, publishedAt: now,
-            });
+            await publishArticle(n, true);
           };
           return (
             <Panel key={n.id} className={edited ? 'border-accent/30' : ''}>
@@ -2185,7 +2218,7 @@ function NewsSection() {
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
                   {n.sourceUrl && <a href={n.sourceUrl} target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-accent" title="Abrir fonte"><ExternalLink size={14} /></a>}
-                  {status !== 'published' && <button onClick={quickPublish} title={quickPublishReady ? 'Validar e preparar para publicação' : 'Abra para preencher o conteúdo e a ligação da fonte'} className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-[9px] font-mono uppercase ${quickPublishReady ? 'border-green-500/30 bg-green-500/10 text-green-500 hover:bg-green-500/20' : 'border-amber-500/30 bg-amber-500/10 text-amber-500'}`}><ShieldCheck size={11} /> {quickPublishReady ? 'Publicar' : 'Completar'}</button>}
+                  {status !== 'published' && <button disabled={publishingId !== null} onClick={quickPublish} title={quickPublishReady ? 'Validar e publicar imediatamente no site' : 'Abra para preencher o conteúdo e a ligação da fonte'} className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border text-[9px] font-mono uppercase disabled:opacity-50 disabled:cursor-wait ${quickPublishReady ? 'border-green-500/30 bg-green-500/10 text-green-500 hover:bg-green-500/20' : 'border-amber-500/30 bg-amber-500/10 text-amber-500'}`}>{publishingId === n.id ? <Loader2 size={11} className="animate-spin" /> : <ShieldCheck size={11} />} {publishingId === n.id ? 'A publicar…' : quickPublishReady ? 'Publicar no site' : 'Completar'}</button>}
                   <button onClick={() => deleteArt(n.id, added)} className="text-zinc-500 hover:text-red-400 transition-colors" title="Remover"><Trash2 size={14} /></button>
                   <button onClick={() => setOpenId(isOpen ? null : n.id)} className="inline-flex items-center gap-1.5 text-[10px] font-mono text-accent hover:text-accent/80 transition-colors uppercase tracking-widest">
                     <Pencil size={12} /> {isOpen ? 'Fechar' : 'Editar'}
@@ -2213,7 +2246,7 @@ function NewsSection() {
                       <button disabled={!readyForReview} onClick={() => updateArt(n.id, { status: 'pending_review' })} className="px-3 py-2 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-500 text-[10px] font-mono uppercase disabled:opacity-40 disabled:cursor-not-allowed">Enviar para validação</button>
                     )}
                     {status !== 'published' && (
-                      <button disabled={!readyToPublish} onClick={() => { const now = new Date().toISOString(); updateArt(n.id, { status: 'published', reviewedAt: now, publishedAt: now }); }} className="px-3 py-2 rounded-xl border border-green-500/30 bg-green-500/10 text-green-500 text-[10px] font-mono uppercase disabled:opacity-40 disabled:cursor-not-allowed"><ShieldCheck size={12} className="inline mr-1" /> Validar e publicar</button>
+                      <button disabled={!readyToPublish || publishingId !== null} onClick={() => publishArticle(n)} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-green-500/30 bg-green-500/10 text-green-500 text-[10px] font-mono uppercase disabled:opacity-40 disabled:cursor-not-allowed">{publishingId === n.id ? <Loader2 size={12} className="animate-spin" /> : <ShieldCheck size={12} />} {publishingId === n.id ? 'A publicar no site…' : 'Validar e publicar no site'}</button>
                     )}
                     {status === 'published' && (
                       <button onClick={() => updateArt(n.id, { status: 'draft', publishedAt: undefined })} className="px-3 py-2 rounded-xl border border-zinc-500/30 bg-zinc-500/10 text-zinc-500 text-[10px] font-mono uppercase">Retirar do portal</button>
