@@ -9,7 +9,7 @@ import {
   getNewsArticles,
   getMatchBroadcast,
   getMatchesForSeason,
-  CURRENT_SEASON_ID,
+  PREVIOUS_SEASON_ID,
   UPCOMING_SEASON_ID,
   TEAMS,
   getStandingsForSeason,
@@ -30,10 +30,6 @@ const OFFICIAL_PARTNERS = [
 ] as const;
 
 function getDefaultRoundForSeason(seasonId: string) {
-  if (seasonId !== CURRENT_SEASON_ID) {
-    return 1;
-  }
-
   const finishedMatches = getMatchesForSeason(seasonId).filter((match) => match.status === 'finished');
   return finishedMatches.length > 0 ? Math.max(...finishedMatches.map((match) => match.round)) : 1;
 }
@@ -154,9 +150,9 @@ export default function LigaAngolaBlock() {
                 {/* Competition Selector Tabs */}
                 <div className="flex border-b border-zinc-100 dark:border-zinc-900 pb-3 mb-4">
                   <button
-                    onClick={() => selectSeason(CURRENT_SEASON_ID)}
+                    onClick={() => selectSeason(PREVIOUS_SEASON_ID)}
                     className={`flex-1 text-center py-1.5 font-mono text-[10px] uppercase font-bold tracking-wider rounded-lg transition-colors ${
-                      selectedSeasonId === CURRENT_SEASON_ID
+                      selectedSeasonId === PREVIOUS_SEASON_ID
                         ? 'bg-primary/10 text-primary dark:text-white'
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
@@ -279,9 +275,9 @@ export default function LigaAngolaBlock() {
                 {/* Competition Selector Tabs */}
                 <div className="flex border-b border-zinc-100 dark:border-zinc-900 pb-3 mb-4">
                   <button
-                    onClick={() => setStandingsSeasonId(CURRENT_SEASON_ID)}
+                    onClick={() => setStandingsSeasonId(PREVIOUS_SEASON_ID)}
                     className={`flex-1 text-center py-1.5 font-mono text-[10px] uppercase font-bold tracking-wider rounded-lg transition-colors ${
-                      standingsSeasonId === CURRENT_SEASON_ID
+                      standingsSeasonId === PREVIOUS_SEASON_ID
                         ? 'bg-primary/10 text-primary dark:text-white'
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}

@@ -594,3 +594,42 @@ html {
   box-shadow: 0 0 8px var(--cyber);
   animation: scan-vertical 5s ease-in-out infinite;
 }
+
+/* ─── VISUAL INSTITUCIONAL ─────────────────────────────────────
+   Neutraliza as decorações futuristas antigas sem afetar animações úteis de
+   carregamento, menus ou feedback de ações. */
+.glitch-text::before,
+.glitch-text::after,
+.neon-border::before,
+.holo-card::after,
+.scanline-overlay,
+.cyber-grid-bg,
+.running-border::before,
+.hud-panel::before,
+.hud-panel::after,
+.holo-logo-glow,
+.holo-logo-ring-outer,
+.holo-logo-ring-inner,
+.holo-logo-scanner {
+  display: none !important;
+}
+
+.glitch-text,
+.neon-text,
+.float-card,
+.flicker,
+.tech-counter,
+.status-pulse,
+.holo-logo-image,
+.radar-disc {
+  animation: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+.neon-border,
+.running-border,
+.hud-panel,
+.holo-card {
+  box-shadow: none;
+}

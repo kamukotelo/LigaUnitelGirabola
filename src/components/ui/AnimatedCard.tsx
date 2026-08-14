@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import React from 'react';
 
 interface AnimatedCardProps {
@@ -10,42 +7,14 @@ interface AnimatedCardProps {
   delay?: number;
 }
 
-export default function AnimatedCard({
-  children,
-  className = '',
-  variant = 'standard',
-  delay = 0,
-}: AnimatedCardProps) {
-  const getVariantStyles = () => {
-    switch (variant) {
-      case 'brutalist':
-        return 'brutalist-card';
-      case 'holographic':
-        return 'holo-card bg-card border border-zinc-200 dark:border-zinc-800/80 rounded-2xl shadow-lg';
-      case 'hud':
-        return 'hud-panel relative rounded-lg';
-      default:
-        return 'bg-card border border-zinc-200 dark:border-zinc-800/80 rounded-2xl hover:border-zinc-300 dark:hover:border-zinc-700/80 shadow-md transition-all duration-300';
-    }
-  };
-
+/**
+ * Cartão visual uniforme. O nome é mantido por compatibilidade com as páginas
+ * existentes, mas os movimentos, hologramas e varreduras foram removidos.
+ */
+export default function AnimatedCard({ children, className = '' }: AnimatedCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{
-        duration: 0.5,
-        delay,
-        type: 'spring',
-        stiffness: 80,
-        damping: 15,
-      }}
-      whileHover={{ y: -4, scale: 1.01 }}
-      className={`${getVariantStyles()} ${className}`}
-    >
-      {variant === 'hud' && <div className="scanline-overlay" />}
-      <div className="p-6 relative z-10">{children}</div>
-    </motion.div>
+    <div className={`relative rounded-2xl border border-zinc-200 bg-card shadow-sm dark:border-zinc-800/80 ${className}`}>
+      <div className="relative p-6">{children}</div>
+    </div>
   );
 }

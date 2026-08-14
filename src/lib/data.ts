@@ -559,12 +559,15 @@ export interface Season {
   status: 'completed' | 'active' | 'upcoming';
 }
 
-// Época atualmente disputada (resultados consolidados) e próxima época já calendarizada.
+// A temporada 2026/2027 é o foco atual do portal. A edição anterior permanece
+// disponível no seletor de épocas para consulta do arquivo histórico.
 export const SEASONS: Season[] = [
-  { id: '2026-27', label: '2026/2027', status: 'upcoming' },
+  { id: '2026-27', label: '2026/2027', status: 'active' },
   { id: '2025-26', label: '2025/2026', status: 'completed' },
 ];
-export const CURRENT_SEASON_ID = '2025-26';
+export const CURRENT_SEASON_ID = '2026-27';
+export const PREVIOUS_SEASON_ID = '2025-26';
+// Alias mantido para os módulos que tratam o calendário oficial de 2026/2027.
 export const UPCOMING_SEASON_ID = '2026-27';
 
 // Proveniência do calendário 2026/2027 — datas oficiais da Proposta ANCAF
@@ -1665,7 +1668,7 @@ export function getStandingByTeamId(teamId: string): StandingEntry | undefined {
 }
 
 export function getMatches(): Match[] {
-  return applyMatchOverrides(MATCHES);
+  return getMatchesForSeason(CURRENT_SEASON_ID);
 }
 
 // Calendário por época — 2026/2027 corresponde ao ficheiro do ANCAF_CALENDAR.

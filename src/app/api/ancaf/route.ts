@@ -4,8 +4,8 @@ import { supabase } from '@/lib/supabase';
 import {
   ANCAF_CALENDAR_SOURCE,
   CURRENT_SEASON_ID,
+  getStandingsForSeason,
   MATCHES,
-  OFFICIAL_STANDINGS,
   SEASONS,
   TEAMS,
   TOP_SCORERS,
@@ -255,7 +255,7 @@ export async function GET(request: Request) {
         .map((teamId) => TEAMS.find((team) => team.id === teamId))
         .filter(Boolean),
       cafResults,
-      standings: OFFICIAL_STANDINGS[CURRENT_SEASON_ID] ?? [],
+      standings: getStandingsForSeason(CURRENT_SEASON_ID),
       scorers: TOP_SCORERS,
       upcomingMatches,
     });

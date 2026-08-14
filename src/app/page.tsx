@@ -1,8 +1,7 @@
 'use client';
 
-import { motion, useInView, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Trophy, Calendar, Shield, Flame } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import AnimatedCard from '@/components/ui/AnimatedCard';
@@ -15,33 +14,7 @@ import { useBrandLogo } from '@/lib/team-logos';
 
 /* ── Animated Number Counter ─────────────────────────────────── */
 function AnimatedCounter({ value }: { value: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
-  const motionVal = useMotionValue(0);
-  const spring = useSpring(motionVal, { stiffness: 80, damping: 20 });
-  const display = useTransform(spring, (v) => Math.round(v));
-  const [mounted, setMounted] = useState(false);
-
-  // Marca a hidratação no cliente (sinaliza que já podemos animar).
-  /* eslint-disable-next-line react-hooks/set-state-in-effect */
-  useEffect(() => setMounted(true), []);
-
-  useEffect(() => {
-    if (inView) motionVal.set(value);
-  }, [inView, motionVal, value]);
-
-  // No render do servidor / sem JavaScript, mostra já o valor final (bom para
-  // SEO e para a primeira pintura). Após a hidratação, o contador anima de 0
-  // até ao valor quando entra no ecrã.
-  if (!mounted) {
-    return <span className="tabular-nums font-display">{value}</span>;
-  }
-
-  return (
-    <motion.span ref={ref} className="tabular-nums font-display">
-      {display}
-    </motion.span>
-  );
+  return <span className="tabular-nums font-display">{value}</span>;
 }
 
 /* ── Stylized Soccer Ball ─────────────────────────────────────── */
@@ -73,29 +46,8 @@ function PitchOrbit() {
   const logoVertical = useBrandLogo('logo_vertical');
   const isCustomVertical = logoVertical.startsWith('data:') || (logoVertical.startsWith('http') && !logoVertical.includes('.supabase.co'));
 
-  // Cores da bandeira de Angola (vermelho, preto) + dourado do emblema
-  const satellites = [
-    { color: '#D21515', glow: 'rgba(210,21,21,0.85)' },
-    { color: '#0B0B12', glow: 'rgba(255,255,255,0.35)' },
-    { color: '#F9C304', glow: 'rgba(249,195,4,0.9)' },
-  ];
-
   return (
     <div className="relative w-[320px] h-[340px] sm:w-[440px] sm:h-[460px] flex items-center justify-center select-none overflow-hidden" aria-hidden>
-      {/* Glow base */}
-      <div
-        className="absolute w-56 h-56 sm:w-72 sm:h-72 rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(210,21,21,0.28), rgba(249,195,4,0.12) 55%, transparent 72%)' }}
-      />
-
-      {/* Varredura radar */}
-      <motion.div
-        className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] rounded-full"
-        style={{ background: 'conic-gradient(from 0deg, transparent 0deg, rgba(249,195,4,0.20) 40deg, transparent 95deg)' }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
-      />
-
       {/* Linhas do campo (círculo central + meio-campo) */}
       <div className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px] rounded-full border border-primary/25" />
       <div className="absolute w-[180px] h-[180px] sm:w-[250px] sm:h-[250px] rounded-full border border-accent/20" />
@@ -124,43 +76,12 @@ function PitchOrbit() {
         />
       )}
 
-      {/* Órbita da bola */}
-      <motion.div
-        className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px]"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
-      >
-        <motion.div
-          className="absolute left-1/2 -top-3 sm:-top-4 -translate-x-1/2 drop-shadow-[0_0_14px_rgba(0,0,0,0.65)]"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'linear' }}
-        >
+      {/* Bola e identidade visual estáticas */}
+      <div className="absolute w-[240px] h-[240px] sm:w-[340px] sm:h-[340px]">
+        <div className="absolute left-1/2 -top-3 sm:-top-4 -translate-x-1/2">
           <SoccerBall size={42} />
-        </motion.div>
-      </motion.div>
-
-      {/* Satélites nas cores de Angola */}
-      <motion.div
-        className="absolute w-[180px] h-[180px] sm:w-[250px] sm:h-[250px]"
-        animate={{ rotate: -360 }}
-        transition={{ duration: 13, repeat: Infinity, ease: 'linear' }}
-      >
-        {satellites.map((s, i) => (
-          <div
-            key={i}
-            className="absolute left-1/2 top-1/2 w-0 h-0"
-            style={{ transform: `rotate(${i * 120}deg)` }}
-          >
-            <span
-              className="absolute w-2 h-2 sm:w-3 sm:h-3 -ml-1 -mt-1 sm:-ml-1.5 sm:-mt-1.5 rounded-full -translate-y-[90px] sm:-translate-y-[125px]"
-              style={{
-                backgroundColor: s.color,
-                boxShadow: `0 0 12px ${s.glow}`,
-              }}
-            />
-          </div>
-        ))}
-      </motion.div>
+        </div>
+      </div>
 
       {/* Etiqueta */}
       <div className="absolute bottom-2 flex items-center gap-2">
@@ -191,23 +112,25 @@ export default function Home() {
   const roundsCount = new Set(seasonMatches.map((m) => m.round)).size;
   const allPlayers = getPlayers();
   const topScorer = allPlayers.length > 0 ? [...allPlayers].sort((a, b) => b.goals - a.goals)[0] : null;
-  const hasGoals = topScorer && topScorer.goals > 0;
-  const topScorerName = hasGoals ? topScorer.name.split(' ')[0] : 'Dagó';
-  const topScorerGoals = hasGoals ? topScorer.goals : 17;
-  const topScorerFull = hasGoals ? topScorer.name : 'Dagó Tshibamba';
+  const seasonStarted = matchesPlayed > 0;
+  const hasGoals = seasonStarted && topScorer && topScorer.goals > 0;
+  const topScorerGoals = hasGoals ? topScorer.goals : 0;
+  const topScorerFull = hasGoals ? topScorer.name : '';
+  const seasonGoals = seasonMatches
+    .filter((match) => match.status === 'finished')
+    .reduce((total, match) => total + match.homeScore + match.awayScore, 0);
 
   // Época em curso (resultados consolidados) — fonte única em data.ts
-  const activeSeasonLabel = SEASONS.find((s) => s.id === CURRENT_SEASON_ID)?.label ?? '2025/2026';
+  const activeSeasonLabel = SEASONS.find((s) => s.id === CURRENT_SEASON_ID)?.label ?? '2026/2027';
 
   // Campeão / vice derivados da classificação (coincidem sempre com a tabela)
   const standings = getStandings();
-  const champion = standings[0]?.teamName ?? 'Petro de Luanda';
-  const runnerUp = standings[1]?.teamName ?? '';
+  const leader = seasonStarted ? standings[0]?.teamName ?? '' : '';
 
   const tickerItems = [
-    `● ${champion} campeão da Liga Unitel Girabola ${activeSeasonLabel}`,
-    `◆ ${topScorerFull} melhor marcador com ${topScorerGoals} golos`,
-    runnerUp ? `▲ ${runnerUp} fecha a época no 2.º lugar` : '',
+    `● Liga Unitel Girabola ${activeSeasonLabel} · calendário oficial disponível`,
+    leader ? `▲ ${leader} lidera a classificação da temporada` : '▲ Classificação preparada para o início da temporada',
+    topScorerFull ? `◆ ${topScorerFull} melhor marcador com ${topScorerGoals} golos` : '◆ Estatísticas da nova temporada serão atualizadas após os jogos',
     '■ Portal digital do futebol de Angola',
     '● Cobertura completa em tempo real',
   ].filter(Boolean);
@@ -216,7 +139,7 @@ export default function Home() {
     { label: 'Clubes', value: teamsCount, icon: Shield, href: ROUTES.teams },
     { label: 'Jogos Disputados', value: matchesPlayed, icon: Trophy, href: ROUTES.calendar },
     { label: 'Jornadas', value: roundsCount, icon: Calendar, href: ROUTES.calendar },
-    { label: 'Golos Marcados (' + topScorerName + ')', value: topScorerGoals, icon: Flame, href: ROUTES.stats },
+    { label: 'Golos Marcados', value: seasonGoals, icon: Flame, href: ROUTES.stats },
   ];
 
   // News and match center are now handled dynamically inside LigaAngolaBlock
@@ -278,7 +201,7 @@ export default function Home() {
             <div className="flex items-center gap-3 mb-10">
               <span className="h-2 w-2 rounded-full bg-primary" />
               <span className="text-xs font-bold text-muted">
-                Época {activeSeasonLabel} · {champion}, campeão em título
+                Época {activeSeasonLabel} · temporada atual
               </span>
             </div>
 
