@@ -67,7 +67,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         .slice(0, 8)
         .map((p) => ({
           id: p.id, name: p.name, club: p.club, teamId: p.teamId, position: p.position,
-          value: p.goals, secondaryLabel: 'Jogos', secondaryValue: p.appearances,
+          value: p.goals, secondaryLabel: 'Jogos', secondaryValue: p.appearances || undefined,
         }));
     } else if (activeTab === 'assists') {
       displayPlayers = [...allPlayers]

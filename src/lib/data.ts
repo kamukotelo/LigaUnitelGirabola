@@ -631,7 +631,7 @@ const PLAYERS_RAW: Player[] = [
     club: '1.º de Agosto',
     teamId: 'dago',
     position: 'Avançado',
-    goals: 18,
+    goals: 17,
     assists: 4,
     appearances: 28,
     jerseyNumber: 9,
@@ -646,7 +646,7 @@ const PLAYERS_RAW: Player[] = [
     attributes: { pace: 87, shooting: 91, passing: 74, dribbling: 82, defending: 35, physical: 84 },
     bio: 'Ponta de lança forte, explosivo e extremamente clínico na área. Consagrado melhor marcador do Liga Unitel Girabola 2025/2026, foi o pilar ofensivo do 1.º de Agosto na luta pelas competições africanas.',
     careerHistory: [
-      { season: '2025/26', club: '1.º de Agosto', competition: 'Liga Unitel Girabola', apps: 28, goals: 18, assists: 4, minutes: 2415, yellow: 5, red: 0 },
+      { season: '2025/26', club: '1.º de Agosto', competition: 'Liga Unitel Girabola', apps: 28, goals: 17, assists: 4, minutes: 2415, yellow: 5, red: 0 },
       { season: '2024/25', club: '1.º de Agosto', competition: 'Liga Unitel Girabola', apps: 26, goals: 12, assists: 6, minutes: 2190, yellow: 4, red: 1 },
       { season: '2023/24', club: 'Daring Club Motema Pembe', competition: 'Linafoot (RDC)', apps: 22, goals: 15, assists: 3, minutes: 1880, yellow: 3, red: 0 }
     ]
@@ -676,6 +676,44 @@ const PLAYERS_RAW: Player[] = [
       { season: '2024/25', club: 'Petro de Luanda', competition: 'Liga Unitel Girabola', apps: 28, goals: 19, assists: 5, minutes: 2480, yellow: 3, red: 0 },
       { season: '2023/24', club: 'Petro de Luanda', competition: 'Liga Unitel Girabola', apps: 27, goals: 21, assists: 6, minutes: 2390, yellow: 1, red: 0 }
     ]
+  },
+  {
+    id: 'tiago-reis',
+    name: 'Tiago Reis',
+    club: 'Petro de Luanda',
+    teamId: 'petro',
+    position: 'Avançado',
+    goals: 16,
+    assists: 0,
+    appearances: 0,
+    jerseyNumber: 0,
+    age: 0,
+    nationality: 'A confirmar',
+    height: 'A confirmar',
+    attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+    bio: 'Segundo melhor marcador da Liga Unitel Girabola 2025/2026, com 16 golos ao serviço do Petro de Luanda.',
+    careerHistory: [
+      { season: '2025/26', club: 'Petro de Luanda', competition: 'Liga Unitel Girabola', apps: 0, goals: 16 },
+    ],
+  },
+  {
+    id: 'melono-dala',
+    name: 'Melono Dala',
+    club: 'Sagrada Esperança',
+    teamId: 'sagrada',
+    position: 'Avançado',
+    goals: 15,
+    assists: 0,
+    appearances: 0,
+    jerseyNumber: 0,
+    age: 0,
+    nationality: 'A confirmar',
+    height: 'A confirmar',
+    attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+    bio: 'Terceiro melhor marcador da Liga Unitel Girabola 2025/2026, com 15 golos ao serviço do Sagrada Esperança.',
+    careerHistory: [
+      { season: '2025/26', club: 'Sagrada Esperança', competition: 'Liga Unitel Girabola', apps: 0, goals: 15 },
+    ],
   },
   {
     id: 'gibele',
@@ -1405,8 +1443,8 @@ export const newsMock: NewsArticle[] = [
     category: 'Individual',
     date: '10 Mai 2026',
     isoDate: '2026-05-10',
-    summary: 'O avançado congolês do 1.º de Agosto finalizou a temporada com 18 golos marcados, consagrando-se o principal goleador do futebol nacional angolano.',
-    content: 'O troféu de artilheiro do futebol angolano tem novo dono. O avançado congolês Dagó Tshibamba fechou a época de ouro do 1.º de Agosto com 18 golos apontados na prova. Tshibamba demonstrou regularidade notável, sendo coroado oficialmente como o melhor marcador e grande estrela ofensiva do Liga Unitel Girabola.'
+    summary: 'O avançado congolês do 1.º de Agosto finalizou a temporada com 17 golos marcados, consagrando-se o principal goleador do futebol nacional angolano.',
+    content: 'O troféu de artilheiro do futebol angolano tem novo dono. O avançado congolês Dagó Tshibamba fechou a época de ouro do 1.º de Agosto com 17 golos apontados na prova. Tshibamba demonstrou regularidade notável, sendo coroado oficialmente como o melhor marcador e grande estrela ofensiva do Liga Unitel Girabola.'
   },
   {
     id: 'n5',

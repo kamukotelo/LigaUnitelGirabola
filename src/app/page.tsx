@@ -193,7 +193,7 @@ export default function Home() {
   const topScorer = allPlayers.length > 0 ? [...allPlayers].sort((a, b) => b.goals - a.goals)[0] : null;
   const hasGoals = topScorer && topScorer.goals > 0;
   const topScorerName = hasGoals ? topScorer.name.split(' ')[0] : 'Dagó';
-  const topScorerGoals = hasGoals ? topScorer.goals : 18;
+  const topScorerGoals = hasGoals ? topScorer.goals : 17;
   const topScorerFull = hasGoals ? topScorer.name : 'Dagó Tshibamba';
 
   // Época em curso (resultados consolidados) — fonte única em data.ts
