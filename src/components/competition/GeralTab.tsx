@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Video, Newspaper, Ticket, Tv } from 'lucide-react';
-import { getMatchBroadcast, getMatchesForSeason, getNewsArticles, Match, UPCOMING_SEASON_ID } from '@/lib/data';
+import { applyRuntimeMatchOverrides, getMatchBroadcast, getMatchesForSeason, getNewsArticles, Match, UPCOMING_SEASON_ID } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
@@ -73,7 +73,7 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
       })
       .then((data) => {
         if (!cancelled && Array.isArray(data.matches) && data.matches.length === 240) {
-          setDynamicMatches(data.matches);
+          setDynamicMatches(applyRuntimeMatchOverrides(data.matches));
         }
       })
       .catch((error) => console.error('Erro ao obter jogos oficiais do campeonato:', error))

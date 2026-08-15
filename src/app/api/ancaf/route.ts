@@ -11,6 +11,8 @@ import {
   TOP_SCORERS,
   UPCOMING_SEASON_ID,
   applyOfficialMatchSchedule,
+  applyMatchOverrideMap,
+  applySeasonHomeStadiums,
   getTeamById,
   Match,
 } from '@/lib/data';
@@ -107,6 +109,7 @@ export async function GET(request: Request) {
     fingerprint: PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint as string,
   };
   let persistedMatches: Match[] = [];
+  let calendarOverrides: Record<string, Partial<Match>> = {};
   
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
     try {
@@ -114,7 +117,7 @@ export async function GET(request: Request) {
         supabase
         .from('ancaf_configs')
         .select('key, value, updated_at')
-        .in('key', ['active_calendar_index', 'active_calendar_seed', 'active_calendar_fingerprint']),
+        .in('key', ['active_calendar_index', 'active_calendar_seed', 'active_calendar_fingerprint', 'override_calendar']),
         supabase
           .from('ancaf_matches')
           .select('id, round, home_team_id, away_team_id, home_team, away_team, home_score, away_score, score, date, stadium, status')
@@ -127,6 +130,14 @@ export async function GET(request: Request) {
         const indexConfig = configs.find((config) => config.key === 'active_calendar_index');
         const seedConfig = configs.find((config) => config.key === 'active_calendar_seed');
         const fingerprintConfig = configs.find((config) => config.key === 'active_calendar_fingerprint');
+        const overrideConfig = configs.find((config) => config.key === 'override_calendar');
+        if (overrideConfig?.value) {
+          try {
+            calendarOverrides = JSON.parse(overrideConfig.value) as Record<string, Partial<Match>>;
+          } catch {
+            calendarOverrides = {};
+          }
+        }
         
         const candidateMatches = !matchesError && dbMatches?.length === 240
           ? (dbMatches as DbMatch[]).map(fromDbMatch)
@@ -179,10 +190,13 @@ export async function GET(request: Request) {
 
   void activeSeedStr;
 
-  const matches = applyOfficialMatchSchedule(
-    persistedMatches.length === 240
-      ? persistedMatches
-      : PUBLISHED_MATCHES_2026_27,
+  const matches = applyMatchOverrideMap(
+    applyOfficialMatchSchedule(applySeasonHomeStadiums(
+      persistedMatches.length === 240
+        ? persistedMatches
+        : PUBLISHED_MATCHES_2026_27,
+    )),
+    calendarOverrides,
   );
 
   // A página de detalhe consulta exatamente a mesma coleção escolhida acima

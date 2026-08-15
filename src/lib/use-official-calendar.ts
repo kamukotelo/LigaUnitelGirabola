@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { getMatchesForSeason, Match, UPCOMING_SEASON_ID } from '@/lib/data';
+import { applyRuntimeMatchOverrides, getMatchesForSeason, Match, UPCOMING_SEASON_ID } from '@/lib/data';
 
 /**
  * Fonte única do calendário público. Para 2026/27 consulta sempre o mesmo
@@ -27,7 +27,9 @@ export function useOfficialCalendar(seasonId: string) {
       })
       .then((data) => {
         if (Array.isArray(data.matches) && data.matches.length === 240) {
-          setOfficialMatches(data.matches);
+          // A API fornece o calendário-base; alterações publicadas no painel
+          // continuam a ser a última camada antes de renderizar qualquer card.
+          setOfficialMatches(applyRuntimeMatchOverrides(data.matches));
         }
       })
       .catch((error) => {

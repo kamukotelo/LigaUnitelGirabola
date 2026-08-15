@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Trophy, Target, CalendarDays, Flag, Tv, X } from 'lucide-react';
-import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
+import { applyRuntimeMatchOverrides, UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { supabase } from '@/lib/supabase';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
@@ -120,7 +120,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         .then((data) => {
           if (cancelled) return;
           if (data.matches) {
-            setDynamicMatches(data.matches);
+            setDynamicMatches(applyRuntimeMatchOverrides(data.matches));
           }
           if (data.source) {
             setSyncMeta({

@@ -62,10 +62,10 @@ export interface Match {
 // Programação editorial confirmada da 1.ª jornada. Mantida na camada de dados
 // para que calendário, início, hub, API e ficha de jogo sirvam a mesma verdade.
 export const OFFICIAL_MATCH_SCHEDULE = [
-  { round: 1, homeTeamId: 'fcluanda', awayTeamId: 'caala', homeTeam: 'FC Luanda', awayTeam: 'CR Caála', date: '2026-08-22T15:00:00+01:00', stadium: 'Campo da Cidadela' },
+  { round: 1, homeTeamId: 'fcluanda', awayTeamId: 'caala', homeTeam: 'FC Luanda', awayTeam: 'CR Caála', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio França N’dalu' },
   { round: 1, homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
-  { round: 1, homeTeamId: 'dago', awayTeamId: 'desphuila', homeTeam: 'CD 1.º de Agosto', awayTeam: 'Desportivo da Huíla', date: '2026-08-23T16:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
-  { round: 1, homeTeamId: 'lundasul', awayTeamId: 'petro', homeTeam: 'Desportivo da Lunda Sul', awayTeam: 'Petro de Luanda', date: '2026-08-21T15:00:00+01:00', stadium: 'Estádio das Mangueiras', broadcaster: 'Zsports' },
+  { round: 1, homeTeamId: 'dago', awayTeamId: 'desphuila', homeTeam: 'CD 1.º de Agosto', awayTeam: 'Desportivo da Huíla', date: '2026-08-23T16:00:00+01:00', stadium: 'Estádio França N’dalu', broadcaster: 'Zsports' },
+  { round: 1, homeTeamId: 'lundasul', awayTeamId: 'petro', homeTeam: 'Desportivo da Lunda Sul', awayTeam: 'Petro de Luanda', date: '2026-08-21T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', broadcaster: 'Zsports' },
   { round: 1, homeTeamId: 'wiliete', awayTeamId: 'lobito', homeTeam: 'Wiliete de Benguela', awayTeam: 'Académica do Lobito', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', broadcaster: 'Zsports' },
   { round: 1, homeTeamId: 'primeiromaio', awayTeamId: 'kabuscorp', homeTeam: 'Estrela 1.º de Maio', awayTeam: 'Kabuscorp SC', date: '2026-08-23T14:00:00+01:00', stadium: 'Estádio de São Filipe', broadcaster: 'Zsports' },
   { round: 1, homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional do Chiazi' },
@@ -103,6 +103,21 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 5, homeTeamId: 'kabuscorp', awayTeamId: 'interclube', date: '2026-09-17T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 5, homeTeamId: 'saosalvador', awayTeamId: 'cabinda', date: '2026-09-20T15:00:00+01:00' },
 ] as const;
+
+/** Recintos oficiais usados como casa durante toda a época 2026/2027. */
+export const HOME_STADIUMS_2026_27: Readonly<Record<string, string>> = {
+  lundasul: 'Estádio do Sagrada Esperança',
+  fcluanda: 'Estádio França N’dalu',
+  dago: 'Estádio França N’dalu',
+  sagrada: 'Estádio do Sagrada Esperança',
+};
+
+export function applySeasonHomeStadiums(matches: Match[]): Match[] {
+  return matches.map((match) => ({
+    ...match,
+    stadium: HOME_STADIUMS_2026_27[match.homeTeamId] ?? match.stadium,
+  }));
+}
 
 /** Ordem editorial comum: jornada, data/hora e, em caso de empate, ID. */
 export function sortOfficialMatches(matches: Match[]): Match[] {
@@ -247,20 +262,20 @@ export interface NewsArticle {
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Vermelho', coach: 'João de Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#D21515'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B'] }, { label: 'Secundário', colors: ['#000000'] }] },
   { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beto Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }] },
-  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#FFFFFF'] }] },
+  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#FFFFFF'] }] },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho', coach: 'Paulo Torres', president: 'Lucas Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515'], kits: [{ label: 'Principal', colors: ['#D21515'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Sandro Mendes', president: 'Agrione Manuel', nickname: 'MAQUISARDES', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }] },
   { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leo Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
-  { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'GDS', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Branco', coach: 'Francisco Moniz', president: 'José Muacábalo', nickname: 'Diamantíferos', colorsHex: ['#008751', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#008751', '#FFFFFF'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }] },
+  { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'GDS', city: 'Dundo', stadium: 'Estádio do Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Branco', coach: 'Francisco Moniz', president: 'José Muacábalo', nickname: 'Diamantíferos', colorsHex: ['#008751', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#008751', '#FFFFFF'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }] },
   { id: 'interclube', name: 'GD Interclube', officialName: 'Grupo Desportivo Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Divaldo Alves', president: 'José Canelas', nickname: 'Polícias', website: 'https://www.interclube.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
-  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio das Mangueiras', stadiumCapacity: 7000, founded: 2020, colors: 'Azul e Branco', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
+  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio do Sagrada Esperança', stadiumCapacity: 8000, founded: 2020, colors: 'Azul e Branco', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
   { id: 'libolo', name: 'Recreativo do Libolo', officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Osvaldo Roque', president: 'João Pereira', nickname: 'Libolenses', colorsHex: ['#FF6600', '#00529B'], kits: [{ label: 'Principal', colors: ['#FF6600', '#00529B'] }, { label: 'Secundário', colors: ['#00529B', '#FF6600'] }] },
   { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Amarelo', coach: 'Silvestre Pelé', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#F9C304'], kits: [{ label: 'Principal', colors: ['#F9C304'] }, { label: 'Secundário', colors: ['#000000'] }] },
   { id: 'saosalvador', name: 'São Salvador', officialName: 'Clube Desportivo São Salvador do Kongo', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Vermelho e Branco', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#808080'] }] },
   { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Azul e Branco', coach: 'Nzola Seca', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
   { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 6000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
   { id: 'caala', name: 'CR Caála', officialName: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio dos Mártires da Canhala', stadiumCapacity: 12000, founded: 1944, colors: 'Azul e Branco', coach: 'Artur Correia', president: 'António Mosquito', nickname: 'Caalenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
-  { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Campo da Cidadela', stadiumCapacity: 10000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] }
+  { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] }
 ];
 
 // ── 2. RANKING-SEMENTE ─────────────────────────────────────────────
@@ -1596,8 +1611,7 @@ function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
   return merged;
 }
 
-function applyMatchOverrides(list: Match[]): Match[] {
-  const ov = RUNTIME_OVERRIDES.calendar;
+export function applyMatchOverrideMap(list: Match[], ov?: Record<string, Partial<Match>>): Match[] {
   return list.map((m) => {
     const named = {
       ...m,
@@ -1606,6 +1620,10 @@ function applyMatchOverrides(list: Match[]): Match[] {
     };
     return normalizeMatchOverride(named, ov?.[m.id] ?? {});
   });
+}
+
+export function applyRuntimeMatchOverrides(list: Match[]): Match[] {
+  return applyMatchOverrideMap(list, RUNTIME_OVERRIDES.calendar);
 }
 
 // ── 7. FUNÇÕES AUXILIARES DE BUSCA ─────────────────────────────────
@@ -1694,9 +1712,13 @@ export function getMatches(): Match[] {
 
 // Calendário por época — 2026/2027 corresponde ao ficheiro do ANCAF_CALENDAR.
 export function getMatchesForSeason(seasonId: string): Match[] {
-  if (seasonId === UPCOMING_SEASON_ID) return applyOfficialMatchSchedule(applyMatchOverrides(MATCHES_2026_27));
-  if (HISTORICAL_MATCHES[seasonId]) return applyMatchOverrides(HISTORICAL_MATCHES[seasonId]);
-  return applyMatchOverrides(MATCHES);
+  // A ordem é intencional: base da época → agenda oficial → edição publicada.
+  // Assim, o administrador é sempre a última autoridade sobre cada jogo.
+  if (seasonId === UPCOMING_SEASON_ID) {
+    return applyRuntimeMatchOverrides(applyOfficialMatchSchedule(applySeasonHomeStadiums(MATCHES_2026_27)));
+  }
+  if (HISTORICAL_MATCHES[seasonId]) return applyRuntimeMatchOverrides(HISTORICAL_MATCHES[seasonId]);
+  return applyRuntimeMatchOverrides(MATCHES);
 }
 
 export function getMatchesByTeam(teamId: string, seasonId = UPCOMING_SEASON_ID): Match[] {
@@ -1798,7 +1820,7 @@ export function getMatchById(id: string): Match | undefined {
   const match = (id.startsWith('m27-') ? getMatchesForSeason(UPCOMING_SEASON_ID).find(m => m.id === id) : undefined)
     ?? MATCHES.find(m => m.id === id)
     ?? Object.values(HISTORICAL_MATCHES).flat().find(m => m.id === id);
-  return match ? applyMatchOverrides([match])[0] : undefined;
+  return match ? applyRuntimeMatchOverrides([match])[0] : undefined;
 }
 
 export function getTopScorers(): PlayerStats[] {

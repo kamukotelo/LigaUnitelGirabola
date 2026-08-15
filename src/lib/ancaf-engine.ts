@@ -80,8 +80,8 @@ function drawFixtures(clubs: DrawClub[], rng: () => number): DrawFixture[] {
 // estádios espelham TEAMS (fonte única) para evitar divergências entre vistas.
 const DRAW_ROSTER: DrawClub[] = [
   { id: 'petro', name: 'Petro de Luanda', stadium: 'Estádio 11 de Novembro' },
-  { id: 'dago', name: '1.º de Agosto', stadium: 'Estádio França Ndalu' },
-  { id: 'sagrada', name: 'Sagrada Esperança', stadium: 'Estádio Sagrada Esperança' },
+  { id: 'dago', name: '1.º de Agosto', stadium: 'Estádio França N’dalu' },
+  { id: 'sagrada', name: 'Sagrada Esperança', stadium: 'Estádio do Sagrada Esperança' },
   { id: 'wiliete', name: 'Wiliete de Benguela', stadium: 'Estádio Nacional de Ombaka' },
   { id: 'kabuscorp', name: 'Kabuscorp', stadium: 'Estádio dos Coqueiros' },
   { id: 'interclube', name: 'Interclube', stadium: 'Estádio 22 de Junho' },
@@ -91,9 +91,9 @@ const DRAW_ROSTER: DrawClub[] = [
   { id: 'lobito', name: 'Académica do Lobito', stadium: 'Estádio do Buraco' },
   { id: 'libolo', name: 'Recreativo do Libolo', stadium: 'Estádio Municipal de Calulo' },
   { id: 'saosalvador', name: 'São Salvador do Kongo', stadium: 'Estádio Álvaro Buta' },
-  { id: 'lundasul', name: 'Desportivo da Lunda Sul', stadium: 'Estádio das Mangueiras' },
+  { id: 'lundasul', name: 'Desportivo da Lunda Sul', stadium: 'Estádio do Sagrada Esperança' },
   { id: 'caala', name: 'CR Caála', stadium: 'Estádio dos Mártires da Canhala' },
-  { id: 'fcluanda', name: 'FC Luanda', stadium: 'Campo da Cidadela' },
+  { id: 'fcluanda', name: 'FC Luanda', stadium: 'Estádio França N’dalu' },
   { id: 'primeiromaio', name: '1.º de Maio', stadium: 'Estádio de São Filipe' },
 ];
 
