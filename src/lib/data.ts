@@ -239,6 +239,8 @@ export interface NewsArticle {
   reviewedAt?: string;
   publishedAt?: string;
   aiAssisted?: boolean;
+  /** Páginas digitalizadas de um comunicado ou documento oficial. */
+  documentImages?: string[];
 }
 
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
@@ -1343,6 +1345,25 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
+  {
+    id: 'comunicado-oficial-001-dce-ancaf-2026',
+    title: 'Gestão Equitativa de Jogos, Transparência Financeira e Condições Operacionais na Época 2026/2027',
+    category: 'Comunicado Oficial',
+    date: '15 ago. 2026',
+    isoDate: '2026-08-15',
+    summary: 'A ANCAF estabelece diretrizes operacionais e financeiras para os 16 clubes participantes da Liga Unitel Girabola na época 2026/2027.',
+    content: 'O Comunicado Oficial n.º 001-DCE/ANCAF/2026 estabelece orientações sobre a gestão operacional e a equidade dos jogos, a transparência financeira e a distribuição de dividendos, as condições operacionais e de colaboração, o licenciamento e as vistorias dos estádios, bem como recomendações administrativas finais.\n\nO documento determina o cumprimento integral do calendário oficial, reforça a aplicação igualitária dos regulamentos e a não discriminação, e define princípios de transparência para receitas comerciais, direitos televisivos e distribuição de dividendos.\n\nOs clubes devem colaborar com a empresa detentora dos direitos televisivos, assegurar condições para conferências de imprensa e para o trabalho dos delegados da Liga. O licenciamento compete à Federação Angolana de Futebol, e os jogos serão realizados apenas em estádios aprovados pela FAF.\n\nO comunicado foi emitido em Luanda, a 15 de agosto de 2026, pela Direção de Competições da ANCAF, e assinado pelo Director de Competições, Valódia dos Santos, e pelo Presidente, João Lusevi Kueno.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-08-15T00:00:00+01:00',
+    documentImages: [
+      '/comunicados/comunicado-001-2026/pagina-1.png',
+      '/comunicados/comunicado-001-2026/pagina-2.png',
+      '/comunicados/comunicado-001-2026/pagina-3.png',
+    ],
+  },
   {
     id: 'draft-arranque-girabola-2026-27',
     title: 'ANCAF aponta 22 de agosto para o arranque do Girabola 2026/2027',
