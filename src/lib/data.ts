@@ -262,7 +262,7 @@ export interface NewsArticle {
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Vermelho', coach: 'João de Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#D21515'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B'] }, { label: 'Secundário', colors: ['#000000'] }] },
   { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beto Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }] },
-  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#FFFFFF'] }] },
+  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#FFFFFF'] }] },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho', coach: 'Paulo Torres', president: 'Lucas Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515'], kits: [{ label: 'Principal', colors: ['#D21515'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Sandro Mendes', president: 'Agrione Manuel', nickname: 'MAQUISARDES', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }] },
   { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leo Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
@@ -271,9 +271,9 @@ export const TEAMS: Team[] = [
   { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio do Sagrada Esperança', stadiumCapacity: 8000, founded: 2020, colors: 'Azul e Branco', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
   { id: 'libolo', name: 'Recreativo do Libolo', officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Osvaldo Roque', president: 'João Pereira', nickname: 'Libolenses', colorsHex: ['#FF6600', '#00529B'], kits: [{ label: 'Principal', colors: ['#FF6600', '#00529B'] }, { label: 'Secundário', colors: ['#00529B', '#FF6600'] }] },
   { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Amarelo', coach: 'Silvestre Pelé', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#F9C304'], kits: [{ label: 'Principal', colors: ['#F9C304'] }, { label: 'Secundário', colors: ['#000000'] }] },
-  { id: 'saosalvador', name: 'São Salvador', officialName: 'Clube Desportivo São Salvador do Kongo', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Vermelho e Branco', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#808080'] }] },
+  { id: 'saosalvador', name: 'São Salvador', officialName: 'São Salvador do Kongo Futebol Clube', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Vermelho e Branco', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#808080'] }] },
   { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Azul e Branco', coach: 'Nzola Seca', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
-  { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 6000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
+  { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube 1º de Maio de Benguela', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 6000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
   { id: 'caala', name: 'CR Caála', officialName: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio dos Mártires da Canhala', stadiumCapacity: 12000, founded: 1944, colors: 'Azul e Branco', coach: 'Artur Correia', president: 'António Mosquito', nickname: 'Caalenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
   { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] }
 ];
@@ -471,12 +471,35 @@ export const MATCHES: Match[] = generateAllMatches();
 // ── 2b. CLASSIFICAÇÃO DERIVADA DOS JOGOS ───────────────────────────
 // A tabela mostrada no site é calculada a partir dos jogos terminados,
 // garantindo que classificação e resultados coincidem sempre.
+export const STANDINGS_ORDER_2026_27 = [
+  'lobito',
+  'petro',
+  'dago',
+  'caala',
+  'libolo',
+  'desphuila',
+  'lundasul',
+  'sagrada',
+  'primeiromaio',
+  'bravos',
+  'cabinda',
+  'fcluanda',
+  'interclube',
+  'kabuscorp',
+  'saosalvador',
+  'wiliete',
+] as const;
+
+const STANDINGS_ORDER_INDEX = new Map<string, number>(
+  STANDINGS_ORDER_2026_27.map((teamId, index) => [teamId, index]),
+);
+
 export function computeStandings(matches: Match[]): StandingEntry[] {
   const acc = new Map<string, Omit<StandingEntry, 'position' | 'goalDifference' | 'form'> & { _matches: Match[] }>();
   const participants = new Map<string, string>();
   for (const match of matches) {
-    participants.set(match.homeTeamId, getTeamById(match.homeTeamId)?.name ?? match.homeTeam);
-    participants.set(match.awayTeamId, getTeamById(match.awayTeamId)?.name ?? match.awayTeam);
+    participants.set(match.homeTeamId, getTeamFullName(match.homeTeamId, match.homeTeam));
+    participants.set(match.awayTeamId, getTeamFullName(match.awayTeamId, match.awayTeam));
   }
   for (const [teamId, teamName] of participants) {
     acc.set(teamId, {
@@ -521,6 +544,8 @@ export function computeStandings(matches: Match[]): StandingEntry[] {
       b.points - a.points ||
       b.goalDifference - a.goalDifference ||
       b.goalsFor - a.goalsFor ||
+      (STANDINGS_ORDER_INDEX.get(a.teamId) ?? Number.MAX_SAFE_INTEGER) -
+        (STANDINGS_ORDER_INDEX.get(b.teamId) ?? Number.MAX_SAFE_INTEGER) ||
       a.teamName.localeCompare(b.teamName))
     .map((e, i) => ({ ...e, position: i + 1 }));
 }
