@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import {
   MATCHES, TEAMS, PLAYERS, newsMock, getStandings, getNewsArticles,
-  getPlayerFifaRecords, FIFA_CHECK_META, getTeamProfile, getMatchOfficials,
+  getPlayerFifaRecords, FIFA_CHECK_META, getTeamProfile,
   SEASONS, UPCOMING_SEASON_ID, ANCAF_CALENDAR_SOURCE, getMatchesForSeason,
   DEFAULT_SITE_SETTINGS, computeStandings, CURRENT_SEASON_ID,
   type Match, type FifaCheckKey, type Team, type NewsArticle, type Player,
@@ -903,7 +903,7 @@ function CalendarSection() {
                 <Field label="Árbitro principal">
                   <input
                     type="text"
-                    placeholder="Nomeação automática"
+                    placeholder="A definir na semana do jogo"
                     value={m.referee ?? ''}
                     onChange={(e) => update(m.id, { referee: e.target.value || undefined })}
                     className="admin-input"
@@ -1686,14 +1686,13 @@ function NominationsSection() {
   const roundMatches = matches.filter((m) => m.round === round);
   const editedCount = Object.keys(overrides).length;
 
-  // Combina nomeação derivada (getMatchOfficials) com os overrides do admin.
+  // Mantém os campos vazios até à nomeação oficial publicada pelo administrador.
   const resolved = (m: Match) => {
-    const base = getMatchOfficials(m);
     const o = overrides[m.id] ?? {};
     return {
-      referee: o.referee ?? base.referee,
-      assistants: o.assistants ?? base.assistants,
-      fourth: o.fourth ?? base.fourth,
+      referee: o.referee ?? m.referee ?? '',
+      assistants: o.assistants ?? ['', ''] as [string, string],
+      fourth: o.fourth ?? '',
     };
   };
 
@@ -1751,16 +1750,16 @@ function NominationsSection() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <Field label="Árbitro principal">
-                  <input className="admin-input" value={nom.referee} onChange={(e) => update(m.id, { referee: e.target.value })} />
+                  <input className="admin-input" placeholder="A definir" value={nom.referee} onChange={(e) => update(m.id, { referee: e.target.value })} />
                 </Field>
                 <Field label="1.º Assistente">
-                  <input className="admin-input" value={nom.assistants[0]} onChange={(e) => update(m.id, { assistants: [e.target.value, nom.assistants[1]] })} />
+                  <input className="admin-input" placeholder="A definir" value={nom.assistants[0]} onChange={(e) => update(m.id, { assistants: [e.target.value, nom.assistants[1]] })} />
                 </Field>
                 <Field label="2.º Assistente">
-                  <input className="admin-input" value={nom.assistants[1]} onChange={(e) => update(m.id, { assistants: [nom.assistants[0], e.target.value] })} />
+                  <input className="admin-input" placeholder="A definir" value={nom.assistants[1]} onChange={(e) => update(m.id, { assistants: [nom.assistants[0], e.target.value] })} />
                 </Field>
                 <Field label="4.º Árbitro">
-                  <input className="admin-input" value={nom.fourth} onChange={(e) => update(m.id, { fourth: e.target.value })} />
+                  <input className="admin-input" placeholder="A definir" value={nom.fourth} onChange={(e) => update(m.id, { fourth: e.target.value })} />
                 </Field>
               </div>
             </Panel>

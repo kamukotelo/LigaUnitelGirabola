@@ -54,7 +54,7 @@ export interface Match {
   stadium: string;
   status: 'scheduled' | 'live' | 'finished';
   round: number;
-  referee?: string;      // preenchido pela BD (ancaf_matches); senão derivado via getMatchOfficials
+  referee?: string;      // preenchido pela BD/admin; fica por definir até à nomeação oficial
   broadcaster?: string;  // transmissão TV; senão derivado via getMatchBroadcast
   attendance?: number;   // assistência oficial; senão derivada em getMatchDetail
 }
@@ -2041,8 +2041,6 @@ export interface MatchDetail {
 
 const SQUAD_FIRST = ['Manuel', 'João', 'Pedro', 'Alberto', 'Geraldo', 'Mateus', 'Domingos', 'Carlos', 'Bruno', 'Hélder', 'Nuno', 'Ivo', 'Cláudio', 'Wilson', 'Fredy', 'Gilberto', 'Yuri', 'Dani', 'Zito', 'Job', 'Edmilson', 'Buatu', 'Picas', 'Bastos'];
 const SQUAD_LAST = ['Cabungula', 'Capita', 'Buá', 'Catraio', 'Mavinga', 'Manucho', 'Bero', 'Lamá', 'Quinito', 'Bokila', 'Kialonda', 'Afonso', 'Nzola', 'Caboco', 'Wilá', 'Fabrício', 'Massunguna', 'Ginga', 'Depú', 'Isaac', 'Gelson', 'Tó Carneiro', 'Macaia', 'Bambi'];
-const REFEREES = ['Hélder Malembe', 'António Caetano', 'José Ndala', 'Olímpio Capassassa', 'Bruno Quissanga', 'Edgar Sousa', 'Telmo Domingos'];
-const ASSISTANT_REFEREES = ['Jerson Emiliano', 'Marcos dos Santos', 'Ivo Manuel', 'Paulino Kassoma', 'Délcio Cahanda', 'Fernando Muhongo', 'Adolfo Simão', 'Nelson Ephemba'];
 export const BROADCASTERS = ['ZSports', 'Por confirmar'];
 
 // Clubes angolanos nas Afro Taças. Nos jogos do Girabola entre duas destas
@@ -2218,7 +2216,7 @@ export function getMatchDetail(match: Match): MatchDetail {
   };
 }
 
-// ── FICHA DE JOGO: ARBITRAGEM, TRANSMISSÃO E TEMPO ÚTIL (DERIVADOS) ──
+// ── FICHA DE JOGO: ARBITRAGEM, TRANSMISSÃO E TEMPO ÚTIL ──────────────
 // Helpers partilhados entre cartões de jogo, ficha de jogo e abas do hub de
 // competição, para que os mesmos dados apareçam de forma consistente em todo
 // o site. Valores da BD (Match.referee/broadcaster) têm sempre prioridade.
@@ -2230,17 +2228,14 @@ export interface MatchOfficials {
 }
 
 export function getMatchOfficials(match: Match): MatchOfficials {
-  const seed = hashString(match.id);
-  // salt 3 mantém compatibilidade com o árbitro histórico de getMatchDetail
-  const referee = match.referee ?? REFEREES[seededInt(seed, 3, 0, REFEREES.length - 1)];
-  const a1 = ASSISTANT_REFEREES[seededInt(seed, 31, 0, ASSISTANT_REFEREES.length - 1)];
-  let a2Idx = seededInt(seed, 32, 0, ASSISTANT_REFEREES.length - 1);
-  if (ASSISTANT_REFEREES[a2Idx] === a1) a2Idx = (a2Idx + 1) % ASSISTANT_REFEREES.length;
-  const fourth = REFEREES[(seededInt(seed, 33, 0, REFEREES.length - 1) + 1) % REFEREES.length];
-  const base: MatchOfficials = { referee, assistants: [a1, ASSISTANT_REFEREES[a2Idx]], fourth };
-  // Nomeações publicadas no admin sobrepõem-se ao valor derivado.
   const ov = RUNTIME_OVERRIDES.nominations?.[match.id];
-  return ov ? { ...base, ...ov } : base;
+  const defined = (value?: string) => value?.trim() || 'A definir';
+
+  return {
+    referee: defined(ov?.referee ?? match.referee),
+    assistants: [defined(ov?.assistants?.[0]), defined(ov?.assistants?.[1])],
+    fourth: defined(ov?.fourth),
+  };
 }
 
 export function getMatchBroadcast(match: Match): string {
