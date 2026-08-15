@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Play, CalendarDays, ExternalLink, Tv } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Play, CalendarDays, ExternalLink, Tv, FileText, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import TeamCrest from '@/components/ui/TeamCrest';
 import {
   getNewsArticles,
+  getOfficialCommunications,
+  isOfficialCommunication,
   getMatchBroadcast,
   getMatchesForSeason,
   PREVIOUS_SEASON_ID,
@@ -53,7 +55,8 @@ export default function LigaAngolaBlock() {
   const standings = getStandingsForSeason(standingsSeasonId).slice(0, 5);
 
   // ─── STATE FOR NEWS (NOTÍCIAS) ───
-  const news = getNewsArticles().slice(0, 4);
+  const officialCommunications = getOfficialCommunications().slice(0, 2);
+  const news = getNewsArticles().filter((article) => !isOfficialCommunication(article)).slice(0, 4);
   const featuredNews = news[0];
   const secondaryNews = news.slice(1, 4);
 
@@ -347,6 +350,46 @@ export default function LigaAngolaBlock() {
 
           {/* ────── RIGHT COLUMN (MAIN CONTENT - 8 Cols) ────── */}
           <div className="lg:col-span-8 flex flex-col gap-12">
+
+            {/* ─── COMUNICADOS OFICIAIS ─── */}
+            <section className="relative overflow-hidden rounded-2xl border border-[#E85D1A]/30 bg-white shadow-sm dark:border-[#F47A35]/40 dark:bg-zinc-950" aria-labelledby="official-communications-title">
+              <div className="flex flex-col gap-4 bg-[#E85D1A] px-5 py-5 text-white sm:flex-row sm:items-center sm:justify-between sm:px-7">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15" aria-hidden="true">
+                    <ShieldCheck size={24} />
+                  </span>
+                  <div>
+                    <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white/80">Informação institucional</p>
+                    <h2 id="official-communications-title" className="font-display text-lg font-black uppercase tracking-wide sm:text-xl">Comunicados Oficiais</h2>
+                  </div>
+                </div>
+                <Link href="/comunicados" className="inline-flex w-fit items-center gap-2 rounded-lg bg-white px-4 py-2.5 font-mono text-[10px] font-black uppercase tracking-wide text-[#B9430C] transition-colors hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                  Ver todos <ArrowRight size={12} />
+                </Link>
+              </div>
+
+              <div className="grid gap-3 p-4 sm:p-5 md:grid-cols-2">
+                {officialCommunications.length > 0 ? officialCommunications.map((article) => (
+                  <Link
+                    key={article.id}
+                    href={`/news/${article.id}`}
+                    className="group flex min-h-28 items-start gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-4 transition-colors hover:border-[#E85D1A]/50 hover:bg-orange-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-[#F47A35]/60 dark:hover:bg-zinc-900/70"
+                  >
+                    <FileText className="mt-0.5 shrink-0 text-[#E85D1A]" size={20} aria-hidden="true" />
+                    <span className="min-w-0">
+                      <span className="mb-1 block font-mono text-[9px] font-bold uppercase tracking-wide text-[#B9430C] dark:text-[#F6A06D]">{article.date}</span>
+                      <span className="block font-display text-sm font-extrabold uppercase leading-snug text-foreground transition-colors group-hover:text-[#B9430C] dark:group-hover:text-[#F6A06D] line-clamp-2">{article.title}</span>
+                      <span className="mt-2 inline-flex items-center gap-1 font-mono text-[9px] font-bold uppercase text-zinc-500 dark:text-zinc-400">Ler comunicado <ArrowRight size={9} /></span>
+                    </span>
+                  </Link>
+                )) : (
+                  <div className="md:col-span-2 flex items-center gap-3 rounded-xl border border-dashed border-[#E85D1A]/35 bg-orange-50/60 p-5 text-sm text-zinc-700 dark:bg-orange-950/10 dark:text-zinc-300">
+                    <FileText className="shrink-0 text-[#E85D1A]" size={22} aria-hidden="true" />
+                    <p>Os comunicados oficiais publicados pela Liga aparecerão aqui.</p>
+                  </div>
+                )}
+              </div>
+            </section>
             
             {/* ─── NOTÍCIAS ─── */}
             <div className="relative pt-6">
@@ -387,7 +430,7 @@ export default function LigaAngolaBlock() {
                         {featuredNews.summary}
                       </p>
                       <Link href={`/news/${featuredNews.id}`} className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase font-bold text-primary hover:text-accent transition-colors self-start">
-                        Ler Comunicado <ArrowRight size={11} />
+                        Ler notícia <ArrowRight size={11} />
                       </Link>
                     </div>
                   </div>

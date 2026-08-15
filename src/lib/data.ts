@@ -1802,6 +1802,23 @@ export function getNewsArticles(): NewsArticle[] {
   return merged.sort((a, b) => (b.isoDate ?? '').localeCompare(a.isoDate ?? ''));
 }
 
+/** Identifica conteúdos editoriais reservados à comunicação institucional. */
+export function isOfficialCommunication(article: NewsArticle): boolean {
+  const category = article.category
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase();
+
+  return category.includes('comunicado')
+    || category.includes('oficial')
+    || category === 'federacao';
+}
+
+export function getOfficialCommunications(): NewsArticle[] {
+  return getNewsArticles().filter(isOfficialCommunication);
+}
+
 export function getNewsArticleById(id: string): NewsArticle | undefined {
   return getNewsArticles().find(n => n.id === id);
 }
