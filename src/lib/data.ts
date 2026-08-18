@@ -257,6 +257,8 @@ export interface NewsArticle {
   aiAssisted?: boolean;
   /** Páginas digitalizadas de um comunicado ou documento oficial. */
   documentImages?: string[];
+  /** Ficheiro PDF original disponibilizado para consulta e descarga. */
+  documentUrl?: string;
 }
 
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
@@ -1386,6 +1388,24 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
+  {
+    id: 'comunicado-oficial-002-dce-ancaf-2026',
+    title: 'Publicação da 1.ª à 5.ª jornada da Liga Unitel Girabola 2026/2027',
+    category: 'Comunicado Oficial',
+    date: '15 ago. 2026',
+    isoDate: '2026-08-15',
+    summary: 'A ANCAF publica a programação oficial das cinco primeiras jornadas da Liga Unitel Girabola na época 2026/2027.',
+    content: 'O Comunicado Oficial n.º 002-DCE/ANCAF/2026 publica a programação da 1.ª à 5.ª jornada da Liga Unitel Girabola 2026/2027 para conhecimento dos 16 clubes participantes.\n\nO documento reúne, num único mapa oficial, os confrontos, as datas, os horários e os jogos com transmissão em direto pela Zsports. A programação nele apresentada passa a orientar os cartões de jogos, o calendário e os restantes módulos informativos do portal.\n\nO comunicado foi emitido em Luanda, a 15 de agosto de 2026, pela Direção de Competições da Associação Nacional dos Clubes Angolanos de Futebol.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-08-15T00:00:00+01:00',
+    documentImages: [
+      '/comunicados/comunicado-002-2026/pagina-1.png',
+    ],
+    documentUrl: '/comunicados/comunicado-002-2026/comunicado-002-dce-ancaf-2026.pdf',
+  },
   {
     id: 'comunicado-oficial-001-dce-ancaf-2026',
     title: 'Gestão Equitativa de Jogos, Transparência Financeira e Condições Operacionais na Época 2026/2027',

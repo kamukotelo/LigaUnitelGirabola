@@ -5,7 +5,7 @@ import { getNewsArticleById } from '@/lib/data';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Calendar } from 'lucide-react';
+import { ArrowLeft, Calendar, Download } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import { isOfficialCommunication } from '@/lib/data';
 
@@ -83,7 +83,19 @@ export default function NewsDetailPage() {
                     <p className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#B9430C] dark:text-[#F6A06D]">Documento original</p>
                     <h2 id="official-document-pages" className="mt-1 font-display text-xl font-black uppercase text-foreground">Páginas do comunicado</h2>
                   </div>
-                  <span className="font-mono text-[10px] text-zinc-500">{article.documentImages.length} páginas</span>
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-[10px] text-zinc-500">{article.documentImages.length} {article.documentImages.length === 1 ? 'página' : 'páginas'}</span>
+                    {article.documentUrl && (
+                      <a
+                        href={article.documentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-[#E85D1A] px-3 py-2 font-mono text-[9px] font-black uppercase tracking-wide text-white transition-colors hover:bg-[#C94C12]"
+                      >
+                        <Download size={12} aria-hidden="true" /> Abrir PDF
+                      </a>
+                    )}
+                  </div>
                 </div>
                 <div className="space-y-6">
                   {article.documentImages.map((src, index) => (
