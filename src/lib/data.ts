@@ -1389,6 +1389,25 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'comunicado-oficial-004-dce-ancaf-2026',
+    title: 'ANCAF esclarece o modelo de calendarização e programação do Girabola 2026/2027',
+    category: 'Comunicado Oficial',
+    date: '15 ago. 2026',
+    isoDate: '2026-08-15',
+    summary: 'A Direção de Competições esclarece aos 16 clubes os critérios de calendarização, transmissão televisiva e programação dos jogos da Liga Unitel Girabola.',
+    content: 'O Comunicado Oficial n.º 004-DCE/ANCAF/2026 esclarece que a calendarização e a programação dos jogos passam a ser uma responsabilidade exclusiva da liga organizadora, em resposta às exigências comerciais, televisivas e regulamentares da competição. Segundo a ANCAF, a distribuição dos encontros ao longo de cada jornada permitirá a transmissão de dois a cinco jogos e apoiará a monetização do campeonato.\n\nAs jornadas serão disputadas à sexta-feira, sábado, domingo e segunda-feira. Também poderá haver antecipação de jogos para terça, quarta ou quinta-feira devido à participação das equipas angolanas nas competições da CAF.\n\nA programação poderá ainda considerar datas FIFA, jogos da seleção nacional, competições da CAF, questões políticas ou religiosas, segurança pública, condições climáticas e grandes clássicos internacionais que possam afetar a audiência da Liga Unitel Girabola.\n\nNa mensagem final, a ANCAF defende um campeonato moderno, sustentável e respeitado, apelando à disciplina, cooperação e adaptação dos clubes ao novo modelo. O documento é assinado pelo Director de Competições, Valódia dos Santos, e pelo Presidente da ANCAF, João Lusevi Kueno.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-08-19T14:35:09+01:00',
+    documentImages: [
+      '/comunicados/comunicado-004-2026/pagina-1.png',
+      '/comunicados/comunicado-004-2026/pagina-2.png',
+    ],
+    documentUrl: '/comunicados/comunicado-004-2026/comunicado-004-dce-ancaf-2026.pdf',
+  },
+  {
     id: 'mensagem-presidente-ancaf-liga-unitel-girabola-2026-27',
     title: 'Mensagem do Presidente da ANCAF sobre a Liga Unitel Girabola 2026/2027',
     category: 'Comunicado Oficial',
