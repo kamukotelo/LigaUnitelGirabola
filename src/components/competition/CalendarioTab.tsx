@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Trophy, Target, CalendarDays, Flag, Tv, X } from 'lucide-react';
-import { applyRuntimeMatchOverrides, UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
+import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
-import { supabase } from '@/lib/supabase';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
+import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
 type StatusFilter = 'all' | 'finished' | 'scheduled';
 type CalendarFilters = {
@@ -90,12 +90,8 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
 
 export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   const [filterState, setFilterState] = useState<CalendarFilters>(() => getDefaultFilters(seasonId));
-  const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
-  const [loading, setLoading] = useState(false);
   const [viewMode, setViewMode] = useState<'lista' | 'planeamento'>('lista');
-  const [syncMeta, setSyncMeta] = useState<{
-    generatedAt: string;
-  } | null>(null);
+  const { matches: MATCHES, loading, generatedAt } = useOfficialCalendar(seasonId);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const filters = filterState.seasonId === seasonId ? filterState : getDefaultFilters(seasonId);
@@ -108,53 +104,6 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
       seasonId,
     }));
   };
-
-  useEffect(() => {
-    if (!isUpcoming) return;
-
-    let cancelled = false;
-    const fetchDynamicCalendar = () => {
-      setLoading(true);
-      fetch('/api/ancaf?format=matches', { cache: 'no-store' })
-        .then((res) => res.json())
-        .then((data) => {
-          if (cancelled) return;
-          if (data.matches) {
-            setDynamicMatches(applyRuntimeMatchOverrides(data.matches));
-          }
-          if (data.source) {
-            setSyncMeta({
-              generatedAt: data.generatedAt || data.source.generatedAt || new Date().toISOString(),
-            });
-          }
-        })
-        .catch((err) => console.error('Erro ao buscar calendário dinâmico:', err))
-        .finally(() => {
-          if (!cancelled) setLoading(false);
-        });
-    };
-
-    fetchDynamicCalendar();
-
-    // Reage em tempo real à publicação de um novo sorteio (FAF Calendar grava
-    // a semente ativa em ancaf_configs) e busca o calendário atualizado sem
-    // precisar de recarregar a página.
-    const channel = supabase
-      .channel('ancaf-active-seed')
-      .on(
-        'postgres_changes',
-        { event: 'UPDATE', schema: 'public', table: 'ancaf_configs', filter: 'key=eq.active_calendar_seed' },
-        () => fetchDynamicCalendar(),
-      )
-      .subscribe();
-
-    return () => {
-      cancelled = true;
-      supabase.removeChannel(channel);
-    };
-  }, [isUpcoming]);
-
-  const MATCHES = isUpcoming && dynamicMatches.length > 0 ? dynamicMatches : getMatchesForSeason(seasonId);
 
   const participantIds = new Set(MATCHES.flatMap((match) => [match.homeTeamId, match.awayTeamId]));
   const seasonTeams = getAllTeams().filter((team) => participantIds.has(team.id));
@@ -241,7 +190,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
       </div>
 
       {viewMode === 'planeamento' ? (
-        <CalendarioPlaneamento />
+        <CalendarioPlaneamento matches={MATCHES} />
       ) : (
         <>
       {/* Capa e seletor visual de equipa */}
@@ -308,12 +257,12 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
               Calendário Oficial Ativo
             </span>
           </div>
-          {syncMeta && (
+          {generatedAt && (
             <div className="text-xs text-zinc-500 flex flex-wrap gap-x-4 gap-y-1">
               <span>
                 Última atualização:{' '}
                 <strong className="text-foreground font-semibold">
-                  {new Date(syncMeta.generatedAt).toLocaleString('pt-AO', {
+                  {new Date(generatedAt).toLocaleString('pt-AO', {
                     timeZone: ANGOLA_TIME_ZONE,
                     dateStyle: 'medium',
                     timeStyle: 'short',

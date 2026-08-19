@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { CalendarDays, HelpCircle } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import type { Match } from '@/lib/data';
 
 type EventType = 'girabola' | 'supertaca' | 'ta' | 'cl' | 'cc' | 'supercup' | 'can' | 'holiday';
 
@@ -193,7 +194,40 @@ const LEGEND_ITEMS = [
   { label: 'Feriados', color: 'bg-pink-600 border-pink-500 text-pink-100 dark:bg-pink-950/70 dark:border-pink-700 dark:text-pink-300' },
 ];
 
-export default function CalendarioPlaneamento() {
+function buildOfficialScheduleEvents(matches: Match[]): Record<string, Record<number, CalendarEvent[]>> {
+  // Preservar competições CAF, Taça, Supertaça e feriados, removendo todas as
+  // datas Girabola escritas manualmente. As jornadas passam a nascer apenas da
+  // mesma coleção oficial que alimenta a lista de jogos.
+  const events = Object.fromEntries(
+    Object.entries(SCHEDULE_EVENTS).map(([month, days]) => [
+      month,
+      Object.fromEntries(
+        Object.entries(days)
+          .map(([day, dayEvents]) => [Number(day), dayEvents.filter((event) => event.type !== 'girabola')])
+          .filter(([, dayEvents]) => (dayEvents as CalendarEvent[]).length > 0),
+      ),
+    ]),
+  ) as Record<string, Record<number, CalendarEvent[]>>;
+
+  for (const match of matches) {
+    const [year, month, day] = match.date.slice(0, 10).split('-').map(Number);
+    const monthDefinition = MONTHS.find((item) => item.year === year && item.month === month - 1);
+    if (!monthDefinition) continue;
+
+    const monthEvents = events[monthDefinition.label] ?? (events[monthDefinition.label] = {});
+    const dayEvents = monthEvents[day] ?? (monthEvents[day] = []);
+    const label = `${match.round}ª Jornada`;
+    if (!dayEvents.some((event) => event.type === 'girabola' && event.label === label)) {
+      dayEvents.unshift({ label, type: 'girabola' });
+    }
+  }
+
+  return events;
+}
+
+export default function CalendarioPlaneamento({ matches }: { matches: Match[] }) {
+  const scheduleEvents = useMemo(() => buildOfficialScheduleEvents(matches), [matches]);
+
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate();
   };
@@ -266,7 +300,7 @@ export default function CalendarioPlaneamento() {
                       const isValidDay = dayNumber >= 1 && dayNumber <= daysInThisMonth;
 
                       // Obter eventos específicos do dia
-                      const events = isValidDay ? SCHEDULE_EVENTS[m.label]?.[dayNumber] || [] : [];
+                      const events = isValidDay ? scheduleEvents[m.label]?.[dayNumber] || [] : [];
                       const hasEvents = events.length > 0;
 
                       // Determinar cores/estilo baseados no tipo de evento

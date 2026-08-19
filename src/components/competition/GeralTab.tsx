@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Video, Newspaper, Ticket, Tv } from 'lucide-react';
-import { applyRuntimeMatchOverrides, getMatchBroadcast, getMatchesForSeason, getNewsArticles, Match, UPCOMING_SEASON_ID } from '@/lib/data';
+import { getMatchBroadcast, getNewsArticles, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
@@ -61,33 +62,7 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
 }
 
 export default function GeralTab({ seasonId }: { seasonId: string }) {
-  const [dynamicMatches, setDynamicMatches] = useState<Match[]>([]);
-
-  useEffect(() => {
-    if (seasonId !== UPCOMING_SEASON_ID) return;
-    let cancelled = false;
-    fetch('/api/ancaf?format=matches', { cache: 'no-store' })
-      .then((response) => {
-        if (!response.ok) throw new Error(`API ANCAF respondeu ${response.status}`);
-        return response.json();
-      })
-      .then((data) => {
-        if (!cancelled && Array.isArray(data.matches) && data.matches.length === 240) {
-          setDynamicMatches(applyRuntimeMatchOverrides(data.matches));
-        }
-      })
-      .catch((error) => console.error('Erro ao obter jogos oficiais do campeonato:', error))
-    return () => { cancelled = true; };
-  }, [seasonId]);
-
-  const loadingCalendar = seasonId === UPCOMING_SEASON_ID && dynamicMatches.length !== 240;
-
-  const matches = useMemo(
-    () => seasonId === UPCOMING_SEASON_ID && dynamicMatches.length === 240
-      ? dynamicMatches
-      : getMatchesForSeason(seasonId),
-    [seasonId, dynamicMatches],
-  );
+  const { matches, loading: loadingCalendar } = useOfficialCalendar(seasonId);
   const rounds = useMemo(() => Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b), [matches]);
 
   // Abre na próxima jornada por disputar; se todas terminadas, na última.

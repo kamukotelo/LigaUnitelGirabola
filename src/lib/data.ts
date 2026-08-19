@@ -1389,6 +1389,27 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'mensagem-presidente-ancaf-liga-unitel-girabola-2026-27',
+    title: 'Mensagem do Presidente da ANCAF sobre a Liga Unitel Girabola 2026/2027',
+    category: 'Comunicado Oficial',
+    date: '19 ago. 2026',
+    isoDate: '2026-08-19',
+    summary: 'O Presidente da ANCAF esclarece as razões e os benefícios do novo modelo centralizado de calendarização e programação dos jogos da Liga Unitel Girabola.',
+    content: 'A mensagem dirigida aos presidentes dos clubes explica que a centralização das datas e dos horários procura proteger o interesse coletivo, aumentar a visibilidade da competição e criar melhores condições para a transmissão televisiva. A posição resulta de consulta interna da ANCAF e conta com o apoio e alinhamento da Federação Angolana de Futebol.\n\nO documento apresenta como benefícios o crescimento progressivo das receitas comerciais, a melhor preparação dos representantes angolanos nas competições da CAF, a valorização dos jogadores, o reforço da credibilidade perante investidores e a adoção de práticas utilizadas pelas principais ligas profissionais.\n\nAs jornadas poderão decorrer entre sexta-feira e segunda-feira. A programação continuará a considerar datas FIFA, competições da CAF, disponibilidade das infraestruturas, segurança pública, condições climáticas e eventos nacionais, políticos, religiosos ou culturais relevantes.\n\nA ANCAF apela à compreensão, colaboração e responsabilidade dos clubes, defendendo que um Girabola mais organizado, visível e sustentável criará oportunidades e benefícios para todos os participantes. A mensagem foi emitida em Luanda, a 19 de agosto de 2026, e assinada pelo Presidente da ANCAF, João Lusevi Kueno.',
+    status: 'published',
+    author: 'João Lusevi Kueno — Presidente da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-08-19T13:36:21+01:00',
+    documentImages: [
+      '/comunicados/mensagem-presidente-ancaf-2026/pagina-1.png',
+      '/comunicados/mensagem-presidente-ancaf-2026/pagina-2.png',
+      '/comunicados/mensagem-presidente-ancaf-2026/pagina-3.png',
+      '/comunicados/mensagem-presidente-ancaf-2026/pagina-4.png',
+    ],
+    documentUrl: '/comunicados/mensagem-presidente-ancaf-2026/mensagem-presidente-ancaf-19-agosto-2026.pdf',
+  },
+  {
     id: 'comunicado-oficial-002-dce-ancaf-2026',
     title: 'Publicação da 1.ª à 5.ª jornada da Liga Unitel Girabola 2026/2027',
     category: 'Comunicado Oficial',

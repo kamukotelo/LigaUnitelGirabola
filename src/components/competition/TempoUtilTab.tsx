@@ -3,9 +3,10 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Timer, Info, TrendingUp } from 'lucide-react';
-import { getMatchesForSeason, getMatchTempoUtil, getTeamById, Match } from '@/lib/data';
+import { getMatchTempoUtil, getTeamById, Match } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
 interface TempoUtilRow {
   match: Match;
@@ -13,7 +14,7 @@ interface TempoUtilRow {
 }
 
 export default function TempoUtilTab({ seasonId }: { seasonId: string }) {
-  const matches = getMatchesForSeason(seasonId);
+  const { matches } = useOfficialCalendar(seasonId);
 
   const rows: TempoUtilRow[] = matches
     .map((m) => ({ match: m, tempoUtil: getMatchTempoUtil(m) }))
