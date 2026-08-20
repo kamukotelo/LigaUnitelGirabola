@@ -1389,6 +1389,24 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'comunicado-oficial-003-dce-ancaf-2026',
+    title: 'Minuto de silêncio em homenagem a Augusto Kitadica "Docas"',
+    category: 'Comunicado Oficial',
+    date: '18 ago. 2026',
+    isoDate: '2026-08-18',
+    summary: 'A ANCAF determina o cumprimento de um minuto de silêncio em todos os jogos da primeira jornada da Liga Unitel Girabola 2026/2027.',
+    content: 'O Comunicado Oficial n.º 003-DCE/ANCAF/2026 determina o cumprimento de um minuto de silêncio em homenagem a Augusto Kitadica "Docas" em todos os jogos da primeira jornada da Liga Unitel Girabola 2026/2027.\n\nO comunicado é dirigido aos 16 clubes participantes, foi emitido em Luanda, a 18 de agosto de 2026, pela Direção de Competições da Associação Nacional dos Clubes Angolanos de Futebol, e assinado pelo Presidente da ANCAF, João Lusevi Kueno.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-08-18T00:00:00+01:00',
+    documentImages: [
+      '/comunicados/comunicado-003-2026/pagina-1.png',
+    ],
+    documentUrl: '/comunicados/comunicado-003-2026/comunicado-003-dce-ancaf-2026.pdf',
+  },
+  {
     id: 'comunicado-oficial-004-dce-ancaf-2026',
     title: 'ANCAF esclarece o modelo de calendarização e programação do Girabola 2026/2027',
     category: 'Comunicado Oficial',
