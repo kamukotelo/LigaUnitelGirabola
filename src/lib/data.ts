@@ -1434,16 +1434,16 @@ const PETRO_SQUAD_2026_27: Player[] = [
 const LUNDA_SUL_SQUAD_2026_27: Player[] = [
   ['nono', 'Nonó', 'Defesa', 2],
   ['yuri', 'Yuri', 'Defesa', 4],
-  ['fred', 'Fred', 'Defesa', 5],
-  ['platini', 'Platini', 'Médio', 6],
+  ['fred', 'Fredy', 'Defesa', 5],
+  ['platini', 'Platiny', 'Médio', 6],
   ['neymar-lunda-sul', 'Neymar', 'Avançado', 7],
   ['vado-lunda-sul', 'Vado', 'Médio', 8],
   ['maranata', 'Maranata', 'Médio', 10],
   ['magrinho', 'Magrinho', 'Avançado', 11],
-  ['cacusso', 'Cacusso', 'Guarda-redes', 12],
+  ['cacusso', 'Kacusso', 'Guarda-redes', 12],
   ['ximba', 'Ximba', 'Médio', 16],
   ['jepson', 'Jepson', 'Avançado', 17],
-  ['fuca', 'Fuca', 'Avançado', 18],
+  ['fuca', 'Fuca', 'Avançado', 35],
   ['manucho-lunda-sul', 'Manucho', 'Avançado', 19],
   ['mussa-lunda-sul', 'Mussá', 'Avançado', 20],
   ['mongadie', 'Mongadié', 'Defesa', 23],
@@ -2313,6 +2313,68 @@ function buildLineup(teamId: string, seed: number): LineupPlayer[] {
   return lineup;
 }
 
+/** Escalações oficiais publicadas pelos clubes para o jogo inaugural. */
+function getPublishedLundaSulPetroLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.round !== 1 || match.homeTeamId !== 'lundasul' || match.awayTeamId !== 'petro') return undefined;
+
+  const player = (
+    name: string,
+    playerId: string,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+  ): LineupPlayer => ({ name, playerId, number, position, isStarter, rating: 0 });
+
+  return {
+    home: [
+      player('Kacusso', 'cacusso', 12, 'GK', true),
+      player('Fredy', 'fred', 5, 'DEF', true),
+      player('Dieu', 'dieu', 25, 'DEF', true),
+      player('Kibuata', 'kibuata', 28, 'DEF', true),
+      player('Platiny', 'platini', 6, 'MID', true),
+      player('Vado', 'vado-lunda-sul', 8, 'MID', true),
+      player('Maranata', 'maranata', 10, 'MID', true),
+      player('Magrinho', 'magrinho', 11, 'FWD', true),
+      player('Manucho', 'manucho-lunda-sul', 19, 'FWD', true),
+      player('Mussá', 'mussa-lunda-sul', 20, 'FWD', true),
+      player('Joca', 'joca-lunda-sul', 27, 'FWD', true),
+      player('Nonó', 'nono', 2, 'DEF', false),
+      player('Yuri', 'yuri', 4, 'DEF', false),
+      player('Neymar', 'neymar-lunda-sul', 7, 'FWD', false),
+      player('Ximba', 'ximba', 16, 'MID', false),
+      player('Jepson', 'jepson', 17, 'FWD', false),
+      player('Mongadié', 'mongadie', 23, 'DEF', false),
+      player('Sozito', 'sozito', 26, 'DEF', false),
+      player('Zonzo', 'zonzo', 33, 'MID', false),
+      player('Nicon', 'nicon', 34, 'MID', false),
+      player('Fuca', 'fuca', 35, 'FWD', false),
+      player('Angola', 'angola-gr', 41, 'GK', false),
+    ],
+    away: [
+      player('Neblú', 'neblu', 22, 'GK', true),
+      player('Rúben Adérito', 'ruben-aderito', 4, 'DEF', true),
+      player('Léo Bolgado', 'leo-bolgado', 5, 'DEF', true),
+      player('Berna', 'berna', 13, 'DEF', true),
+      player('Eddie Afonso', 'eddie-afonso', 25, 'DEF', true),
+      player('Mário Balbúrdia', 'mario-balburdia', 6, 'MID', true),
+      player('Jonathan Toro', 'jonathan-toro', 8, 'MID', true),
+      player('Pedro Aparício', 'pedro-aparicio', 10, 'MID', true),
+      player('Deybi Flores', 'deybi-flores', 12, 'MID', true),
+      player('Ivan Cavaleiro', 'ivan-cavaleiro', 7, 'FWD', true),
+      player('Tiago Azulão', 'tiago-azulao', 26, 'FWD', true),
+      player('Hugo Marques', 'hugo-marques', 1, 'GK', false),
+      player('Núrio Fortuna', 'nurio-fortuna', 2, 'DEF', false),
+      player('Hélder Costa', 'helder-costa', 11, 'FWD', false),
+      player('Vidinho', 'vidinho', 18, 'DEF', false),
+      player('Jorge Pereira', 'jorge-pereira', 20, 'MID', false),
+      player('Tiago Reis', 'tiago-reis', 23, 'FWD', false),
+      player('António Hossi', 'antonio-hossi', 27, 'DEF', false),
+      player('Depú', 'depu', 29, 'FWD', false),
+      player('Ilídio Panda', 'ilidio-panda', 33, 'FWD', false),
+    ],
+  };
+}
+
 function buildTeamStats(seed: number, goalsFor: number, goalsAgainst: number, possession: number): MatchTeamStats {
   const shotsOnTarget = Math.max(goalsFor, goalsFor + seededInt(seed, 11, 1, 4));
   const shots = shotsOnTarget + seededInt(seed, 12, 3, 9);
@@ -2349,8 +2411,9 @@ function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: 
 
 export function getMatchDetail(match: Match): MatchDetail {
   const seed = hashString(match.id);
-  const homeLineup = buildLineup(match.homeTeamId, seed);
-  const awayLineup = buildLineup(match.awayTeamId, seed + 7);
+  const publishedLineups = getPublishedLundaSulPetroLineups(match);
+  const homeLineup = publishedLineups?.home ?? buildLineup(match.homeTeamId, seed);
+  const awayLineup = publishedLineups?.away ?? buildLineup(match.awayTeamId, seed + 7);
 
   const possessionHome = seededInt(seed, 1, 40, 62);
   const homeStats = buildTeamStats(seed, match.homeScore, match.awayScore, possessionHome);
@@ -2441,13 +2504,14 @@ export function getMatchOfficials(match: Match): MatchOfficials {
     && match.homeTeamId === 'lundasul'
     && match.awayTeamId === 'petro';
   const published = isLundaSulPetroRoundOne ? {
+    referee: 'Miguel Tchissingu Augusto Américo',
     assistants: ['João Manuel Fula António', 'Nery Domingos Pereira Amador da Silva'] as [string, string],
     fourth: 'Isaías Justino Camaxi',
     commissioner: 'Alberto Bumba Senda',
   } : undefined;
 
   return {
-    referee: defined(ov?.referee ?? match.referee),
+    referee: defined(ov?.referee ?? match.referee ?? published?.referee),
     assistants: [
       defined(ov?.assistants?.[0] ?? published?.assistants[0]),
       defined(ov?.assistants?.[1] ?? published?.assistants[1]),
