@@ -255,13 +255,13 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
             </span>
             <span className="text-xs font-bold font-mono text-green-400 uppercase tracking-widest">
-              Calendário Oficial Ativo
+              Calendário gerido na plataforma
             </span>
           </div>
           {generatedAt && (
             <div className="text-xs text-zinc-500 flex flex-wrap gap-x-4 gap-y-1">
               <span>
-                Última atualização:{' '}
+                Última publicação na plataforma:{' '}
                 <strong className="text-foreground font-semibold">
                   {new Date(generatedAt).toLocaleString('pt-AO', {
                     timeZone: ANGOLA_TIME_ZONE,

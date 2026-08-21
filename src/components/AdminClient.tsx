@@ -27,7 +27,6 @@ import { supabase } from '@/lib/supabase';
 // A autenticação é feita no servidor (ver AdminGuard + /api/admin/*); esta
 // consola só é renderizada quando a sessão é válida.
 const CAL_KEY = 'faf_calendar_overrides';
-const SYNC_KEY = 'faf_calendar_last_sync';
 const NEWS_KEY = 'faf_news_store';
 const PLAYER_KEY = 'faf_player_overrides';
 const NOMINATION_KEY = 'faf_nomination_overrides';
@@ -532,7 +531,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
           <Radio size={15} className="text-accent" /> Estado das Ligações
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <ConnectionBadge icon={CalendarDays} label="ANCAF_CALENDAR" endpoint={`${dynamicSource.season} · cód. ${dynamicSource.accessCode}`} />
+          <ConnectionBadge icon={CalendarDays} label="Calendário da plataforma" endpoint={`${dynamicSource.season} · base ${dynamicSource.accessCode}`} />
           <ConnectionBadge icon={Database} label="Base de Dados" endpoint="armazenamento · multimédia" />
           <ConnectionBadge icon={Wifi} label="FIFA Connect" endpoint="conformidade · elegibilidade" />
         </div>
@@ -567,7 +566,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
         <button onClick={() => onGo('calendar')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
           <CalendarDays size={18} className="text-accent mb-3" />
           <p className="font-display text-foreground uppercase tracking-wider text-sm">Definir Calendário</p>
-          <p className="text-[11px] font-mono text-zinc-500 mt-1">Gerir jornadas via ANCAF_CALENDAR</p>
+          <p className="text-[11px] font-mono text-zinc-500 mt-1">Editar e publicar jornadas na plataforma</p>
         </button>
         <button onClick={() => onGo('competition')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
           <BarChart3 size={18} className="text-accent mb-3" />
@@ -590,7 +589,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// SECÇÃO: CALENDÁRIO (ligação ANCAF_CALENDAR)
+// SECÇÃO: CALENDÁRIO GERIDO NA PLATAFORMA
 // ════════════════════════════════════════════════════════════════════════
 function CalendarSection() {
   const [seasonId, setSeasonId] = useState<string>(UPCOMING_SEASON_ID);
@@ -604,7 +603,7 @@ function CalendarSection() {
   const [round, setRound] = useState<number>(1);
   const ctl = useEditorDraft<Overrides>('calendar', CAL_KEY, {});
   const overrides = ctl.draft;
-  const [lastSync, setLastSync] = useState<string | null>(null);
+  const [platformUpdatedAt, setPlatformUpdatedAt] = useState<string | null>(null);
   const [syncing, setSyncing] = useState(false);
   const [dynamicSource, setDynamicSource] = useState<{
     system: string; accessCode: string; technicalSeed?: string; fingerprint?: string;
@@ -618,16 +617,13 @@ function CalendarSection() {
     })
     .then((data) => {
       if (data.source) setDynamicSource(data.source);
+      if (data.platformUpdatedAt) setPlatformUpdatedAt(data.platformUpdatedAt);
       if (Array.isArray(data.matches) && data.matches.length === 240) setPublishedMatches(data.matches);
       return data;
     });
 
   // Carregar a última sincronização e o calendário oficial servido pela API.
   useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
-    setLastSync(localStorage.getItem(SYNC_KEY));
-    /* eslint-enable react-hooks/set-state-in-effect */
-
     // O Admin usa os mesmos 240 jogos que o portal público serve. Não gera
     // uma agenda paralela no browser a partir de uma seed guardada localmente.
     loadOfficialCalendar()
@@ -647,11 +643,7 @@ function CalendarSection() {
   const sync = () => {
     setSyncing(true);
     loadOfficialCalendar()
-      .then(() => {
-        const stamp = new Date().toISOString();
-        localStorage.setItem(SYNC_KEY, stamp);
-        setLastSync(stamp);
-      })
+      .then(() => undefined)
       .catch((err) => console.error('Erro de sincronização:', err))
       .finally(() => {
         setSyncing(false);
@@ -676,7 +668,7 @@ function CalendarSection() {
 
   return (
     <div className="space-y-6">
-      <SectionHeader icon={CalendarDays} subtitle="DEFINIÇÃO_DO_CALENDÁRIO" title="Calendário · ANCAF_CALENDAR" />
+      <SectionHeader icon={CalendarDays} subtitle="DEFINIÇÃO_DO_CALENDÁRIO" title="Calendário da Plataforma" />
 
       <SaveBar
         ctl={ctl}
@@ -706,7 +698,7 @@ function CalendarSection() {
         ))}
       </div>
 
-      {/* Painel de ligação ANCAF_CALENDAR */}
+      {/* Painel de gestão editorial da plataforma */}
       <Panel>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -715,9 +707,9 @@ function CalendarSection() {
             </div>
             <div>
               <p className="font-display text-foreground uppercase tracking-wider text-sm flex items-center gap-2">
-                ANCAF_CALENDAR
+                Plataforma Liga Unitel Girabola
                 <span className="inline-flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-widest text-green-400">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Conectado
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Ativa
                 </span>
               </p>
               <p className="text-[11px] font-mono text-zinc-500 mt-0.5">
@@ -728,7 +720,7 @@ function CalendarSection() {
                 )}
               </p>
               <p className="text-[11px] font-mono text-zinc-500 mt-0.5">
-                Última sincronização: {lastSync ? new Date(lastSync).toLocaleString('pt-AO') : new Date(dynamicSource.generatedAt).toLocaleString('pt-AO')}
+                Última publicação: {platformUpdatedAt ? new Date(platformUpdatedAt).toLocaleString('pt-AO') : 'Ainda sem edição publicada'}
               </p>
             </div>
           </div>
@@ -739,7 +731,7 @@ function CalendarSection() {
               className="inline-flex items-center gap-2 px-3 py-2.5 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[11px] uppercase tracking-widest hover:bg-accent/20 transition-colors disabled:opacity-60"
             >
               <RefreshCw size={13} className={syncing ? 'animate-spin' : ''} />
-              {syncing ? 'A sincronizar…' : 'Sincronizar'}
+              {syncing ? 'A atualizar…' : 'Atualizar visualização'}
             </button>
           </div>
         </div>
@@ -751,7 +743,7 @@ function CalendarSection() {
           <div className="flex flex-col gap-4">
             <div>
               <p className="font-display text-foreground uppercase tracking-wider text-sm flex items-center gap-2">
-                <Fingerprint size={14} className="text-accent" /> Calendário Oficial Publicado
+                <Fingerprint size={14} className="text-accent" /> Base técnica importada
               </p>
               <p className="text-[11px] font-mono text-zinc-500 mt-1">Os confrontos vêm de /api/ancaf. As datas só são oficiais quando publicadas pela Direção de Competições em blocos de cinco jornadas.</p>
             </div>

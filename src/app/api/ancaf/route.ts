@@ -25,6 +25,7 @@ import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/li
 export const dynamic = 'force-dynamic';
 
 const DEFAULT_CAF_TEAM_IDS = ['petro', 'wiliete'];
+const PLATFORM_CALENDAR_BASE_UPDATED_AT = '2026-08-21T23:58:27+01:00';
 
 function getCafTeamIds(): string[] {
   const configured = process.env.ANCAF_CAF_TEAM_IDS
@@ -110,6 +111,7 @@ export async function GET(request: Request) {
   };
   let persistedMatches: Match[] = [];
   let calendarOverrides: Record<string, Partial<Match>> = {};
+  let platformUpdatedAt = PLATFORM_CALENDAR_BASE_UPDATED_AT;
   
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
     try {
@@ -131,6 +133,7 @@ export async function GET(request: Request) {
         const seedConfig = configs.find((config) => config.key === 'active_calendar_seed');
         const fingerprintConfig = configs.find((config) => config.key === 'active_calendar_fingerprint');
         const overrideConfig = configs.find((config) => config.key === 'override_calendar');
+        platformUpdatedAt = overrideConfig?.updated_at ?? platformUpdatedAt;
         if (overrideConfig?.value) {
           try {
             calendarOverrides = JSON.parse(overrideConfig.value) as Record<string, Partial<Match>>;
@@ -237,6 +240,7 @@ export async function GET(request: Request) {
     season,
     teams: 16,
     generatedAt: dynamicSource.generatedAt,
+    platformUpdatedAt,
   };
 
   // Contrato público consumido pelo portal institucional ancaf.co.ao.

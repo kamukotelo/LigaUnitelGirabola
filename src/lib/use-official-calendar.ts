@@ -43,7 +43,9 @@ export function useOfficialCalendar(seasonId: string) {
           // clubes, competição e tempo útil. O endpoint já inclui a publicação
           // do administrador; a camada local cobre a atualização em tempo real.
           setOfficialMatches(applyRuntimeMatchOverrides(data.matches));
-          setGeneratedAt(data.generatedAt ?? data.source?.generatedAt ?? null);
+          // A data mostrada ao público é a última publicação editorial feita
+          // na plataforma, não a data histórica da importação ANCAF.
+          setGeneratedAt(data.platformUpdatedAt ?? null);
         })
         .catch((error) => {
           if (error instanceof Error && error.name !== 'AbortError') {
