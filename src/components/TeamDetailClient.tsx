@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Trophy, MapPin, User, Calendar, Shield, Flame, Users, ArrowLeft, Medal, Shirt, Globe, ExternalLink, BarChart3, Newspaper, Building2 } from 'lucide-react';
+import { Trophy, MapPin, User, Calendar, Shield, Flame, Users, ArrowLeft, Medal, Shirt, Globe, ExternalLink, BarChart3, Newspaper } from 'lucide-react';
 import {
   Team, Player, Match, StandingEntry, getTeamProfile, getNewsArticles,
   getTeamById, getPlayersByTeam, getStandingByTeamId, UPCOMING_SEASON_ID,
@@ -303,23 +303,6 @@ export default function TeamDetailClient({
                 )}
               </div>
             </AnimatedCard>
-
-            {/* Órgãos sociais / direção */}
-            {profile && profile.board.length > 0 && (
-              <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
-                <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <Building2 size={16} className="text-accent" /> Órgãos Sociais
-                </h3>
-                <div className="space-y-3">
-                  {profile.board.map((member) => (
-                    <div key={member.role} className="flex items-center justify-between gap-3 border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2 last:border-0 last:pb-0">
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{member.role}</span>
-                      <span className="text-xs font-bold text-foreground text-right">{member.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </AnimatedCard>
-            )}
 
             {/* Redes sociais e site oficial */}
             {profile && (profile.website || socialLinks.length > 0) && (
