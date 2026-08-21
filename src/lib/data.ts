@@ -52,7 +52,7 @@ export interface Match {
   score?: string; // e.g. "2-1" or undefined if scheduled
   date: string;
   /** Só datas oficiais podem ser apresentadas ao público como confirmadas. */
-  scheduleStatus?: 'official' | 'to_be_defined';
+  scheduleStatus?: 'official' | 'provisional';
   stadium: string;
   status: 'scheduled' | 'live' | 'finished';
   round: number;
@@ -144,7 +144,7 @@ export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
     const fixture = scheduleByFixture.get(`${match.round}:${match.homeTeamId}:${match.awayTeamId}`);
     if (!fixture) return {
       ...match,
-      scheduleStatus: match.status === 'finished' ? 'official' as const : 'to_be_defined' as const,
+      scheduleStatus: match.status === 'finished' ? 'official' as const : 'provisional' as const,
     };
     return {
       ...match,
@@ -160,7 +160,11 @@ export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
 
 /** Datas técnicas da API só são públicas depois de confirmação editorial. */
 export function isMatchDateOfficial(match: Match): boolean {
-  return match.status === 'finished' || match.scheduleStatus !== 'to_be_defined';
+  return match.status === 'finished' || match.scheduleStatus !== 'provisional';
+}
+
+export function isMatchDateProvisional(match: Match): boolean {
+  return !isMatchDateOfficial(match);
 }
 
 export interface PlayerStats {

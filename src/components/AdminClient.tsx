@@ -868,7 +868,7 @@ function CalendarSection() {
                     className="admin-input"
                   >
                     <option value="official">Data oficial</option>
-                    <option value="to_be_defined">Por definir</option>
+                    <option value="provisional">Provisória/editável</option>
                   </select>
                 </Field>
                 <Field label="Estádio">
@@ -2011,7 +2011,7 @@ function CompetitionSection() {
                 <div className="flex items-center justify-between gap-3 mb-4">
                   <div className="min-w-0">
                     <p className="font-semibold text-sm text-foreground truncate">{match.homeTeam} × {match.awayTeam}</p>
-                    <p className="text-[10px] font-mono text-zinc-500 mt-1">{match.scheduleStatus === 'to_be_defined' ? 'Data por definir' : new Date(match.date).toLocaleString('pt-AO')} · {match.stadium}</p>
+                    <p className="text-[10px] font-mono text-zinc-500 mt-1">{new Date(match.date).toLocaleString('pt-AO')}{match.scheduleStatus === 'provisional' ? ' · Data provisória/editável' : ''} · {match.stadium}</p>
                   </div>
                   {edited && <button className="text-[9px] font-mono uppercase text-red-400" onClick={() => { const next = { ...ctl.draft }; delete next[match.id]; ctl.setDraft(next); }}>Repor</button>}
                 </div>
@@ -2033,7 +2033,7 @@ function CompetitionSection() {
                   <Field label="Data e hora"><input type="datetime-local" className="admin-input" value={isoToLocalInput(match.date)} onChange={(event) => update(match, { date: localInputToIso(event.target.value), scheduleStatus: 'official' })} /></Field>
                   <Field label="Publicação da data">
                     <select className="admin-input" value={match.scheduleStatus ?? 'official'} onChange={(event) => update(match, { scheduleStatus: event.target.value as Match['scheduleStatus'] })}>
-                      <option value="official">Data oficial</option><option value="to_be_defined">Por definir</option>
+                      <option value="official">Data oficial</option><option value="provisional">Provisória/editável</option>
                     </select>
                   </Field>
                 </div>

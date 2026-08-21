@@ -218,9 +218,7 @@ export default function LigaAngolaBlock() {
                         && match.homeTeamId === 'lundasul'
                         && match.awayTeamId === 'petro';
                       const matchDate = new Date(match.date);
-                      const timeLabel = hasOfficialDate
-                        ? matchDate.toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })
-                        : 'Por definir';
+                      const timeLabel = `${matchDate.toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}${hasOfficialDate ? '' : ' · Prov.'}`;
                       const homeObj = TEAMS.find((t) => t.id === match.homeTeamId);
                       const awayObj = TEAMS.find((t) => t.id === match.awayTeamId);
                       const homeAbbr = homeObj?.shortName ?? match.homeTeam.substring(0, 3).toUpperCase();
@@ -264,7 +262,7 @@ export default function LigaAngolaBlock() {
                               <TeamCrest teamId={match.awayTeamId} size={22} className="flex-shrink-0" />
                               <span className="truncate text-xs font-bold text-foreground">{awayAbbr}</span>
                             </div>
-                            {hasOfficialDate && broadcast !== 'Por confirmar' && (
+                            {broadcast !== 'Por confirmar' && (
                               <span className={`mt-1.5 flex basis-full items-center justify-center gap-1 font-mono text-[8px] font-bold uppercase tracking-wide ${match.broadcaster ? 'text-primary dark:text-purple-300' : 'text-amber-700 dark:text-amber-300'}`}>
                                 <Tv size={10} /> {match.broadcaster && !isDeferredBroadcast ? `Em direto · ${broadcast}` : broadcast}
                               </span>

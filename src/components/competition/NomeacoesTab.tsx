@@ -67,10 +67,10 @@ export default function NomeacoesTab({ seasonId }: { seasonId: string }) {
               </thead>
               <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
                 {roundNominations.map((n) => {
-                  const formattedDate = n.scheduleStatus === 'to_be_defined' ? 'Por definir' : new Date(n.date).toLocaleDateString('pt-AO', {
+                  const formattedDate = `${new Date(n.date).toLocaleDateString('pt-AO', {
                     day: '2-digit', month: 'short',
                     timeZone: ANGOLA_TIME_ZONE,
-                  });
+                  })}${n.scheduleStatus === 'provisional' ? ' · Prov.' : ''}`;
                   return (
                     <tr key={n.matchId} className="hover:bg-zinc-100 dark:hover:bg-zinc-900/20 transition-colors">
                       <td className="py-4 px-4">

@@ -210,14 +210,13 @@ function buildOfficialScheduleEvents(matches: Match[]): Record<string, Record<nu
   ) as Record<string, Record<number, CalendarEvent[]>>;
 
   for (const match of matches) {
-    if (!isMatchDateOfficial(match)) continue;
     const [year, month, day] = match.date.slice(0, 10).split('-').map(Number);
     const monthDefinition = MONTHS.find((item) => item.year === year && item.month === month - 1);
     if (!monthDefinition) continue;
 
     const monthEvents = events[monthDefinition.label] ?? (events[monthDefinition.label] = {});
     const dayEvents = monthEvents[day] ?? (monthEvents[day] = []);
-    const label = `${match.round}ª Jornada`;
+    const label = `${match.round}ª Jornada${isMatchDateOfficial(match) ? '' : ' (provisória)'}`;
     if (!dayEvents.some((event) => event.type === 'girabola' && event.label === label)) {
       dayEvents.unshift({ label, type: 'girabola' });
     }
