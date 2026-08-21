@@ -1355,7 +1355,61 @@ function enrichPlayer(p: Player): Player {
   };
 }
 
-export const PLAYERS: Player[] = PLAYERS_RAW.map(enrichPlayer);
+// Plantel principal do Petro de Luanda para 2026/2027, consultado no
+// ZeroZero em 21/08/2026. Os dados desportivos que a fonte não publica para
+// a nova época começam a zero, evitando apresentar estatísticas inventadas.
+const PETRO_SQUAD_2026_27: Player[] = [
+  ['hugo-marques', 'Hugo Marques', 'Guarda-redes', 1, 40, 'Angola'],
+  ['neblu', 'Neblú', 'Guarda-redes', 22, 32, 'Angola'],
+  ['agostinho-calunga', 'Agostinho Calunga', 'Guarda-redes', 30, 28, 'Angola'],
+  ['areola', 'Areola', 'Guarda-redes', 38, 20, 'Angola'],
+  ['eddie-afonso', 'Eddie Afonso', 'Defesa', 25, 32, 'Angola'],
+  ['antonio-hossi', 'António Hossi', 'Defesa', 27, 25, 'Angola'],
+  ['ruben-aderito', 'Rúben Adérito', 'Defesa', 4, 23, 'Angola'],
+  ['leo-bolgado', 'Léo Bolgado', 'Defesa', 5, 28, 'Brasil'],
+  ['vidinho', 'Vidinho', 'Defesa', 18, 28, 'Angola'],
+  ['kinito', 'Kinito', 'Defesa', 24, 28, 'Angola'],
+  ['lourenco-didissa', 'Lourenço Didissa', 'Defesa', 31, 18, 'Angola'],
+  ['nurio-fortuna', 'Núrio Fortuna', 'Defesa', 2, 31, 'Angola'],
+  ['berna', 'Berna', 'Defesa', 13, 22, 'Angola'],
+  ['deybi-flores', 'Deybi Flores', 'Médio', 12, 30, 'Honduras'],
+  ['jorge-pereira', 'Jorge Pereira', 'Médio', 20, 28, 'Portugal'],
+  ['gabriel', 'Gabriel', 'Médio', 39, 17, 'Angola'],
+  ['mario-balburdia', 'Mário Balbúrdia', 'Médio', 6, 29, 'Angola'],
+  ['jonathan-toro', 'Jonathan Toro', 'Médio', 8, 29, 'Honduras'],
+  ['pedro-aparicio', 'Pedro Aparício', 'Médio', 10, 30, 'Portugal'],
+  ['jairo-muanha', 'Jairo Muanha', 'Médio', 34, 17, 'Angola'],
+  ['helder-costa', 'Hélder Costa', 'Avançado', 11, 32, 'Angola'],
+  ['lucas-joao', 'Lucas João', 'Avançado', 9, 32, 'Angola'],
+  ['tiago-reis', 'Tiago Reis', 'Avançado', 23, 27, 'Brasil'],
+  ['tiago-azulao', 'Tiago Azulão', 'Avançado', 26, 38, 'Brasil'],
+  ['depu', 'Depú', 'Avançado', 29, 26, 'Angola'],
+  ['ivan-cavaleiro', 'Ivan Cavaleiro', 'Avançado', 7, 32, 'Portugal'],
+  ['vanilson', 'Vanilson', 'Avançado', 17, 27, 'Angola'],
+  ['ilidio-panda', 'Ilídio Panda', 'Avançado', 33, 18, 'Angola'],
+].map(([id, name, position, jerseyNumber, age, nationality]) => ({
+  id: String(id),
+  name: String(name),
+  club: 'Petro de Luanda',
+  teamId: 'petro',
+  position: String(position),
+  goals: 0,
+  assists: 0,
+  appearances: 0,
+  jerseyNumber: Number(jerseyNumber),
+  age: Number(age),
+  nationality: String(nationality),
+  height: 'A confirmar',
+  attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+  careerHistory: [],
+}));
+
+const CURRENT_PLAYERS_RAW: Player[] = [
+  ...PLAYERS_RAW.filter((player) => player.teamId !== 'petro'),
+  ...PETRO_SQUAD_2026_27,
+];
+
+export const PLAYERS: Player[] = CURRENT_PLAYERS_RAW.map(enrichPlayer);
 
 // ── 5. ESTATÍSTICAS DE LÍDERES ──────────────────────────────────────
 export const TOP_SCORERS: PlayerStats[] = PLAYERS
@@ -1843,7 +1897,7 @@ function computePlayers(): Player[] {
     ? store.overrides ?? {}
     : ov as Record<string, Partial<Player>>;
   const removed = new Set<string>(isStore ? store.removed ?? [] : []);
-  const base = PLAYERS_RAW
+  const base = CURRENT_PLAYERS_RAW
     .filter((p) => !removed.has(p.id))
     .map((p) => enrichPlayer({ ...p, ...overrides[p.id] }));
   const added = isStore ? (store.added ?? []).filter((p) => !removed.has(p.id)) : [];
@@ -2411,7 +2465,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     palmares: [
       { title: 'Liga Unitel Girabola', count: 20, seasons: ['2025/26', '2023/24', '2022/23'] },
       { title: 'Taça de Angola', count: 15 },
-      { title: 'Supertaça de Angola', count: 9 },
+      { title: 'Supertaça de Angola', count: 10, seasons: ['2026/27', '2025/26', '2024/25', '2023/24'] },
     ],
     kits: [
       { label: 'Principal', colors: ['#F9C304', '#F9C304'] },
