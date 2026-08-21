@@ -1264,6 +1264,31 @@ function enrichPlayer(p: Player): Player {
   const hash = simpleHash(p.name);
   const positionLower = p.position.toLowerCase();
 
+  // A época ativa começa sem estatísticas herdadas. Enquanto o atleta ainda
+  // não tiver uma presença registada, todos os indicadores competitivos
+  // permanecem realmente a zero (sem estimativas ou valores demonstrativos).
+  if (p.appearances === 0) {
+    return {
+      ...p,
+      technicalRating: 0,
+      formRating: 0,
+      detailedStats: {
+        passingAccuracy: 0,
+        longPassesAccuracy: 0,
+        aerialDuelsWon: 0,
+        groundDuelsWon: 0,
+        tacklesPerMatch: 0,
+        keyPassesPerMatch: 0,
+        minutesPlayed: 0,
+        yellowCards: 0,
+        redCards: 0,
+        shotsOnTargetPerMatch: 0,
+        successfulDribbles: 0,
+        ratingTrend: [],
+      },
+    };
+  }
+
   // Deterministic ratings
   const technicalRating = parseFloat((7.1 + (hash % 13) * 0.1).toFixed(2));
   const formRating = parseFloat((technicalRating - 0.2 - (hash % 3) * 0.1).toFixed(2));
@@ -1450,7 +1475,12 @@ const CURRENT_PLAYERS_RAW: Player[] = [
   ...PLAYERS_RAW.filter((player) => player.teamId !== 'petro' && player.teamId !== 'lundasul'),
   ...PETRO_SQUAD_2026_27,
   ...LUNDA_SUL_SQUAD_2026_27,
-];
+].map((player) => ({
+  ...player,
+  goals: 0,
+  assists: 0,
+  appearances: 0,
+}));
 
 export const PLAYERS: Player[] = CURRENT_PLAYERS_RAW.map(enrichPlayer);
 
@@ -2401,16 +2431,29 @@ export interface MatchOfficials {
   referee: string;
   assistants: [string, string];
   fourth: string;
+  commissioner?: string;
 }
 
 export function getMatchOfficials(match: Match): MatchOfficials {
   const ov = RUNTIME_OVERRIDES.nominations?.[match.id];
   const defined = (value?: string) => value?.trim() || 'A definir';
+  const isLundaSulPetroRoundOne = match.round === 1
+    && match.homeTeamId === 'lundasul'
+    && match.awayTeamId === 'petro';
+  const published = isLundaSulPetroRoundOne ? {
+    assistants: ['João Manuel Fula António', 'Nery Domingos Pereira Amador da Silva'] as [string, string],
+    fourth: 'Isaías Justino Camaxi',
+    commissioner: 'Alberto Bumba Senda',
+  } : undefined;
 
   return {
     referee: defined(ov?.referee ?? match.referee),
-    assistants: [defined(ov?.assistants?.[0]), defined(ov?.assistants?.[1])],
-    fourth: defined(ov?.fourth),
+    assistants: [
+      defined(ov?.assistants?.[0] ?? published?.assistants[0]),
+      defined(ov?.assistants?.[1] ?? published?.assistants[1]),
+    ],
+    fourth: defined(ov?.fourth ?? published?.fourth),
+    commissioner: published?.commissioner,
   };
 }
 

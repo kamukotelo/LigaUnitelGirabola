@@ -43,7 +43,13 @@ export default function LigaAngolaBlock() {
 
   // A mesma fonte oficial consumida pela página Calendário.
   const { matches: seasonMatches } = useOfficialCalendar(selectedSeasonId);
-  const matchesByRound = seasonMatches.filter((m) => m.round === currentRound);
+  const matchesByRound = seasonMatches
+    .filter((m) => m.round === currentRound)
+    .sort((a, b) => {
+      const aFocus = a.homeTeamId === 'lundasul' && a.awayTeamId === 'petro' ? 0 : 1;
+      const bFocus = b.homeTeamId === 'lundasul' && b.awayTeamId === 'petro' ? 0 : 1;
+      return aFocus - bFocus || new Date(a.date).getTime() - new Date(b.date).getTime();
+    });
 
   const selectSeason = (seasonId: string) => {
     setSelectedSeasonId(seasonId);
@@ -204,6 +210,11 @@ export default function LigaAngolaBlock() {
                   {matchesByRound.length > 0 ? (
                     matchesByRound.map((match) => {
                       const isFinished = match.status === 'finished';
+                      const isLive = match.status === 'live';
+                      const isCurrentFocus = selectedSeasonId === UPCOMING_SEASON_ID
+                        && currentRound === 1
+                        && match.homeTeamId === 'lundasul'
+                        && match.awayTeamId === 'petro';
                       const matchDate = new Date(match.date);
                       const timeLabel = matchDate.toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE });
                       const homeObj = TEAMS.find((t) => t.id === match.homeTeamId);
@@ -215,7 +226,16 @@ export default function LigaAngolaBlock() {
 
                       return (
                         <Link href={`/matches/${match.id}`} key={match.id} className="block group">
-                          <div className="flex flex-wrap items-center justify-between py-2.5 px-3 rounded-xl border border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors">
+                          <div className={`flex flex-wrap items-center justify-between py-2.5 px-3 rounded-xl border transition-colors ${
+                            isCurrentFocus
+                              ? 'border-accent/50 bg-accent/5 shadow-sm'
+                              : 'border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/50'
+                          }`}>
+                            {isCurrentFocus && (
+                              <span className="mb-2 basis-full text-center font-mono text-[8px] font-black uppercase tracking-[0.18em] text-accent">
+                                {isLive ? '● Em direto agora' : 'Jogo em destaque · 1.ª jornada'}
+                              </span>
+                            )}
                             {/* Home */}
                             <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
                               <span className="truncate text-xs font-bold text-foreground text-right">{homeAbbr}</span>
@@ -224,7 +244,7 @@ export default function LigaAngolaBlock() {
 
                             {/* Center Score/Status */}
                             <div className="flex-shrink-0 w-16 text-center">
-                              {isFinished ? (
+                              {isFinished || isLive ? (
                                 <span className="font-mono font-black text-xs text-foreground bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md px-2 py-0.5 select-none">
                                   {match.homeScore}-{match.awayScore}
                                 </span>
