@@ -25,7 +25,7 @@ import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/li
 export const dynamic = 'force-dynamic';
 
 const DEFAULT_CAF_TEAM_IDS = ['petro', 'wiliete'];
-const PLATFORM_CALENDAR_BASE_UPDATED_AT = '2026-08-21T23:58:27+01:00';
+const PLATFORM_CALENDAR_BASE_UPDATED_AT = '2026-08-22T00:00:04+01:00';
 
 function getCafTeamIds(): string[] {
   const configured = process.env.ANCAF_CAF_TEAM_IDS
@@ -133,7 +133,9 @@ export async function GET(request: Request) {
         const seedConfig = configs.find((config) => config.key === 'active_calendar_seed');
         const fingerprintConfig = configs.find((config) => config.key === 'active_calendar_fingerprint');
         const overrideConfig = configs.find((config) => config.key === 'override_calendar');
-        platformUpdatedAt = overrideConfig?.updated_at ?? platformUpdatedAt;
+        if (overrideConfig?.updated_at && new Date(overrideConfig.updated_at).getTime() > new Date(platformUpdatedAt).getTime()) {
+          platformUpdatedAt = overrideConfig.updated_at;
+        }
         if (overrideConfig?.value) {
           try {
             calendarOverrides = JSON.parse(overrideConfig.value) as Record<string, Partial<Match>>;
