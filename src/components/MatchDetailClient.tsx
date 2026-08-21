@@ -7,7 +7,7 @@ import {
   ArrowLeft, MapPin, Calendar, Users, Activity, Award, BarChart3,
   Goal, ArrowLeftRight, Flag, Trophy, Clock, Tv
 } from 'lucide-react';
-import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition, getMatchOfficials, getMatchBroadcast, getTeamById } from '@/lib/data';
+import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition, getMatchOfficials, getMatchBroadcast, getTeamById, isMatchDateOfficial } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { ROUTES } from '@/lib/routes';
@@ -158,6 +158,7 @@ function EventIcon({ type }: { type: string }) {
 
 function SummaryTab({ detail }: { detail: MatchDetail }) {
   const { events, manOfTheMatch, attendance, referee, match } = detail;
+  const hasOfficialDate = isMatchDateOfficial(match);
   const officials = getMatchOfficials(match);
   const broadcaster = getMatchBroadcast(match);
   return (
@@ -246,7 +247,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
           <div className="flex items-center gap-3">
             <Calendar size={14} className="text-zinc-600" />
             <span className="text-zinc-700 dark:text-zinc-300">
-              {new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+              {hasOfficialDate ? new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Data por definir'}
             </span>
           </div>
         </div>
@@ -268,6 +269,7 @@ export default function MatchDetailClient({
   const homeTeam = getTeamById(match.homeTeamId) ?? serverHome;
   const awayTeam = getTeamById(match.awayTeamId) ?? serverAway;
   const isFinished = match.status === 'finished';
+  const hasOfficialDate = isMatchDateOfficial(match);
 
   const homeColor = homeTeam?.colorsHex?.[0] ?? '#5C0F8B';
   const awayColor = awayTeam?.colorsHex?.[0] ?? '#E6540F';
@@ -300,7 +302,7 @@ export default function MatchDetailClient({
             Jornada {match.round} · {isFinished ? 'Terminado' : 'Agendado'}
           </span>
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider flex items-center gap-2 flex-wrap justify-center">
-            <span className="flex items-center gap-1"><Calendar size={10} /> {new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+            <span className="flex items-center gap-1"><Calendar size={10} /> {hasOfficialDate ? new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Data por definir'}</span>
             <span className="flex items-center gap-1"><MapPin size={10} /> {match.stadium}</span>
             <span className="flex items-center gap-1 text-accent"><Tv size={10} /> {getMatchBroadcast(match)}</span>
           </span>

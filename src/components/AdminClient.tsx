@@ -214,6 +214,7 @@ function makeAdminId(prefix: string): string {
 
 interface MatchOverride {
   date?: string;
+  scheduleStatus?: Match['scheduleStatus'];
   stadium?: string;
   status?: Match['status'];
   homeScore?: number;
@@ -752,7 +753,7 @@ function CalendarSection() {
               <p className="font-display text-foreground uppercase tracking-wider text-sm flex items-center gap-2">
                 <Fingerprint size={14} className="text-accent" /> Calendário Oficial Publicado
               </p>
-              <p className="text-[11px] font-mono text-zinc-500 mt-1">Estes dados e os jogos abaixo vêm diretamente de /api/ancaf; não são uma simulação local.</p>
+              <p className="text-[11px] font-mono text-zinc-500 mt-1">Os confrontos vêm de /api/ancaf. As datas só são oficiais quando publicadas pela Direção de Competições em blocos de cinco jornadas.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
               <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 p-3"><span className="block text-zinc-500 text-[10px] uppercase">ID do campeonato</span><strong className="text-foreground">{dynamicSource.accessCode}</strong></div>
@@ -797,7 +798,7 @@ function CalendarSection() {
                 <CheckCircle2 size={12} /> Acautelado
               </p>
               <ul className="space-y-1.5 text-zinc-600 dark:text-zinc-400">
-                <li>• Confrontos, mando e datas vêm do sorteio ANCAF (n.º {dynamicSource.accessCode}, seed {dynamicSource.technicalSeed ?? '—'}); o editor <strong className="text-foreground">não os recalcula</strong>.</li>
+                <li>• Confrontos e mando vêm do sorteio ANCAF (n.º {dynamicSource.accessCode}, seed {dynamicSource.technicalSeed ?? '—'}); as datas são confirmadas em <strong className="text-foreground">blocos de cinco jornadas</strong>.</li>
                 <li>• O <strong className="text-foreground">resultado só fica editável</strong> quando o estado do jogo é «Terminado».</li>
                 <li>• As alterações só ficam visíveis no site <strong className="text-foreground">depois de «Guardar alterações»</strong>; até lá são um rascunho neste navegador.</li>
               </ul>
@@ -810,7 +811,7 @@ function CalendarSection() {
               </p>
               <ul className="space-y-1.5 text-zinc-600 dark:text-zinc-400">
                 <li>• Não alterar os <strong className="text-foreground">confrontos/equipas</strong> de uma jornada (quebra o equilíbrio do sorteio a duas voltas).</li>
-                <li>• Datas devem manter-se <strong className="text-foreground">dentro do calendário ANCAF</strong> (J1 22/08/26 … J30 15/05/27).</li>
+                <li>• Não publicar datas futuras sem um <strong className="text-foreground">quadro ou comunicado oficial</strong> da Direção de Competições.</li>
                 <li>• Evitar «Terminado» sem resultado válido, ou resultado sem marcar «Terminado».</li>
               </ul>
             </div>
@@ -856,9 +857,19 @@ function CalendarSection() {
                   <input
                     type="datetime-local"
                     value={isoToLocalInput(m.date)}
-                    onChange={(e) => update(m.id, { date: localInputToIso(e.target.value) })}
+                    onChange={(e) => update(m.id, { date: localInputToIso(e.target.value), scheduleStatus: 'official' })}
                     className="admin-input"
                   />
+                </Field>
+                <Field label="Publicação da data">
+                  <select
+                    value={m.scheduleStatus ?? 'official'}
+                    onChange={(e) => update(m.id, { scheduleStatus: e.target.value as Match['scheduleStatus'] })}
+                    className="admin-input"
+                  >
+                    <option value="official">Data oficial</option>
+                    <option value="to_be_defined">Por definir</option>
+                  </select>
                 </Field>
                 <Field label="Estádio">
                   <input
@@ -2000,7 +2011,7 @@ function CompetitionSection() {
                 <div className="flex items-center justify-between gap-3 mb-4">
                   <div className="min-w-0">
                     <p className="font-semibold text-sm text-foreground truncate">{match.homeTeam} × {match.awayTeam}</p>
-                    <p className="text-[10px] font-mono text-zinc-500 mt-1">{new Date(match.date).toLocaleString('pt-AO')} · {match.stadium}</p>
+                    <p className="text-[10px] font-mono text-zinc-500 mt-1">{match.scheduleStatus === 'to_be_defined' ? 'Data por definir' : new Date(match.date).toLocaleString('pt-AO')} · {match.stadium}</p>
                   </div>
                   {edited && <button className="text-[9px] font-mono uppercase text-red-400" onClick={() => { const next = { ...ctl.draft }; delete next[match.id]; ctl.setDraft(next); }}>Repor</button>}
                 </div>
@@ -2013,13 +2024,18 @@ function CompetitionSection() {
                     <input aria-label={`Golos de ${match.awayTeam}`} type="number" min={0} className="admin-input text-center text-xl font-bold" value={match.awayScore} onChange={(event) => update(match, { awayScore: Math.max(0, Number(event.target.value)), status: 'finished' })} />
                   </Field>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
                   <Field label="Estado">
                     <select className="admin-input" value={match.status} onChange={(event) => update(match, { status: event.target.value as Match['status'] })}>
                       <option value="scheduled">Agendado</option><option value="live">Ao vivo</option><option value="finished">Terminado</option>
                     </select>
                   </Field>
-                  <Field label="Data e hora"><input type="datetime-local" className="admin-input" value={isoToLocalInput(match.date)} onChange={(event) => update(match, { date: localInputToIso(event.target.value) })} /></Field>
+                  <Field label="Data e hora"><input type="datetime-local" className="admin-input" value={isoToLocalInput(match.date)} onChange={(event) => update(match, { date: localInputToIso(event.target.value), scheduleStatus: 'official' })} /></Field>
+                  <Field label="Publicação da data">
+                    <select className="admin-input" value={match.scheduleStatus ?? 'official'} onChange={(event) => update(match, { scheduleStatus: event.target.value as Match['scheduleStatus'] })}>
+                      <option value="official">Data oficial</option><option value="to_be_defined">Por definir</option>
+                    </select>
+                  </Field>
                 </div>
               </Panel>
             );

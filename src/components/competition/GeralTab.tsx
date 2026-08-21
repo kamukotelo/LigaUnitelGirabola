@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Video, Newspaper, Ticket, Tv } from 'lucide-react';
-import { getMatchBroadcast, getNewsArticles, Match } from '@/lib/data';
+import { getMatchBroadcast, getNewsArticles, isMatchDateOfficial, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
@@ -22,6 +22,7 @@ function BannerHeading({ icon: Icon, children }: { icon: typeof Video; children:
 // Linha de jogo: nome casa (à direita) · emblema · resultado · emblema · nome fora
 function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) {
   const isFinished = match.status === 'finished';
+  const hasOfficialDate = isMatchDateOfficial(match);
   const home = match.score?.split('-')[0] ?? '--';
   const away = match.score?.split('-')[1] ?? '--';
 
@@ -55,7 +56,9 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
       </div>
 
       <span className="hidden sm:block text-right text-[10px] font-mono uppercase tracking-wider text-zinc-500">
-        {new Date(match.date).toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}
+        {hasOfficialDate
+          ? new Date(match.date).toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })
+          : 'Por definir'}
       </span>
     </Link>
   );
@@ -79,14 +82,15 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
   const byDay = useMemo(() => {
     const map = new Map<string, Match[]>();
     for (const m of roundMatches) {
-      const key = m.date.slice(0, 10);
+      const key = isMatchDateOfficial(m) ? m.date.slice(0, 10) : 'to_be_defined';
       (map.get(key) ?? map.set(key, []).get(key)!).push(m);
     }
     return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
   }, [roundMatches]);
 
-  const dayLabel = (iso: string) =>
-    new Date(iso + 'T12:00:00').toLocaleDateString('pt-AO', {
+  const dayLabel = (iso: string) => iso === 'to_be_defined'
+    ? 'DATA POR DEFINIR'
+    : new Date(iso + 'T12:00:00').toLocaleDateString('pt-AO', {
       weekday: 'short', day: '2-digit', month: 'short', timeZone: ANGOLA_TIME_ZONE,
     }).toUpperCase();
 

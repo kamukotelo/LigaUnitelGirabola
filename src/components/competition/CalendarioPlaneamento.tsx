@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { CalendarDays, HelpCircle } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
-import type { Match } from '@/lib/data';
+import { isMatchDateOfficial, type Match } from '@/lib/data';
 
 type EventType = 'girabola' | 'supertaca' | 'ta' | 'cl' | 'cc' | 'supercup' | 'can' | 'holiday';
 
@@ -210,6 +210,7 @@ function buildOfficialScheduleEvents(matches: Match[]): Record<string, Record<nu
   ) as Record<string, Record<number, CalendarEvent[]>>;
 
   for (const match of matches) {
+    if (!isMatchDateOfficial(match)) continue;
     const [year, month, day] = match.date.slice(0, 10).split('-').map(Number);
     const monthDefinition = MONTHS.find((item) => item.year === year && item.month === month - 1);
     if (!monthDefinition) continue;

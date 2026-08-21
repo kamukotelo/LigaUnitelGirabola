@@ -67,7 +67,7 @@ export default function NomeacoesTab({ seasonId }: { seasonId: string }) {
               </thead>
               <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
                 {roundNominations.map((n) => {
-                  const formattedDate = new Date(n.date).toLocaleDateString('pt-AO', {
+                  const formattedDate = n.scheduleStatus === 'to_be_defined' ? 'Por definir' : new Date(n.date).toLocaleDateString('pt-AO', {
                     day: '2-digit', month: 'short',
                     timeZone: ANGOLA_TIME_ZONE,
                   });

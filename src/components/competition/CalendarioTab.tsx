@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Trophy, Target, CalendarDays, Flag, Tv, X } from 'lucide-react';
-import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
+import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, isMatchDateOfficial, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -44,6 +44,7 @@ function getDefaultFilters(seasonId: string): CalendarFilters {
 
 function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTeamId: string | null }) {
   const isFinished = match.status === 'finished';
+  const hasOfficialDate = isMatchDateOfficial(match);
   const matchDate = new Date(match.date);
   const formattedTime = matchDate.toLocaleTimeString('pt-AO', {
     hour: '2-digit', minute: '2-digit',
@@ -66,7 +67,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
       className={`group relative z-10 grid grid-cols-[minmax(0,1fr)_30px] items-center gap-x-2 gap-y-1 border-b border-zinc-300/80 px-3 py-2.5 text-[11px] transition-all last:border-b-0 sm:text-xs ${
         muted ? 'opacity-40 grayscale hover:opacity-80 hover:grayscale-0' : 'hover:bg-orange-50/90'
       }`}
-      title={`${match.homeTeam} — ${match.awayTeam} · ${formattedDay} · ${formattedTime}`}
+      title={`${match.homeTeam} — ${match.awayTeam} · ${hasOfficialDate ? `${formattedDay} · ${formattedTime}` : 'Data por definir'}`}
     >
       <span className={`min-w-0 whitespace-normal text-left font-condensed font-bold leading-tight ${selected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`}>
         {match.homeTeam}
@@ -77,8 +78,8 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
       </span>
       <span className="text-center font-mono font-black text-zinc-700">{awayScore}</span>
       <span className="col-span-2 mt-1 flex flex-wrap items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
-        <span>{formattedDay} · {formattedTime}</span>
-        {broadcast !== 'Por confirmar' && (
+        <span>{hasOfficialDate ? `${formattedDay} · ${formattedTime}` : 'Data por definir'}</span>
+        {hasOfficialDate && broadcast !== 'Por confirmar' && (
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 shadow-sm ring-1 ${match.broadcaster ? 'bg-[#5C0F8B] text-white ring-white/40' : 'bg-amber-100 text-amber-900 ring-amber-300'}`}>
             <Tv size={10} aria-hidden="true" /> {match.broadcaster && !isDeferredBroadcast ? `Em direto · ${broadcast}` : broadcast}
           </span>
@@ -113,6 +114,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   // Meses disponíveis (chave yyyy-mm, rótulo pt-AO), na ordem do calendário
   const months = Array.from(
     MATCHES.reduce((map, m) => {
+      if (!isMatchDateOfficial(m)) return map;
       const key = m.date.slice(0, 7);
       if (!map.has(key)) {
         map.set(key, new Date(m.date).toLocaleDateString('pt-AO', { month: 'long', year: 'numeric', timeZone: ANGOLA_TIME_ZONE }));
@@ -142,7 +144,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
   const matchesFilter = (m: Match) =>
     (filterStatus === 'all' || m.status === filterStatus) &&
-    (filterMonth === 'all' || m.date.startsWith(filterMonth)) &&
+    (filterMonth === 'all' || (isMatchDateOfficial(m) && m.date.startsWith(filterMonth))) &&
     (filterTeam === 'all' || m.homeTeamId === filterTeam || m.awayTeamId === filterTeam);
 
   const selectedTeam = filterTeam === 'all' ? null : seasonTeams.find((team) => team.id === filterTeam) ?? null;
@@ -397,12 +399,13 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
           {visibleRounds.map((group) => {
             const orderedMatches = [...group.matches].sort((a, b) => a.date.localeCompare(b.date));
-            const firstDate = new Date(orderedMatches[0].date).toLocaleDateString('pt-AO', {
+            const officialDates = orderedMatches.filter(isMatchDateOfficial);
+            const firstDate = officialDates.length > 0 ? new Date(officialDates[0].date).toLocaleDateString('pt-AO', {
               day: '2-digit', month: '2-digit', year: 'numeric', timeZone: ANGOLA_TIME_ZONE,
-            });
-            const lastDate = new Date(orderedMatches[orderedMatches.length - 1].date).toLocaleDateString('pt-AO', {
+            }) : 'Por definir';
+            const lastDate = officialDates.length > 0 ? new Date(officialDates[officialDates.length - 1].date).toLocaleDateString('pt-AO', {
               day: '2-digit', month: '2-digit', year: 'numeric', timeZone: ANGOLA_TIME_ZONE,
-            });
+            }) : 'Por definir';
             return (
               <motion.section
                 key={group.round}

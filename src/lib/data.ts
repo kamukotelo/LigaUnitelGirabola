@@ -51,6 +51,8 @@ export interface Match {
   awayScore: number;
   score?: string; // e.g. "2-1" or undefined if scheduled
   date: string;
+  /** Só datas oficiais podem ser apresentadas ao público como confirmadas. */
+  scheduleStatus?: 'official' | 'to_be_defined';
   stadium: string;
   status: 'scheduled' | 'live' | 'finished';
   round: number;
@@ -89,7 +91,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 3, homeTeamId: 'lobito', awayTeamId: 'primeiromaio', date: '2026-09-05T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'caala', awayTeamId: 'desphuila', date: '2026-09-13T15:00:00+01:00' },
   { round: 4, homeTeamId: 'lundasul', awayTeamId: 'sagrada', date: '2026-09-13T15:00:00+01:00' },
-  { round: 4, homeTeamId: 'wiliete', awayTeamId: 'fcluanda', date: '2026-09-13T15:00:00+01:00' },
+  { round: 4, homeTeamId: 'wiliete', awayTeamId: 'fcluanda', date: '2026-09-08T15:00:00+01:00' },
   { round: 4, homeTeamId: 'bravos', awayTeamId: 'kabuscorp', date: '2026-09-16T15:00:00+01:00' },
   { round: 4, homeTeamId: 'cabinda', awayTeamId: 'dago', date: '2026-09-08T14:00:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'saosalvador', awayTeamId: 'petro', date: '2026-09-16T15:30:00+01:00', broadcaster: 'Zsports' },
@@ -124,6 +126,7 @@ export function applySeasonHomeStadiums(matches: Match[]): Match[] {
 export function sortOfficialMatches(matches: Match[]): Match[] {
   return [...matches].sort((a, b) =>
     a.round - b.round
+    || Number(!isMatchDateOfficial(a)) - Number(!isMatchDateOfficial(b))
     || new Date(a.date).getTime() - new Date(b.date).getTime()
     || a.id.localeCompare(b.id),
   );
@@ -139,7 +142,10 @@ export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
 
   return sortOfficialMatches(matches.map((match) => {
     const fixture = scheduleByFixture.get(`${match.round}:${match.homeTeamId}:${match.awayTeamId}`);
-    if (!fixture) return match;
+    if (!fixture) return {
+      ...match,
+      scheduleStatus: match.status === 'finished' ? 'official' as const : 'to_be_defined' as const,
+    };
     return {
       ...match,
       ...fixture,
@@ -147,8 +153,14 @@ export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
       awayScore: 0,
       score: undefined,
       status: 'scheduled' as const,
+      scheduleStatus: 'official' as const,
     };
   }));
+}
+
+/** Datas técnicas da API só são públicas depois de confirmação editorial. */
+export function isMatchDateOfficial(match: Match): boolean {
+  return match.status === 'finished' || match.scheduleStatus !== 'to_be_defined';
 }
 
 export interface PlayerStats {
@@ -1824,6 +1836,11 @@ export function getSiteSettings(): SiteSettings {
 // numéricos coerentes (o admin pode editar só o resultado ou só o marcador).
 function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
   const merged: Match = { ...base, ...patch };
+  // Ao editar a data, o administrador publica-a como oficial, exceto quando
+  // assinala explicitamente que continua por definir.
+  if (patch.date !== undefined && patch.scheduleStatus === undefined) {
+    merged.scheduleStatus = 'official';
+  }
   const touchedScores = patch.homeScore !== undefined || patch.awayScore !== undefined;
   if (touchedScores && patch.score === undefined) {
     merged.score = `${merged.homeScore ?? 0}-${merged.awayScore ?? 0}`;
@@ -2554,6 +2571,7 @@ export interface RefereeNomination {
   homeTeam: string;
   awayTeam: string;
   date: string;
+  scheduleStatus?: Match['scheduleStatus'];
   officials: MatchOfficials;
 }
 
@@ -2566,6 +2584,7 @@ export function getRefereeNominations(seasonId: string): RefereeNomination[] {
     homeTeam: m.homeTeam,
     awayTeam: m.awayTeam,
     date: m.date,
+    scheduleStatus: m.scheduleStatus,
     officials: getMatchOfficials(m),
   }));
 }

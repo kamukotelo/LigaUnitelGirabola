@@ -13,6 +13,7 @@ import {
   applyOfficialMatchSchedule,
   applyMatchOverrideMap,
   applySeasonHomeStadiums,
+  isMatchDateOfficial,
   getTeamById,
   Match,
 } from '@/lib/data';
@@ -254,7 +255,7 @@ export async function GET(request: Request) {
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 12);
     const upcomingMatches = matches
-      .filter((match) => match.status !== 'finished')
+      .filter((match) => match.status !== 'finished' && isMatchDateOfficial(match))
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       .slice(0, 8);
 
@@ -298,8 +299,12 @@ export async function GET(request: Request) {
   const calendar: SeasonRound[] = Array.from(
     matches.reduce((map, m) => {
       const r = map.get(m.round) ?? { round: m.round, dates: [], fixtures: [] };
-      const day = m.date.split('T')[0];
-      if (!r.dates.includes(day)) r.dates.push(day);
+      if (isMatchDateOfficial(m)) {
+        const day = m.date.split('T')[0];
+        if (!r.dates.includes(day)) r.dates.push(day);
+      } else {
+        r.note = 'Datas por definir pela Direção de Competições da ANCAF.';
+      }
       r.fixtures.push([m.homeTeamId, m.awayTeamId]);
       map.set(m.round, r);
       return map;
