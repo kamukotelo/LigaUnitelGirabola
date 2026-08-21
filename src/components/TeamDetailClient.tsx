@@ -424,7 +424,9 @@ export default function TeamDetailClient({
                               <h5 className="text-foreground font-bold text-sm uppercase group-hover:text-accent transition-colors truncate max-w-[140px]">
                                 {player.name}
                               </h5>
-                              <span className="text-[9px] text-zinc-500 font-mono uppercase block">{player.nationality} · {player.age} anos</span>
+                              <span className="text-[9px] text-zinc-500 font-mono uppercase block">
+                                {player.nationality}{player.age > 0 ? ` · ${player.age} anos` : ''}
+                              </span>
                             </div>
                           </div>
 

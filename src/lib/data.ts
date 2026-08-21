@@ -1404,9 +1404,52 @@ const PETRO_SQUAD_2026_27: Player[] = [
   careerHistory: [],
 }));
 
+// Convocados do Desportivo da Lunda Sul para a 1.ª jornada frente ao Petro,
+// conforme a convocatória oficial publicada pelo clube em 21/08/2026.
+const LUNDA_SUL_SQUAD_2026_27: Player[] = [
+  ['nono', 'Nonó', 'Defesa', 2],
+  ['yuri', 'Yuri', 'Defesa', 4],
+  ['fred', 'Fred', 'Defesa', 5],
+  ['platini', 'Platini', 'Médio', 6],
+  ['neymar-lunda-sul', 'Neymar', 'Avançado', 7],
+  ['vado-lunda-sul', 'Vado', 'Médio', 8],
+  ['maranata', 'Maranata', 'Médio', 10],
+  ['magrinho', 'Magrinho', 'Avançado', 11],
+  ['cacusso', 'Cacusso', 'Guarda-redes', 12],
+  ['ximba', 'Ximba', 'Médio', 16],
+  ['jepson', 'Jepson', 'Avançado', 17],
+  ['fuca', 'Fuca', 'Avançado', 18],
+  ['manucho-lunda-sul', 'Manucho', 'Avançado', 19],
+  ['mussa-lunda-sul', 'Mussá', 'Avançado', 20],
+  ['mongadie', 'Mongadié', 'Defesa', 23],
+  ['dieu', 'Dieu', 'Defesa', 25],
+  ['sozito', 'Sozito', 'Defesa', 26],
+  ['joca-lunda-sul', 'Joca', 'Avançado', 27],
+  ['kibuata', 'Kibuata', 'Defesa', 28],
+  ['zonzo', 'Zonzo', 'Médio', 33],
+  ['nicon', 'Nicon', 'Médio', 34],
+  ['angola-gr', 'Angola', 'Guarda-redes', 41],
+].map(([id, name, position, jerseyNumber]) => ({
+  id: String(id),
+  name: String(name),
+  club: 'Desportivo da Lunda Sul',
+  teamId: 'lundasul',
+  position: String(position),
+  goals: 0,
+  assists: 0,
+  appearances: 0,
+  jerseyNumber: Number(jerseyNumber),
+  age: 0,
+  nationality: 'Angola',
+  height: 'A confirmar',
+  attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+  careerHistory: [],
+}));
+
 const CURRENT_PLAYERS_RAW: Player[] = [
-  ...PLAYERS_RAW.filter((player) => player.teamId !== 'petro'),
+  ...PLAYERS_RAW.filter((player) => player.teamId !== 'petro' && player.teamId !== 'lundasul'),
   ...PETRO_SQUAD_2026_27,
+  ...LUNDA_SUL_SQUAD_2026_27,
 ];
 
 export const PLAYERS: Player[] = CURRENT_PLAYERS_RAW.map(enrichPlayer);
