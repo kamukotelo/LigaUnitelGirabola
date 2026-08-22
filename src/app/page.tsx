@@ -9,7 +9,7 @@ import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
 import TeamCrestMarquee from '@/components/ui/TeamCrestMarquee';
 import LigaAngolaBlock from '@/components/competition/LigaAngolaBlock';
-import { getTeams, getMatches, getPlayers, getStandings, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
+import { CURRENT_SEASON_SCORERS, getTeams, getMatches, getStandings, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
 import { useBrandLogo } from '@/lib/team-logos';
 
@@ -155,8 +155,7 @@ export default function Home() {
   const seasonMatches = getMatches();
   const matchesPlayed = seasonMatches.filter((m) => m.status === 'finished').length;
   const roundsCount = new Set(seasonMatches.map((m) => m.round)).size;
-  const allPlayers = getPlayers();
-  const topScorer = allPlayers.length > 0 ? [...allPlayers].sort((a, b) => b.goals - a.goals)[0] : null;
+  const topScorer = CURRENT_SEASON_SCORERS[0] ?? null;
   const seasonStarted = matchesPlayed > 0;
   const hasGoals = seasonStarted && topScorer && topScorer.goals > 0;
   const topScorerGoals = hasGoals ? topScorer.goals : 0;

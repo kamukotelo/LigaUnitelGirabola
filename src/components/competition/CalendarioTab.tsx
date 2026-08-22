@@ -10,7 +10,7 @@ import TeamCrest from '@/components/ui/TeamCrest';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
-type StatusFilter = 'all' | 'finished' | 'scheduled';
+type StatusFilter = 'all' | 'finished' | 'live' | 'scheduled';
 type CalendarFilters = {
   seasonId: string;
   selectedRound: number | 'all';
@@ -44,6 +44,7 @@ function getDefaultFilters(seasonId: string): CalendarFilters {
 
 function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTeamId: string | null }) {
   const isFinished = match.status === 'finished';
+  const isLive = match.status === 'live';
   const hasOfficialDate = isMatchDateOfficial(match);
   const matchDate = new Date(match.date);
   const formattedTime = matchDate.toLocaleTimeString('pt-AO', {
@@ -56,8 +57,8 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
   }).replace('.', '');
   const selected = selectedTeamId !== null && (match.homeTeamId === selectedTeamId || match.awayTeamId === selectedTeamId);
   const muted = selectedTeamId !== null && !selected;
-  const homeScore = isFinished ? match.homeScore : '—';
-  const awayScore = isFinished ? match.awayScore : '—';
+  const homeScore = isFinished || isLive ? match.homeScore : '—';
+  const awayScore = isFinished || isLive ? match.awayScore : '—';
   const broadcast = getMatchBroadcast(match);
   const isDeferredBroadcast = broadcast.toLowerCase().includes('diferido');
 
@@ -78,7 +79,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
       </span>
       <span className="text-center font-mono font-black text-zinc-700">{awayScore}</span>
       <span className="col-span-2 mt-1 flex flex-wrap items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
-        <span>{formattedDay} · {formattedTime}{hasOfficialDate ? '' : ' · Provisória'}</span>
+        <span className={isLive ? 'text-red-600' : undefined}>{isLive ? `● ${match.liveMinute ?? ''}' · Em direto` : `${formattedDay} · ${formattedTime}${hasOfficialDate ? '' : ' · Provisória'}`}</span>
         {broadcast !== 'Por confirmar' && (
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 shadow-sm ring-1 ${match.broadcaster ? 'bg-[#5C0F8B] text-white ring-white/40' : 'bg-amber-100 text-amber-900 ring-amber-300'}`}>
             <Tv size={10} aria-hidden="true" /> {match.broadcaster && !isDeferredBroadcast ? `Em direto · ${broadcast}` : broadcast}
@@ -138,6 +139,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   const statusOptions: { key: StatusFilter; label: string }[] = [
     { key: 'all', label: 'Todos' },
     { key: 'finished', label: 'Concluídos' },
+    { key: 'live', label: 'Em direto' },
     { key: 'scheduled', label: 'Agendados' },
   ];
 

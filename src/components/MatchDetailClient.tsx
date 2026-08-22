@@ -269,6 +269,7 @@ export default function MatchDetailClient({
   const homeTeam = getTeamById(match.homeTeamId) ?? serverHome;
   const awayTeam = getTeamById(match.awayTeamId) ?? serverAway;
   const isFinished = match.status === 'finished';
+  const isLive = match.status === 'live';
   const hasOfficialDate = isMatchDateOfficial(match);
 
   const homeColor = homeTeam?.colorsHex?.[0] ?? '#5C0F8B';
@@ -299,7 +300,7 @@ export default function MatchDetailClient({
 
         <div className="flex flex-col items-center gap-2 mb-6 relative z-10">
           <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-full uppercase tracking-widest">
-            Jornada {match.round} · {isFinished ? 'Terminado' : 'Agendado'}
+            Jornada {match.round} · {isFinished ? 'Terminado' : isLive ? `${match.liveMinute ?? ''}' · Em direto` : 'Agendado'}
           </span>
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider flex items-center gap-2 flex-wrap justify-center">
             <span className="flex items-center gap-1"><Calendar size={10} /> {new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}{hasOfficialDate ? '' : ' · Provisória'}</span>
@@ -317,9 +318,10 @@ export default function MatchDetailClient({
 
           {/* Resultado */}
           <div className="text-center">
-            {isFinished ? (
+            {isFinished || isLive ? (
               <div className="font-display text-5xl md:text-6xl font-black text-foreground tracking-tight">
                 {match.homeScore}<span className="text-zinc-700 mx-2">:</span>{match.awayScore}
+                {isLive && <span className="block mt-2 text-xs font-mono uppercase tracking-widest text-red-500">● Em direto</span>}
               </div>
             ) : (
               <div className="flex flex-col items-center gap-1">
@@ -367,7 +369,7 @@ export default function MatchDetailClient({
           {activeTab === 'estatisticas' && <StatsTab home={detail.homeStats} away={detail.awayStats} isFinished={isFinished} />}
           {activeTab === 'escalacoes' && (
             <>
-              {!isFinished && (
+              {!isFinished && !isLive && (
                 <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-4">Onze provável</p>
               )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -381,7 +383,7 @@ export default function MatchDetailClient({
 
       {!isFinished && (
         <p className="text-center text-[10px] font-mono text-amber-400/70 mt-8 flex items-center justify-center gap-2">
-          <Award size={12} /> Jogo agendado — estatísticas e eventos disponíveis após a realização.
+          <Award size={12} /> {isLive ? `Jogo em direto — resultado atualizado aos ${match.liveMinute ?? ''}'.` : 'Jogo agendado — estatísticas e eventos disponíveis após a realização.'}
         </p>
       )}
     </div>

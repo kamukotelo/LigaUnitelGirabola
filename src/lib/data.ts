@@ -55,6 +55,8 @@ export interface Match {
   scheduleStatus?: 'official' | 'provisional';
   stadium: string;
   status: 'scheduled' | 'live' | 'finished';
+  liveMinute?: number;     // minuto observado na última atualização de um jogo em direto
+  updatedAt?: string;      // instante editorial da última confirmação deste jogo
   round: number;
   referee?: string;      // preenchido pela BD/admin; fica por definir até à nomeação oficial
   broadcaster?: string;  // transmissão TV; senão derivado via getMatchBroadcast
@@ -111,12 +113,36 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-22T17:04:00+01:00';
+
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
+  'm27-1-2': {
+    homeScore: 3,
+    awayScore: 0,
+    score: '3-0',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
+  'm27-1-3': {
+    homeScore: 1,
+    awayScore: 0,
+    score: '1-0',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
   'm27-1-4': {
     homeScore: 0,
     awayScore: 0,
     score: '0-0',
     status: 'finished',
+  },
+  'm27-1-7': {
+    homeScore: 0,
+    awayScore: 1,
+    score: '0-1',
+    status: 'live',
+    liveMinute: 63,
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
 };
 
@@ -192,6 +218,14 @@ export interface PlayerStats {
   appearances: number;
   photoUrl?: string;
 }
+
+/** Goleadores confirmados da época em curso, derivados das fichas encerradas. */
+export const CURRENT_SEASON_SCORERS = [
+  { id: 'ju-cabral-bravos', name: 'Ju Cabral', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'luis-caetano-paquete', name: 'Luís Caetano Paquete', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'tangu-gastao', name: 'Tangu Gastão', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 1, appearances: 1 },
+] as const;
 
 export interface Player extends PlayerStats {
   teamId: string; // References Team.id
@@ -2480,9 +2514,18 @@ function getPublishedAgostoHuilaLineups(match: Match): { home: LineupPlayer[]; a
 }
 
 /** Ocorrências confirmadas do jogo inaugural, sem dados demonstrativos. */
-function getPublishedLundaSulPetroEvents(match: Match): MatchEventDetail[] | undefined {
-  if (match.id !== 'm27-1-4') return undefined;
+function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  if (match.id === 'm27-1-2') return [
+    { minute: 24, type: 'goal', team: 'home', player: 'Ju Cabral' },
+    { minute: 36, type: 'goal', team: 'home', player: 'Luís Caetano Paquete' },
+    { minute: 80, type: 'goal', team: 'home', player: 'Tangu Gastão' },
+  ];
 
+  if (match.id === 'm27-1-3') return [
+    { minute: 92, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: "90'+2" },
+  ];
+
+  if (match.id !== 'm27-1-4') return undefined;
   return [
     { minute: 45, type: 'sub', team: 'away', player: 'Ilídio Panda', playerId: 'ilidio-panda', playerOut: 'Ivan Cavaleiro' },
     { minute: 45, type: 'sub', team: 'home', player: 'Neymar', playerId: 'neymar-lunda-sul', playerOut: 'Maranata' },
@@ -2542,12 +2585,18 @@ export function getMatchDetail(match: Match): MatchDetail {
   const possessionHome = seededInt(seed, 1, 40, 62);
   const homeStats = buildTeamStats(seed, match.homeScore, match.awayScore, possessionHome);
   const awayStats = buildTeamStats(seed + 31, match.awayScore, match.homeScore, 100 - possessionHome);
+  if (match.id === 'm27-1-3') {
+    homeStats.corners = 0;
+    awayStats.corners = 1;
+    homeStats.yellowCards = 3;
+    awayStats.yellowCards = 1;
+  }
   // Coerência das defesas: defesas do GR = remates à baliza do adversário - golos sofridos
   homeStats.saves = Math.max(0, awayStats.shotsOnTarget - match.awayScore);
   awayStats.saves = Math.max(0, homeStats.shotsOnTarget - match.homeScore);
 
   const events: MatchEventDetail[] = [];
-  const publishedEvents = getPublishedLundaSulPetroEvents(match);
+  const publishedEvents = getPublishedMatchEvents(match);
 
   if (match.status === 'finished') {
     if (publishedEvents) {

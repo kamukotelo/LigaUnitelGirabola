@@ -22,6 +22,7 @@ function BannerHeading({ icon: Icon, children }: { icon: typeof Video; children:
 // Linha de jogo: nome casa (à direita) · emblema · resultado · emblema · nome fora
 function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) {
   const isFinished = match.status === 'finished';
+  const isLive = match.status === 'live';
   const hasOfficialDate = isMatchDateOfficial(match);
   const home = match.score?.split('-')[0] ?? '--';
   const away = match.score?.split('-')[1] ?? '--';
@@ -44,9 +45,9 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
 
       {/* Resultado */}
       <div className="flex items-center gap-1.5 font-mono font-black text-sm sm:text-base text-foreground bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1 flex-shrink-0">
-        <span className="w-4 text-center">{isFinished ? home : '–'}</span>
+        <span className="w-4 text-center">{isFinished || isLive ? home : '–'}</span>
         <span className="text-zinc-400 text-xs">:</span>
-        <span className="w-4 text-center">{isFinished ? away : '–'}</span>
+        <span className="w-4 text-center">{isFinished || isLive ? away : '–'}</span>
       </div>
 
       {/* Fora (emblema junto ao resultado, nome à esquerda) */}
@@ -55,15 +56,15 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
         <span className="text-xs sm:text-sm font-semibold text-foreground truncate">{match.awayTeam}</span>
       </div>
 
-      <span className="hidden sm:block text-right text-[10px] font-mono uppercase tracking-wider text-zinc-500">
-        {new Date(match.date).toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}{hasOfficialDate ? '' : ' · Prov.'}
+      <span className={`hidden sm:block text-right text-[10px] font-mono uppercase tracking-wider ${isLive ? 'text-red-500 font-black' : 'text-zinc-500'}`}>
+        {isLive ? `● ${match.liveMinute ?? ''}' EM DIRETO` : `${new Date(match.date).toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}${hasOfficialDate ? '' : ' · Prov.'}`}
       </span>
     </Link>
   );
 }
 
 export default function GeralTab({ seasonId }: { seasonId: string }) {
-  const { matches, loading: loadingCalendar } = useOfficialCalendar(seasonId);
+  const { matches, loading: loadingCalendar, generatedAt } = useOfficialCalendar(seasonId);
   const rounds = useMemo(() => Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b), [matches]);
 
   // Abre na próxima jornada por disputar; se todas terminadas, na última.
@@ -99,6 +100,11 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
     <div className="space-y-8">
       {loadingCalendar && (
         <p className="text-xs font-mono text-green-500 uppercase tracking-wider">A sincronizar jogos oficiais…</p>
+      )}
+      {generatedAt && (
+        <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+          Dados atualizados em {new Date(generatedAt).toLocaleString('pt-AO', { timeZone: ANGOLA_TIME_ZONE, dateStyle: 'medium', timeStyle: 'short' })}
+        </p>
       )}
       {/* Seletor de jornadas em pílulas */}
       <div className="flex gap-2 overflow-x-auto pb-1 -mb-1 snap-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Award, Shield, AlertTriangle } from 'lucide-react';
-import { UPCOMING_SEASON_ID, getPlayers, getDetailedMetrics } from '@/lib/data';
+import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -19,6 +19,7 @@ interface DisplayPlayer {
   value: number;
   secondaryLabel?: string;
   secondaryValue?: number | string;
+  hasProfile?: boolean;
 }
 
 const STAT_TABS: { key: StatTab; label: string }[] = [
@@ -42,23 +43,19 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const allPlayers = getPlayers();
+  const seasonHasStarted = getMatchesForSeason(seasonId).some((match) => match.status === 'finished' || match.status === 'live');
 
   // Compile statistics list based on selected season and active tab
   let displayPlayers: DisplayPlayer[] = [];
 
-  if (isUpcoming) {
-    // Época por disputar: estatísticas inicializadas a zero
-    const samplePlayers = allPlayers.slice(0, 8);
-    displayPlayers = samplePlayers.map((p) => ({
-      id: p.id,
-      name: p.name,
-      club: p.club,
-      teamId: p.teamId,
-      position: p.position,
-      value: 0,
-      secondaryLabel: 'Jogos',
-      secondaryValue: 0,
+  if (isUpcoming && seasonHasStarted && activeTab === 'scorers') {
+    displayPlayers = CURRENT_SEASON_SCORERS.map((player) => ({
+      id: player.id, name: player.name, club: player.club, teamId: player.teamId,
+      position: player.position, value: player.goals, secondaryLabel: 'Jogos',
+      secondaryValue: player.appearances, hasProfile: player.id === 'dago-tshibamba',
     }));
+  } else if (isUpcoming) {
+    displayPlayers = [];
   } else {
     if (activeTab === 'scorers') {
       displayPlayers = [...allPlayers]
@@ -130,6 +127,11 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
 
   return (
     <div>
+      {isUpcoming && seasonHasStarted && (
+        <p className="mb-5 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+          Estatísticas atualizadas em {new Date(PLATFORM_MATCH_UPDATED_AT).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })}
+        </p>
+      )}
       {/* Sub-abas de métricas */}
       <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 max-w-3xl overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {STAT_TABS.map((t) => (
@@ -148,7 +150,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       </div>
 
       {/* Season Preparation Banner */}
-      {isUpcoming && (
+      {isUpcoming && !seasonHasStarted && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -162,6 +164,13 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             </p>
           </div>
         </motion.div>
+      )}
+
+      {isUpcoming && seasonHasStarted && activeTab !== 'scorers' && (
+        <div className="mb-8 p-5 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start max-w-4xl">
+          <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={18} />
+          <p className="text-xs text-zinc-500">Esta métrica ainda não foi publicada nas fichas oficiais recebidas.</p>
+        </div>
       )}
 
       {/* Statistics List */}
@@ -179,7 +188,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
               className="space-y-4"
             >
               {displayPlayers.map((player, idx) => {
-                const isLeader = idx === 0 && !isUpcoming;
+                const isLeader = idx === 0 && seasonHasStarted;
                 const percent = maxStatValue > 0 ? Math.round((player.value / maxStatValue) * 100) : 0;
 
                 return (
@@ -199,9 +208,9 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                       <TeamCrest teamId={player.teamId} size={48} className="filter drop-shadow-[0_0_6px_rgba(255,255,255,0.08)]" />
                       <div className="min-w-0">
                         <h3 className="text-foreground font-bold uppercase text-sm flex items-center gap-2 truncate">
-                          <Link href={`/players/${player.id}`} className="hover:text-primary transition-colors truncate">
-                            {player.name}
-                          </Link>
+                          {player.hasProfile === false ? player.name : (
+                            <Link href={`/players/${player.id}`} className="hover:text-primary transition-colors truncate">{player.name}</Link>
+                          )}
                           {isLeader && (
                             <span className="text-[9px] font-mono bg-accent/20 text-accent border border-accent/40 px-2 py-0.5 rounded-full uppercase flex-shrink-0">
                               Líder
@@ -218,13 +227,13 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                     {/* Progress Bar Meter */}
                     <div className="flex-1">
                       <div className="flex justify-between items-center text-[10px] font-mono text-zinc-500 mb-1.5 uppercase">
-                        <span>{isUpcoming ? 'Inicializado' : 'Percentual sobre líder'}</span>
-                        <span>{isUpcoming ? '0%' : `${percent}%`}</span>
+                        <span>{seasonHasStarted ? 'Percentual sobre líder' : 'Inicializado'}</span>
+                        <span>{seasonHasStarted ? `${percent}%` : '0%'}</span>
                       </div>
                       <div className="w-full h-2 bg-white/80 dark:bg-zinc-900/80 rounded-full border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden relative">
                         <motion.div
                           initial={{ width: 0 }}
-                          animate={{ width: isUpcoming ? '0%' : `${percent}%` }}
+                          animate={{ width: seasonHasStarted ? `${percent}%` : '0%' }}
                           transition={{ duration: 0.8, ease: 'easeOut', delay: idx * 0.05 }}
                           className={`h-full rounded-full ${
                             isLeader
@@ -265,33 +274,33 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
           <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
             <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <Flame size={16} className="text-accent" />
-              {isUpcoming ? 'Destaque Preparado' : 'Perfil em Foco'}
+              {seasonHasStarted ? 'Perfil em Foco' : 'Destaque Preparado'}
             </h3>
 
             <div className="space-y-4 text-xs text-zinc-600 dark:text-zinc-400">
               <div className="p-4 bg-white/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl">
                 <h4 className="font-bold text-foreground text-md uppercase">
-                  {isUpcoming ? 'Aguardando Época' : leaderPlayer?.name ?? 'Dagó Tshibamba'}
+                  {seasonHasStarted ? leaderPlayer?.name ?? 'A aguardar dados' : 'Aguardando Época'}
                 </h4>
                 <p className="text-accent font-mono text-[10px] mt-0.5">
-                  {isUpcoming ? 'LIGA UNITEL GIRABOLA' : (leaderPlayer?.club.toUpperCase() ?? '1.º DE AGOSTO')}
+                  {seasonHasStarted ? (leaderPlayer?.club.toUpperCase() ?? 'LIGA UNITEL GIRABOLA') : 'LIGA UNITEL GIRABOLA'}
                 </p>
                 <div className="grid grid-cols-3 gap-2 mt-4 text-center font-mono">
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
                     <span className="text-foreground font-bold block text-sm">
-                      {isUpcoming ? 0 : (leaderPlayerDetails?.appearances ?? 0)}
+                      {seasonHasStarted ? (leaderPlayer?.secondaryValue ?? leaderPlayerDetails?.appearances ?? 0) : 0}
                     </span>
                     <span className="text-[8px] text-zinc-500 uppercase">Jogos</span>
                   </div>
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
                     <span className="text-accent font-bold block text-sm">
-                      {isUpcoming ? 0 : (leaderPlayerDetails?.goals ?? 0)}
+                      {seasonHasStarted ? (activeTab === 'scorers' ? leaderPlayer?.value ?? 0 : leaderPlayerDetails?.goals ?? 0) : 0}
                     </span>
                     <span className="text-[8px] text-zinc-500 uppercase">Golos</span>
                   </div>
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
                     <span className="text-foreground font-bold block text-sm">
-                      {isUpcoming ? 0 : (leaderPlayerDetails?.assists ?? 0)}
+                      {seasonHasStarted ? (leaderPlayerDetails?.assists ?? 0) : 0}
                     </span>
                     <span className="text-[8px] text-zinc-500 uppercase">Assists</span>
                   </div>

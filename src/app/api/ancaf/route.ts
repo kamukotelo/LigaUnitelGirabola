@@ -15,6 +15,7 @@ import {
   applySeasonHomeStadiums,
   getTeamById,
   Match,
+  PLATFORM_MATCH_UPDATED_AT,
 } from '@/lib/data';
 import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/lib/published-ancaf-calendar';
 
@@ -25,7 +26,7 @@ import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/li
 export const dynamic = 'force-dynamic';
 
 const DEFAULT_CAF_TEAM_IDS = ['petro', 'wiliete'];
-const PLATFORM_CALENDAR_BASE_UPDATED_AT = '2026-08-22T08:11:12+01:00';
+const PLATFORM_CALENDAR_BASE_UPDATED_AT = PLATFORM_MATCH_UPDATED_AT;
 
 function getCafTeamIds(): string[] {
   const configured = process.env.ANCAF_CAF_TEAM_IDS
@@ -63,7 +64,7 @@ function fromDbMatch(match: DbMatch): Match {
     awayTeam: match.away_team,
     homeScore,
     awayScore,
-    score: match.status === 'finished' ? `${homeScore}-${awayScore}` : undefined,
+    score: match.status === 'finished' || match.status === 'live' ? `${homeScore}-${awayScore}` : undefined,
     date: match.date,
     stadium: match.stadium,
     status: match.status,
