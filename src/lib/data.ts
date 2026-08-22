@@ -2419,6 +2419,66 @@ function getPublishedLundaSulPetroLineups(match: Match): { home: LineupPlayer[];
   };
 }
 
+/** Convocatórias oficiais do 1.º de Agosto–Desportivo da Huíla (1.ª jornada). */
+function getPublishedAgostoHuilaLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-1-3') return undefined;
+
+  const player = (
+    name: string,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+    playerId?: string,
+  ): LineupPlayer => ({ name, number, position, isStarter, playerId, rating: 0 });
+
+  return {
+    home: [
+      player('Nuno', 1, 'GK', true),
+      player('Bonifácio', 5, 'DEF', true),
+      player('Mabelé', 3, 'DEF', true),
+      player('Macaia', 16, 'DEF', true),
+      player('Milton', 2, 'DEF', true),
+      player('Calebi', 10, 'MID', true),
+      player('Venâncio', 15, 'MID', true),
+      player('Mabilson', 7, 'MID', true),
+      player('Fernando', 11, 'FWD', true),
+      player('Rupson', 9, 'FWD', true),
+      player('Dagó', 17, 'FWD', true, 'dago-tshibamba'),
+      player('Anselmo', 22, 'GK', false),
+      player('Benção', 36, 'DEF', false),
+      player('Bulaya', 28, 'DEF', false),
+      player('Castro', 27, 'MID', false),
+      player('Tombé', 20, 'MID', false),
+      player('Clíver', 18, 'MID', false),
+      player('Obed', 14, 'FWD', false),
+      player('Axel', 8, 'FWD', false),
+      player('Bruno', 6, 'FWD', false),
+    ],
+    away: [
+      player('Ndulo', 1, 'GK', true),
+      player('Ludy', 13, 'DEF', true),
+      player('Dos Santos', 4, 'DEF', true),
+      player('Katendi', 2, 'DEF', true),
+      player('Jeremias', 26, 'DEF', true),
+      player('Elias', 15, 'MID', true),
+      player('Tchutchu', 21, 'MID', true),
+      player('Constantino', 32, 'MID', true),
+      player('Milton', 18, 'FWD', true),
+      player('Milagre', 25, 'FWD', true),
+      player('Mendes', 10, 'FWD', true),
+      player('Passy', 12, 'GK', false),
+      player('Jo', 6, 'DEF', false),
+      player('Cabibi', 7, 'DEF', false),
+      player('Jeizi', 8, 'MID', false),
+      player('Toyzinho', 20, 'MID', false),
+      player('António', 27, 'MID', false),
+      player('Cagodo', 29, 'FWD', false),
+      player('Jony', 34, 'FWD', false),
+      player('Geovany', 35, 'FWD', false),
+    ],
+  };
+}
+
 /** Ocorrências confirmadas do jogo inaugural, sem dados demonstrativos. */
 function getPublishedLundaSulPetroEvents(match: Match): MatchEventDetail[] | undefined {
   if (match.id !== 'm27-1-4') return undefined;
@@ -2475,7 +2535,7 @@ function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: 
 
 export function getMatchDetail(match: Match): MatchDetail {
   const seed = hashString(match.id);
-  const publishedLineups = getPublishedLundaSulPetroLineups(match);
+  const publishedLineups = getPublishedAgostoHuilaLineups(match) ?? getPublishedLundaSulPetroLineups(match);
   const homeLineup = publishedLineups?.home ?? buildLineup(match.homeTeamId, seed);
   const awayLineup = publishedLineups?.away ?? buildLineup(match.awayTeamId, seed + 7);
 
@@ -2575,6 +2635,12 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       assistants: ['Natarino António Soares', 'Nelson Lutumba Quiala'],
       fourth: 'Custódio Roque Lote',
       commissioner: 'Alfredo João',
+    },
+    'm27-1-3': {
+      referee: 'Edilson Roberto Gomes André',
+      assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'],
+      fourth: 'Miguel Julião Mateus',
+      commissioner: 'Vicente Domingos Napoleão Garcia',
     },
     'm27-1-4': {
       referee: 'Miguel Tchissingu Augusto Américo',
