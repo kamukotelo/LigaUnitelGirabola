@@ -1855,6 +1855,14 @@ export function getSiteSettings(): SiteSettings {
 // numéricos coerentes (o admin pode editar só o resultado ou só o marcador).
 function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
   const merged: Match = { ...base, ...patch };
+  // Normaliza a grafia antiga que ainda pode existir em publicações guardadas
+  // antes da correção oficial do recinto do FC Cabinda.
+  if (
+    merged.homeTeamId === 'cabinda'
+    && ['Estádio Vicy António', 'Estádio Vicy António - Uige'].includes(merged.stadium)
+  ) {
+    merged.stadium = 'Estádio Vici António';
+  }
   // Ao editar a data, o administrador publica-a como oficial, exceto quando
   // assinala explicitamente que continua por definir.
   if (patch.date !== undefined && patch.scheduleStatus === undefined) {
