@@ -113,7 +113,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-22T17:04:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-22T17:40:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-2': {
@@ -138,10 +138,9 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
   },
   'm27-1-7': {
     homeScore: 0,
-    awayScore: 1,
-    score: '0-1',
-    status: 'live',
-    liveMinute: 63,
+    awayScore: 3,
+    score: '0-3',
+    status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
 };
@@ -221,6 +220,9 @@ export interface PlayerStats {
 
 /** Goleadores confirmados da época em curso, derivados das fichas encerradas. */
 export const CURRENT_SEASON_SCORERS = [
+  { id: 'cuxixima-libolo', name: 'Cuxixima', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'pedro-libolo', name: 'Pedro', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'andeloy-libolo', name: 'Andeloy', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'ju-cabral-bravos', name: 'Ju Cabral', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'luis-caetano-paquete', name: 'Luís Caetano Paquete', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'tangu-gastao', name: 'Tangu Gastão', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
@@ -540,22 +542,22 @@ export const MATCHES: Match[] = generateAllMatches();
 // A tabela mostrada no site é calculada a partir dos jogos terminados,
 // garantindo que classificação e resultados coincidem sempre.
 export const STANDINGS_ORDER_2026_27 = [
-  'lobito',
-  'petro',
-  'dago',
-  'caala',
-  'libolo',
-  'desphuila',
-  'lundasul',
-  'sagrada',
-  'primeiromaio',
   'bravos',
-  'cabinda',
+  'libolo',
+  'dago',
+  'petro',
+  'lundasul',
+  'primeiromaio',
+  'lobito',
+  'saosalvador',
+  'caala',
   'fcluanda',
   'interclube',
   'kabuscorp',
-  'saosalvador',
   'wiliete',
+  'desphuila',
+  'cabinda',
+  'sagrada',
 ] as const;
 
 const STANDINGS_ORDER_INDEX = new Map<string, number>(
@@ -2523,6 +2525,12 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
 
   if (match.id === 'm27-1-3') return [
     { minute: 92, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: "90'+2" },
+  ];
+
+  if (match.id === 'm27-1-7') return [
+    { minute: 34, type: 'goal', team: 'away', player: 'Cuxixima' },
+    { minute: 70, type: 'goal', team: 'away', player: 'Pedro' },
+    { minute: 73, type: 'goal', team: 'away', player: 'Andeloy' },
   ];
 
   if (match.id !== 'm27-1-4') return undefined;
