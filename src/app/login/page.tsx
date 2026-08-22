@@ -52,7 +52,7 @@ export default function LoginPage() {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passcode: password }),
+        body: JSON.stringify({ passcode: password, profile: 'club_direction' }),
       });
 
       if (res.ok) {

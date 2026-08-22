@@ -22,6 +22,7 @@ import TeamCrest from '@/components/ui/TeamCrest';
 import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
 import { publishOverride, type OverrideSection } from '@/lib/portal-overrides';
 import { supabase } from '@/lib/supabase';
+import { useFifaConnectAccess } from '@/lib/use-fifa-connect-access';
 
 // ── Configuração local (persistência local dos overrides do admin) ──────
 // A autenticação é feita no servidor (ver AdminGuard + /api/admin/*); esta
@@ -248,6 +249,7 @@ function localInputToIso(value: string): string {
 // RAIZ
 // ════════════════════════════════════════════════════════════════════════
 export default function AdminClient() {
+  const canAccessFifaConnect = useFifaConnectAccess();
   const [section, setSection] = useState<Section>('dashboard');
   const [seeded, setSeeded] = useState(false);
   // Alterações por guardar na secção aberta — usado para avisar antes de
@@ -351,7 +353,7 @@ export default function AdminClient() {
       title: 'Conteúdos e Conformidade',
       items: [
         { key: 'news', label: 'Notícias', icon: Newspaper },
-        { key: 'fifa', label: 'FIFA Connect', icon: ShieldCheck },
+        ...(canAccessFifaConnect ? [{ key: 'fifa' as const, label: 'FIFA Connect', icon: ShieldCheck }] : []),
       ],
     },
   ];
@@ -434,11 +436,11 @@ export default function AdminClient() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                {section === 'dashboard' && <DashboardSection onGo={goToSection} />}
+                {section === 'dashboard' && <DashboardSection onGo={goToSection} canAccessFifaConnect={canAccessFifaConnect} />}
                 {section === 'site' && <SiteSection />}
                 {section === 'calendar' && <CalendarSection />}
                 {section === 'competition' && <CompetitionSection />}
-                {section === 'fifa' && <FifaSection />}
+                {canAccessFifaConnect && section === 'fifa' && <FifaSection />}
                 {section === 'teams' && <TeamsSection />}
                 {section === 'players' && <PlayersSection />}
                 {section === 'nominations' && <NominationsSection />}
@@ -493,7 +495,7 @@ function ConnectionBadge({ icon: Icon, label, endpoint, ok = true }: { icon: Rea
 // ════════════════════════════════════════════════════════════════════════
 // SECÇÃO: PAINEL GERAL
 // ════════════════════════════════════════════════════════════════════════
-function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
+function DashboardSection({ onGo, canAccessFifaConnect }: { onGo: (s: Section) => void; canAccessFifaConnect: boolean }) {
   const [dynamicSource, setDynamicSource] = useState(ANCAF_CALENDAR_SOURCE);
 
   useEffect(() => {
@@ -518,7 +520,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
     { label: 'Jogos Realizados', value: finished, icon: Trophy },
     { label: 'Jogos Agendados', value: scheduled, icon: CalendarDays },
     { label: 'Notícias', value: getNewsArticles().length, icon: Newspaper },
-    { label: 'Elegíveis FIFA', value: `${eligible}/${fifaRecords.length}`, icon: BadgeCheck },
+    ...(canAccessFifaConnect ? [{ label: 'Elegíveis FIFA', value: `${eligible}/${fifaRecords.length}`, icon: BadgeCheck }] : []),
   ];
 
   return (
@@ -533,7 +535,7 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <ConnectionBadge icon={CalendarDays} label="Calendário da plataforma" endpoint={`${dynamicSource.season} · base ${dynamicSource.accessCode}`} />
           <ConnectionBadge icon={Database} label="Base de Dados" endpoint="armazenamento · multimédia" />
-          <ConnectionBadge icon={Wifi} label="FIFA Connect" endpoint="conformidade · elegibilidade" />
+          {canAccessFifaConnect && <ConnectionBadge icon={Wifi} label="FIFA Connect" endpoint="conformidade · elegibilidade" />}
         </div>
       </Panel>
 
@@ -578,11 +580,13 @@ function DashboardSection({ onGo }: { onGo: (s: Section) => void }) {
           <p className="font-display text-foreground uppercase tracking-wider text-sm">Rever Notícias</p>
           <p className="text-[11px] font-mono text-zinc-500 mt-1">Validar, editar e publicar rapidamente</p>
         </button>
-        <button onClick={() => onGo('fifa')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
-          <ShieldCheck size={18} className="text-accent mb-3" />
-          <p className="font-display text-foreground uppercase tracking-wider text-sm">Gerir FIFA Connect</p>
-          <p className="text-[11px] font-mono text-zinc-500 mt-1">Validar elegibilidade dos jogadores</p>
-        </button>
+        {canAccessFifaConnect && (
+          <button onClick={() => onGo('fifa')} className="text-left bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-900 hover:border-accent/40 rounded-2xl p-5 transition-colors group">
+            <ShieldCheck size={18} className="text-accent mb-3" />
+            <p className="font-display text-foreground uppercase tracking-wider text-sm">Gerir FIFA Connect</p>
+            <p className="text-[11px] font-mono text-zinc-500 mt-1">Validar elegibilidade dos jogadores</p>
+          </button>
+        )}
       </div>
     </div>
   );

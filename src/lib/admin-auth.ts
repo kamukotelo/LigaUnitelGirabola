@@ -7,6 +7,9 @@ import crypto from 'crypto';
 // credencial — não é a senha e não pode ser forjado sem a conhecer.
 
 const PASSCODE = process.env.ADMIN_WRITE_PASSCODE ?? 'ancaf2026';
+const CLUB_DIRECTION_PASSCODE = process.env.CLUB_DIRECTION_PASSCODE ?? PASSCODE;
+
+export type UserProfile = 'admin' | 'club_direction';
 
 export const ADMIN_COOKIE = 'faf_admin_session';
 export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 8; // 8 horas
@@ -20,8 +23,9 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 // Token de sessão determinístico derivado da credencial de gestão (server-side).
-export function sessionToken(): string {
-  return crypto.createHmac('sha256', PASSCODE).update('faf-admin-session-v1').digest('hex');
+export function sessionToken(profile: UserProfile = 'admin'): string {
+  const signature = crypto.createHmac('sha256', PASSCODE).update(`faf-session-v2:${profile}`).digest('hex');
+  return `${profile}.${signature}`;
 }
 
 // Valida a credencial submetida no login (comparação de tempo constante).
@@ -30,8 +34,24 @@ export function verifyPasscode(input: unknown): boolean {
   return safeEqual(input, PASSCODE);
 }
 
+export function verifyClubDirectionPasscode(input: unknown): boolean {
+  if (typeof input !== 'string' || input.length === 0) return false;
+  return safeEqual(input, CLUB_DIRECTION_PASSCODE);
+}
+
 // Valida um token de sessão vindo do cookie.
 export function isValidSession(token: string | undefined | null): boolean {
-  if (!token) return false;
-  return safeEqual(token, sessionToken());
+  return getSessionProfile(token) !== null;
+}
+
+export function getSessionProfile(token: string | undefined | null): UserProfile | null {
+  if (!token) return null;
+  for (const profile of ['admin', 'club_direction'] as const) {
+    if (safeEqual(token, sessionToken(profile))) return profile;
+  }
+  return null;
+}
+
+export function canAccessFifaConnect(token: string | undefined | null): boolean {
+  return getSessionProfile(token) === 'club_direction';
 }

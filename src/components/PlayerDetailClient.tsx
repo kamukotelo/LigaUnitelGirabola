@@ -19,6 +19,7 @@ import {
 } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import { ROUTES } from '@/lib/routes';
+import { useFifaConnectAccess } from '@/lib/use-fifa-connect-access';
 
 // Etiqueta de transparência: dados simulados, não oficiais.
 function DemoBadge() {
@@ -605,6 +606,7 @@ function FifaConnectTab({ player }: { player: Player }) {
 type TabKey = 'perfil' | 'estatisticas' | 'fifaconnect';
 
 export default function PlayerDetailClient({ player: serverPlayer, team: serverTeam }: PlayerDetailClientProps) {
+  const canAccessFifaConnect = useFifaConnectAccess();
   // A página vem do servidor sem os overrides publicados no admin; reavaliar
   // aqui aplica as edições de jogador e de clube assim que ficam disponíveis.
   const player = getPlayerById(serverPlayer.id) ?? serverPlayer;
@@ -636,10 +638,11 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
   const clubColor = team?.colorsHex ? team.colorsHex[0] : '#5C0F8B';
 
   const [activeTab, setActiveTab] = useState<TabKey>('perfil');
+  const visibleActiveTab = canAccessFifaConnect || activeTab !== 'fifaconnect' ? activeTab : 'perfil';
   const tabs: { key: TabKey; label: string; icon: React.ElementType }[] = [
     { key: 'perfil', label: 'Perfil Geral', icon: Star },
     { key: 'estatisticas', label: 'Estatísticas', icon: BarChart3 },
-    { key: 'fifaconnect', label: 'FIFA Connect', icon: Shield },
+    ...(canAccessFifaConnect ? [{ key: 'fifaconnect' as const, label: 'FIFA Connect', icon: Shield }] : []),
   ];
 
   return (
@@ -715,7 +718,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
       <div className="flex flex-wrap gap-2 mb-8 border-b border-zinc-200/80 dark:border-zinc-900/80">
         {tabs.map((tab) => {
           const Icon = tab.icon;
-          const isActive = activeTab === tab.key;
+          const isActive = visibleActiveTab === tab.key;
           return (
             <button
               key={tab.key}
@@ -738,15 +741,15 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
 
       <AnimatePresence mode="wait">
         <motion.div
-          key={activeTab}
+          key={visibleActiveTab}
           initial={{ opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -16 }}
           transition={{ duration: 0.25 }}
         >
-          {activeTab === 'estatisticas' && <StatsTab player={player} />}
-          {activeTab === 'fifaconnect' && <FifaConnectTab player={player} />}
-          {activeTab === 'perfil' && (
+          {visibleActiveTab === 'estatisticas' && <StatsTab player={player} />}
+          {canAccessFifaConnect && visibleActiveTab === 'fifaconnect' && <FifaConnectTab player={player} />}
+          {visibleActiveTab === 'perfil' && (
       /* Grid Layout */
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 

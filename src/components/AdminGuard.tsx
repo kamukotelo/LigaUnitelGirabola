@@ -43,7 +43,7 @@ export default function AdminGuard({ children }: AdminGuardProps) {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passcode }),
+        body: JSON.stringify({ passcode, profile: 'admin' }),
       });
       if (res.ok) {
         setStatus('authed');
