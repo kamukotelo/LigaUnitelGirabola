@@ -25,7 +25,7 @@ import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/li
 export const dynamic = 'force-dynamic';
 
 const DEFAULT_CAF_TEAM_IDS = ['petro', 'wiliete'];
-const PLATFORM_CALENDAR_BASE_UPDATED_AT = '2026-08-22T00:00:04+01:00';
+const PLATFORM_CALENDAR_BASE_UPDATED_AT = '2026-08-22T08:11:12+01:00';
 
 function getCafTeamIds(): string[] {
   const configured = process.env.ANCAF_CAF_TEAM_IDS

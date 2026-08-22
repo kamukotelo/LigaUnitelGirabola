@@ -107,6 +107,19 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 5, homeTeamId: 'saosalvador', awayTeamId: 'cabinda', date: '2026-09-20T15:00:00+01:00' },
 ] as const;
 
+// Resultados confirmados editorialmente pela plataforma. Esta camada é
+// aplicada depois da agenda oficial, para que a confirmação de datas não
+// volte a transformar um jogo já realizado em "agendado". As edições
+// publicadas pelo administrador continuam a ter a última palavra.
+export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
+  'm27-1-4': {
+    homeScore: 0,
+    awayScore: 0,
+    score: '0-0',
+    status: 'finished',
+  },
+};
+
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
 export const HOME_STADIUMS_2026_27: Readonly<Record<string, string>> = {
   lundasul: 'Estádio do Sagrada Esperança',
@@ -142,11 +155,10 @@ export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
 
   return sortOfficialMatches(matches.map((match) => {
     const fixture = scheduleByFixture.get(`${match.round}:${match.homeTeamId}:${match.awayTeamId}`);
-    if (!fixture) return {
+    const scheduledMatch: Match = !fixture ? {
       ...match,
       scheduleStatus: match.status === 'finished' ? 'official' as const : 'provisional' as const,
-    };
-    return {
+    } : {
       ...match,
       ...fixture,
       homeScore: 0,
@@ -155,6 +167,8 @@ export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
       status: 'scheduled' as const,
       scheduleStatus: 'official' as const,
     };
+
+    return normalizeMatchOverride(scheduledMatch, PLATFORM_CONFIRMED_RESULTS[match.id] ?? {});
   }));
 }
 
