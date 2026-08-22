@@ -3,14 +3,20 @@
 import { motion } from 'framer-motion';
 import { Info, Award } from 'lucide-react';
 import Link from 'next/link';
-import { PLATFORM_MATCH_UPDATED_AT, SEASONS, UPCOMING_SEASON_ID, getStandingsForSeason, getTeamFullName } from '@/lib/data';
+import { useState } from 'react';
+import { PLATFORM_MATCH_UPDATED_AT, SEASONS, UPCOMING_SEASON_ID, computeStandings, getStandingsForSeason, getTeamFullName, type StandingsVenue } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
 export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
-  const standingsList = getStandingsForSeason(seasonId);
+  const [venue, setVenue] = useState<StandingsVenue>('all');
+  const { matches } = useOfficialCalendar(seasonId);
   const selectedSeason = SEASONS.find(s => s.id === seasonId);
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
+  const standingsList = venue === 'all'
+    ? (isUpcoming ? computeStandings(matches) : getStandingsForSeason(seasonId))
+    : computeStandings(matches, venue);
 
   // Curiosidades derivadas da tabela calculada (coincidem sempre com os jogos).
   const bestDefense = [...standingsList].sort((a, b) => a.goalsAgainst - b.goalsAgainst)[0];
@@ -25,6 +31,30 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
           Classificação atualizada em {new Date(PLATFORM_MATCH_UPDATED_AT).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })} · jogos em direto não contabilizados
         </p>
       )}
+
+      <div className="flex justify-center">
+        <div className="inline-flex rounded-xl border border-zinc-200 bg-zinc-100/70 p-1 dark:border-zinc-800 dark:bg-zinc-950/70" aria-label="Âmbito da classificação">
+          {([
+            ['all', 'Todos'],
+            ['home', 'Casa'],
+            ['away', 'Fora'],
+          ] as const).map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setVenue(key)}
+              aria-pressed={venue === key}
+              className={`min-w-20 rounded-lg px-4 py-2 text-xs font-bold transition-all ${
+                venue === key
+                  ? 'bg-white text-foreground shadow-sm dark:bg-zinc-800'
+                  : 'text-zinc-500 hover:text-foreground'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Table Container */}
       <div className="overflow-hidden">

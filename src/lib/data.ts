@@ -564,7 +564,9 @@ const STANDINGS_ORDER_INDEX = new Map<string, number>(
   STANDINGS_ORDER_2026_27.map((teamId, index) => [teamId, index]),
 );
 
-export function computeStandings(matches: Match[]): StandingEntry[] {
+export type StandingsVenue = 'all' | 'home' | 'away';
+
+export function computeStandings(matches: Match[], venue: StandingsVenue = 'all'): StandingEntry[] {
   const acc = new Map<string, Omit<StandingEntry, 'position' | 'goalDifference' | 'form'> & { _matches: Match[] }>();
   const participants = new Map<string, string>();
   for (const match of matches) {
@@ -586,13 +588,24 @@ export function computeStandings(matches: Match[]): StandingEntry[] {
     const home = acc.get(m.homeTeamId);
     const away = acc.get(m.awayTeamId);
     if (!home || !away) continue;
-    home.played++; away.played++;
-    home.goalsFor += m.homeScore; home.goalsAgainst += m.awayScore;
-    away.goalsFor += m.awayScore; away.goalsAgainst += m.homeScore;
-    home._matches.push(m); away._matches.push(m);
-    if (m.homeScore > m.awayScore) { home.won++; home.points += 3; away.lost++; }
-    else if (m.homeScore < m.awayScore) { away.won++; away.points += 3; home.lost++; }
-    else { home.drawn++; away.drawn++; home.points++; away.points++; }
+    if (venue !== 'away') {
+      home.played++;
+      home.goalsFor += m.homeScore;
+      home.goalsAgainst += m.awayScore;
+      home._matches.push(m);
+      if (m.homeScore > m.awayScore) { home.won++; home.points += 3; }
+      else if (m.homeScore < m.awayScore) home.lost++;
+      else { home.drawn++; home.points++; }
+    }
+    if (venue !== 'home') {
+      away.played++;
+      away.goalsFor += m.awayScore;
+      away.goalsAgainst += m.homeScore;
+      away._matches.push(m);
+      if (m.awayScore > m.homeScore) { away.won++; away.points += 3; }
+      else if (m.awayScore < m.homeScore) away.lost++;
+      else { away.drawn++; away.points++; }
+    }
   }
 
   const formFor = (teamId: string, ms: Match[]): ('W' | 'D' | 'L')[] =>
