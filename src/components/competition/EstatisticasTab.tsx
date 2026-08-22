@@ -7,9 +7,8 @@ import { Flame, Award, Shield, AlertTriangle } from 'lucide-react';
 import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
-import TempoUtilTab from './TempoUtilTab';
 
-type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'discipline' | 'minutes' | 'tempo-util';
+type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'discipline' | 'minutes';
 
 interface DisplayPlayer {
   id: string;
@@ -29,7 +28,6 @@ const STAT_TABS: { key: StatTab; label: string }[] = [
   { key: 'cleansheets', label: '🧤 Baliza Limpa' },
   { key: 'discipline', label: '🟨 Disciplina' },
   { key: 'minutes', label: '⏱ Minutos' },
-  { key: 'tempo-util', label: '⏱ Tempo Útil' },
 ];
 
 const VALUE_LABELS: Record<StatTab, string> = {
@@ -38,7 +36,6 @@ const VALUE_LABELS: Record<StatTab, string> = {
   cleansheets: 'Jogos S/ Golo',
   discipline: 'Amarelos',
   minutes: 'Minutos',
-  'tempo-util': 'Minutos',
 };
 
 export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
@@ -151,10 +148,6 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
           </button>
         ))}
       </div>
-
-      {activeTab === 'tempo-util' ? (
-        <TempoUtilTab seasonId={seasonId} />
-      ) : <>
 
       {/* Season Preparation Banner */}
       {isUpcoming && !seasonHasStarted && (
@@ -333,7 +326,6 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         </div>
 
       </div>
-      </>}
     </div>
   );
 }

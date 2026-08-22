@@ -13,10 +13,9 @@ import { useBrandLogo } from '@/lib/team-logos';
 
 const MOBILE_NAV_ICONS = {
   'Início': Home,
-  'Jogos': CalendarDays,
+  'Competição': Trophy,
   'Calendário': CalendarDays,
   'Classificação': ListOrdered,
-  'Estatísticas': Trophy,
   'Equipas': Shield,
   'Notícias': Newspaper,
   'Liga TV': PlayCircle,
@@ -32,7 +31,7 @@ export default function Navbar() {
   const logoAncaf = useBrandLogo('logo_ancaf');
   const isCustomLogo = logoAncaf.startsWith('data:') || (logoAncaf.startsWith('http') && !logoAncaf.includes('.supabase.co'));
   const pathname = usePathname();
-  const [activeCompetitionTab, setActiveCompetitionTab] = useState('calendario');
+  const [activeCompetitionTab, setActiveCompetitionTab] = useState('geral');
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const lastPathname = useRef(pathname);
@@ -64,7 +63,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const syncCompetitionTab = () => {
-      setActiveCompetitionTab(new URLSearchParams(window.location.search).get('tab') ?? 'calendario');
+      setActiveCompetitionTab(new URLSearchParams(window.location.search).get('tab') ?? 'geral');
     };
     syncCompetitionTab();
     window.addEventListener('popstate', syncCompetitionTab);
@@ -188,7 +187,7 @@ export default function Navbar() {
                 <Link
                   key={link.path}
                   href={link.path}
-                  onClick={() => setActiveCompetitionTab(('tab' in link && link.tab) || 'calendario')}
+                  onClick={() => setActiveCompetitionTab(('tab' in link && link.tab) || 'geral')}
                   className={`text-[11px] font-semibold tracking-wide uppercase px-2.5 py-2 rounded-lg transition-all duration-200 whitespace-nowrap ${
                     isActive
                       ? 'text-accent bg-accent/5'
@@ -319,7 +318,7 @@ export default function Navbar() {
                       <Link
                         href={link.path}
                         onClick={() => {
-                          setActiveCompetitionTab(('tab' in link && link.tab) || 'calendario');
+                          setActiveCompetitionTab(('tab' in link && link.tab) || 'geral');
                           setIsOpen(false);
                         }}
                         className={`flex min-h-[4.25rem] items-center gap-2.5 rounded-2xl border px-3 py-3 text-left transition-all duration-200 sm:min-h-[86px] sm:flex-col sm:items-stretch sm:justify-between sm:p-4 ${

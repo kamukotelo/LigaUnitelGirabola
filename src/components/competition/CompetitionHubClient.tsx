@@ -1,35 +1,30 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Trophy, CalendarDays, BarChart3, Flag } from 'lucide-react';
+import { LayoutGrid, Trophy, CalendarDays, BarChart3, Timer, Flag } from 'lucide-react';
 import { SEASONS } from '@/lib/data';
 import PageHeader from '@/components/ui/PageHeader';
 import { HUB_TABS, HubTab } from './tabs';
 import MiniStandings from './MiniStandings';
+import GeralTab from './GeralTab';
 import ClassificacaoTab from './ClassificacaoTab';
 import CalendarioTab from './CalendarioTab';
 import EstatisticasTab from './EstatisticasTab';
+import TempoUtilTab from './TempoUtilTab';
 import NomeacoesTab from './NomeacoesTab';
 
 const TAB_ICONS: Record<HubTab, typeof Trophy> = {
+  geral: LayoutGrid,
   classificacao: Trophy,
   calendario: CalendarDays,
   estatisticas: BarChart3,
+  'tempo-util': Timer,
   nomeacoes: Flag,
 };
 
 export default function CompetitionHubClient({ seasonId, tab }: { seasonId: string; tab: HubTab }) {
   const router = useRouter();
   const selectedSeason = SEASONS.find((s) => s.id === seasonId);
-  const isGamesSection = tab === 'calendario' || tab === 'nomeacoes';
-  const localTabs = isGamesSection
-    ? HUB_TABS.filter((item) => item.key === 'calendario' || item.key === 'nomeacoes')
-    : [];
-  const pageCopy = tab === 'classificacao'
-    ? { eyebrow: 'Tabela oficial', description: 'Classificação, pontos, golos e forma atual das equipas.', breadcrumb: 'Classificação' }
-    : tab === 'estatisticas'
-      ? { eyebrow: 'Estatísticas oficiais', description: 'Rendimento individual, disciplina e tempo útil da competição.', breadcrumb: 'Estatísticas' }
-      : { eyebrow: 'Jogos oficiais', description: 'Calendário, jornadas e resultados num único destino.', breadcrumb: 'Jogos' };
 
   const goTo = (nextSeason: string, nextTab: HubTab) => {
     router.replace(`/competicao/${nextSeason}?tab=${nextTab}`, { scroll: false });
@@ -41,11 +36,11 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
       {/* Cabeçalho do hub de competição */}
       <div className="mb-8">
         <PageHeader
-          eyebrow={pageCopy.eyebrow}
+          eyebrow="Competição oficial"
           title="Liga Unitel"
           highlight="Girabola"
-          description={`${pageCopy.description} Época ${selectedSeason?.label ?? seasonId}.`}
-          breadcrumbs={[{ label: 'Início', href: '/' }, { label: pageCopy.breadcrumb }]}
+          description={`Época ${selectedSeason?.label ?? seasonId} · ${selectedSeason?.status === 'completed' ? 'Concluída' : 'Por disputar'} · Campeonato Nacional de Futebol de Angola`}
+          breadcrumbs={[{ label: 'Início', href: '/' }, { label: 'Competição' }]}
         />
 
         {/* Seletor de Época — partilhado por todas as abas */}
@@ -84,8 +79,8 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
         {/* Coluna principal: abas + conteúdo */}
         <div className="min-w-0">
           {/* Barra de abas */}
-          {localTabs.length > 0 && <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-            {localTabs.map((t) => {
+          <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            {HUB_TABS.map((t) => {
               const Icon = TAB_ICONS[t.key];
               const active = tab === t.key;
               return (
@@ -103,12 +98,14 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
                 </button>
               );
             })}
-          </div>}
+          </div>
 
           {/* Conteúdo da aba ativa */}
+          {tab === 'geral' && <GeralTab seasonId={seasonId} />}
           {tab === 'classificacao' && <ClassificacaoTab seasonId={seasonId} />}
           {tab === 'calendario' && <CalendarioTab seasonId={seasonId} />}
           {tab === 'estatisticas' && <EstatisticasTab seasonId={seasonId} />}
+          {tab === 'tempo-util' && <TempoUtilTab seasonId={seasonId} />}
           {tab === 'nomeacoes' && <NomeacoesTab seasonId={seasonId} />}
         </div>
       </div>

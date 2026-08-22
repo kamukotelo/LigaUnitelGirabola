@@ -8,6 +8,6 @@ export default async function CompetitionIndexPage({
   searchParams: Promise<{ tab?: string }>;
 }) {
   const { tab } = await searchParams;
-  const activeTab = tab === 'geral' ? 'calendario' : tab === 'tempo-util' ? 'estatisticas' : tab ?? 'calendario';
+  const activeTab = tab ?? 'geral';
   redirect(`/competicao/${CURRENT_SEASON_ID}?tab=${activeTab}`);
 }
