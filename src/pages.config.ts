@@ -31,9 +31,9 @@ export const PAGES = {
 
 export const NAV_LINKS = [
   { label: 'Início', path: ROUTES.home, match: ROUTES.home },
-  { label: 'Competição', path: ROUTES.competition, match: '/competicao', tab: 'geral' },
-  { label: 'Calendário', path: ROUTES.calendar, match: '/competicao', tab: 'calendario' },
+  { label: 'Jogos', path: ROUTES.calendar, match: '/competicao', tab: 'calendario' },
   { label: 'Classificação', path: ROUTES.standings, match: '/competicao', tab: 'classificacao' },
+  { label: 'Estatísticas', path: ROUTES.stats, match: '/competicao', tab: 'estatisticas' },
   { label: 'Equipas', path: ROUTES.teams, match: ROUTES.teams },
   { label: 'Notícias', path: ROUTES.news, match: ROUTES.news },
   { label: 'Liga TV', path: ROUTES.ligaTv, match: ROUTES.ligaTv },

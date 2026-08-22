@@ -1,14 +1,14 @@
 import { CURRENT_SEASON_ID } from './data';
 import type { HubTab } from '@/components/competition/tabs';
 
-export function competitionPath(tab: HubTab = 'geral', seasonId?: string) {
+export function competitionPath(tab: HubTab = 'calendario', seasonId?: string) {
   const season = seasonId ?? CURRENT_SEASON_ID;
   return `/competicao/${season}?tab=${tab}`;
 }
 
 export const ROUTES = {
   home: '/',
-  competition: competitionPath('geral'),
+  competition: competitionPath('calendario'),
   standings: competitionPath('classificacao'),
   calendar: competitionPath('calendario'),
   stats: competitionPath('estatisticas'),
