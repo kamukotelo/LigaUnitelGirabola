@@ -71,7 +71,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 1, homeTeamId: 'lundasul', awayTeamId: 'petro', homeTeam: 'Desportivo da Lunda Sul', awayTeam: 'Petro de Luanda', date: '2026-08-21T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', broadcaster: 'Zsports' },
   { round: 1, homeTeamId: 'wiliete', awayTeamId: 'lobito', homeTeam: 'Wiliete de Benguela', awayTeam: 'Académica do Lobito', date: '2026-08-23T17:30:00+01:00', stadium: 'Estádio Nacional de Ombaka', broadcaster: 'Zsports' },
   { round: 1, homeTeamId: 'primeiromaio', awayTeamId: 'kabuscorp', homeTeam: 'Estrela 1.º de Maio', awayTeam: 'Kabuscorp SC', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio de São Filipe' },
-  { round: 1, homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Nacional do Chiazi' },
+  { round: 1, homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Vici António' },
   { round: 1, homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
   { round: 2, homeTeamId: 'caala', awayTeamId: 'wiliete', date: '2026-08-27T15:00:00+01:00' },
   { round: 2, homeTeamId: 'kabuscorp', awayTeamId: 'lundasul', date: '2026-08-28T15:30:00+01:00', broadcaster: 'Zsports' },
@@ -122,6 +122,7 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
 export const HOME_STADIUMS_2026_27: Readonly<Record<string, string>> = {
+  cabinda: 'Estádio Vici António',
   lundasul: 'Estádio do Sagrada Esperança',
   fcluanda: 'Estádio França N’dalu',
   dago: 'Estádio França N’dalu',
@@ -305,7 +306,7 @@ export const TEAMS: Team[] = [
   { id: 'libolo', name: 'Recreativo do Libolo', officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Osvaldo Roque', president: 'João Pereira', nickname: 'Libolenses', colorsHex: ['#FF6600', '#00529B'], kits: [{ label: 'Principal', colors: ['#FF6600', '#00529B'] }, { label: 'Secundário', colors: ['#00529B', '#FF6600'] }] },
   { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Amarelo', coach: 'Silvestre Pelé', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#F9C304'], kits: [{ label: 'Principal', colors: ['#F9C304'] }, { label: 'Secundário', colors: ['#000000'] }] },
   { id: 'saosalvador', name: 'São Salvador', officialName: 'São Salvador do Kongo Futebol Clube', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Vermelho e Branco', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#808080'] }] },
-  { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Nacional do Chiazi', stadiumCapacity: 25000, founded: 2005, colors: 'Azul e Branco', coach: 'Nzola Seca', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
+  { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Vici António', stadiumCapacity: 25000, founded: 2005, colors: 'Azul e Branco', coach: 'Nzola Seca', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
   { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube 1º de Maio de Benguela', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 6000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
   { id: 'caala', name: 'CR Caála', officialName: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio dos Mártires da Canhala', stadiumCapacity: 12000, founded: 1944, colors: 'Azul e Branco', coach: 'Artur Correia', president: 'António Mosquito', nickname: 'Caalenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
   { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] }
@@ -2410,6 +2411,26 @@ function getPublishedLundaSulPetroLineups(match: Match): { home: LineupPlayer[];
   };
 }
 
+/** Ocorrências confirmadas do jogo inaugural, sem dados demonstrativos. */
+function getPublishedLundaSulPetroEvents(match: Match): MatchEventDetail[] | undefined {
+  if (match.id !== 'm27-1-4') return undefined;
+
+  return [
+    { minute: 45, type: 'sub', team: 'away', player: 'Ilídio Panda', playerId: 'ilidio-panda', playerOut: 'Ivan Cavaleiro' },
+    { minute: 45, type: 'sub', team: 'home', player: 'Neymar', playerId: 'neymar-lunda-sul', playerOut: 'Maranata' },
+    { minute: 53, type: 'yellow', team: 'away', player: 'Deybi Flores', playerId: 'deybi-flores' },
+    { minute: 60, type: 'sub', team: 'away', player: 'António Hossi', playerId: 'antonio-hossi', playerOut: 'Eddie Afonso' },
+    { minute: 60, type: 'sub', team: 'away', player: 'Hélder Costa', playerId: 'helder-costa', playerOut: 'Pedro Aparício' },
+    { minute: 63, type: 'yellow', team: 'away', player: 'António Hossi', playerId: 'antonio-hossi' },
+    { minute: 65, type: 'sub', team: 'home', player: 'Nicon', playerId: 'nicon', playerOut: 'Joca' },
+    { minute: 65, type: 'sub', team: 'home', player: 'Jepson', playerId: 'jepson', playerOut: 'Mussá' },
+    { minute: 73, type: 'sub', team: 'away', player: 'Depú', playerId: 'depu', playerOut: 'Tiago Azulão' },
+    { minute: 73, type: 'sub', team: 'away', player: 'Tiago Reis', playerId: 'tiago-reis', playerOut: 'Jonathan Toro' },
+    { minute: 73, type: 'sub', team: 'home', player: 'Zonzo', playerId: 'zonzo', playerOut: 'Magrinho' },
+    { minute: 76, type: 'yellow', team: 'away', player: 'Berna', playerId: 'berna' },
+  ];
+}
+
 function buildTeamStats(seed: number, goalsFor: number, goalsAgainst: number, possession: number): MatchTeamStats {
   const shotsOnTarget = Math.max(goalsFor, goalsFor + seededInt(seed, 11, 1, 4));
   const shots = shotsOnTarget + seededInt(seed, 12, 3, 9);
@@ -2458,8 +2479,12 @@ export function getMatchDetail(match: Match): MatchDetail {
   awayStats.saves = Math.max(0, homeStats.shotsOnTarget - match.homeScore);
 
   const events: MatchEventDetail[] = [];
+  const publishedEvents = getPublishedLundaSulPetroEvents(match);
 
   if (match.status === 'finished') {
+    if (publishedEvents) {
+      events.push(...publishedEvents);
+    } else {
     // Golos
     const homeScorers = pickScorers(homeLineup, match.homeScore, seed, 100);
     const awayScorers = pickScorers(awayLineup, match.awayScore, seed, 200);
@@ -2495,6 +2520,7 @@ export function getMatchDetail(match: Match): MatchDetail {
     const awaySubsIn = awayLineup.filter(p => !p.isStarter).slice(0, 2);
     const awaySubsOut = awayLineup.filter(p => p.isStarter && p.position !== 'GK').slice(-2);
     awaySubsIn.forEach((p, i) => events.push({ minute: seededInt(seed, 810 + i, 55, 85), type: 'sub', team: 'away', player: p.name, playerId: p.playerId, playerOut: awaySubsOut[i]?.name }));
+    }
   }
 
   events.sort((a, b) => a.minute - b.minute);
@@ -2535,15 +2561,27 @@ export interface MatchOfficials {
 export function getMatchOfficials(match: Match): MatchOfficials {
   const ov = RUNTIME_OVERRIDES.nominations?.[match.id];
   const defined = (value?: string) => value?.trim() || 'A definir';
-  const isLundaSulPetroRoundOne = match.round === 1
-    && match.homeTeamId === 'lundasul'
-    && match.awayTeamId === 'petro';
-  const published = isLundaSulPetroRoundOne ? {
-    referee: 'Miguel Tchissingu Augusto Américo',
-    assistants: ['João Manuel Fula António', 'Nery Domingos Pereira Amador da Silva'] as [string, string],
-    fourth: 'Isaías Justino Camaxi',
-    commissioner: 'Alberto Bumba Senda',
-  } : undefined;
+  const publishedByMatch: Readonly<Record<string, MatchOfficials>> = {
+    'm27-1-2': {
+      referee: 'Sanda Mateus Miguel Kitu',
+      assistants: ['Natarino António Soares', 'Nelson Lutumba Quiala'],
+      fourth: 'Custódio Roque Lote',
+      commissioner: 'Alfredo João',
+    },
+    'm27-1-4': {
+      referee: 'Miguel Tchissingu Augusto Américo',
+      assistants: ['João Manuel Fula António', 'Nery Domingos Pereira Amador da Silva'],
+      fourth: 'Isaías Justino Camaxi',
+      commissioner: 'Alberto Bumba Senda',
+    },
+    'm27-1-7': {
+      referee: 'Nelson João Milagre',
+      assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'],
+      fourth: 'Laurindo Feliciano Aureleo',
+      commissioner: 'Dinilson Gourgel Ferreira De Almeida',
+    },
+  };
+  const published = publishedByMatch[match.id];
 
   return {
     referee: defined(ov?.referee ?? match.referee ?? published?.referee),

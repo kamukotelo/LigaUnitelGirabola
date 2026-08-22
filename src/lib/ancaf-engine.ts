@@ -87,7 +87,7 @@ const DRAW_ROSTER: DrawClub[] = [
   { id: 'interclube', name: 'Interclube', stadium: 'Estádio 22 de Junho' },
   { id: 'desphuila', name: 'Desportivo da Huíla', stadium: 'Estádio da Tundavala' },
   { id: 'bravos', name: 'Bravos do Maquis', stadium: 'Estádio Mundunduleno' },
-  { id: 'cabinda', name: 'FC Cabinda', stadium: 'Estádio Nacional do Chiazi' },
+  { id: 'cabinda', name: 'FC Cabinda', stadium: 'Estádio Vici António' },
   { id: 'lobito', name: 'Académica do Lobito', stadium: 'Estádio do Buraco' },
   { id: 'libolo', name: 'Recreativo do Libolo', stadium: 'Estádio Municipal de Calulo' },
   { id: 'saosalvador', name: 'São Salvador do Kongo', stadium: 'Estádio Álvaro Buta' },

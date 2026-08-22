@@ -120,6 +120,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                         <span className="block text-center text-[9px] font-mono uppercase tracking-wide text-zinc-400">Não disponível</span>
                       ) : <div className="flex justify-center gap-1">
                         {row.form.map((result, idx) => {
+                          const resultLabel = result === 'W' ? 'V' : result === 'D' ? 'E' : 'D';
                           let dotBg = 'bg-zinc-300 dark:bg-zinc-700';
                           let textColor = 'text-zinc-700 dark:text-white';
                           if (result === 'W') {
@@ -138,7 +139,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                               className={`w-5 h-5 rounded-md flex items-center justify-center font-mono text-[9px] font-bold ${dotBg} ${textColor}`}
                               title={result === 'W' ? 'Vitória' : result === 'D' ? 'Empate' : 'Derrota'}
                             >
-                              {result}
+                              {resultLabel}
                             </span>
                           );
                         })}
