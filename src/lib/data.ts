@@ -113,9 +113,16 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-22T17:40:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-23T19:10:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
+  'm27-1-1': {
+    homeScore: 0,
+    awayScore: 0,
+    score: '0-0',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
   'm27-1-2': {
     homeScore: 3,
     awayScore: 0,
@@ -136,10 +143,31 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     score: '0-0',
     status: 'finished',
   },
+  'm27-1-5': {
+    homeScore: 2,
+    awayScore: 0,
+    score: '2-0',
+    status: 'live',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
+  'm27-1-6': {
+    homeScore: 1,
+    awayScore: 1,
+    score: '1-1',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
   'm27-1-7': {
     homeScore: 0,
     awayScore: 3,
     score: '0-3',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
+  'm27-1-8': {
+    homeScore: 0,
+    awayScore: 1,
+    score: '0-1',
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
@@ -542,19 +570,19 @@ export const MATCHES: Match[] = generateAllMatches();
 // A tabela mostrada no site é calculada a partir dos jogos terminados,
 // garantindo que classificação e resultados coincidem sempre.
 export const STANDINGS_ORDER_2026_27 = [
-  'bravos',
   'libolo',
+  'bravos',
   'dago',
+  'interclube',
+  'wiliete',
+  'primeiromaio',
+  'kabuscorp',
   'petro',
   'lundasul',
-  'primeiromaio',
-  'lobito',
-  'saosalvador',
   'caala',
   'fcluanda',
-  'interclube',
-  'kabuscorp',
-  'wiliete',
+  'lobito',
+  'saosalvador',
   'desphuila',
   'cabinda',
   'sagrada',
@@ -580,8 +608,9 @@ export function computeStandings(matches: Match[], venue: StandingsVenue = 'all'
     });
   }
 
+  // Inclui os jogos em curso para acompanhar a classificação ao vivo.
   const finished = matches
-    .filter(m => m.status === 'finished')
+    .filter(m => m.status === 'finished' || m.status === 'live')
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   for (const m of finished) {
@@ -2530,6 +2559,10 @@ function getPublishedAgostoHuilaLineups(match: Match): { home: LineupPlayer[]; a
 
 /** Ocorrências confirmadas do jogo inaugural, sem dados demonstrativos. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  if (match.id === 'm27-1-1') return [
+    { minute: 14, type: 'red', team: 'away', player: 'Jogador do CR Caála por confirmar' },
+  ];
+
   if (match.id === 'm27-1-2') return [
     { minute: 24, type: 'goal', team: 'home', player: 'Ju Cabral' },
     { minute: 36, type: 'goal', team: 'home', player: 'Luís Caetano Paquete' },
@@ -2540,10 +2573,24 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 92, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: "90'+2" },
   ];
 
+  if (match.id === 'm27-1-5') return [
+    { minute: 11, type: 'goal', team: 'home', player: 'Kabelo Dlamini' },
+    { minute: 47, type: 'goal', team: 'home', player: 'Valter Monteiro', detail: "45'+2" },
+  ];
+
+  if (match.id === 'm27-1-6') return [
+    { minute: 23, type: 'goal', team: 'home', player: 'Marcador por confirmar' },
+    { minute: 65, type: 'goal', team: 'away', player: 'Marcador por confirmar' },
+  ];
+
   if (match.id === 'm27-1-7') return [
     { minute: 34, type: 'goal', team: 'away', player: 'Cuxixima' },
     { minute: 70, type: 'goal', team: 'away', player: 'Pedro' },
     { minute: 73, type: 'goal', team: 'away', player: 'Andeloy' },
+  ];
+
+  if (match.id === 'm27-1-8') return [
+    { minute: 70, type: 'goal', team: 'away', player: 'Além' },
   ];
 
   if (match.id !== 'm27-1-4') return undefined;
@@ -2606,11 +2653,31 @@ export function getMatchDetail(match: Match): MatchDetail {
   const possessionHome = seededInt(seed, 1, 40, 62);
   const homeStats = buildTeamStats(seed, match.homeScore, match.awayScore, possessionHome);
   const awayStats = buildTeamStats(seed + 31, match.awayScore, match.homeScore, 100 - possessionHome);
+  if (match.id === 'm27-1-1') {
+    homeStats.corners = 1;
+    awayStats.corners = 0;
+    homeStats.yellowCards = 0;
+    awayStats.yellowCards = 1;
+    homeStats.redCards = 0;
+    awayStats.redCards = 1;
+  }
   if (match.id === 'm27-1-3') {
     homeStats.corners = 0;
     awayStats.corners = 1;
     homeStats.yellowCards = 3;
     awayStats.yellowCards = 1;
+  }
+  if (match.id === 'm27-1-5') {
+    homeStats.corners = 0;
+    awayStats.corners = 0;
+    homeStats.yellowCards = 0;
+    awayStats.yellowCards = 1;
+  }
+  if (match.id === 'm27-1-6') {
+    homeStats.corners = 1;
+    awayStats.corners = 0;
+    homeStats.yellowCards = 2;
+    awayStats.yellowCards = 4;
   }
   // Coerência das defesas: defesas do GR = remates à baliza do adversário - golos sofridos
   homeStats.saves = Math.max(0, awayStats.shotsOnTarget - match.awayScore);
@@ -2619,7 +2686,7 @@ export function getMatchDetail(match: Match): MatchDetail {
   const events: MatchEventDetail[] = [];
   const publishedEvents = getPublishedMatchEvents(match);
 
-  if (match.status === 'finished') {
+  if (match.status === 'finished' || match.status === 'live') {
     if (publishedEvents) {
       events.push(...publishedEvents);
     } else {
