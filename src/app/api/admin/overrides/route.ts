@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server';
+import { after, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { ADMIN_COOKIE, isValidSession } from '@/lib/admin-auth';
+import { processCalendarUpdate } from '@/lib/match-update-automation';
 
 // ── Overrides de conteúdo publicados pela consola de administração ────────
 // Guardados em `ancaf_configs` (chave/valor JSON) sob as chaves `override_*`.
@@ -9,6 +10,7 @@ import { ADMIN_COOKIE, isValidSession } from '@/lib/admin-auth';
 // administração válida e escreve com o service_role.
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const SECTIONS = ['news', 'calendar', 'players', 'nominations', 'teams', 'site'] as const;
 type Section = (typeof SECTIONS)[number];
@@ -84,6 +86,10 @@ export async function POST(request: Request) {
     );
   }
 
+  const previous = section === 'calendar'
+    ? await admin.from('ancaf_configs').select('value').eq('key', keyFor('calendar')).maybeSingle()
+    : null;
+
   const { error } = await admin
     .from('ancaf_configs')
     .upsert({ key: keyFor(section as Section), value: serialized }, { onConflict: 'key' });
@@ -91,5 +97,20 @@ export async function POST(request: Request) {
   if (error) {
     return NextResponse.json({ error: 'write_failed', message: error.message }, { status: 500 });
   }
-  return NextResponse.json({ ok: true });
+  if (section === 'calendar') {
+    const previousValue = previous?.data?.value as string | null | undefined;
+    after(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 15_000));
+      try {
+        await processCalendarUpdate(previousValue, value);
+      } catch (automationError) {
+        console.error('Falha na automação pós-jogo:', automationError);
+      }
+    });
+  }
+
+  return NextResponse.json({
+    ok: true,
+    automation: section === 'calendar' ? { scheduled: true, delaySeconds: 15 } : undefined,
+  });
 }
