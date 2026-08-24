@@ -99,7 +99,7 @@ function StatsTab({ home, away, isFinished }: { home: MatchTeamStats; away: Matc
 }
 
 // ── Aba: Escalações ────────────────────────────────────────────────
-function LineupColumn({ title, accent, lineup, isFinished }: { title: string; accent: string; lineup: LineupPlayer[]; isFinished: boolean }) {
+function LineupColumn({ title, accent, lineup, isFinished, coach }: { title: string; accent: string; lineup: LineupPlayer[]; isFinished: boolean; coach?: string }) {
   const starters = lineup.filter(p => p.isStarter);
   const subs = lineup.filter(p => !p.isStarter);
   const groups: PitchPosition[] = ['GK', 'DEF', 'MID', 'FWD'];
@@ -107,10 +107,10 @@ function LineupColumn({ title, accent, lineup, isFinished }: { title: string; ac
   const Row = ({ p }: { p: LineupPlayer }) => (
     <div className="flex items-center justify-between py-2 border-b border-zinc-200/50 dark:border-zinc-900/50 font-mono text-xs">
       <div className="flex items-center gap-3 min-w-0">
-        <span className="w-6 text-center text-zinc-500 flex-shrink-0">{p.number}</span>
+        <span className="w-6 text-center text-zinc-500 flex-shrink-0">{p.number > 0 ? p.number : '—'}</span>
         <span className="text-zinc-800 dark:text-zinc-200 truncate"><PlayerName p={p} /></span>
       </div>
-      {isFinished && (
+      {isFinished && p.rating > 0 && (
         <span
           className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold flex-shrink-0"
           style={{ color: ratingColor(p.rating), background: `${ratingColor(p.rating)}14`, border: `1px solid ${ratingColor(p.rating)}40` }}
@@ -127,6 +127,9 @@ function LineupColumn({ title, accent, lineup, isFinished }: { title: string; ac
         <span className="w-2.5 h-2.5 rounded-full" style={{ background: accent }} />
         <h4 className="font-display text-foreground uppercase tracking-wider text-sm">{title}</h4>
       </div>
+      {coach && coach !== '—' && (
+        <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">Treinador: <span className="text-foreground">{coach}</span></p>
+      )}
       <div>
         {groups.map((g) => {
           const players = starters.filter(p => p.position === g);
@@ -177,7 +180,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
                 key={i}
                 className={`flex items-center gap-3 py-2.5 px-3 rounded-lg ${e.team === 'home' ? 'flex-row' : 'flex-row-reverse text-right'}`}
               >
-                <span className="font-mono text-[11px] text-zinc-500 w-9 flex-shrink-0">{e.minute}{"'"}</span>
+                <span className="font-mono text-[11px] text-zinc-500 w-9 flex-shrink-0">{e.minute === undefined ? '—' : `${e.minute}'`}</span>
                 <span className="flex-shrink-0"><EventIcon type={e.type} /></span>
                 <div className={`flex flex-col ${e.team === 'away' ? 'items-end' : ''}`}>
                   <span className="font-mono text-xs text-foreground">
@@ -196,8 +199,8 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
       </AnimatedCard>
 
       {/* Destaque + informações */}
-      <div className={`grid grid-cols-1 gap-6 ${events.length > 0 ? 'sm:grid-cols-2' : ''}`}>
-        {events.length > 0 && (
+      <div className={`grid grid-cols-1 gap-6 ${manOfTheMatch ? 'sm:grid-cols-2' : ''}`}>
+        {manOfTheMatch && (
         <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
           <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
             <Trophy size={16} className="text-primary" /> Homem do Jogo
@@ -373,8 +376,8 @@ export default function MatchDetailClient({
                 <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-4">Onze provável</p>
               )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <LineupColumn title={match.homeTeam} accent={homeColor} lineup={detail.homeLineup} isFinished={isFinished} />
-                <LineupColumn title={match.awayTeam} accent={awayColor} lineup={detail.awayLineup} isFinished={isFinished} />
+                <LineupColumn title={match.homeTeam} accent={homeColor} lineup={detail.homeLineup} isFinished={isFinished} coach={homeTeam?.coach} />
+                <LineupColumn title={match.awayTeam} accent={awayColor} lineup={detail.awayLineup} isFinished={isFinished} coach={awayTeam?.coach} />
               </div>
             </>
           )}

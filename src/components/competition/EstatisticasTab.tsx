@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Award, Shield, AlertTriangle } from 'lucide-react';
-import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
+import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonDiscipline, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -52,7 +52,13 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
     displayPlayers = CURRENT_SEASON_SCORERS.map((player) => ({
       id: player.id, name: player.name, club: player.club, teamId: player.teamId,
       position: player.position, value: player.goals, secondaryLabel: 'Jogos',
-      secondaryValue: player.appearances, hasProfile: player.id === 'dago-tshibamba',
+      secondaryValue: player.appearances, hasProfile: true,
+    }));
+  } else if (isUpcoming && seasonHasStarted && activeTab === 'discipline') {
+    displayPlayers = getCurrentSeasonDiscipline().map((player) => ({
+      id: player.id, name: player.name, club: player.club, teamId: player.teamId,
+      position: player.position, value: player.yellowCards, secondaryLabel: 'Vermelhos',
+      secondaryValue: player.redCards, hasProfile: true,
     }));
   } else if (isUpcoming) {
     displayPlayers = [];

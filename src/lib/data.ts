@@ -113,7 +113,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-24T12:57:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-24T17:52:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -253,10 +253,23 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'pedro-libolo', name: 'Pedro', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'andeloy-libolo', name: 'Andeloy', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'ju-cabral-bravos', name: 'Ju Cabral', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
-  { id: 'luis-caetano-paquete', name: 'Luís Caetano Paquete', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
-  { id: 'tangu-gastao', name: 'Tangu Gastão', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'lito-bravos', name: 'Lito', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'gladilson-bravos', name: 'Gladilson', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 1, appearances: 1 },
 ] as const;
+
+const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
+  'ju-cabral-bravos': { yellow: 1, red: 0 },
+  'dabanda-bravos': { yellow: 1, red: 0 },
+  'cahilo-sagrada': { yellow: 1, red: 0 },
+  'miguel-sagrada': { yellow: 1, red: 0 },
+  'pimpao-sagrada': { yellow: 1, red: 0 },
+  'marcos-cabinda': { yellow: 1, red: 0 },
+  'antonio-cabinda': { yellow: 1, red: 0 },
+  'deybi-flores': { yellow: 1, red: 0 },
+  'antonio-hossi': { yellow: 1, red: 0 },
+  'berna': { yellow: 1, red: 0 },
+};
 
 export interface Player extends PlayerStats {
   teamId: string; // References Team.id
@@ -1373,6 +1386,7 @@ function simpleHash(str: string): number {
 function enrichPlayer(p: Player): Player {
   const hash = simpleHash(p.name);
   const positionLower = p.position.toLowerCase();
+  const confirmedCards = CURRENT_CONFIRMED_CARDS[p.id] ?? { yellow: 0, red: 0 };
 
   // A época ativa começa sem estatísticas herdadas. Enquanto o atleta ainda
   // não tiver uma presença registada, todos os indicadores competitivos
@@ -1390,8 +1404,32 @@ function enrichPlayer(p: Player): Player {
         tacklesPerMatch: 0,
         keyPassesPerMatch: 0,
         minutesPlayed: 0,
-        yellowCards: 0,
-        redCards: 0,
+        yellowCards: confirmedCards.yellow,
+        redCards: confirmedCards.red,
+        shotsOnTargetPerMatch: 0,
+        successfulDribbles: 0,
+        ratingTrend: [],
+      },
+    };
+  }
+
+  // Perfis recém-publicados sem métricas técnicas não recebem estimativas.
+  // Mantêm apenas partidas, golos e disciplina confirmados editorialmente.
+  if (Object.values(p.attributes).every((value) => value === 0)) {
+    return {
+      ...p,
+      technicalRating: 0,
+      formRating: 0,
+      detailedStats: {
+        passingAccuracy: 0,
+        longPassesAccuracy: 0,
+        aerialDuelsWon: 0,
+        groundDuelsWon: 0,
+        tacklesPerMatch: 0,
+        keyPassesPerMatch: 0,
+        minutesPlayed: 0,
+        yellowCards: confirmedCards.yellow,
+        redCards: confirmedCards.red,
         shotsOnTargetPerMatch: 0,
         successfulDribbles: 0,
         ratingTrend: [],
@@ -1581,15 +1619,133 @@ const LUNDA_SUL_SQUAD_2026_27: Player[] = [
   careerHistory: [],
 }));
 
+// Convocados do Bravos do Maquis para a 1.ª jornada frente ao Sagrada
+// Esperança, conforme a ficha oficial enviada pelo clube em 24/08/2026.
+const BRAVOS_SQUAD_2026_27: Player[] = [
+  ['nathan-bravos', 'Nathan', 'Guarda-redes', 22, 1, 0],
+  ['manico-bravos', 'Manico', 'Defesa', 26, 1, 0],
+  ['denilson-bravos', 'Denilson', 'Defesa', 2, 1, 0],
+  ['caprego-bravos', 'Caprego', 'Defesa', 24, 1, 0],
+  ['dabanda-bravos', 'Dabanda', 'Defesa', 27, 1, 0],
+  ['abrao-bravos', 'Abrão', 'Médio', 6, 1, 0],
+  ['cueta-bravos', 'Cueta', 'Médio', 7, 1, 0],
+  ['ju-cabral-bravos', 'Ju Cabral', 'Médio', 8, 1, 1],
+  ['jorginho-bravos', 'Jorginho', 'Avançado', 19, 1, 0],
+  ['lito-bravos', 'Lito', 'Avançado', 23, 1, 1],
+  ['bani-bravos', 'Bani', 'Avançado', 20, 1, 0],
+  ['agnaldo-bravos', 'Agnaldo', 'Defesa', 3, 0, 0],
+  ['higino-bravos', 'Higino', 'Médio', 10, 1, 0],
+  ['tiago-bravos', 'Tiago', 'Avançado', 15, 1, 0],
+  ['eduwine-bravos', 'Eduwine', 'Avançado', 17, 1, 0],
+  ['gladilson-bravos', 'Gladilson', 'Avançado', 28, 1, 1],
+  ['tony-bravos', 'Tony', 'Médio', 0, 1, 0],
+  ['saidi-bravos', 'Saidi', 'Guarda-redes', 0, 0, 0],
+  ['bruno-bravos', 'Bruno', 'Defesa', 0, 0, 0],
+].map(([id, name, position, jerseyNumber, appearances, goals]) => ({
+  id: String(id),
+  name: String(name),
+  club: 'Bravos do Maquis',
+  teamId: 'bravos',
+  position: String(position),
+  goals: Number(goals),
+  assists: 0,
+  appearances: Number(appearances),
+  jerseyNumber: Number(jerseyNumber),
+  age: 0,
+  nationality: 'Angola',
+  height: 'A confirmar',
+  attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+  careerHistory: [],
+}));
+
+const SAGRADA_SQUAD_2026_27: Player[] = [
+  ['leonardo-sagrada', 'Leonardo', 'Guarda-redes', 13, 1],
+  ['miguel-sagrada', 'Miguel', 'Defesa', 5, 1],
+  ['tobias-sagrada', 'Tobias', 'Defesa', 14, 1],
+  ['gogoro-sagrada', 'Gogoró', 'Defesa', 17, 1],
+  ['luis-tati-sagrada', 'Luís Tati', 'Defesa', 20, 1],
+  ['cahilo-sagrada', 'Cahilo', 'Médio', 32, 1],
+  ['afonso-sagrada', 'Afonso', 'Médio', 24, 1],
+  ['lepua-sagrada', 'Lépua', 'Médio', 10, 1],
+  ['pimpao-sagrada', 'Pimpão', 'Avançado', 16, 1],
+  ['dabanda-sagrada', 'Dabanda', 'Avançado', 7, 1],
+  ['jorge-sagrada', 'Jorge', 'Avançado', 9, 1],
+  ['nsesani-sagrada', 'Nsesani', 'Guarda-redes', 12, 0],
+  ['silvano-sagrada', 'Silvano', 'Avançado', 18, 1],
+  ['barreira-sagrada', 'Barreira', 'Defesa', 28, 0],
+  ['sapalo-sagrada', 'Sapalo', 'Médio', 31, 0],
+  ['melono-sagrada', 'Melono', 'Avançado', 11, 1],
+  ['guilherme-sagrada', 'Guilherme', 'Médio', 8, 1],
+  ['evaristo-sagrada', 'Evaristo', 'Defesa', 4, 0],
+  ['manuel-sagrada', 'Manuel', 'Defesa', 3, 0],
+].map(([id, name, position, jerseyNumber, appearances]) => ({
+  id: String(id), name: String(name), club: 'Sagrada Esperança', teamId: 'sagrada', position: String(position),
+  goals: 0, assists: 0, appearances: Number(appearances), jerseyNumber: Number(jerseyNumber), age: 0,
+  nationality: 'Angola', height: 'A confirmar',
+  attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 }, careerHistory: [],
+}));
+
+const CABINDA_SQUAD_2026_27: Player[] = [
+  ['francisco-cabinda', 'Francisco', 'Guarda-redes', 12, 1],
+  ['rodrigo-cabinda', 'Rodrigo', 'Defesa', 2, 1],
+  ['frederico-cabinda', 'Frederico', 'Defesa', 20, 1],
+  ['marcos-cabinda', 'Marcos', 'Defesa', 5, 1],
+  ['antonio-cabinda', 'António', 'Defesa', 16, 1],
+  ['julio-cabinda', 'Júlio', 'Médio', 17, 1],
+  ['cristiano-cabinda', 'Cristiano', 'Médio', 8, 1],
+  ['fernando-cabinda', 'Fernando', 'Médio', 21, 1],
+  ['gedeon-cabinda', 'Gedeon', 'Avançado', 3, 1],
+  ['jose-cabinda', 'José', 'Avançado', 18, 1],
+  ['ariclenis-cabinda', 'Ariclenis', 'Avançado', 29, 1],
+  ['bras-cabinda', 'Brás', 'Avançado', 0, 1],
+  ['cornelio-cabinda', 'Cornélio', 'Avançado', 0, 1],
+  ['costa-cabinda', 'Costa', 'Médio', 0, 1],
+].map(([id, name, position, jerseyNumber, appearances]) => ({
+  id: String(id), name: String(name), club: 'FC Cabinda', teamId: 'cabinda', position: String(position),
+  goals: 0, assists: 0, appearances: Number(appearances), jerseyNumber: Number(jerseyNumber), age: 0,
+  nationality: 'Angola', height: 'A confirmar',
+  attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 }, careerHistory: [],
+}));
+
+const LIBOLO_SQUAD_2026_27: Player[] = [
+  ['beny-libolo', 'Beny', 'Guarda-redes', 12, 1, 0],
+  ['marcos-libolo', 'Marcos', 'Defesa', 3, 1, 0],
+  ['toti-libolo', 'Toti', 'Defesa', 4, 1, 0],
+  ['maninho-libolo', 'Maninho', 'Defesa', 5, 1, 0],
+  ['tchube-libolo', 'Tchube', 'Defesa', 8, 1, 0],
+  ['chimito-libolo', 'Chimito', 'Médio', 6, 1, 0],
+  ['andeloy-libolo', 'Andeloy', 'Médio', 10, 1, 1],
+  ['nelo-libolo', 'Nelo', 'Médio', 14, 1, 0],
+  ['pedro-libolo', 'Pedro', 'Avançado', 17, 1, 1],
+  ['tubarao-libolo', 'Tubarão', 'Avançado', 30, 1, 0],
+  ['cuxixima-libolo', 'Cuxixima', 'Avançado', 27, 1, 1],
+  ['mario-libolo', 'Mário', 'Guarda-redes', 20, 0, 0],
+  ['jamanta-libolo', 'Jamanta', 'Avançado', 19, 1, 0],
+  ['jorgito-libolo', 'Jorgito', 'Médio', 15, 0, 0],
+  ['zidane-libolo', 'Zidane', 'Médio', 22, 1, 0],
+  ['catraio-libolo', 'Catraio', 'Defesa', 24, 1, 0],
+  ['miro-libolo', 'Miro', 'Defesa', 25, 1, 0],
+  ['lara-libolo', 'Lara', 'Avançado', 28, 0, 0],
+].map(([id, name, position, jerseyNumber, appearances, goals]) => ({
+  id: String(id), name: String(name), club: 'Recreativo do Libolo', teamId: 'libolo', position: String(position),
+  goals: Number(goals), assists: 0, appearances: Number(appearances), jerseyNumber: Number(jerseyNumber), age: 0,
+  nationality: 'Angola', height: 'A confirmar',
+  attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 }, careerHistory: [],
+}));
+
 const CURRENT_PLAYERS_RAW: Player[] = [
-  ...PLAYERS_RAW.filter((player) => player.teamId !== 'petro' && player.teamId !== 'lundasul'),
+  ...PLAYERS_RAW.filter((player) => !['petro', 'lundasul', 'bravos', 'sagrada', 'cabinda', 'libolo'].includes(player.teamId)),
   ...PETRO_SQUAD_2026_27,
   ...LUNDA_SUL_SQUAD_2026_27,
+  ...BRAVOS_SQUAD_2026_27,
+  ...SAGRADA_SQUAD_2026_27,
+  ...CABINDA_SQUAD_2026_27,
+  ...LIBOLO_SQUAD_2026_27,
 ].map((player) => ({
   ...player,
-  goals: 0,
-  assists: 0,
-  appearances: 0,
+  goals: ['bravos', 'libolo'].includes(player.teamId) ? player.goals : 0,
+  assists: ['bravos', 'libolo'].includes(player.teamId) ? player.assists : 0,
+  appearances: ['bravos', 'sagrada', 'cabinda', 'libolo'].includes(player.teamId) ? player.appearances : 0,
 }));
 
 export const PLAYERS: Player[] = CURRENT_PLAYERS_RAW.map(enrichPlayer);
@@ -2104,6 +2260,22 @@ export function getPlayers(): Player[] {
   return computePlayers();
 }
 
+export function getCurrentSeasonDiscipline() {
+  return getPlayers()
+    .map((player) => ({
+      id: player.id,
+      name: player.name,
+      club: player.club,
+      teamId: player.teamId,
+      position: player.position,
+      appearances: player.appearances,
+      yellowCards: player.detailedStats?.yellowCards ?? 0,
+      redCards: player.detailedStats?.redCards ?? 0,
+    }))
+    .filter((player) => player.yellowCards > 0 || player.redCards > 0)
+    .sort((a, b) => b.redCards - a.redCards || b.yellowCards - a.yellowCards || a.name.localeCompare(b.name));
+}
+
 export function getPlayersByTeam(teamId: string): Player[] {
   return computePlayers().filter(p => p.teamId === teamId);
 }
@@ -2344,7 +2516,7 @@ export interface LineupPlayer {
 }
 
 export interface MatchEventDetail {
-  minute: number;
+  minute?: number;            // ausente quando a fonte ainda não publicou o minuto
   type: 'goal' | 'yellow' | 'red' | 'sub';
   team: 'home' | 'away';
   player: string;
@@ -2365,7 +2537,7 @@ export interface MatchDetail {
   events: MatchEventDetail[];
   attendance: number;
   referee: string;
-  manOfTheMatch: { name: string; playerId?: string; rating: number; team: 'home' | 'away' };
+  manOfTheMatch?: { name: string; playerId?: string; rating: number; team: 'home' | 'away' };
 }
 
 const SQUAD_FIRST = ['Manuel', 'João', 'Pedro', 'Alberto', 'Geraldo', 'Mateus', 'Domingos', 'Carlos', 'Bruno', 'Hélder', 'Nuno', 'Ivo', 'Cláudio', 'Wilson', 'Fredy', 'Gilberto', 'Yuri', 'Dani', 'Zito', 'Job', 'Edmilson', 'Buatu', 'Picas', 'Bastos'];
@@ -2558,6 +2730,110 @@ function getPublishedAgostoHuilaLineups(match: Match): { home: LineupPlayer[]; a
   };
 }
 
+/** Onze inicial e bancos oficiais de Bravos–Sagrada na 1.ª jornada. */
+function getPublishedBravosSagradaLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-1-2') return undefined;
+
+  const player = (
+    name: string,
+    playerId: string,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+  ): LineupPlayer => ({ name, playerId, number, position, isStarter, rating: 0 });
+
+  return {
+    home: [
+      player('Nathan', 'nathan-bravos', 22, 'GK', true),
+      player('Manico', 'manico-bravos', 26, 'DEF', true),
+      player('Denilson', 'denilson-bravos', 2, 'DEF', true),
+      player('Caprego', 'caprego-bravos', 24, 'DEF', true),
+      player('Dabanda', 'dabanda-bravos', 27, 'DEF', true),
+      player('Abrão', 'abrao-bravos', 6, 'MID', true),
+      player('Cueta', 'cueta-bravos', 7, 'MID', true),
+      player('Ju Cabral', 'ju-cabral-bravos', 8, 'MID', true),
+      player('Jorginho', 'jorginho-bravos', 19, 'FWD', true),
+      player('Lito', 'lito-bravos', 23, 'FWD', true),
+      player('Bani', 'bani-bravos', 20, 'FWD', true),
+      player('Agnaldo', 'agnaldo-bravos', 3, 'DEF', false),
+      player('Higino', 'higino-bravos', 10, 'MID', false),
+      player('Tiago', 'tiago-bravos', 15, 'FWD', false),
+      player('Eduwine', 'eduwine-bravos', 17, 'FWD', false),
+      player('Gladilson', 'gladilson-bravos', 28, 'FWD', false),
+      player('Tony', 'tony-bravos', 0, 'MID', false),
+      player('Saidi', 'saidi-bravos', 0, 'GK', false),
+      player('Bruno', 'bruno-bravos', 0, 'DEF', false),
+    ],
+    away: [
+      player('Leonardo', 'leonardo-sagrada', 13, 'GK', true),
+      player('Miguel', 'miguel-sagrada', 5, 'DEF', true),
+      player('Tobias', 'tobias-sagrada', 14, 'DEF', true),
+      player('Gogoró', 'gogoro-sagrada', 17, 'DEF', true),
+      player('Luís Tati', 'luis-tati-sagrada', 20, 'DEF', true),
+      player('Cahilo', 'cahilo-sagrada', 32, 'MID', true),
+      player('Afonso', 'afonso-sagrada', 24, 'MID', true),
+      player('Lépua', 'lepua-sagrada', 10, 'MID', true),
+      player('Pimpão', 'pimpao-sagrada', 16, 'FWD', true),
+      player('Dabanda', 'dabanda-sagrada', 7, 'FWD', true),
+      player('Jorge', 'jorge-sagrada', 9, 'FWD', true),
+      player('Nsesani', 'nsesani-sagrada', 12, 'GK', false),
+      player('Silvano', 'silvano-sagrada', 18, 'FWD', false),
+      player('Barreira', 'barreira-sagrada', 28, 'DEF', false),
+      player('Sapalo', 'sapalo-sagrada', 31, 'MID', false),
+      player('Melono', 'melono-sagrada', 11, 'FWD', false),
+      player('Guilherme', 'guilherme-sagrada', 8, 'MID', false),
+      player('Evaristo', 'evaristo-sagrada', 4, 'DEF', false),
+      player('Manuel', 'manuel-sagrada', 3, 'DEF', false),
+    ],
+  };
+}
+
+/** Escalações confirmadas de FC Cabinda–Recreativo do Libolo. */
+function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-1-7') return undefined;
+  const player = (name: string, playerId: string, number: number, position: PitchPosition, isStarter: boolean): LineupPlayer =>
+    ({ name, playerId, number, position, isStarter, rating: 0 });
+
+  return {
+    home: [
+      player('Francisco', 'francisco-cabinda', 12, 'GK', true),
+      player('Rodrigo', 'rodrigo-cabinda', 2, 'DEF', true),
+      player('Frederico', 'frederico-cabinda', 20, 'DEF', true),
+      player('Marcos', 'marcos-cabinda', 5, 'DEF', true),
+      player('António', 'antonio-cabinda', 16, 'DEF', true),
+      player('Júlio', 'julio-cabinda', 17, 'MID', true),
+      player('Cristiano', 'cristiano-cabinda', 8, 'MID', true),
+      player('Fernando', 'fernando-cabinda', 21, 'MID', true),
+      player('Gedeon', 'gedeon-cabinda', 3, 'FWD', true),
+      player('José', 'jose-cabinda', 18, 'FWD', true),
+      player('Ariclenis', 'ariclenis-cabinda', 29, 'FWD', true),
+      player('Brás', 'bras-cabinda', 0, 'FWD', false),
+      player('Cornélio', 'cornelio-cabinda', 0, 'FWD', false),
+      player('Costa', 'costa-cabinda', 0, 'MID', false),
+    ],
+    away: [
+      player('Beny', 'beny-libolo', 12, 'GK', true),
+      player('Marcos', 'marcos-libolo', 3, 'DEF', true),
+      player('Toti', 'toti-libolo', 4, 'DEF', true),
+      player('Maninho', 'maninho-libolo', 5, 'DEF', true),
+      player('Tchube', 'tchube-libolo', 8, 'DEF', true),
+      player('Chimito', 'chimito-libolo', 6, 'MID', true),
+      player('Andeloy', 'andeloy-libolo', 10, 'MID', true),
+      player('Nelo', 'nelo-libolo', 14, 'MID', true),
+      player('Pedro', 'pedro-libolo', 17, 'FWD', true),
+      player('Tubarão', 'tubarao-libolo', 30, 'FWD', true),
+      player('Cuxixima', 'cuxixima-libolo', 27, 'FWD', true),
+      player('Mário', 'mario-libolo', 20, 'GK', false),
+      player('Jamanta', 'jamanta-libolo', 19, 'FWD', false),
+      player('Jorgito', 'jorgito-libolo', 15, 'MID', false),
+      player('Zidane', 'zidane-libolo', 22, 'MID', false),
+      player('Catraio', 'catraio-libolo', 24, 'DEF', false),
+      player('Miro', 'miro-libolo', 25, 'DEF', false),
+      player('Lara', 'lara-libolo', 28, 'FWD', false),
+    ],
+  };
+}
+
 /** Ocorrências confirmadas do jogo inaugural, sem dados demonstrativos. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   if (match.id === 'm27-1-1') return [
@@ -2565,9 +2841,22 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-1-2') return [
-    { minute: 24, type: 'goal', team: 'home', player: 'Ju Cabral' },
-    { minute: 36, type: 'goal', team: 'home', player: 'Luís Caetano Paquete' },
-    { minute: 80, type: 'goal', team: 'home', player: 'Tangu Gastão' },
+    { type: 'goal', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos', detail: 'Minuto por confirmar' },
+    { type: 'goal', team: 'home', player: 'Lito', playerId: 'lito-bravos', detail: 'Minuto por confirmar' },
+    { type: 'goal', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos', detail: 'Minuto por confirmar' },
+    { minute: 6, type: 'yellow', team: 'away', player: 'Cahilo', playerId: 'cahilo-sagrada' },
+    { minute: 45, type: 'sub', team: 'home', player: 'Higino', playerId: 'higino-bravos', playerOut: 'Cueta' },
+    { minute: 45, type: 'sub', team: 'home', player: 'Tony', playerId: 'tony-bravos', playerOut: 'Bani' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Melono', playerId: 'melono-sagrada', playerOut: 'Dabanda' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Guilherme', playerId: 'guilherme-sagrada', playerOut: 'Cahilo' },
+    { minute: 48, type: 'yellow', team: 'away', player: 'Miguel', playerId: 'miguel-sagrada' },
+    { minute: 49, type: 'yellow', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos' },
+    { minute: 51, type: 'yellow', team: 'away', player: 'Pimpão', playerId: 'pimpao-sagrada' },
+    { minute: 60, type: 'sub', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos', playerOut: 'Lito' },
+    { minute: 69, type: 'sub', team: 'away', player: 'Silvano', playerId: 'silvano-sagrada', playerOut: 'Pimpão' },
+    { minute: 75, type: 'sub', team: 'home', player: 'Tiago', playerId: 'tiago-bravos', playerOut: 'Ju Cabral' },
+    { minute: 86, type: 'yellow', team: 'home', player: 'Dabanda', playerId: 'dabanda-bravos' },
+    { minute: 88, type: 'sub', team: 'home', player: 'Eduwine', playerId: 'eduwine-bravos', playerOut: 'Jorginho' },
   ];
 
   if (match.id === 'm27-1-3') return [
@@ -2585,9 +2874,18 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-1-7') return [
-    { minute: 34, type: 'goal', team: 'away', player: 'Cuxixima' },
-    { minute: 70, type: 'goal', team: 'away', player: 'Pedro' },
-    { minute: 73, type: 'goal', team: 'away', player: 'Andeloy' },
+    { minute: 14, type: 'yellow', team: 'home', player: 'Marcos', playerId: 'marcos-cabinda' },
+    { minute: 27, type: 'sub', team: 'home', player: 'Brás', playerId: 'bras-cabinda', playerOut: 'José' },
+    { minute: 34, type: 'goal', team: 'away', player: 'Cuxixima', playerId: 'cuxixima-libolo' },
+    { minute: 55, type: 'yellow', team: 'home', player: 'António', playerId: 'antonio-cabinda' },
+    { minute: 56, type: 'sub', team: 'home', player: 'Cornélio', playerId: 'cornelio-cabinda', playerOut: 'Gedeon' },
+    { minute: 66, type: 'sub', team: 'home', player: 'Costa', playerId: 'costa-cabinda', playerOut: 'Júlio' },
+    { minute: 70, type: 'goal', team: 'away', player: 'Pedro', playerId: 'pedro-libolo' },
+    { minute: 70, type: 'sub', team: 'away', player: 'Zidane', playerId: 'zidane-libolo', playerOut: 'Pedro' },
+    { minute: 73, type: 'goal', team: 'away', player: 'Andeloy', playerId: 'andeloy-libolo' },
+    { minute: 76, type: 'sub', team: 'away', player: 'Miro', playerId: 'miro-libolo', playerOut: 'Chimito' },
+    { minute: 76, type: 'sub', team: 'away', player: 'Catraio', playerId: 'catraio-libolo', playerOut: 'Maninho' },
+    { minute: 85, type: 'sub', team: 'away', player: 'Jamanta', playerId: 'jamanta-libolo', playerOut: 'Andeloy' },
   ];
 
   if (match.id === 'm27-1-8') return [
@@ -2647,7 +2945,10 @@ function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: 
 
 export function getMatchDetail(match: Match): MatchDetail {
   const seed = hashString(match.id);
-  const publishedLineups = getPublishedAgostoHuilaLineups(match) ?? getPublishedLundaSulPetroLineups(match);
+  const publishedLineups = getPublishedBravosSagradaLineups(match)
+    ?? getPublishedCabindaLiboloLineups(match)
+    ?? getPublishedAgostoHuilaLineups(match)
+    ?? getPublishedLundaSulPetroLineups(match);
   const homeLineup = publishedLineups?.home ?? buildLineup(match.homeTeamId, seed);
   const awayLineup = publishedLineups?.away ?? buildLineup(match.awayTeamId, seed + 7);
 
@@ -2667,6 +2968,18 @@ export function getMatchDetail(match: Match): MatchDetail {
     awayStats.corners = 1;
     homeStats.yellowCards = 3;
     awayStats.yellowCards = 1;
+  }
+  if (match.id === 'm27-1-2') {
+    homeStats.yellowCards = 2;
+    awayStats.yellowCards = 3;
+    homeStats.redCards = 0;
+    awayStats.redCards = 0;
+  }
+  if (match.id === 'm27-1-7') {
+    homeStats.yellowCards = 2;
+    homeStats.redCards = 0;
+    awayStats.yellowCards = 0;
+    awayStats.redCards = 0;
   }
   if (match.id === 'm27-1-5') {
     homeStats.corners = 0;
@@ -2729,11 +3042,17 @@ export function getMatchDetail(match: Match): MatchDetail {
     }
   }
 
-  events.sort((a, b) => a.minute - b.minute);
+  // Eventos cujo minuto ainda não foi confirmado aparecem primeiro, com
+  // indicação explícita, e nunca recebem um minuto inventado.
+  events.sort((a, b) => (a.minute ?? -1) - (b.minute ?? -1));
 
-  const allStarters = [...homeLineup.filter(p => p.isStarter).map(p => ({ ...p, team: 'home' as const })), ...awayLineup.filter(p => p.isStarter).map(p => ({ ...p, team: 'away' as const }))];
+  const allStarters = publishedEvents
+    ? []
+    : [...homeLineup.filter(p => p.isStarter && p.rating > 0).map(p => ({ ...p, team: 'home' as const })), ...awayLineup.filter(p => p.isStarter && p.rating > 0).map(p => ({ ...p, team: 'away' as const }))];
   const motmSrc = allStarters.sort((a, b) => b.rating - a.rating)[0];
-  const manOfTheMatch = { name: motmSrc.name, playerId: motmSrc.playerId, rating: motmSrc.rating, team: motmSrc.team };
+  const manOfTheMatch = motmSrc
+    ? { name: motmSrc.name, playerId: motmSrc.playerId, rating: motmSrc.rating, team: motmSrc.team }
+    : undefined;
 
   const capacity = TEAMS.find(t => t.id === match.homeTeamId)?.stadiumCapacity ?? 10000;
 
