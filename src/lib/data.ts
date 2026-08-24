@@ -113,7 +113,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-23T23:21:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-24T12:57:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -142,12 +142,13 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     awayScore: 0,
     score: '0-0',
     status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
   'm27-1-5': {
     homeScore: 2,
     awayScore: 0,
     score: '2-0',
-    status: 'live',
+    status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
   'm27-1-6': {
