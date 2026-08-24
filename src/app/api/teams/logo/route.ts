@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { getTeamById } from '@/lib/data';
-import { ADMIN_COOKIE, isValidSession, verifyPasscode } from '@/lib/admin-auth';
+import { ADMIN_COOKIE, isAdminSession, verifyPasscode } from '@/lib/admin-auth';
+import { isSameOriginRequest } from '@/lib/request-security';
 
 // ── ENDPOINT · POST /api/teams/logo ──────────────────────────────────────
 // Persiste (globalmente) o emblema/logótipo de um clube. Recebe da consola de
@@ -21,7 +22,6 @@ const MIME_EXT: Record<string, string> = {
   'image/jpg': 'jpg',
   'image/webp': 'webp',
   'image/gif': 'gif',
-  'image/svg+xml': 'svg',
 };
 
 function publicUrlFor(path: string): string {
@@ -40,6 +40,9 @@ async function ensureBucket(client: SupabaseAdmin): Promise<void> {
 }
 
 export async function POST(request: Request) {
+  if (!isSameOriginRequest(request)) {
+    return NextResponse.json({ error: 'forbidden', message: 'Origem do pedido não autorizada.' }, { status: 403 });
+  }
   let body: { teamId?: unknown; logoUrl?: unknown; passcode?: unknown };
   try {
     body = await request.json();
@@ -53,7 +56,7 @@ export async function POST(request: Request) {
   //    alternativa, a credencial de gestão no corpo (uso programático). Em
   //    ambos os casos a validação é feita no servidor.
   const sessionCookie = (await cookies()).get(ADMIN_COOKIE)?.value;
-  const authorized = isValidSession(sessionCookie) || verifyPasscode(passcode);
+  const authorized = isAdminSession(sessionCookie) || verifyPasscode(passcode);
   if (!authorized) {
     return NextResponse.json({ error: 'unauthorized', message: 'Credencial de gestão inválida.' }, { status: 401 });
   }

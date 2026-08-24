@@ -16,9 +16,11 @@ export function useOfficialCalendar(seasonId: string) {
 
   useEffect(() => {
     if (seasonId !== UPCOMING_SEASON_ID) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       setOfficialMatches(null);
       setGeneratedAt(null);
       setLoading(false);
+      /* eslint-enable react-hooks/set-state-in-effect */
       return;
     }
 

@@ -7,7 +7,7 @@ import FuturisticButton from './ui/FuturisticButton';
 import AnimatedCard from './ui/AnimatedCard';
 
 interface AdminGuardProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 type AuthStatus = 'checking' | 'authed' | 'anon';
@@ -48,6 +48,7 @@ export default function AdminGuard({ children }: AdminGuardProps) {
       if (res.ok) {
         setStatus('authed');
         setPasscode('');
+        window.location.reload();
       } else {
         setError('Código de acesso inválido. Acesso negado.');
         setPasscode('');
@@ -71,7 +72,11 @@ export default function AdminGuard({ children }: AdminGuardProps) {
   }
 
   if (status === 'authed') {
-    return <>{children}</>;
+    return children ? <>{children}</> : (
+      <div className="min-h-[80vh] flex items-center justify-center p-6 relative z-10">
+        <Loader2 className="h-5 w-5 animate-spin text-accent" />
+      </div>
+    );
   }
 
   return (

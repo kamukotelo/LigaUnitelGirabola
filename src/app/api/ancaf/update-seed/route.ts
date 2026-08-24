@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createHash } from 'node:crypto';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { TEAMS } from '@/lib/data';
+import { checkRateLimit, safeSecretEqual } from '@/lib/request-security';
 
 const SYNC_TOKEN = process.env.ANCAF_SYNC_TOKEN;
 const CLOSED_SEASON_ID = '2026-27';
@@ -134,9 +135,23 @@ function normaliseCalendar(matches: unknown) {
 
 export async function POST(request: Request) {
   try {
+    const rateLimit = checkRateLimit(request, 'ancaf-calendar-sync', 30, 15 * 60 * 1000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'too_many_requests', message: 'Limite temporário de sincronizações excedido.' },
+        { status: 429, headers: { 'Retry-After': String(rateLimit.retryAfter) } },
+      );
+    }
+
     if (!SYNC_TOKEN) {
       return NextResponse.json(
         { error: 'server_misconfigured', message: 'ANCAF_SYNC_TOKEN não configurado' },
+        { status: 503 },
+      );
+    }
+    if (safeSecretEqual(SYNC_TOKEN, process.env.SUPABASE_SERVICE_ROLE_KEY)) {
+      return NextResponse.json(
+        { error: 'server_misconfigured', message: 'A credencial de sincronização deve ser independente da chave do banco de dados.' },
         { status: 503 },
       );
     }
@@ -148,7 +163,7 @@ export async function POST(request: Request) {
     }
 
     const token = authHeader.substring(7).trim();
-    if (token !== SYNC_TOKEN) {
+    if (!safeSecretEqual(token, SYNC_TOKEN)) {
       return NextResponse.json({ error: 'unauthorized', message: 'Token de autorização inválido' }, { status: 401 });
     }
 

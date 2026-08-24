@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
-import { ADMIN_COOKIE, isValidSession, verifyPasscode } from '@/lib/admin-auth';
+import { ADMIN_COOKIE, isAdminSession, verifyPasscode } from '@/lib/admin-auth';
+import { isSameOriginRequest } from '@/lib/request-security';
 
 // ── ENDPOINT · POST /api/admin/logos ──────────────────────────────────────
 // Persiste (globalmente) os logótipos gerais do portal (marcas, federação).
@@ -21,7 +22,6 @@ const MIME_EXT: Record<string, string> = {
   'image/jpg': 'jpg',
   'image/webp': 'webp',
   'image/gif': 'gif',
-  'image/svg+xml': 'svg',
 };
 
 const VALID_KEYS = ['logo_vertical', 'logo_horizontal', 'logo_horizontal_white', 'logo_ancaf'];
@@ -40,6 +40,9 @@ async function ensureBucket(client: SupabaseAdmin): Promise<void> {
 }
 
 export async function POST(request: Request) {
+  if (!isSameOriginRequest(request)) {
+    return NextResponse.json({ error: 'forbidden', message: 'Origem do pedido não autorizada.' }, { status: 403 });
+  }
   let body: { key?: unknown; logoUrl?: unknown; passcode?: unknown };
   try {
     body = await request.json();
@@ -51,7 +54,7 @@ export async function POST(request: Request) {
 
   // 1. Autenticação: cookie de sessão ou credencial direta
   const sessionCookie = (await cookies()).get(ADMIN_COOKIE)?.value;
-  const authorized = isValidSession(sessionCookie) || verifyPasscode(passcode);
+  const authorized = isAdminSession(sessionCookie) || verifyPasscode(passcode);
   if (!authorized) {
     return NextResponse.json({ error: 'unauthorized', message: 'Credencial de gestão inválida.' }, { status: 401 });
   }

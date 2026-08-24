@@ -177,7 +177,12 @@ create policy "ancaf public read teams"    on public.liga_teams    for select us
 create policy "ancaf public read players"  on public.liga_players  for select using (true);
 create policy "ancaf public read matches"  on public.liga_matches  for select using (true);
 create policy "ancaf public read news"     on public.liga_news     for select using (true);
-create policy "ancaf public read configs"  on public.liga_configs  for select using (true);
+create policy "ancaf public read configs" on public.liga_configs for select to anon, authenticated
+  using (
+    key like 'active_calendar_%'
+    or key like 'override_%'
+    or key in ('logo_vertical', 'logo_horizontal', 'logo_horizontal_white', 'logo_ancaf')
+  );
 
 -- Escrita: reservada ao service_role (usado pelas rotas de API do servidor).
 -- A anon key NÃO tem escrita — a segurança fica na API (token de sync).
@@ -357,4 +362,3 @@ ON CONFLICT (id) DO UPDATE SET
     summary = excluded.summary,
     content = excluded.content,
     cover_url = excluded.cover_url;
-

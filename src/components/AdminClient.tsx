@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, CalendarDays, ShieldCheck, Users, Newspaper,
@@ -22,7 +23,6 @@ import TeamCrest from '@/components/ui/TeamCrest';
 import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
 import { publishOverride, type OverrideSection } from '@/lib/portal-overrides';
 import { supabase } from '@/lib/supabase';
-import { useFifaConnectAccess } from '@/lib/use-fifa-connect-access';
 
 // ── Configuração local (persistência local dos overrides do admin) ──────
 // A autenticação é feita no servidor (ver AdminGuard + /api/admin/*); esta
@@ -248,9 +248,10 @@ function localInputToIso(value: string): string {
 // ════════════════════════════════════════════════════════════════════════
 // RAIZ
 // ════════════════════════════════════════════════════════════════════════
-export default function AdminClient() {
-  const canAccessFifaConnect = useFifaConnectAccess();
-  const [section, setSection] = useState<Section>('dashboard');
+export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'club_direction' }) {
+  const router = useRouter();
+  const canAccessFifaConnect = userProfile === 'club_direction';
+  const [section, setSection] = useState<Section>(canAccessFifaConnect ? 'fifa' : 'dashboard');
   const [seeded, setSeeded] = useState(false);
   // Alterações por guardar na secção aberta — usado para avisar antes de
   // trocar de secção, sair da consola ou fechar o separador.
@@ -306,7 +307,8 @@ export default function AdminClient() {
     } catch {
       // Ignora falhas de rede — segue para a página inicial de qualquer forma.
     }
-    window.location.href = '/';
+    router.push('/');
+    router.refresh();
   };
 
   if (!seeded) {
@@ -322,7 +324,7 @@ export default function AdminClient() {
 
   // Navegação agrupada por domínio — a consola cresceu e uma lista corrida
   // deixava de deixar claro onde cada tipo de informação se edita.
-  const navGroups: { title: string; items: { key: Section; label: string; icon: React.ElementType }[] }[] = [
+  const adminNavGroups: { title: string; items: { key: Section; label: string; icon: React.ElementType }[] }[] = [
     {
       title: 'Geral',
       items: [{ key: 'dashboard', label: 'Painel Geral', icon: LayoutDashboard }],
@@ -353,10 +355,12 @@ export default function AdminClient() {
       title: 'Conteúdos e Conformidade',
       items: [
         { key: 'news', label: 'Notícias', icon: Newspaper },
-        ...(canAccessFifaConnect ? [{ key: 'fifa' as const, label: 'FIFA Connect', icon: ShieldCheck }] : []),
       ],
     },
   ];
+  const navGroups = canAccessFifaConnect
+    ? [{ title: 'Conformidade', items: [{ key: 'fifa' as const, label: 'FIFA Connect', icon: ShieldCheck }] }]
+    : adminNavGroups;
 
   return (
     <div className="min-h-screen relative z-10">
@@ -436,16 +440,16 @@ export default function AdminClient() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                {section === 'dashboard' && <DashboardSection onGo={goToSection} canAccessFifaConnect={canAccessFifaConnect} />}
-                {section === 'site' && <SiteSection />}
-                {section === 'calendar' && <CalendarSection />}
-                {section === 'competition' && <CompetitionSection />}
+                {!canAccessFifaConnect && section === 'dashboard' && <DashboardSection onGo={goToSection} canAccessFifaConnect={false} />}
+                {!canAccessFifaConnect && section === 'site' && <SiteSection />}
+                {!canAccessFifaConnect && section === 'calendar' && <CalendarSection />}
+                {!canAccessFifaConnect && section === 'competition' && <CompetitionSection />}
                 {canAccessFifaConnect && section === 'fifa' && <FifaSection />}
-                {section === 'teams' && <TeamsSection />}
-                {section === 'players' && <PlayersSection />}
-                {section === 'nominations' && <NominationsSection />}
-                {section === 'news' && <NewsSection />}
-                {section === 'logos' && <LogosSection />}
+                {!canAccessFifaConnect && section === 'teams' && <TeamsSection />}
+                {!canAccessFifaConnect && section === 'players' && <PlayersSection />}
+                {!canAccessFifaConnect && section === 'nominations' && <NominationsSection />}
+                {!canAccessFifaConnect && section === 'news' && <NewsSection />}
+                {!canAccessFifaConnect && section === 'logos' && <LogosSection />}
               </motion.div>
             </DirtyContext.Provider>
           </div>

@@ -65,7 +65,7 @@ export interface Match {
 
 // Programação oficial confirmada das cinco primeiras jornadas. Mantida na
 // camada de dados para que calendário, início, hub, API e ficha de jogo sirvam
-// a mesma verdade publicada nos mapas oficiais recebidos em 18/08/2026.
+// a mesma verdade publicada nos mapas oficiais atualizados em 23/08/2026.
 export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 1, homeTeamId: 'fcluanda', awayTeamId: 'caala', homeTeam: 'FC Luanda', awayTeam: 'CR Caála', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio França N’dalu' },
   { round: 1, homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
@@ -75,7 +75,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 1, homeTeamId: 'primeiromaio', awayTeamId: 'kabuscorp', homeTeam: 'Estrela 1.º de Maio', awayTeam: 'Kabuscorp SC', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio de São Filipe' },
   { round: 1, homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Vici António' },
   { round: 1, homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
-  { round: 2, homeTeamId: 'caala', awayTeamId: 'wiliete', date: '2026-08-27T15:00:00+01:00' },
+  { round: 2, homeTeamId: 'caala', awayTeamId: 'wiliete', date: '2026-08-27T16:00:00+01:00' },
   { round: 2, homeTeamId: 'kabuscorp', awayTeamId: 'lundasul', date: '2026-08-28T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 2, homeTeamId: 'cabinda', awayTeamId: 'desphuila', date: '2026-08-26T15:00:00+01:00' },
   { round: 2, homeTeamId: 'sagrada', awayTeamId: 'saosalvador', date: '2026-08-29T15:00:00+01:00' },
@@ -85,21 +85,21 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 2, homeTeamId: 'lobito', awayTeamId: 'petro', date: '2026-08-30T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 3, homeTeamId: 'lundasul', awayTeamId: 'caala', date: '2026-09-05T15:00:00+01:00' },
   { round: 3, homeTeamId: 'desphuila', awayTeamId: 'wiliete', date: '2026-08-31T15:00:00+01:00' },
-  { round: 3, homeTeamId: 'sagrada', awayTeamId: 'kabuscorp', date: '2026-08-26T15:00:00+01:00' },
+  { round: 3, homeTeamId: 'sagrada', awayTeamId: 'kabuscorp', date: '2026-09-23T15:00:00+01:00' },
   { round: 3, homeTeamId: 'fcluanda', awayTeamId: 'cabinda', date: '2026-09-06T15:00:00+01:00' },
   { round: 3, homeTeamId: 'bravos', awayTeamId: 'saosalvador', date: '2026-09-06T15:00:00+01:00' },
-  { round: 3, homeTeamId: 'dago', awayTeamId: 'interclube', date: '2026-09-02T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 3, homeTeamId: 'dago', awayTeamId: 'interclube', date: '2026-09-01T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 3, homeTeamId: 'petro', awayTeamId: 'libolo', date: '2026-08-26T16:30:00+01:00', broadcaster: 'Zsports' },
   { round: 3, homeTeamId: 'lobito', awayTeamId: 'primeiromaio', date: '2026-09-05T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'caala', awayTeamId: 'desphuila', date: '2026-09-13T15:00:00+01:00' },
   { round: 4, homeTeamId: 'lundasul', awayTeamId: 'sagrada', date: '2026-09-13T15:00:00+01:00' },
-  { round: 4, homeTeamId: 'wiliete', awayTeamId: 'fcluanda', date: '2026-09-08T15:00:00+01:00' },
+  { round: 4, homeTeamId: 'wiliete', awayTeamId: 'fcluanda', date: '2026-09-13T15:00:00+01:00' },
   { round: 4, homeTeamId: 'bravos', awayTeamId: 'kabuscorp', date: '2026-09-16T15:00:00+01:00' },
-  { round: 4, homeTeamId: 'cabinda', awayTeamId: 'dago', date: '2026-09-08T14:00:00+01:00', broadcaster: 'Zsports' },
+  { round: 4, homeTeamId: 'cabinda', awayTeamId: 'dago', date: '2026-09-09T15:00:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'saosalvador', awayTeamId: 'petro', date: '2026-09-16T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'interclube', awayTeamId: 'lobito', date: '2026-09-10T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'libolo', awayTeamId: 'primeiromaio', date: '2026-09-12T15:00:00+01:00' },
-  { round: 5, homeTeamId: 'caala', awayTeamId: 'bravos', date: '2026-09-19T15:00:00+01:00' },
+  { round: 5, homeTeamId: 'caala', awayTeamId: 'bravos', date: '2026-09-20T15:00:00+01:00' },
   { round: 5, homeTeamId: 'dago', awayTeamId: 'fcluanda', date: '2026-09-19T15:30:00+01:00' },
   { round: 5, homeTeamId: 'sagrada', awayTeamId: 'petro', date: '2026-09-20T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 5, homeTeamId: 'desphuila', awayTeamId: 'lobito', date: '2026-09-19T15:00:00+01:00' },
@@ -113,7 +113,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-23T19:10:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-23T23:21:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -1689,7 +1689,7 @@ export const newsMock: NewsArticle[] = [
     date: '15 ago. 2026',
     isoDate: '2026-08-15',
     summary: 'A ANCAF publica a programação oficial das cinco primeiras jornadas da Liga Unitel Girabola na época 2026/2027.',
-    content: 'O Comunicado Oficial n.º 002-DCE/ANCAF/2026 publica a programação da 1.ª à 5.ª jornada da Liga Unitel Girabola 2026/2027 para conhecimento dos 16 clubes participantes.\n\nO documento reúne, num único mapa oficial, os confrontos, as datas, os horários e os jogos com transmissão em direto pela Zsports. A programação nele apresentada passa a orientar os cartões de jogos, o calendário e os restantes módulos informativos do portal.\n\nO comunicado foi emitido em Luanda, a 15 de agosto de 2026, pela Direção de Competições da Associação Nacional dos Clubes Angolanos de Futebol.',
+    content: 'O Comunicado Oficial n.º 002-DCE/ANCAF/2026 publica a programação da 1.ª à 5.ª jornada da Liga Unitel Girabola 2026/2027 para conhecimento dos 16 clubes participantes.\n\nO documento reúne, num único mapa oficial, os confrontos, as datas, os horários e os jogos com transmissão em direto pela Zsports. A programação nele apresentada passa a orientar os cartões de jogos, o calendário e os restantes módulos informativos do portal.\n\nSincronizado! Qualquer actualização por parte da Zap será comunicada atempadamente.\n\nO comunicado foi emitido em Luanda, a 15 de agosto de 2026, pela Direção de Competições da Associação Nacional dos Clubes Angolanos de Futebol.',
     status: 'published',
     author: 'Direção de Competições da ANCAF',
     sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',

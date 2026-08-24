@@ -172,7 +172,12 @@ create policy "ancaf public read teams"    on public.ancaf_teams    for select u
 create policy "ancaf public read players"  on public.ancaf_players  for select using (true);
 create policy "ancaf public read matches"  on public.ancaf_matches  for select using (true);
 create policy "ancaf public read news"     on public.ancaf_news     for select using (true);
-create policy "ancaf public read configs"  on public.ancaf_configs  for select using (true);
+create policy "ancaf public read configs" on public.ancaf_configs for select to anon, authenticated
+  using (
+    key like 'active_calendar_%'
+    or key like 'override_%'
+    or key in ('logo_vertical', 'logo_horizontal', 'logo_horizontal_white', 'logo_ancaf')
+  );
 
 -- Escrita: reservada ao service_role (usado pelas rotas de API do servidor).
 -- A anon key NÃO tem escrita — a segurança fica na API (token de sync).

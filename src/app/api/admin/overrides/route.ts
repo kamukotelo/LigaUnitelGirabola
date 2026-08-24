@@ -1,8 +1,9 @@
 import { after, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
-import { ADMIN_COOKIE, isValidSession } from '@/lib/admin-auth';
+import { ADMIN_COOKIE, isAdminSession } from '@/lib/admin-auth';
 import { processCalendarUpdate } from '@/lib/match-update-automation';
+import { isSameOriginRequest } from '@/lib/request-security';
 
 // ── Overrides de conteúdo publicados pela consola de administração ────────
 // Guardados em `ancaf_configs` (chave/valor JSON) sob as chaves `override_*`.
@@ -41,8 +42,11 @@ export async function GET() {
 
 // POST /api/admin/overrides — publica o bloco de uma secção (exige sessão admin).
 export async function POST(request: Request) {
+  if (!isSameOriginRequest(request)) {
+    return NextResponse.json({ error: 'forbidden', message: 'Origem do pedido não autorizada.' }, { status: 403 });
+  }
   const sessionCookie = (await cookies()).get(ADMIN_COOKIE)?.value;
-  if (!isValidSession(sessionCookie)) {
+  if (!isAdminSession(sessionCookie)) {
     return NextResponse.json({ error: 'unauthorized', message: 'Sessão de administração inválida.' }, { status: 401 });
   }
 

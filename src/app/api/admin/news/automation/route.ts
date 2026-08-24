@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createHash } from 'crypto';
-import { ADMIN_COOKIE, isValidSession } from '@/lib/admin-auth';
+import { ADMIN_COOKIE, isAdminSession } from '@/lib/admin-auth';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import type { NewsArticle } from '@/lib/data';
+import { isSameOriginRequest, safeSecretEqual } from '@/lib/request-security';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -103,16 +104,19 @@ async function persistArticles(incoming: NewsArticle[]) {
   return fresh.length;
 }
 
-export async function POST() {
+export async function POST(request: Request) {
+  if (!isSameOriginRequest(request)) return NextResponse.json({ message: 'Origem não autorizada.' }, { status: 403 });
   const session = (await cookies()).get(ADMIN_COOKIE)?.value;
-  if (!isValidSession(session)) return NextResponse.json({ message: 'Sessão administrativa inválida.' }, { status: 401 });
+  if (!isAdminSession(session)) return NextResponse.json({ message: 'Sessão administrativa inválida.' }, { status: 401 });
   try { return NextResponse.json({ articles: await collectArticles() }); }
   catch (error) { return NextResponse.json({ message: error instanceof Error ? error.message : 'Falha na pesquisa.' }, { status: 502 }); }
 }
 
 export async function GET(request: Request) {
   const secret = process.env.CRON_SECRET;
-  if (!secret || request.headers.get('authorization') !== `Bearer ${secret}`) return NextResponse.json({ message: 'Não autorizado.' }, { status: 401 });
+  const authorization = request.headers.get('authorization');
+  const candidate = authorization?.startsWith('Bearer ') ? authorization.slice(7).trim() : null;
+  if (!safeSecretEqual(candidate, secret)) return NextResponse.json({ message: 'Não autorizado.' }, { status: 401 });
   try {
     const articles = await collectArticles();
     const published = await persistArticles(articles);
