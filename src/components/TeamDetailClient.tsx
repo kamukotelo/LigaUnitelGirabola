@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Trophy, MapPin, User, Calendar, Shield, Flame, Users, ArrowLeft, Medal, Shirt, Globe, ExternalLink, BarChart3, Newspaper } from 'lucide-react';
 import {
   Team, Player, Match, StandingEntry, getTeamProfile, getNewsArticles,
-  getTeamById, getPlayersByTeam, getStandingByTeamId, UPCOMING_SEASON_ID,
+  getTeamById, getPlayersByTeam, getStandingByTeamId, getTeamCardTotalsFromSheets, UPCOMING_SEASON_ID,
 } from '@/lib/data';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 import AnimatedCard from '@/components/ui/AnimatedCard';
@@ -70,11 +70,17 @@ export default function TeamDetailClient({
     : [];
 
   // Agregados do clube para a aba Estatísticas
-  const topScorer = [...players].sort((a, b) => b.goals - a.goals)[0];
-  const topAssister = [...players].sort((a, b) => b.assists - a.assists)[0];
-  const totalYellow = players.reduce((s, p) => s + (p.detailedStats?.yellowCards ?? 0), 0);
-  const totalRed = players.reduce((s, p) => s + (p.detailedStats?.redCards ?? 0), 0);
-  const squadAvgAge = players.length > 0 ? players.reduce((s, p) => s + p.age, 0) / players.length : 0;
+  const topScorer = [...players].filter((player) => player.goals > 0).sort((a, b) => b.goals - a.goals)[0];
+  const topAssister = [...players].filter((player) => player.assists > 0).sort((a, b) => b.assists - a.assists)[0];
+  // Totais retirados das fichas do jogo, para incluírem também os cartões cuja
+  // identificação do jogador ainda não foi publicada.
+  const { yellow: totalYellow, red: totalRed } = getTeamCardTotalsFromSheets(team.id);
+  // Só entram na média os atletas com idade confirmada; um perfil ainda sem
+  // data de nascimento não deve puxar a média para baixo.
+  const playersWithAge = players.filter((p) => p.age > 0);
+  const squadAvgAge = playersWithAge.length > 0
+    ? playersWithAge.reduce((s, p) => s + p.age, 0) / playersWithAge.length
+    : 0;
 
   return (
     <div className="content-shell py-12 relative z-10">
@@ -478,7 +484,7 @@ export default function TeamDetailClient({
               <AnimatedCard variant="hud" className="p-6 text-center">
                 <span className="text-[10px] font-mono text-accent uppercase tracking-widest block mb-2">Rei das Assistências</span>
                 <Link href={`/players/${topAssister.id}`} className="text-lg font-display text-foreground uppercase hover:text-primary transition-colors block">{topAssister.name}</Link>
-                <span className="text-3xl font-display font-black text-accent block mt-2">{topAssister.assists} assists</span>
+                <span className="text-3xl font-display font-black text-accent block mt-2">{topAssister.assists} assistências</span>
               </AnimatedCard>
             )}
             <AnimatedCard variant="hud" className="p-6 text-center">

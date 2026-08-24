@@ -25,6 +25,11 @@ const TAB_ICONS: Record<HubTab, typeof Trophy> = {
 export default function CompetitionHubClient({ seasonId, tab }: { seasonId: string; tab: HubTab }) {
   const router = useRouter();
   const selectedSeason = SEASONS.find((s) => s.id === seasonId);
+  const seasonStatusLabel = selectedSeason?.status === 'completed'
+    ? 'Concluída'
+    : selectedSeason?.status === 'active'
+      ? 'Em curso'
+      : 'Por disputar';
 
   const goTo = (nextSeason: string, nextTab: HubTab) => {
     router.replace(`/competicao/${nextSeason}?tab=${nextTab}`, { scroll: false });
@@ -39,7 +44,7 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
           eyebrow="Competição oficial"
           title="Liga Unitel"
           highlight="Girabola"
-          description={`Época ${selectedSeason?.label ?? seasonId} · ${selectedSeason?.status === 'completed' ? 'Concluída' : 'Por disputar'} · Campeonato Nacional de Futebol de Angola`}
+          description={`Época ${selectedSeason?.label ?? seasonId} · ${seasonStatusLabel} · Campeonato Nacional de Futebol de Angola`}
           breadcrumbs={[{ label: 'Início', href: '/' }, { label: 'Competição' }]}
         />
 
@@ -60,7 +65,7 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
               >
                 {s.label}
                 <span className={`ml-2 text-[9px] uppercase ${active ? 'text-white/70' : 'text-zinc-500'}`}>
-                  {s.status === 'completed' ? 'Concluída' : 'Por disputar'}
+                  {s.status === 'completed' ? 'Concluída' : s.status === 'active' ? 'Em curso' : 'Por disputar'}
                 </span>
               </button>
             );

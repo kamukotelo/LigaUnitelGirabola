@@ -223,6 +223,7 @@ interface MatchOverride {
   referee?: string;
   broadcaster?: string;
   attendance?: number;
+  usefulTimeMinutes?: number;
 }
 type Overrides = Record<string, MatchOverride>;
 
@@ -700,7 +701,7 @@ function CalendarSection() {
           >
             {s.label}
             <span className={`ml-2 text-[9px] uppercase ${seasonId === s.id ? 'text-white/70' : 'text-zinc-500'}`}>
-              {s.status === 'completed' ? 'Concluída' : 'Por disputar'}
+              {s.status === 'completed' ? 'Concluída' : s.status === 'active' ? 'Em curso' : 'Por disputar'}
             </span>
           </button>
         ))}
@@ -934,9 +935,21 @@ function CalendarSection() {
                     type="number"
                     min={0}
                     disabled={!finished}
-                    placeholder="Estimada"
+                    placeholder="Por publicar"
                     value={m.attendance ?? ''}
                     onChange={(e) => update(m.id, { attendance: e.target.value === '' ? undefined : Number(e.target.value) })}
+                    className="admin-input disabled:opacity-40"
+                  />
+                </Field>
+                <Field label="Tempo útil oficial (minutos)">
+                  <input
+                    type="number"
+                    min={0}
+                    max={120}
+                    disabled={!finished}
+                    placeholder="Por publicar"
+                    value={m.usefulTimeMinutes ?? ''}
+                    onChange={(e) => update(m.id, { usefulTimeMinutes: e.target.value === '' ? undefined : Number(e.target.value) })}
                     className="admin-input disabled:opacity-40"
                   />
                 </Field>

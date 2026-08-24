@@ -160,6 +160,7 @@ export default function Home() {
   const hasGoals = seasonStarted && topScorer && topScorer.goals > 0;
   const topScorerGoals = hasGoals ? topScorer.goals : 0;
   const topScorerFull = hasGoals ? topScorer.name : '';
+  const topScorersCount = hasGoals ? CURRENT_SEASON_SCORERS.filter((player) => player.goals === topScorerGoals).length : 0;
   const seasonGoals = seasonMatches
     .filter((match) => match.status === 'finished')
     .reduce((total, match) => total + match.homeScore + match.awayScore, 0);
@@ -174,7 +175,11 @@ export default function Home() {
   const tickerItems = [
     `● Liga Unitel Girabola ${activeSeasonLabel} · calendário oficial disponível`,
     leader ? `▲ ${leader} lidera a classificação da temporada` : '▲ Classificação preparada para o início da temporada',
-    topScorerFull ? `◆ ${topScorerFull} melhor marcador com ${topScorerGoals} golos` : '◆ Estatísticas da nova temporada serão atualizadas após os jogos',
+    topScorerFull
+      ? (topScorersCount > 1
+          ? `◆ ${topScorersCount} jogadores partilham a liderança dos goleadores com ${topScorerGoals} golo${topScorerGoals === 1 ? '' : 's'}`
+          : `◆ ${topScorerFull} melhor marcador com ${topScorerGoals} golo${topScorerGoals === 1 ? '' : 's'}`)
+      : '◆ Estatísticas da nova temporada serão atualizadas após os jogos',
     '■ Portal digital do futebol de Angola',
     '● Cobertura completa em tempo real',
   ].filter(Boolean);

@@ -283,6 +283,37 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
 
 // ── ABA 2: Estatísticas Detalhadas ──────────
 function StatsTab({ player }: { player: Player }) {
+  if (!player.statsVerified) {
+    const yellowCards = player.detailedStats?.yellowCards ?? 0;
+    const redCards = player.detailedStats?.redCards ?? 0;
+    const confirmedStats = [
+      { label: 'Jogos', value: player.appearances },
+      { label: 'Golos', value: player.goals },
+      { label: 'Assistências', value: player.assists },
+      { label: 'Cartões amarelos', value: yellowCards },
+      { label: 'Cartões vermelhos', value: redCards },
+    ];
+
+    return (
+      <div className="space-y-6">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+          {confirmedStats.map((stat) => (
+            <div key={stat.label} className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-5 rounded-2xl text-center">
+              <span className="font-display text-3xl font-black text-foreground">{stat.value}</span>
+              <span className="block mt-1 text-[9px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+        <div className="p-6 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start">
+          <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={18} />
+          <p className="text-xs text-zinc-500">
+            Ratings, posse, precisão de passe, duelos, remates e minutos serão apresentados apenas quando forem publicados em fichas oficiais.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const ratings = getPlayerRatings(player);
   const recent = getRecentRatings(player);
   const metrics = getDetailedMetrics(player);
@@ -615,8 +646,15 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
   // Goals classification
   const allPlayers = getPlayers();
   const allGoals = [...allPlayers].sort((a, b) => b.goals - a.goals);
-  const goalRank = allGoals.findIndex(p => p.id === player.id) + 1;
+  // Classificação por golos com empates na mesma posição: dez marcadores com um
+  // golo partilham o 1.º lugar em vez de receberem posições arbitrárias.
+  const goalRank = player.goals > 0
+    ? allPlayers.filter((p) => p.goals > player.goals).length + 1
+    : null;
   const maxGoals = allGoals[0]?.goals || 1;
+  // Minutos só são apresentados quando vêm de fichas oficiais; nunca estimados
+  // a partir do número de jogos.
+  const minutesPlayed = player.statsVerified ? (player.detailedStats?.minutesPlayed ?? null) : null;
 
   // Filter recent finished matches of the player's club
   const allMatches = getMatches();
@@ -634,6 +672,8 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
     { label: 'Defesa / Posicionamento', value: player.attributes.defending, color: 'from-green-500 to-emerald-500' },
     { label: 'Físico / Resistência', value: player.attributes.physical, color: 'from-orange-500 to-yellow-500' }
   ];
+
+  const hasPublishedAttributes = attrList.some((attr) => attr.value > 0);
 
   const clubColor = team?.colorsHex ? team.colorsHex[0] : '#5C0F8B';
 
@@ -672,7 +712,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
           {/* Jersey Card */}
           <div className="w-40 h-52 bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden running-border relative flex-shrink-0">
             <div className="absolute top-2 left-2 bg-primary text-white rounded-lg px-2.5 py-1 font-display text-2xl font-black">
-              {player.jerseyNumber}
+              {player.jerseyNumber > 0 ? player.jerseyNumber : '—'}
             </div>
             {/* Fallback image */}
             <div className="w-full h-full flex items-center justify-center bg-zinc-200/60 dark:bg-zinc-800/60 text-zinc-600">
@@ -695,11 +735,11 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
                 <span className="text-base leading-none">{getNationalityFlag(player.nationality)}</span>
                 <span>{player.nationality}</span>
                 <span className="text-zinc-400">·</span>
-                <span>{player.age} anos</span>
+                <span>{player.age > 0 ? `${player.age} anos` : 'Idade por confirmar'}</span>
                 <span className="text-zinc-400">·</span>
-                <span>{player.height}</span>
+                <span>{player.height || 'Altura por confirmar'}</span>
                 <span className="text-zinc-400">·</span>
-                <span>Nº {player.jerseyNumber}</span>
+                <span>{player.jerseyNumber > 0 ? `Nº ${player.jerseyNumber}` : 'Número por confirmar'}</span>
               </p>
             </div>
 
@@ -708,7 +748,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
               <StatRing value={player.goals} max={maxGoals} label="Golos" color="#D21515" />
               <StatRing value={player.assists} max={15} label="Assistências" color="#F9C304" />
               <StatRing value={player.appearances} max={30} label="Jogos" color="#00F5FF" />
-              {player.age && <StatRing value={player.age} max={40} label="Idade" color="#a855f7" />}
+              {player.age > 0 && <StatRing value={player.age} max={40} label="Idade" color="#a855f7" />}
             </div>
           </div>
         </div>
@@ -775,12 +815,17 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
                     </span>
                   ),
                 },
-                { label: 'Data de nascimento', value: ficha.birthDate ? `${ficha.birthDate} (${ficha.age} anos)` : `${ficha.age} anos` },
+                {
+                  label: 'Data de nascimento',
+                  value: ficha.birthDate
+                    ? `${ficha.birthDate}${ficha.age > 0 ? ` (${ficha.age} anos)` : ''}`
+                    : (ficha.age > 0 ? `${ficha.age} anos` : 'Por confirmar'),
+                },
                 { label: 'Naturalidade', value: ficha.birthplace ?? '—' },
                 { label: 'Altura', value: ficha.height || '—' },
                 { label: 'Peso', value: ficha.weight ?? '—' },
                 { label: 'Pé preferido', value: ficha.preferredFoot ?? '—' },
-                { label: 'Nº de camisola', value: ficha.jerseyNumber },
+                { label: 'Nº de camisola', value: ficha.jerseyNumber > 0 ? ficha.jerseyNumber : 'Por confirmar' },
                 {
                   label: 'Clube atual',
                   value: team ? (
@@ -809,6 +854,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
               <Activity size={18} className="text-accent" /> Matriz de Atributos (HUD)
             </h3>
 
+            {hasPublishedAttributes ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {attrList.map((attr, idx) => (
                 <div key={idx} className="space-y-2">
@@ -829,6 +875,11 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
                 </div>
               ))}
             </div>
+            ) : (
+              <p className="mt-6 text-xs text-zinc-500">
+                Atributos técnicos por publicar. A plataforma não gera avaliações estimadas; os indicadores serão apresentados quando forem recebidos de fonte oficial.
+              </p>
+            )}
           </AnimatedCard>
 
           {/* Histórico Recente de Jogos do Clube */}
@@ -869,7 +920,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
           </div>
 
           {/* Career History */}
-          {player.careerHistory && (
+          {player.careerHistory && player.careerHistory.length > 0 && (
             <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-8">
               <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
                 <Award size={18} className="text-accent" /> Histórico da Carreira
@@ -952,7 +1003,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
           </AnimatedCard>
 
           {/* Heatmap Field */}
-          <HeatmapField position={player.position} playerId={player.id} />
+          {player.statsVerified && <HeatmapField position={player.position} playerId={player.id} />}
 
           {/* League Stats Sidebar */}
           <div className="bg-primary/5 border border-primary/20 p-6 rounded-2xl h-fit space-y-6">
@@ -963,7 +1014,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
             <div className="space-y-4 font-mono text-xs">
               <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
                 <span className="text-zinc-500">Class. Golos</span>
-                <span className="font-bold text-foreground">#{goalRank}º</span>
+                <span className="font-bold text-foreground">{goalRank ? `#${goalRank}º` : '—'}</span>
               </div>
               <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
                 <span className="text-zinc-500">Golos por Jogo</span>
@@ -971,7 +1022,9 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
               </div>
               <div className="flex justify-between pb-1">
                 <span className="text-zinc-500">Minutos Jogados</span>
-                <span className="font-bold text-foreground">{player.appearances * 90}{"'"}</span>
+                <span className="font-bold text-foreground">
+                  {minutesPlayed !== null ? `${minutesPlayed}'` : 'Por publicar'}
+                </span>
               </div>
             </div>
           </div>

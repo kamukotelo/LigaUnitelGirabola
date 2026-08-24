@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Award, Shield, AlertTriangle } from 'lucide-react';
-import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonDiscipline, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
+import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonDiscipline, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -22,6 +22,13 @@ interface DisplayPlayer {
   hasProfile?: boolean;
 }
 
+/** Concordância de número nos totais de cartões ("1 amarelo", "12 amarelos"). */
+function cardsLabel(yellow: number, red: number): string {
+  const amarelos = `${yellow} ${yellow === 1 ? 'amarelo' : 'amarelos'}`;
+  const vermelhos = `${red} ${red === 1 ? 'vermelho' : 'vermelhos'}`;
+  return `${amarelos} e ${vermelhos}`;
+}
+
 const STAT_TABS: { key: StatTab; label: string }[] = [
   { key: 'scorers', label: '⚽ Goleadores' },
   { key: 'assists', label: '🎯 Assistências' },
@@ -32,7 +39,7 @@ const STAT_TABS: { key: StatTab; label: string }[] = [
 
 const VALUE_LABELS: Record<StatTab, string> = {
   scorers: 'Golos',
-  assists: 'Assists',
+  assists: 'Assistências',
   cleansheets: 'Jogos S/ Golo',
   discipline: 'Amarelos',
   minutes: 'Minutos',
@@ -126,6 +133,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
     }
   }
 
+  const cardReconciliation = getCurrentSeasonCardReconciliation();
+
   const maxStatValue = displayPlayers.length > 0 ? Math.max(...displayPlayers.map((p) => p.value)) : 1;
 
   const leaderPlayer = displayPlayers[0];
@@ -172,10 +181,23 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         </motion.div>
       )}
 
-      {isUpcoming && seasonHasStarted && activeTab !== 'scorers' && (
+      {isUpcoming && seasonHasStarted && displayPlayers.length === 0 && (
         <div className="mb-8 p-5 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start max-w-4xl">
           <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={18} />
           <p className="text-xs text-zinc-500">Esta métrica ainda não foi publicada nas fichas oficiais recebidas.</p>
+        </div>
+      )}
+
+      {isUpcoming && seasonHasStarted && activeTab === 'discipline' && displayPlayers.length > 0 && (
+        <div className="mb-8 p-4 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl max-w-4xl">
+          <p className="text-xs text-zinc-500">
+            Lista individual baseada apenas nos cartões cujo jogador foi identificado nas fichas recebidas. Cartões ainda sem nome confirmado permanecem apenas no total do respetivo jogo.
+          </p>
+          <p className="text-xs text-zinc-500 mt-2 font-mono">
+            Fichas oficiais: {cardsLabel(cardReconciliation.yellowInSheets, cardReconciliation.redInSheets)} ·
+            {' '}Atribuídos a jogador: {cardsLabel(cardReconciliation.yellowAttributed, cardReconciliation.redAttributed)} ·
+            {' '}Por identificar: {cardsLabel(cardReconciliation.yellowUnattributed, cardReconciliation.redUnattributed)}.
+          </p>
         </div>
       )}
 
@@ -194,7 +216,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
               className="space-y-4"
             >
               {displayPlayers.map((player, idx) => {
-                const isLeader = idx === 0 && seasonHasStarted;
+                const rank = displayPlayers.filter((candidate) => candidate.value > player.value).length + 1;
+                const isLeader = rank === 1 && player.value > 0 && seasonHasStarted;
                 const percent = maxStatValue > 0 ? Math.round((player.value / maxStatValue) * 100) : 0;
 
                 return (
@@ -209,7 +232,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                       <span className={`text-2xl font-display font-black w-8 text-center flex-shrink-0 ${
                         isLeader ? 'text-accent animate-pulse' : 'text-zinc-600'
                       }`}>
-                        {idx + 1}
+                        {rank}
                       </span>
                       <TeamCrest teamId={player.teamId} size={48} className="filter drop-shadow-[0_0_6px_rgba(255,255,255,0.08)]" />
                       <div className="min-w-0">
@@ -219,7 +242,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                           )}
                           {isLeader && (
                             <span className="text-[9px] font-mono bg-accent/20 text-accent border border-accent/40 px-2 py-0.5 rounded-full uppercase flex-shrink-0">
-                              Líder
+                              {displayPlayers.filter((candidate) => candidate.value === player.value).length > 1 ? 'Liderança partilhada' : 'Líder'}
                             </span>
                           )}
                         </h3>
@@ -294,7 +317,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                 <div className="grid grid-cols-3 gap-2 mt-4 text-center font-mono">
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
                     <span className="text-foreground font-bold block text-sm">
-                      {seasonHasStarted ? (leaderPlayer?.secondaryValue ?? leaderPlayerDetails?.appearances ?? 0) : 0}
+                      {seasonHasStarted ? (leaderPlayerDetails?.appearances ?? 0) : 0}
                     </span>
                     <span className="text-[8px] text-zinc-500 uppercase">Jogos</span>
                   </div>
@@ -308,13 +331,13 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                     <span className="text-foreground font-bold block text-sm">
                       {seasonHasStarted ? (leaderPlayerDetails?.assists ?? 0) : 0}
                     </span>
-                    <span className="text-[8px] text-zinc-500 uppercase">Assists</span>
+                    <span className="text-[8px] text-zinc-500 uppercase">Assistências</span>
                   </div>
                 </div>
               </div>
               <p>
                 {isUpcoming
-                  ? 'A preparar o início das competições para registar os líderes desta temporada.'
+                  ? (seasonHasStarted ? 'Dados oficiais consolidados a partir das fichas publicadas nesta temporada.' : 'A aguardar o início da temporada.')
                   : (leaderPlayerDetails?.bio ?? 'Destaque individual com rendimento estelar no campeonato nacional.')}
               </p>
             </div>
@@ -322,7 +345,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
 
           <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
             <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Award size={16} className="text-accent" /> Prêmios oficiais da ANCAF
+              <Award size={16} className="text-accent" /> Prémios oficiais da ANCAF
             </h3>
             <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
               A ANCAF (Associação Nacional de Clubes Angolanos de Futebol) atribui no encerramento oficial de cada campeonato a Bola de Ouro ao Melhor Jogador, o Troféu de Artilheiro (Melhor Marcador), e a Luva de Ouro (Guarda-redes Menos Batido).

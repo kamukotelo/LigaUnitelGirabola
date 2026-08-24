@@ -24,9 +24,9 @@ export default function TempoUtilTab({ seasonId }: { seasonId: string }) {
     return (
       <div className="text-center py-16 max-w-xl mx-auto">
         <Timer size={32} className="mx-auto text-zinc-500 mb-4" />
-        <h3 className="font-display text-foreground uppercase text-lg tracking-wider">Sem jogos disputados</h3>
+        <h3 className="font-display text-foreground uppercase text-lg tracking-wider">Tempo útil por publicar</h3>
         <p className="text-xs text-zinc-500 font-mono mt-2">
-          O Tempo Útil (tempo efetivo de jogo) será calculado e publicado jornada a jornada assim que a época começar.
+          O tempo efetivo será apresentado quando as medições oficiais de cada partida forem recebidas. A plataforma não estima esta métrica.
         </p>
       </div>
     );

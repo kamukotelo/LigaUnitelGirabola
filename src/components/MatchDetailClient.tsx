@@ -65,7 +65,7 @@ function StatBar({ label, home, away, suffix = '' }: { label: string; home: numb
   );
 }
 
-function StatsTab({ home, away, isFinished }: { home: MatchTeamStats; away: MatchTeamStats; isFinished: boolean }) {
+function StatsTab({ home, away, isFinished, officialStatKeys }: { home: MatchTeamStats; away: MatchTeamStats; isFinished: boolean; officialStatKeys: (keyof MatchTeamStats)[] }) {
   if (!isFinished) {
     return (
       <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-10 text-center">
@@ -76,23 +76,36 @@ function StatsTab({ home, away, isFinished }: { home: MatchTeamStats; away: Matc
       </AnimatedCard>
     );
   }
-  const rows: { label: string; h: number; a: number; suffix?: string }[] = [
-    { label: 'Posse de bola', h: home.possession, a: away.possession, suffix: '%' },
-    { label: 'Remates', h: home.shots, a: away.shots },
-    { label: 'Remates à baliza', h: home.shotsOnTarget, a: away.shotsOnTarget },
-    { label: 'Precisão de passe', h: home.passAccuracy, a: away.passAccuracy, suffix: '%' },
-    { label: 'Passes', h: home.passes, a: away.passes },
-    { label: 'Cantos', h: home.corners, a: away.corners },
-    { label: 'Faltas', h: home.fouls, a: away.fouls },
-    { label: 'Foras de jogo', h: home.offsides, a: away.offsides },
-    { label: 'Defesas (GR)', h: home.saves, a: away.saves },
-    { label: 'Cartões amarelos', h: home.yellowCards, a: away.yellowCards },
-    { label: 'Cartões vermelhos', h: home.redCards, a: away.redCards },
+  const published = new Set(officialStatKeys);
+  const allRows: { key: keyof MatchTeamStats; label: string; h: number; a: number; suffix?: string }[] = [
+    { key: 'possession', label: 'Posse de bola', h: home.possession, a: away.possession, suffix: '%' },
+    { key: 'shots', label: 'Remates', h: home.shots, a: away.shots },
+    { key: 'shotsOnTarget', label: 'Remates à baliza', h: home.shotsOnTarget, a: away.shotsOnTarget },
+    { key: 'passAccuracy', label: 'Precisão de passe', h: home.passAccuracy, a: away.passAccuracy, suffix: '%' },
+    { key: 'passes', label: 'Passes', h: home.passes, a: away.passes },
+    { key: 'corners', label: 'Cantos', h: home.corners, a: away.corners },
+    { key: 'fouls', label: 'Faltas', h: home.fouls, a: away.fouls },
+    { key: 'offsides', label: 'Foras de jogo', h: home.offsides, a: away.offsides },
+    { key: 'saves', label: 'Defesas (GR)', h: home.saves, a: away.saves },
+    { key: 'yellowCards', label: 'Cartões amarelos', h: home.yellowCards, a: away.yellowCards },
+    { key: 'redCards', label: 'Cartões vermelhos', h: home.redCards, a: away.redCards },
   ];
+  const rows = allRows.filter((row) => published.has(row.key));
+
+  if (rows.length === 0) {
+    return (
+      <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-10 text-center">
+        <BarChart3 size={28} className="text-accent mx-auto mb-4" />
+        <p className="text-sm font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+          Estatísticas oficiais ainda não publicadas para este jogo.
+        </p>
+      </AnimatedCard>
+    );
+  }
   return (
     <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6 sm:p-8 space-y-5">
       {rows.map((r) => (
-        <StatBar key={r.label} label={r.label} home={r.h} away={r.a} suffix={r.suffix} />
+        <StatBar key={r.key} label={r.label} home={r.h} away={r.a} suffix={r.suffix} />
       ))}
     </AnimatedCard>
   );
@@ -369,7 +382,7 @@ export default function MatchDetailClient({
           transition={{ duration: 0.25 }}
         >
           {activeTab === 'resumo' && <SummaryTab detail={detail} />}
-          {activeTab === 'estatisticas' && <StatsTab home={detail.homeStats} away={detail.awayStats} isFinished={isFinished} />}
+          {activeTab === 'estatisticas' && <StatsTab home={detail.homeStats} away={detail.awayStats} isFinished={isFinished} officialStatKeys={detail.officialStatKeys} />}
           {activeTab === 'escalacoes' && (
             <>
               {!isFinished && !isLive && (
