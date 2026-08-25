@@ -84,15 +84,17 @@ function fingerprintMatches(matches: Match[]): string {
 
 const PUBLISHED_MATCHES_COMPARISON_FINGERPRINT = fingerprintMatches(PUBLISHED_MATCHES_2026_27);
 
-function resolveFixture([homeId, awayId]: [string, string]) {
-  const home = getTeamById(homeId);
-  const away = getTeamById(awayId);
+function resolveFixture(match: Match) {
+  const home = getTeamById(match.homeTeamId);
+  const away = getTeamById(match.awayTeamId);
   return {
-    homeTeamId: homeId,
-    awayTeamId: awayId,
-    homeTeam: home?.name ?? homeId,
-    awayTeam: away?.name ?? awayId,
-    stadium: home?.stadium ?? null,
+    homeTeamId: match.homeTeamId,
+    awayTeamId: match.awayTeamId,
+    homeTeam: home?.name ?? match.homeTeam,
+    awayTeam: away?.name ?? match.awayTeam,
+    date: match.date,
+    stadium: match.stadium,
+    broadcaster: match.broadcaster ?? null,
   };
 }
 
@@ -299,7 +301,7 @@ export async function GET(request: Request) {
     round: number;
     dates: string[];
     note?: string;
-    fixtures: [string, string][];
+    fixtures: Match[];
   }
 
   const calendar: SeasonRound[] = Array.from(
@@ -310,7 +312,7 @@ export async function GET(request: Request) {
       if (m.scheduleStatus === 'provisional') {
         r.note = 'Datas provisórias recebidas da API e sujeitas a edição pela Direção de Competições da ANCAF.';
       }
-      r.fixtures.push([m.homeTeamId, m.awayTeamId]);
+      r.fixtures.push(m);
       map.set(m.round, r);
       return map;
     }, new Map<number, SeasonRound>()).values(),
