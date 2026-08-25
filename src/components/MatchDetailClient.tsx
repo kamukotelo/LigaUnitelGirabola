@@ -65,6 +65,16 @@ function StatBar({ label, home, away, suffix = '' }: { label: string; home: numb
   );
 }
 
+function UnpublishedStat({ label }: { label: string }) {
+  return (
+    <div className="flex items-center justify-between border-b border-zinc-200/60 pb-3 font-mono text-xs last:border-b-0 last:pb-0 dark:border-zinc-800/60">
+      <span className="text-zinc-500">—</span>
+      <span className="text-zinc-500 uppercase text-[10px] tracking-wider">{label}</span>
+      <span className="text-zinc-500">—</span>
+    </div>
+  );
+}
+
 function StatsTab({ home, away, isFinished, officialStatKeys }: { home: MatchTeamStats; away: MatchTeamStats; isFinished: boolean; officialStatKeys: (keyof MatchTeamStats)[] }) {
   if (!isFinished) {
     return (
@@ -90,23 +100,18 @@ function StatsTab({ home, away, isFinished, officialStatKeys }: { home: MatchTea
     { key: 'yellowCards', label: 'Cartões amarelos', h: home.yellowCards, a: away.yellowCards },
     { key: 'redCards', label: 'Cartões vermelhos', h: home.redCards, a: away.redCards },
   ];
-  const rows = allRows.filter((row) => published.has(row.key));
-
-  if (rows.length === 0) {
-    return (
-      <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-10 text-center">
-        <BarChart3 size={28} className="text-accent mx-auto mb-4" />
-        <p className="text-sm font-mono text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
-          Estatísticas oficiais ainda não publicadas para este jogo.
-        </p>
-      </AnimatedCard>
-    );
-  }
   return (
     <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6 sm:p-8 space-y-5">
-      {rows.map((r) => (
-        <StatBar key={r.key} label={r.label} home={r.h} away={r.a} suffix={r.suffix} />
+      {allRows.map((r) => (
+        published.has(r.key)
+          ? <StatBar key={r.key} label={r.label} home={r.h} away={r.a} suffix={r.suffix} />
+          : <UnpublishedStat key={r.key} label={r.label} />
       ))}
+      {published.size === 0 && (
+        <p className="pt-2 text-center text-[10px] font-mono uppercase tracking-wider text-zinc-500">
+          Valores oficiais ainda não publicados para este jogo.
+        </p>
+      )}
     </AnimatedCard>
   );
 }
@@ -168,6 +173,7 @@ function EventIcon({ type }: { type: string }) {
   if (type === 'goal') return <Goal size={14} className="text-green-400" />;
   if (type === 'yellow') return <span className="w-3 h-4 rounded-[2px] bg-yellow-400 inline-block" />;
   if (type === 'red') return <span className="w-3 h-4 rounded-[2px] bg-red-500 inline-block" />;
+  if (type === 'warning') return <Flag size={14} className="text-amber-500" />;
   if (type === 'sub') return <ArrowLeftRight size={14} className="text-accent" />;
   return null;
 }
@@ -200,12 +206,13 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
                 <div className={`flex flex-col ${e.team === 'away' ? 'items-end' : ''}`}>
                   <span className="font-mono text-xs text-foreground">
                     {e.playerId ? <Link href={`/players/${e.playerId}`} className="hover:text-accent transition-colors">{e.player}</Link> : e.player}
-                    {e.detail && <span className="text-zinc-500"> · {e.detail}</span>}
+                    {e.detail && e.type !== 'yellow' && e.type !== 'red' && <span className="text-zinc-500"> · {e.detail}</span>}
                   </span>
                   {e.type === 'sub' && e.playerOut && (
                     <span className="font-mono text-[10px] text-zinc-600">↓ {e.playerOut}</span>
                   )}
                   {e.type === 'goal' && <span className="font-mono text-[10px] text-green-500/80 uppercase tracking-wider">Golo</span>}
+                  {e.type === 'warning' && <span className="font-mono text-[10px] text-amber-500/80 uppercase tracking-wider">Advertência verbal</span>}
                 </div>
               </div>
             ))}
@@ -256,7 +263,6 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
             <span className="text-zinc-600 dark:text-zinc-400">
               Assistentes: {officials.assistants[0]} · {officials.assistants[1]}
               <span className="block">4.º Árbitro: {officials.fourth}</span>
-              {officials.commissioner && <span className="block">Comissário: {officials.commissioner}</span>}
             </span>
           </div>
           <div className="flex items-center gap-3">

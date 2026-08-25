@@ -114,7 +114,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-24T19:51:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-25T04:35:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -264,16 +264,23 @@ export const CURRENT_SEASON_SCORERS = [
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
-  'ju-cabral-bravos': { yellow: 1, red: 0 },
-  'dabanda-bravos': { yellow: 1, red: 0 },
-  'cahilo-sagrada': { yellow: 1, red: 0 },
-  'miguel-sagrada': { yellow: 1, red: 0 },
-  'pimpao-sagrada': { yellow: 1, red: 0 },
-  'marcos-cabinda': { yellow: 1, red: 0 },
-  'antonio-cabinda': { yellow: 1, red: 0 },
+  'maranata': { yellow: 1, red: 0 },
+  'platini': { yellow: 1, red: 0 },
+  'ximba': { yellow: 1, red: 0 },
+  'kibuata': { yellow: 1, red: 0 },
   'deybi-flores': { yellow: 1, red: 0 },
   'antonio-hossi': { yellow: 1, red: 0 },
   'berna': { yellow: 1, red: 0 },
+  'ju-cabral-bravos': { yellow: 1, red: 0 },
+  'dabanda-bravos': { yellow: 0, red: 1 },
+  'cahilo-sagrada': { yellow: 0, red: 1 },
+  'marcos-cabinda': { yellow: 1, red: 0 },
+  'antonio-cabinda': { yellow: 1, red: 0 },
+  'dago-tshibamba': { yellow: 1, red: 0 },
+  'simao-dianzenza': { yellow: 1, red: 0 },
+  'venancio-dago': { yellow: 1, red: 0 },
+  'lucas-elias-huila': { yellow: 1, red: 0 },
+  'lisneu-caala': { yellow: 1, red: 0 },
 };
 
 export interface Player extends PlayerStats {
@@ -1740,12 +1747,16 @@ const LIBOLO_SQUAD_2026_27: Player[] = [
 }));
 
 const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
-  ['kabelo-dlamini', 'Kabelo Dlamini', 'Wiliete de Benguela', 'wiliete'],
-  ['valter-monteiro', 'Valter Monteiro', 'Wiliete de Benguela', 'wiliete'],
-  ['alem-interclube', 'Além', 'GD Interclube', 'interclube'],
-].map(([id, name, club, teamId]) => ({
-  id, name, club, teamId, position: 'Posição por confirmar', goals: 1, assists: 0,
-  appearances: 1, jerseyNumber: 0, age: 0, nationality: 'Por confirmar', height: 'A confirmar',
+  ['kabelo-dlamini', 'Kabelo Dlamini', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
+  ['valter-monteiro', 'Valter Monteiro', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
+  ['alem-interclube', 'Além', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
+  ['simao-dianzenza', 'Simao Dianzenza', 'CD 1.º de Agosto', 'dago', 'Defesa', 3, 0],
+  ['venancio-dago', 'Venancio Landu Kukula', 'CD 1.º de Agosto', 'dago', 'Médio', 15, 0],
+  ['lucas-elias-huila', 'Lucas Elias Antonio Paulo', 'Desportivo da Huíla', 'desphuila', 'Defesa', 13, 0],
+  ['lisneu-caala', 'Lisneu Emanuel Neto Simao', 'CR Caála', 'caala', 'Posição por confirmar', 23, 0],
+].map(([id, name, club, teamId, position, jerseyNumber, goals]) => ({
+  id: String(id), name: String(name), club: String(club), teamId: String(teamId), position: String(position), goals: Number(goals), assists: 0,
+  appearances: 1, jerseyNumber: Number(jerseyNumber), age: 0, nationality: 'Angola', height: 'A confirmar',
   attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
   careerHistory: [],
 }));
@@ -1768,6 +1779,7 @@ const CURRENT_PLAYERS_RAW: Player[] = [
   goals: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.goals ?? (['bravos', 'libolo'].includes(player.teamId) ? player.goals : 0),
   assists: ['bravos', 'libolo'].includes(player.teamId) ? player.assists : 0,
   appearances: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.appearances
+    ?? (CURRENT_CONFIRMED_CARDS[player.id] ? Math.max(1, player.appearances) : undefined)
     ?? (['bravos', 'sagrada', 'cabinda', 'libolo'].includes(player.teamId) ? player.appearances : 0),
 }));
 
@@ -2537,7 +2549,7 @@ export interface LineupPlayer {
 
 export interface MatchEventDetail {
   minute?: number;            // ausente quando a fonte ainda não publicou o minuto
-  type: 'goal' | 'yellow' | 'red' | 'sub';
+  type: 'goal' | 'yellow' | 'red' | 'warning' | 'sub';
   team: 'home' | 'away';
   player: string;
   playerId?: string;
@@ -2563,7 +2575,7 @@ export interface MatchDetail {
 
 const SQUAD_FIRST = ['Manuel', 'João', 'Pedro', 'Alberto', 'Geraldo', 'Mateus', 'Domingos', 'Carlos', 'Bruno', 'Hélder', 'Nuno', 'Ivo', 'Cláudio', 'Wilson', 'Fredy', 'Gilberto', 'Yuri', 'Dani', 'Zito', 'Job', 'Edmilson', 'Buatu', 'Picas', 'Bastos'];
 const SQUAD_LAST = ['Cabungula', 'Capita', 'Buá', 'Catraio', 'Mavinga', 'Manucho', 'Bero', 'Lamá', 'Quinito', 'Bokila', 'Kialonda', 'Afonso', 'Nzola', 'Caboco', 'Wilá', 'Fabrício', 'Massunguna', 'Ginga', 'Depú', 'Isaac', 'Gelson', 'Tó Carneiro', 'Macaia', 'Bambi'];
-export const BROADCASTERS = ['ZSports', 'Por confirmar'];
+export const BROADCASTERS = ['ZSports', 'Rádio 5'];
 
 // Clubes angolanos nas Afro Taças. Nos jogos do Girabola entre duas destas
 // equipas, a transmissão é sempre assegurada pela ZSports.
@@ -2858,29 +2870,33 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   if (match.id === 'm27-1-1') return [
-    { minute: 14, type: 'red', team: 'away', player: 'Jogador do CR Caála', detail: 'Cartão Vermelho direto' },
+    { minute: 40, type: 'yellow', team: 'away', player: 'Lisneu Emanuel Neto Simao', playerId: 'lisneu-caala', detail: 'Rasteirou o adversário' },
   ];
 
   if (match.id === 'm27-1-2') return [
     { type: 'goal', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos' },
     { type: 'goal', team: 'home', player: 'Lito', playerId: 'lito-bravos' },
     { type: 'goal', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos' },
-    { minute: 6, type: 'yellow', team: 'away', player: 'Cahilo', playerId: 'cahilo-sagrada' },
+    { minute: 6, type: 'red', team: 'away', player: 'Hahilo Sapalo Alberto', playerId: 'cahilo-sagrada', detail: 'Rasteirar o adversário' },
     { minute: 45, type: 'sub', team: 'home', player: 'Higino', playerId: 'higino-bravos', playerOut: 'Cueta' },
     { minute: 45, type: 'sub', team: 'home', player: 'Tony', playerId: 'tony-bravos', playerOut: 'Bani' },
     { minute: 45, type: 'sub', team: 'away', player: 'Melono', playerId: 'melono-sagrada', playerOut: 'Dabanda' },
     { minute: 45, type: 'sub', team: 'away', player: 'Guilherme', playerId: 'guilherme-sagrada', playerOut: 'Cahilo' },
-    { minute: 48, type: 'yellow', team: 'away', player: 'Miguel', playerId: 'miguel-sagrada' },
-    { minute: 49, type: 'yellow', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos' },
-    { minute: 51, type: 'yellow', team: 'away', player: 'Pimpão', playerId: 'pimpao-sagrada' },
+    { minute: 48, type: 'warning', team: 'away', player: 'Miguel Anselmo Basilio Daniel', playerId: 'miguel-sagrada', detail: 'Não respeitar a decisão do árbitro' },
+    { minute: 49, type: 'yellow', team: 'home', player: 'Eric Manuel Gouveia Cabral', playerId: 'ju-cabral-bravos', detail: 'Tentar enganar o árbitro na área de penálte' },
+    { minute: 51, type: 'warning', team: 'away', player: 'Filipe Pimpao', playerId: 'pimpao-sagrada', detail: 'Jogar à bola depois do árbitro apitar' },
     { minute: 60, type: 'sub', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos', playerOut: 'Lito' },
     { minute: 69, type: 'sub', team: 'away', player: 'Silvano', playerId: 'silvano-sagrada', playerOut: 'Pimpão' },
     { minute: 75, type: 'sub', team: 'home', player: 'Tiago', playerId: 'tiago-bravos', playerOut: 'Ju Cabral' },
-    { minute: 86, type: 'yellow', team: 'home', player: 'Dabanda', playerId: 'dabanda-bravos' },
+    { minute: 86, type: 'red', team: 'home', player: 'Oliveira Antonio', playerId: 'dabanda-bravos', detail: 'Rasteirar o adversário' },
     { minute: 88, type: 'sub', team: 'home', player: 'Eduwine', playerId: 'eduwine-bravos', playerOut: 'Jorginho' },
   ];
 
   if (match.id === 'm27-1-3') return [
+    { minute: 30, type: 'yellow', team: 'home', player: 'Samu Tshibamba Dago', playerId: 'dago-tshibamba' },
+    { minute: 40, type: 'yellow', team: 'home', player: 'Simao Dianzenza', playerId: 'simao-dianzenza' },
+    { minute: 52, type: 'yellow', team: 'away', player: 'Lucas Elias Antonio Paulo', playerId: 'lucas-elias-huila' },
+    { minute: 87, type: 'yellow', team: 'home', player: 'Venancio Landu Kukula', playerId: 'venancio-dago' },
     { minute: 92, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: "90'+2 (1-0)" },
   ];
 
@@ -2957,9 +2973,9 @@ type PublishedMatchStats = {
 
 /** Apenas métricas efetivamente visíveis nas fichas/fontes recebidas. */
 const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
-  'm27-1-1': { home: { corners: 1, yellowCards: 0, redCards: 0 }, away: { corners: 0, yellowCards: 1, redCards: 1 }, keys: ['corners', 'yellowCards', 'redCards'] },
-  'm27-1-2': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
-  'm27-1-3': { home: { corners: 0, yellowCards: 3 }, away: { corners: 1, yellowCards: 1 }, keys: ['corners', 'yellowCards'] },
+  'm27-1-1': { home: { corners: 1, yellowCards: 0, redCards: 0 }, away: { corners: 0, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
+  'm27-1-2': { home: { yellowCards: 1, redCards: 1 }, away: { yellowCards: 0, redCards: 1 }, keys: ['yellowCards', 'redCards'] },
+  'm27-1-3': { home: { corners: 0, yellowCards: 3, redCards: 0 }, away: { corners: 1, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-1-4': { home: { yellowCards: 4, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-1-5': { home: { corners: 0, yellowCards: 0 }, away: { corners: 0, yellowCards: 1 }, keys: ['corners', 'yellowCards'] },
   'm27-1-6': { home: { corners: 1, yellowCards: 2 }, away: { corners: 0, yellowCards: 4 }, keys: ['corners', 'yellowCards'] },
@@ -3126,7 +3142,6 @@ export interface MatchOfficials {
   referee: string;
   assistants: [string, string];
   fourth: string;
-  commissioner?: string;
 }
 
 export function getMatchOfficials(match: Match): MatchOfficials {
@@ -3137,25 +3152,21 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       referee: 'Sanda Mateus Miguel Kitu',
       assistants: ['Natarino António Soares', 'Nelson Lutumba Quiala'],
       fourth: 'Custódio Roque Lote',
-      commissioner: 'Alfredo João',
     },
     'm27-1-3': {
       referee: 'Edilson Roberto Gomes André',
       assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'],
       fourth: 'Miguel Julião Mateus',
-      commissioner: 'Vicente Domingos Napoleão Garcia',
     },
     'm27-1-4': {
       referee: 'Miguel Tchissingu Augusto Américo',
       assistants: ['João Manuel Fula António', 'Nery Domingos Pereira Amador da Silva'],
       fourth: 'Isaías Justino Camaxi',
-      commissioner: 'Alberto Bumba Senda',
     },
     'm27-1-7': {
       referee: 'Nelson João Milagre',
       assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'],
       fourth: 'Laurindo Feliciano Aureleo',
-      commissioner: 'Dinilson Gourgel Ferreira De Almeida',
     },
   };
   const published = publishedByMatch[match.id];
@@ -3167,20 +3178,13 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       defined(ov?.assistants?.[1] ?? published?.assistants[1]),
     ],
     fourth: defined(ov?.fourth ?? published?.fourth),
-    commissioner: published?.commissioner,
   };
 }
 
 export function getMatchBroadcast(match: Match): string {
-  if (match.broadcaster) return match.broadcaster;
-
-  // Petro e Wiliete são os representantes já identificados para as provas
-  // africanas; a existência de transmissão é prevista, mas o canal ainda não.
-  const hasAfricanRepresentative = ['petro', 'wiliete'].some(
-    (teamId) => match.homeTeamId === teamId || match.awayTeamId === teamId,
-  );
-
-  return hasAfricanRepresentative ? 'Transmissão por confirmar' : 'Por confirmar';
+  const broadcaster = match.broadcaster?.trim();
+  if (broadcaster && !broadcaster.toLowerCase().includes('por confirmar')) return broadcaster;
+  return 'Rádio 5';
 }
 
 // Tempo útil (tempo efetivo de jogo, em minutos). Nunca é estimado: permanece

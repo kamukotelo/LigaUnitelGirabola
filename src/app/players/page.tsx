@@ -116,7 +116,7 @@ export default function PlayersPage() {
                           </div>
                           <div className="text-right">
                             <span className="text-xs font-mono font-black text-primary bg-primary/10 border border-primary/25 rounded-md px-2 py-0.5">
-                              #{player.jerseyNumber}
+                              {player.jerseyNumber > 0 ? `#${player.jerseyNumber}` : '—'}
                             </span>
                             <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider mt-1">
                               {player.position}

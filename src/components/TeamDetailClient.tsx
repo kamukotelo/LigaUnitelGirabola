@@ -424,7 +424,7 @@ export default function TeamDetailClient({
                         <div className="p-4 bg-white/20 dark:bg-zinc-900/20 hover:bg-white/40 dark:hover:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-900 rounded-xl flex items-center justify-between gap-4 transition-all group hover:border-zinc-200 dark:hover:border-zinc-800">
                           <div className="flex items-center gap-3">
                             <span className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-950 flex items-center justify-center font-mono text-xs text-zinc-600 dark:text-zinc-400 group-hover:text-primary font-bold transition-colors">
-                              #{player.jerseyNumber}
+                              {player.jerseyNumber > 0 ? `#${player.jerseyNumber}` : '—'}
                             </span>
                             <div>
                               <h5 className="text-foreground font-bold text-sm uppercase group-hover:text-accent transition-colors truncate max-w-[140px]">

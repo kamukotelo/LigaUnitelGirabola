@@ -684,24 +684,43 @@ function CalendarSection() {
         const content = event.target?.result as string;
         const parsed = JSON.parse(content);
         if (parsed.jogos && Array.isArray(parsed.jogos)) {
-          // Formato consolidado do import_rodada_excel
+          // Formato consolidado do import_rodada_excel (ficheiro padrão de jornada)
           const nextOverrides: Overrides = { ...ctl.draft };
+          const naoEncontrados: string[] = [];
           for (const j of parsed.jogos) {
-            const match = seasonMatches.find(
-              (m) => m.round === j.round && (m.homeTeamId === j.homeTeamId || m.awayTeamId === j.awayTeamId)
-            );
-            if (match) {
-              nextOverrides[match.id] = {
-                homeScore: j.homeScore,
-                awayScore: j.awayScore,
-                score: j.score ?? `${j.homeScore}-${j.awayScore}`,
-                status: j.status ?? 'finished',
-                stadium: j.stadium || match.stadium,
-              };
+            // O ID do jogo manda; caso contrário exige-se o par exato de equipas
+            // na jornada, para não aplicar um resultado ao jogo errado.
+            const match =
+              (j.id ? seasonMatches.find((m) => m.id === j.id) : undefined) ??
+              seasonMatches.find(
+                (m) => m.round === j.round && m.homeTeamId === j.homeTeamId && m.awayTeamId === j.awayTeamId
+              );
+            if (!match) {
+              naoEncontrados.push(`J${j.round}: ${j.homeTeam ?? j.homeTeamId} – ${j.awayTeam ?? j.awayTeamId}`);
+              continue;
             }
+            nextOverrides[match.id] = {
+              ...nextOverrides[match.id],
+              homeScore: j.homeScore,
+              awayScore: j.awayScore,
+              score: j.score ?? `${j.homeScore}-${j.awayScore}`,
+              status: j.status ?? 'finished',
+              stadium: j.stadium || match.stadium,
+              // Campos opcionais: só substituem quando vêm preenchidos na ficha.
+              ...(j.date ? { date: j.date } : {}),
+              ...(j.scheduleStatus ? { scheduleStatus: j.scheduleStatus } : {}),
+              ...(j.referee ? { referee: j.referee } : {}),
+              ...(j.broadcaster ? { broadcaster: j.broadcaster } : {}),
+              ...(typeof j.attendance === 'number' ? { attendance: j.attendance } : {}),
+              ...(typeof j.usefulTimeMinutes === 'number' ? { usefulTimeMinutes: j.usefulTimeMinutes } : {}),
+            };
           }
           ctl.setDraft(nextOverrides);
-          alert(`✅ ${parsed.jogos.length} jogos importados para o rascunho com sucesso! Clique em "Guardar alterações" para publicar.`);
+          const importados = parsed.jogos.length - naoEncontrados.length;
+          const avisoNaoEncontrados = naoEncontrados.length
+            ? `\n\n⚠️ ${naoEncontrados.length} jogo(s) sem correspondência no calendário:\n${naoEncontrados.join('\n')}`
+            : '';
+          alert(`✅ ${importados} jogos importados para o rascunho com sucesso! Clique em "Guardar alterações" para publicar.${avisoNaoEncontrados}`);
         } else if (Array.isArray(parsed)) {
           const nextOverrides: Overrides = { ...ctl.draft };
           for (const m of parsed) {
@@ -2001,7 +2020,7 @@ function PlayersSection() {
                     </p>
                     <p className="text-[10px] font-mono text-zinc-500 uppercase truncate">{m.club} · {m.position}</p>
                   </div>
-                  <span className="flex-shrink-0 font-mono text-xs text-zinc-500">#{m.jerseyNumber}</span>
+                  <span className="flex-shrink-0 font-mono text-xs text-zinc-500">{m.jerseyNumber > 0 ? `#${m.jerseyNumber}` : '—'}</span>
                 </button>
               );
             })}

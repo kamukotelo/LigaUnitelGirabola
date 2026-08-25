@@ -1,0 +1,1261 @@
+{
+  "jornadas": [
+    1
+  ],
+  "origem": "girabola_modelo_rodada_exemplo.xlsx",
+  "importadoEm": "2026-08-25T14:10:25+01:00",
+  "jogos": [
+    {
+      "round": 1,
+      "date": "2026-08-21T15:00:00+01:00",
+      "homeTeamId": "lundasul",
+      "homeTeam": "Desportivo da Lunda Sul",
+      "awayTeamId": "petro",
+      "awayTeam": "Petro de Luanda",
+      "homeScore": 0,
+      "awayScore": 0,
+      "score": "0-0",
+      "stadium": "Estádio do Sagrada Esperança",
+      "broadcaster": "Zsports",
+      "status": "finished",
+      "scheduleStatus": "official",
+      "id": "m27-1-4",
+      "referee": "Miguel Tchissingu Augusto Américo"
+    },
+    {
+      "round": 1,
+      "date": "2026-08-22T15:00:00+01:00",
+      "homeTeamId": "cabinda",
+      "homeTeam": "FC Cabinda",
+      "awayTeamId": "libolo",
+      "awayTeam": "Recreativo do Libolo",
+      "homeScore": 0,
+      "awayScore": 3,
+      "score": "0-3",
+      "stadium": "Estádio Vici António",
+      "broadcaster": "Rádio 5",
+      "status": "finished",
+      "scheduleStatus": "official",
+      "id": "m27-1-7",
+      "referee": "Nelson João Milagre"
+    },
+    {
+      "round": 1,
+      "date": "2026-08-22T15:00:00+01:00",
+      "homeTeamId": "bravos",
+      "homeTeam": "Bravos do Maquis",
+      "awayTeamId": "sagrada",
+      "awayTeam": "Sagrada Esperança",
+      "homeScore": 3,
+      "awayScore": 0,
+      "score": "3-0",
+      "stadium": "Estádio Mundunduleno",
+      "broadcaster": "Rádio 5",
+      "status": "finished",
+      "scheduleStatus": "official",
+      "id": "m27-1-2",
+      "referee": "Sanda Mateus Miguel Kitu"
+    },
+    {
+      "round": 1,
+      "date": "2026-08-22T15:00:00+01:00",
+      "homeTeamId": "dago",
+      "homeTeam": "CD 1.º de Agosto",
+      "awayTeamId": "desphuila",
+      "awayTeam": "Desportivo da Huíla",
+      "homeScore": 1,
+      "awayScore": 0,
+      "score": "1-0",
+      "stadium": "Estádio França N’dalu",
+      "broadcaster": "Zsports",
+      "status": "finished",
+      "scheduleStatus": "official",
+      "id": "m27-1-3",
+      "referee": "Edilson Roberto Gomes André"
+    },
+    {
+      "round": 1,
+      "date": "2026-08-23T15:00:00+01:00",
+      "homeTeamId": "fcluanda",
+      "homeTeam": "FC Luanda",
+      "awayTeamId": "caala",
+      "awayTeam": "CR Caála",
+      "homeScore": 0,
+      "awayScore": 0,
+      "score": "0-0",
+      "stadium": "Estádio França N’dalu",
+      "broadcaster": "Rádio 5",
+      "status": "finished",
+      "scheduleStatus": "official",
+      "id": "m27-1-1"
+    },
+    {
+      "round": 1,
+      "date": "2026-08-23T15:00:00+01:00",
+      "homeTeamId": "saosalvador",
+      "homeTeam": "São Salvador",
+      "awayTeamId": "interclube",
+      "awayTeam": "GD Interclube",
+      "homeScore": 0,
+      "awayScore": 1,
+      "score": "0-1",
+      "stadium": "Estádio Álvaro Buta",
+      "broadcaster": "Rádio 5",
+      "status": "finished",
+      "scheduleStatus": "official",
+      "id": "m27-1-8"
+    },
+    {
+      "round": 1,
+      "date": "2026-08-23T15:00:00+01:00",
+      "homeTeamId": "primeiromaio",
+      "homeTeam": "Estrela 1.º de Maio",
+      "awayTeamId": "kabuscorp",
+      "awayTeam": "Kabuscorp SC",
+      "homeScore": 1,
+      "awayScore": 1,
+      "score": "1-1",
+      "stadium": "Estádio de São Filipe",
+      "broadcaster": "Rádio 5",
+      "status": "finished",
+      "scheduleStatus": "official",
+      "id": "m27-1-6"
+    },
+    {
+      "round": 1,
+      "date": "2026-08-23T17:30:00+01:00",
+      "homeTeamId": "wiliete",
+      "homeTeam": "Wiliete de Benguela",
+      "awayTeamId": "lobito",
+      "awayTeam": "Académica do Lobito",
+      "homeScore": 2,
+      "awayScore": 0,
+      "score": "2-0",
+      "stadium": "Estádio Nacional de Ombaka",
+      "broadcaster": "Zsports",
+      "status": "finished",
+      "scheduleStatus": "official",
+      "id": "m27-1-5"
+    }
+  ],
+  "eventos": [
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 28,
+      "minuteLabel": "28",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": 10,
+      "player": "Maranata Domingos Sicuba Vunge",
+      "detail": "Rasteirou o adversário"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 37,
+      "minuteLabel": "37",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": 6,
+      "player": "Elindo Wanga Paulino",
+      "detail": "Rasteirou o adversário"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 45,
+      "minuteLabel": "45",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": 33,
+      "player": "Ilídio Panda",
+      "detail": "",
+      "playerOut": "Ivan Cavaleiro"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 45,
+      "minuteLabel": "45",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": 7,
+      "player": "Neymar",
+      "detail": "",
+      "playerOut": "Maranata"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 53,
+      "minuteLabel": "53",
+      "type": "yellow",
+      "team": "away",
+      "jerseyNumber": 12,
+      "player": "Deybi Aldair Flores Flores",
+      "detail": "Rasteirou o adversário"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 60,
+      "minuteLabel": "60",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": 27,
+      "player": "António da Silva Chitanga Hossi",
+      "detail": "",
+      "playerOut": "Eddie Afonso"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 60,
+      "minuteLabel": "60",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": 11,
+      "player": "Hélder Costa",
+      "detail": "",
+      "playerOut": "Pedro Aparício"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 63,
+      "minuteLabel": "63",
+      "type": "yellow",
+      "team": "away",
+      "jerseyNumber": 27,
+      "player": "António da Silva Chitanga Hossi",
+      "detail": "Protestou a decisão do árbitro"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 65,
+      "minuteLabel": "65",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": 34,
+      "player": "Nicon",
+      "detail": "",
+      "playerOut": "Joca"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 65,
+      "minuteLabel": "65",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": 17,
+      "player": "Jepson",
+      "detail": "",
+      "playerOut": "Mussá"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 73,
+      "minuteLabel": "73",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": 29,
+      "player": "Depú",
+      "detail": "",
+      "playerOut": "Tiago Azulão"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 73,
+      "minuteLabel": "73",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": 23,
+      "player": "Tiago Reis",
+      "detail": "",
+      "playerOut": "Jonathan Toro"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 73,
+      "minuteLabel": "73",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": 33,
+      "player": "Zonzo",
+      "detail": "",
+      "playerOut": "Magrinho"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 76,
+      "minuteLabel": "76",
+      "type": "yellow",
+      "team": "away",
+      "jerseyNumber": 13,
+      "player": "Bernardo Silva da Conceição",
+      "detail": "Agarrou o adversário"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 86,
+      "minuteLabel": "86",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": 16,
+      "player": "Domingos Ximba",
+      "detail": "Protestar a decisão do árbitro"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "minute": 95,
+      "minuteLabel": "90+5",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": 28,
+      "player": "João Ambrósio",
+      "detail": "Agarrou o adversário"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 14,
+      "minuteLabel": "14",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": null,
+      "player": "Marcos",
+      "detail": ""
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 27,
+      "minuteLabel": "27",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": null,
+      "player": "Brás",
+      "detail": "",
+      "playerOut": "José"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 34,
+      "minuteLabel": "34",
+      "type": "goal",
+      "team": "away",
+      "jerseyNumber": 27,
+      "player": "Cuxixima",
+      "detail": "0-1"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 55,
+      "minuteLabel": "55",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": null,
+      "player": "António",
+      "detail": ""
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 56,
+      "minuteLabel": "56",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": null,
+      "player": "Cornélio",
+      "detail": "",
+      "playerOut": "Gedeon"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 66,
+      "minuteLabel": "66",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": null,
+      "player": "Costa",
+      "detail": "",
+      "playerOut": "Júlio"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 70,
+      "minuteLabel": "70",
+      "type": "goal",
+      "team": "away",
+      "jerseyNumber": 17,
+      "player": "Pedro",
+      "detail": "0-2"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 70,
+      "minuteLabel": "70",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": null,
+      "player": "Zidane",
+      "detail": "",
+      "playerOut": "Pedro"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 73,
+      "minuteLabel": "73",
+      "type": "goal",
+      "team": "away",
+      "jerseyNumber": 10,
+      "player": "Andeloy",
+      "detail": "0-3"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 76,
+      "minuteLabel": "76",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": null,
+      "player": "Miro",
+      "detail": "",
+      "playerOut": "Chimito"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 76,
+      "minuteLabel": "76",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": null,
+      "player": "Catraio",
+      "detail": "",
+      "playerOut": "Maninho"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "minute": 85,
+      "minuteLabel": "85",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": null,
+      "player": "Jamanta",
+      "detail": "",
+      "playerOut": "Andeloy"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": null,
+      "minuteLabel": null,
+      "type": "goal",
+      "team": "home",
+      "jerseyNumber": 8,
+      "player": "Ju Cabral",
+      "detail": ""
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": null,
+      "minuteLabel": null,
+      "type": "goal",
+      "team": "home",
+      "jerseyNumber": 23,
+      "player": "Lito",
+      "detail": ""
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": null,
+      "minuteLabel": null,
+      "type": "goal",
+      "team": "home",
+      "jerseyNumber": 28,
+      "player": "Gladilson",
+      "detail": ""
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 6,
+      "minuteLabel": "6",
+      "type": "red",
+      "team": "away",
+      "jerseyNumber": 32,
+      "player": "Hahilo Sapalo Alberto",
+      "detail": "Rasteirar o adversário"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 45,
+      "minuteLabel": "45",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": null,
+      "player": "Higino",
+      "detail": "",
+      "playerOut": "Cueta"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 45,
+      "minuteLabel": "45",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": null,
+      "player": "Tony",
+      "detail": "",
+      "playerOut": "Bani"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 45,
+      "minuteLabel": "45",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": null,
+      "player": "Melono",
+      "detail": "",
+      "playerOut": "Dabanda"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 45,
+      "minuteLabel": "45",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": null,
+      "player": "Guilherme",
+      "detail": "",
+      "playerOut": "Cahilo"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 48,
+      "minuteLabel": "48",
+      "type": "warning",
+      "team": "away",
+      "jerseyNumber": 5,
+      "player": "Miguel Anselmo Basilio Daniel",
+      "detail": "Não respeitar a decisão do árbitro"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 49,
+      "minuteLabel": "49",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": 8,
+      "player": "Eric Manuel Gouveia Cabral",
+      "detail": "Tentar enganar o árbitro na área de penálte"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 51,
+      "minuteLabel": "51",
+      "type": "warning",
+      "team": "away",
+      "jerseyNumber": 16,
+      "player": "Filipe Pimpao",
+      "detail": "Jogar à bola depois do árbitro apitar"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 60,
+      "minuteLabel": "60",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": 28,
+      "player": "Gladilson",
+      "detail": "",
+      "playerOut": "Lito"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 69,
+      "minuteLabel": "69",
+      "type": "sub",
+      "team": "away",
+      "jerseyNumber": null,
+      "player": "Silvano",
+      "detail": "",
+      "playerOut": "Pimpão"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 75,
+      "minuteLabel": "75",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": null,
+      "player": "Tiago",
+      "detail": "",
+      "playerOut": "Ju Cabral"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 86,
+      "minuteLabel": "86",
+      "type": "red",
+      "team": "home",
+      "jerseyNumber": 27,
+      "player": "Oliveira Antonio",
+      "detail": "Rasteirar o adversário"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "minute": 88,
+      "minuteLabel": "88",
+      "type": "sub",
+      "team": "home",
+      "jerseyNumber": null,
+      "player": "Eduwine",
+      "detail": "",
+      "playerOut": "Jorginho"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "dago",
+      "awayTeamId": "desphuila",
+      "minute": 30,
+      "minuteLabel": "30",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": 17,
+      "player": "Samu Tshibamba Dago",
+      "detail": ""
+    },
+    {
+      "round": 1,
+      "homeTeamId": "dago",
+      "awayTeamId": "desphuila",
+      "minute": 40,
+      "minuteLabel": "40",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": 3,
+      "player": "Simao Dianzenza",
+      "detail": ""
+    },
+    {
+      "round": 1,
+      "homeTeamId": "dago",
+      "awayTeamId": "desphuila",
+      "minute": 52,
+      "minuteLabel": "52",
+      "type": "yellow",
+      "team": "away",
+      "jerseyNumber": 13,
+      "player": "Lucas Elias Antonio Paulo",
+      "detail": ""
+    },
+    {
+      "round": 1,
+      "homeTeamId": "dago",
+      "awayTeamId": "desphuila",
+      "minute": 87,
+      "minuteLabel": "87",
+      "type": "yellow",
+      "team": "home",
+      "jerseyNumber": 15,
+      "player": "Venancio Landu Kukula",
+      "detail": ""
+    },
+    {
+      "round": 1,
+      "homeTeamId": "dago",
+      "awayTeamId": "desphuila",
+      "minute": 92,
+      "minuteLabel": "90+2",
+      "type": "goal",
+      "team": "home",
+      "jerseyNumber": 9,
+      "player": "Dagó Tshibamba",
+      "detail": "1-0"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "fcluanda",
+      "awayTeamId": "caala",
+      "minute": 40,
+      "minuteLabel": "40",
+      "type": "yellow",
+      "team": "away",
+      "jerseyNumber": 23,
+      "player": "Lisneu Emanuel Neto Simao",
+      "detail": "Rasteirou o adversário"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "saosalvador",
+      "awayTeamId": "interclube",
+      "minute": 70,
+      "minuteLabel": "70",
+      "type": "goal",
+      "team": "away",
+      "jerseyNumber": 8,
+      "player": "Além",
+      "detail": "0-1"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "primeiromaio",
+      "awayTeamId": "kabuscorp",
+      "minute": 23,
+      "minuteLabel": "23",
+      "type": "goal",
+      "team": "home",
+      "jerseyNumber": 10,
+      "player": "Deninho",
+      "detail": "1-0"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "primeiromaio",
+      "awayTeamId": "kabuscorp",
+      "minute": 65,
+      "minuteLabel": "65",
+      "type": "goal",
+      "team": "away",
+      "jerseyNumber": 11,
+      "player": "Benarfa",
+      "detail": "1-1"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "wiliete",
+      "awayTeamId": "lobito",
+      "minute": 11,
+      "minuteLabel": "11",
+      "type": "goal",
+      "team": "home",
+      "jerseyNumber": 10,
+      "player": "Kabelo Dlamini",
+      "detail": "1-0"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "wiliete",
+      "awayTeamId": "lobito",
+      "minute": 47,
+      "minuteLabel": "45+2",
+      "type": "goal",
+      "team": "home",
+      "jerseyNumber": 7,
+      "player": "Valter Monteiro",
+      "detail": "2-0"
+    }
+  ],
+  "estatisticas": [
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "home": {
+        "yellowCards": 4,
+        "redCards": 0
+      },
+      "away": {
+        "yellowCards": 3,
+        "redCards": 0
+      },
+      "keys": [
+        "yellowCards",
+        "redCards"
+      ]
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "home": {
+        "yellowCards": 2,
+        "redCards": 0
+      },
+      "away": {
+        "yellowCards": 0,
+        "redCards": 0
+      },
+      "keys": [
+        "yellowCards",
+        "redCards"
+      ]
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "home": {
+        "yellowCards": 1,
+        "redCards": 1
+      },
+      "away": {
+        "yellowCards": 0,
+        "redCards": 1
+      },
+      "keys": [
+        "yellowCards",
+        "redCards"
+      ]
+    },
+    {
+      "round": 1,
+      "homeTeamId": "dago",
+      "awayTeamId": "desphuila",
+      "home": {
+        "corners": 0,
+        "yellowCards": 3
+      },
+      "away": {
+        "corners": 1,
+        "yellowCards": 1
+      },
+      "keys": [
+        "corners",
+        "yellowCards"
+      ]
+    },
+    {
+      "round": 1,
+      "homeTeamId": "fcluanda",
+      "awayTeamId": "caala",
+      "home": {
+        "corners": 1,
+        "yellowCards": 0,
+        "redCards": 0
+      },
+      "away": {
+        "corners": 0,
+        "yellowCards": 1,
+        "redCards": 0
+      },
+      "keys": [
+        "corners",
+        "yellowCards",
+        "redCards"
+      ]
+    },
+    {
+      "round": 1,
+      "homeTeamId": "primeiromaio",
+      "awayTeamId": "kabuscorp",
+      "home": {
+        "corners": 1,
+        "yellowCards": 2
+      },
+      "away": {
+        "corners": 0,
+        "yellowCards": 4
+      },
+      "keys": [
+        "corners",
+        "yellowCards"
+      ]
+    },
+    {
+      "round": 1,
+      "homeTeamId": "wiliete",
+      "awayTeamId": "lobito",
+      "home": {
+        "corners": 0,
+        "yellowCards": 0
+      },
+      "away": {
+        "corners": 0,
+        "yellowCards": 1
+      },
+      "keys": [
+        "corners",
+        "yellowCards"
+      ]
+    }
+  ],
+  "arbitragem": [
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "referee": "Miguel Tchissingu Augusto Américo",
+      "assistants": [
+        "João Manuel Fula António",
+        "Nery Domingos Pereira Amador da Silva"
+      ],
+      "fourth": "Isaías Justino Camaxi"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "cabinda",
+      "awayTeamId": "libolo",
+      "referee": "Nelson João Milagre",
+      "assistants": [
+        "Manuel Daniel Coelho",
+        "Hélder João Milagre"
+      ],
+      "fourth": "Laurindo Feliciano Aureleo"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "bravos",
+      "awayTeamId": "sagrada",
+      "referee": "Sanda Mateus Miguel Kitu",
+      "assistants": [
+        "Natarino António Soares",
+        "Nelson Lutumba Quiala"
+      ],
+      "fourth": "Custódio Roque Lote"
+    },
+    {
+      "round": 1,
+      "homeTeamId": "dago",
+      "awayTeamId": "desphuila",
+      "referee": "Edilson Roberto Gomes André",
+      "assistants": [
+        "Manuel Luís Benguela",
+        "Joaquim Manuel Chiyo"
+      ],
+      "fourth": "Miguel Julião Mateus"
+    }
+  ],
+  "onzes": [
+    {
+      "round": 1,
+      "homeTeamId": "lundasul",
+      "awayTeamId": "petro",
+      "home": [
+        {
+          "number": 12,
+          "name": "Kacusso",
+          "position": "GK",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "Fredy",
+          "position": "DEF",
+          "isStarter": true
+        },
+        {
+          "number": 25,
+          "name": "Dieu",
+          "position": "DEF",
+          "isStarter": true
+        },
+        {
+          "number": 28,
+          "name": "Kibuata",
+          "position": "DEF",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "Platiny",
+          "position": "MID",
+          "isStarter": true
+        },
+        {
+          "number": 8,
+          "name": "Vado",
+          "position": "MID",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "Maranata",
+          "position": "MID",
+          "isStarter": true
+        },
+        {
+          "number": 11,
+          "name": "Magrinho",
+          "position": "FWD",
+          "isStarter": true
+        },
+        {
+          "number": 19,
+          "name": "Manucho",
+          "position": "FWD",
+          "isStarter": true
+        },
+        {
+          "number": 20,
+          "name": "Mussá",
+          "position": "FWD",
+          "isStarter": true
+        },
+        {
+          "number": 27,
+          "name": "Joca",
+          "position": "FWD",
+          "isStarter": true
+        },
+        {
+          "number": 2,
+          "name": "Nonó",
+          "position": "DEF",
+          "isStarter": false
+        },
+        {
+          "number": 4,
+          "name": "Yuri",
+          "position": "DEF",
+          "isStarter": false
+        },
+        {
+          "number": 7,
+          "name": "Neymar",
+          "position": "FWD",
+          "isStarter": false
+        },
+        {
+          "number": 16,
+          "name": "Ximba",
+          "position": "MID",
+          "isStarter": false
+        },
+        {
+          "number": 17,
+          "name": "Jepson",
+          "position": "FWD",
+          "isStarter": false
+        },
+        {
+          "number": 23,
+          "name": "Mongadié",
+          "position": "DEF",
+          "isStarter": false
+        },
+        {
+          "number": 26,
+          "name": "Sozito",
+          "position": "DEF",
+          "isStarter": false
+        },
+        {
+          "number": 33,
+          "name": "Zonzo",
+          "position": "MID",
+          "isStarter": false
+        },
+        {
+          "number": 34,
+          "name": "Nicon",
+          "position": "MID",
+          "isStarter": false
+        },
+        {
+          "number": 35,
+          "name": "Fuca",
+          "position": "FWD",
+          "isStarter": false
+        },
+        {
+          "number": 41,
+          "name": "Angola",
+          "position": "GK",
+          "isStarter": false
+        }
+      ],
+      "away": [
+        {
+          "number": 22,
+          "name": "Neblú",
+          "position": "GK",
+          "isStarter": true
+        },
+        {
+          "number": 4,
+          "name": "Rúben Adérito",
+          "position": "DEF",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "Léo Bolgado",
+          "position": "DEF",
+          "isStarter": true
+        },
+        {
+          "number": 13,
+          "name": "Berna",
+          "position": "DEF",
+          "isStarter": true
+        },
+        {
+          "number": 25,
+          "name": "Eddie Afonso",
+          "position": "DEF",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "Mário Balbúrdia",
+          "position": "MID",
+          "isStarter": true
+        },
+        {
+          "number": 8,
+          "name": "Jonathan Toro",
+          "position": "MID",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "Pedro Aparício",
+          "position": "MID",
+          "isStarter": true
+        },
+        {
+          "number": 12,
+          "name": "Deybi Flores",
+          "position": "MID",
+          "isStarter": true
+        },
+        {
+          "number": 7,
+          "name": "Ivan Cavaleiro",
+          "position": "FWD",
+          "isStarter": true
+        },
+        {
+          "number": 26,
+          "name": "Tiago Azulão",
+          "position": "FWD",
+          "isStarter": true
+        },
+        {
+          "number": 1,
+          "name": "Hugo Marques",
+          "position": "GK",
+          "isStarter": false
+        },
+        {
+          "number": 2,
+          "name": "Núrio Fortuna",
+          "position": "DEF",
+          "isStarter": false
+        },
+        {
+          "number": 11,
+          "name": "Hélder Costa",
+          "position": "FWD",
+          "isStarter": false
+        },
+        {
+          "number": 18,
+          "name": "Vidinho",
+          "position": "DEF",
+          "isStarter": false
+        },
+        {
+          "number": 20,
+          "name": "Jorge Pereira",
+          "position": "MID",
+          "isStarter": false
+        },
+        {
+          "number": 23,
+          "name": "Tiago Reis",
+          "position": "FWD",
+          "isStarter": false
+        },
+        {
+          "number": 27,
+          "name": "António Hossi",
+          "position": "DEF",
+          "isStarter": false
+        },
+        {
+          "number": 29,
+          "name": "Depú",
+          "position": "FWD",
+          "isStarter": false
+        },
+        {
+          "number": 33,
+          "name": "Ilídio Panda",
+          "position": "FWD",
+          "isStarter": false
+        }
+      ]
+    }
+  ],
+  "avisos": []
+}
