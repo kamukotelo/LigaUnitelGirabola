@@ -180,6 +180,7 @@ function EventIcon({ type }: { type: string }) {
 
 function SummaryTab({ detail }: { detail: MatchDetail }) {
   const { events, manOfTheMatch, attendance, referee, match } = detail;
+  const publishedManOfTheMatch = match.status === 'finished' ? manOfTheMatch : undefined;
   const hasOfficialDate = isMatchDateOfficial(match);
   const officials = getMatchOfficials(match);
   const broadcaster = getMatchBroadcast(match);
@@ -221,8 +222,8 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
       </AnimatedCard>
 
       {/* Destaque + informações */}
-      <div className={`grid grid-cols-1 gap-6 ${manOfTheMatch ? 'sm:grid-cols-2' : ''}`}>
-        {manOfTheMatch && (
+      <div className={`grid grid-cols-1 gap-6 ${publishedManOfTheMatch ? 'sm:grid-cols-2' : ''}`}>
+        {publishedManOfTheMatch && (
         <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
           <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
             <Trophy size={16} className="text-primary" /> Homem do Jogo
@@ -230,18 +231,18 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
           <div className="flex items-center gap-4">
             <div
               className="font-display text-3xl font-black w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
-              style={{ color: ratingColor(manOfTheMatch.rating), background: `${ratingColor(manOfTheMatch.rating)}12`, border: `1px solid ${ratingColor(manOfTheMatch.rating)}40` }}
+              style={{ color: ratingColor(publishedManOfTheMatch.rating), background: `${ratingColor(publishedManOfTheMatch.rating)}12`, border: `1px solid ${ratingColor(publishedManOfTheMatch.rating)}40` }}
             >
-              {manOfTheMatch.rating.toFixed(1)}
+              {publishedManOfTheMatch.rating.toFixed(1)}
             </div>
             <div>
               <p className="font-display text-foreground uppercase text-lg leading-tight">
-                {manOfTheMatch.playerId ? (
-                  <Link href={`/players/${manOfTheMatch.playerId}`} className="hover:text-accent transition-colors">{manOfTheMatch.name}</Link>
-                ) : manOfTheMatch.name}
+                {publishedManOfTheMatch.playerId ? (
+                  <Link href={`/players/${publishedManOfTheMatch.playerId}`} className="hover:text-accent transition-colors">{publishedManOfTheMatch.name}</Link>
+                ) : publishedManOfTheMatch.name}
               </p>
               <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                {manOfTheMatch.team === 'home' ? match.homeTeam : match.awayTeam}
+                {publishedManOfTheMatch.team === 'home' ? match.homeTeam : match.awayTeam}
               </p>
             </div>
           </div>

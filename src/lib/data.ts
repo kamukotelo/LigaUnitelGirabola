@@ -3109,7 +3109,7 @@ export function getMatchDetail(match: Match): MatchDetail {
   // indicação explícita, e nunca recebem um minuto inventado.
   events.sort((a, b) => (a.minute ?? -1) - (b.minute ?? -1));
 
-  const allStarters = publishedEvents
+  const allStarters = match.status !== 'finished' || publishedEvents
     ? []
     : [...homeLineup.filter(p => p.isStarter && p.rating > 0).map(p => ({ ...p, team: 'home' as const })), ...awayLineup.filter(p => p.isStarter && p.rating > 0).map(p => ({ ...p, team: 'away' as const }))];
   const motmSrc = allStarters.sort((a, b) => b.rating - a.rating)[0];
@@ -3515,13 +3515,12 @@ export interface VideoHighlight {
 export const videoHighlightsMock: VideoHighlight[] = [
   {
     id: 'live-1',
-    title: 'LIGA UNITEL GIRABOLA 2025/26: Petro de Luanda vs 1º de Agosto [DIRECTO]',
-    duration: 'LIVE',
-    views: '12.4K a assistir',
-    category: 'Transmissão Oficial',
+    title: 'Arquivo: Petro de Luanda vs 1.º de Agosto — Girabola 2025/26',
+    duration: 'Arquivo 2025/26',
+    views: 'Transmissão arquivada',
+    category: 'Arquivo',
     thumbnail: '/fields/hud-view.jpg',
     videoUrl: 'https://www.youtube.com/embed/59J6pB1Q1Fk?autoplay=1',
-    isLive: true,
   },
   {
     id: 'v1',

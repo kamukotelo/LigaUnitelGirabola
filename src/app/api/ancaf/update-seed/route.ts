@@ -108,16 +108,9 @@ function normaliseCalendar(matches: unknown) {
     throw new Error(`O clássico Petro de Luanda–1.º de Agosto não pode ocorrer nas jornadas reservadas: ${classicRounds.join(' e ')}`);
   }
 
-  for (let round = 1; round <= 30; round++) {
-    const occupiedStadiums = new Set<string>();
-    for (const match of normalised.filter((item) => item.round === round)) {
-      if (occupiedStadiums.has(match.stadium)) {
-        throw new Error(`Conflito de estádio partilhado na Jornada ${round}: ${match.stadium}`);
-      }
-      occupiedStadiums.add(match.stadium);
-    }
-  }
-
+  // A receção contém apenas a data, sem hora nem alterações excecionais de
+  // recinto. Por isso, conflitos de estádio são validados na programação
+  // detalhada, quando esses dois dados já existem, e não nesta fase.
   for (const teamId of portalTeams.keys()) {
     const sequence = normalised
       .filter((match) => match.homeTeamId === teamId || match.awayTeamId === teamId)
