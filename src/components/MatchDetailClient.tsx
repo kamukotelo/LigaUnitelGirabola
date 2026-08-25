@@ -193,7 +193,9 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
                 key={i}
                 className={`flex items-center gap-3 py-2.5 px-3 rounded-lg ${e.team === 'home' ? 'flex-row' : 'flex-row-reverse text-right'}`}
               >
-                <span className="font-mono text-[11px] text-zinc-500 w-9 flex-shrink-0">{e.minute === undefined ? '—' : `${e.minute}'`}</span>
+                {e.minute !== undefined && (
+                  <span className="font-mono text-[11px] text-zinc-500 w-9 flex-shrink-0">{`${e.minute}'`}</span>
+                )}
                 <span className="flex-shrink-0"><EventIcon type={e.type} /></span>
                 <div className={`flex flex-col ${e.team === 'away' ? 'items-end' : ''}`}>
                   <span className="font-mono text-xs text-foreground">

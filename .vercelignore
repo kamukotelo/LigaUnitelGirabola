@@ -1,0 +1,8 @@
+/tmp/
+/outputs/
+/scripts/
+/public/templates/ultima_rodada_importada.json
+/*.docx
+/*.pdf
+/*.pptx
+/~$*

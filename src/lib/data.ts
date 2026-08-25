@@ -380,20 +380,20 @@ export interface NewsArticle {
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Vermelho', coach: 'João de Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#D21515'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B'] }, { label: 'Secundário', colors: ['#000000'] }] },
   { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beto Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }] },
-  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#FFFFFF'] }] },
+  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1º de Agosto', shortName: 'CDA', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#FFFFFF'] }] },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho', coach: 'Paulo Torres', president: 'Lucas Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515'], kits: [{ label: 'Principal', colors: ['#D21515'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
-  { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Sandro Mendes', president: 'Agrione Manuel', nickname: 'MAQUISARDES', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }] },
-  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leo Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
-  { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'GDS', city: 'Dundo', stadium: 'Estádio do Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Branco', coach: 'Francisco Moniz', president: 'José Muacábalo', nickname: 'Diamantíferos', colorsHex: ['#008751', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#008751', '#FFFFFF'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }] },
+  { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'FCB', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Sandro Mendes', president: 'Agrione Manuel', nickname: 'Maquisardes', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }] },
+  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Léo Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
+  { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'GDS', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Branco', coach: 'Francisco Moniz', president: 'José Muacabalo', nickname: 'Diamantíferos', colorsHex: ['#008751', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#008751', '#FFFFFF'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }] },
   { id: 'interclube', name: 'GD Interclube', officialName: 'Grupo Desportivo Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Divaldo Alves', president: 'José Canelas', nickname: 'Polícias', website: 'https://www.interclube.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
-  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio do Sagrada Esperança', stadiumCapacity: 8000, founded: 2020, colors: 'Azul e Branco', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
+  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 7000, founded: 2020, colors: 'Azul e Branco', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
   { id: 'libolo', name: 'Recreativo do Libolo', officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Osvaldo Roque', president: 'João Pereira', nickname: 'Libolenses', colorsHex: ['#FF6600', '#00529B'], kits: [{ label: 'Principal', colors: ['#FF6600', '#00529B'] }, { label: 'Secundário', colors: ['#00529B', '#FF6600'] }] },
-  { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Amarelo', coach: 'Silvestre Pelé', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#F9C304'], kits: [{ label: 'Principal', colors: ['#F9C304'] }, { label: 'Secundário', colors: ['#000000'] }] },
-  { id: 'saosalvador', name: 'São Salvador', officialName: 'São Salvador do Kongo Futebol Clube', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Vermelho e Branco', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#808080'] }] },
+  { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 5000, founded: 1970, colors: 'Amarelo', coach: 'Silvestre Pelé', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#F9C304'], kits: [{ label: 'Principal', colors: ['#F9C304'] }, { label: 'Secundário', colors: ['#000000'] }] },
+  { id: 'saosalvador', name: 'São Salvador', officialName: 'Clube Desportivo São Salvador do Kongo', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Vermelho e Branco', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#808080'] }] },
   { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Vici António', stadiumCapacity: 25000, founded: 2005, colors: 'Azul e Branco', coach: 'Nzola Seca', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
-  { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube 1º de Maio de Benguela', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 6000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
-  { id: 'caala', name: 'CR Caála', officialName: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio dos Mártires da Canhala', stadiumCapacity: 12000, founded: 1944, colors: 'Azul e Branco', coach: 'Artur Correia', president: 'António Mosquito', nickname: 'Caalenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
-  { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] }
+  { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal', stadiumCapacity: 6000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }] },
+  { id: 'caala', name: 'CR Caála', officialName: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Caála', stadium: 'Estádio Daniel Lutucuta', stadiumCapacity: 12000, founded: 1944, colors: 'Azul e Branco', coach: 'Artur Correia', president: 'António Mosquito', nickname: 'Caalenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] },
+  { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 10000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', president: 'Paulino Júnior', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }] }
 ];
 
 // ── 2. RANKING-SEMENTE ─────────────────────────────────────────────
@@ -2855,16 +2855,16 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
   };
 }
 
-/** Ocorrências confirmadas do jogo inaugural, sem dados demonstrativos. */
+/** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   if (match.id === 'm27-1-1') return [
-    { minute: 14, type: 'red', team: 'away', player: 'Jogador do CR Caála por confirmar' },
+    { minute: 14, type: 'red', team: 'away', player: 'Jogador do CR Caála', detail: 'Cartão Vermelho direto' },
   ];
 
   if (match.id === 'm27-1-2') return [
-    { type: 'goal', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos', detail: 'Minuto por confirmar' },
-    { type: 'goal', team: 'home', player: 'Lito', playerId: 'lito-bravos', detail: 'Minuto por confirmar' },
-    { type: 'goal', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos', detail: 'Minuto por confirmar' },
+    { type: 'goal', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos' },
+    { type: 'goal', team: 'home', player: 'Lito', playerId: 'lito-bravos' },
+    { type: 'goal', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos' },
     { minute: 6, type: 'yellow', team: 'away', player: 'Cahilo', playerId: 'cahilo-sagrada' },
     { minute: 45, type: 'sub', team: 'home', player: 'Higino', playerId: 'higino-bravos', playerOut: 'Cueta' },
     { minute: 45, type: 'sub', team: 'home', player: 'Tony', playerId: 'tony-bravos', playerOut: 'Bani' },
@@ -2881,53 +2881,58 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-1-3') return [
-    { minute: 92, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: "90'+2" },
+    { minute: 92, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: "90'+2 (1-0)" },
+  ];
+
+  if (match.id === 'm27-1-4') return [
+    { minute: 28, type: 'yellow', team: 'home', player: 'Maranata Domingos Sicuba Vunge', playerId: 'maranata', detail: 'Rasteirou o adversário' },
+    { minute: 37, type: 'yellow', team: 'home', player: 'Elindo Wanga Paulino', playerId: 'platini', detail: 'Rasteirou o adversário' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Ilídio Panda', playerId: 'ilidio-panda', playerOut: 'Ivan Cavaleiro' },
+    { minute: 45, type: 'sub', team: 'home', player: 'Neymar', playerId: 'neymar-lunda-sul', playerOut: 'Maranata' },
+    { minute: 53, type: 'yellow', team: 'away', player: 'Deybi Aldair Flores Flores', playerId: 'deybi-flores', detail: 'Rasteirou o adversário' },
+    { minute: 60, type: 'sub', team: 'away', player: 'António da Silva Chitanga Hossi', playerId: 'antonio-hossi', playerOut: 'Eddie Afonso' },
+    { minute: 60, type: 'sub', team: 'away', player: 'Hélder Costa', playerId: 'helder-costa', playerOut: 'Pedro Aparício' },
+    { minute: 63, type: 'yellow', team: 'away', player: 'António da Silva Chitanga Hossi', playerId: 'antonio-hossi', detail: 'Protestou a decisão do árbitro' },
+    { minute: 65, type: 'sub', team: 'home', player: 'Nicon', playerId: 'nicon', playerOut: 'Joca' },
+    { minute: 65, type: 'sub', team: 'home', player: 'Jepson', playerId: 'jepson', playerOut: 'Mussá' },
+    { minute: 73, type: 'sub', team: 'away', player: 'Depú', playerId: 'depu', playerOut: 'Tiago Azulão' },
+    { minute: 73, type: 'sub', team: 'away', player: 'Tiago Reis', playerId: 'tiago-reis', playerOut: 'Jonathan Toro' },
+    { minute: 73, type: 'sub', team: 'home', player: 'Zonzo', playerId: 'zonzo', playerOut: 'Magrinho' },
+    { minute: 76, type: 'yellow', team: 'away', player: 'Bernardo Silva da Conceição', playerId: 'berna', detail: 'Agarrou o adversário' },
+    { minute: 86, type: 'yellow', team: 'home', player: 'Domingos Ximba', playerId: 'ximba', detail: 'Protestar a decisão do árbitro' },
+    { minute: 95, type: 'yellow', team: 'home', player: 'João Ambrósio', playerId: 'kibuata', detail: "90'+5 - Agarrou o adversário" },
   ];
 
   if (match.id === 'm27-1-5') return [
-    { minute: 11, type: 'goal', team: 'home', player: 'Kabelo Dlamini', playerId: 'kabelo-dlamini' },
-    { minute: 47, type: 'goal', team: 'home', player: 'Valter Monteiro', playerId: 'valter-monteiro', detail: "45'+2" },
+    { minute: 11, type: 'goal', team: 'home', player: 'Kabelo Dlamini', playerId: 'kabelo-dlamini', detail: '1-0' },
+    { minute: 47, type: 'goal', team: 'home', player: 'Valter Monteiro', playerId: 'valter-monteiro', detail: "45'+2 (2-0)" },
   ];
 
   if (match.id === 'm27-1-6') return [
-    { minute: 23, type: 'goal', team: 'home', player: 'Marcador por confirmar' },
-    { minute: 65, type: 'goal', team: 'away', player: 'Marcador por confirmar' },
+    { minute: 23, type: 'goal', team: 'home', player: 'Deninho', playerId: 'deninho-maio', detail: '1-0' },
+    { minute: 65, type: 'goal', team: 'away', player: 'Benarfa', playerId: 'benarfa-kabuscorp', detail: '1-1' },
   ];
 
   if (match.id === 'm27-1-7') return [
     { minute: 14, type: 'yellow', team: 'home', player: 'Marcos', playerId: 'marcos-cabinda' },
     { minute: 27, type: 'sub', team: 'home', player: 'Brás', playerId: 'bras-cabinda', playerOut: 'José' },
-    { minute: 34, type: 'goal', team: 'away', player: 'Cuxixima', playerId: 'cuxixima-libolo' },
+    { minute: 34, type: 'goal', team: 'away', player: 'Cuxixima', playerId: 'cuxixima-libolo', detail: '0-1' },
     { minute: 55, type: 'yellow', team: 'home', player: 'António', playerId: 'antonio-cabinda' },
     { minute: 56, type: 'sub', team: 'home', player: 'Cornélio', playerId: 'cornelio-cabinda', playerOut: 'Gedeon' },
     { minute: 66, type: 'sub', team: 'home', player: 'Costa', playerId: 'costa-cabinda', playerOut: 'Júlio' },
-    { minute: 70, type: 'goal', team: 'away', player: 'Pedro', playerId: 'pedro-libolo' },
+    { minute: 70, type: 'goal', team: 'away', player: 'Pedro', playerId: 'pedro-libolo', detail: '0-2' },
     { minute: 70, type: 'sub', team: 'away', player: 'Zidane', playerId: 'zidane-libolo', playerOut: 'Pedro' },
-    { minute: 73, type: 'goal', team: 'away', player: 'Andeloy', playerId: 'andeloy-libolo' },
+    { minute: 73, type: 'goal', team: 'away', player: 'Andeloy', playerId: 'andeloy-libolo', detail: '0-3' },
     { minute: 76, type: 'sub', team: 'away', player: 'Miro', playerId: 'miro-libolo', playerOut: 'Chimito' },
     { minute: 76, type: 'sub', team: 'away', player: 'Catraio', playerId: 'catraio-libolo', playerOut: 'Maninho' },
     { minute: 85, type: 'sub', team: 'away', player: 'Jamanta', playerId: 'jamanta-libolo', playerOut: 'Andeloy' },
   ];
 
   if (match.id === 'm27-1-8') return [
-    { minute: 70, type: 'goal', team: 'away', player: 'Além', playerId: 'alem-interclube' },
+    { minute: 70, type: 'goal', team: 'away', player: 'Além', playerId: 'alem-interclube', detail: '0-1' },
   ];
 
-  if (match.id !== 'm27-1-4') return undefined;
-  return [
-    { minute: 45, type: 'sub', team: 'away', player: 'Ilídio Panda', playerId: 'ilidio-panda', playerOut: 'Ivan Cavaleiro' },
-    { minute: 45, type: 'sub', team: 'home', player: 'Neymar', playerId: 'neymar-lunda-sul', playerOut: 'Maranata' },
-    { minute: 53, type: 'yellow', team: 'away', player: 'Deybi Flores', playerId: 'deybi-flores' },
-    { minute: 60, type: 'sub', team: 'away', player: 'António Hossi', playerId: 'antonio-hossi', playerOut: 'Eddie Afonso' },
-    { minute: 60, type: 'sub', team: 'away', player: 'Hélder Costa', playerId: 'helder-costa', playerOut: 'Pedro Aparício' },
-    { minute: 63, type: 'yellow', team: 'away', player: 'António Hossi', playerId: 'antonio-hossi' },
-    { minute: 65, type: 'sub', team: 'home', player: 'Nicon', playerId: 'nicon', playerOut: 'Joca' },
-    { minute: 65, type: 'sub', team: 'home', player: 'Jepson', playerId: 'jepson', playerOut: 'Mussá' },
-    { minute: 73, type: 'sub', team: 'away', player: 'Depú', playerId: 'depu', playerOut: 'Tiago Azulão' },
-    { minute: 73, type: 'sub', team: 'away', player: 'Tiago Reis', playerId: 'tiago-reis', playerOut: 'Jonathan Toro' },
-    { minute: 73, type: 'sub', team: 'home', player: 'Zonzo', playerId: 'zonzo', playerOut: 'Magrinho' },
-    { minute: 76, type: 'yellow', team: 'away', player: 'Berna', playerId: 'berna' },
-  ];
+  return undefined;
 }
 
 const EMPTY_MATCH_STATS: MatchTeamStats = {
@@ -2955,7 +2960,7 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-1-1': { home: { corners: 1, yellowCards: 0, redCards: 0 }, away: { corners: 0, yellowCards: 1, redCards: 1 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-1-2': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-1-3': { home: { corners: 0, yellowCards: 3 }, away: { corners: 1, yellowCards: 1 }, keys: ['corners', 'yellowCards'] },
-  'm27-1-4': { home: { yellowCards: 0, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-1-4': { home: { yellowCards: 4, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-1-5': { home: { corners: 0, yellowCards: 0 }, away: { corners: 0, yellowCards: 1 }, keys: ['corners', 'yellowCards'] },
   'm27-1-6': { home: { corners: 1, yellowCards: 2 }, away: { corners: 0, yellowCards: 4 }, keys: ['corners', 'yellowCards'] },
   'm27-1-7': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 0, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
@@ -3289,6 +3294,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   sagrada: {
     officialName: 'Clube Desportivo Sagrada Esperança — Futebol',
+    president: 'José Muacabalo',
     socials: {
       facebook: 'https://www.facebook.com/sagradaesperancaln/',
       instagram: 'https://www.instagram.com/cdsagradaesperanca/',
@@ -3300,7 +3306,8 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   interclube: {
     officialName: 'Grupo Desportivo Interclube — Futebol',
-    website: 'http://interclube.co.ao/',
+    president: 'José Canelas',
+    website: 'https://www.interclube.co.ao/',
     socials: {
       facebook: 'https://www.facebook.com/InterclubeAngolaGDI/',
       instagram: 'https://www.instagram.com/interclube_angola/',
@@ -3312,6 +3319,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   libolo: {
     officialName: 'Clube Recreativo e Desportivo do Libolo — Futebol',
+    president: 'João Pereira',
     socials: {
       facebook: 'https://www.facebook.com/recreativo.libolo/',
       instagram: 'https://www.instagram.com/recreativo.libolo/',
@@ -3343,7 +3351,8 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     ],
   },
   bravos: {
-    officialName: 'Clube Desportivo Bravos do Maquis — Futebol',
+    officialName: 'Futebol Clube Bravos do Maquis — Futebol',
+    president: 'Agrione Manuel',
     website: 'https://bravosdomaquis.co.ao/',
     socials: {
       facebook: 'https://www.facebook.com/p/Bravos-do-Maquis-do-Moxico-100095414350444/',
@@ -3359,6 +3368,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   desphuila: {
     officialName: 'Clube Desportivo da Huíla — Futebol',
+    president: 'Lucas Ndjongo',
     socials: {
       facebook: 'https://www.facebook.com/CDhuila/',
       instagram: 'https://www.instagram.com/clubedesportivodahuila_/',
@@ -3366,6 +3376,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   kabuscorp: {
     officialName: 'Kabuscorp Sport Clube do Palanca — Futebol',
+    president: 'Bento Kangamba',
     socials: {
       facebook: 'https://www.facebook.com/kabuscorpscp',
       instagram: 'https://www.instagram.com/kabuscorp_sport_clube/',
@@ -3377,7 +3388,8 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
     ],
   },
   lundasul: {
-    officialName: 'Clube Desportivo da Lunda Sul — Futebol',
+    officialName: 'Clube Desportivo da Lunda-Sul — Futebol',
+    president: 'Miguel da Silva',
     socials: {
       facebook: 'https://www.facebook.com/p/Clube-Desportivo-Da-Lunda-Sul-100077348542835/',
       instagram: 'https://www.instagram.com/clubedesportivodalundasul/',
@@ -3385,13 +3397,15 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   lobito: {
     officialName: 'Académica Petróleos Clube do Lobito — Futebol',
+    president: 'Luís Borges',
     socials: {
       facebook: 'https://www.facebook.com/academicadolobito/',
       instagram: 'https://www.instagram.com/academicadolobito/',
     },
   },
   saosalvador: {
-    officialName: 'São Salvador do Kongo Futebol Clube — Futebol',
+    officialName: 'Clube Desportivo São Salvador do Kongo — Futebol',
+    president: 'Moniz Manuel',
     socials: {
       facebook: 'https://www.facebook.com/saosalvadordokongo',
       instagram: 'https://www.instagram.com/cdsaosalvador/',
@@ -3399,6 +3413,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   caala: {
     officialName: 'Clube Recreativo da Caála — Futebol',
+    president: 'António Mosquito',
     socials: {
       facebook: 'https://www.facebook.com/ClubeRecreativodaCaala',
     },
@@ -3413,6 +3428,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   primeiromaio: {
     officialName: 'Estrela Clube Primeiro de Maio — Futebol',
+    president: 'Tony Santos',
     socials: {
       facebook: 'https://www.facebook.com/EstrelaClub1oDeMaioDeBenguela',
     },
@@ -3425,6 +3441,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   fcluanda: {
     officialName: 'Futebol Clube de Luanda — Futebol',
+    president: 'Paulino Júnior',
     socials: {
       facebook: 'https://www.facebook.com/923669860835536',
       instagram: 'https://www.instagram.com/fcluanda_oficial/',

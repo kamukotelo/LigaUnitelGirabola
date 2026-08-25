@@ -675,6 +675,57 @@ function CalendarSection() {
     URL.revokeObjectURL(url);
   };
 
+  const handleImportJson = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const content = event.target?.result as string;
+        const parsed = JSON.parse(content);
+        if (parsed.jogos && Array.isArray(parsed.jogos)) {
+          // Formato consolidado do import_rodada_excel
+          const nextOverrides: Overrides = { ...ctl.draft };
+          for (const j of parsed.jogos) {
+            const match = seasonMatches.find(
+              (m) => m.round === j.round && (m.homeTeamId === j.homeTeamId || m.awayTeamId === j.awayTeamId)
+            );
+            if (match) {
+              nextOverrides[match.id] = {
+                homeScore: j.homeScore,
+                awayScore: j.awayScore,
+                score: j.score ?? `${j.homeScore}-${j.awayScore}`,
+                status: j.status ?? 'finished',
+                stadium: j.stadium || match.stadium,
+              };
+            }
+          }
+          ctl.setDraft(nextOverrides);
+          alert(`✅ ${parsed.jogos.length} jogos importados para o rascunho com sucesso! Clique em "Guardar alterações" para publicar.`);
+        } else if (Array.isArray(parsed)) {
+          const nextOverrides: Overrides = { ...ctl.draft };
+          for (const m of parsed) {
+            if (m.id) {
+              nextOverrides[m.id] = {
+                homeScore: m.homeScore,
+                awayScore: m.awayScore,
+                score: m.score,
+                status: m.status,
+                stadium: m.stadium,
+                date: m.date,
+              };
+            }
+          }
+          ctl.setDraft(nextOverrides);
+          alert(`✅ Jogos importados para o rascunho com sucesso! Clique em "Guardar alterações" para publicar.`);
+        }
+      } catch (err) {
+        alert('Erro ao processar ficheiro: ' + (err as Error).message);
+      }
+    };
+    reader.readAsText(file);
+  };
+
   return (
     <div className="space-y-6">
       <SectionHeader icon={CalendarDays} subtitle="DEFINIÇÃO_DO_CALENDÁRIO" title="Calendário da Plataforma" />
@@ -685,6 +736,44 @@ function CalendarSection() {
         onExport={exportCalendar}
         onResetAll={editedCount > 0 ? () => ctl.setDraft({}) : undefined}
       />
+
+      {/* Cartão de Automação e Modelos Excel / CSV */}
+      <Panel className="border-amber-500/20 bg-gradient-to-r from-amber-500/[0.04] to-blue-500/[0.04]">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <p className="font-display text-foreground uppercase tracking-wider text-sm flex items-center gap-2">
+              <FileText size={16} className="text-amber-400" />
+              Rotina de Inserção de Dados e Modelos Excel
+            </p>
+            <p className="text-[11px] font-mono text-zinc-500">
+              Descarregue a folha de cálculo padrão (.xlsx) para preenchimento de jogos e ocorrências ou importe os dados processados diretamente para o site.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href="/templates/girabola_modelo_rodada_em_branco.xlsx"
+              download
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 text-xs font-mono transition-colors"
+            >
+              <Download size={13} />
+              Modelo Excel (Em branco)
+            </a>
+            <a
+              href="/templates/girabola_modelo_rodada_exemplo.xlsx"
+              download
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 hover:bg-accent/20 text-accent border border-accent/30 text-xs font-mono transition-colors"
+            >
+              <Download size={13} />
+              Exemplo Preenchido (.xlsx)
+            </a>
+            <label className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-primary hover:bg-primary/90 text-white text-xs font-mono cursor-pointer transition-colors shadow-sm">
+              <Database size={13} />
+              Importar Dados
+              <input type="file" accept=".json,.csv" onChange={handleImportJson} className="hidden" />
+            </label>
+          </div>
+        </div>
+      </Panel>
 
       {/* Seletor de época */}
       <div className="flex flex-wrap items-center gap-2">
