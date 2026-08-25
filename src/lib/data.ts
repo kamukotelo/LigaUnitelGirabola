@@ -66,7 +66,7 @@ export interface Match {
 
 // Programação oficial confirmada das cinco primeiras jornadas. Mantida na
 // camada de dados para que calendário, início, hub, API e ficha de jogo sirvam
-// a mesma verdade publicada nos mapas oficiais atualizados em 23/08/2026.
+// a mesma verdade publicada nos mapas oficiais atualizados em 25/08/2026.
 export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 1, homeTeamId: 'fcluanda', awayTeamId: 'caala', homeTeam: 'FC Luanda', awayTeam: 'CR Caála', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio França N’dalu' },
   { round: 1, homeTeamId: 'bravos', awayTeamId: 'sagrada', homeTeam: 'Bravos do Maquis', awayTeam: 'Sagrada Esperança', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
@@ -77,10 +77,10 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 1, homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Vici António' },
   { round: 1, homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
   { round: 2, homeTeamId: 'caala', awayTeamId: 'wiliete', date: '2026-08-27T16:00:00+01:00' },
-  { round: 2, homeTeamId: 'kabuscorp', awayTeamId: 'lundasul', date: '2026-08-28T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 2, homeTeamId: 'kabuscorp', awayTeamId: 'lundasul', date: '2026-09-29T15:30:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
   { round: 2, homeTeamId: 'cabinda', awayTeamId: 'desphuila', date: '2026-08-26T15:00:00+01:00' },
   { round: 2, homeTeamId: 'sagrada', awayTeamId: 'saosalvador', date: '2026-08-29T15:00:00+01:00' },
-  { round: 2, homeTeamId: 'interclube', awayTeamId: 'fcluanda', date: '2026-08-29T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 2, homeTeamId: 'interclube', awayTeamId: 'fcluanda', date: '2026-08-28T15:30:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
   { round: 2, homeTeamId: 'libolo', awayTeamId: 'bravos', date: '2026-08-30T15:00:00+01:00' },
   { round: 2, homeTeamId: 'primeiromaio', awayTeamId: 'dago', date: '2026-08-27T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 2, homeTeamId: 'lobito', awayTeamId: 'petro', date: '2026-08-30T15:30:00+01:00', broadcaster: 'Zsports' },
