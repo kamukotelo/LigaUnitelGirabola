@@ -77,7 +77,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 1, homeTeamId: 'cabinda', awayTeamId: 'libolo', homeTeam: 'FC Cabinda', awayTeam: 'Recreativo do Libolo', date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Vici António' },
   { round: 1, homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
   { round: 2, homeTeamId: 'caala', awayTeamId: 'wiliete', date: '2026-08-27T16:00:00+01:00' },
-  { round: 2, homeTeamId: 'kabuscorp', awayTeamId: 'lundasul', date: '2026-09-29T15:30:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
+  { round: 2, homeTeamId: 'kabuscorp', awayTeamId: 'lundasul', date: '2026-08-29T15:30:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
   { round: 2, homeTeamId: 'cabinda', awayTeamId: 'desphuila', date: '2026-08-26T15:00:00+01:00' },
   { round: 2, homeTeamId: 'sagrada', awayTeamId: 'saosalvador', date: '2026-08-29T15:00:00+01:00' },
   { round: 2, homeTeamId: 'interclube', awayTeamId: 'fcluanda', date: '2026-08-28T15:30:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
