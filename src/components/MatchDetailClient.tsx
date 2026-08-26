@@ -332,6 +332,11 @@ export default function MatchDetailClient({
             <span className="flex items-center gap-1"><MapPin size={10} /> {match.stadium}</span>
             <span className="flex items-center gap-1 text-accent"><Tv size={10} /> {getMatchBroadcast(match)}</span>
           </span>
+          {isFinished && match.halfTimeScore && (
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+              Intervalo: {match.halfTimeScore}
+            </span>
+          )}
         </div>
 
         <div className="grid grid-cols-3 items-center gap-4 relative z-10">

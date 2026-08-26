@@ -52,6 +52,7 @@ export interface Match {
   homeScore: number;
   awayScore: number;
   score?: string; // e.g. "2-1" or undefined if scheduled
+  halfTimeScore?: string; // resultado oficial ao intervalo, quando recebido
   date: string;
   /** Só datas oficiais podem ser apresentadas ao público como confirmadas. */
   scheduleStatus?: 'official' | 'provisional';
@@ -80,7 +81,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 1, homeTeamId: 'saosalvador', awayTeamId: 'interclube', homeTeam: 'São Salvador', awayTeam: 'GD Interclube', date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
   { round: 2, homeTeamId: 'caala', awayTeamId: 'wiliete', date: '2026-08-27T16:00:00+01:00' },
   { round: 2, homeTeamId: 'kabuscorp', awayTeamId: 'lundasul', date: '2026-08-29T15:30:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
-  { round: 2, homeTeamId: 'cabinda', awayTeamId: 'desphuila', date: '2026-08-26T15:00:00+01:00' },
+  { round: 2, homeTeamId: 'cabinda', awayTeamId: 'desphuila', date: '2026-08-26T15:30:00+01:00' },
   { round: 2, homeTeamId: 'sagrada', awayTeamId: 'saosalvador', date: '2026-08-29T15:00:00+01:00' },
   { round: 2, homeTeamId: 'interclube', awayTeamId: 'fcluanda', date: '2026-08-28T15:30:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
   { round: 2, homeTeamId: 'libolo', awayTeamId: 'bravos', date: '2026-08-30T15:00:00+01:00' },
@@ -116,7 +117,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-25T04:35:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-26T18:00:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -172,6 +173,23 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     homeScore: 0,
     awayScore: 1,
     score: '0-1',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
+  'm27-2-3': {
+    date: '2026-08-26T15:30:00+01:00',
+    homeScore: 1,
+    awayScore: 2,
+    score: '1-2',
+    halfTimeScore: '1-1',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
+  'm27-3-7': {
+    homeScore: 3,
+    awayScore: 0,
+    score: '3-0',
+    halfTimeScore: '1-0',
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
@@ -253,6 +271,12 @@ export interface PlayerStats {
 
 /** Goleadores confirmados da época em curso, derivados das fichas encerradas. */
 export const CURRENT_SEASON_SCORERS = [
+  { id: 'ruben-aderito', name: 'Rúben Adérito', club: 'Petro de Luanda', teamId: 'petro', position: 'Defesa', goals: 1, appearances: 1 },
+  { id: 'tiago-azulao', name: 'Tiago Azulão', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'deybi-flores', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 1 },
+  { id: 'mira-huila', name: 'Mira', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'luyeye-cabinda', name: 'Luyeye', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'cabibi-huila', name: 'Cabibi', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'cuxixima-libolo', name: 'Cuxixima', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'pedro-libolo', name: 'Pedro', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'andeloy-libolo', name: 'Andeloy', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Médio', goals: 1, appearances: 1 },
@@ -2871,6 +2895,18 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  if (match.id === 'm27-2-3') return [
+    { minute: 25, type: 'goal', team: 'away', player: 'Mira', detail: '0-1' },
+    { minute: 47, type: 'goal', team: 'home', player: 'Luyeye', detail: "Grande penalidade · 45'+2 (1-1)" },
+    { minute: 81, type: 'goal', team: 'away', player: 'Cabibi', detail: '1-2' },
+  ];
+
+  if (match.id === 'm27-3-7') return [
+    { minute: 22, type: 'goal', team: 'home', player: 'Rúben Adérito', playerId: 'ruben-aderito', detail: '1-0' },
+    { minute: 84, type: 'goal', team: 'home', player: 'Tiago Azulão', playerId: 'tiago-azulao', detail: '2-0' },
+    { minute: 95, type: 'goal', team: 'home', player: 'Deybi Flores', playerId: 'deybi-flores', detail: "90'+5 (3-0)" },
+  ];
+
   if (match.id === 'm27-1-1') return [
     { minute: 40, type: 'yellow', team: 'away', player: 'Lisneu Emanuel Neto Simao', playerId: 'lisneu-caala', detail: 'Rasteirou o adversário' },
   ];
