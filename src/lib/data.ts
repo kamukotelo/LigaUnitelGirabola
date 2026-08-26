@@ -1840,6 +1840,24 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'comunicado-oficial-005-dce-ancaf-2026',
+    title: 'Minuto de silêncio em homenagem a Eduardo Agostinho',
+    category: 'Comunicado Oficial',
+    date: '26 ago. 2026',
+    isoDate: '2026-08-26',
+    summary: 'A ANCAF autoriza um minuto de silêncio no jogo entre o Estrela 1.º de Maio de Benguela e o CD 1.º de Agosto, em homenagem a Eduardo Agostinho.',
+    content: 'O Comunicado Oficial n.º 005-DCE/ANCAF/2026 autoriza o cumprimento de um minuto de silêncio em homenagem a Eduardo Agostinho, pelos seus contributos como jogador e treinador, no jogo entre o Estrela Clube 1.º de Maio de Benguela e o CD 1.º de Agosto, referente à segunda jornada da Liga Unitel Girabola 2026/2027.\n\nO documento é dirigido aos 16 clubes participantes, foi emitido em Luanda, a 26 de agosto de 2026, pela Direção de Competições da Associação Nacional dos Clubes Angolanos de Futebol, e é assinado pelo Director de Competições, Valódia dos Santos, e pelo Presidente da ANCAF, João Lusevi Kueno.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-08-26T21:13:40+01:00',
+    documentImages: [
+      '/comunicados/comunicado-005-2026/pagina-1.png',
+    ],
+    documentUrl: '/comunicados/comunicado-005-2026/comunicado-005-dce-ancaf-2026.pdf',
+  },
+  {
     id: 'comunicado-oficial-003-dce-ancaf-2026',
     title: 'Minuto de silêncio em homenagem a Augusto Kitadica "Docas"',
     category: 'Comunicado Oficial',
