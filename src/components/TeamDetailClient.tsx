@@ -208,6 +208,10 @@ export default function TeamDetailClient({
                   ['Apelido / Alcunha', team.nickname ?? team.shortName],
                   ['Treinador', team.coach],
                   ['Presidente', profile?.president ?? '—'],
+                  ['Estado dos dados', team.dataStatus ?? '—'],
+                  ['Atualização da base', team.dataUpdatedAt
+                    ? new Date(`${team.dataUpdatedAt}T12:00:00`).toLocaleDateString('pt-AO', { dateStyle: 'medium', timeZone: 'Africa/Luanda' })
+                    : '—'],
                 ] as [string, string][]).map(([label, value]) => (
                   <div key={label} className="flex items-center justify-between gap-3 py-2.5">
                     <dt className="text-[10px] text-zinc-500 uppercase tracking-wide">{label}</dt>
