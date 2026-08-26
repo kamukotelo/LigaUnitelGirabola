@@ -274,9 +274,9 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'ruben-aderito', name: 'Rúben Adérito', club: 'Petro de Luanda', teamId: 'petro', position: 'Defesa', goals: 1, appearances: 1 },
   { id: 'tiago-azulao', name: 'Tiago Azulão', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'deybi-flores', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 1 },
-  { id: 'mira-huila', name: 'Mira', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
-  { id: 'luyeye-cabinda', name: 'Luyeye', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
-  { id: 'cabibi-huila', name: 'Cabibi', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'milagre-simba-huila', name: 'Milagre Carlos Simba', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'luyeye-cabinda', name: 'Luyeye Tomás Tomás', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'leonardo-isola-huila', name: 'Leonardo Manuel Isola Ramos', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'cuxixima-libolo', name: 'Cuxixima', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'pedro-libolo', name: 'Pedro', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'andeloy-libolo', name: 'Andeloy', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Médio', goals: 1, appearances: 1 },
@@ -290,6 +290,17 @@ export const CURRENT_SEASON_SCORERS = [
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
+  'pedro-da-silva-cabinda': { yellow: 1, red: 0 },
+  'joao-cambo-cabinda': { yellow: 1, red: 0 },
+  'luyeye-cabinda': { yellow: 1, red: 0 },
+  'cipriano-cumba-cabinda': { yellow: 1, red: 0 },
+  'luciano-capoco-cabinda': { yellow: 1, red: 0 },
+  'ariclenis-cabinda': { yellow: 1, red: 0 },
+  'simao-gomes-cabinda': { yellow: 1, red: 0 },
+  'cristiano-cabinda': { yellow: 1, red: 0 },
+  'lucas-elias-huila': { yellow: 2, red: 0 },
+  'joao-milagre-huila': { yellow: 1, red: 0 },
+  'angelo-cangu-huila': { yellow: 1, red: 0 },
   'maranata': { yellow: 1, red: 0 },
   'platini': { yellow: 1, red: 0 },
   'ximba': { yellow: 1, red: 0 },
@@ -305,7 +316,6 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'dago-tshibamba': { yellow: 1, red: 0 },
   'simao-dianzenza': { yellow: 1, red: 0 },
   'venancio-dago': { yellow: 1, red: 0 },
-  'lucas-elias-huila': { yellow: 1, red: 0 },
   'lisneu-caala': { yellow: 1, red: 0 },
 };
 
@@ -1727,15 +1737,15 @@ const SAGRADA_SQUAD_2026_27: Player[] = [
 const CABINDA_SQUAD_2026_27: Player[] = [
   ['francisco-cabinda', 'Francisco', 'Guarda-redes', 12, 1],
   ['rodrigo-cabinda', 'Rodrigo', 'Defesa', 2, 1],
-  ['frederico-cabinda', 'Frederico', 'Defesa', 20, 1],
+  ['frederico-cabinda', 'Frederico Zau', 'Defesa', 20, 1],
   ['marcos-cabinda', 'Marcos', 'Defesa', 5, 1],
   ['antonio-cabinda', 'António', 'Defesa', 16, 1],
-  ['julio-cabinda', 'Júlio', 'Médio', 17, 1],
-  ['cristiano-cabinda', 'Cristiano', 'Médio', 8, 1],
+  ['julio-cabinda', 'Júlio Mavungo André', 'Médio', 17, 1],
+  ['cristiano-cabinda', 'Cristiano Malonda', 'Médio', 8, 1],
   ['fernando-cabinda', 'Fernando', 'Médio', 21, 1],
   ['gedeon-cabinda', 'Gedeon', 'Avançado', 3, 1],
   ['jose-cabinda', 'José', 'Avançado', 18, 1],
-  ['ariclenis-cabinda', 'Ariclenis', 'Avançado', 29, 1],
+  ['ariclenis-cabinda', 'Ariclenis Afonso Araújo Lede', 'Avançado', 29, 1],
   ['bras-cabinda', 'Brás', 'Avançado', 0, 1],
   ['cornelio-cabinda', 'Cornélio', 'Avançado', 0, 1],
   ['costa-cabinda', 'Costa', 'Médio', 0, 1],
@@ -1773,6 +1783,23 @@ const LIBOLO_SQUAD_2026_27: Player[] = [
 }));
 
 const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
+  ['milagre-simba-huila', 'Milagre Carlos Simba', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 25, 1],
+  ['leonardo-isola-huila', 'Leonardo Manuel Isola Ramos', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 7, 1],
+  ['luyeye-cabinda', 'Luyeye Tomás Tomás', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 13, 1],
+  ['domingos-paixao-cabinda', 'Domingos Paixão Paulino Lourenço', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 19, 0],
+  ['simao-gomes-cabinda', 'Simão Gomes', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 14, 0],
+  ['antonio-kapata-cabinda', 'António Kapata', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 9, 0],
+  ['pedro-da-silva-cabinda', 'Pedro da Silva Da Silva', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 30, 0],
+  ['joao-cambo-cabinda', 'João Cambo', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 25, 0],
+  ['cipriano-cumba-cabinda', 'Cipriano Cumba Rafael', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 0, 0],
+  ['luciano-capoco-cabinda', 'Luciano Capoco', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 0, 0],
+  ['joao-milagre-huila', 'João Milagre Chiva Simões', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 6, 0],
+  ['tchicundico-huila', 'Tchicundico Cassoma Tchitunda', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 32, 0],
+  ['angelo-cangu-huila', 'Angelo Cangu', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 21, 0],
+  ['mauricio-pedro-huila', 'Mauricio Pedro', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 8, 0],
+  ['pequenino-castro-huila', 'Pequenino Castro', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 29, 0],
+  ['milton-suca-huila', 'Milton Alberto de Oliveira Suca', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 18, 0],
+  ['joao-samazanga-huila', 'João Baptista Ferraz Samazanga Juny', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 34, 0],
   ['kabelo-dlamini', 'Kabelo Dlamini', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['valter-monteiro', 'Valter Monteiro', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['alem-interclube', 'Além', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
@@ -2914,9 +2941,28 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   if (match.id === 'm27-2-3') return [
-    { minute: 25, type: 'goal', team: 'away', player: 'Mira', detail: '0-1' },
-    { minute: 47, type: 'goal', team: 'home', player: 'Luyeye', detail: "Grande penalidade · 45'+2 (1-1)" },
-    { minute: 81, type: 'goal', team: 'away', player: 'Cabibi', detail: '1-2' },
+    { minute: 5, type: 'yellow', team: 'home', player: 'Pedro da Silva Da Silva', playerId: 'pedro-da-silva-cabinda' },
+    { minute: 20, type: 'yellow', team: 'home', player: 'João Cambo', playerId: 'joao-cambo-cabinda' },
+    { minute: 24, type: 'goal', team: 'away', player: 'Milagre Carlos Simba', playerId: 'milagre-simba-huila', detail: '0-1' },
+    { minute: 45, type: 'sub', team: 'away', player: 'João Milagre Chiva Simões', playerId: 'joao-milagre-huila', playerOut: 'Lucas Elias Antonio Paulo' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Angelo Cangu', playerId: 'angelo-cangu-huila', playerOut: 'Tchicundico Cassoma Tchitunda' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Leonardo Manuel Isola Ramos', playerId: 'leonardo-isola-huila', playerOut: 'Milagre Carlos Simba' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Pequenino Castro', playerId: 'pequenino-castro-huila', playerOut: 'Mauricio Pedro' },
+    { minute: 47, type: 'yellow', team: 'away', player: 'Lucas Elias Antonio Paulo', playerId: 'lucas-elias-huila' },
+    { minute: 49, type: 'goal', team: 'home', player: 'Luyeye Tomás Tomás', playerId: 'luyeye-cabinda', detail: "Grande penalidade · 45'+4 (1-1)" },
+    { minute: 60, type: 'yellow', team: 'home', player: 'Luyeye Tomás Tomás', playerId: 'luyeye-cabinda' },
+    { minute: 62, type: 'yellow', team: 'away', player: 'João Milagre Chiva Simões', playerId: 'joao-milagre-huila' },
+    { minute: 67, type: 'yellow', team: 'home', player: 'Cipriano Cumba Rafael', playerId: 'cipriano-cumba-cabinda' },
+    { minute: 67, type: 'sub', team: 'home', player: 'Júlio Mavungo André', playerId: 'julio-cabinda', playerOut: 'Domingos Paixão Paulino Lourenço' },
+    { minute: 67, type: 'sub', team: 'away', player: 'João Baptista Ferraz Samazanga Juny', playerId: 'joao-samazanga-huila', playerOut: 'Milton Alberto de Oliveira Suca' },
+    { minute: 69, type: 'yellow', team: 'home', player: 'Luciano Capoco', playerId: 'luciano-capoco-cabinda' },
+    { minute: 71, type: 'yellow', team: 'home', player: 'Ariclenis Afonso Araújo Lede', playerId: 'ariclenis-cabinda' },
+    { minute: 74, type: 'sub', team: 'home', player: 'Simão Gomes', playerId: 'simao-gomes-cabinda', playerOut: 'Ariclenis Afonso Araújo Lede' },
+    { minute: 75, type: 'yellow', team: 'away', player: 'Angelo Cangu', playerId: 'angelo-cangu-huila' },
+    { minute: 76, type: 'yellow', team: 'home', player: 'Simão Gomes', playerId: 'simao-gomes-cabinda' },
+    { minute: 79, type: 'yellow', team: 'home', player: 'Cristiano Malonda', playerId: 'cristiano-cabinda' },
+    { minute: 80, type: 'goal', team: 'away', player: 'Leonardo Manuel Isola Ramos', playerId: 'leonardo-isola-huila', detail: '1-2' },
+    { minute: 82, type: 'sub', team: 'home', player: 'António Kapata', playerId: 'antonio-kapata-cabinda', playerOut: 'Frederico Zau' },
   ];
 
   if (match.id === 'm27-3-7') return [
@@ -3029,6 +3075,7 @@ type PublishedMatchStats = {
 
 /** Apenas métricas efetivamente visíveis nas fichas/fontes recebidas. */
 const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
+  'm27-2-3': { home: { fouls: 8, yellowCards: 8, redCards: 0 }, away: { fouls: 3, yellowCards: 3, redCards: 0 }, keys: ['fouls', 'yellowCards', 'redCards'] },
   'm27-1-1': { home: { corners: 1, yellowCards: 0, redCards: 0 }, away: { corners: 0, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-1-2': { home: { yellowCards: 1, redCards: 1 }, away: { yellowCards: 0, redCards: 1 }, keys: ['yellowCards', 'redCards'] },
   'm27-1-3': { home: { corners: 0, yellowCards: 3, redCards: 0 }, away: { corners: 1, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
