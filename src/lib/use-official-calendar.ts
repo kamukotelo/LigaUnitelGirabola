@@ -4,6 +4,40 @@ import { useEffect, useMemo, useState } from 'react';
 import { applyRuntimeMatchOverrides, getMatchesForSeason, Match, UPCOMING_SEASON_ID } from '@/lib/data';
 import { supabase } from '@/lib/supabase';
 
+const CALENDAR_CACHE_TTL_MS = 60_000;
+
+type CalendarPayload = {
+  matches: Match[];
+  platformUpdatedAt?: string | null;
+};
+
+let cachedCalendar: CalendarPayload | null = null;
+let cachedAt = 0;
+let pendingCalendarRequest: Promise<CalendarPayload> | null = null;
+
+async function fetchOfficialCalendar(force = false): Promise<CalendarPayload> {
+  const cacheIsFresh = cachedCalendar && Date.now() - cachedAt < CALENDAR_CACHE_TTL_MS;
+  if (!force && cacheIsFresh) return cachedCalendar!;
+  if (!force && pendingCalendarRequest) return pendingCalendarRequest;
+
+  pendingCalendarRequest = fetch('/api/ancaf?format=matches', { cache: 'no-store' })
+    .then(async (response) => {
+      if (!response.ok) throw new Error(`API ANCAF respondeu ${response.status}`);
+      const data = await response.json() as CalendarPayload;
+      if (!Array.isArray(data.matches) || data.matches.length !== 240) {
+        throw new Error('Calendário oficial incompleto');
+      }
+      cachedCalendar = data;
+      cachedAt = Date.now();
+      return data;
+    })
+    .finally(() => {
+      pendingCalendarRequest = null;
+    });
+
+  return pendingCalendarRequest;
+}
+
 /**
  * Fonte única do calendário público. Para 2026/27 consulta sempre o mesmo
  * endpoint usado pela página Calendário; noutras épocas usa o arquivo local.
@@ -25,21 +59,14 @@ export function useOfficialCalendar(seasonId: string) {
     }
 
     let cancelled = false;
-    let controller: AbortController | null = null;
     setOfficialMatches(null);
 
-    const loadCalendar = () => {
-      controller?.abort();
-      controller = new AbortController();
+    const loadCalendar = (force = false) => {
       setLoading(true);
 
-      fetch('/api/ancaf?format=matches', { cache: 'no-store', signal: controller.signal })
-        .then((response) => {
-          if (!response.ok) throw new Error(`API ANCAF respondeu ${response.status}`);
-          return response.json();
-        })
+      fetchOfficialCalendar(force)
         .then((data) => {
-          if (cancelled || !Array.isArray(data.matches) || data.matches.length !== 240) return;
+          if (cancelled) return;
 
           // Esta é a coleção canónica usada por calendário, página inicial,
           // clubes, competição e tempo útil. O endpoint já inclui a publicação
@@ -50,7 +77,7 @@ export function useOfficialCalendar(seasonId: string) {
           setGeneratedAt(data.platformUpdatedAt ?? null);
         })
         .catch((error) => {
-          if (error instanceof Error && error.name !== 'AbortError') {
+          if (error instanceof Error) {
             console.error('Erro ao obter o calendário oficial:', error);
           }
         })
@@ -65,19 +92,19 @@ export function useOfficialCalendar(seasonId: string) {
     // refletir-se simultaneamente em todos os componentes que usam este hook.
     const channel = supabase
       .channel('official-calendar-public')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_configs' }, loadCalendar)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_configs' }, () => loadCalendar(true))
       .subscribe();
 
     const refreshWhenVisible = () => {
       if (document.visibilityState === 'visible') loadCalendar();
     };
-    window.addEventListener('focus', loadCalendar);
+    const refreshOnFocus = () => loadCalendar();
+    window.addEventListener('focus', refreshOnFocus);
     document.addEventListener('visibilitychange', refreshWhenVisible);
 
     return () => {
       cancelled = true;
-      controller?.abort();
-      window.removeEventListener('focus', loadCalendar);
+      window.removeEventListener('focus', refreshOnFocus);
       document.removeEventListener('visibilitychange', refreshWhenVisible);
       supabase.removeChannel(channel);
     };

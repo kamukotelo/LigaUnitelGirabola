@@ -25,12 +25,12 @@ export const metadata: Metadata = {
   },
   description:
     "Portal digital oficial da Liga Unitel Girabola, o Campeonato Nacional de Futebol de Angola. Acompanhe classificações, resultados, equipas e estatísticas em tempo real.",
-  metadataBase: new URL("https://liga-unitel-girabola.vercel.app"),
+  metadataBase: new URL("https://ligaunitelgirabola.com"),
 
   /* ── Open Graph (Facebook, WhatsApp, LinkedIn, etc.) ── */
   openGraph: {
     type: "website",
-    url: "https://liga-unitel-girabola.vercel.app",
+    url: "https://ligaunitelgirabola.com",
     siteName: "Liga Unitel Girabola",
     title: "Liga Unitel Girabola — Campeonato Nacional de Futebol de Angola",
     description:

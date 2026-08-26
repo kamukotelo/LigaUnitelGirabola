@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Flame, Award, Shield, AlertTriangle } from 'lucide-react';
+import { Flame, Award, Shield, AlertTriangle, CheckCircle2, Clock3 } from 'lucide-react';
 import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonDiscipline, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
@@ -140,12 +140,37 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   const leaderPlayer = displayPlayers[0];
   const leaderPlayerDetails = leaderPlayer ? allPlayers.find((p) => p.id === leaderPlayer.id) : null;
 
+  const currentSeasonAvailability = [
+    { label: 'Goleadores', available: CURRENT_SEASON_SCORERS.length > 0 },
+    { label: 'Disciplina', available: getCurrentSeasonDiscipline().length > 0 },
+    { label: 'Assistências', available: false },
+    { label: 'Balizas limpas', available: false },
+    { label: 'Minutos jogados', available: false },
+  ];
+
   return (
     <div>
       {isUpcoming && seasonHasStarted && (
-        <p className="mb-5 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
-          Estatísticas atualizadas em {new Date(PLATFORM_MATCH_UPDATED_AT).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })}
-        </p>
+        <div className="mb-6 max-w-4xl rounded-2xl border border-zinc-200 bg-white/40 p-4 dark:border-zinc-800 dark:bg-zinc-950/30">
+          <p className="mb-3 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+            Estatísticas atualizadas em {new Date(PLATFORM_MATCH_UPDATED_AT).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })}
+          </p>
+          <div className="flex flex-wrap gap-2" aria-label="Disponibilidade das estatísticas oficiais">
+            {currentSeasonAvailability.map((metric) => (
+              <span
+                key={metric.label}
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide ${
+                  metric.available
+                    ? 'border-green-500/30 bg-green-500/10 text-green-600 dark:text-green-400'
+                    : 'border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400'
+                }`}
+              >
+                {metric.available ? <CheckCircle2 size={12} /> : <Clock3 size={12} />}
+                {metric.label}
+              </span>
+            ))}
+          </div>
+        </div>
       )}
       {/* Sub-abas de métricas */}
       <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 max-w-3xl overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -184,7 +209,10 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       {isUpcoming && seasonHasStarted && displayPlayers.length === 0 && (
         <div className="mb-8 p-5 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start max-w-4xl">
           <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={18} />
-          <p className="text-xs text-zinc-500">Esta métrica ainda não foi publicada nas fichas oficiais recebidas.</p>
+          <div>
+            <p className="text-xs font-semibold text-foreground">Esta métrica ainda aguarda dados oficiais.</p>
+            <p className="mt-1 text-xs text-zinc-500">Os cartões e goleadores continuam visíveis porque já foram identificados nas fichas recebidas. Esta lista será preenchida quando a respetiva informação for importada, sem criar valores estimados.</p>
+          </div>
         </div>
       )}
 
