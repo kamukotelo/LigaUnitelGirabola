@@ -11,6 +11,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
+  "worker-src 'self' blob:",
   "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
   "frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com",
   "media-src 'self' https:",

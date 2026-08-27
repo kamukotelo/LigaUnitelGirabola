@@ -14,6 +14,36 @@ type CalendarPayload = {
 let cachedCalendar: CalendarPayload | null = null;
 let cachedAt = 0;
 let pendingCalendarRequest: Promise<CalendarPayload> | null = null;
+let calendarChannel: ReturnType<typeof supabase.channel> | null = null;
+let calendarChannelSequence = 0;
+const calendarRefreshListeners = new Set<() => void>();
+
+/**
+ * Mantém uma única subscrição Realtime, mesmo quando página inicial,
+ * classificação e calendário usam o hook simultaneamente.
+ */
+function subscribeToCalendarRefresh(listener: () => void): () => void {
+  calendarRefreshListeners.add(listener);
+
+  if (!calendarChannel) {
+    calendarChannelSequence += 1;
+    calendarChannel = supabase
+      .channel(`official-calendar-public-${calendarChannelSequence}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_configs' }, () => {
+        for (const refresh of calendarRefreshListeners) refresh();
+      })
+      .subscribe();
+  }
+
+  return () => {
+    calendarRefreshListeners.delete(listener);
+    if (calendarRefreshListeners.size > 0 || !calendarChannel) return;
+
+    const channelToRemove = calendarChannel;
+    calendarChannel = null;
+    void supabase.removeChannel(channelToRemove);
+  };
+}
 
 async function fetchOfficialCalendar(force = false): Promise<CalendarPayload> {
   const cacheIsFresh = cachedCalendar && Date.now() - cachedAt < CALENDAR_CACHE_TTL_MS;
@@ -90,10 +120,7 @@ export function useOfficialCalendar(seasonId: string) {
 
     // Uma publicação no ANCAF Calendar ou uma edição administrativa passa a
     // refletir-se simultaneamente em todos os componentes que usam este hook.
-    const channel = supabase
-      .channel('official-calendar-public')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_configs' }, () => loadCalendar(true))
-      .subscribe();
+    const unsubscribeFromCalendar = subscribeToCalendarRefresh(() => loadCalendar(true));
 
     const refreshWhenVisible = () => {
       if (document.visibilityState === 'visible') loadCalendar();
@@ -106,7 +133,7 @@ export function useOfficialCalendar(seasonId: string) {
       cancelled = true;
       window.removeEventListener('focus', refreshOnFocus);
       document.removeEventListener('visibilitychange', refreshWhenVisible);
-      supabase.removeChannel(channel);
+      unsubscribeFromCalendar();
     };
   }, [seasonId]);
 
