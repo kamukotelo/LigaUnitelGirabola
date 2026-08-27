@@ -1,6 +1,7 @@
 /tmp/
 /outputs/
-/scripts/
+/scripts/*
+!/scripts/test-portal-regressions.mjs
 /public/templates/ultima_rodada_importada.json
 /*.docx
 /*.pdf
