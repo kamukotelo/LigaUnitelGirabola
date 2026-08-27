@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run test:regressions && next build",
     "start": "next start",
     "lint": "eslint",
     "test:ancaf-reception": "node scripts/test-ancaf-calendar-reception.mjs",
-    "supabase:verify": "node scripts/verify-supabase.mjs"
+    "supabase:verify": "node scripts/verify-supabase.mjs",
+    "test:regressions": "node scripts/test-portal-regressions.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",
