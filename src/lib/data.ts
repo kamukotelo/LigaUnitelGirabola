@@ -117,7 +117,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-26T18:00:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-27T18:00:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -182,6 +182,21 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     awayScore: 2,
     score: '1-2',
     halfTimeScore: '1-1',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
+  'm27-2-1': {
+    homeScore: 1,
+    awayScore: 2,
+    score: '1-2',
+    halfTimeScore: '1-1',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
+  'm27-2-7': {
+    homeScore: 1,
+    awayScore: 2,
+    score: '1-2',
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
@@ -271,6 +286,9 @@ export interface PlayerStats {
 
 /** Goleadores confirmados da época em curso, derivados das fichas encerradas. */
 export const CURRENT_SEASON_SCORERS = [
+  { id: 'valegol-caala', name: 'Valegol', club: 'CR Caála', teamId: 'caala', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'bello-lukman-wiliete', name: 'Bello Lukman', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'ning-wiliete', name: 'Ning', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'ruben-aderito', name: 'Rúben Adérito', club: 'Petro de Luanda', teamId: 'petro', position: 'Defesa', goals: 1, appearances: 1 },
   { id: 'tiago-azulao', name: 'Tiago Azulão', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'deybi-flores', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 1 },
@@ -290,6 +308,7 @@ export const CURRENT_SEASON_SCORERS = [
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
+  'valegol-caala': { yellow: 0, red: 1 },
   'pedro-da-silva-cabinda': { yellow: 1, red: 0 },
   'joao-cambo-cabinda': { yellow: 1, red: 0 },
   'luyeye-cabinda': { yellow: 1, red: 0 },
@@ -1783,6 +1802,9 @@ const LIBOLO_SQUAD_2026_27: Player[] = [
 }));
 
 const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
+  ['valegol-caala', 'Valegol', 'CR Caála', 'caala', 'Posição por confirmar', 0, 1],
+  ['bello-lukman-wiliete', 'Bello Lukman', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
+  ['ning-wiliete', 'Ning', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['milagre-simba-huila', 'Milagre Carlos Simba', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 25, 1],
   ['leonardo-isola-huila', 'Leonardo Manuel Isola Ramos', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 7, 1],
   ['luyeye-cabinda', 'Luyeye Tomás Tomás', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 13, 1],
@@ -2940,6 +2962,17 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  // O resultado final foi confirmado, mas a fonte recebida não identifica
+  // marcadores ou minutos. O array vazio impede a geração de eventos fictícios.
+  if (match.id === 'm27-2-7') return [];
+
+  if (match.id === 'm27-2-1') return [
+    { minute: 32, type: 'goal', team: 'home', player: 'Valegol', playerId: 'valegol-caala', detail: 'Grande penalidade · 1-0' },
+    { minute: 34, type: 'goal', team: 'away', player: 'Bello Lukman', playerId: 'bello-lukman-wiliete', detail: '1-1' },
+    { minute: 44, type: 'red', team: 'home', player: 'Valegol', playerId: 'valegol-caala' },
+    { minute: 49, type: 'goal', team: 'away', player: 'Ning', playerId: 'ning-wiliete', detail: '1-2' },
+  ];
+
   if (match.id === 'm27-2-3') return [
     { minute: 5, type: 'yellow', team: 'home', player: 'Pedro da Silva Da Silva', playerId: 'pedro-da-silva-cabinda' },
     { minute: 20, type: 'yellow', team: 'home', player: 'João Cambo', playerId: 'joao-cambo-cabinda' },
@@ -3075,6 +3108,7 @@ type PublishedMatchStats = {
 
 /** Apenas métricas efetivamente visíveis nas fichas/fontes recebidas. */
 const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
+  'm27-2-1': { home: { redCards: 1 }, away: { redCards: 0 }, keys: ['redCards'] },
   'm27-2-3': { home: { fouls: 8, yellowCards: 8, redCards: 0 }, away: { fouls: 3, yellowCards: 3, redCards: 0 }, keys: ['fouls', 'yellowCards', 'redCards'] },
   'm27-1-1': { home: { corners: 1, yellowCards: 0, redCards: 0 }, away: { corners: 0, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-1-2': { home: { yellowCards: 1, redCards: 1 }, away: { yellowCards: 0, redCards: 1 }, keys: ['yellowCards', 'redCards'] },
