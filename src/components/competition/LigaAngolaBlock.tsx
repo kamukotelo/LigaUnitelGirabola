@@ -18,6 +18,7 @@ import {
   getStandingsForSeason,
   getTeamFullName,
   getVideoHighlights,
+  computeStandings,
 } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -34,7 +35,14 @@ const OFFICIAL_PARTNERS = [
 
 function getDefaultRoundForSeason(seasonId: string) {
   const finishedMatches = getMatchesForSeason(seasonId).filter((match) => match.status === 'finished');
-  return finishedMatches.length > 0 ? Math.max(...finishedMatches.map((match) => match.round)) : 1;
+  if (finishedMatches.length === 0) return 1;
+
+  // Um jogo antecipado de uma jornada posterior não deve esconder a jornada
+  // que está efetivamente a ser disputada. Usamos o jogo terminado mais
+  // recente e só recorremos ao número da jornada como critério de desempate.
+  return [...finishedMatches].sort((a, b) =>
+    new Date(b.date).getTime() - new Date(a.date).getTime() || b.round - a.round
+  )[0].round;
 }
 
 export default function LigaAngolaBlock() {
@@ -59,7 +67,11 @@ export default function LigaAngolaBlock() {
 
   // ─── STATE FOR STANDINGS (CLASSIFICAÇÃO) ───
   const [standingsSeasonId, setStandingsSeasonId] = useState<string>(UPCOMING_SEASON_ID);
-  const standings = getStandingsForSeason(standingsSeasonId).slice(0, 5);
+  const { matches: standingsMatches } = useOfficialCalendar(standingsSeasonId);
+  const standings = (standingsSeasonId === UPCOMING_SEASON_ID
+    ? computeStandings(standingsMatches)
+    : getStandingsForSeason(standingsSeasonId)
+  ).slice(0, 5);
 
   // ─── STATE FOR NEWS (NOTÍCIAS) ───
   const officialCommunications = getOfficialCommunications().slice(0, 2);

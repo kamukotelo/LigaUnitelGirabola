@@ -9,9 +9,10 @@ import AnimatedCard from '@/components/ui/AnimatedCard';
 import FuturisticButton from '@/components/ui/FuturisticButton';
 import TeamCrestMarquee from '@/components/ui/TeamCrestMarquee';
 import LigaAngolaBlock from '@/components/competition/LigaAngolaBlock';
-import { CURRENT_SEASON_SCORERS, getTeams, getMatches, getStandings, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
+import { CURRENT_SEASON_SCORERS, getTeams, computeStandings, SEASONS, CURRENT_SEASON_ID } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
 import { useBrandLogo } from '@/lib/team-logos';
+import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
 /* ── Animated Number Counter ─────────────────────────────────── */
 function AnimatedCounter({ value }: { value: number }) {
@@ -152,7 +153,7 @@ export default function Home() {
 
   // Dynamic statistics from helper functions
   const teamsCount = getTeams().length;
-  const seasonMatches = getMatches();
+  const { matches: seasonMatches } = useOfficialCalendar(CURRENT_SEASON_ID);
   const matchesPlayed = seasonMatches.filter((m) => m.status === 'finished').length;
   const roundsCount = new Set(seasonMatches.map((m) => m.round)).size;
   const topScorer = CURRENT_SEASON_SCORERS[0] ?? null;
@@ -169,7 +170,7 @@ export default function Home() {
   const activeSeasonLabel = SEASONS.find((s) => s.id === CURRENT_SEASON_ID)?.label ?? '2026/2027';
 
   // Campeão / vice derivados da classificação (coincidem sempre com a tabela)
-  const standings = getStandings();
+  const standings = computeStandings(seasonMatches);
   const leader = seasonStarted ? standings[0]?.teamName ?? '' : '';
 
   const tickerItems = [

@@ -1,0 +1,88 @@
+{
+  "versao": "1.0",
+  "competicao": "Liga Unitel Girabola",
+  "epoca": "2026/2027",
+  "jornada": 2,
+  "fonte": {
+    "nome": "Ficha oficial ou comunicado",
+    "referencia": "",
+    "data_confirmacao": "2026-08-27T18:00:00+01:00"
+  },
+  "regras": {
+    "nao_inventar_dados_ausentes": true,
+    "classificacao_calculada_automaticamente": true,
+    "goleadores_derivados_dos_eventos_de_golo": true,
+    "disciplina_derivada_dos_eventos_de_cartao": true,
+    "usar_null_quando_desconhecido": true
+  },
+  "jogos": [
+    {
+      "id": "m27-2-7",
+      "mandante_id": "primeiromaio",
+      "visitante_id": "dago",
+      "data": "2026-08-27",
+      "hora": "15:30",
+      "fuso_horario": "Africa/Luanda",
+      "estadio": "Estádio de São Filipe",
+      "transmissao": "Zsports",
+      "estado": "terminado",
+      "resultado": {
+        "mandante": 1,
+        "visitante": 2,
+        "intervalo_mandante": null,
+        "intervalo_visitante": null
+      },
+      "eventos": [],
+      "estatisticas": {
+        "mandante": null,
+        "visitante": null
+      },
+      "arbitragem": {
+        "arbitro": null,
+        "assistentes": [],
+        "quarto_arbitro": null
+      },
+      "convocados": {
+        "mandante": [],
+        "visitante": []
+      },
+      "observacoes": "O resultado está confirmado; marcadores, minutos e outras estatísticas não foram fornecidos."
+    }
+  ],
+  "formato_evento": {
+    "minuto": 90,
+    "acrescimo": 5,
+    "tipo": "golo|penalti|autogolo|amarelo|vermelho|substituicao",
+    "equipa": "mandante|visitante",
+    "jogador_id": null,
+    "jogador": null,
+    "jogador_sai_id": null,
+    "jogador_sai": null,
+    "descricao": null
+  },
+  "formato_estatisticas_equipa": {
+    "posse_bola": null,
+    "remates": null,
+    "remates_baliza": null,
+    "cantos": null,
+    "faltas": null,
+    "foras_de_jogo": null,
+    "cartoes_amarelos": null,
+    "cartoes_vermelhos": null,
+    "passes": null,
+    "precisao_passe": null,
+    "defesas": null,
+    "tempo_util_minutos": null
+  },
+  "atualizacoes_automaticas": [
+    "Página inicial: quadro de jogos, jogos disputados, golos e líder",
+    "Calendário e lista de jogos",
+    "Página de detalhe do jogo",
+    "Classificação geral, em casa e fora",
+    "Mini-classificação",
+    "Forma recente e números dos clubes",
+    "Goleadores, quando existem eventos de golo identificados",
+    "Disciplina, quando existem eventos de cartão identificados",
+    "Estatísticas da competição, quando as métricas foram fornecidas"
+  ]
+}
