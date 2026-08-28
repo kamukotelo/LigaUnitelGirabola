@@ -5,9 +5,11 @@ const files = {
   calendar: new URL('../src/lib/use-official-calendar.ts', import.meta.url),
   config: new URL('../next.config.ts', import.meta.url),
   favicon: new URL('../src/app/favicon.ico/route.ts', import.meta.url),
+  data: new URL('../src/lib/data.ts', import.meta.url),
+  publishedCalendar: new URL('../src/lib/published-ancaf-calendar.ts', import.meta.url),
 };
 
-const [calendar, config, favicon] = await Promise.all(
+const [calendar, config, favicon, data, publishedCalendar] = await Promise.all(
   Object.values(files).map((file) => readFile(file, 'utf8')),
 );
 
@@ -53,5 +55,11 @@ assert.match(
 // Navegadores antigos e extensões continuam a pedir esta rota diretamente.
 assert.match(favicon, /export function GET/);
 assert.match(favicon, /logo-girabola\.png/);
+
+// A agenda aplicada pela plataforma e o calendário servido pela API devem
+// manter a mesma hora confirmada para o jogo de 31/08/2026.
+const huilaWilieteDate = '2026-08-31T15:30:00+01:00';
+assert.match(data, new RegExp(huilaWilieteDate.replace(/[+]/g, '\\+')));
+assert.match(publishedCalendar, new RegExp(huilaWilieteDate.replace(/[+]/g, '\\+')));
 
 console.log('✓ Proteções contra regressões do portal confirmadas.');

@@ -266,7 +266,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Wiliete de Benguela",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-08-31T15:00:00+01:00",
+    "date": "2026-08-31T15:30:00+01:00",
     "stadium": "Estádio da Tundavala",
     "status": "scheduled"
   },
