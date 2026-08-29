@@ -142,11 +142,12 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "wiliete",
     "homeTeam": "CR Caála",
     "awayTeam": "Wiliete de Benguela",
-    "homeScore": 0,
-    "awayScore": 0,
-    "date": "2026-08-27T15:00:00+01:00",
+    "homeScore": 1,
+    "awayScore": 2,
+    "date": "2026-08-27T16:00:00+01:00",
     "stadium": "Estádio dos Mártires da Canhala",
-    "status": "scheduled"
+    "status": "finished",
+    "halfTimeScore": "1-1"
   },
   {
     "id": "m27-2-7",
@@ -155,11 +156,11 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "dago",
     "homeTeam": "Estrela 1.º de Maio",
     "awayTeam": "CD 1.º de Agosto",
-    "homeScore": 0,
-    "awayScore": 0,
+    "homeScore": 1,
+    "awayScore": 2,
     "date": "2026-08-27T15:30:00+01:00",
     "stadium": "Estádio de São Filipe",
-    "status": "scheduled",
+    "status": "finished",
     "broadcaster": "Zsports"
   },
   {
@@ -171,8 +172,8 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Desportivo da Lunda Sul",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-08-28T15:30:00+01:00",
-    "stadium": "Estádio dos Coqueiros",
+    "date": "2026-08-29T15:30:00+01:00",
+    "stadium": "Estádio 22 de Junho",
     "status": "scheduled",
     "broadcaster": "Zsports"
   },
@@ -196,11 +197,12 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "fcluanda",
     "homeTeam": "GD Interclube",
     "awayTeam": "FC Luanda",
-    "homeScore": 0,
-    "awayScore": 0,
-    "date": "2026-08-29T15:30:00+01:00",
+    "homeScore": 2,
+    "awayScore": 1,
+    "date": "2026-08-28T15:30:00+01:00",
     "stadium": "Estádio 22 de Junho",
-    "status": "scheduled",
+    "status": "finished",
+    "halfTimeScore": "0-0",
     "broadcaster": "Zsports"
   },
   {

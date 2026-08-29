@@ -117,7 +117,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-27T18:00:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-28T18:00:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -197,6 +197,14 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     homeScore: 1,
     awayScore: 2,
     score: '1-2',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
+  'm27-2-5': {
+    homeScore: 2,
+    awayScore: 1,
+    score: '2-1',
+    halfTimeScore: '0-0',
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
@@ -286,6 +294,9 @@ export interface PlayerStats {
 
 /** Goleadores confirmados da época em curso, derivados das fichas encerradas. */
 export const CURRENT_SEASON_SCORERS = [
+  { id: 'silvano-da-cruz-interclube', name: 'Silvano da Cruz', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'alberto-alves-interclube', name: 'Alberto Alves', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'ricardo-batista-fcluanda', name: 'Ricardo Batista', club: 'FC Luanda', teamId: 'fcluanda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'valegol-caala', name: 'Valegol', club: 'CR Caála', teamId: 'caala', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'bello-lukman-wiliete', name: 'Bello Lukman', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'ning-wiliete', name: 'Ning', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
@@ -1802,6 +1813,9 @@ const LIBOLO_SQUAD_2026_27: Player[] = [
 }));
 
 const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
+  ['silvano-da-cruz-interclube', 'Silvano da Cruz', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
+  ['alberto-alves-interclube', 'Alberto Alves', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
+  ['ricardo-batista-fcluanda', 'Ricardo Batista', 'FC Luanda', 'fcluanda', 'Posição por confirmar', 0, 1],
   ['valegol-caala', 'Valegol', 'CR Caála', 'caala', 'Posição por confirmar', 0, 1],
   ['bello-lukman-wiliete', 'Bello Lukman', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['ning-wiliete', 'Ning', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
@@ -2962,6 +2976,12 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  if (match.id === 'm27-2-5') return [
+    { minute: 49, type: 'goal', team: 'home', player: 'Silvano da Cruz', playerId: 'silvano-da-cruz-interclube', detail: '1-0' },
+    { minute: 52, type: 'goal', team: 'home', player: 'Alberto Alves', playerId: 'alberto-alves-interclube', detail: '2-0' },
+    { minute: 91, type: 'goal', team: 'away', player: 'Ricardo Batista', playerId: 'ricardo-batista-fcluanda', detail: "90'+1 · 2-1" },
+  ];
+
   // O resultado final foi confirmado, mas a fonte recebida não identifica
   // marcadores ou minutos. O array vazio impede a geração de eventos fictícios.
   if (match.id === 'm27-2-7') return [];
