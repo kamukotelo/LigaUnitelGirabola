@@ -60,7 +60,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       id: player.id, name: player.name, club: player.club, teamId: player.teamId,
       position: player.position, value: player.goals, secondaryLabel: 'Jogos',
       secondaryValue: player.appearances, hasProfile: true,
-    }));
+    })).sort((a, b) => b.value - a.value || (b.secondaryValue as number) - (a.secondaryValue as number));
   } else if (isUpcoming && seasonHasStarted && activeTab === 'discipline') {
     displayPlayers = getCurrentSeasonDiscipline().map((player) => ({
       id: player.id, name: player.name, club: player.club, teamId: player.teamId,

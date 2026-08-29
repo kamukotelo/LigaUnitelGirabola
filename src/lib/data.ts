@@ -85,7 +85,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 2, homeTeamId: 'sagrada', awayTeamId: 'saosalvador', date: '2026-08-29T15:00:00+01:00' },
   { round: 2, homeTeamId: 'interclube', awayTeamId: 'fcluanda', date: '2026-08-28T15:30:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
   { round: 2, homeTeamId: 'libolo', awayTeamId: 'bravos', date: '2026-08-30T15:00:00+01:00' },
-  { round: 2, homeTeamId: 'primeiromaio', awayTeamId: 'dago', date: '2026-08-27T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 2, homeTeamId: 'primeiromaio', awayTeamId: 'dago', date: '2026-08-27T15:30:00+01:00', stadium: 'Estádio de São Filipe', broadcaster: 'Zsports' },
   { round: 2, homeTeamId: 'lobito', awayTeamId: 'petro', date: '2026-08-30T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 3, homeTeamId: 'lundasul', awayTeamId: 'caala', date: '2026-09-05T15:00:00+01:00' },
   { round: 3, homeTeamId: 'desphuila', awayTeamId: 'wiliete', date: '2026-08-31T15:30:00+01:00' },
@@ -117,7 +117,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-28T18:00:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-29T18:00:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -193,10 +193,19 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
+  'm27-2-2': {
+    homeScore: 1,
+    awayScore: 1,
+    score: '1-1',
+    halfTimeScore: '1-0',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
   'm27-2-7': {
     homeScore: 1,
     awayScore: 2,
     score: '1-2',
+    halfTimeScore: '0-1',
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
@@ -312,10 +321,12 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'ju-cabral-bravos', name: 'Ju Cabral', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'lito-bravos', name: 'Lito', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'gladilson-bravos', name: 'Gladilson', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
-  { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 2, appearances: 2 },
   { id: 'kabelo-dlamini', name: 'Kabelo Dlamini', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'valter-monteiro', name: 'Valter Monteiro', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'alem-interclube', name: 'Além', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'axel-dago', name: 'Axel', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'luis-profi-primeiromaio', name: 'Luís Profi', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -2982,9 +2993,18 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 91, type: 'goal', team: 'away', player: 'Ricardo Batista', playerId: 'ricardo-batista-fcluanda', detail: "90'+1 · 2-1" },
   ];
 
-  // O resultado final foi confirmado, mas a fonte recebida não identifica
-  // marcadores ou minutos. O array vazio impede a geração de eventos fictícios.
-  if (match.id === 'm27-2-7') return [];
+  // Golos com minuto confirmado pela fonte, mas sem marcador identificado.
+  // Sem playerId, não alimentam goleadores nem fichas individuais.
+  if (match.id === 'm27-2-2') return [
+    { minute: 26, type: 'goal', team: 'home', player: 'Marcador por confirmar', detail: '1-0' },
+    { minute: 58, type: 'goal', team: 'away', player: 'Marcador por confirmar', detail: '1-1' },
+  ];
+
+  if (match.id === 'm27-2-7') return [
+    { minute: 24, type: 'goal', team: 'away', player: 'Axel', playerId: 'axel-dago', detail: '0-1' },
+    { minute: 72, type: 'goal', team: 'home', player: 'Luís Profi', playerId: 'luis-profi-primeiromaio', detail: '1-1' },
+    { minute: 75, type: 'goal', team: 'away', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: '1-2' },
+  ];
 
   if (match.id === 'm27-2-1') return [
     { minute: 32, type: 'goal', team: 'home', player: 'Valegol', playerId: 'valegol-caala', detail: 'Grande penalidade · 1-0' },
@@ -3129,6 +3149,8 @@ type PublishedMatchStats = {
 /** Apenas métricas efetivamente visíveis nas fichas/fontes recebidas. */
 const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-2-1': { home: { redCards: 1 }, away: { redCards: 0 }, keys: ['redCards'] },
+  'm27-2-2': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 4, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-2-7': { home: { corners: 0, saves: 0, yellowCards: 2, redCards: 0 }, away: { corners: 0, saves: 0, yellowCards: 2, redCards: 0 }, keys: ['corners', 'saves', 'yellowCards', 'redCards'] },
   'm27-2-3': { home: { fouls: 8, yellowCards: 8, redCards: 0 }, away: { fouls: 3, yellowCards: 3, redCards: 0 }, keys: ['fouls', 'yellowCards', 'redCards'] },
   'm27-1-1': { home: { corners: 1, yellowCards: 0, redCards: 0 }, away: { corners: 0, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-1-2': { home: { yellowCards: 1, redCards: 1 }, away: { yellowCards: 0, redCards: 1 }, keys: ['yellowCards', 'redCards'] },

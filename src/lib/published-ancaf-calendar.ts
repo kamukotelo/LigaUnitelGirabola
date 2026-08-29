@@ -161,6 +161,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "date": "2026-08-27T15:30:00+01:00",
     "stadium": "Estádio de São Filipe",
     "status": "finished",
+    "halfTimeScore": "0-1",
     "broadcaster": "Zsports"
   },
   {
@@ -170,11 +171,12 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "lundasul",
     "homeTeam": "Kabuscorp SC",
     "awayTeam": "Desportivo da Lunda Sul",
-    "homeScore": 0,
-    "awayScore": 0,
+    "homeScore": 1,
+    "awayScore": 1,
     "date": "2026-08-29T15:30:00+01:00",
     "stadium": "Estádio 22 de Junho",
-    "status": "scheduled",
+    "status": "finished",
+    "halfTimeScore": "1-0",
     "broadcaster": "Zsports"
   },
   {

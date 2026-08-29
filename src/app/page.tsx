@@ -156,7 +156,10 @@ export default function Home() {
   const { matches: seasonMatches } = useOfficialCalendar(CURRENT_SEASON_ID);
   const matchesPlayed = seasonMatches.filter((m) => m.status === 'finished').length;
   const roundsCount = new Set(seasonMatches.map((m) => m.round)).size;
-  const topScorer = CURRENT_SEASON_SCORERS[0] ?? null;
+  const topScorer = CURRENT_SEASON_SCORERS.reduce<(typeof CURRENT_SEASON_SCORERS)[number] | null>(
+    (best, player) => (best && best.goals >= player.goals ? best : player),
+    null,
+  );
   const seasonStarted = matchesPlayed > 0;
   const hasGoals = seasonStarted && topScorer && topScorer.goals > 0;
   const topScorerGoals = hasGoals ? topScorer.goals : 0;
