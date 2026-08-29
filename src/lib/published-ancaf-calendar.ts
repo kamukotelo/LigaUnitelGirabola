@@ -186,11 +186,12 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "saosalvador",
     "homeTeam": "Sagrada Esperança",
     "awayTeam": "São Salvador",
-    "homeScore": 0,
-    "awayScore": 0,
+    "homeScore": 3,
+    "awayScore": 1,
     "date": "2026-08-29T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
-    "status": "scheduled"
+    "status": "finished",
+    "halfTimeScore": "1-0"
   },
   {
     "id": "m27-2-5",

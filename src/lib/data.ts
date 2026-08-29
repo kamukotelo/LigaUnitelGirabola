@@ -201,6 +201,14 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
+  'm27-2-4': {
+    homeScore: 3,
+    awayScore: 1,
+    score: '3-1',
+    halfTimeScore: '1-0',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
   'm27-2-7': {
     homeScore: 1,
     awayScore: 2,
@@ -327,6 +335,9 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'alem-interclube', name: 'Além', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'axel-dago', name: 'Axel', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'luis-profi-primeiromaio', name: 'Luís Profi', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'mafuta-sagrada', name: 'Mafuta', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'anderson-mputa-saosalvador', name: 'Anderson Mputa', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'm-dala-sagrada', name: 'M. Dala', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Posição por confirmar', goals: 1, appearances: 1 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -2991,6 +3002,15 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 49, type: 'goal', team: 'home', player: 'Silvano da Cruz', playerId: 'silvano-da-cruz-interclube', detail: '1-0' },
     { minute: 52, type: 'goal', team: 'home', player: 'Alberto Alves', playerId: 'alberto-alves-interclube', detail: '2-0' },
     { minute: 91, type: 'goal', team: 'away', player: 'Ricardo Batista', playerId: 'ricardo-batista-fcluanda', detail: "90'+1 · 2-1" },
+  ];
+
+  if (match.id === 'm27-2-4') return [
+    { minute: 45, type: 'goal', team: 'home', player: 'Mafuta', playerId: 'mafuta-sagrada', detail: '1-0' },
+    { minute: 49, type: 'goal', team: 'away', player: 'Anderson Mputa', playerId: 'anderson-mputa-saosalvador', detail: '1-1' },
+    // Fonte assinala "GC" aos 64' (golo de cabeça ou golo contra). Sem playerId
+    // enquanto a ficha oficial não confirmar o autor e o tipo do golo.
+    { minute: 64, type: 'goal', team: 'home', player: 'Augusto Fecayamale', detail: 'A confirmar · 2-1' },
+    { minute: 92, type: 'goal', team: 'home', player: 'M. Dala', playerId: 'm-dala-sagrada', detail: "90'+2 · 3-1" },
   ];
 
   // Golos com minuto confirmado pela fonte, mas sem marcador identificado.
