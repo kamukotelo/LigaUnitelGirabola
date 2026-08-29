@@ -30,17 +30,17 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
   return (
     <Link
       href={`/matches/${match.id}`}
-      className={`grid grid-cols-[72px_1fr_auto_1fr] sm:grid-cols-[150px_1fr_auto_1fr_90px] items-center gap-2 sm:gap-4 px-3 sm:px-5 py-3.5 transition-colors ${
+      className={`grid grid-cols-[auto_1fr_auto_1fr] sm:grid-cols-[150px_1fr_auto_1fr_90px] items-center gap-3 sm:gap-4 px-3 sm:px-5 py-3.5 transition-colors ${
         highlight ? 'bg-primary/5' : 'hover:bg-zinc-100 dark:hover:bg-zinc-900/40'
       }`}
     >
-      <span className="flex items-center gap-1.5 truncate text-[10px] sm:text-xs font-bold text-zinc-600 dark:text-zinc-400" title={`Transmissão: ${getMatchBroadcast(match)}`}>
-        <Tv size={13} className="flex-shrink-0 text-primary" /> {getMatchBroadcast(match)}
+      <span className="flex items-center gap-1.5 text-[10px] font-bold text-zinc-600 dark:text-zinc-400 sm:text-xs" title={`Transmissão: ${getMatchBroadcast(match)}`}>
+        <Tv size={14} className="flex-shrink-0 text-primary" /> <span className="hidden whitespace-normal break-words sm:inline">{getMatchBroadcast(match)}</span>
       </span>
       {/* Casa (nome à direita, emblema junto ao resultado) */}
       <div className="flex items-center justify-end gap-2.5 min-w-0">
-        <span className="text-xs sm:text-sm font-semibold text-foreground truncate text-right">{match.homeTeam}</span>
-        <TeamCrest teamId={match.homeTeamId} size={28} className="flex-shrink-0" />
+        <span className="hidden whitespace-normal break-words text-right text-sm font-semibold leading-tight text-foreground sm:block">{match.homeTeam}</span>
+        <TeamCrest teamId={match.homeTeamId} size={32} className="flex-shrink-0 sm:w-7" />
       </div>
 
       {/* Resultado */}
@@ -52,8 +52,8 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
 
       {/* Fora (emblema junto ao resultado, nome à esquerda) */}
       <div className="flex items-center gap-2.5 min-w-0">
-        <TeamCrest teamId={match.awayTeamId} size={28} className="flex-shrink-0" />
-        <span className="text-xs sm:text-sm font-semibold text-foreground truncate">{match.awayTeam}</span>
+        <TeamCrest teamId={match.awayTeamId} size={32} className="flex-shrink-0 sm:w-7" />
+        <span className="hidden whitespace-normal break-words text-sm font-semibold leading-tight text-foreground sm:block">{match.awayTeam}</span>
       </div>
 
       <span className={`hidden sm:block text-right text-[10px] font-mono uppercase tracking-wider ${isLive ? 'text-red-500 font-black' : 'text-zinc-500'}`}>

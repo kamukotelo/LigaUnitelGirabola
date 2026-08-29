@@ -65,20 +65,28 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
   return (
     <Link
       href={`/matches/${match.id}`}
-      className={`group relative z-10 grid grid-cols-[minmax(0,1fr)_30px] items-center gap-x-2 gap-y-1 border-b border-zinc-300/80 px-3 py-2.5 text-[11px] transition-all last:border-b-0 sm:text-xs ${
+      className={`group relative z-10 grid grid-cols-[1fr_auto_1fr] items-center gap-x-3 gap-y-1 border-b border-zinc-300/80 px-3 py-3 text-[11px] transition-all last:border-b-0 sm:grid-cols-[minmax(0,1fr)_30px] sm:gap-x-2 sm:py-2.5 sm:text-xs ${
         muted ? 'opacity-40 grayscale hover:opacity-80 hover:grayscale-0' : 'hover:bg-orange-50/90'
       }`}
       title={`${match.homeTeam} — ${match.awayTeam} · ${formattedDay} · ${formattedTime}${hasOfficialDate ? '' : ' · Data provisória/editável'}`}
     >
-      <span className={`min-w-0 whitespace-normal text-left font-condensed font-bold leading-tight ${selected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`}>
+      <span className="flex justify-end sm:hidden">
+        <TeamCrest teamId={match.homeTeamId} size={34} />
+      </span>
+      <span className={`hidden min-w-0 whitespace-normal break-words text-left font-condensed font-bold leading-tight sm:block ${selected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`}>
         {match.homeTeam}
       </span>
-      <span className="text-center font-mono font-black text-zinc-700">{homeScore}</span>
-      <span className={`min-w-0 whitespace-normal text-left font-condensed font-bold leading-tight ${selected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`}>
+      <span className="flex items-center justify-center gap-1 rounded-lg border border-zinc-200 bg-white px-2.5 py-1 font-mono text-sm font-black text-zinc-800 shadow-sm sm:contents">
+        <span>{homeScore}</span><span className="text-zinc-400 sm:hidden">:</span><span className="sm:hidden">{awayScore}</span>
+      </span>
+      <span className={`hidden min-w-0 whitespace-normal break-words text-left font-condensed font-bold leading-tight sm:block ${selected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`}>
         {match.awayTeam}
       </span>
-      <span className="text-center font-mono font-black text-zinc-700">{awayScore}</span>
-      <span className="col-span-2 mt-1 flex flex-wrap items-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
+      <span className="hidden text-center font-mono font-black text-zinc-700 sm:block">{awayScore}</span>
+      <span className="flex justify-start sm:hidden">
+        <TeamCrest teamId={match.awayTeamId} size={34} />
+      </span>
+      <span className="col-span-3 mt-1 flex flex-wrap items-center justify-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:col-span-2 sm:justify-start sm:text-[10px]">
         <span className={isLive ? 'text-red-600' : undefined}>{isLive ? `● ${match.liveMinute ?? ''}' · Em direto` : `${formattedDay} · ${formattedTime}${hasOfficialDate ? '' : ' · Provisória'}`}</span>
         {broadcast !== 'Por confirmar' && (
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 shadow-sm ring-1 ${match.broadcaster ? 'bg-[#5C0F8B] text-white ring-white/40' : 'bg-amber-100 text-amber-900 ring-amber-300'}`}>

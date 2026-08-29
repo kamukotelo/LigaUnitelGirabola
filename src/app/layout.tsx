@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { TeamLogosProvider } from "@/lib/team-logos";
 import { PortalDataProvider } from "@/lib/portal-overrides";
 import HoloBgLogo from "@/components/layout/HoloBgLogo";
+import AppSplash from "@/components/layout/AppSplash";
 
 /**
  * Substituto temporário da tipografia corporativa "Intro" (Manual de Normas
@@ -57,9 +58,9 @@ export const metadata: Metadata = {
 
   /* ── Ícones do site ── */
   icons: {
-    icon: [{ url: "/logo-girabola.png", type: "image/png" }],
-    apple: "/logo-girabola.png",
-    shortcut: "/logo-girabola.png",
+    icon: [{ url: "/icons/girabola-192.png", type: "image/png", sizes: "192x192" }],
+    apple: "/icons/girabola-192.png",
+    shortcut: "/icons/girabola-192.png",
   },
   manifest: "/manifest.json",
 };
@@ -82,6 +83,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground min-h-screen">
+        <AppSplash />
         <TeamLogosProvider>
         {/* PortalDataProvider envolve todo o layout (e não só o `main`) para que
             o cabeçalho, o rodapé e a paleta da marca reflitam as edições

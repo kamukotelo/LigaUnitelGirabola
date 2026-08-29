@@ -3,19 +3,16 @@
   "name": "Portal Liga Unitel Girabola Masculino",
   "icons": [
     {
-      "src": "logo-girabola.svg",
-      "type": "image/svg+xml",
-      "sizes": "any"
+      "src": "/icons/girabola-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
-      "src": "logo-girabola.png",
+      "src": "/icons/girabola-512.png",
       "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo-girabola.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": "/",

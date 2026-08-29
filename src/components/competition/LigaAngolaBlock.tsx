@@ -252,8 +252,8 @@ export default function LigaAngolaBlock() {
                             )}
                             {/* Home */}
                             <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
-                              <span className="truncate text-xs font-bold text-foreground text-right">{homeAbbr}</span>
-                              <TeamCrest teamId={match.homeTeamId} size={22} className="flex-shrink-0" />
+                              <span className="hidden whitespace-normal break-words text-right text-xs font-bold leading-tight text-foreground sm:inline">{homeAbbr}</span>
+                              <TeamCrest teamId={match.homeTeamId} size={30} className="flex-shrink-0 sm:w-[22px]" />
                             </div>
 
                             {/* Center Score/Status */}
@@ -271,8 +271,8 @@ export default function LigaAngolaBlock() {
 
                             {/* Away */}
                             <div className="flex items-center gap-2 flex-1 min-w-0">
-                              <TeamCrest teamId={match.awayTeamId} size={22} className="flex-shrink-0" />
-                              <span className="truncate text-xs font-bold text-foreground">{awayAbbr}</span>
+                              <TeamCrest teamId={match.awayTeamId} size={30} className="flex-shrink-0 sm:w-[22px]" />
+                              <span className="hidden whitespace-normal break-words text-xs font-bold leading-tight text-foreground sm:inline">{awayAbbr}</span>
                             </div>
                             {broadcast !== 'Por confirmar' && (
                               <span className={`mt-1.5 flex basis-full items-center justify-center gap-1 font-mono text-[8px] font-bold uppercase tracking-wide ${match.broadcaster ? 'text-primary dark:text-purple-300' : 'text-amber-700 dark:text-amber-300'}`}>
