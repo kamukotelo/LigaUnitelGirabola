@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Lock, AlertCircle, Loader2 } from 'lucide-react';
+import { ShieldCheck, Lock, AlertCircle, Loader2, Mail } from 'lucide-react';
 import FuturisticButton from './ui/FuturisticButton';
 import AnimatedCard from './ui/AnimatedCard';
 
@@ -15,6 +15,7 @@ type AuthStatus = 'checking' | 'authed' | 'anon';
 export default function AdminGuard({ children }: AdminGuardProps) {
   const [status, setStatus] = useState<AuthStatus>('checking');
   const [passcode, setPasscode] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -43,14 +44,14 @@ export default function AdminGuard({ children }: AdminGuardProps) {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passcode, profile: 'admin' }),
+        body: JSON.stringify({ email, password: passcode }),
       });
       if (res.ok) {
         setStatus('authed');
         setPasscode('');
         window.location.reload();
       } else {
-        setError('Código de acesso inválido. Acesso negado.');
+        setError('E-mail ou palavra-passe inválidos. Acesso negado.');
         setPasscode('');
       }
     } catch {
@@ -99,11 +100,29 @@ export default function AdminGuard({ children }: AdminGuardProps) {
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
             <label className="block text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-2">
-              Código de Acesso Administrador
+              E-mail administrativo
+            </label>
+            <div className="relative">
+              <Mail size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" />
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-foreground rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono"
+                placeholder="nome@ancaf.co.ao"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-2">
+              Palavra-passe
             </label>
             <input
               type="password"
               required
+              autoComplete="current-password"
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
               className="w-full bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-all font-mono text-center tracking-widest font-black"

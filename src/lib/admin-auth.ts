@@ -1,10 +1,7 @@
+import 'server-only';
 import crypto from 'crypto';
-
-// ── Autenticação de administração (validada no servidor) ─────────────────
-// A credencial de gestão vive apenas no servidor (variável de ambiente) e nunca
-// é enviada para o browser. O cliente autentica-se contra /api/admin/login, que
-// devolve um cookie httpOnly de sessão. O token de sessão é derivado por HMAC da
-// credencial — não é a senha e não pode ser forjado sem a conhecer.
+import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 const PASSCODE = process.env.ADMIN_WRITE_PASSCODE;
 const CLUB_DIRECTION_PASSCODE = process.env.CLUB_DIRECTION_PASSCODE;
@@ -12,53 +9,114 @@ const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET ?? PASSCODE;
 
 export type UserProfile = 'admin' | 'club_direction';
 
+export interface AdminSession {
+  email: string;
+  name: string;
+  profile: UserProfile;
+  expiresAt: number;
+}
+
 export const ADMIN_COOKIE = 'faf_admin_session';
-export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 8; // 8 horas
+export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 8;
 
 function safeEqual(a: string, b: string): boolean {
   const bufA = Buffer.from(a);
   const bufB = Buffer.from(b);
-  // timingSafeEqual exige buffers do mesmo tamanho.
-  if (bufA.length !== bufB.length) return false;
-  return crypto.timingSafeEqual(bufA, bufB);
+  return bufA.length === bufB.length && crypto.timingSafeEqual(bufA, bufB);
 }
 
-// Token de sessão determinístico derivado da credencial de gestão (server-side).
-export function sessionToken(profile: UserProfile = 'admin'): string | null {
+function signature(payload: string): string | null {
   if (!SESSION_SECRET) return null;
-  const signature = crypto.createHmac('sha256', SESSION_SECRET).update(`faf-session-v2:${profile}`).digest('hex');
-  return `${profile}.${signature}`;
+  return crypto.createHmac('sha256', SESSION_SECRET).update(payload).digest('base64url');
 }
 
-// Valida a credencial submetida no login (comparação de tempo constante).
+export function sessionToken(session: Omit<AdminSession, 'expiresAt'>): string | null;
+export function sessionToken(profile?: UserProfile): string | null;
+export function sessionToken(input: UserProfile | Omit<AdminSession, 'expiresAt'> = 'admin'): string | null {
+  if (typeof input === 'string') {
+    if (!SESSION_SECRET) return null;
+    const legacySignature = crypto.createHmac('sha256', SESSION_SECRET).update(`faf-session-v2:${input}`).digest('hex');
+    return `${input}.${legacySignature}`;
+  }
+  const session: AdminSession = {
+    ...input,
+    email: input.email.trim().toLowerCase(),
+    expiresAt: Math.floor(Date.now() / 1000) + ADMIN_SESSION_MAX_AGE,
+  };
+  const payload = Buffer.from(JSON.stringify(session)).toString('base64url');
+  const signed = signature(`faf-session-v3:${payload}`);
+  return signed ? `v3.${payload}.${signed}` : null;
+}
+
 export function verifyPasscode(input: unknown): boolean {
-  if (typeof input !== 'string' || input.length === 0 || !PASSCODE) return false;
-  return safeEqual(input, PASSCODE);
+  return typeof input === 'string' && input.length > 0 && Boolean(PASSCODE) && safeEqual(input, PASSCODE!);
 }
 
 export function verifyClubDirectionPasscode(input: unknown): boolean {
-  if (typeof input !== 'string' || input.length === 0 || !CLUB_DIRECTION_PASSCODE) return false;
-  return safeEqual(input, CLUB_DIRECTION_PASSCODE);
+  return typeof input === 'string' && input.length > 0 && Boolean(CLUB_DIRECTION_PASSCODE) && safeEqual(input, CLUB_DIRECTION_PASSCODE!);
 }
 
-// Valida um token de sessão vindo do cookie.
-export function isValidSession(token: string | undefined | null): boolean {
-  return getSessionProfile(token) !== null;
+export async function authenticateAdminUser(email: unknown, password: unknown): Promise<Omit<AdminSession, 'expiresAt'> | null> {
+  if (typeof email !== 'string' || typeof password !== 'string' || !email.trim() || !password) return null;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) return null;
+
+  const authClient = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
+  const { data, error } = await authClient.auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
+  if (error || !data.user?.email) return null;
+
+  const { data: profile } = await getSupabaseAdmin()
+    .from('ancaf_profiles')
+    .select('full_name, role')
+    .eq('id', data.user.id)
+    .maybeSingle();
+  if (profile?.role !== 'admin') return null;
+
+  return {
+    email: data.user.email.toLowerCase(),
+    name: profile.full_name?.trim() || data.user.email,
+    profile: 'admin',
+  };
 }
 
-export function isAdminSession(token: string | undefined | null): boolean {
-  return getSessionProfile(token) === 'admin';
-}
-
-export function getSessionProfile(token: string | undefined | null): UserProfile | null {
+export function getAdminSession(token: string | undefined | null): AdminSession | null {
   if (!token) return null;
+  if (token.startsWith('v3.')) {
+    const [, payload, suppliedSignature] = token.split('.');
+    if (!payload || !suppliedSignature) return null;
+    const expected = signature(`faf-session-v3:${payload}`);
+    if (!expected || !safeEqual(suppliedSignature, expected)) return null;
+    try {
+      const parsed = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as AdminSession;
+      if (!parsed.email || !parsed.name || !['admin', 'club_direction'].includes(parsed.profile)) return null;
+      if (!Number.isFinite(parsed.expiresAt) || parsed.expiresAt <= Math.floor(Date.now() / 1000)) return null;
+      return parsed;
+    } catch {
+      return null;
+    }
+  }
   for (const profile of ['admin', 'club_direction'] as const) {
     const expected = sessionToken(profile);
-    if (expected && safeEqual(token, expected)) return profile;
+    if (expected && safeEqual(token, expected)) {
+      return { email: 'legacy@local', name: 'Acesso legado', profile, expiresAt: Number.MAX_SAFE_INTEGER };
+    }
   }
   return null;
 }
 
+export function isValidSession(token: string | undefined | null): boolean {
+  return getAdminSession(token) !== null;
+}
+
+export function isAdminSession(token: string | undefined | null): boolean {
+  return getAdminSession(token)?.profile === 'admin';
+}
+
+export function getSessionProfile(token: string | undefined | null): UserProfile | null {
+  return getAdminSession(token)?.profile ?? null;
+}
+
 export function canAccessFifaConnect(token: string | undefined | null): boolean {
-  return getSessionProfile(token) === 'club_direction';
+  return getAdminSession(token)?.profile === 'club_direction';
 }

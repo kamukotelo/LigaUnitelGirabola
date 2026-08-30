@@ -52,7 +52,7 @@ export default function LoginPage() {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ passcode: password, profile: 'club_direction' }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (res.ok) {
@@ -67,8 +67,8 @@ export default function LoginPage() {
         }, 1200);
       } else {
         setLoading(false);
-        setError('Credenciais inválidas. Código de acesso incorreto.');
-        setLogs(prev => [...prev, 'Código de acesso incorreto.']);
+        setError('E-mail ou palavra-passe inválidos, ou conta sem autorização administrativa.');
+        setLogs(prev => [...prev, 'Credenciais não autorizadas.']);
       }
     } catch {
       setLoading(false);
@@ -143,7 +143,7 @@ export default function LoginPage() {
           <AnimatePresence mode="wait">
             {!success ? (
               <motion.form key="login-form" onSubmit={handleLogin} className="space-y-5">
-                {/* Email Field (Optional identifier) */}
+                {/* E-mail individual da conta administrativa */}
                 <div className="space-y-1.5">
                   <label htmlFor="email" className="block text-[10px] font-mono uppercase tracking-wider text-zinc-500">
                     E-mail Institucional
@@ -156,9 +156,11 @@ export default function LoginPage() {
                       id="email"
                       name="email"
                       type="email"
+                      required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="clube@girabola.co.ao"
+                      autoComplete="email"
+                      placeholder="nome@ancaf.co.ao"
                       className="block w-full pl-10 pr-4 py-3 bg-zinc-50/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all text-foreground font-mono"
                     />
                   </div>
@@ -180,6 +182,7 @@ export default function LoginPage() {
                       name="password"
                       type={showPassword ? 'text' : 'password'}
                       required
+                      autoComplete="current-password"
                       value={password}
                       onChange={(e) => { setPassword(e.target.value); setError(''); }}
                       placeholder="••••••••"

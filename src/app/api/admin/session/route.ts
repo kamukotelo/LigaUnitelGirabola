@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { ADMIN_COOKIE, canAccessFifaConnect, getSessionProfile } from '@/lib/admin-auth';
+import { ADMIN_COOKIE, canAccessFifaConnect, getAdminSession } from '@/lib/admin-auth';
 
 // GET /api/admin/session — indica se o pedido traz um cookie de sessão válido.
 export const dynamic = 'force-dynamic';
@@ -8,10 +8,11 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   const store = await cookies();
   const token = store.get(ADMIN_COOKIE)?.value;
-  const profile = getSessionProfile(token);
+  const session = getAdminSession(token);
   return NextResponse.json({
-    authenticated: profile !== null,
-    profile,
+    authenticated: session !== null,
+    profile: session?.profile ?? null,
+    user: session ? { email: session.email, name: session.name } : null,
     permissions: { fifaConnect: canAccessFifaConnect(token) },
   });
 }

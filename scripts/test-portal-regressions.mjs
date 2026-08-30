@@ -7,9 +7,12 @@ const files = {
   favicon: new URL('../src/app/favicon.ico/route.ts', import.meta.url),
   data: new URL('../src/lib/data.ts', import.meta.url),
   publishedCalendar: new URL('../src/lib/published-ancaf-calendar.ts', import.meta.url),
+  adminAuth: new URL('../src/lib/admin-auth.ts', import.meta.url),
+  adminLogin: new URL('../src/app/api/admin/login/route.ts', import.meta.url),
+  loginPage: new URL('../src/app/login/page.tsx', import.meta.url),
 };
 
-const [calendar, config, favicon, data, publishedCalendar] = await Promise.all(
+const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage] = await Promise.all(
   Object.values(files).map((file) => readFile(file, 'utf8')),
 );
 
@@ -61,5 +64,35 @@ assert.match(favicon, /logo-girabola\.png/);
 const huilaWilieteDate = '2026-08-31T15:30:00+01:00';
 assert.match(data, new RegExp(huilaWilieteDate.replace(/[+]/g, '\\+')));
 assert.match(publishedCalendar, new RegExp(huilaWilieteDate.replace(/[+]/g, '\\+')));
+
+// Alterações oficiais da 2.ª jornada devem permanecer iguais no calendário
+// base e na agenda que alimenta competição, calendário e página inicial.
+for (const confirmedDate of [
+  '2026-08-28T15:30:00+01:00',
+  '2026-08-29T15:30:00+01:00',
+]) {
+  const datePattern = new RegExp(confirmedDate.replace(/[+]/g, '\\+'));
+  assert.match(data, datePattern);
+  assert.match(publishedCalendar, datePattern);
+}
+assert.match(publishedCalendar, /"homeTeamId": "interclube"[\s\S]*?"date": "2026-08-28T15:30:00\+01:00"/);
+assert.match(publishedCalendar, /"homeTeamId": "kabuscorp"[\s\S]*?"date": "2026-08-29T15:30:00\+01:00"/);
+assert.match(publishedCalendar, /"id": "m27-2-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"date": "2026-08-27T16:00:00\+01:00"[\s\S]*?"status": "finished"/);
+assert.match(publishedCalendar, /"id": "m27-2-7"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"status": "finished"/);
+assert.match(publishedCalendar, /"id": "m27-2-5"[\s\S]*?"homeScore": 2[\s\S]*?"awayScore": 1[\s\S]*?"date": "2026-08-28T15:30:00\+01:00"[\s\S]*?"status": "finished"[\s\S]*?"halfTimeScore": "0-0"/);
+assert.match(data, /'m27-2-5'[\s\S]*?score: '2-1'[\s\S]*?halfTimeScore: '0-0'[\s\S]*?status: 'finished'/);
+for (const scorer of ['Silvano da Cruz', 'Alberto Alves', 'Ricardo Batista']) {
+  assert.match(data, new RegExp(scorer));
+}
+
+// O login administrativo deve identificar cada pessoa, validar o perfil no
+// servidor e emitir uma sessão assinada e limitada no tempo.
+assert.match(adminAuth, /signInWithPassword/);
+assert.match(adminAuth, /profile\?\.role !== 'admin'/);
+assert.match(adminAuth, /expiresAt/);
+assert.match(adminAuth, /faf-session-v3/);
+assert.match(adminLogin, /authenticateAdminUser\(body\.email, body\.password\)/);
+assert.match(loginPage, /JSON\.stringify\(\{ email, password \}\)/);
+assert.match(loginPage, /type="email"[\s\S]*?required/);
 
 console.log('✓ Proteções contra regressões do portal confirmadas.');

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import {
-  ADMIN_COOKIE, ADMIN_SESSION_MAX_AGE, sessionToken, verifyClubDirectionPasscode,
+  ADMIN_COOKIE, ADMIN_SESSION_MAX_AGE, authenticateAdminUser, sessionToken, verifyClubDirectionPasscode,
   verifyPasscode, type UserProfile,
 } from '@/lib/admin-auth';
 import { checkRateLimit, isSameOriginRequest } from '@/lib/request-security';
@@ -22,23 +22,24 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: { passcode?: unknown; profile?: unknown };
+  let body: { email?: unknown; password?: unknown; passcode?: unknown; profile?: unknown };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: 'bad_request', message: 'Corpo inválido.' }, { status: 400 });
   }
 
+  const account = await authenticateAdminUser(body.email, body.password);
   const profile: UserProfile = body.profile === 'club_direction' ? 'club_direction' : 'admin';
-  const valid = profile === 'club_direction'
+  const legacyValid = !body.email && (profile === 'club_direction'
     ? verifyClubDirectionPasscode(body.passcode)
-    : verifyPasscode(body.passcode);
+    : verifyPasscode(body.passcode));
 
-  if (!valid) {
-    return NextResponse.json({ error: 'unauthorized', message: 'Código de acesso inválido.' }, { status: 401 });
+  if (!account && !legacyValid) {
+    return NextResponse.json({ error: 'unauthorized', message: 'E-mail ou palavra-passe inválidos.' }, { status: 401 });
   }
 
-  const token = sessionToken(profile);
+  const token = account ? sessionToken(account) : sessionToken(profile);
   if (!token) {
     return NextResponse.json(
       { error: 'server_misconfigured', message: 'Autenticação administrativa não configurada.' },
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const res = NextResponse.json({ ok: true, profile });
+  const res = NextResponse.json({ ok: true, profile: account?.profile ?? profile, user: account ?? null });
   res.cookies.set(ADMIN_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
