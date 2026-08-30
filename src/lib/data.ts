@@ -2060,6 +2060,20 @@ function formatOfficialPlayerName(value: string): string {
   }).join(' ');
 }
 
+// Quando a base oficial não traz alcunha nem há nome curado, reduz o nome
+// completo registado a "primeiro + último apelido" para as listas de plantel.
+// O nome completo continua visível na ficha do jogador.
+const NAME_PARTICLES = new Set(['da', 'das', 'de', 'do', 'dos', 'e', 'di', 'del', 'la']);
+function shortDisplayName(formattedFullName: string): string {
+  const tokens = formattedFullName.split(/\s+/).filter(Boolean);
+  if (tokens.length < 3) return formattedFullName;
+  const first = tokens[0];
+  const tailStart = NAME_PARTICLES.has(tokens[tokens.length - 2].toLowerCase())
+    ? tokens.length - 2
+    : tokens.length - 1;
+  return [first, ...tokens.slice(tailStart)].join(' ');
+}
+
 function ageOn2026SeasonStart(birthDate: string): number {
   const [day, month, year] = birthDate.split('/').map(Number);
   if (!day || !month || !year) return 0;
@@ -2131,7 +2145,7 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
       id,
       name: record.popularName
         ? formatOfficialPlayerName(record.popularName)
-        : fallback?.name ?? formatOfficialPlayerName(record.name),
+        : fallback?.name ?? shortDisplayName(formatOfficialPlayerName(record.name)),
       fullName: formatOfficialPlayerName(record.fullName),
       club: squad.club,
       teamId: squad.teamId,
