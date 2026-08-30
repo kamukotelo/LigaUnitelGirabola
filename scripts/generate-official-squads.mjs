@@ -22,6 +22,9 @@ const CLUBS = new Map([
   ['Bravos do Maquis', { teamId: 'bravos', club: 'Bravos do Maquis' }],
   ['Sagrada Esperança', { teamId: 'sagrada', club: 'Sagrada Esperança' }],
   ['CD Lunda Sul', { teamId: 'lundasul', club: 'Desportivo da Lunda Sul' }],
+  ['São Salvador', { teamId: 'saosalvador', club: 'São Salvador' }],
+  ['Petro de Luanda', { teamId: 'petro', club: 'Petro de Luanda' }],
+  ['FC Cabinda', { teamId: 'cabinda', club: 'FC Cabinda' }],
 ]);
 
 const clean = (value) => String(value ?? '').trim().replace(/\s+/g, ' ');
