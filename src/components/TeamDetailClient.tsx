@@ -53,15 +53,20 @@ export default function TeamDetailClient({
   const isMidfielder = (player: Player) => player.position.includes('Médio')
     || (player.position.includes('Extremo') && player.position !== 'Avançado');
   const isForward = (player: Player) => player.position === 'Avançado' || player.position.includes('Ponta de Lança');
+  const byJersey = (a: Player, b: Player) => {
+    const na = a.jerseyNumber > 0 ? a.jerseyNumber : Number.POSITIVE_INFINITY;
+    const nb = b.jerseyNumber > 0 ? b.jerseyNumber : Number.POSITIVE_INFINITY;
+    return na === nb ? a.name.localeCompare(b.name, 'pt') : na - nb;
+  };
   const playersByPosition = {
-    'Guarda-redes': players.filter(isGoalkeeper),
-    'Defesa': players.filter(isDefender),
-    'Médio': players.filter(isMidfielder),
-    'Avançado': players.filter(isForward),
+    'Guarda-redes': players.filter(isGoalkeeper).sort(byJersey),
+    'Defesa': players.filter(isDefender).sort(byJersey),
+    'Médio': players.filter(isMidfielder).sort(byJersey),
+    'Avançado': players.filter(isForward).sort(byJersey),
     'Posição por confirmar': players.filter((player) => !isGoalkeeper(player)
       && !isDefender(player)
       && !isMidfielder(player)
-      && !isForward(player)),
+      && !isForward(player)).sort(byJersey),
   };
 
   const clubColor = team.colorsHex ? team.colorsHex[0] : '#5C0F8B';
@@ -444,12 +449,12 @@ export default function TeamDetailClient({
                     {list.map((player) => (
                       <Link key={player.id} href={`/players/${player.id}`}>
                         <div className="p-4 bg-white/20 dark:bg-zinc-900/20 hover:bg-white/40 dark:hover:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-900 rounded-xl flex items-center justify-between gap-4 transition-all group hover:border-zinc-200 dark:hover:border-zinc-800">
-                          <div className="flex items-center gap-3">
-                            <span className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-950 flex items-center justify-center font-mono text-xs text-zinc-600 dark:text-zinc-400 group-hover:text-primary font-bold transition-colors">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="w-8 h-8 shrink-0 rounded-lg bg-zinc-100 dark:bg-zinc-950 flex items-center justify-center font-mono text-xs text-zinc-600 dark:text-zinc-400 group-hover:text-primary font-bold transition-colors">
                               {player.jerseyNumber > 0 ? `#${player.jerseyNumber}` : '—'}
                             </span>
-                            <div>
-                              <h5 className="text-foreground font-bold text-sm uppercase group-hover:text-accent transition-colors truncate max-w-[140px]">
+                            <div className="min-w-0">
+                              <h5 className="text-foreground font-bold text-sm uppercase group-hover:text-accent transition-colors break-words leading-tight">
                                 {player.name}
                               </h5>
                               <span className="text-[9px] text-zinc-500 font-mono uppercase block">
@@ -459,7 +464,7 @@ export default function TeamDetailClient({
                           </div>
 
                           {player.goals > 0 && (
-                            <div className="text-right flex items-center gap-1 bg-primary/5 border border-primary/10 px-2 py-0.5 rounded-lg text-primary font-mono text-[10px] font-bold">
+                            <div className="shrink-0 text-right flex items-center gap-1 bg-primary/5 border border-primary/10 px-2 py-0.5 rounded-lg text-primary font-mono text-[10px] font-bold">
                               <Flame size={10} className="animate-pulse" />
                               {player.goals} G
                             </div>

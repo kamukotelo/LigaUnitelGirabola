@@ -2039,8 +2039,12 @@ function ageOn2026SeasonStart(birthDate: string): number {
   return age;
 }
 
+// As listas de plantel curadas têm prioridade sobre PLAYERS_RAW no emparelhamento
+// (nome e camisola), evitando que registos antigos de PLAYERS_RAW capturem números
+// de camisola que agora pertencem a outros atletas.
 const OFFICIAL_SQUAD_FALLBACKS: Player[] = [
-  ...PLAYERS_RAW,
+  ...PETRO_SQUAD_2026_27,
+  ...CABINDA_SQUAD_2026_27,
   ...DAGO_SQUAD_2026_27,
   ...HUILA_SQUAD_2026_27,
   ...LOBITO_SQUAD_2026_27,
@@ -2049,6 +2053,7 @@ const OFFICIAL_SQUAD_FALLBACKS: Player[] = [
   ...BRAVOS_SQUAD_2026_27,
   ...SAGRADA_SQUAD_2026_27,
   ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27,
+  ...PLAYERS_RAW,
 ];
 
 const OFFICIAL_FIFA_ID_COUNTS = OFFICIAL_SQUADS_2026_27.reduce((counts, squad) => {
@@ -2064,7 +2069,7 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
   return squad.players.map((record) => {
     const preferredId = OFFICIAL_PLAYER_ID_BY_FIFA_ID[record.fifaId];
     const normalizedSourceName = normalizeOfficialPlayerName(record.name);
-    const canUseJerseyFallback = ['dago', 'desphuila', 'lobito', 'libolo'].includes(squad.teamId);
+    const canUseJerseyFallback = ['dago', 'desphuila', 'lobito', 'libolo', 'petro', 'cabinda'].includes(squad.teamId);
     const jerseyNumber = Number(record.jerseyNumber) || 0;
     const fallback = (preferredId ? teamFallbacks.find((player) => player.id === preferredId) : undefined)
       ?? teamFallbacks.find((player) => {
@@ -2156,8 +2161,6 @@ const officialRegisteredPlayerIds = new Set(OFFICIAL_REGISTERED_PLAYERS_2026_27.
 const currentPlayerBase: Player[] = [
   ...PLAYERS_RAW.filter((player) => !['petro', 'lundasul', 'dago', 'desphuila', 'bravos', 'sagrada', 'cabinda', 'libolo', 'lobito'].includes(player.teamId)
     && !OFFICIAL_SQUAD_TEAM_IDS.has(player.teamId)),
-  ...PETRO_SQUAD_2026_27,
-  ...CABINDA_SQUAD_2026_27,
   ...OFFICIAL_REGISTERED_PLAYERS_2026_27,
   ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27.filter((player) => !officialRegisteredPlayerIds.has(player.id)),
 ];

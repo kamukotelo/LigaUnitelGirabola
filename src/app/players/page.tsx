@@ -125,7 +125,7 @@ export default function PlayersPage() {
                         </div>
 
                         {/* Player name */}
-                        <h3 className="text-md font-display text-foreground uppercase tracking-tight group-hover:text-primary transition-colors line-clamp-1">
+                        <h3 className="text-md font-display text-foreground uppercase tracking-tight group-hover:text-primary transition-colors break-words leading-tight">
                           {player.name}
                         </h3>
                         <p className="text-[10px] text-zinc-500 font-mono flex items-center gap-1 mt-1">

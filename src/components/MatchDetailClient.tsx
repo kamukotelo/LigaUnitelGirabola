@@ -126,7 +126,7 @@ function LineupColumn({ title, accent, lineup, isFinished, coach }: { title: str
     <div className="flex items-center justify-between py-2 border-b border-zinc-200/50 dark:border-zinc-900/50 font-mono text-xs">
       <div className="flex items-center gap-3 min-w-0">
         <span className="w-6 text-center text-zinc-500 flex-shrink-0">{p.number > 0 ? p.number : '—'}</span>
-        <span className="text-zinc-800 dark:text-zinc-200 truncate"><PlayerName p={p} /></span>
+        <span className="text-zinc-800 dark:text-zinc-200 break-words leading-tight"><PlayerName p={p} /></span>
       </div>
       {isFinished && p.rating > 0 && (
         <span
