@@ -117,7 +117,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-29T18:00:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-08-30T17:30:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -225,6 +225,14 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
+  'm27-2-8': {
+    homeScore: 0,
+    awayScore: 2,
+    score: '0-2',
+    halfTimeScore: '0-0',
+    status: 'finished',
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
+  },
   'm27-3-7': {
     homeScore: 3,
     awayScore: 0,
@@ -318,7 +326,8 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'bello-lukman-wiliete', name: 'Bello Lukman', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'ning-wiliete', name: 'Ning', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'ruben-aderito', name: 'Rúben Adérito', club: 'Petro de Luanda', teamId: 'petro', position: 'Defesa', goals: 1, appearances: 1 },
-  { id: 'tiago-azulao', name: 'Tiago Azulão', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'tiago-azulao', name: 'Tiago Azulão', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 2, appearances: 2 },
+  { id: 'depu', name: 'Depú', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'deybi-flores', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'milagre-simba-huila', name: 'Milagre Carlos Simba', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'luyeye-cabinda', name: 'Luyeye Tomás Tomás', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
@@ -3156,6 +3165,11 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  if (match.id === 'm27-2-8') return [
+    { minute: 47, type: 'goal', team: 'away', player: 'Tiago Azulão', playerId: 'tiago-azulao', detail: '0-1' },
+    { minute: 91, type: 'goal', team: 'away', player: 'Depú', playerId: 'depu', detail: "90'+1 · 0-2" },
+  ];
+
   if (match.id === 'm27-2-5') return [
     { minute: 49, type: 'goal', team: 'home', player: 'Silvano da Cruz', playerId: 'silvano-da-cruz-interclube', detail: '1-0' },
     { minute: 52, type: 'goal', team: 'home', player: 'Alberto Alves', playerId: 'alberto-alves-interclube', detail: '2-0' },
@@ -3329,6 +3343,7 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-2-1': { home: { redCards: 1 }, away: { redCards: 0 }, keys: ['redCards'] },
   'm27-2-2': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 4, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-2-7': { home: { corners: 0, saves: 0, yellowCards: 2, redCards: 0 }, away: { corners: 0, saves: 0, yellowCards: 2, redCards: 0 }, keys: ['corners', 'saves', 'yellowCards', 'redCards'] },
+  'm27-2-8': { home: { possession: 50, corners: 1, yellowCards: 1, saves: 0 }, away: { possession: 50, corners: 0, yellowCards: 1, saves: 0 }, keys: ['possession', 'corners', 'yellowCards', 'saves'] },
   'm27-2-3': { home: { fouls: 8, yellowCards: 8, redCards: 0 }, away: { fouls: 3, yellowCards: 3, redCards: 0 }, keys: ['fouls', 'yellowCards', 'redCards'] },
   'm27-1-1': { home: { corners: 1, yellowCards: 0, redCards: 0 }, away: { corners: 0, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-1-2': { home: { yellowCards: 1, redCards: 1 }, away: { yellowCards: 0, redCards: 1 }, keys: ['yellowCards', 'redCards'] },

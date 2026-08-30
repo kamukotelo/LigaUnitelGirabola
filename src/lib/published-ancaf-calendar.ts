@@ -229,10 +229,11 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "homeTeam": "Académica do Lobito",
     "awayTeam": "Petro de Luanda",
     "homeScore": 0,
-    "awayScore": 0,
+    "awayScore": 2,
+    "halfTimeScore": "0-0",
     "date": "2026-08-30T15:30:00+01:00",
     "stadium": "Estádio do Buraco",
-    "status": "scheduled",
+    "status": "finished",
     "broadcaster": "Zsports"
   },
   {
