@@ -417,7 +417,9 @@ export default function TeamDetailClient({
             </p>
             <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
               {teamStaff.length > 0
-                ? `${players.length} atletas inscritos na base recebida em 30/08/2026.`
+                ? `${players.length} atletas inscritos na base recebida em ${team.dataUpdatedAt
+                    ? new Date(`${team.dataUpdatedAt}T12:00:00`).toLocaleDateString('pt-AO', { timeZone: 'Africa/Luanda' })
+                    : 'data por confirmar'}.`
                 : 'Os atletas desta equipa estão pendentes de credenciamento e validação pela FAF.'}
             </p>
           </div>

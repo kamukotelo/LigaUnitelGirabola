@@ -13,6 +13,11 @@ const CLUBS = new Map([
   ['CD Huíla', { teamId: 'desphuila', club: 'Desportivo da Huíla' }],
   ['1º de Agosto', { teamId: 'dago', club: 'CD 1.º de Agosto' }],
   ['Kabuscorp', { teamId: 'kabuscorp', club: 'Kabuscorp SC' }],
+  ['Académica do Lobito', { teamId: 'lobito', club: 'Académica do Lobito' }],
+  ['FC Luanda', { teamId: 'fcluanda', club: 'FC Luanda' }],
+  ['Libolo', { teamId: 'libolo', club: 'Recreativo do Libolo' }],
+  ['Recreativo da Caala', { teamId: 'caala', club: 'CR Caála' }],
+  ['Interclube', { teamId: 'interclube', club: 'GD Interclube' }],
 ]);
 
 const clean = (value) => String(value ?? '').trim().replace(/\s+/g, ' ');
@@ -30,7 +35,11 @@ function fullName(person) {
   return latin || local || clean(person.nome_popular);
 }
 
-const source = JSON.parse(await readFile(inputPath, 'utf8'));
+const rawInput = (await readFile(inputPath, 'utf8')).trim();
+const jsonStart = rawInput.startsWith('```') ? rawInput.indexOf('\n') + 1 : 0;
+const jsonEnd = rawInput.startsWith('```') ? rawInput.indexOf('\n```', jsonStart) : rawInput.length;
+if (jsonEnd < 0) throw new Error('Bloco JSON sem delimitador final.');
+const source = JSON.parse(rawInput.slice(jsonStart, jsonEnd));
 if (!Array.isArray(source.clubes)) throw new Error('O JSON deve conter o array "clubes".');
 
 const squads = source.clubes.map((entry) => {
@@ -65,7 +74,8 @@ const squads = source.clubes.map((entry) => {
   };
 });
 
-const output = `// Ficheiro gerado a partir do JSON de inscrições recebido em 30/08/2026.\n`
+const confirmationDate = clean(source.fonte?.data_confirmacao).slice(0, 10).split('-').reverse().join('/');
+const output = `// Ficheiro gerado a partir do JSON de inscrições recebido em ${confirmationDate || 'data por confirmar'}.\n`
   + `// Para regenerar: node scripts/generate-official-squads.mjs <entrada.json> <este-ficheiro>\n\n`
   + `export const OFFICIAL_SQUADS_2026_27 = ${JSON.stringify(squads, null, 2)} as const;\n`;
 
