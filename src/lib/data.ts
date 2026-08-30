@@ -331,7 +331,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'depu', name: 'Depú', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'deybi-flores', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'milagre-simba-huila', name: 'Milagre Carlos Simba', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
-  { id: 'luyeye-cabinda', name: 'Luyeye Tomás Tomás', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'luyeye-cabinda', name: 'Luyeye Tomás', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'leonardo-isola-huila', name: 'Leonardo Manuel Isola Ramos', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'cuxixima-libolo', name: 'Cuxixima', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'pedro-libolo', name: 'Pedro', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
@@ -1949,11 +1949,11 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['ning-wiliete', 'Ning', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['milagre-simba-huila', 'Milagre Carlos Simba', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 25, 1],
   ['leonardo-isola-huila', 'Leonardo Manuel Isola Ramos', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 7, 1],
-  ['luyeye-cabinda', 'Luyeye Tomás Tomás', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 13, 1],
+  ['luyeye-cabinda', 'Luyeye Tomás', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 13, 1],
   ['domingos-paixao-cabinda', 'Domingos Paixão Paulino Lourenço', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 19, 0],
   ['simao-gomes-cabinda', 'Simão Gomes', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 14, 0],
   ['antonio-kapata-cabinda', 'António Kapata', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 9, 0],
-  ['pedro-da-silva-cabinda', 'Pedro da Silva Da Silva', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 30, 0],
+  ['pedro-da-silva-cabinda', 'Pedro da Silva', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 30, 0],
   ['joao-cambo-cabinda', 'João Cambo', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 25, 0],
   ['cipriano-cumba-cabinda', 'Cipriano Cumba Rafael', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 0, 0],
   ['luciano-capoco-cabinda', 'Luciano Capoco', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 0, 0],
@@ -2019,13 +2019,42 @@ const OFFICIAL_NATIONALITY_LABELS: Readonly<Record<string, string>> = {
   'Republic of the Congo': 'Congo',
 };
 
+// Corrige nomes da base oficial em que um token (ou bloco de tokens) surge
+// repetido \u2014 de forma consecutiva ("Luyeye Tom\u00e1s Tom\u00e1s", "Pedro da Silva da
+// Silva") ou com o primeiro nome colado no fim ("Axel ... de Sousa Axel").
+function dedupeOfficialNameTokens(tokens: string[]): string[] {
+  if (tokens.length < 3) return tokens;
+  const key = (token: string) => token.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  let result = tokens.slice();
+  // Remove blocos finais que repetem o bloco imediatamente anterior.
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (let block = Math.floor(result.length / 2); block >= 1; block -= 1) {
+      const tail = result.slice(result.length - block).map(key).join(' ');
+      const prev = result.slice(result.length - 2 * block, result.length - block).map(key).join(' ');
+      if (tail && tail === prev) {
+        result = result.slice(0, result.length - block);
+        changed = true;
+        break;
+      }
+    }
+  }
+  if (result.length > 2 && key(result[0]) === key(result[result.length - 1])) {
+    result = result.slice(0, -1);
+  }
+  return result;
+}
+
 function normalizeOfficialPlayerName(value: string): string {
-  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const normalized = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  return dedupeOfficialNameTokens(normalized.split(/\s+/).filter(Boolean)).join(' ');
 }
 
 function formatOfficialPlayerName(value: string): string {
   const particles = new Set(['da', 'das', 'de', 'do', 'dos', 'e']);
-  return value.toLocaleLowerCase('pt-PT').split(/\s+/).filter(Boolean).map((part, index) => {
+  const tokens = dedupeOfficialNameTokens(value.split(/\s+/).filter(Boolean));
+  return tokens.join(' ').toLocaleLowerCase('pt-PT').split(/\s+/).filter(Boolean).map((part, index) => {
     if (index > 0 && particles.has(part)) return part;
     return `${part.charAt(0).toLocaleUpperCase('pt-PT')}${part.slice(1)}`;
   }).join(' ');
@@ -2069,7 +2098,7 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
   return squad.players.map((record) => {
     const preferredId = OFFICIAL_PLAYER_ID_BY_FIFA_ID[record.fifaId];
     const normalizedSourceName = normalizeOfficialPlayerName(record.name);
-    const canUseJerseyFallback = ['dago', 'desphuila', 'lobito', 'libolo', 'petro', 'cabinda'].includes(squad.teamId);
+    const canUseJerseyFallback = ['dago', 'desphuila', 'lobito', 'libolo', 'petro', 'cabinda', 'bravos', 'sagrada', 'lundasul'].includes(squad.teamId);
     const jerseyNumber = Number(record.jerseyNumber) || 0;
     const fallback = (preferredId ? teamFallbacks.find((player) => player.id === preferredId) : undefined)
       ?? teamFallbacks.find((player) => {
@@ -2083,6 +2112,10 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
     const id = preferredId
       ?? fallback?.id
       ?? (hasDuplicateFifaId ? `ma-${record.maId.toLowerCase()}` : `fifa-${record.fifaId.toLowerCase()}`);
+    // Alguns clubes inscrevem o plantel sénior e ainda dezenas de atletas de
+    // formação sem número de camisola. Consideramos plantel principal quem tem
+    // número atribuído ou correspondência numa lista curada.
+    const isSeniorSquad = jerseyNumber > 0 || Boolean(preferredId) || Boolean(fallback);
     const position = OFFICIAL_POSITION_LABELS[record.position]
       ?? fallback?.position
       ?? 'Posição por confirmar';
@@ -2110,6 +2143,7 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
       fifaConnectStatus: 'active' as const,
       attributes: fallback?.attributes ?? { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
       careerHistory: fallback?.careerHistory ?? [],
+      registeredSquad: isSeniorSquad,
     } satisfies Player;
   });
 });
@@ -3396,7 +3430,7 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-2-3') return [
-    { minute: 5, type: 'yellow', team: 'home', player: 'Pedro da Silva Da Silva', playerId: 'pedro-da-silva-cabinda' },
+    { minute: 5, type: 'yellow', team: 'home', player: 'Pedro da Silva', playerId: 'pedro-da-silva-cabinda' },
     { minute: 20, type: 'yellow', team: 'home', player: 'João Cambo', playerId: 'joao-cambo-cabinda' },
     { minute: 24, type: 'goal', team: 'away', player: 'Milagre Carlos Simba', playerId: 'milagre-simba-huila', detail: '0-1' },
     { minute: 45, type: 'sub', team: 'away', player: 'João Milagre Chiva Simões', playerId: 'joao-milagre-huila', playerOut: 'Lucas Elias Antonio Paulo' },
@@ -3404,8 +3438,8 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 45, type: 'sub', team: 'away', player: 'Leonardo Manuel Isola Ramos', playerId: 'leonardo-isola-huila', playerOut: 'Milagre Carlos Simba' },
     { minute: 45, type: 'sub', team: 'away', player: 'Pequenino Castro', playerId: 'pequenino-castro-huila', playerOut: 'Mauricio Pedro' },
     { minute: 47, type: 'yellow', team: 'away', player: 'Lucas Elias Antonio Paulo', playerId: 'lucas-elias-huila' },
-    { minute: 49, type: 'goal', team: 'home', player: 'Luyeye Tomás Tomás', playerId: 'luyeye-cabinda', detail: "Grande penalidade · 45'+4 (1-1)" },
-    { minute: 60, type: 'yellow', team: 'home', player: 'Luyeye Tomás Tomás', playerId: 'luyeye-cabinda' },
+    { minute: 49, type: 'goal', team: 'home', player: 'Luyeye Tomás', playerId: 'luyeye-cabinda', detail: "Grande penalidade · 45'+4 (1-1)" },
+    { minute: 60, type: 'yellow', team: 'home', player: 'Luyeye Tomás', playerId: 'luyeye-cabinda' },
     { minute: 62, type: 'yellow', team: 'away', player: 'João Milagre Chiva Simões', playerId: 'joao-milagre-huila' },
     { minute: 67, type: 'yellow', team: 'home', player: 'Cipriano Cumba Rafael', playerId: 'cipriano-cumba-cabinda' },
     { minute: 67, type: 'sub', team: 'home', player: 'Júlio Mavungo André', playerId: 'julio-cabinda', playerOut: 'Domingos Paixão Paulino Lourenço' },
@@ -3462,7 +3496,7 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 37, type: 'yellow', team: 'home', player: 'Elindo Wanga Paulino', playerId: 'platini', detail: 'Rasteirou o adversário' },
     { minute: 45, type: 'sub', team: 'away', player: 'Ilídio Panda', playerId: 'ilidio-panda', playerOut: 'Ivan Cavaleiro' },
     { minute: 45, type: 'sub', team: 'home', player: 'Neymar', playerId: 'neymar-lunda-sul', playerOut: 'Maranata' },
-    { minute: 53, type: 'yellow', team: 'away', player: 'Deybi Aldair Flores Flores', playerId: 'deybi-flores', detail: 'Rasteirou o adversário' },
+    { minute: 53, type: 'yellow', team: 'away', player: 'Deybi Aldair Flores', playerId: 'deybi-flores', detail: 'Rasteirou o adversário' },
     { minute: 60, type: 'sub', team: 'away', player: 'António da Silva Chitanga Hossi', playerId: 'antonio-hossi', playerOut: 'Eddie Afonso' },
     { minute: 60, type: 'sub', team: 'away', player: 'Hélder Costa', playerId: 'helder-costa', playerOut: 'Pedro Aparício' },
     { minute: 63, type: 'yellow', team: 'away', player: 'António da Silva Chitanga Hossi', playerId: 'antonio-hossi', detail: 'Protestou a decisão do árbitro' },

@@ -10,7 +10,7 @@ import PageHeader from '@/components/ui/PageHeader';
 import EmptyState from '@/components/ui/EmptyState';
 
 export default function PlayersPage() {
-  const allPlayers = getPlayers();
+  const allPlayers = getPlayers().filter((player) => player.registeredSquad !== false);
   const allTeams = getTeams();
 
   const [searchTerm, setSearchTerm] = useState('');
