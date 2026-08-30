@@ -2,6 +2,7 @@
 import { PROMOTED_2026_27_TEAMS } from './ancaf-engine';
 import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from './published-ancaf-calendar';
 import { HISTORICAL_MATCHES } from './historical-results';
+import { OFFICIAL_SQUADS_2026_27 } from './official-squads-2026-27';
 
 export interface Team {
   id: string;
@@ -419,6 +420,10 @@ export interface Player extends PlayerStats {
   fifaConnectId?: string;
   fifaConnectStatus?: 'active' | 'pending' | 'rejected' | 'unregistered';
   fifaConnectRegDate?: string;
+  maId?: string;
+  gender?: 'MALE' | 'FEMALE';
+  /** false para manter páginas estatísticas de atletas não incluídos na inscrição oficial atual. */
+  registeredSquad?: boolean;
   detailedStats?: {
     passingAccuracy: number;
     longPassesAccuracy: number;
@@ -483,11 +488,11 @@ export interface NewsArticle {
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Preto', coach: 'João Pedro Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#000000'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B', '#000000'] }, { label: 'Secundário', colors: ['#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
-  { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beta Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
-  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
-  { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Paulo Torres', president: 'Lucas Francisco Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
+  { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beta Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
+  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
+  { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Paulo Torres', president: 'Lucas Francisco Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Sandro Mendes', president: 'Agrione Manuel', nickname: 'Maquisardes', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
-  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leo Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
+  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leonardo Martins Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
   { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Francisca Moniz', president: 'Oliveira Gonçalves', nickname: 'Lundas', colorsHex: ['#008751', '#000000'], kits: [{ label: 'Principal', colors: ['#008751', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'interclube', name: 'GD Interclube', officialName: 'Grupo Desportivo Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Divaldo Alves', president: 'Alexandre Canelas', nickname: 'Polícias', website: 'https://www.interclube.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
@@ -495,7 +500,7 @@ export const TEAMS: Team[] = [
   { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio da Tundavala', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'Silvestre Pelé', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#000000', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#000000', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
   { id: 'saosalvador', name: 'São Salvador', officialName: 'São Salvador do Kongo Futebol Clube', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#00529B', '#F9C304'], kits: [{ label: 'Principal', colors: ['#00529B', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Vici António', stadiumCapacity: 25000, founded: 2005, colors: 'Azul e Branco', coach: 'Nzola Seca', president: 'Raimundo Almeida', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
-  { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal', stadiumCapacity: 10000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
+  { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal', stadiumCapacity: 10000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
   { id: 'caala', name: 'CR Caála', officialName: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Huambo', stadium: 'Estádio Daniel Cassoma Lutucuta', stadiumCapacity: 12000, founded: 1944, colors: 'Azul e Branco', coach: 'Artur Correia', president: 'Mi Mosquito', nickname: 'Caalenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 10000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', president: 'Paulino Silva', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' }
 ];
@@ -1973,22 +1978,187 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   careerHistory: [],
 }));
 
+const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
+  '1SN8AC3': 'bello-lukman-wiliete',
+  '1JRV1H9': 'valter-monteiro',
+  '1LJU8Q3': 'axel-dago',
+  '1JSJ4J2': 'dago-tshibamba',
+  '1JSKTW9': 'simao-dianzenza',
+  '1JSF794': 'venancio-dago',
+  '1QSTPV6': 'milagre-simba-huila',
+  '1JSJ9J7': 'leonardo-isola-huila',
+  '1K5T6S7': 'lucas-elias-huila',
+  '1KZR148': 'joao-milagre-huila',
+  '1K15AH5': 'mauricio-pedro-huila',
+  '1JSRFA8': 'milton-suca-huila',
+  '1K174G0': 'pequenino-castro-huila',
+  '1R3L049': 'joao-samazanga-huila',
+  '1L3KX90': 'tchicundico-huila',
+  '1K17IS6': 'angelo-cangu-huila',
+  '1K1SFM9': 'katendi-huila',
+};
+
+const OFFICIAL_POSITION_LABELS: Readonly<Record<string, string>> = {
+  GK: 'Guarda-redes',
+  DF: 'Defesa',
+  MF: 'Médio',
+  FWD: 'Avançado',
+};
+
+const OFFICIAL_NATIONALITY_LABELS: Readonly<Record<string, string>> = {
+  Brazil: 'Brasil',
+  'Democratic Republic of the Congo': 'RD Congo',
+  'Republic of the Congo': 'Congo',
+};
+
+function normalizeOfficialPlayerName(value: string): string {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+function formatOfficialPlayerName(value: string): string {
+  const particles = new Set(['da', 'das', 'de', 'do', 'dos', 'e']);
+  return value.toLocaleLowerCase('pt-PT').split(/\s+/).filter(Boolean).map((part, index) => {
+    if (index > 0 && particles.has(part)) return part;
+    return `${part.charAt(0).toLocaleUpperCase('pt-PT')}${part.slice(1)}`;
+  }).join(' ');
+}
+
+function ageOn2026SeasonStart(birthDate: string): number {
+  const [day, month, year] = birthDate.split('/').map(Number);
+  if (!day || !month || !year) return 0;
+  let age = 2026 - year;
+  if (month > 8 || (month === 8 && day > 30)) age -= 1;
+  return age;
+}
+
+const OFFICIAL_SQUAD_FALLBACKS: Player[] = [
+  ...PLAYERS_RAW,
+  ...DAGO_SQUAD_2026_27,
+  ...HUILA_SQUAD_2026_27,
+];
+
+const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.flatMap((squad) => {
+  const teamFallbacks = OFFICIAL_SQUAD_FALLBACKS.filter((player) => player.teamId === squad.teamId);
+
+  return squad.players.map((record) => {
+    const preferredId = OFFICIAL_PLAYER_ID_BY_FIFA_ID[record.fifaId];
+    const normalizedSourceName = normalizeOfficialPlayerName(record.name);
+    const canUseJerseyFallback = squad.teamId === 'dago' || squad.teamId === 'desphuila';
+    const jerseyNumber = Number(record.jerseyNumber) || 0;
+    const fallback = (preferredId ? teamFallbacks.find((player) => player.id === preferredId) : undefined)
+      ?? teamFallbacks.find((player) => {
+        const knownNames = [player.name, player.fullName].filter((name): name is string => Boolean(name));
+        return knownNames.some((name) => normalizeOfficialPlayerName(name) === normalizedSourceName);
+      })
+      ?? (canUseJerseyFallback && jerseyNumber > 0
+        ? teamFallbacks.find((player) => player.jerseyNumber === jerseyNumber)
+        : undefined);
+    const id = preferredId
+      ?? fallback?.id
+      ?? `fifa-${record.fifaId.toLowerCase()}`;
+    const position = OFFICIAL_POSITION_LABELS[record.position]
+      ?? fallback?.position
+      ?? 'Posição por confirmar';
+
+    return {
+      id,
+      name: record.popularName
+        ? formatOfficialPlayerName(record.popularName)
+        : fallback?.name ?? formatOfficialPlayerName(record.name),
+      fullName: formatOfficialPlayerName(record.fullName),
+      club: squad.club,
+      teamId: squad.teamId,
+      position,
+      goals: 0,
+      assists: 0,
+      appearances: 0,
+      jerseyNumber,
+      age: ageOn2026SeasonStart(record.birthDate),
+      birthDate: record.birthDate || undefined,
+      nationality: OFFICIAL_NATIONALITY_LABELS[record.nationality] ?? (record.nationality || 'A confirmar'),
+      height: fallback?.height ?? 'A confirmar',
+      maId: record.maId || undefined,
+      gender: 'MALE',
+      fifaConnectId: record.fifaId || undefined,
+      fifaConnectStatus: 'active' as const,
+      attributes: fallback?.attributes ?? { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+      careerHistory: fallback?.careerHistory ?? [],
+    } satisfies Player;
+  });
+});
+
+export interface TeamStaffMember {
+  name: string;
+  role: string;
+  nationality: string;
+  maId?: string;
+  fifaId?: string;
+}
+
+const OFFICIAL_STAFF_ROLE_LABELS: Readonly<Record<string, string>> = {
+  HDCH: 'Treinador principal',
+  ASCH: 'Treinador adjunto',
+  GKCH: 'Treinador de guarda-redes',
+  PHYS: 'Fisioterapeuta',
+  PTNR: 'Preparador físico',
+  TMED: 'Médico',
+  DOCT: 'Médico',
+  TCSC: 'Técnico',
+  TSTF: 'Equipa técnica',
+  TMGR: 'Gestor da equipa',
+  AMGR: 'Gestor adjunto',
+  KMGR: 'Responsável de equipamentos',
+  MASG: 'Massagista',
+};
+
+export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMember[]>> = Object.fromEntries(
+  OFFICIAL_SQUADS_2026_27.map((squad) => [squad.teamId, squad.staff.map((member) => ({
+    name: formatOfficialPlayerName(member.name),
+    role: OFFICIAL_STAFF_ROLE_LABELS[member.role] ?? (member.role || 'Função por confirmar'),
+    nationality: OFFICIAL_NATIONALITY_LABELS[member.nationality] ?? (member.nationality || 'A confirmar'),
+    maId: member.maId || undefined,
+    fifaId: member.fifaId || undefined,
+  }))]),
+);
+
+export function getTeamStaff(teamId: string): TeamStaffMember[] {
+  return OFFICIAL_TEAM_STAFF_2026_27[teamId] ?? [];
+}
+
 const CURRENT_SEASON_PLAYER_TOTALS = new Map<string, { goals: number; appearances: number }>(
   CURRENT_SEASON_SCORERS.map((player) => [player.id, { goals: player.goals, appearances: player.appearances }]),
 );
 
-const CURRENT_PLAYERS_RAW: Player[] = [
-  ...PLAYERS_RAW.filter((player) => !['petro', 'lundasul', 'dago', 'desphuila', 'bravos', 'sagrada', 'cabinda', 'libolo', 'lobito'].includes(player.teamId)),
+const OFFICIAL_SQUAD_TEAM_IDS = new Set<string>(OFFICIAL_SQUADS_2026_27.map((squad) => squad.teamId));
+const officialRegisteredPlayerIds = new Set(OFFICIAL_REGISTERED_PLAYERS_2026_27.map((player) => player.id));
+const currentPlayerBase: Player[] = [
+  ...PLAYERS_RAW.filter((player) => !['petro', 'lundasul', 'dago', 'desphuila', 'bravos', 'sagrada', 'cabinda', 'libolo', 'lobito'].includes(player.teamId)
+    && !OFFICIAL_SQUAD_TEAM_IDS.has(player.teamId)),
   ...PETRO_SQUAD_2026_27,
   ...LUNDA_SUL_SQUAD_2026_27,
-  ...DAGO_SQUAD_2026_27,
-  ...HUILA_SQUAD_2026_27,
   ...BRAVOS_SQUAD_2026_27,
   ...SAGRADA_SQUAD_2026_27,
   ...CABINDA_SQUAD_2026_27,
   ...LIBOLO_SQUAD_2026_27,
   ...LOBITO_SQUAD_2026_27,
-  ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27.filter((player) => !['dago', 'desphuila'].includes(player.teamId)),
+  ...OFFICIAL_REGISTERED_PLAYERS_2026_27,
+  ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27.filter((player) => !officialRegisteredPlayerIds.has(player.id)),
+];
+const currentPlayerBaseIds = new Set(currentPlayerBase.map((player) => player.id));
+
+const CURRENT_PLAYERS_RAW: Player[] = [
+  ...currentPlayerBase,
+  ...CURRENT_SEASON_SCORERS.filter((scorer) => !currentPlayerBaseIds.has(scorer.id)).map((scorer) => ({
+    ...scorer,
+    assists: 0,
+    jerseyNumber: 0,
+    age: 0,
+    nationality: 'A confirmar',
+    height: 'A confirmar',
+    registeredSquad: false,
+    attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+    careerHistory: [],
+  })),
 ].map((player) => ({
   ...player,
   goals: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.goals ?? (['bravos', 'libolo'].includes(player.teamId) ? player.goals : 0),
@@ -2542,7 +2712,7 @@ export function getCurrentSeasonDiscipline() {
 }
 
 export function getPlayersByTeam(teamId: string): Player[] {
-  return computePlayers().filter(p => p.teamId === teamId);
+  return computePlayers().filter(p => p.teamId === teamId && p.registeredSquad !== false);
 }
 
 export function getPlayerById(id: string): Player | undefined {

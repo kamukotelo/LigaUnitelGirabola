@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Trophy, MapPin, User, Calendar, Shield, Flame, Users, ArrowLeft, Medal, Shirt, Globe, ExternalLink, BarChart3, Newspaper } from 'lucide-react';
 import {
   Team, Player, Match, StandingEntry, getTeamProfile, getNewsArticles,
-  getTeamById, getPlayersByTeam, getStandingByTeamId, getTeamCardTotalsFromSheets, UPCOMING_SEASON_ID,
+  getTeamById, getPlayersByTeam, getTeamStaff, getStandingByTeamId, getTeamCardTotalsFromSheets, UPCOMING_SEASON_ID,
 } from '@/lib/data';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 import AnimatedCard from '@/components/ui/AnimatedCard';
@@ -37,6 +37,7 @@ export default function TeamDetailClient({
   // estádio, cores…) aparecem assim que o PortalDataProvider as aplica.
   const team = getTeamById(serverTeam.id) ?? serverTeam;
   const players = getPlayersByTeam(serverTeam.id).length ? getPlayersByTeam(serverTeam.id) : serverPlayers;
+  const teamStaff = getTeamStaff(serverTeam.id);
   const { matches: officialCalendar } = useOfficialCalendar(UPCOMING_SEASON_ID);
   const officialTeamMatches = officialCalendar.filter(
     (match) => match.homeTeamId === serverTeam.id || match.awayTeamId === serverTeam.id,
@@ -410,9 +411,15 @@ export default function TeamDetailClient({
             <Users size={20} className="text-accent" /> Plantel de Atletas
           </h3>
 
-          <div className="mb-6 rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3">
-            <p className="text-[10px] font-mono uppercase tracking-widest text-amber-500 font-semibold">Plantel em atualização</p>
-            <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">Os atletas desta equipa estão pendentes de credenciamento e validação pela FAF.</p>
+          <div className={`mb-6 rounded-xl border px-4 py-3 ${teamStaff.length > 0 ? 'border-emerald-500/25 bg-emerald-500/5' : 'border-amber-500/25 bg-amber-500/5'}`}>
+            <p className={`text-[10px] font-mono uppercase tracking-widest font-semibold ${teamStaff.length > 0 ? 'text-emerald-500' : 'text-amber-500'}`}>
+              {teamStaff.length > 0 ? 'Plantel oficial atualizado' : 'Plantel em atualização'}
+            </p>
+            <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+              {teamStaff.length > 0
+                ? `${players.length} atletas inscritos na base recebida em 30/08/2026.`
+                : 'Os atletas desta equipa estão pendentes de credenciamento e validação pela FAF.'}
+            </p>
           </div>
 
           <div className="space-y-6">
@@ -456,6 +463,23 @@ export default function TeamDetailClient({
               </div>
             ))}
           </div>
+
+          {teamStaff.length > 0 && (
+            <div className="mt-10 border-t border-zinc-200 dark:border-zinc-900 pt-8">
+              <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-5 flex items-center gap-2">
+                <User size={18} className="text-accent" /> Equipa técnica
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {teamStaff.map((member) => (
+                  <div key={`${member.maId ?? member.name}-${member.role}`} className="rounded-xl border border-zinc-200 dark:border-zinc-900 bg-white/20 dark:bg-zinc-900/20 p-4">
+                    <p className="text-sm font-bold text-foreground uppercase">{member.name}</p>
+                    <p className="mt-1 text-[10px] font-mono uppercase tracking-wide text-accent">{member.role}</p>
+                    <p className="mt-1 text-[9px] font-mono uppercase text-zinc-500">{member.nationality}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </AnimatedCard>
       )}
 
