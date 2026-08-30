@@ -491,11 +491,11 @@ export const TEAMS: Team[] = [
   { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beta Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Paulo Torres', president: 'Lucas Francisco Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Sandro Mendes', president: 'Agrione Manuel', nickname: 'Maquisardes', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
+  { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Lourenço Nelito', president: 'Agrione Manuel', nickname: 'Maquisardes', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leonardo Martins Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Francisca Moniz', president: 'Oliveira Gonçalves', nickname: 'Lundas', colorsHex: ['#008751', '#000000'], kits: [{ label: 'Principal', colors: ['#008751', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
+  { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Hungo Francisco Moniz', president: 'Oliveira Gonçalves', nickname: 'Lundas', colorsHex: ['#008751', '#000000'], kits: [{ label: 'Principal', colors: ['#008751', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'interclube', name: 'GD Interclube', officialName: 'Grupo Desportivo Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Divaldo da Silva Teixeira Alves', president: 'Alexandre Canelas', nickname: 'Polícias', website: 'https://www.interclube.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
+  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'libolo', name: 'Recreativo do Libolo', officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Osvaldo Roque Gonçalves da Cruz', president: 'João Pereira', nickname: 'Libolenses', colorsHex: ['#FF6600', '#00529B'], kits: [{ label: 'Principal', colors: ['#FF6600', '#00529B'] }, { label: 'Secundário', colors: ['#00529B', '#FF6600'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio da Tundavala', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'José Silvestre Pereira Jorge', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#000000', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#000000', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'saosalvador', name: 'São Salvador', officialName: 'São Salvador do Kongo Futebol Clube', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#00529B', '#F9C304'], kits: [{ label: 'Principal', colors: ['#00529B', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
@@ -2000,6 +2000,10 @@ const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
   '1N6N208': 'cuxixima-libolo',
   '1UZYXC4': 'pedro-libolo',
   '1JZKSC2': 'lisneu-caala',
+  '1K2PZX2': 'ju-cabral-bravos',
+  '1K2PC87': 'maranata',
+  '1L963X5': 'ximba',
+  '1K3IYT0': 'kibuata',
 };
 
 const OFFICIAL_POSITION_LABELS: Readonly<Record<string, string>> = {
@@ -2041,8 +2045,18 @@ const OFFICIAL_SQUAD_FALLBACKS: Player[] = [
   ...HUILA_SQUAD_2026_27,
   ...LOBITO_SQUAD_2026_27,
   ...LIBOLO_SQUAD_2026_27,
+  ...LUNDA_SUL_SQUAD_2026_27,
+  ...BRAVOS_SQUAD_2026_27,
+  ...SAGRADA_SQUAD_2026_27,
   ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27,
 ];
+
+const OFFICIAL_FIFA_ID_COUNTS = OFFICIAL_SQUADS_2026_27.reduce((counts, squad) => {
+  squad.players.forEach((record) => {
+    if (record.fifaId) counts.set(record.fifaId, (counts.get(record.fifaId) ?? 0) + 1);
+  });
+  return counts;
+}, new Map<string, number>());
 
 const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.flatMap((squad) => {
   const teamFallbacks = OFFICIAL_SQUAD_FALLBACKS.filter((player) => player.teamId === squad.teamId);
@@ -2060,9 +2074,10 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
       ?? (canUseJerseyFallback && jerseyNumber > 0
         ? teamFallbacks.find((player) => player.jerseyNumber === jerseyNumber)
         : undefined);
+    const hasDuplicateFifaId = (OFFICIAL_FIFA_ID_COUNTS.get(record.fifaId) ?? 0) > 1;
     const id = preferredId
       ?? fallback?.id
-      ?? `fifa-${record.fifaId.toLowerCase()}`;
+      ?? (hasDuplicateFifaId ? `ma-${record.maId.toLowerCase()}` : `fifa-${record.fifaId.toLowerCase()}`);
     const position = OFFICIAL_POSITION_LABELS[record.position]
       ?? fallback?.position
       ?? 'Posição por confirmar';
@@ -2142,9 +2157,6 @@ const currentPlayerBase: Player[] = [
   ...PLAYERS_RAW.filter((player) => !['petro', 'lundasul', 'dago', 'desphuila', 'bravos', 'sagrada', 'cabinda', 'libolo', 'lobito'].includes(player.teamId)
     && !OFFICIAL_SQUAD_TEAM_IDS.has(player.teamId)),
   ...PETRO_SQUAD_2026_27,
-  ...LUNDA_SUL_SQUAD_2026_27,
-  ...BRAVOS_SQUAD_2026_27,
-  ...SAGRADA_SQUAD_2026_27,
   ...CABINDA_SQUAD_2026_27,
   ...OFFICIAL_REGISTERED_PLAYERS_2026_27,
   ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27.filter((player) => !officialRegisteredPlayerIds.has(player.id)),

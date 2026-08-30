@@ -47,12 +47,21 @@ export default function TeamDetailClient({
 
   const profile = getTeamProfile(team.id);
 
-  // Group players by position
+  // Agrupar todos os atletas sem esconder inscrições cuja posição ainda não foi confirmada.
+  const isGoalkeeper = (player: Player) => player.position === 'Guarda-redes';
+  const isDefender = (player: Player) => ['Defesa', 'Defesa Esquerdo', 'Defesa Direito'].includes(player.position);
+  const isMidfielder = (player: Player) => player.position.includes('Médio')
+    || (player.position.includes('Extremo') && player.position !== 'Avançado');
+  const isForward = (player: Player) => player.position === 'Avançado' || player.position.includes('Ponta de Lança');
   const playersByPosition = {
-    'Guarda-redes': players.filter((p) => p.position === 'Guarda-redes'),
-    'Defesa': players.filter((p) => p.position === 'Defesa' || p.position === 'Defesa Esquerdo' || p.position === 'Defesa Direito'),
-    'Médio': players.filter((p) => p.position.includes('Médio') || p.position.includes('Extremo') && p.position !== 'Avançado'),
-    'Avançado': players.filter((p) => p.position === 'Avançado' || p.position.includes('Ponta de Lança')),
+    'Guarda-redes': players.filter(isGoalkeeper),
+    'Defesa': players.filter(isDefender),
+    'Médio': players.filter(isMidfielder),
+    'Avançado': players.filter(isForward),
+    'Posição por confirmar': players.filter((player) => !isGoalkeeper(player)
+      && !isDefender(player)
+      && !isMidfielder(player)
+      && !isForward(player)),
   };
 
   const clubColor = team.colorsHex ? team.colorsHex[0] : '#5C0F8B';
