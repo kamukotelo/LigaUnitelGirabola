@@ -2068,10 +2068,10 @@ function ageOn2026SeasonStart(birthDate: string): number {
   return age;
 }
 
-// As listas de plantel curadas têm prioridade sobre PLAYERS_RAW no emparelhamento
-// (nome e camisola), evitando que registos antigos de PLAYERS_RAW capturem números
-// de camisola que agora pertencem a outros atletas.
-const OFFICIAL_SQUAD_FALLBACKS: Player[] = [
+// Listas de plantel curadas usadas nas escalações dos jogos já disputados.
+// Servem de alvo de fusão com os registos oficiais e garantem que qualquer
+// atleta citado numa ficha de jogo continua a ter página própria.
+const CURATED_SQUAD_LISTS: Player[] = [
   ...PETRO_SQUAD_2026_27,
   ...CABINDA_SQUAD_2026_27,
   ...DAGO_SQUAD_2026_27,
@@ -2081,6 +2081,13 @@ const OFFICIAL_SQUAD_FALLBACKS: Player[] = [
   ...LUNDA_SUL_SQUAD_2026_27,
   ...BRAVOS_SQUAD_2026_27,
   ...SAGRADA_SQUAD_2026_27,
+];
+
+// As listas de plantel curadas têm prioridade sobre PLAYERS_RAW no emparelhamento
+// (nome e camisola), evitando que registos antigos de PLAYERS_RAW capturem números
+// de camisola que agora pertencem a outros atletas.
+const OFFICIAL_SQUAD_FALLBACKS: Player[] = [
+  ...CURATED_SQUAD_LISTS,
   ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27,
   ...PLAYERS_RAW,
 ];
@@ -2199,6 +2206,15 @@ const currentPlayerBase: Player[] = [
   ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27.filter((player) => !officialRegisteredPlayerIds.has(player.id)),
 ];
 const currentPlayerBaseIds = new Set(currentPlayerBase.map((player) => player.id));
+
+// Atletas das listas curadas que não fundiram com nenhum registo oficial (saíram
+// do clube, ainda sem número, etc.) mas que aparecem nas fichas de jogos já
+// disputados. Ficam fora do plantel principal, mas com página acessível.
+const curatedSquadCarryovers: Player[] = CURATED_SQUAD_LISTS
+  .filter((player) => !currentPlayerBaseIds.has(player.id))
+  .map((player) => ({ ...player, registeredSquad: false }));
+currentPlayerBase.push(...curatedSquadCarryovers);
+for (const player of curatedSquadCarryovers) currentPlayerBaseIds.add(player.id);
 
 const CURRENT_PLAYERS_RAW: Player[] = [
   ...currentPlayerBase,
@@ -3214,7 +3230,7 @@ function getPublishedLobitoPetroLineups(match: Match): { home: LineupPlayer[]; a
       player('Léo Bolgado', 5, false, 'leo-bolgado', 'DEF'),
       player('Ivan Cavaleiro', 7, false, 'ivan-cavaleiro', 'FWD'),
       player('Pedro Aparício', 10, false, 'pedro-aparicio', 'MID'),
-      player('Vanilson', 17, false),
+      player('Vanilson', 17, false, 'vanilson', 'FWD'),
       player('Jorge Pereira', 20, false, 'jorge-pereira', 'MID'),
       player('Tiago Reis', 23, false, 'tiago-reis', 'FWD'),
       player('Eddie Afonso', 25, false, 'eddie-afonso', 'DEF'),
