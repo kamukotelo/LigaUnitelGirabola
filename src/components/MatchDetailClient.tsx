@@ -120,7 +120,7 @@ function StatsTab({ home, away, isFinished, officialStatKeys }: { home: MatchTea
 function LineupColumn({ title, accent, lineup, isFinished, coach }: { title: string; accent: string; lineup: LineupPlayer[]; isFinished: boolean; coach?: string }) {
   const starters = lineup.filter(p => p.isStarter);
   const subs = lineup.filter(p => !p.isStarter);
-  const groups: PitchPosition[] = ['GK', 'DEF', 'MID', 'FWD'];
+  const groups: (PitchPosition | undefined)[] = ['GK', 'DEF', 'MID', 'FWD', undefined];
 
   const Row = ({ p }: { p: LineupPlayer }) => (
     <div className="flex items-center justify-between py-2 border-b border-zinc-200/50 dark:border-zinc-900/50 font-mono text-xs">
@@ -149,12 +149,17 @@ function LineupColumn({ title, accent, lineup, isFinished, coach }: { title: str
         <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">Treinador: <span className="text-foreground">{coach}</span></p>
       )}
       <div>
+        {starters.length !== 11 && (
+          <p className="mb-3 rounded-lg border border-amber-300/40 bg-amber-100/60 px-3 py-2 font-mono text-[9px] uppercase tracking-wide text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+            A lista recebida contém {starters.length} titulares; o nome em falta não foi inventado.
+          </p>
+        )}
         {groups.map((g) => {
           const players = starters.filter(p => p.position === g);
           if (!players.length) return null;
           return (
-            <div key={g} className="mb-3">
-              <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">{POS_LABEL[g]}</p>
+            <div key={g ?? 'unknown'} className="mb-3">
+              <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">{g ? POS_LABEL[g] : 'Posição não informada'}</p>
               {players.map((p, i) => <Row key={i} p={p} />)}
             </div>
           );
@@ -296,6 +301,7 @@ export default function MatchDetailClient({
   const isFinished = match.status === 'finished';
   const isLive = match.status === 'live';
   const hasOfficialDate = isMatchDateOfficial(match);
+  const hasOfficialLineups = [...detail.homeLineup, ...detail.awayLineup].some((player) => player.rating === 0);
 
   const homeColor = homeTeam?.colorsHex?.[0] ?? '#5C0F8B';
   const awayColor = awayTeam?.colorsHex?.[0] ?? '#E6540F';
@@ -400,11 +406,13 @@ export default function MatchDetailClient({
           {activeTab === 'escalacoes' && (
             <>
               {!isFinished && !isLive && (
-                <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-4">Onze provável</p>
+                <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-4">
+                  {hasOfficialLineups ? 'Convocatórias oficiais' : 'Onze provável'}
+                </p>
               )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <LineupColumn title={match.homeTeam} accent={homeColor} lineup={detail.homeLineup} isFinished={isFinished} coach={homeTeam?.coach} />
-                <LineupColumn title={match.awayTeam} accent={awayColor} lineup={detail.awayLineup} isFinished={isFinished} coach={awayTeam?.coach} />
+                <LineupColumn title={match.homeTeam} accent={homeColor} lineup={detail.homeLineup} isFinished={isFinished} coach={detail.homeCoach ?? homeTeam?.coach} />
+                <LineupColumn title={match.awayTeam} accent={awayColor} lineup={detail.awayLineup} isFinished={isFinished} coach={detail.awayCoach ?? awayTeam?.coach} />
               </div>
             </>
           )}

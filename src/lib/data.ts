@@ -473,7 +473,7 @@ export interface NewsArticle {
 
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
 export const TEAMS: Team[] = [
-  { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Preto', coach: 'João de Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#000000'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B', '#000000'] }, { label: 'Secundário', colors: ['#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
+  { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Preto', coach: 'João Pedro Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#000000'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B', '#000000'] }, { label: 'Secundário', colors: ['#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
   { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beta Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Paulo Torres', president: 'Lucas Francisco Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
@@ -483,7 +483,7 @@ export const TEAMS: Team[] = [
   { id: 'interclube', name: 'GD Interclube', officialName: 'Grupo Desportivo Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Divaldo Alves', president: 'Alexandre Canelas', nickname: 'Polícias', website: 'https://www.interclube.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'libolo', name: 'Recreativo do Libolo', officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Osvaldo Roque', president: 'João Pereira', nickname: 'Libolenses', colorsHex: ['#FF6600', '#00529B'], kits: [{ label: 'Principal', colors: ['#FF6600', '#00529B'] }, { label: 'Secundário', colors: ['#00529B', '#FF6600'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
-  { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio da Tundavala', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'Sambaca', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#000000', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#000000', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
+  { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio da Tundavala', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'Silvestre Pelé', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#000000', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#000000', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
   { id: 'saosalvador', name: 'São Salvador', officialName: 'São Salvador do Kongo Futebol Clube', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#00529B', '#F9C304'], kits: [{ label: 'Principal', colors: ['#00529B', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Vici António', stadiumCapacity: 25000, founded: 2005, colors: 'Azul e Branco', coach: 'Nzola Seca', president: 'Raimundo Almeida', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal', stadiumCapacity: 10000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
@@ -1720,6 +1720,96 @@ const LUNDA_SUL_SQUAD_2026_27: Player[] = [
   careerHistory: [],
 }));
 
+// Plantel confirmado do 1.º de Agosto, consolidado a partir das
+// convocatórias e ocorrências oficiais já publicadas no portal.
+const DAGO_SQUAD_2026_27: Player[] = [
+  ['nuno-dago', 'Nuno', 'Guarda-redes', 1],
+  ['anselmo-dago', 'Anselmo', 'Guarda-redes', 22],
+  ['milton-dago', 'Milton', 'Defesa', 2],
+  ['mabele-dago', 'Mabelé', 'Defesa', 3],
+  ['bonifacio-dago', 'Bonifácio', 'Defesa', 5],
+  ['macaia-dago', 'Macaia', 'Defesa', 16],
+  ['bulaya-dago', 'Bulaya', 'Defesa', 28],
+  ['bencao-dago', 'Benção', 'Defesa', 36],
+  ['mabilson-dago', 'Mabilson', 'Médio', 7],
+  ['calebi-dago', 'Calebi', 'Médio', 10],
+  ['venancio-dago', 'Venâncio', 'Médio', 15],
+  ['cliver-dago', 'Clíver', 'Médio', 18],
+  ['tombe-dago', 'Tombé', 'Médio', 20],
+  ['castro-dago', 'Castro', 'Médio', 27],
+  ['bruno-dago', 'Bruno', 'Avançado', 6],
+  ['axel-dago', 'Axel', 'Avançado', 8],
+  ['rupson-dago', 'Rupson', 'Avançado', 9],
+  ['fernando-dago', 'Fernando', 'Avançado', 11],
+  ['obed-dago', 'Obed', 'Avançado', 14],
+  ['dago-tshibamba', 'Dagó Tshibamba', 'Avançado', 17],
+].map(([id, name, position, jerseyNumber]) => ({
+  id: String(id), name: String(name), club: '1.º de Agosto', teamId: 'dago', position: String(position),
+  goals: 0, assists: 0, appearances: 0, jerseyNumber: Number(jerseyNumber), age: 0,
+  nationality: 'Angola', height: 'A confirmar',
+  attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 }, careerHistory: [],
+}));
+
+// Plantel confirmado do Desportivo da Huíla. Os nomes extensos recebidos nas
+// ocorrências substituem as alcunhas curtas da convocatória quando o número
+// de camisola permite a correspondência inequívoca.
+const HUILA_SQUAD_2026_27: Player[] = [
+  ['ndulo-huila', 'Ndulo', 'Guarda-redes', 1],
+  ['passy-huila', 'Passy', 'Guarda-redes', 12],
+  ['katendi-huila', 'Katendi', 'Defesa', 2],
+  ['dos-santos-huila', 'Dos Santos', 'Defesa', 4],
+  ['joao-milagre-huila', 'João Milagre Chiva Simões', 'Defesa', 6],
+  ['leonardo-isola-huila', 'Leonardo Manuel Isola Ramos (Cabibi)', 'Defesa', 7],
+  ['lucas-elias-huila', 'Lucas Elias Antonio Paulo (Ludy)', 'Defesa', 13],
+  ['jeremias-huila', 'Jeremias', 'Defesa', 26],
+  ['mauricio-pedro-huila', 'Mauricio Pedro (Jeizi)', 'Médio', 8],
+  ['mendes-huila', 'Mendes', 'Avançado', 10],
+  ['elias-huila', 'Elias', 'Médio', 15],
+  ['milton-suca-huila', 'Milton Alberto de Oliveira Suca', 'Avançado', 18],
+  ['toyzinho-huila', 'Toyzinho', 'Médio', 20],
+  ['angelo-cangu-huila', 'Angelo Cangu (Tchutchu)', 'Médio', 21],
+  ['milagre-simba-huila', 'Milagre Carlos Simba', 'Avançado', 25],
+  ['antonio-huila', 'António', 'Médio', 27],
+  ['pequenino-castro-huila', 'Pequenino Castro (Cagodo)', 'Avançado', 29],
+  ['tchicundico-huila', 'Tchicundico Cassoma Tchitunda (Constantino)', 'Médio', 32],
+  ['joao-samazanga-huila', 'João Baptista Ferraz Samazanga Juny (Jony)', 'Avançado', 34],
+  ['geovany-huila', 'Geovany', 'Avançado', 35],
+].map(([id, name, position, jerseyNumber]) => ({
+  id: String(id), name: String(name), club: 'Desportivo da Huíla', teamId: 'desphuila', position: String(position),
+  goals: 0, assists: 0, appearances: 0, jerseyNumber: Number(jerseyNumber), age: 0,
+  nationality: 'Angola', height: 'A confirmar',
+  attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 }, careerHistory: [],
+}));
+
+// Plantel recebido da Académica do Lobito para a 2.ª jornada. A fonte não
+// informa posições, por isso permanecem explicitamente por confirmar.
+const LOBITO_SQUAD_2026_27: Player[] = [
+  ['guilherme-lobito', 'Guilherme', 12],
+  ['joel-lobito', 'Joel', 2],
+  ['rosario-lobito', 'Rosário', 4],
+  ['jorge-28-lobito', 'Jorge', 28],
+  ['leonel-lobito', 'Leonel', 38],
+  ['lourenco-lobito', 'Lourenço', 5],
+  ['manuel-lobito', 'Manuel', 6],
+  ['joaquim-lobito', 'Joaquim', 16],
+  ['ezequiel-lobito', 'Ezequiel', 10],
+  ['antonio-lobito', 'António', 19],
+  ['marcos-lobito', 'Marcos', 40],
+  ['carlos-lobito', 'Carlos', 35],
+  ['aurelio-lobito', 'Aurélio', 33],
+  ['valerio-lobito', 'Valério', 29],
+  ['jorge-enio-lobito', 'Jorge Enio', 27],
+  ['wilson-david-lobito', 'Wilson David', 25],
+  ['miguel-lobito', 'Miguel', 24],
+  ['geraldo-lobito', 'Geraldo', 21],
+  ['nanga-lobito', 'Nanga', 3],
+].map(([id, name, jerseyNumber]) => ({
+  id: String(id), name: String(name), club: 'Académica do Lobito', teamId: 'lobito', position: 'Posição por confirmar',
+  goals: 0, assists: 0, appearances: 0, jerseyNumber: Number(jerseyNumber), age: 0,
+  nationality: 'Angola', height: 'A confirmar',
+  attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 }, careerHistory: [],
+}));
+
 // Convocados do Bravos do Maquis para a 1.ª jornada frente ao Sagrada
 // Esperança, conforme a ficha oficial enviada pelo clube em 24/08/2026.
 const BRAVOS_SQUAD_2026_27: Player[] = [
@@ -1779,6 +1869,8 @@ const SAGRADA_SQUAD_2026_27: Player[] = [
   ['guilherme-sagrada', 'Guilherme', 'Médio', 8, 1],
   ['evaristo-sagrada', 'Evaristo', 'Defesa', 4, 0],
   ['manuel-sagrada', 'Manuel', 'Defesa', 3, 0],
+  ['mafuta-sagrada', 'Mafuta', 'Posição por confirmar', 0, 1],
+  ['m-dala-sagrada', 'M. Dala', 'Posição por confirmar', 0, 1],
 ].map(([id, name, position, jerseyNumber, appearances]) => ({
   id: String(id), name: String(name), club: 'Sagrada Esperança', teamId: 'sagrada', position: String(position),
   goals: 0, assists: 0, appearances: Number(appearances), jerseyNumber: Number(jerseyNumber), age: 0,
@@ -1877,14 +1969,17 @@ const CURRENT_SEASON_PLAYER_TOTALS = new Map<string, { goals: number; appearance
 );
 
 const CURRENT_PLAYERS_RAW: Player[] = [
-  ...PLAYERS_RAW.filter((player) => !['petro', 'lundasul', 'bravos', 'sagrada', 'cabinda', 'libolo'].includes(player.teamId)),
+  ...PLAYERS_RAW.filter((player) => !['petro', 'lundasul', 'dago', 'desphuila', 'bravos', 'sagrada', 'cabinda', 'libolo', 'lobito'].includes(player.teamId)),
   ...PETRO_SQUAD_2026_27,
   ...LUNDA_SUL_SQUAD_2026_27,
+  ...DAGO_SQUAD_2026_27,
+  ...HUILA_SQUAD_2026_27,
   ...BRAVOS_SQUAD_2026_27,
   ...SAGRADA_SQUAD_2026_27,
   ...CABINDA_SQUAD_2026_27,
   ...LIBOLO_SQUAD_2026_27,
-  ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27,
+  ...LOBITO_SQUAD_2026_27,
+  ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27.filter((player) => !['dago', 'desphuila'].includes(player.teamId)),
 ].map((player) => ({
   ...player,
   goals: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.goals ?? (['bravos', 'libolo'].includes(player.teamId) ? player.goals : 0),
@@ -2671,7 +2766,7 @@ export interface LineupPlayer {
   name: string;
   playerId?: string;        // presente apenas se for jogador real
   number: number;
-  position: PitchPosition;
+  position?: PitchPosition;  // ausente quando a fonte não identifica a posição
   rating: number;           // 0–10
   isStarter: boolean;
 }
@@ -2699,6 +2794,8 @@ export interface MatchDetail {
   events: MatchEventDetail[];
   attendance: number;
   referee: string;
+  homeCoach?: string;
+  awayCoach?: string;
   manOfTheMatch?: { name: string; playerId?: string; rating: number; team: 'home' | 'away' };
 }
 
@@ -2832,6 +2929,67 @@ function getPublishedLundaSulPetroLineups(match: Match): { home: LineupPlayer[];
   };
 }
 
+/** Convocatórias oficiais de Académica do Lobito–Petro (2.ª jornada). */
+function getPublishedLobitoPetroLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-2-8') return undefined;
+
+  const player = (
+    name: string,
+    number: number,
+    isStarter: boolean,
+    playerId?: string,
+    position?: PitchPosition,
+  ): LineupPlayer => ({ name, number, isStarter, playerId, position, rating: 0 });
+
+  return {
+    // A fonte recebida enumera apenas dez titulares. Mantemos a lista tal
+    // como publicada, sem criar um 11.º jogador ou posições não informadas.
+    home: [
+      player('Guilherme', 12, true, 'guilherme-lobito'),
+      player('Joel', 2, true, 'joel-lobito'),
+      player('Rosário', 4, true, 'rosario-lobito'),
+      player('Jorge', 28, true, 'jorge-28-lobito'),
+      player('Leonel', 38, true, 'leonel-lobito'),
+      player('Lourenço', 5, true, 'lourenco-lobito'),
+      player('Manuel', 6, true, 'manuel-lobito'),
+      player('Joaquim', 16, true, 'joaquim-lobito'),
+      player('Ezequiel', 10, true, 'ezequiel-lobito'),
+      player('António', 19, true, 'antonio-lobito'),
+      player('Marcos', 40, false, 'marcos-lobito'),
+      player('Carlos', 35, false, 'carlos-lobito'),
+      player('Aurélio', 33, false, 'aurelio-lobito'),
+      player('Valério', 29, false, 'valerio-lobito'),
+      player('Jorge Enio', 27, false, 'jorge-enio-lobito'),
+      player('Wilson David', 25, false, 'wilson-david-lobito'),
+      player('Miguel', 24, false, 'miguel-lobito'),
+      player('Geraldo', 21, false, 'geraldo-lobito'),
+      player('Nanga', 3, false, 'nanga-lobito'),
+    ],
+    away: [
+      player('Hugo Marques', 1, true, 'hugo-marques', 'GK'),
+      player('Núrio Fortuna', 2, true, 'nurio-fortuna', 'DEF'),
+      player('Kinito', 24, true, 'kinito', 'DEF'),
+      player('Rúben Adérito', 4, true, 'ruben-aderito', 'DEF'),
+      player('António Hossi', 27, true, 'antonio-hossi', 'DEF'),
+      player('Mário Balbúrdia', 6, true, 'mario-balburdia', 'MID'),
+      player('Deybi Flores', 12, true, 'deybi-flores', 'MID'),
+      player('Jonathan Toro', 8, true, 'jonathan-toro', 'MID'),
+      player('Hélder Costa', 11, true, 'helder-costa', 'FWD'),
+      player('Ilídio Panda', 33, true, 'ilidio-panda', 'FWD'),
+      player('Tiago Azulão', 26, true, 'tiago-azulao', 'FWD'),
+      player('Neblú', 22, false, 'neblu', 'GK'),
+      player('Léo Bolgado', 5, false, 'leo-bolgado', 'DEF'),
+      player('Ivan Cavaleiro', 7, false, 'ivan-cavaleiro', 'FWD'),
+      player('Pedro Aparício', 10, false, 'pedro-aparicio', 'MID'),
+      player('Vanilson', 17, false),
+      player('Jorge Pereira', 20, false, 'jorge-pereira', 'MID'),
+      player('Tiago Reis', 23, false, 'tiago-reis', 'FWD'),
+      player('Eddie Afonso', 25, false, 'eddie-afonso', 'DEF'),
+      player('Depú', 29, false, 'depu', 'FWD'),
+    ],
+  };
+}
+
 /** Convocatórias oficiais do 1.º de Agosto–Desportivo da Huíla (1.ª jornada). */
 function getPublishedAgostoHuilaLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
   if (match.id !== 'm27-1-3') return undefined;
@@ -2846,48 +3004,48 @@ function getPublishedAgostoHuilaLineups(match: Match): { home: LineupPlayer[]; a
 
   return {
     home: [
-      player('Nuno', 1, 'GK', true),
-      player('Bonifácio', 5, 'DEF', true),
-      player('Mabelé', 3, 'DEF', true),
-      player('Macaia', 16, 'DEF', true),
-      player('Milton', 2, 'DEF', true),
-      player('Calebi', 10, 'MID', true),
-      player('Venâncio', 15, 'MID', true),
-      player('Mabilson', 7, 'MID', true),
-      player('Fernando', 11, 'FWD', true),
-      player('Rupson', 9, 'FWD', true),
+      player('Nuno', 1, 'GK', true, 'nuno-dago'),
+      player('Bonifácio', 5, 'DEF', true, 'bonifacio-dago'),
+      player('Mabelé', 3, 'DEF', true, 'mabele-dago'),
+      player('Macaia', 16, 'DEF', true, 'macaia-dago'),
+      player('Milton', 2, 'DEF', true, 'milton-dago'),
+      player('Calebi', 10, 'MID', true, 'calebi-dago'),
+      player('Venâncio', 15, 'MID', true, 'venancio-dago'),
+      player('Mabilson', 7, 'MID', true, 'mabilson-dago'),
+      player('Fernando', 11, 'FWD', true, 'fernando-dago'),
+      player('Rupson', 9, 'FWD', true, 'rupson-dago'),
       player('Dagó', 17, 'FWD', true, 'dago-tshibamba'),
-      player('Anselmo', 22, 'GK', false),
-      player('Benção', 36, 'DEF', false),
-      player('Bulaya', 28, 'DEF', false),
-      player('Castro', 27, 'MID', false),
-      player('Tombé', 20, 'MID', false),
-      player('Clíver', 18, 'MID', false),
-      player('Obed', 14, 'FWD', false),
-      player('Axel', 8, 'FWD', false),
-      player('Bruno', 6, 'FWD', false),
+      player('Anselmo', 22, 'GK', false, 'anselmo-dago'),
+      player('Benção', 36, 'DEF', false, 'bencao-dago'),
+      player('Bulaya', 28, 'DEF', false, 'bulaya-dago'),
+      player('Castro', 27, 'MID', false, 'castro-dago'),
+      player('Tombé', 20, 'MID', false, 'tombe-dago'),
+      player('Clíver', 18, 'MID', false, 'cliver-dago'),
+      player('Obed', 14, 'FWD', false, 'obed-dago'),
+      player('Axel', 8, 'FWD', false, 'axel-dago'),
+      player('Bruno', 6, 'FWD', false, 'bruno-dago'),
     ],
     away: [
-      player('Ndulo', 1, 'GK', true),
-      player('Ludy', 13, 'DEF', true),
-      player('Dos Santos', 4, 'DEF', true),
-      player('Katendi', 2, 'DEF', true),
-      player('Jeremias', 26, 'DEF', true),
-      player('Elias', 15, 'MID', true),
-      player('Tchutchu', 21, 'MID', true),
-      player('Constantino', 32, 'MID', true),
-      player('Milton', 18, 'FWD', true),
-      player('Milagre', 25, 'FWD', true),
-      player('Mendes', 10, 'FWD', true),
-      player('Passy', 12, 'GK', false),
-      player('Jo', 6, 'DEF', false),
-      player('Cabibi', 7, 'DEF', false),
-      player('Jeizi', 8, 'MID', false),
-      player('Toyzinho', 20, 'MID', false),
-      player('António', 27, 'MID', false),
-      player('Cagodo', 29, 'FWD', false),
-      player('Jony', 34, 'FWD', false),
-      player('Geovany', 35, 'FWD', false),
+      player('Ndulo', 1, 'GK', true, 'ndulo-huila'),
+      player('Lucas Elias Antonio Paulo (Ludy)', 13, 'DEF', true, 'lucas-elias-huila'),
+      player('Dos Santos', 4, 'DEF', true, 'dos-santos-huila'),
+      player('Katendi', 2, 'DEF', true, 'katendi-huila'),
+      player('Jeremias', 26, 'DEF', true, 'jeremias-huila'),
+      player('Elias', 15, 'MID', true, 'elias-huila'),
+      player('Angelo Cangu (Tchutchu)', 21, 'MID', true, 'angelo-cangu-huila'),
+      player('Tchicundico Cassoma Tchitunda (Constantino)', 32, 'MID', true, 'tchicundico-huila'),
+      player('Milton Alberto de Oliveira Suca', 18, 'FWD', true, 'milton-suca-huila'),
+      player('Milagre Carlos Simba', 25, 'FWD', true, 'milagre-simba-huila'),
+      player('Mendes', 10, 'FWD', true, 'mendes-huila'),
+      player('Passy', 12, 'GK', false, 'passy-huila'),
+      player('João Milagre Chiva Simões', 6, 'DEF', false, 'joao-milagre-huila'),
+      player('Leonardo Manuel Isola Ramos (Cabibi)', 7, 'DEF', false, 'leonardo-isola-huila'),
+      player('Mauricio Pedro (Jeizi)', 8, 'MID', false, 'mauricio-pedro-huila'),
+      player('Toyzinho', 20, 'MID', false, 'toyzinho-huila'),
+      player('António', 27, 'MID', false, 'antonio-huila'),
+      player('Pequenino Castro (Cagodo)', 29, 'FWD', false, 'pequenino-castro-huila'),
+      player('João Baptista Ferraz Samazanga Juny (Jony)', 34, 'FWD', false, 'joao-samazanga-huila'),
+      player('Geovany', 35, 'FWD', false, 'geovany-huila'),
     ],
   };
 }
@@ -3251,7 +3409,8 @@ export function getMatchDetail(match: Match): MatchDetail {
   const publishedLineups = getPublishedBravosSagradaLineups(match)
     ?? getPublishedCabindaLiboloLineups(match)
     ?? getPublishedAgostoHuilaLineups(match)
-    ?? getPublishedLundaSulPetroLineups(match);
+    ?? getPublishedLundaSulPetroLineups(match)
+    ?? getPublishedLobitoPetroLineups(match);
   const homeLineup = publishedLineups?.home ?? buildLineup(match.homeTeamId, seed);
   const awayLineup = publishedLineups?.away ?? buildLineup(match.awayTeamId, seed + 7);
 
@@ -3328,6 +3487,8 @@ export function getMatchDetail(match: Match): MatchDetail {
     events,
     attendance: match.attendance ?? 0,
     referee: match.referee ?? getMatchOfficials(match).referee,
+    homeCoach: match.id === 'm27-2-8' ? 'Silvestre Pelé' : undefined,
+    awayCoach: match.id === 'm27-2-8' ? 'João Pedro Sousa' : undefined,
     manOfTheMatch,
   };
 }
@@ -3366,6 +3527,11 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       referee: 'Nelson João Milagre',
       assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'],
       fourth: 'Laurindo Feliciano Aureleo',
+    },
+    'm27-2-8': {
+      referee: 'Gilberto Kativa',
+      assistants: ['Jeremias Cafussa', 'Pedro Alberto'],
+      fourth: 'Pedro Katchisosa',
     },
   };
   const published = publishedByMatch[match.id];
