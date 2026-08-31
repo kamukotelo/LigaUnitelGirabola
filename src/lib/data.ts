@@ -2638,6 +2638,7 @@ export interface PortalData {
   profiles?: Record<string, Partial<TeamProfile>>;
   standings?: Record<string, StandingEntry[]>;
   videos?: VideoHighlight[];
+  news?: NewsArticle[];
   lineups?: Record<string, { home: LineupPlayer[]; away: LineupPlayer[]; homeCoach?: string; awayCoach?: string }>;
   events?: Record<string, MatchEventDetail[]>;
   matchStats?: Record<string, { home: Partial<MatchTeamStats>; away: Partial<MatchTeamStats>; keys: (keyof MatchTeamStats)[] }>;
@@ -2933,7 +2934,9 @@ export function getNewsArticles(): NewsArticle[] {
   // e ordena por data cronológica decrescente (mais recente primeiro).
   const ov = RUNTIME_OVERRIDES.news;
   const deleted = new Set(ov?.deleted ?? []);
-  const merged = [...(ov?.added ?? []), ...newsMock]
+  const databaseNews = RUNTIME_DATA.news ?? [];
+  const databaseIds = new Set(databaseNews.map((article) => article.id));
+  const merged = [...(ov?.added ?? []), ...databaseNews, ...newsMock.filter((article) => !databaseIds.has(article.id))]
     .filter((a) => !deleted.has(a.id))
     .map((a) => (ov?.overrides?.[a.id] ? { ...a, ...ov.overrides[a.id] } : a))
     // Política editorial fail-closed: conteúdos antigos, rascunhos ou peças

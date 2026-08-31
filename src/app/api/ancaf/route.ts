@@ -47,9 +47,15 @@ interface DbMatch {
   home_score: number | null;
   away_score: number | null;
   score: string | null;
+  half_time_score: string | null;
   date: string;
   stadium: string;
   status: Match['status'];
+  schedule_status: Match['scheduleStatus'] | null;
+  referee: string | null;
+  broadcaster: string | null;
+  attendance: number | null;
+  useful_time_minutes: number | null;
 }
 
 function fromDbMatch(match: DbMatch): Match {
@@ -64,10 +70,16 @@ function fromDbMatch(match: DbMatch): Match {
     awayTeam: match.away_team,
     homeScore,
     awayScore,
-    score: match.status === 'finished' || match.status === 'live' ? `${homeScore}-${awayScore}` : undefined,
+    score: match.score ?? (match.status === 'finished' || match.status === 'live' ? `${homeScore}-${awayScore}` : undefined),
+    halfTimeScore: match.half_time_score ?? undefined,
     date: match.date,
     stadium: match.stadium,
     status: match.status,
+    scheduleStatus: match.schedule_status ?? undefined,
+    referee: match.referee ?? undefined,
+    broadcaster: match.broadcaster ?? undefined,
+    attendance: match.attendance ?? undefined,
+    usefulTimeMinutes: match.useful_time_minutes ?? undefined,
   };
 }
 
@@ -125,7 +137,7 @@ export async function GET(request: Request) {
         .in('key', ['active_calendar_index', 'active_calendar_seed', 'active_calendar_fingerprint', 'override_calendar']),
         supabase
           .from('ancaf_matches')
-          .select('id, round, home_team_id, away_team_id, home_team, away_team, home_score, away_score, score, date, stadium, status')
+          .select('id, round, home_team_id, away_team_id, home_team, away_team, home_score, away_score, score, half_time_score, date, stadium, status, schedule_status, referee, broadcaster, attendance, useful_time_minutes')
           .eq('season_id', '2026-27')
           .order('round')
           .order('id'),

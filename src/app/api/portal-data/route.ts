@@ -29,12 +29,13 @@ export async function GET() {
   };
 
   try {
-    const [staffRes, profRes, standRes, teamRes, vidRes, lineRes, evRes, statRes] = await Promise.all([
+    const [staffRes, profRes, standRes, teamRes, vidRes, newsRes, lineRes, evRes, statRes] = await Promise.all([
       supabase.from('ancaf_team_staff').select('team_id, name, role, nationality, ma_id, fifa_id, sort_rank, updated_at'),
       supabase.from('ancaf_team_profiles').select('team_id, official_name, president, website, socials, palmares, kits, board, updated_at'),
       supabase.from('ancaf_standings').select('*'),
       supabase.from('ancaf_teams').select('id, name'),
       supabase.from('ancaf_videos').select('*').order('sort'),
+      supabase.from('ancaf_news').select('id, title, category, date, iso_date, summary, content, status, author, source_name, source_url, published_at, ai_assisted, updated_at').order('date', { ascending: false }),
       supabase.from('ancaf_match_lineups').select('match_id, team_id, side, players, coach, updated_at'),
       supabase.from('ancaf_match_events').select('*').order('sort'),
       supabase.from('ancaf_match_stats').select('*'),
@@ -113,6 +114,25 @@ export async function GET() {
           id: str(r.id), title: str(r.title), duration: str(r.duration), views: str(r.views),
           category: str(r.category), thumbnail: str(r.thumbnail), videoUrl: str(r.video_url),
           isLive: r.is_live === true,
+        };
+      });
+    }
+
+    // ── notícias editoriais ─────────────────────────────────────────
+    const newsRows = arr<Row>(newsRes.data);
+    if (newsRows.length) {
+      data.news = newsRows.map((r) => {
+        bump(r.updated_at);
+        const publishedAt = r.published_at ? str(r.published_at) : undefined;
+        return {
+          id: str(r.id), title: str(r.title), category: str(r.category) || 'Geral',
+          date: str(r.date), isoDate: str(r.iso_date) || str(r.date).slice(0, 10),
+          summary: str(r.summary), content: str(r.content),
+          status: (str(r.status) || 'published') as import('@/lib/data').NewsArticle['status'],
+          author: r.author ? str(r.author) : undefined,
+          sourceName: r.source_name ? str(r.source_name) : undefined,
+          sourceUrl: r.source_url ? str(r.source_url) : undefined,
+          publishedAt, aiAssisted: r.ai_assisted === true,
         };
       });
     }

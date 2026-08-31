@@ -222,6 +222,7 @@ interface MatchOverride {
   homeScore?: number;
   awayScore?: number;
   score?: string;
+  halfTimeScore?: string;
   referee?: string;
   broadcaster?: string;
   attendance?: number;
@@ -1047,6 +1048,16 @@ function CalendarSection() {
                       className="admin-input text-center disabled:opacity-40"
                     />
                   </div>
+                </Field>
+                <Field label="Resultado ao intervalo">
+                  <input
+                    type="text"
+                    disabled={!finished}
+                    placeholder="Ex.: 1-0"
+                    value={m.halfTimeScore ?? ''}
+                    onChange={(e) => update(m.id, { halfTimeScore: e.target.value || undefined })}
+                    className="admin-input disabled:opacity-40"
+                  />
                 </Field>
                 <Field label="Árbitro principal">
                   <input

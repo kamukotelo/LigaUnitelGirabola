@@ -13,7 +13,6 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin';
 type MatchPatch = Partial<Match>;
 type CalendarStore = Record<string, MatchPatch>;
 
-const NEWS_KEY = 'override_news';
 const AUTOMATION_STATUS_KEY = 'automation_match_update_status';
 const DEFAULT_RECIPIENTS = [
   'kamukotelo@ancaf.co.ao',
@@ -21,12 +20,6 @@ const DEFAULT_RECIPIENTS = [
   'rivaldo.domingues@ancaf.co.ao',
   'derby.candido@ancaf.co.ao',
 ];
-
-interface NewsStore {
-  overrides: Record<string, Partial<NewsArticle>>;
-  added: NewsArticle[];
-  deleted: string[];
-}
 
 interface AutomationStatus {
   completedAt: string;
@@ -197,14 +190,27 @@ export async function processCalendarUpdate(previousValue: string | null | undef
   };
 
   const admin = getSupabaseAdmin();
-  const { data } = await admin.from('ancaf_configs').select('value').eq('key', NEWS_KEY).maybeSingle();
-  let store: NewsStore = { overrides: {}, added: [], deleted: [] };
-  try { if (data?.value) store = { ...store, ...JSON.parse(data.value) }; } catch { /* preserva a estrutura vazia */ }
-  if (!store.added.some((item) => item.id === article.id)) {
-    store.added = [article, ...store.added].slice(0, 250);
-    const { error } = await admin.from('ancaf_configs').upsert({ key: NEWS_KEY, value: JSON.stringify(store) }, { onConflict: 'key' });
-    if (error) throw error;
-  }
+  // Rascunhos automáticos são conteúdo editorial próprio; não devem viver em
+  // JSON de configuração. O painel consegue revê-los e publicá-los a partir
+  // da mesma tabela que serve as restantes notícias.
+  const { error: newsError } = await admin.from('ancaf_news').upsert({
+    id: article.id,
+    title: article.title,
+    category: article.category,
+    date: new Date().toISOString(),
+    iso_date: article.isoDate,
+    summary: article.summary,
+    content: article.content,
+    status: article.status,
+    author: article.author,
+    source_name: article.sourceName,
+    source_url: article.sourceUrl,
+    published_at: null,
+    document_images: [],
+    document_url: null,
+    ai_assisted: article.aiAssisted === true,
+  }, { onConflict: 'id' });
+  if (newsError) throw newsError;
 
   const notification = await notifyEditors(article, facts);
   await saveStatus({

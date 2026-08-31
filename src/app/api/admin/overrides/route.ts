@@ -1,7 +1,7 @@
 import { after, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
-import { ADMIN_COOKIE, isAdminSession } from '@/lib/admin-auth';
+import { ADMIN_COOKIE, getAdminSession } from '@/lib/admin-auth';
 import { processCalendarUpdate } from '@/lib/match-update-automation';
 import { isSameOriginRequest } from '@/lib/request-security';
 
@@ -45,8 +45,8 @@ export async function POST(request: Request) {
   if (!isSameOriginRequest(request)) {
     return NextResponse.json({ error: 'forbidden', message: 'Origem do pedido não autorizada.' }, { status: 403 });
   }
-  const sessionCookie = (await cookies()).get(ADMIN_COOKIE)?.value;
-  if (!isAdminSession(sessionCookie)) {
+  const session = getAdminSession((await cookies()).get(ADMIN_COOKIE)?.value);
+  if (!session || session.profile !== 'admin') {
     return NextResponse.json({ error: 'unauthorized', message: 'Sessão de administração inválida.' }, { status: 401 });
   }
 
@@ -111,15 +111,27 @@ export async function POST(request: Request) {
         if (Number.isInteger(patch.awayScore) && Number(patch.awayScore) >= 0) row.away_score = patch.awayScore;
         if (typeof patch.score === 'string') row.score = patch.score;
         else if (typeof row.home_score === 'number' && typeof row.away_score === 'number') row.score = `${row.home_score}-${row.away_score}`;
+        if (typeof patch.halfTimeScore === 'string') row.half_time_score = patch.halfTimeScore || null;
+        if (patch.scheduleStatus === 'official' || patch.scheduleStatus === 'provisional') row.schedule_status = patch.scheduleStatus;
+        if (typeof patch.referee === 'string') row.referee = patch.referee || null;
+        if (typeof patch.broadcaster === 'string') row.broadcaster = patch.broadcaster || null;
+        if (Number.isInteger(patch.attendance) && Number(patch.attendance) >= 0) row.attendance = patch.attendance;
+        if (Number.isInteger(patch.usefulTimeMinutes) && Number(patch.usefulTimeMinutes) >= 0 && Number(patch.usefulTimeMinutes) <= 120) row.useful_time_minutes = patch.usefulTimeMinutes;
         return { matchId, row };
       })
       .filter(({ row }) => Object.keys(row).length > 0);
 
     for (const { matchId, row } of rows) {
+      const { data: before, error: readError } = await admin.from('ancaf_matches').select('*').eq('id', matchId).maybeSingle();
+      if (readError || !before) return NextResponse.json({ error: 'match_not_found', message: `Jogo ${matchId} não encontrado.` }, { status: 404 });
       const { error: matchError } = await admin.from('ancaf_matches').update(row).eq('id', matchId);
       if (matchError) {
         return NextResponse.json({ error: 'match_write_failed', message: `Não foi possível gravar o jogo ${matchId}: ${matchError.message}` }, { status: 500 });
       }
+      const { error: auditError } = await admin.from('ancaf_match_audit_log').insert({
+        match_id: matchId, actor_email: session.email, action: 'publish', before_data: before, after_data: { ...before, ...row },
+      });
+      if (auditError) console.error('Falha ao auditar atualização de jogo:', auditError.message);
     }
   }
 
