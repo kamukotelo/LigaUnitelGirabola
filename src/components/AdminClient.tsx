@@ -21,6 +21,7 @@ import {
 } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import FichaSection from '@/components/admin/FichaSection';
+import LivePreviewPanel from '@/components/admin/LivePreviewPanel';
 import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
 import { publishOverride, type OverrideSection } from '@/lib/portal-overrides';
 import { supabase } from '@/lib/supabase';
@@ -258,6 +259,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
   // Alterações por guardar na secção aberta — usado para avisar antes de
   // trocar de secção, sair da consola ou fechar o separador.
   const [dirty, setDirty] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const reportDirty = React.useCallback((d: boolean) => setDirty(d), []);
 
   useEffect(() => {
@@ -387,6 +389,16 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
                 <AlertTriangle size={12} /> Por guardar
               </span>
             )}
+            <button
+              onClick={() => setPreviewOpen((v) => !v)}
+              className={`inline-flex items-center gap-2 px-3 py-2 rounded-xl border font-mono text-[11px] uppercase tracking-widest transition-colors ${
+                previewOpen
+                  ? 'bg-accent/10 border-accent/40 text-accent'
+                  : 'bg-white/60 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-foreground hover:border-zinc-300 dark:hover:border-zinc-700'
+              }`}
+            >
+              <BarChart3 size={13} /> Pré-visualizar
+            </button>
             <Link
               href="/"
               target="_blank"
@@ -459,6 +471,8 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
           </div>
         </div>
       </div>
+
+      <LivePreviewPanel open={previewOpen} onClose={() => setPreviewOpen(false)} />
     </div>
   );
 }

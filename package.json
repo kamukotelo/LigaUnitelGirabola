@@ -9,6 +9,7 @@
     "lint": "eslint",
     "test:ancaf-reception": "node scripts/test-ancaf-calendar-reception.mjs",
     "supabase:verify": "node scripts/verify-supabase.mjs",
+    "db:seed:generate": "tsx scripts/generate-db-seed.mts",
     "test:regressions": "node scripts/test-portal-regressions.mjs"
   },
   "dependencies": {
@@ -29,6 +30,7 @@
     "eslint": "^9",
     "eslint-config-next": "^16.3.2",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }

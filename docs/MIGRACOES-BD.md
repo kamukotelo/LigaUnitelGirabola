@@ -20,6 +20,24 @@ Depois: `node --env-file=.env scripts/create-ancaf-admins.mjs` (cria as 4 contas
 Sem esta tabela, a secção **Ficha de Jogo** carrega os planteis mas não
 consegue guardar os onzes nem gerar o PDF (erro "write_failed").
 
+## Fase 4 — Migração de conteúdo para a BD
+
+| Ficheiro | O que faz |
+|---|---|
+| `supabase/migrations/20260901002000_portal_data_tables.sql` | tabelas novas: `ancaf_team_staff`, `ancaf_team_profiles`, `ancaf_standings`, `ancaf_match_events`, `ancaf_match_stats`, `ancaf_player_season_stats`, `ancaf_videos` |
+| `supabase/migrations/20260901003000_extend_core_tables.sql` | colunas em falta em `ancaf_teams`/`ancaf_players`/`ancaf_matches`/`ancaf_news` |
+
+Depois das migrações, gerar e aplicar os seeds:
+
+```bash
+npm run db:seed:generate          # regenera supabase/seed/*.sql do código
+# aplicar supabase/seed/01…11 por ordem (ver supabase/seed/README.md)
+```
+
+As tabelas ficam **prontas e semeadas** mas o portal continua a ler do código
+(constantes = fallback). A ligação dos getters à BD é uma fase seguinte.
+O levantamento completo está em `docs/DADOS-EM-CODIGO.md`.
+
 ### Como usar a Ficha de Jogo (depois da migração)
 
 1. Consola → **Competição → Ficha de Jogo**.
