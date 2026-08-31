@@ -34,9 +34,23 @@ npm run db:seed:generate          # regenera supabase/seed/*.sql do código
 # aplicar supabase/seed/01…11 por ordem (ver supabase/seed/README.md)
 ```
 
-As tabelas ficam **prontas e semeadas** mas o portal continua a ler do código
-(constantes = fallback). A ligação dos getters à BD é uma fase seguinte.
 O levantamento completo está em `docs/DADOS-EM-CODIGO.md`.
+
+### Vaga 1 da ligação dos getters (já em código)
+
+`GET /api/portal-data` + `RUNTIME_DATA` em `data.ts` + `PortalDataProvider` fazem
+o portal **preferir a BD** para: equipa técnica (`getTeamStaff`), perfis de clube
+(`getTeamProfile`), classificações oficiais (`getStandingsForSeason`), vídeos
+(`getVideoHighlights`) e, na ficha de jogo, escalações/eventos/estatísticas
+(`getMatchDetail`). Sem as tabelas semeadas, tudo cai na constante — **sem
+regressão**.
+
+Para ativar a Vaga 1, aplicar (não têm FKs, podem ser corridos isolados):
+`supabase/seed/03_team_profiles.sql`, `04_team_staff.sql`, `07_standings.sql`,
+`10_videos.sql`, `11_match_artifacts.sql`.
+
+Verificado localmente com dados mock: o `/ligatv` e a equipa técnica do clube
+trocam da constante para a BD via Realtime, sem rebuild.
 
 ### Como usar a Ficha de Jogo (depois da migração)
 

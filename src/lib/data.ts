@@ -226,6 +226,15 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
+  'm27-2-6': {
+    homeScore: 0,
+    awayScore: 1,
+    score: '0-1',
+    halfTimeScore: '0-0',
+    status: 'finished',
+    broadcaster: 'ZSPORT 1',
+    updatedAt: '2026-08-31T18:40:00+01:00',
+  },
   'm27-2-8': {
     homeScore: 0,
     awayScore: 2,
@@ -348,6 +357,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'mafuta-sagrada', name: 'Mafuta', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'anderson-mputa-saosalvador', name: 'Anderson Mputa', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'm-dala-sagrada', name: 'M. Dala', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'higino-bravos', name: 'Higino Kaptingo Epalanga', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Médio', goals: 1, appearances: 2 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -1840,7 +1850,7 @@ const BRAVOS_SQUAD_2026_27: Player[] = [
   ['lito-bravos', 'Lito', 'Avançado', 23, 1, 1],
   ['bani-bravos', 'Bani', 'Avançado', 20, 1, 0],
   ['agnaldo-bravos', 'Agnaldo', 'Defesa', 3, 0, 0],
-  ['higino-bravos', 'Higino', 'Médio', 10, 1, 0],
+  ['higino-bravos', 'Higino Kaptingo Epalanga', 'Médio', 10, 2, 1],
   ['tiago-bravos', 'Tiago', 'Avançado', 15, 1, 0],
   ['eduwine-bravos', 'Eduwine', 'Avançado', 17, 1, 0],
   ['gladilson-bravos', 'Gladilson', 'Avançado', 28, 1, 1],
@@ -2223,7 +2233,7 @@ export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMembe
 );
 
 export function getTeamStaff(teamId: string): TeamStaffMember[] {
-  return OFFICIAL_TEAM_STAFF_2026_27[teamId] ?? [];
+  return RUNTIME_DATA.staff?.[teamId] ?? OFFICIAL_TEAM_STAFF_2026_27[teamId] ?? [];
 }
 
 const CURRENT_SEASON_PLAYER_TOTALS = new Map<string, { goals: number; appearances: number }>(
@@ -2619,6 +2629,29 @@ export function getPortalOverrides(): PortalOverrides {
   return RUNTIME_OVERRIDES;
 }
 
+// ── Dados vindos da base de dados (migração do conteúdo em código) ───────
+// Preenchido no browser por PortalDataProvider a partir de /api/portal-data.
+// No servidor é sempre {} — os getters caem na constante (fallback do passo 1).
+// Cresce por vagas; um domínio ausente = ainda servido pela constante.
+export interface PortalData {
+  staff?: Record<string, TeamStaffMember[]>;
+  profiles?: Record<string, Partial<TeamProfile>>;
+  standings?: Record<string, StandingEntry[]>;
+  videos?: VideoHighlight[];
+  lineups?: Record<string, { home: LineupPlayer[]; away: LineupPlayer[]; homeCoach?: string; awayCoach?: string }>;
+  events?: Record<string, MatchEventDetail[]>;
+  matchStats?: Record<string, { home: Partial<MatchTeamStats>; away: Partial<MatchTeamStats>; keys: (keyof MatchTeamStats)[] }>;
+}
+
+let RUNTIME_DATA: PortalData = {};
+
+export function setPortalData(next: PortalData | null | undefined): void {
+  RUNTIME_DATA = next ?? {};
+}
+export function getPortalData(): PortalData {
+  return RUNTIME_DATA;
+}
+
 /** Identidade do portal já com as edições publicadas no admin aplicadas. */
 export function getSiteSettings(): SiteSettings {
   return { ...DEFAULT_SITE_SETTINGS, ...(RUNTIME_OVERRIDES.site ?? {}) };
@@ -2726,7 +2759,7 @@ export function getStandings(): StandingEntry[] {
  */
 export function getStandingsForSeason(seasonId: string): StandingEntry[] {
   const computed = computeStandings(getMatchesForSeason(seasonId));
-  const official = OFFICIAL_STANDINGS[seasonId];
+  const official = RUNTIME_DATA.standings?.[seasonId] ?? OFFICIAL_STANDINGS[seasonId];
 
   if (!official) return computed;
 
@@ -3499,6 +3532,10 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  if (match.id === 'm27-2-6') return [
+    { minute: 85, type: 'goal', team: 'away', player: 'Higino Kaptingo Epalanga', playerId: 'higino-bravos', detail: '0-1' },
+  ];
+
   if (match.id === 'm27-2-8') return [
     { minute: 47, type: 'goal', team: 'away', player: 'Tiago Azulão', playerId: 'tiago-azulao', detail: '0-1' },
     { minute: 91, type: 'goal', team: 'away', player: 'Depú', playerId: 'depu', detail: "90'+1 · 0-2" },
@@ -3674,6 +3711,11 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   return undefined;
 }
 
+/** Indica se os eventos da partida provêm de uma fonte publicada. */
+export function hasPublishedMatchEvents(match: Match): boolean {
+  return getPublishedMatchEvents(match) !== undefined;
+}
+
 const EMPTY_MATCH_STATS: MatchTeamStats = {
   possession: 0,
   shots: 0,
@@ -3721,7 +3763,7 @@ export function getTeamCardTotalsFromSheets(teamId: string): { yellow: number; r
   let yellow = 0;
   let red = 0;
 
-  for (const [matchId, stats] of Object.entries(PUBLISHED_MATCH_STATS)) {
+  for (const [matchId, stats] of Object.entries(RUNTIME_DATA.matchStats ?? PUBLISHED_MATCH_STATS)) {
     const match = seasonMatches.find((m) => m.id === matchId);
     if (!match) continue;
     const side = match.homeTeamId === teamId ? stats.home : match.awayTeamId === teamId ? stats.away : undefined;
@@ -3737,7 +3779,7 @@ export function getTeamCardTotalsFromSheets(teamId: string): { yellow: number; r
 export function getCurrentSeasonCardReconciliation() {
   let yellowInSheets = 0;
   let redInSheets = 0;
-  for (const stats of Object.values(PUBLISHED_MATCH_STATS)) {
+  for (const stats of Object.values(RUNTIME_DATA.matchStats ?? PUBLISHED_MATCH_STATS)) {
     yellowInSheets += (stats.home.yellowCards ?? 0) + (stats.away.yellowCards ?? 0);
     redInSheets += (stats.home.redCards ?? 0) + (stats.away.redCards ?? 0);
   }
@@ -3804,7 +3846,10 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
 
 export function getMatchDetail(match: Match): MatchDetail {
   const seed = hashString(match.id);
-  const publishedLineups = getPublishedBravosSagradaLineups(match)
+
+  // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código → procedural.
+  const dbLineup = RUNTIME_DATA.lineups?.[match.id];
+  const publishedLineups = dbLineup ?? getPublishedBravosSagradaLineups(match)
     ?? getPublishedCabindaLiboloLineups(match)
     ?? getPublishedAgostoHuilaLineups(match)
     ?? getPublishedLundaSulPetroLineups(match)
@@ -3813,12 +3858,12 @@ export function getMatchDetail(match: Match): MatchDetail {
   const homeLineup = publishedLineups?.home ?? buildLineup(match.homeTeamId, seed);
   const awayLineup = publishedLineups?.away ?? buildLineup(match.awayTeamId, seed + 7);
 
-  const publishedStats = PUBLISHED_MATCH_STATS[match.id];
+  const publishedStats = RUNTIME_DATA.matchStats?.[match.id] ?? PUBLISHED_MATCH_STATS[match.id];
   const homeStats = { ...EMPTY_MATCH_STATS, ...publishedStats?.home };
   const awayStats = { ...EMPTY_MATCH_STATS, ...publishedStats?.away };
 
   const events: MatchEventDetail[] = [];
-  const publishedEvents = getPublishedMatchEvents(match);
+  const publishedEvents = RUNTIME_DATA.events?.[match.id] ?? getPublishedMatchEvents(match);
 
   if (match.status === 'finished' || match.status === 'live') {
     if (publishedEvents) {
@@ -3886,8 +3931,8 @@ export function getMatchDetail(match: Match): MatchDetail {
     events,
     attendance: match.attendance ?? 0,
     referee: match.referee ?? getMatchOfficials(match).referee,
-    homeCoach: PUBLISHED_MATCH_COACHES[match.id]?.home,
-    awayCoach: PUBLISHED_MATCH_COACHES[match.id]?.away,
+    homeCoach: dbLineup?.homeCoach ?? PUBLISHED_MATCH_COACHES[match.id]?.home,
+    awayCoach: dbLineup?.awayCoach ?? PUBLISHED_MATCH_COACHES[match.id]?.away,
     manOfTheMatch,
   };
 }
@@ -4238,7 +4283,8 @@ export function getTeamProfile(teamId: string): TeamProfile | undefined {
     website: team.website,
     mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${team.stadium}, ${team.city}, Angola`)}`,
   };
-  const override = TEAM_PROFILE_OVERRIDES[teamId];
+  // A BD (ancaf_team_profiles), quando disponível, substitui a curadoria em código.
+  const override = RUNTIME_DATA.profiles?.[teamId] ?? TEAM_PROFILE_OVERRIDES[teamId];
   const profile = override
     ? { ...defaults, ...override, kits: override.kits ?? defaults.kits, board: override.board ?? defaults.board, socials: { ...defaults.socials, ...override.socials } }
     : defaults;
@@ -4320,5 +4366,5 @@ export const videoHighlightsMock: VideoHighlight[] = [
 ];
 
 export function getVideoHighlights(): VideoHighlight[] {
-  return videoHighlightsMock;
+  return RUNTIME_DATA.videos ?? videoHighlightsMock;
 }

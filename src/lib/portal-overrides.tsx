@@ -14,9 +14,16 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { supabase } from './supabase';
 import {
-  DEFAULT_SITE_SETTINGS, setPortalOverrides,
-  type PortalOverrides, type SiteSettings,
+  DEFAULT_SITE_SETTINGS, setPortalOverrides, setPortalData,
+  type PortalOverrides, type PortalData, type SiteSettings,
 } from './data';
+
+// Tabelas ancaf_* já migradas do código — Realtime alargado (Supabase exige
+// subscrição por tabela em RLS). Cresce a cada vaga da migração.
+const PORTAL_DATA_TABLES = [
+  'ancaf_team_staff', 'ancaf_team_profiles', 'ancaf_standings', 'ancaf_videos',
+  'ancaf_match_lineups', 'ancaf_match_events', 'ancaf_match_stats',
+];
 
 function isConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -76,16 +83,20 @@ export function PortalDataProvider({ children }: { children: React.ReactNode }) 
     let cancelled = false;
     const load = async () => {
       try {
-        const res = await fetch('/api/admin/overrides', { cache: 'no-store' });
-        if (!res.ok || cancelled) return;
-        const data = await res.json();
-        const overrides = (data?.overrides ?? {}) as PortalOverrides;
-        const sig = JSON.stringify(overrides);
-        // Só aplica/remonta quando algo mudou — sites sem overrides nunca
+        const [ovRes, dataRes] = await Promise.all([
+          fetch('/api/admin/overrides', { cache: 'no-store' }),
+          fetch('/api/portal-data', { cache: 'no-store' }),
+        ]);
+        if (cancelled) return;
+        const overrides = (ovRes.ok ? ((await ovRes.json())?.overrides ?? {}) : {}) as PortalOverrides;
+        const portalData = (dataRes.ok ? ((await dataRes.json())?.data ?? {}) : {}) as PortalData;
+        const sig = JSON.stringify({ o: overrides, d: portalData });
+        // Só aplica/remonta quando algo mudou — sites sem edições nunca
         // sofrem remontagem nem perdem estado.
         if (sig === lastSig.current) return;
         lastSig.current = sig;
         setPortalOverrides(overrides);
+        setPortalData(portalData);
         setSite({ ...DEFAULT_SITE_SETTINGS, ...(overrides.site ?? {}) });
         setVersion((v) => v + 1);
       } catch {
@@ -95,10 +106,12 @@ export function PortalDataProvider({ children }: { children: React.ReactNode }) 
 
     load();
 
-    const channel = supabase
-      .channel('portal-overrides')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_configs' }, () => load())
-      .subscribe();
+    const channel = supabase.channel('portal-data');
+    channel.on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_configs' }, () => load());
+    for (const table of PORTAL_DATA_TABLES) {
+      channel.on('postgres_changes', { event: '*', schema: 'public', table }, () => load());
+    }
+    channel.subscribe();
 
     return () => {
       cancelled = true;
