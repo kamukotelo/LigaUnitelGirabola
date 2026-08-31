@@ -33,6 +33,11 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   agentRules: false,
   allowedDevOrigins: ['127.0.0.1'],
+  // A ficha de jogo em PDF lê o emblema da ANCAF do disco; garante que o
+  // ficheiro é empacotado junto da função serverless.
+  outputFileTracingIncludes: {
+    '/api/admin/match-sheet/[matchId]': ['./public/logo-ancaf.png'],
+  },
   images: {
     remotePatterns: [
       {
