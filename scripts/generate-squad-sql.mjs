@@ -1,20 +1,37 @@
-// Gera INSERT/upsert SQL para public.ancaf_players a partir dos plantéis
-// oficiais consolidados (src/lib/official-squads-2026-27.ts).
+// Gera o seed SQL dos plantéis oficiais 2026/2027 (FIFA Connect / MA ID) para
+// três tabelas dedicadas com o prefixo `girabola_`, independentes das tabelas
+// `ancaf_` que servem o site:
+//
+//   public.girabola_clubs    — 16 clubes
+//   public.girabola_players  — 514 jogadores (club_id -> girabola_clubs)
+//   public.girabola_staff    — 230 membros de equipa técnica (club_id -> girabola_clubs)
+//
+// Chave primária = MA ID (único e presente em 100% dos registos).
 //
 //   node scripts/generate-squad-sql.mjs > supabase/seed_official_squads_2026_27.sql
-//
-// Cada clube é substituído na íntegra (DELETE ... WHERE team_id = ... seguido
-// de INSERT ... ON CONFLICT (id) DO UPDATE), tal como as migrações existentes.
 
 import { readFile } from 'node:fs/promises';
 
 const SOURCE = new URL('../src/lib/official-squads-2026-27.ts', import.meta.url);
-const SEASON_REFERENCE = new Date('2026-08-31T00:00:00Z'); // início da época 2026/27
 
-const POSITION_PT = { GK: 'Guarda-redes', DF: 'Defesa', MF: 'Médio', FWD: 'Avançado' };
-const NATIONALITY_PT = {
-  Brazil: 'Brasil', Nigeria: 'Nigéria', Mozambique: 'Moçambique',
-  'Cape Verde': 'Cabo Verde', Spain: 'Espanha', 'DR Congo': 'RD Congo',
+// Metadados dos clubes (de src/lib/data.ts, TEAMS).
+const CLUB_META = {
+  primeiromaio: { officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal', founded: 1981, nickname: 'Proletários' },
+  wiliete: { officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', founded: 2018, nickname: 'Wilietes' },
+  desphuila: { officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', founded: 1998, nickname: 'Huilanos' },
+  dago: { officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', founded: 1977, nickname: 'Militares' },
+  kabuscorp: { officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio 22 de Junho', founded: 1994, nickname: 'Palanquinos' },
+  lobito: { officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio da Tundavala', founded: 1970, nickname: 'Estudantes' },
+  fcluanda: { officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio França Ndalu', founded: 2020, nickname: 'Luandenses' },
+  libolo: { officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', founded: 1942, nickname: 'Libolenses' },
+  caala: { officialName: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Huambo', stadium: 'Estádio Daniel Cassoma Lutucuta', founded: 1944, nickname: 'Caalenses' },
+  interclube: { officialName: 'Grupo Desportivo Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', founded: 1976, nickname: 'Polícias' },
+  bravos: { officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', founded: 1983, nickname: 'Maquisardes' },
+  sagrada: { officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', founded: 1976, nickname: 'Lundas' },
+  lundasul: { officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', city: 'Saurimo', stadium: 'Estádio Sagrada Esperança', founded: 2020, nickname: 'Tchianda' },
+  saosalvador: { officialName: 'São Salvador do Kongo Futebol Clube', shortName: 'SSK', city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', founded: 1999, nickname: 'Kongos' },
+  petro: { officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', founded: 1980, nickname: 'Tricolores' },
+  cabinda: { officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', city: 'Cabinda', stadium: 'Estádio Vici António', founded: 2005, nickname: 'Gorilas do Norte' },
 };
 
 const raw = await readFile(SOURCE, 'utf8');
@@ -24,72 +41,126 @@ const q = (value) => (value === null || value === undefined || value === ''
   ? 'null'
   : `'${String(value).replace(/'/g, "''")}'`);
 
-function ageFromBirthDate(birthDate) {
-  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(birthDate ?? '').trim());
-  if (!match) return null;
-  const [, dd, mm, yyyy] = match;
-  const born = new Date(Date.UTC(Number(yyyy), Number(mm) - 1, Number(dd)));
-  if (Number.isNaN(born.getTime())) return null;
-  let age = SEASON_REFERENCE.getUTCFullYear() - born.getUTCFullYear();
-  const monthDiff = SEASON_REFERENCE.getUTCMonth() - born.getUTCMonth()
-    || SEASON_REFERENCE.getUTCDate() - born.getUTCDate();
-  if (monthDiff < 0) age -= 1;
-  return age >= 12 && age <= 55 ? age : null;
-}
+const int = (value) => (/^-?\d+$/.test(String(value ?? '').trim()) ? String(value).trim() : 'null');
 
-const slug = (text) => String(text)
-  .normalize('NFD').replace(/[̀-ͯ]/g, '')
-  .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+function birthDate(value) {
+  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(value ?? '').trim());
+  return match ? `'${match[3]}-${match[2]}-${match[1]}'` : 'null';
+}
 
 const lines = [];
-lines.push('-- Plantéis oficiais 2026/2027 (FIFA Connect / MA ID) — 16 clubes.');
+lines.push('-- Plantéis oficiais da Liga Unitel Girabola 2026/2027 (FIFA Connect / MA ID).');
 lines.push('-- Gerado por scripts/generate-squad-sql.mjs a partir de official-squads-2026-27.ts.');
-lines.push('-- Substitui integralmente o plantel de cada clube em public.ancaf_players.');
+lines.push('-- Tabelas dedicadas girabola_*, independentes das tabelas ancaf_* do site.');
 lines.push('');
 lines.push('begin;');
+lines.push('');
 
+lines.push(`create table if not exists public.girabola_clubs (
+  id            text primary key,
+  name          text not null,
+  official_name text,
+  short_name    text,
+  city          text,
+  stadium       text,
+  founded       integer,
+  nickname      text,
+  created_at    timestamptz not null default timezone('utc', now()),
+  updated_at    timestamptz not null default timezone('utc', now())
+);`);
+lines.push('');
+lines.push(`create table if not exists public.girabola_players (
+  id            text primary key,            -- MA ID
+  club_id       text not null references public.girabola_clubs(id) on delete cascade,
+  name          text not null,
+  full_name     text,
+  popular_name  text,
+  ma_id         text not null,
+  fifa_id       text,
+  gender        text,
+  birth_date    date,
+  nationality   text,
+  position      text,                        -- GK / DF / MF / FWD (código FIFA) ou null
+  jersey_number integer,
+  created_at    timestamptz not null default timezone('utc', now()),
+  updated_at    timestamptz not null default timezone('utc', now())
+);
+create index if not exists girabola_players_club_idx on public.girabola_players(club_id);`);
+lines.push('');
+lines.push(`create table if not exists public.girabola_staff (
+  id            text primary key,            -- MA ID
+  club_id       text not null references public.girabola_clubs(id) on delete cascade,
+  name          text not null,
+  full_name     text,
+  popular_name  text,
+  ma_id         text not null,
+  fifa_id       text,
+  gender        text,
+  role          text,                        -- TMGR / ASCH / GKCH / PHYS / TMED / HDCH / ...
+  nationality   text,
+  created_at    timestamptz not null default timezone('utc', now()),
+  updated_at    timestamptz not null default timezone('utc', now())
+);
+create index if not exists girabola_staff_club_idx on public.girabola_staff(club_id);`);
+lines.push('');
+
+// ── girabola_clubs ────────────────────────────────────────────────────────
+lines.push('-- Clubes');
+lines.push('insert into public.girabola_clubs (id, name, official_name, short_name, city, stadium, founded, nickname)');
+lines.push('values');
+lines.push(squads.map((s) => {
+  const meta = CLUB_META[s.teamId] ?? {};
+  return `  (${q(s.teamId)}, ${q(s.club)}, ${q(meta.officialName)}, ${q(meta.shortName)}, `
+    + `${q(meta.city)}, ${q(meta.stadium)}, ${int(meta.founded)}, ${q(meta.nickname)})`;
+}).join(',\n'));
+lines.push(`on conflict (id) do update set
+  name = excluded.name, official_name = excluded.official_name, short_name = excluded.short_name,
+  city = excluded.city, stadium = excluded.stadium, founded = excluded.founded,
+  nickname = excluded.nickname, updated_at = timezone('utc', now());`);
+lines.push('');
+
+// ── girabola_players ──────────────────────────────────────────────────────
 let totalPlayers = 0;
 for (const squad of squads) {
-  const usedIds = new Set();
-  lines.push('');
-  lines.push(`-- ${squad.club} (${squad.teamId}) — ${squad.players.length} jogadores`);
-  lines.push(`delete from public.ancaf_players where team_id = ${q(squad.teamId)};`);
-  lines.push('insert into public.ancaf_players');
-  lines.push('  (id, team_id, name, position, jersey_number, age, nationality,');
-  lines.push('   goals, assists, appearances, attributes, career_history, fifa_connect_status)');
+  lines.push(`-- ${squad.club} — ${squad.players.length} jogadores`);
+  lines.push('insert into public.girabola_players');
+  lines.push('  (id, club_id, name, full_name, popular_name, ma_id, fifa_id, gender, birth_date, nationality, position, jersey_number)');
   lines.push('values');
-
-  const rows = squad.players.map((player) => {
-    let id = `${squad.teamId}-${slug(player.fullName || player.name) || 'jogador'}`;
-    let n = 2;
-    while (usedIds.has(id)) id = `${squad.teamId}-${slug(player.fullName || player.name)}-${n++}`;
-    usedIds.add(id);
+  lines.push(squad.players.map((p) => {
     totalPlayers += 1;
-
-    const position = POSITION_PT[player.position] ?? 'null-literal';
-    const nationality = NATIONALITY_PT[player.nationality] ?? player.nationality;
-    const jersey = /^\d+$/.test(player.jerseyNumber) ? player.jerseyNumber : 'null';
-    const age = ageFromBirthDate(player.birthDate);
-    const status = player.fifaId ? 'active' : 'unregistered';
-
-    return `  (${q(id)}, ${q(squad.teamId)}, ${q(player.name)}, `
-      + `${position === 'null-literal' ? 'null' : q(position)}, `
-      + `${jersey}, ${age ?? 'null'}, ${q(nationality)}, `
-      + `0, 0, 0, '{}'::jsonb, '[]'::jsonb, ${q(status)})`;
-  });
-  lines.push(rows.join(',\n') + '');
-  lines.push('on conflict (id) do update set');
-  lines.push('  team_id = excluded.team_id,');
-  lines.push('  name = excluded.name,');
-  lines.push('  position = excluded.position,');
-  lines.push('  jersey_number = excluded.jersey_number,');
-  lines.push('  age = excluded.age,');
-  lines.push('  nationality = excluded.nationality,');
-  lines.push('  fifa_connect_status = excluded.fifa_connect_status;');
+    return `  (${q(p.maId)}, ${q(squad.teamId)}, ${q(p.name)}, ${q(p.fullName)}, ${q(p.popularName)}, `
+      + `${q(p.maId)}, ${q(p.fifaId)}, ${q(p.gender)}, ${birthDate(p.birthDate)}, ${q(p.nationality)}, `
+      + `${q(p.position)}, ${int(p.jerseyNumber)})`;
+  }).join(',\n'));
+  lines.push(`on conflict (id) do update set
+  club_id = excluded.club_id, name = excluded.name, full_name = excluded.full_name,
+  popular_name = excluded.popular_name, fifa_id = excluded.fifa_id, gender = excluded.gender,
+  birth_date = excluded.birth_date, nationality = excluded.nationality, position = excluded.position,
+  jersey_number = excluded.jersey_number, updated_at = timezone('utc', now());`);
+  lines.push('');
 }
 
-lines.push('');
+// ── girabola_staff ───────────────────────────────────────────────────────
+let totalStaff = 0;
+for (const squad of squads) {
+  if (!squad.staff?.length) continue;
+  lines.push(`-- ${squad.club} — ${squad.staff.length} equipa técnica`);
+  lines.push('insert into public.girabola_staff');
+  lines.push('  (id, club_id, name, full_name, popular_name, ma_id, fifa_id, gender, role, nationality)');
+  lines.push('values');
+  lines.push(squad.staff.map((m) => {
+    totalStaff += 1;
+    return `  (${q(m.maId)}, ${q(squad.teamId)}, ${q(m.name)}, ${q(m.fullName)}, ${q(m.popularName)}, `
+      + `${q(m.maId)}, ${q(m.fifaId)}, ${q(m.gender)}, ${q(m.role)}, ${q(m.nationality)})`;
+  }).join(',\n'));
+  lines.push(`on conflict (id) do update set
+  club_id = excluded.club_id, name = excluded.name, full_name = excluded.full_name,
+  popular_name = excluded.popular_name, fifa_id = excluded.fifa_id, gender = excluded.gender,
+  role = excluded.role, nationality = excluded.nationality, updated_at = timezone('utc', now());`);
+  lines.push('');
+}
+
 lines.push('commit;');
-lines.push(`-- Total: ${totalPlayers} jogadores em ${squads.length} clubes.`);
+lines.push(`-- Total: ${squads.length} clubes, ${totalPlayers} jogadores, ${totalStaff} equipa técnica.`);
 
 process.stdout.write(lines.join('\n') + '\n');
