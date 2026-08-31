@@ -25,7 +25,7 @@ insert into public.ancaf_matches (id, season_id, round, home_team_id, away_team_
   ('m27-3-6', '2026-27', 3, 'dago', 'interclube', 'CD 1.º de Agosto', 'GD Interclube', 0, 0, null, null, '2026-09-01T14:30:00.000Z', 'Estádio França N’dalu', 'scheduled', 'official', null, 'Zsports', null, null),
   ('m27-3-1', '2026-27', 3, 'lundasul', 'caala', 'Desportivo da Lunda Sul', 'CR Caála', 0, 0, null, null, '2026-09-05T14:00:00.000Z', 'Estádio do Sagrada Esperança', 'scheduled', 'official', null, null, null, null),
   ('m27-3-8', '2026-27', 3, 'lobito', 'primeiromaio', 'Académica do Lobito', 'Estrela 1.º de Maio', 0, 0, null, null, '2026-09-05T14:30:00.000Z', 'Estádio do Buraco', 'scheduled', 'official', null, 'Zsports', null, null),
-  ('m27-3-4', '2026-27', 3, 'fcluanda', 'cabinda', 'FC Luanda', 'FC Cabinda', 0, 0, null, null, '2026-09-06T14:00:00.000Z', 'Estádio França N’dalu', 'scheduled', 'official', null, null, null, null),
+  ('m27-3-4', '2026-27', 3, 'fcluanda', 'cabinda', 'FC Luanda', 'FC Cabinda', 0, 0, null, null, '2026-09-05T14:30:00.000Z', 'Estádio França N’dalu', 'scheduled', 'official', null, null, null, null),
   ('m27-3-5', '2026-27', 3, 'bravos', 'saosalvador', 'Bravos do Maquis', 'São Salvador', 0, 0, null, null, '2026-09-06T14:00:00.000Z', 'Estádio Mundunduleno', 'scheduled', 'official', null, null, null, null),
   ('m27-3-3', '2026-27', 3, 'sagrada', 'kabuscorp', 'Sagrada Esperança', 'Kabuscorp SC', 0, 0, null, null, '2026-09-23T14:00:00.000Z', 'Estádio do Sagrada Esperança', 'scheduled', 'official', null, null, null, null),
   ('m27-4-5', '2026-27', 4, 'cabinda', 'dago', 'FC Cabinda', 'CD 1.º de Agosto', 0, 0, null, null, '2026-09-09T14:00:00.000Z', 'Estádio Vici António', 'scheduled', 'official', null, 'Zsports', null, null),

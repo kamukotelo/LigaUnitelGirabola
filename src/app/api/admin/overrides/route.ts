@@ -94,6 +94,35 @@ export async function POST(request: Request) {
     ? await admin.from('ancaf_configs').select('value').eq('key', keyFor('calendar')).maybeSingle()
     : null;
 
+  // O calendário público continua a usar o bloco de overrides para reagir em
+  // tempo real, mas a fonte operacional tem de ficar igualmente atualizada:
+  // cada gravação do administrador sincroniza os campos essenciais da tabela
+  // de jogos. Assim, ficha, resultados e futuras integrações partilham a
+  // mesma data/estado que o calendário.
+  if (section === 'calendar' && value && typeof value === 'object' && !Array.isArray(value)) {
+    const rows = Object.entries(value as Record<string, Record<string, unknown>>)
+      .filter(([matchId, patch]) => matchId && patch && typeof patch === 'object')
+      .map(([matchId, patch]) => {
+        const row: Record<string, unknown> = {};
+        if (typeof patch.date === 'string') row.date = patch.date;
+        if (typeof patch.stadium === 'string') row.stadium = patch.stadium;
+        if (patch.status === 'scheduled' || patch.status === 'live' || patch.status === 'finished') row.status = patch.status;
+        if (Number.isInteger(patch.homeScore) && Number(patch.homeScore) >= 0) row.home_score = patch.homeScore;
+        if (Number.isInteger(patch.awayScore) && Number(patch.awayScore) >= 0) row.away_score = patch.awayScore;
+        if (typeof patch.score === 'string') row.score = patch.score;
+        else if (typeof row.home_score === 'number' && typeof row.away_score === 'number') row.score = `${row.home_score}-${row.away_score}`;
+        return { matchId, row };
+      })
+      .filter(({ row }) => Object.keys(row).length > 0);
+
+    for (const { matchId, row } of rows) {
+      const { error: matchError } = await admin.from('ancaf_matches').update(row).eq('id', matchId);
+      if (matchError) {
+        return NextResponse.json({ error: 'match_write_failed', message: `Não foi possível gravar o jogo ${matchId}: ${matchError.message}` }, { status: 500 });
+      }
+    }
+  }
+
   const { error } = await admin
     .from('ancaf_configs')
     .upsert({ key: keyFor(section as Section), value: serialized }, { onConflict: 'key' });

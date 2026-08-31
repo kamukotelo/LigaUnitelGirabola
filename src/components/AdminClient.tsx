@@ -968,14 +968,25 @@ function CalendarSection() {
                 <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded uppercase tracking-wider">
                   {m.homeTeam} vs {m.awayTeam}
                 </span>
-                {isEdited && (
+                <div className="flex items-center gap-3">
+                  {isEdited && (
+                    <button
+                      onClick={() => resetRound([m.id])}
+                      className="text-[10px] font-mono text-zinc-500 hover:text-red-400 transition-colors uppercase tracking-widest"
+                    >
+                      Repor
+                    </button>
+                  )}
                   <button
-                    onClick={() => resetRound([m.id])}
-                    className="text-[10px] font-mono text-zinc-500 hover:text-red-400 transition-colors uppercase tracking-widest"
+                    type="button"
+                    onClick={() => void ctl.save()}
+                    disabled={!ctl.dirty || ctl.saving}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    Repor
+                    {ctl.saving ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
+                    {ctl.saving ? 'A guardar…' : 'Guardar e publicar'}
                   </button>
-                )}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
