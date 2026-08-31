@@ -3273,6 +3273,66 @@ function getPublishedLobitoPetroLineups(match: Match): { home: LineupPlayer[]; a
   };
 }
 
+/** Onze inicial e suplentes do Petro–Libolo (3.ª jornada), conforme as fichas dos clubes. */
+function getPublishedPetroLiboloLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-3-7') return undefined;
+
+  const player = (
+    name: string,
+    number: number,
+    isStarter: boolean,
+    playerId?: string,
+    position?: PitchPosition,
+  ): LineupPlayer => ({ name, number, isStarter, playerId, position, rating: 0 });
+
+  return {
+    home: [
+      player('Hugo Marques', 1, true, 'hugo-marques', 'GK'),
+      player('Núrio Fortuna', 2, true, 'nurio-fortuna', 'DEF'),
+      player('Léo Bolgado', 5, true, 'leo-bolgado', 'DEF'),
+      player('Rúben Adérito', 4, true, 'ruben-aderito', 'DEF'),
+      player('Eddie Afonso', 25, true, 'eddie-afonso', 'DEF'),
+      player('Jonathan Toro', 8, true, 'jonathan-toro', 'MID'),
+      player('Deybi Flores', 12, true, 'deybi-flores', 'MID'),
+      player('Pedro Aparício', 10, true, 'pedro-aparicio', 'MID'),
+      player('Ivan Cavaleiro', 7, true, 'ivan-cavaleiro', 'FWD'),
+      player('Hélder Costa', 11, true, 'helder-costa', 'FWD'),
+      player('Depú', 29, true, 'depu', 'FWD'),
+      player('Neblú', 22, false, 'neblu', 'GK'),
+      player('Mário Balbúrdia', 6, false, 'mario-balburdia', 'MID'),
+      player('Vanilson', 17, false, 'vanilson', 'FWD'),
+      player('Vidinho', 18, false, 'vidinho', 'DEF'),
+      player('Jorge Pereira', 20, false, 'jorge-pereira', 'MID'),
+      player('Tiago Reis', 23, false, 'tiago-reis', 'FWD'),
+      player('Tiago Azulão', 26, false, 'tiago-azulao', 'FWD'),
+      player('António Hossi', 27, false, 'antonio-hossi', 'DEF'),
+      player('Ilídio Panda', 33, false, 'ilidio-panda', 'FWD'),
+    ],
+    away: [
+      player('Beny', 12, true, 'beny-libolo', 'GK'),
+      player('Maninho', 5, true, 'maninho-libolo', 'DEF'),
+      player('Marcos', 3, true, 'marcos-libolo', 'DEF'),
+      player('Toti', 4, true, 'toti-libolo', 'DEF'),
+      player('Nelo', 14, true, 'nelo-libolo', 'DEF'),
+      player('Chimito', 6, true, 'chimito-libolo', 'MID'),
+      player('Tchube', 8, true, 'tchube-libolo', 'MID'),
+      player('Andeloy', 10, true, 'andeloy-libolo', 'MID'),
+      player('Amado', 18, true, 'amado-libolo', 'FWD'),
+      player('Tubarão', 30, true, 'tubarao-libolo', 'FWD'),
+      player('Cuxixima', 27, true, 'cuxixima-libolo', 'FWD'),
+      player('Mário', 20, false, 'mario-libolo', 'GK'),
+      player('Miro', 25, false, 'miro-libolo', 'DEF'),
+      player('Jorgito', 15, false, 'jorgito-libolo', 'MID'),
+      player('Pedro', 17, false, 'pedro-libolo', 'FWD'),
+      player('Jamanta', 19, false, 'jamanta-libolo', 'FWD'),
+      player('Zidan', 22, false, 'zidan-libolo'),
+      player('Zidane', 24, false, 'zidane-libolo', 'MID'),
+      player('Salomão', 25, false, 'salomao-libolo'),
+      player('Lara', 28, false, 'lara-libolo', 'FWD'),
+    ],
+  };
+}
+
 /** Convocatórias oficiais do 1.º de Agosto–Desportivo da Huíla (1.ª jornada). */
 function getPublishedAgostoHuilaLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
   if (match.id !== 'm27-1-3') return undefined;
@@ -3726,13 +3786,20 @@ function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: 
   return out;
 }
 
+/** Treinadores confirmados nas fichas de jogo. */
+const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: string }>> = {
+  'm27-2-8': { home: 'Silvestre Pelé', away: 'João Pedro Sousa' },
+  'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
+};
+
 export function getMatchDetail(match: Match): MatchDetail {
   const seed = hashString(match.id);
   const publishedLineups = getPublishedBravosSagradaLineups(match)
     ?? getPublishedCabindaLiboloLineups(match)
     ?? getPublishedAgostoHuilaLineups(match)
     ?? getPublishedLundaSulPetroLineups(match)
-    ?? getPublishedLobitoPetroLineups(match);
+    ?? getPublishedLobitoPetroLineups(match)
+    ?? getPublishedPetroLiboloLineups(match);
   const homeLineup = publishedLineups?.home ?? buildLineup(match.homeTeamId, seed);
   const awayLineup = publishedLineups?.away ?? buildLineup(match.awayTeamId, seed + 7);
 
@@ -3809,8 +3876,8 @@ export function getMatchDetail(match: Match): MatchDetail {
     events,
     attendance: match.attendance ?? 0,
     referee: match.referee ?? getMatchOfficials(match).referee,
-    homeCoach: match.id === 'm27-2-8' ? 'Silvestre Pelé' : undefined,
-    awayCoach: match.id === 'm27-2-8' ? 'João Pedro Sousa' : undefined,
+    homeCoach: PUBLISHED_MATCH_COACHES[match.id]?.home,
+    awayCoach: PUBLISHED_MATCH_COACHES[match.id]?.away,
     manOfTheMatch,
   };
 }
@@ -3854,6 +3921,11 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       referee: 'Gilberto Kativa',
       assistants: ['Jeremias Cafussa', 'Pedro Alberto'],
       fourth: 'Pedro Katchisosa',
+    },
+    'm27-3-7': {
+      referee: 'Bernardo Mário',
+      assistants: ['João António', 'António Miguel'],
+      fourth: 'Sabino De Carvalho',
     },
   };
   const published = publishedByMatch[match.id];
