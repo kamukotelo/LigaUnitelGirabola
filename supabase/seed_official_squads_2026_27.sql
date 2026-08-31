@@ -692,7 +692,7 @@ values
   ('000729M98', 'petro', 'Agostinho José Júlio Calunga', 'Agostinho José Júlio Calunga', null, '000729M98', '1K00RB8', 'MALE', '1998-06-10', 'Angola', 'GK', 30),
   ('000430M93', 'petro', 'Adilson Cipriano da Cruz', 'Adilson Cipriano da Cruz', null, '000430M93', '1JS6PZ2', 'MALE', '1993-12-16', 'Angola', 'GK', 22),
   ('000400M98', 'petro', 'JOAQUIM MARCOS CUNGA BALANGA', 'JOAQUIM MARCOS CUNGA BALANGA', null, '000400M98', '1JRU3Z0', 'MALE', '1998-03-13', 'Angola', 'DF', 24),
-  ('008895M03', 'petro', 'BERNARDO SILVA DA CONCEIÇÃO', 'BERNARDO SILVA DA CONCEIÇÃO', null, '008895M03', '161X604', 'MALE', '2003-09-15', 'Angola', 'MF', 13),
+  ('008895M03', 'petro', 'BERNARDO SILVA DA CONCEIÇÃO', 'BERNARDO SILVA DA CONCEIÇÃO', null, '008895M03', '161X604', 'MALE', '2003-09-15', 'Angola', 'DF', 13),
   ('008891M94', 'petro', 'HÉLDER WANDER SOUSA DE AZEVEDO COSTA', 'HÉLDER WANDER SOUSA DE AZEVEDO COSTA', null, '008891M94', '163UUQ3', 'MALE', '1994-01-12', 'Angola', 'FWD', 11),
   ('008893M93', 'petro', 'LUCAS EDUARDO DOS SANTOS JOÃO', 'LUCAS EDUARDO DOS SANTOS JOÃO', null, '008893M93', '1UXEGR7', 'MALE', '1993-09-04', 'Angola', 'FWD', 9),
   ('008900M96', 'petro', 'DEYBI ALDAIR FLORES FLORES', 'DEYBI ALDAIR FLORES FLORES', null, '008900M96', '1UXPV54', 'MALE', '1996-06-16', 'Honduras', 'MF', 12),
@@ -700,10 +700,10 @@ values
   ('000427M01', 'petro', 'Antonio da Silva Chitanga Hossi', 'Antonio da Silva Chitanga Hossi', null, '000427M01', '1JS6M71', 'MALE', '2001-06-12', 'Angola', 'DF', 27),
   ('000384M88', 'petro', 'TIAGO LIMA LEAL', 'TIAGO LIMA LEAL', null, '000384M88', '1JRT100', 'MALE', '1988-03-26', 'Brazil', 'FWD', 26),
   ('000454M00', 'petro', 'LAURINDO DILSON MARIA AURÉLIO', 'LAURINDO DILSON MARIA AURÉLIO', null, '000454M00', '1JSP4X7', 'MALE', '2000-01-08', 'Angola', 'FWD', 29),
-  ('008892M95', 'petro', 'NURIO DOMINGOS MATIAS FORTUNA', 'NURIO DOMINGOS MATIAS FORTUNA', null, '008892M95', '1UXEFI2', 'MALE', '1995-03-24', 'Angola', 'MF', 2),
+  ('008892M95', 'petro', 'NURIO DOMINGOS MATIAS FORTUNA', 'NURIO DOMINGOS MATIAS FORTUNA', null, '008892M95', '1UXEFI2', 'MALE', '1995-03-24', 'Angola', 'DF', 2),
   ('000398M94', 'petro', 'EDDIE MARCOS MELO AFONSO', 'EDDIE MARCOS MELO AFONSO', null, '000398M94', '1JRTZ46', 'MALE', '1994-03-07', 'Angola', 'DF', 25),
   ('001019M98', 'petro', 'VICTOR PEDRO NANQUE', 'VICTOR PEDRO NANQUE', null, '001019M98', '1K29HA9', 'MALE', '1998-02-25', 'Angola', 'DF', 18),
-  ('005283M95', 'petro', 'PEDRO MIGUEL SANTOS APARÍCIO', 'PEDRO MIGUEL SANTOS APARÍCIO', null, '005283M95', '161U564', 'MALE', '1995-08-22', 'Portugal', 'FWD', 10),
+  ('005283M95', 'petro', 'PEDRO MIGUEL SANTOS APARÍCIO', 'PEDRO MIGUEL SANTOS APARÍCIO', null, '005283M95', '161U564', 'MALE', '1995-08-22', 'Portugal', 'MF', 10),
   ('002955M99', 'petro', 'VANILSON TITA ZÉU', 'VANILSON TITA ZÉU', null, '002955M99', '1MC76I4', 'MALE', '1999-03-20', 'Angola', 'MF', 17)
 on conflict (id) do update set
   club_id = excluded.club_id, name = excluded.name, full_name = excluded.full_name,
@@ -1078,30 +1078,25 @@ on conflict (id) do update set
   popular_name = excluded.popular_name, fifa_id = excluded.fifa_id, gender = excluded.gender,
   role = excluded.role, nationality = excluded.nationality, updated_at = timezone('utc', now());
 
--- Petro de Luanda — 20 equipa técnica
+-- Petro de Luanda — 15 equipa técnica
 insert into public.girabola_staff
   (id, club_id, name, full_name, popular_name, ma_id, fifa_id, gender, role, nationality)
 values
-  ('006729M91', 'petro', 'PEDRO MATEUS MÁRIO', 'PEDRO MATEUS MÁRIO', null, '006729M91', '1SCCGJ9', null, null, 'Angola'),
-  ('008885M71', 'petro', 'JOÃO PEDRO RAMOS BORGES SOUSA', 'JOÃO PEDRO RAMOS BORGES SOUSA', null, '008885M71', '1UXCLE2', null, null, 'Portugal'),
+  ('008885M71', 'petro', 'JOÃO PEDRO RAMOS BORGES SOUSA', 'JOÃO PEDRO RAMOS BORGES SOUSA', null, '008885M71', '1UXCLE2', null, 'HDCH', 'Portugal'),
   ('008902M92', 'petro', 'EDSON DE MATOS CANDA', 'EDSON DE MATOS CANDA', null, '008902M92', '1UXQBW4', null, 'DOCT', 'Angola'),
-  ('000378M87', 'petro', 'JOÃO CLÁUDIO DA COSTA E SILVA', 'JOÃO CLÁUDIO DA COSTA E SILVA', null, '000378M87', '1JRSUI1', null, null, 'Angola'),
-  ('000383M78', 'petro', 'BRUNO MIGUEL DA CRUZ VICENTE', 'BRUNO MIGUEL DA CRUZ VICENTE', null, '000383M78', '1JRT024', null, null, 'Angola'),
-  ('000373M82', 'petro', 'FELISBERTO SEBASTIÃO DA GRAÇA AMARAL', 'FELISBERTO SEBASTIÃO DA GRAÇA AMARAL', null, '000373M82', '1JRKZW5', null, null, 'Angola'),
-  ('000381M69', 'petro', 'TOMÁS FARIA', 'TOMÁS FARIA', null, '000381M69', '1JRSXE1', null, null, 'Angola'),
-  ('003108M92', 'petro', 'AUGUSTO DE AZEVEDO LETICIO FRANCISCO', 'AUGUSTO DE AZEVEDO LETICIO FRANCISCO', null, '003108M92', '1MS2FP8', null, 'PHYS', 'Angola'),
+  ('000378M87', 'petro', 'JOÃO CLÁUDIO DA COSTA E SILVA', 'JOÃO CLÁUDIO DA COSTA E SILVA', null, '000378M87', '1JRSUI1', null, 'Oficial da equipa', 'Angola'),
+  ('000383M78', 'petro', 'BRUNO MIGUEL DA CRUZ VICENTE', 'BRUNO MIGUEL DA CRUZ VICENTE', null, '000383M78', '1JRT024', null, 'Diretor', 'Angola'),
+  ('000373M82', 'petro', 'FELISBERTO SEBASTIÃO DA GRAÇA AMARAL', 'FELISBERTO SEBASTIÃO DA GRAÇA AMARAL', null, '000373M82', '1JRKZW5', null, 'Oficial da equipa', 'Angola'),
+  ('000381M69', 'petro', 'TOMÁS FARIA', 'TOMÁS FARIA', null, '000381M69', '1JRSXE1', null, 'Presidente', 'Angola'),
   ('000379M87', 'petro', 'TIMÓTEO PAULO MARIA VEMBA', 'TIMÓTEO PAULO MARIA VEMBA', null, '000379M87', '1JRSW89', null, 'PHYS', 'Angola'),
-  ('008890M81', 'petro', 'CARLOS EDUARDO MAURÍCIO PACHECO', 'CARLOS EDUARDO MAURÍCIO PACHECO', null, '008890M81', '1UXD1E3', null, null, 'Portugal'),
+  ('008890M81', 'petro', 'CARLOS EDUARDO MAURÍCIO PACHECO', 'CARLOS EDUARDO MAURÍCIO PACHECO', null, '008890M81', '1UXD1E3', null, 'Oficial da equipa', 'Portugal'),
   ('007233M99', 'petro', 'JOÃO ANTÓNIO MOREIRA DE SOUSA', 'JOÃO ANTÓNIO MOREIRA DE SOUSA', null, '007233M99', '1SMN3A3', null, 'PHYS', 'Angola'),
-  ('003144M92', 'petro', 'ARCANJO MASSUQUINA MULANVO', 'ARCANJO MASSUQUINA MULANVO', null, '003144M92', '1MU13Q0', null, null, 'Angola'),
-  ('001017M96', 'petro', 'BERNARDO MENEZES PEDRO', 'BERNARDO MENEZES PEDRO', null, '001017M96', '1K29ET1', null, null, 'Angola'),
-  ('000339M89', 'petro', 'JOAQUIM VALINHO REIS FRAZÃO', 'JOAQUIM VALINHO REIS FRAZÃO', null, '000339M89', '1JSKUX2', null, null, 'Portugal'),
-  ('000341M82', 'petro', 'ADRIANO SILVA SOARES', 'ADRIANO SILVA SOARES', null, '000341M82', '1JQGXJ4', null, null, 'Brazil'),
-  ('000380M89', 'petro', 'TIAGO EMANUEL SOARES ALVES', 'TIAGO EMANUEL SOARES ALVES', null, '000380M89', '1JRSXC9', null, 'PHYS', 'Portugal'),
-  ('008887M87', 'petro', 'MANUEL ANTÓNIO BRAGA TERROSO SANTOS', 'MANUEL ANTÓNIO BRAGA TERROSO SANTOS', null, '008887M87', null, null, null, 'Portugal'),
-  ('008886M83', 'petro', 'RAFAEL GARCIA TONIOLI DEFENDI', 'RAFAEL GARCIA TONIOLI DEFENDI', null, '008886M83', null, null, null, 'Portugal'),
-  ('005346M99', 'petro', 'HUGO EDGAR TORRES DE MIRANDA', 'HUGO EDGAR TORRES DE MIRANDA', null, '005346M99', '1PTGWU8', null, null, 'Portugal'),
-  ('005330M94', 'petro', 'LEANDRO FILIPE VIEIRA E SILVA', 'LEANDRO FILIPE VIEIRA E SILVA', null, '005330M94', '162EQ06', null, 'ASCH', 'Angola')
+  ('003144M92', 'petro', 'ARCANJO MASSUQUINA MULANVO', 'ARCANJO MASSUQUINA MULANVO', null, '003144M92', '1MU13Q0', null, 'Oficial da equipa', 'Angola'),
+  ('000339M89', 'petro', 'JOAQUIM VALINHO REIS FRAZÃO', 'JOAQUIM VALINHO REIS FRAZÃO', null, '000339M89', '1JSKUX2', null, 'ASCH', 'Portugal'),
+  ('008887M87', 'petro', 'MANUEL ANTÓNIO BRAGA TERROSO SANTOS', 'MANUEL ANTÓNIO BRAGA TERROSO SANTOS', null, '008887M87', null, null, 'ASCH', 'Portugal'),
+  ('008886M83', 'petro', 'RAFAEL GARCIA TONIOLI DEFENDI', 'RAFAEL GARCIA TONIOLI DEFENDI', null, '008886M83', null, null, 'GKCH', 'Portugal'),
+  ('005346M99', 'petro', 'HUGO EDGAR TORRES DE MIRANDA', 'HUGO EDGAR TORRES DE MIRANDA', null, '005346M99', '1PTGWU8', null, 'PTNR', 'Portugal'),
+  ('005330M94', 'petro', 'LEANDRO FILIPE VIEIRA E SILVA', 'LEANDRO FILIPE VIEIRA E SILVA', null, '005330M94', '162EQ06', null, 'Oficial da equipa', 'Angola')
 on conflict (id) do update set
   club_id = excluded.club_id, name = excluded.name, full_name = excluded.full_name,
   popular_name = excluded.popular_name, fifa_id = excluded.fifa_id, gender = excluded.gender,
@@ -1124,4 +1119,4 @@ on conflict (id) do update set
   role = excluded.role, nationality = excluded.nationality, updated_at = timezone('utc', now());
 
 commit;
--- Total: 16 clubes, 514 jogadores, 230 equipa técnica.
+-- Total: 16 clubes, 514 jogadores, 225 equipa técnica.

@@ -7848,7 +7848,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "gender": "MALE",
         "birthDate": "15/09/2003",
         "nationality": "Angola",
-        "position": "MF",
+        "position": "DF",
         "jerseyNumber": "13"
       },
       {
@@ -7944,7 +7944,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "gender": "MALE",
         "birthDate": "24/03/1995",
         "nationality": "Angola",
-        "position": "MF",
+        "position": "DF",
         "jerseyNumber": "2"
       },
       {
@@ -7980,7 +7980,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "gender": "MALE",
         "birthDate": "22/08/1995",
         "nationality": "Portugal",
-        "position": "FWD",
+        "position": "MF",
         "jerseyNumber": "10"
       },
       {
@@ -7998,23 +7998,13 @@ export const OFFICIAL_SQUADS_2026_27 = [
     ],
     "staff": [
       {
-        "name": "PEDRO MATEUS MÁRIO",
-        "fullName": "PEDRO MATEUS MÁRIO",
-        "popularName": "",
-        "maId": "006729M91",
-        "fifaId": "1SCCGJ9",
-        "gender": "",
-        "role": "",
-        "nationality": "Angola"
-      },
-      {
         "name": "JOÃO PEDRO RAMOS BORGES SOUSA",
         "fullName": "JOÃO PEDRO RAMOS BORGES SOUSA",
         "popularName": "",
         "maId": "008885M71",
         "fifaId": "1UXCLE2",
         "gender": "",
-        "role": "",
+        "role": "HDCH",
         "nationality": "Portugal"
       },
       {
@@ -8034,7 +8024,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000378M87",
         "fifaId": "1JRSUI1",
         "gender": "",
-        "role": "",
+        "role": "Oficial da equipa",
         "nationality": "Angola"
       },
       {
@@ -8044,7 +8034,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000383M78",
         "fifaId": "1JRT024",
         "gender": "",
-        "role": "",
+        "role": "Diretor",
         "nationality": "Angola"
       },
       {
@@ -8054,7 +8044,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000373M82",
         "fifaId": "1JRKZW5",
         "gender": "",
-        "role": "",
+        "role": "Oficial da equipa",
         "nationality": "Angola"
       },
       {
@@ -8064,17 +8054,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000381M69",
         "fifaId": "1JRSXE1",
         "gender": "",
-        "role": "",
-        "nationality": "Angola"
-      },
-      {
-        "name": "AUGUSTO DE AZEVEDO LETICIO FRANCISCO",
-        "fullName": "AUGUSTO DE AZEVEDO LETICIO FRANCISCO",
-        "popularName": "",
-        "maId": "003108M92",
-        "fifaId": "1MS2FP8",
-        "gender": "",
-        "role": "PHYS",
+        "role": "Presidente",
         "nationality": "Angola"
       },
       {
@@ -8094,7 +8074,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "008890M81",
         "fifaId": "1UXD1E3",
         "gender": "",
-        "role": "",
+        "role": "Oficial da equipa",
         "nationality": "Portugal"
       },
       {
@@ -8114,17 +8094,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "003144M92",
         "fifaId": "1MU13Q0",
         "gender": "",
-        "role": "",
-        "nationality": "Angola"
-      },
-      {
-        "name": "BERNARDO MENEZES PEDRO",
-        "fullName": "BERNARDO MENEZES PEDRO",
-        "popularName": "",
-        "maId": "001017M96",
-        "fifaId": "1K29ET1",
-        "gender": "",
-        "role": "",
+        "role": "Oficial da equipa",
         "nationality": "Angola"
       },
       {
@@ -8134,27 +8104,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000339M89",
         "fifaId": "1JSKUX2",
         "gender": "",
-        "role": "",
-        "nationality": "Portugal"
-      },
-      {
-        "name": "ADRIANO SILVA SOARES",
-        "fullName": "ADRIANO SILVA SOARES",
-        "popularName": "",
-        "maId": "000341M82",
-        "fifaId": "1JQGXJ4",
-        "gender": "",
-        "role": "",
-        "nationality": "Brazil"
-      },
-      {
-        "name": "TIAGO EMANUEL SOARES ALVES",
-        "fullName": "TIAGO EMANUEL SOARES ALVES",
-        "popularName": "",
-        "maId": "000380M89",
-        "fifaId": "1JRSXC9",
-        "gender": "",
-        "role": "PHYS",
+        "role": "ASCH",
         "nationality": "Portugal"
       },
       {
@@ -8164,7 +8114,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "008887M87",
         "fifaId": "",
         "gender": "",
-        "role": "",
+        "role": "ASCH",
         "nationality": "Portugal"
       },
       {
@@ -8174,7 +8124,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "008886M83",
         "fifaId": "",
         "gender": "",
-        "role": "",
+        "role": "GKCH",
         "nationality": "Portugal"
       },
       {
@@ -8184,7 +8134,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "005346M99",
         "fifaId": "1PTGWU8",
         "gender": "",
-        "role": "",
+        "role": "PTNR",
         "nationality": "Portugal"
       },
       {
@@ -8194,7 +8144,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "005330M94",
         "fifaId": "162EQ06",
         "gender": "",
-        "role": "ASCH",
+        "role": "Oficial da equipa",
         "nationality": "Angola"
       }
     ]
