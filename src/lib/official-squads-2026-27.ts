@@ -885,17 +885,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000546M85",
         "fifaId": "1JWUI26",
         "gender": "",
-        "role": "",
-        "nationality": "Angola"
-      },
-      {
-        "name": "Antonio Victorino Baptista",
-        "fullName": "Antonio Victorino Baptista",
-        "popularName": "",
-        "maId": "003004M94",
-        "fifaId": "1MK97B6",
-        "gender": "",
-        "role": "",
+        "role": "Oficial da equipa",
         "nationality": "Angola"
       },
       {
@@ -925,7 +915,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000556M85",
         "fifaId": "1JWUJZ5",
         "gender": "",
-        "role": "",
+        "role": "Presidente",
         "nationality": "Angola"
       },
       {
@@ -935,7 +925,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "003005M03",
         "fifaId": "1MK97J1",
         "gender": "",
-        "role": "",
+        "role": "Oficial da equipa",
         "nationality": "Angola"
       },
       {
@@ -945,7 +935,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000535M89",
         "fifaId": "1JWTP61",
         "gender": "",
-        "role": "TMGR",
+        "role": "ASCH",
         "nationality": "Angola"
       },
       {
@@ -975,7 +965,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "002979M67",
         "fifaId": "1MHN3M9",
         "gender": "",
-        "role": "",
+        "role": "ASCH",
         "nationality": "Angola"
       },
       {
@@ -985,7 +975,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "008405M66",
         "fifaId": "",
         "gender": "",
-        "role": "",
+        "role": "HDCH",
         "nationality": "Spain"
       },
       {
@@ -1004,16 +994,6 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "popularName": "",
         "maId": "008201M99",
         "fifaId": "1UR28E3",
-        "gender": "",
-        "role": "TMGR",
-        "nationality": "Angola"
-      },
-      {
-        "name": "Pedro Fernando Sapi",
-        "fullName": "Pedro Fernando Sapi",
-        "popularName": "",
-        "maId": "008203M73",
-        "fifaId": "1UR29B0",
         "gender": "",
         "role": "TMGR",
         "nationality": "Angola"
@@ -1045,7 +1025,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000548M89",
         "fifaId": "1JWUI94",
         "gender": "",
-        "role": "",
+        "role": "Oficial da equipa",
         "nationality": "Angola"
       },
       {
@@ -1066,16 +1046,6 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "fifaId": "1JV1CG5",
         "gender": "",
         "role": "GKCH",
-        "nationality": "Angola"
-      },
-      {
-        "name": "Jorge Manuel Faial Delgado",
-        "fullName": "Jorge Manuel Faial Delgado",
-        "popularName": "",
-        "maId": "003009M63",
-        "fifaId": "1MK9BR4",
-        "gender": "",
-        "role": "",
         "nationality": "Angola"
       }
     ]

@@ -772,30 +772,28 @@ on conflict (id) do update set
   popular_name = excluded.popular_name, fifa_id = excluded.fifa_id, gender = excluded.gender,
   role = excluded.role, nationality = excluded.nationality, updated_at = timezone('utc', now());
 
--- Wiliete de Benguela — 20 equipa técnica
+-- Wiliete de Benguela — 17 elementos da equipa técnica
+delete from public.girabola_staff where club_id = 'wiliete';
 insert into public.girabola_staff
   (id, club_id, name, full_name, popular_name, ma_id, fifa_id, gender, role, nationality)
 values
-  ('000546M85', 'wiliete', 'DILSON MACUVA ALFREDO', 'DILSON MACUVA ALFREDO', null, '000546M85', '1JWUI26', null, null, 'Angola'),
-  ('003004M94', 'wiliete', 'Antonio Victorino Baptista', 'Antonio Victorino Baptista', null, '003004M94', '1MK97B6', null, null, 'Angola'),
+  ('000546M85', 'wiliete', 'DILSON MACUVA ALFREDO', 'DILSON MACUVA ALFREDO', null, '000546M85', '1JWUI26', null, 'Oficial da equipa', 'Angola'),
   ('000549M52', 'wiliete', 'ANTONIO BENTO', 'ANTONIO BENTO', null, '000549M52', '1JWUIF1', null, 'TMED', 'Angola'),
   ('000555M86', 'wiliete', 'ABEL CASSINDA', 'ABEL CASSINDA', null, '000555M86', '1JWUJX1', null, 'KMGR', 'Angola'),
-  ('000556M85', 'wiliete', 'WILSON FERNANDO FARIA', 'WILSON FERNANDO FARIA', null, '000556M85', '1JWUJZ5', null, null, 'Angola'),
-  ('003005M03', 'wiliete', 'Evaristo Gomes', 'Evaristo Gomes', null, '003005M03', '1MK97J1', null, null, 'Angola'),
-  ('000535M89', 'wiliete', 'FELICIANO FELISBERTO JAVELA', 'FELICIANO FELISBERTO JAVELA', null, '000535M89', '1JWTP61', null, 'TMGR', 'Angola'),
+  ('000556M85', 'wiliete', 'WILSON FERNANDO FARIA', 'WILSON FERNANDO FARIA', null, '000556M85', '1JWUJZ5', null, 'Presidente', 'Angola'),
+  ('003005M03', 'wiliete', 'Evaristo Gomes', 'Evaristo Gomes', null, '003005M03', '1MK97J1', null, 'Oficial da equipa', 'Angola'),
+  ('000535M89', 'wiliete', 'FELICIANO FELISBERTO JAVELA', 'FELICIANO FELISBERTO JAVELA', null, '000535M89', '1JWTP61', null, 'ASCH', 'Angola'),
   ('007514M86', 'wiliete', 'Promise Mandidzidze', 'Promise Mandidzidze', null, '007514M86', '1T8TKA5', null, 'TMGR', 'Zimbabwe'),
   ('007258M80', 'wiliete', 'Issac bambi Moandjambi', 'Issac bambi Moandjambi', null, '007258M80', '1SQ9Y45', null, 'PHYS', 'Angola'),
-  ('002979M67', 'wiliete', 'Francisco Junior Paulino', 'Francisco Junior Paulino', null, '002979M67', '1MHN3M9', null, null, 'Angola'),
-  ('008405M66', 'wiliete', 'Roberto Luiz Pelliser Bianchi', 'Roberto Luiz Pelliser Bianchi', null, '008405M66', null, null, null, 'Spain'),
+  ('002979M67', 'wiliete', 'Francisco Junior Paulino', 'Francisco Junior Paulino', null, '002979M67', '1MHN3M9', null, 'ASCH', 'Angola'),
+  ('008405M66', 'wiliete', 'Roberto Luiz Pelliser Bianchi', 'Roberto Luiz Pelliser Bianchi', null, '008405M66', null, null, 'HDCH', 'Spain'),
   ('000553M83', 'wiliete', 'BAPTISTA SABALO', 'BAPTISTA SABALO', null, '000553M83', '1JWUJI1', null, 'KMGR', 'Angola'),
   ('008201M99', 'wiliete', 'Maurício Adriano Sapalo', 'Maurício Adriano Sapalo', null, '008201M99', '1UR28E3', null, 'TMGR', 'Angola'),
-  ('008203M73', 'wiliete', 'Pedro Fernando Sapi', 'Pedro Fernando Sapi', null, '008203M73', '1UR29B0', null, 'TMGR', 'Angola'),
   ('000550M65', 'wiliete', 'AGOSTINHO SOMA', 'AGOSTINHO SOMA', null, '000550M65', '1JWUII0', null, 'PHYS', 'Angola'),
   ('000547M84', 'wiliete', 'VICTORINO LUNGA VISELE', 'VICTORINO LUNGA VISELE', null, '000547M84', '1JWUI52', null, null, 'Angola'),
-  ('000548M89', 'wiliete', 'CLAUDIO GRACIANO EZEQUIEL ZALA', 'CLAUDIO GRACIANO EZEQUIEL ZALA', null, '000548M89', '1JWUI94', null, null, 'Angola'),
+  ('000548M89', 'wiliete', 'CLAUDIO GRACIANO EZEQUIEL ZALA', 'CLAUDIO GRACIANO EZEQUIEL ZALA', null, '000548M89', '1JWUI94', null, 'Oficial da equipa', 'Angola'),
   ('007257M86', 'wiliete', 'Artur Jaime Vilinga', 'Artur Jaime Vilinga', null, '007257M86', '1SQ9Y00', null, 'TMGR', 'Angola'),
-  ('000514M74', 'wiliete', 'JOAQUIM JOSE PEDRO', 'JOAQUIM JOSE PEDRO', null, '000514M74', '1JV1CG5', null, 'GKCH', 'Angola'),
-  ('003009M63', 'wiliete', 'Jorge Manuel Faial Delgado', 'Jorge Manuel Faial Delgado', null, '003009M63', '1MK9BR4', null, null, 'Angola')
+  ('000514M74', 'wiliete', 'JOAQUIM JOSE PEDRO', 'JOAQUIM JOSE PEDRO', null, '000514M74', '1JV1CG5', null, 'GKCH', 'Angola')
 on conflict (id) do update set
   club_id = excluded.club_id, name = excluded.name, full_name = excluded.full_name,
   popular_name = excluded.popular_name, fifa_id = excluded.fifa_id, gender = excluded.gender,
