@@ -489,7 +489,7 @@ export interface NewsArticle {
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Preto', coach: 'João Pedro Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#000000'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B', '#000000'] }, { label: 'Secundário', colors: ['#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
   { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beta Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Paulo Torres', president: 'Lucas Francisco Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Lourenço Nelito', president: 'Agrione Manuel', nickname: 'Maquisardes', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leonardo Martins Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
@@ -3610,7 +3610,16 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 30, type: 'yellow', team: 'home', player: 'Samu Tshibamba Dago', playerId: 'dago-tshibamba' },
     { minute: 40, type: 'yellow', team: 'home', player: 'Simao Dianzenza', playerId: 'simao-dianzenza' },
     { minute: 52, type: 'yellow', team: 'away', player: 'Lucas Elias Antonio Paulo', playerId: 'lucas-elias-huila' },
+    { minute: 6, type: 'sub', team: 'away', player: 'João Milagre Chiva Simões', playerId: 'joao-milagre-huila', playerOut: 'Mendes' },
+    { minute: 55, type: 'sub', team: 'away', player: 'Mauricio Pedro (Jeizi)', playerId: 'mauricio-pedro-huila', playerOut: 'Angelo Cangu (Tchutchu)' },
+    { minute: 55, type: 'sub', team: 'away', player: 'António', playerId: 'antonio-huila', playerOut: 'Milton Alberto de Oliveira Suca' },
+    { minute: 60, type: 'sub', team: 'home', player: 'Obed', playerId: 'obed-dago', playerOut: 'Rupson' },
+    { minute: 60, type: 'sub', team: 'home', player: 'Bulaya', playerId: 'bulaya-dago', playerOut: 'Fernando' },
+    { minute: 60, type: 'sub', team: 'home', player: 'Axel', playerId: 'axel-dago', playerOut: 'Mabelé' },
+    { minute: 68, type: 'sub', team: 'away', player: 'Leonardo Manuel Isola Ramos (Cabibi)', playerId: 'leonardo-isola-huila', playerOut: 'Milagre Carlos Simba' },
+    { minute: 78, type: 'sub', team: 'away', player: 'Pequenino Castro (Cagodo)', playerId: 'pequenino-castro-huila', playerOut: 'Tchicundico Cassoma Tchitunda (Constantino)' },
     { minute: 87, type: 'yellow', team: 'home', player: 'Venancio Landu Kukula', playerId: 'venancio-dago' },
+    { minute: 90, type: 'sub', team: 'home', player: 'Tombé', playerId: 'tombe-dago', playerOut: 'Mabilson' },
     { minute: 92, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: "90'+2 (1-0)" },
   ];
 
@@ -3788,6 +3797,7 @@ function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: 
 
 /** Treinadores confirmados nas fichas de jogo. */
 const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: string }>> = {
+  'm27-1-3': { home: 'Filipe Nzanza' },
   'm27-2-8': { home: 'Silvestre Pelé', away: 'João Pedro Sousa' },
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
 };

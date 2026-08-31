@@ -1975,8 +1975,8 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "nationality": "Angola"
       },
       {
-        "name": "Filipe Nanza",
-        "fullName": "Filipe Nanza",
+        "name": "Filipe Nzanza",
+        "fullName": "Filipe Nzanza",
         "popularName": "",
         "maId": "000439M69",
         "fifaId": "1JSFXH8",

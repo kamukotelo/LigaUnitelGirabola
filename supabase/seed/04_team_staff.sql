@@ -53,7 +53,7 @@ insert into public.ancaf_team_staff (team_id, name, role, nationality, ma_id, fi
   ('desphuila', 'Sidney', 'Função por confirmar', 'Angola', '000847M87', '1K17646', 11),
   ('desphuila', 'Ezequias', 'Função por confirmar', 'Angola', '000828M64', '1K15KV6', 12),
   ('desphuila', 'Zela Barroso Emanuel', 'Função por confirmar', 'Angola', '002968M71', '1ME3PE8', 13),
-  ('dago', 'Filipe Nanza', 'Treinador principal', 'Angola', '000439M69', '1JSFXH8', 0),
+  ('dago', 'Filipe Nzanza', 'Treinador principal', 'Angola', '000439M69', '1JSFXH8', 0),
   ('dago', 'Ivo Raimundo Traça', 'Treinador adjunto', 'Angola', '000374M61', '1JRLEF7', 1),
   ('dago', 'Thomas Napoleão Cersar', 'Treinador de guarda-redes', 'Angola', '007220M64', '1SL00E1', 2),
   ('dago', 'António Francisco Alves Pinto Preparador Físico', 'Preparador físico', 'Angola', '003234M87', '1MZIDU5', 3),

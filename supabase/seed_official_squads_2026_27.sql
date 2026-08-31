@@ -837,7 +837,7 @@ values
   ('000967M61', 'dago', 'Feliciano Antonio Madalena', 'Feliciano Antonio Madalena', null, '000967M61', '1K1VB02', null, 'PHYS', 'Angola'),
   ('000443M69', 'dago', 'Jose Manuel Marcelino', 'Jose Manuel Marcelino', null, '000443M69', '1JSJ6F5', null, 'TMGR', 'Angola'),
   ('006498F69', 'dago', 'Andrade Jose Mendes', 'Andrade Jose Mendes', null, '006498F69', '1S8UKT1', 'FEMALE', 'PHYS', 'Angola'),
-  ('000439M69', 'dago', 'Filipe Nanza', 'Filipe Nanza', null, '000439M69', '1JSFXH8', null, 'HDCH', 'Angola'),
+  ('000439M69', 'dago', 'Filipe Nzanza', 'Filipe Nzanza', null, '000439M69', '1JSFXH8', null, 'HDCH', 'Angola'),
   ('003234M87', 'dago', 'António Francisco Alves Pinto PREPARADOR FÍSICO', 'António Francisco Alves Pinto PREPARADOR FÍSICO', null, '003234M87', '1MZIDU5', null, 'PTNR', 'Angola'),
   ('003387M82', 'dago', 'Mario Jorge da Silva Queiroz', 'Mario Jorge da Silva Queiroz', null, '003387M82', '1N8QUB6', null, 'TMGR', 'Angola'),
   ('003031M77', 'dago', 'Untonesa Avelino Sampaio', 'Untonesa Avelino Sampaio', null, '003031M77', '1MMQHJ4', null, 'TMGR', 'Angola'),
