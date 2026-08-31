@@ -14,6 +14,8 @@ export interface AdminSession {
   name: string;
   profile: UserProfile;
   expiresAt: number;
+  /** Conta ainda com a senha provisória — obriga a definir uma nova antes de usar a consola. */
+  mustChangePassword?: boolean;
 }
 
 export const ADMIN_COOKIE = 'faf_admin_session';
@@ -68,7 +70,7 @@ export async function authenticateAdminUser(email: unknown, password: unknown): 
 
   const { data: profile } = await getSupabaseAdmin()
     .from('ancaf_profiles')
-    .select('full_name, role')
+    .select('full_name, role, must_change_password')
     .eq('id', data.user.id)
     .maybeSingle();
   if (profile?.role !== 'admin') return null;
@@ -77,7 +79,39 @@ export async function authenticateAdminUser(email: unknown, password: unknown): 
     email: data.user.email.toLowerCase(),
     name: profile.full_name?.trim() || data.user.email,
     profile: 'admin',
+    mustChangePassword: profile.must_change_password === true,
   };
+}
+
+/**
+ * Troca a palavra-passe de um administrador. Re-autentica com a senha atual
+ * (defesa em profundidade), atualiza no Supabase Auth via service_role e
+ * limpa a marca `must_change_password` no perfil.
+ */
+export async function changeAdminPassword(
+  email: string,
+  currentPassword: string,
+  newPassword: string,
+): Promise<{ ok: true } | { ok: false; error: 'server_misconfigured' | 'invalid_credentials' | 'update_failed' }> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) return { ok: false, error: 'server_misconfigured' };
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const authClient = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
+  const { data, error } = await authClient.auth.signInWithPassword({ email: normalizedEmail, password: currentPassword });
+  if (error || !data.user?.id) return { ok: false, error: 'invalid_credentials' };
+
+  const admin = getSupabaseAdmin();
+  const { error: updateError } = await admin.auth.admin.updateUserById(data.user.id, { password: newPassword });
+  if (updateError) return { ok: false, error: 'update_failed' };
+
+  await admin
+    .from('ancaf_profiles')
+    .update({ must_change_password: false, password_changed_at: new Date().toISOString() })
+    .eq('id', data.user.id);
+
+  return { ok: true };
 }
 
 export function getAdminSession(token: string | undefined | null): AdminSession | null {

@@ -13,6 +13,7 @@ export async function GET() {
     authenticated: session !== null,
     profile: session?.profile ?? null,
     user: session ? { email: session.email, name: session.name } : null,
+    mustChangePassword: session?.mustChangePassword === true,
     permissions: { fifaConnect: canAccessFifaConnect(token) },
   });
 }

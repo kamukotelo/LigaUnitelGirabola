@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import AdminClient from '@/components/AdminClient';
 import AdminGuard from '@/components/AdminGuard';
-import { ADMIN_COOKIE, getSessionProfile } from '@/lib/admin-auth';
+import ChangePasswordGate from '@/components/ChangePasswordGate';
+import { ADMIN_COOKIE, getAdminSession } from '@/lib/admin-auth';
 
 export const metadata: Metadata = {
   title: 'Administração ANCAF',
@@ -12,11 +13,14 @@ export const metadata: Metadata = {
 
 export default async function AdminPage() {
   const token = (await cookies()).get(ADMIN_COOKIE)?.value;
-  const profile = getSessionProfile(token);
+  const session = getAdminSession(token);
 
   // O conteúdo e o bundle da consola só são enviados depois de a sessão ser
   // validada no servidor; não dependemos de esconder uma rota pública.
-  if (!profile) return <AdminGuard />;
+  if (!session) return <AdminGuard />;
 
-  return <AdminClient userProfile={profile} />;
+  // Conta ainda com a senha provisória — não serve a consola até ser trocada.
+  if (session.mustChangePassword) return <ChangePasswordGate email={session.email} />;
+
+  return <AdminClient userProfile={session.profile} />;
 }
