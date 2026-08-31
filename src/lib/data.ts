@@ -336,6 +336,9 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'cuxixima-libolo', name: 'Cuxixima', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'pedro-libolo', name: 'Pedro', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'andeloy-libolo', name: 'Andeloy', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Médio', goals: 1, appearances: 1 },
+  { id: 'ju-cabral-bravos', name: 'Ju Cabral', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Médio', goals: 1, appearances: 1 },
+  { id: 'lito-bravos', name: 'Lito', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'gladilson-bravos', name: 'Gladilson', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 2, appearances: 2 },
   { id: 'kabelo-dlamini', name: 'Kabelo Dlamini', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'valter-monteiro', name: 'Valter Monteiro', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
@@ -368,10 +371,8 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'antonio-hossi': { yellow: 1, red: 0 },
   'berna': { yellow: 1, red: 0 },
   'ju-cabral-bravos': { yellow: 1, red: 0 },
-  'dabanda-bravos': { yellow: 1, red: 0 },
-  'cahilo-sagrada': { yellow: 1, red: 0 },
-  'miguel-sagrada': { yellow: 1, red: 0 },
-  'pimpao-sagrada': { yellow: 1, red: 0 },
+  'dabanda-bravos': { yellow: 0, red: 1 },
+  'cahilo-sagrada': { yellow: 0, red: 1 },
   'marcos-cabinda': { yellow: 1, red: 0 },
   'antonio-cabinda': { yellow: 1, red: 0 },
   'dago-tshibamba': { yellow: 1, red: 0 },
@@ -487,7 +488,7 @@ export interface NewsArticle {
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Preto', coach: 'João Pedro Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#000000'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B', '#000000'] }, { label: 'Secundário', colors: ['#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
-  { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Roberto Luiz Pelliser Bianchi', president: 'Wilson Fernando Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beta Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: 'Militares', colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Paulo Torres', president: 'Lucas Francisco Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Lourenço Nelito', president: 'Agrione Manuel', nickname: 'Maquisardes', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
@@ -1834,15 +1835,15 @@ const BRAVOS_SQUAD_2026_27: Player[] = [
   ['dabanda-bravos', 'Dabanda', 'Defesa', 27, 1, 0],
   ['abrao-bravos', 'Abrão', 'Médio', 6, 1, 0],
   ['cueta-bravos', 'Cueta', 'Médio', 7, 1, 0],
-  ['ju-cabral-bravos', 'Ju Cabral', 'Médio', 8, 1, 0],
+  ['ju-cabral-bravos', 'Ju Cabral', 'Médio', 8, 1, 1],
   ['jorginho-bravos', 'Jorginho', 'Avançado', 19, 1, 0],
-  ['lito-bravos', 'Lito', 'Avançado', 23, 1, 0],
+  ['lito-bravos', 'Lito', 'Avançado', 23, 1, 1],
   ['bani-bravos', 'Bani', 'Avançado', 20, 1, 0],
   ['agnaldo-bravos', 'Agnaldo', 'Defesa', 3, 0, 0],
   ['higino-bravos', 'Higino', 'Médio', 10, 1, 0],
   ['tiago-bravos', 'Tiago', 'Avançado', 15, 1, 0],
   ['eduwine-bravos', 'Eduwine', 'Avançado', 17, 1, 0],
-  ['gladilson-bravos', 'Gladilson', 'Avançado', 28, 1, 0],
+  ['gladilson-bravos', 'Gladilson', 'Avançado', 28, 1, 1],
   ['tony-bravos', 'Tony', 'Médio', 0, 1, 0],
   ['saidi-bravos', 'Saidi', 'Guarda-redes', 0, 0, 0],
   ['bruno-bravos', 'Bruno', 'Defesa', 0, 0, 0],
@@ -3354,7 +3355,7 @@ function getPublishedAgostoHuilaLineups(match: Match): { home: LineupPlayer[]; a
       player('Calebi', 10, 'MID', true, 'calebi-dago'),
       player('Venâncio', 15, 'MID', true, 'venancio-dago'),
       player('Mabilson', 7, 'MID', true, 'mabilson-dago'),
-      player('Fernandinho', 11, 'FWD', true, 'fernando-dago'),
+      player('Fernando', 11, 'FWD', true, 'fernando-dago'),
       player('Rupson', 9, 'FWD', true, 'rupson-dago'),
       player('Dagó', 17, 'FWD', true, 'dago-tshibamba'),
       player('Anselmo', 22, 'GK', false, 'anselmo-dago'),
@@ -3388,67 +3389,6 @@ function getPublishedAgostoHuilaLineups(match: Match): { home: LineupPlayer[]; a
       player('Pequenino Castro (Cagodo)', 29, 'FWD', false, 'pequenino-castro-huila'),
       player('João Baptista Ferraz Samazanga Juny (Jony)', 34, 'FWD', false, 'joao-samazanga-huila'),
       player('Geovany', 35, 'FWD', false, 'geovany-huila'),
-    ],
-  };
-}
-
-/** Onze inicial e bancos publicados de Wiliete–Académica do Lobito (1.ª jornada). */
-function getPublishedWilieteLobitoLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
-  if (match.id !== 'm27-1-5') return undefined;
-
-  const player = (
-    name: string,
-    number: number,
-    position: PitchPosition,
-    isStarter: boolean,
-    playerId?: string,
-  ): LineupPlayer => ({ name, number, position, isStarter, playerId, rating: 0 });
-
-  return {
-    home: [
-      player('Nayan', 1, 'GK', true, 'fifa-1pkwt84'),
-      player('Giovani', 17, 'DEF', true, 'fifa-1jwu6z0'),
-      player('Guilherme', 4, 'DEF', true, 'fifa-1pu18x2'),
-      player('Wiwi', 5, 'DEF', true, 'fifa-1jsrpl0'),
-      player('Karanga', 7, 'MID', true, 'fifa-1jsjbh0'),
-      player('Mule', 8, 'MID', true, 'fifa-1k39nk6'),
-      player('Mindinho', 10, 'MID', true, 'fifa-1jru7c5'),
-      player('Célio Zua', 32, 'MID', true, 'fifa-1m95s64'),
-      player('Gibelé', 11, 'FWD', true, 'fifa-1jsj8t3'),
-      player('Valter Monteiro', 35, 'MID', true, 'valter-monteiro'),
-      player('Mabululu', 9, 'FWD', true),
-      player('Benny', 12, 'GK', false, 'fifa-1jrtue9'),
-      player('Bello', 18, 'FWD', false, 'bello-lukman-wiliete'),
-      player('Artur Kaká', 19, 'MID', false, 'fifa-1l05v38'),
-      player('Filó', 21, 'FWD', false, 'fifa-1ni87h8'),
-      player('Igui', 24, 'MID', false, 'fifa-1uqnv32'),
-      player('Nelo', 26, 'DEF', false, 'fifa-1jz4n21'),
-      player('Bito', 28, 'MID', false),
-      player('Sidibé', 30, 'MID', false, 'fifa-1qvfjm7'),
-      player('Quare', 33, 'FWD', false, 'fifa-1kzr1v5'),
-      player('Camilo', 28, 'MID', false, 'fifa-1jrxs05'),
-    ],
-    away: [
-      player('Guilherme', 12, 'GK', true, 'guilherme-lobito'),
-      player('Nanga', 3, 'DEF', true, 'nanga-lobito'),
-      player('Rosário', 4, 'DEF', true, 'rosario-lobito'),
-      player('Jorge', 26, 'DEF', true),
-      player('Leonel', 22, 'DEF', true),
-      player('Lourenço', 5, 'MID', true, 'lourenco-lobito'),
-      player('Manuel', 6, 'MID', true, 'manuel-lobito'),
-      player('Januário', 7, 'MID', true, 'januario-lobito'),
-      player('Joaquim', 16, 'MID', true, 'joaquim-lobito'),
-      player('Ezequiel', 10, 'MID', true, 'ezequiel-lobito'),
-      player('António', 19, 'FWD', true, 'antonio-lobito'),
-      player('Marcos', 40, 'GK', false, 'marcos-lobito'),
-      player('Leonel', 38, 'DEF', false, 'leonel-lobito'),
-      player('Fernando', 36, 'DEF', false, 'fifa-1nyjxj8'),
-      player('Valério', 29, 'MID', false, 'valerio-lobito'),
-      player('Miguel', 24, 'MID', false, 'miguel-lobito'),
-      player('Serafim', 15, 'MID', false, 'fifa-1l13q80'),
-      player('Florentino', 11, 'FWD', false, 'kaporal'),
-      player('Geraldo', 21, 'MID', false, 'geraldo-lobito'),
-      player('Joel', 2, 'DEF', false, 'joel-lobito'),
     ],
   };
 }
@@ -3648,16 +3588,22 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-1-2') return [
-    { minute: 6, type: 'yellow', team: 'away', player: 'Fernando Cahilo José', playerId: 'cahilo-sagrada' },
-    { minute: 45, type: 'sub', team: 'home', player: 'Higino Kaptingo Epalanga', playerId: 'higino-bravos', playerOut: 'Cueta' },
+    { type: 'goal', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos' },
+    { type: 'goal', team: 'home', player: 'Lito', playerId: 'lito-bravos' },
+    { type: 'goal', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos' },
+    { minute: 6, type: 'red', team: 'away', player: 'Hahilo Sapalo Alberto', playerId: 'cahilo-sagrada', detail: 'Rasteirar o adversário' },
+    { minute: 45, type: 'sub', team: 'home', player: 'Higino', playerId: 'higino-bravos', playerOut: 'Cueta' },
     { minute: 45, type: 'sub', team: 'home', player: 'Tony', playerId: 'tony-bravos', playerOut: 'Bani' },
-    { minute: 48, type: 'yellow', team: 'away', player: 'Miguel Anselmo Basilio Daniel', playerId: 'miguel-sagrada' },
-    { minute: 49, type: 'yellow', team: 'home', player: 'Eric Manuel Gouveia Cabral', playerId: 'ju-cabral-bravos' },
-    { minute: 51, type: 'yellow', team: 'away', player: 'Filipe Pimpao', playerId: 'pimpao-sagrada' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Melono', playerId: 'melono-sagrada', playerOut: 'Dabanda' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Guilherme', playerId: 'guilherme-sagrada', playerOut: 'Cahilo' },
+    { minute: 48, type: 'warning', team: 'away', player: 'Miguel Anselmo Basilio Daniel', playerId: 'miguel-sagrada', detail: 'Não respeitar a decisão do árbitro' },
+    { minute: 49, type: 'yellow', team: 'home', player: 'Eric Manuel Gouveia Cabral', playerId: 'ju-cabral-bravos', detail: 'Tentar enganar o árbitro na área de penálte' },
+    { minute: 51, type: 'warning', team: 'away', player: 'Filipe Pimpao', playerId: 'pimpao-sagrada', detail: 'Jogar à bola depois do árbitro apitar' },
     { minute: 60, type: 'sub', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos', playerOut: 'Lito' },
-    { minute: 75, type: 'sub', team: 'home', player: 'Tiago Uzana Fota', playerId: 'tiago-bravos', playerOut: 'Eric Manuel Gouveia Cabral' },
-    { minute: 86, type: 'yellow', team: 'home', player: 'Dabanda', playerId: 'dabanda-bravos' },
-    { minute: 88, type: 'sub', team: 'home', player: 'Eduwine Alfredo Dos Vantrier Lourenço', playerId: 'eduwine-bravos', playerOut: 'Jorginho' },
+    { minute: 69, type: 'sub', team: 'away', player: 'Silvano', playerId: 'silvano-sagrada', playerOut: 'Pimpão' },
+    { minute: 75, type: 'sub', team: 'home', player: 'Tiago', playerId: 'tiago-bravos', playerOut: 'Ju Cabral' },
+    { minute: 86, type: 'red', team: 'home', player: 'Oliveira Antonio', playerId: 'dabanda-bravos', detail: 'Rasteirar o adversário' },
+    { minute: 88, type: 'sub', team: 'home', player: 'Eduwine', playerId: 'eduwine-bravos', playerOut: 'Jorginho' },
   ];
 
   if (match.id === 'm27-1-3') return [
@@ -3668,7 +3614,7 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 55, type: 'sub', team: 'away', player: 'Mauricio Pedro (Jeizi)', playerId: 'mauricio-pedro-huila', playerOut: 'Angelo Cangu (Tchutchu)' },
     { minute: 55, type: 'sub', team: 'away', player: 'António', playerId: 'antonio-huila', playerOut: 'Milton Alberto de Oliveira Suca' },
     { minute: 60, type: 'sub', team: 'home', player: 'Obed', playerId: 'obed-dago', playerOut: 'Rupson' },
-    { minute: 60, type: 'sub', team: 'home', player: 'Bulaya', playerId: 'bulaya-dago', playerOut: 'Fernandinho' },
+    { minute: 60, type: 'sub', team: 'home', player: 'Bulaya', playerId: 'bulaya-dago', playerOut: 'Fernando' },
     { minute: 60, type: 'sub', team: 'home', player: 'Axel', playerId: 'axel-dago', playerOut: 'Mabelé' },
     { minute: 68, type: 'sub', team: 'away', player: 'Leonardo Manuel Isola Ramos (Cabibi)', playerId: 'leonardo-isola-huila', playerOut: 'Milagre Carlos Simba' },
     { minute: 78, type: 'sub', team: 'away', player: 'Pequenino Castro (Cagodo)', playerId: 'pequenino-castro-huila', playerOut: 'Tchicundico Cassoma Tchitunda (Constantino)' },
@@ -3699,14 +3645,6 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   if (match.id === 'm27-1-5') return [
     { minute: 11, type: 'goal', team: 'home', player: 'Kabelo Dlamini', playerId: 'kabelo-dlamini', detail: '1-0' },
     { minute: 47, type: 'goal', team: 'home', player: 'Valter Monteiro', playerId: 'valter-monteiro', detail: "45'+2 (2-0)" },
-    { minute: 16, type: 'yellow', team: 'away', player: 'Manuel', playerId: 'manuel-lobito' },
-    { minute: 46, type: 'sub', team: 'home', player: 'Filó', playerId: 'fifa-1ni87h8', playerOut: 'Mabululu' },
-    { minute: 46, type: 'sub', team: 'home', player: 'Artur Kaká', playerId: 'fifa-1l05v38', playerOut: 'Célio Zua' },
-    { minute: 67, type: 'sub', team: 'home', player: 'Igui', playerId: 'fifa-1uqnv32', playerOut: 'Valter Monteiro' },
-    { minute: 79, type: 'sub', team: 'home', player: 'Camilo', playerId: 'fifa-1jrxs05', playerOut: 'Mindinho' },
-    { minute: 87, type: 'yellow', team: 'away', player: 'Miguel', playerId: 'miguel-lobito' },
-    { minute: 90, type: 'yellow', team: 'home', player: 'Camilo', playerId: 'fifa-1jrxs05' },
-    { minute: 90, type: 'sub', team: 'home', player: 'Quare', playerId: 'fifa-1kzr1v5', playerOut: 'Gibelé' },
   ];
 
   if (match.id === 'm27-1-6') return [
@@ -3764,10 +3702,10 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-2-8': { home: { possession: 50, corners: 1, yellowCards: 1, saves: 0 }, away: { possession: 50, corners: 0, yellowCards: 1, saves: 0 }, keys: ['possession', 'corners', 'yellowCards', 'saves'] },
   'm27-2-3': { home: { fouls: 8, yellowCards: 8, redCards: 0 }, away: { fouls: 3, yellowCards: 3, redCards: 0 }, keys: ['fouls', 'yellowCards', 'redCards'] },
   'm27-1-1': { home: { corners: 1, yellowCards: 0, redCards: 0 }, away: { corners: 0, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
-  'm27-1-2': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-1-2': { home: { yellowCards: 1, redCards: 1 }, away: { yellowCards: 0, redCards: 1 }, keys: ['yellowCards', 'redCards'] },
   'm27-1-3': { home: { corners: 0, yellowCards: 3, redCards: 0 }, away: { corners: 1, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-1-4': { home: { yellowCards: 4, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
-  'm27-1-5': { home: { corners: 0, yellowCards: 1 }, away: { corners: 0, yellowCards: 2 }, keys: ['corners', 'yellowCards'] },
+  'm27-1-5': { home: { corners: 0, yellowCards: 0 }, away: { corners: 0, yellowCards: 1 }, keys: ['corners', 'yellowCards'] },
   'm27-1-6': { home: { corners: 1, yellowCards: 2 }, away: { corners: 0, yellowCards: 4 }, keys: ['corners', 'yellowCards'] },
   'm27-1-7': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 0, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-3-7': { home: { yellowCards: 1, redCards: 0 }, away: { yellowCards: 2, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
@@ -3860,7 +3798,6 @@ function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: 
 /** Treinadores confirmados nas fichas de jogo. */
 const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: string }>> = {
   'm27-1-3': { home: 'Filipe Nzanza' },
-  'm27-1-5': { home: 'Beto Bianchi', away: 'Silvestre Pelé' },
   'm27-2-8': { home: 'Silvestre Pelé', away: 'João Pedro Sousa' },
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
 };
@@ -3870,7 +3807,6 @@ export function getMatchDetail(match: Match): MatchDetail {
   const publishedLineups = getPublishedBravosSagradaLineups(match)
     ?? getPublishedCabindaLiboloLineups(match)
     ?? getPublishedAgostoHuilaLineups(match)
-    ?? getPublishedWilieteLobitoLineups(match)
     ?? getPublishedLundaSulPetroLineups(match)
     ?? getPublishedLobitoPetroLineups(match)
     ?? getPublishedPetroLiboloLineups(match);
@@ -4169,7 +4105,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
   },
   wiliete: {
     officialName: 'Wiliete Sport Clube de Benguela — Futebol',
-    president: 'Wilson Fernando Faria',
+    president: 'Wilson Faria',
     website: 'https://wilietesc.ao/',
     socials: {
       facebook: 'https://www.facebook.com/wscbenguela/',
@@ -4184,7 +4120,7 @@ const TEAM_PROFILE_OVERRIDES: Record<string, Partial<TeamProfile>> = {
       { label: 'Secundário', colors: ['#FFFFFF', '#008751'] },
     ],
     board: [
-      { role: 'Presidente', name: 'Wilson Fernando Faria' },
+      { role: 'Presidente', name: 'Wilson Faria' },
     ],
   },
   bravos: {
