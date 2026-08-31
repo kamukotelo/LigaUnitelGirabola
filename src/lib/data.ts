@@ -3657,6 +3657,25 @@ export function getCurrentSeasonCardReconciliation() {
   };
 }
 
+/**
+ * Compara os golos dos resultados oficiais da época em curso com os golos já
+ * atribuídos nominalmente em CURRENT_SEASON_SCORERS. Os golos ainda sem marcador
+ * identificado permanecem apenas no resultado do jogo — nunca são inventados.
+ */
+export function getCurrentSeasonGoalReconciliation() {
+  const goalsInResults = getMatchesForSeason(UPCOMING_SEASON_ID)
+    .filter((match) => match.status === 'finished')
+    .reduce((total, match) => total + (match.homeScore ?? 0) + (match.awayScore ?? 0), 0);
+
+  const goalsAttributed = CURRENT_SEASON_SCORERS.reduce((total, scorer) => total + scorer.goals, 0);
+
+  return {
+    goalsInResults,
+    goalsAttributed,
+    goalsUnattributed: Math.max(0, goalsInResults - goalsAttributed),
+  };
+}
+
 function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: number): LineupPlayer[] {
   if (count <= 0) return [];
   const candidates = lineup.filter(p => p.isStarter && p.position !== 'GK')

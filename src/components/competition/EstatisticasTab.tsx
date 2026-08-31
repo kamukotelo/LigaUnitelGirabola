@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Award, Shield, AlertTriangle, CheckCircle2, Clock3 } from 'lucide-react';
-import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonDiscipline, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
+import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonGoalReconciliation, getCurrentSeasonDiscipline, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -134,6 +134,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   }
 
   const cardReconciliation = getCurrentSeasonCardReconciliation();
+  const goalReconciliation = getCurrentSeasonGoalReconciliation();
 
   const maxStatValue = displayPlayers.length > 0 ? Math.max(...displayPlayers.map((p) => p.value)) : 1;
 
@@ -213,6 +214,19 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             <p className="text-xs font-semibold text-foreground">Esta métrica ainda aguarda dados oficiais.</p>
             <p className="mt-1 text-xs text-zinc-500">Os cartões e goleadores continuam visíveis porque já foram identificados nas fichas recebidas. Esta lista será preenchida quando a respetiva informação for importada, sem criar valores estimados.</p>
           </div>
+        </div>
+      )}
+
+      {isUpcoming && seasonHasStarted && activeTab === 'scorers' && displayPlayers.length > 0 && goalReconciliation.goalsUnattributed > 0 && (
+        <div className="mb-8 p-4 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl max-w-4xl">
+          <p className="text-xs text-zinc-500">
+            Lista individual baseada apenas nos golos cujo autor foi identificado nas fichas recebidas. Golos ainda sem nome confirmado permanecem apenas no resultado do respetivo jogo.
+          </p>
+          <p className="text-xs text-zinc-500 mt-2 font-mono">
+            Golos nos resultados: {goalReconciliation.goalsInResults} ·
+            {' '}Atribuídos a jogador: {goalReconciliation.goalsAttributed} ·
+            {' '}Por identificar: {goalReconciliation.goalsUnattributed}.
+          </p>
         </div>
       )}
 
