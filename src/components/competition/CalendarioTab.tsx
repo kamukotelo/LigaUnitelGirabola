@@ -62,38 +62,48 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
   const broadcast = getMatchBroadcast(match);
   const isDeferredBroadcast = broadcast.toLowerCase().includes('diferido');
 
+  const teamNameClass = (isSelected: boolean) =>
+    `min-w-0 whitespace-normal break-words font-condensed text-[12px] font-bold leading-tight sm:text-[13px] ${
+      isSelected ? 'font-extrabold text-red-700' : 'text-zinc-950'
+    }`;
+
   return (
     <Link
       href={`/matches/${match.id}`}
-      className={`group relative z-10 grid grid-cols-[1fr_auto_1fr] items-center gap-x-3 gap-y-1 border-b border-zinc-300/80 px-3 py-3 text-[11px] transition-all last:border-b-0 sm:grid-cols-[minmax(0,1fr)_30px] sm:gap-x-2 sm:py-2.5 sm:text-xs ${
+      className={`group relative z-10 flex flex-col gap-1.5 border-b border-zinc-300/80 px-2.5 py-2.5 transition-all last:border-b-0 ${
         muted ? 'opacity-40 grayscale hover:opacity-80 hover:grayscale-0' : 'hover:bg-orange-50/90'
       }`}
       title={`${match.homeTeam} — ${match.awayTeam} · ${formattedDay} · ${formattedTime}${hasOfficialDate ? '' : ' · Data provisória/editável'}`}
     >
-      <span className="flex justify-end sm:hidden">
-        <TeamCrest teamId={match.homeTeamId} size={34} />
-      </span>
-      <span className={`hidden min-w-0 whitespace-normal break-words text-left font-condensed font-bold leading-tight sm:block ${selected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`}>
-        {match.homeTeam}
-      </span>
-      <span className="flex items-center justify-center gap-1 rounded-lg border border-zinc-200 bg-white px-2.5 py-1 font-mono text-sm font-black text-zinc-800 shadow-sm sm:contents">
-        <span>{homeScore}</span><span className="text-zinc-400 sm:hidden">:</span><span className="sm:hidden">{awayScore}</span>
-      </span>
-      <span className={`hidden min-w-0 whitespace-normal break-words text-left font-condensed font-bold leading-tight sm:block ${selected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`}>
-        {match.awayTeam}
-      </span>
-      <span className="hidden text-center font-mono font-black text-zinc-700 sm:block">{awayScore}</span>
-      <span className="flex justify-start sm:hidden">
-        <TeamCrest teamId={match.awayTeamId} size={34} />
-      </span>
-      <span className="col-span-3 mt-1 flex flex-wrap items-center justify-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:col-span-2 sm:justify-start sm:text-[10px]">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-2">
+        {/* Casa */}
+        <div className="flex min-w-0 items-center justify-end gap-2 text-right">
+          <span className={teamNameClass(selected)}>{match.homeTeam}</span>
+          <TeamCrest teamId={match.homeTeamId} size={28} className="shrink-0" />
+        </div>
+
+        {/* Resultado */}
+        <div className="flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 py-1 font-mono text-sm font-black tabular-nums text-zinc-900 shadow-sm">
+          <span className={isLive ? 'text-red-600' : undefined}>{homeScore}</span>
+          <span className="text-zinc-300">–</span>
+          <span className={isLive ? 'text-red-600' : undefined}>{awayScore}</span>
+        </div>
+
+        {/* Fora */}
+        <div className="flex min-w-0 items-center justify-start gap-2 text-left">
+          <TeamCrest teamId={match.awayTeamId} size={28} className="shrink-0" />
+          <span className={teamNameClass(selected)}>{match.awayTeam}</span>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
         <span className={isLive ? 'text-red-600' : undefined}>{isLive ? `● ${match.liveMinute ?? ''}' · Em direto` : `${formattedDay} · ${formattedTime}${hasOfficialDate ? '' : ' · Provisória'}`}</span>
         {broadcast !== 'Por confirmar' && (
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 shadow-sm ring-1 ${match.broadcaster ? 'bg-[#5C0F8B] text-white ring-white/40' : 'bg-amber-100 text-amber-900 ring-amber-300'}`}>
             <Tv size={10} aria-hidden="true" /> {match.broadcaster && !isDeferredBroadcast ? `${isFinished ? 'Transmitido' : 'Em direto'} · ${broadcast}` : broadcast}
           </span>
         )}
-      </span>
+      </div>
     </Link>
   );
 }
