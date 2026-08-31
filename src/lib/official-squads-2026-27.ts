@@ -829,9 +829,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "13"
       },
       {
-        "name": "DEIVI MIGUEL VIEIRA",
+        "name": "Gibele",
         "fullName": "DEIVI MIGUEL VIEIRA",
-        "popularName": "",
+        "popularName": "Gibele",
         "maId": "000445M01",
         "fifaId": "1JSJ8T3",
         "gender": "MALE",
@@ -2885,7 +2885,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "maId": "000571M69",
         "fifaId": "1JXIBT3",
         "gender": "",
-        "role": "",
+        "role": "Presidente",
         "nationality": "Angola"
       },
       {

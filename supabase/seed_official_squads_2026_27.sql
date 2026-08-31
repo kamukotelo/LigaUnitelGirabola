@@ -145,7 +145,7 @@ values
   ('006176M04', 'wiliete', 'Bocar Sidibé', 'Bocar Sidibé', null, '006176M04', '1QVFJM7', 'MALE', '2004-01-26', 'Mali', 'MF', 30),
   ('008139M08', 'wiliete', 'Adenilson Paulo Tchingando', 'Adenilson Paulo Tchingando', null, '008139M08', '1UQNTJ4', 'MALE', '2008-02-05', 'Angola', 'DF', 36),
   ('005385M06', 'wiliete', 'Adriano Watchilala Tchombe', 'Adriano Watchilala Tchombe', null, '005385M06', '1PVXHT8', 'MALE', '2006-03-22', 'Angola', 'DF', 13),
-  ('000445M01', 'wiliete', 'DEIVI MIGUEL VIEIRA', 'DEIVI MIGUEL VIEIRA', null, '000445M01', '1JSJ8T3', 'MALE', '2001-03-10', 'Angola', 'FWD', 11),
+  ('000445M01', 'wiliete', 'Gibele', 'DEIVI MIGUEL VIEIRA', 'Gibele', '000445M01', '1JSJ8T3', 'MALE', '2001-03-10', 'Angola', 'FWD', 11),
   ('002755M03', 'wiliete', 'CELIO ALBERTO JUNQUEIRA ZUA', 'CELIO ALBERTO JUNQUEIRA ZUA', null, '002755M03', '1M95S64', 'MALE', '2003-07-15', 'Angola', 'MF', 32),
   ('008136M07', 'wiliete', 'Abel Samandi Mbambi', 'Abel Samandi Mbambi', null, '008136M07', '1UQNSL6', 'MALE', '2007-07-26', 'Angola', 'GK', 40),
   ('003548M98', 'wiliete', 'Eduardo António Henrique capingana', 'Eduardo António Henrique capingana', null, '003548M98', '1NDEMR2', 'MALE', '1998-07-15', 'Angola', 'MF', 2)
@@ -880,7 +880,7 @@ values
   ('000599M82', 'lobito', 'DOMINGOS LUVULI ABEL', 'DOMINGOS LUVULI ABEL', null, '000599M82', '1JXIFY5', null, 'KMGR', 'Angola'),
   ('000569M72', 'lobito', 'ANTÓNIO DAVID ALMEIDA', 'ANTÓNIO DAVID ALMEIDA', null, '000569M72', '1JXIBE6', null, null, 'Angola'),
   ('008956M88', 'lobito', 'EDSON CHIPUNGA ZEFERINO ANDRÉ', 'EDSON CHIPUNGA ZEFERINO ANDRÉ', null, '008956M88', '1V0Q513', null, null, 'Angola'),
-  ('000571M69', 'lobito', 'LUIS GONÇALO BARROS LOPES BORGES', 'LUIS GONÇALO BARROS LOPES BORGES', null, '000571M69', '1JXIBT3', null, null, 'Angola'),
+  ('000571M69', 'lobito', 'LUIS GONÇALO BARROS LOPES BORGES', 'LUIS GONÇALO BARROS LOPES BORGES', null, '000571M69', '1JXIBT3', null, 'Presidente', 'Angola'),
   ('000626M84', 'lobito', 'FELIX SANGUEVE CALUEIO', 'FELIX SANGUEVE CALUEIO', null, '000626M84', '1JXWVW8', null, null, 'Angola'),
   ('008957M86', 'lobito', 'DAVID KACHIMONGA FARIA CIGARRO', 'DAVID KACHIMONGA FARIA CIGARRO', null, '008957M86', '1V0Q5M9', null, 'KMGR', 'Angola'),
   ('005518M03', 'lobito', 'ANTONIO CATUMBELA EURICO(MIRITO)', 'ANTONIO CATUMBELA EURICO(MIRITO)', null, '005518M03', '1Q4II41', null, 'TMED', 'Angola'),

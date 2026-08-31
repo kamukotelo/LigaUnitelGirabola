@@ -2194,14 +2194,32 @@ const OFFICIAL_STAFF_ROLE_LABELS: Readonly<Record<string, string>> = {
   MASG: 'Massagista',
 };
 
+// Ordem de apresentação da equipa técnica: treinador principal, adjuntos,
+// treinador de guarda-redes e depois o restante staff.
+const OFFICIAL_STAFF_ROLE_ORDER: readonly string[] = [
+  'HDCH', 'ASCH', 'GKCH', 'PTNR', 'TMED', 'DOCT', 'PHYS', 'TCSC',
+  'TMGR', 'AMGR', 'KMGR', 'MASG', 'TSTF',
+];
+
+function officialStaffRank(role: string): number {
+  const idx = OFFICIAL_STAFF_ROLE_ORDER.indexOf(role);
+  if (idx !== -1) return idx;
+  // Funções fora da tabela FIFA (Presidente, Diretor, Oficial da equipa…)
+  // e funções por confirmar ficam no fim, mantendo a ordem do ficheiro.
+  return OFFICIAL_STAFF_ROLE_ORDER.length + (role ? 0 : 1);
+}
+
 export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMember[]>> = Object.fromEntries(
-  OFFICIAL_SQUADS_2026_27.map((squad) => [squad.teamId, squad.staff.map((member) => ({
-    name: formatOfficialPlayerName(member.name),
-    role: OFFICIAL_STAFF_ROLE_LABELS[member.role] ?? (member.role || 'Função por confirmar'),
-    nationality: OFFICIAL_NATIONALITY_LABELS[member.nationality] ?? (member.nationality || 'A confirmar'),
-    maId: member.maId || undefined,
-    fifaId: member.fifaId || undefined,
-  }))]),
+  OFFICIAL_SQUADS_2026_27.map((squad) => [squad.teamId, squad.staff
+    .map((member, index) => ({ member, index, rank: officialStaffRank(member.role) }))
+    .sort((a, b) => a.rank - b.rank || a.index - b.index)
+    .map(({ member }) => ({
+      name: formatOfficialPlayerName(member.name),
+      role: OFFICIAL_STAFF_ROLE_LABELS[member.role] ?? (member.role || 'Função por confirmar'),
+      nationality: OFFICIAL_NATIONALITY_LABELS[member.nationality] ?? (member.nationality || 'A confirmar'),
+      maId: member.maId || undefined,
+      fifaId: member.fifaId || undefined,
+    }))]),
 );
 
 export function getTeamStaff(teamId: string): TeamStaffMember[] {
