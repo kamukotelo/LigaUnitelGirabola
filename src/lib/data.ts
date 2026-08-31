@@ -3487,8 +3487,21 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-3-7') return [
+    { minute: 17, type: 'yellow', team: 'away', player: 'Marcos', playerId: 'marcos-libolo' },
     { minute: 22, type: 'goal', team: 'home', player: 'Rúben Adérito', playerId: 'ruben-aderito', detail: '1-0' },
+    { minute: 61, type: 'yellow', team: 'home', player: 'Núrio Fortuna', playerId: 'nurio-fortuna' },
+    { minute: 65, type: 'sub', team: 'home', player: 'Ilídio Panda', playerId: 'ilidio-panda', playerOut: 'Ivan Cavaleiro' },
+    { minute: 65, type: 'sub', team: 'home', player: 'António Hossi', playerId: 'antonio-hossi', playerOut: 'Núrio Fortuna' },
+    { minute: 65, type: 'sub', team: 'away', player: 'Pedro Afonso', playerOut: 'Cuxixima' },
+    { minute: 73, type: 'sub', team: 'home', player: 'Mário Balbúrdia', playerId: 'mario-balburdia', playerOut: 'Pedro Aparício' },
+    { minute: 76, type: 'sub', team: 'away', player: 'Zidane', playerId: 'zidane-libolo', playerOut: 'Amado' },
+    { minute: 76, type: 'sub', team: 'away', player: 'Zinadine', playerOut: 'Ilídio' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Tiago Azulão', playerId: 'tiago-azulao', playerOut: 'Depú' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Vanilson', playerId: 'vanilson', playerOut: 'Hélder Costa' },
     { minute: 84, type: 'goal', team: 'home', player: 'Tiago Azulão', playerId: 'tiago-azulao', detail: '2-0' },
+    { minute: 87, type: 'yellow', team: 'away', player: 'Andeloy', playerId: 'andeloy-libolo' },
+    { minute: 90, type: 'sub', team: 'away', player: 'Jorge', playerOut: 'Aristóteles' },
+    { minute: 90, type: 'sub', team: 'away', player: 'José Batalha', playerOut: 'Adelino' },
     { minute: 95, type: 'goal', team: 'home', player: 'Deybi Flores', playerId: 'deybi-flores', detail: "90'+5 (3-0)" },
   ];
 
@@ -3608,6 +3621,7 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-1-5': { home: { corners: 0, yellowCards: 0 }, away: { corners: 0, yellowCards: 1 }, keys: ['corners', 'yellowCards'] },
   'm27-1-6': { home: { corners: 1, yellowCards: 2 }, away: { corners: 0, yellowCards: 4 }, keys: ['corners', 'yellowCards'] },
   'm27-1-7': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 0, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-3-7': { home: { yellowCards: 1, redCards: 0 }, away: { yellowCards: 2, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
 };
 
 /**
