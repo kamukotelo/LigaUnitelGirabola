@@ -1805,6 +1805,7 @@ const LOBITO_SQUAD_2026_27: Player[] = [
   ['leonel-lobito', 'Leonel', 38],
   ['lourenco-lobito', 'Lourenço', 5],
   ['manuel-lobito', 'Manuel', 6],
+  ['januario-lobito', 'Januário', 7],
   ['joaquim-lobito', 'Joaquim', 16],
   ['ezequiel-lobito', 'Ezequiel', 10],
   ['antonio-lobito', 'António', 19],
@@ -3205,8 +3206,8 @@ function getPublishedLobitoPetroLineups(match: Match): { home: LineupPlayer[]; a
   ): LineupPlayer => ({ name, number, isStarter, playerId, position, rating: 0 });
 
   return {
-    // A fonte recebida enumera apenas dez titulares. Mantemos a lista tal
-    // como publicada, sem criar um 11.º jogador ou posições não informadas.
+    // Onze inicial e suplentes conforme a ficha do clube (jornada 2, frente
+    // ao Petro). Sem posições no boletim, pelo que ficam por confirmar.
     home: [
       player('Guilherme', 12, true, 'guilherme-lobito'),
       player('Joel', 2, true, 'joel-lobito'),
@@ -3215,6 +3216,7 @@ function getPublishedLobitoPetroLineups(match: Match): { home: LineupPlayer[]; a
       player('Leonel', 38, true, 'leonel-lobito'),
       player('Lourenço', 5, true, 'lourenco-lobito'),
       player('Manuel', 6, true, 'manuel-lobito'),
+      player('Januário', 7, true, 'januario-lobito'),
       player('Joaquim', 16, true, 'joaquim-lobito'),
       player('Ezequiel', 10, true, 'ezequiel-lobito'),
       player('António', 19, true, 'antonio-lobito'),
