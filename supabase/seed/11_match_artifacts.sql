@@ -18,7 +18,7 @@ insert into public.ancaf_match_lineups (match_id, team_id, side, players, coach,
   ('m27-3-7', 'libolo', 'away', '[{"playerId":"beny-libolo","name":"Beny","number":12,"position":"GK","isStarter":true,"isCaptain":false},{"playerId":"maninho-libolo","name":"Maninho","number":5,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"marcos-libolo","name":"Marcos","number":3,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"toti-libolo","name":"Toti","number":4,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"nelo-libolo","name":"Nelo","number":14,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"chimito-libolo","name":"Chimito","number":6,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"tchube-libolo","name":"Tchube","number":8,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"andeloy-libolo","name":"Andeloy","number":10,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"amado-libolo","name":"Amado","number":18,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"tubarao-libolo","name":"Tubarão","number":30,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"cuxixima-libolo","name":"Cuxixima","number":27,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"mario-libolo","name":"Mário","number":20,"position":"GK","isStarter":false,"isCaptain":false},{"playerId":"miro-libolo","name":"Miro","number":25,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":"jorgito-libolo","name":"Jorgito","number":15,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":"pedro-libolo","name":"Pedro","number":17,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"jamanta-libolo","name":"Jamanta","number":19,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"zidan-libolo","name":"Zidan","number":22,"position":null,"isStarter":false,"isCaptain":false},{"playerId":"zidane-libolo","name":"Zidane","number":24,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":"salomao-libolo","name":"Salomão","number":25,"position":null,"isStarter":false,"isCaptain":false},{"playerId":"lara-libolo","name":"Lara","number":28,"position":"FWD","isStarter":false,"isCaptain":false}]'::jsonb, 'Osvaldo Roque', 'seed')
 on conflict (match_id,team_id) do update set side = excluded.side, players = excluded.players, coach = excluded.coach, confirmed_by = excluded.confirmed_by;
 
-delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-2', 'm27-2-8', 'm27-3-7');
+delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7');
 insert into public.ancaf_match_events (match_id, minute, type, team_side, player, player_id, assist, player_out, detail, sort) values
   ('m27-1-4', 28, 'yellow', 'home', 'Maranata Domingos Sicuba Vunge', 'maranata', null, null, 'Rasteirou o adversário', 0),
   ('m27-1-4', 37, 'yellow', 'home', 'Elindo Wanga Paulino', 'platini', null, null, 'Rasteirou o adversário', 1),
@@ -81,6 +81,7 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-1-1', 40, 'yellow', 'away', 'Lisneu Emanuel Neto Simao', 'lisneu-caala', null, null, 'Rasteirou o adversário', 0),
   ('m27-1-6', 23, 'goal', 'home', 'Deninho', 'deninho-maio', null, null, '1-0', 0),
   ('m27-1-6', 65, 'goal', 'away', 'Benarfa', 'benarfa-kabuscorp', null, null, '1-1', 1),
+  ('m27-1-8', 70, 'goal', 'away', 'Além', 'alem-interclube', null, null, '0-1', 0),
   ('m27-1-5', 11, 'goal', 'home', 'Kabelo Dlamini', 'kabelo-dlamini', null, null, '1-0', 0),
   ('m27-1-5', 47, 'goal', 'home', 'Valter Monteiro', 'valter-monteiro', null, null, '45''+2 (2-0)', 1),
   ('m27-2-3', 5, 'yellow', 'home', 'Pedro da Silva', 'pedro-da-silva-cabinda', null, null, null, 0),
@@ -112,10 +113,18 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-2-1', 34, 'goal', 'away', 'Bello Lukman', 'bello-lukman-wiliete', null, null, '1-1', 1),
   ('m27-2-1', 44, 'red', 'home', 'Valegol', 'valegol-caala', null, null, null, 2),
   ('m27-2-1', 49, 'goal', 'away', 'Ning', 'ning-wiliete', null, null, '1-2', 3),
+  ('m27-2-5', 49, 'goal', 'home', 'Silvano da Cruz', 'silvano-da-cruz-interclube', null, null, '1-0', 0),
+  ('m27-2-5', 52, 'goal', 'home', 'Alberto Alves', 'alberto-alves-interclube', null, null, '2-0', 1),
+  ('m27-2-5', 91, 'goal', 'away', 'Ricardo Batista', 'ricardo-batista-fcluanda', null, null, '90''+1 · 2-1', 2),
+  ('m27-2-4', 45, 'goal', 'home', 'Mafuta', 'mafuta-sagrada', null, null, '1-0', 0),
+  ('m27-2-4', 49, 'goal', 'away', 'Anderson Mputa', 'anderson-mputa-saosalvador', null, null, '1-1', 1),
+  ('m27-2-4', 64, 'goal', 'home', 'Augusto Fecayamale', null, null, null, 'A confirmar · 2-1', 2),
+  ('m27-2-4', 92, 'goal', 'home', 'M. Dala', 'm-dala-sagrada', null, null, '90''+2 · 3-1', 3),
   ('m27-2-2', 26, 'goal', 'home', 'Marcador por confirmar', null, null, null, '1-0', 0),
   ('m27-2-2', 58, 'goal', 'away', 'Marcador por confirmar', null, null, null, '1-1', 1),
   ('m27-2-8', 47, 'goal', 'away', 'Tiago Azulão', 'tiago-azulao', null, null, '0-1', 0),
   ('m27-2-8', 91, 'goal', 'away', 'Depú', 'depu', null, null, '90''+1 · 0-2', 1),
+  ('m27-2-6', 85, 'goal', 'away', 'Higino Kaptingo Epalanga', 'higino-bravos', null, null, '0-1', 0),
   ('m27-3-7', 17, 'yellow', 'away', 'Marcos', 'marcos-libolo', null, null, null, 0),
   ('m27-3-7', 22, 'goal', 'home', 'Rúben Adérito', 'ruben-aderito', null, null, '1-0', 1),
   ('m27-3-7', 61, 'yellow', 'home', 'Núrio Fortuna', 'nurio-fortuna', null, null, null, 2),

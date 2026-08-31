@@ -296,7 +296,7 @@ let skipped = 0;
 
     const events = det.events as Array<Record<string, unknown>>;
     const officialKeys = (det.officialStatKeys as string[]) ?? [];
-    if (officialKeys.length) {
+    if (d.hasPublishedMatchEvents(match as never)) {
       eventMatchIds.add(match.id as string);
       events.forEach((e, i) => {
         eventRows.push([
@@ -304,11 +304,13 @@ let skipped = 0;
           s(e.assist), s(e.playerOut), s(e.detail), n(i),
         ]);
       });
-      const homeStats = det.homeStats as Record<string, unknown>;
-      const awayStats = det.awayStats as Record<string, unknown>;
-      for (const key of officialKeys) {
-        statRows.push([s(match.id), s('home'), s(key), n(homeStats[key]), 'true']);
-        statRows.push([s(match.id), s('away'), s(key), n(awayStats[key]), 'true']);
+      if (officialKeys.length) {
+        const homeStats = det.homeStats as Record<string, unknown>;
+        const awayStats = det.awayStats as Record<string, unknown>;
+        for (const key of officialKeys) {
+          statRows.push([s(match.id), s('home'), s(key), n(homeStats[key]), 'true']);
+          statRows.push([s(match.id), s('away'), s(key), n(awayStats[key]), 'true']);
+        }
       }
     }
   }

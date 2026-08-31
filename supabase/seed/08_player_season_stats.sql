@@ -32,6 +32,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'mafuta-sagrada', 1, 0, 1, 0, 0),
   ('2026-27', 'anderson-mputa-saosalvador', 1, 0, 1, 0, 0),
   ('2026-27', 'm-dala-sagrada', 1, 0, 1, 0, 0),
+  ('2026-27', 'higino-bravos', 1, 0, 2, 0, 0),
   ('2026-27', 'cahilo-sagrada', 0, 0, 1, 0, 1),
   ('2026-27', 'dabanda-bravos', 0, 0, 1, 0, 1),
   ('2026-27', 'lucas-elias-huila', 0, 0, 1, 2, 0),
