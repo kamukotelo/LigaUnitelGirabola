@@ -271,10 +271,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "homeTeam": "Desportivo da Huíla",
     "awayTeam": "Wiliete de Benguela",
     "homeScore": 0,
-    "awayScore": 0,
+    "awayScore": 1,
     "date": "2026-08-31T15:30:00+01:00",
     "stadium": "Estádio da Tundavala",
-    "status": "scheduled"
+    "status": "finished"
   },
   {
     "id": "m27-3-6",
