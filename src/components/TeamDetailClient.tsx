@@ -281,6 +281,7 @@ export default function TeamDetailClient({
                     {standing.form.map((result, idx) => (
                       <span
                         key={idx}
+                        title={result === 'W' ? 'Vitória' : result === 'D' ? 'Empate' : 'Derrota'}
                         className={`flex-1 py-1 rounded text-center text-xs font-mono font-bold ${
                           result === 'W'
                             ? 'bg-green-500/10 border border-green-500/30 text-green-500'
@@ -289,7 +290,7 @@ export default function TeamDetailClient({
                             : 'bg-red-500/10 border border-red-500/30 text-red-500'
                         }`}
                       >
-                        {result}
+                        {result === 'W' ? 'V' : result === 'D' ? 'E' : 'D'}
                       </span>
                     ))}
                   </div>
