@@ -29,17 +29,62 @@ export async function GET() {
   };
 
   try {
-    const [staffRes, profRes, standRes, teamRes, vidRes, newsRes, lineRes, evRes, statRes] = await Promise.all([
+    const [staffRes, profRes, standRes, teamRes, playerRes, nomRes, vidRes, newsRes, lineRes, evRes, statRes] = await Promise.all([
       supabase.from('ancaf_team_staff').select('team_id, name, role, nationality, ma_id, fifa_id, sort_rank, updated_at'),
       supabase.from('ancaf_team_profiles').select('team_id, official_name, president, website, socials, palmares, kits, board, updated_at'),
       supabase.from('ancaf_standings').select('*'),
       supabase.from('ancaf_teams').select('id, name'),
+      supabase.from('ancaf_players').select('*'),
+      supabase.from('ancaf_referee_nominations').select('*'),
       supabase.from('ancaf_videos').select('*').order('sort'),
       supabase.from('ancaf_news').select('id, title, category, date, iso_date, summary, content, status, author, source_name, source_url, published_at, ai_assisted, updated_at').order('date', { ascending: false }),
       supabase.from('ancaf_match_lineups').select('match_id, team_id, side, players, coach, updated_at'),
       supabase.from('ancaf_match_events').select('*').order('sort'),
       supabase.from('ancaf_match_stats').select('*'),
     ]);
+
+    // Nota: ancaf_teams fica na Vaga 3 (a tabela de produção ainda está parcial).
+    // teamRes serve apenas para o teamName das classificações.
+
+    // ── jogadores ────────────────────────────────────────────────────
+    // Idem: só substitui a constante com um plantel realista (>= 200 atletas
+    // com nome e clube), para não esvaziar o site com uma tabela parcial.
+    const playerRows = arr<Row>(playerRes.data);
+    const playersComplete = playerRows.length >= 200 && playerRows.every((r) => str(r.name).trim() && str(r.team_id).trim());
+    if (playersComplete) {
+      data.players = playerRows.map((r) => {
+        bump(r.updated_at);
+        return {
+          id: str(r.id), name: str(r.name), fullName: r.full_name ? str(r.full_name) : undefined,
+          club: str(r.club), teamId: str(r.team_id), position: str(r.position),
+          goals: num(r.goals), assists: num(r.assists), appearances: num(r.appearances),
+          jerseyNumber: num(r.jersey_number), age: num(r.age), nationality: str(r.nationality),
+          height: str(r.height) || 'A confirmar', birthDate: r.birth_date ? str(r.birth_date) : undefined,
+          maId: r.ma_id ? str(r.ma_id) : undefined, gender: r.gender ? str(r.gender) : undefined,
+          fifaConnectId: r.fifa_connect_id ? str(r.fifa_connect_id) : undefined,
+          fifaConnectStatus: (str(r.fifa_connect_status) || 'unregistered') as import('@/lib/data').Player['fifaConnectStatus'],
+          registeredSquad: r.registered_squad !== false,
+          attributes: obj(r.attributes) as import('@/lib/data').Player['attributes'],
+          careerHistory: arr(r.career_history),
+          bio: r.bio ? str(r.bio) : undefined,
+        } as import('@/lib/data').Player;
+      });
+    }
+
+    // ── nomeações de arbitragem ──────────────────────────────────────
+    const nomRows = arr<Row>(nomRes.data);
+    if (nomRows.length) {
+      data.nominations = {};
+      for (const r of nomRows) {
+        bump(r.updated_at);
+        const a = arr<string>(r.assistants);
+        data.nominations[str(r.match_id)] = {
+          referee: str(r.referee) || 'A definir',
+          assistants: [a[0] ?? '', a[1] ?? ''],
+          fourth: str(r.fourth ?? r.fourth_official) || 'A definir',
+        };
+      }
+    }
 
     // ── equipa técnica ────────────────────────────────────────────────
     const staffRows = arr<Row>(staffRes.data);

@@ -21,7 +21,8 @@ import {
 // Tabelas ancaf_* já migradas do código — Realtime alargado (Supabase exige
 // subscrição por tabela em RLS). Cresce a cada vaga da migração.
 const PORTAL_DATA_TABLES = [
-  'ancaf_team_staff', 'ancaf_team_profiles', 'ancaf_standings', 'ancaf_videos',
+  'ancaf_teams', 'ancaf_players', 'ancaf_team_staff', 'ancaf_team_profiles',
+  'ancaf_standings', 'ancaf_videos', 'ancaf_news', 'ancaf_referee_nominations',
   'ancaf_match_lineups', 'ancaf_match_events', 'ancaf_match_stats',
 ];
 

@@ -2634,11 +2634,14 @@ export function getPortalOverrides(): PortalOverrides {
 // No servidor é sempre {} — os getters caem na constante (fallback do passo 1).
 // Cresce por vagas; um domínio ausente = ainda servido pela constante.
 export interface PortalData {
+  teams?: Team[];
+  players?: Player[];
   staff?: Record<string, TeamStaffMember[]>;
   profiles?: Record<string, Partial<TeamProfile>>;
   standings?: Record<string, StandingEntry[]>;
   videos?: VideoHighlight[];
   news?: NewsArticle[];
+  nominations?: Record<string, MatchOfficials>;
   lineups?: Record<string, { home: LineupPlayer[]; away: LineupPlayer[]; homeCoach?: string; awayCoach?: string }>;
   events?: Record<string, MatchEventDetail[]>;
   matchStats?: Record<string, { home: Partial<MatchTeamStats>; away: Partial<MatchTeamStats>; keys: (keyof MatchTeamStats)[] }>;
@@ -2712,6 +2715,9 @@ export function applyRuntimeMatchOverrides(list: Match[]): Match[] {
 // Devolve a lista dinâmica de equipas respeitando os overrides do admin
 // (equipas adicionadas/removidas/editadas pelo portal de administração).
 export function getTeams(): Team[] {
+  // NOTA: a ligação de getTeams a RUNTIME_DATA.teams fica para a Vaga 3, quando
+  // ancaf_teams estiver reconciliado com o código (a tabela de produção ainda
+  // tem dados parciais — kits vazios, treinadores desatualizados).
   const ov = RUNTIME_OVERRIDES.teams;
   if (!ov) return TEAMS;
 
@@ -2810,6 +2816,11 @@ export function getMatchesByTeam(teamId: string, seasonId = UPCOMING_SEASON_ID):
 // Aplica os overrides de jogador (admin) sobre os dados brutos e reenriquece,
 // para que golos/estatísticas editados sejam recalculados de forma coerente.
 function computePlayers(): Player[] {
+  // NOTA: a ligação a RUNTIME_DATA.players fica para a Vaga 3, a coordenar com
+  // a centralização de jogos/plantéis já em curso na BD. Por agora usa a
+  // constante; a rota /api/portal-data já serve `players` quando a tabela
+  // estiver completa (>= 200 atletas).
+  const rawBase = CURRENT_PLAYERS_RAW;
   const ov = RUNTIME_OVERRIDES.players;
   if (!ov) return PLAYERS;
   // Compatibilidade com o formato antigo, que era apenas um mapa id -> patch.
@@ -2821,7 +2832,7 @@ function computePlayers(): Player[] {
     ? store.overrides ?? {}
     : ov as Record<string, Partial<Player>>;
   const removed = new Set<string>(isStore ? store.removed ?? [] : []);
-  const base = CURRENT_PLAYERS_RAW
+  const base = rawBase
     .filter((p) => !removed.has(p.id))
     .map((p) => enrichPlayer({ ...p, ...overrides[p.id] }));
   const added = isStore ? (store.added ?? []).filter((p) => !removed.has(p.id)) : [];
@@ -3986,7 +3997,10 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       fourth: 'Sabino De Carvalho',
     },
   };
-  const published = publishedByMatch[match.id];
+  // Prioridade: override publicado no admin → BD (ancaf_referee_nominations)
+  // → tabela publicada em código → campo Match.referee.
+  const db = RUNTIME_DATA.nominations?.[match.id];
+  const published = db ?? publishedByMatch[match.id];
 
   return {
     referee: defined(ov?.referee ?? match.referee ?? published?.referee),
