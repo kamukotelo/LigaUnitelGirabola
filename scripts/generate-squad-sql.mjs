@@ -19,7 +19,7 @@ const CLUB_META = {
   primeiromaio: { officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', city: 'Benguela', stadium: 'Estádio Municipal', founded: 1981, nickname: 'Proletários' },
   wiliete: { officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', founded: 2018, nickname: 'Wilietes' },
   desphuila: { officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', founded: 1998, nickname: 'Huilanos' },
-  dago: { officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', founded: 1977, nickname: 'Militares' },
+  dago: { officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', founded: 1977, nickname: "D' Agosto" },
   kabuscorp: { officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', city: 'Luanda', stadium: 'Estádio 22 de Junho', founded: 1994, nickname: 'Palanquinos' },
   lobito: { officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio da Tundavala', founded: 1970, nickname: 'Estudantes' },
   fcluanda: { officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio França Ndalu', founded: 2020, nickname: 'Luandenses' },

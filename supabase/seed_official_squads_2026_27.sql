@@ -57,7 +57,7 @@ values
   ('primeiromaio', 'Estrela 1.º de Maio', 'Estrela Clube Primeiro de Maio', 'MAI', 'Benguela', 'Estádio Municipal', 1981, 'Proletários'),
   ('wiliete', 'Wiliete de Benguela', 'Wiliete Sport Clube de Benguela', 'WIL', 'Benguela', 'Estádio Nacional de Ombaka', 2018, 'Wilietes'),
   ('desphuila', 'Desportivo da Huíla', 'Clube Desportivo da Huíla', 'CDH', 'Lubango', 'Estádio da Tundavala', 1998, 'Huilanos'),
-  ('dago', 'CD 1.º de Agosto', 'Clube Desportivo 1.º de Agosto', '1AG', 'Luanda', 'Estádio França Ndalu', 1977, 'Militares'),
+  ('dago', 'CD 1.º de Agosto', 'Clube Desportivo 1.º de Agosto', '1AG', 'Luanda', 'Estádio França Ndalu', 1977, "D' Agosto"),
   ('kabuscorp', 'Kabuscorp SC', 'Kabuscorp Sport Clube do Palanca', 'KAB', 'Luanda', 'Estádio 22 de Junho', 1994, 'Palanquinos'),
   ('lobito', 'Académica do Lobito', 'Académica Petróleos Clube do Lobito', 'ACA', 'Lobito', 'Estádio da Tundavala', 1970, 'Estudantes'),
   ('fcluanda', 'FC Luanda', 'Futebol Clube de Luanda', 'FCL', 'Luanda', 'Estádio França Ndalu', 2020, 'Luandenses'),
