@@ -251,6 +251,14 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
+  'm27-3-6': {
+    homeScore: 2,
+    awayScore: 1,
+    score: '2-1',
+    halfTimeScore: '0-1',
+    status: 'finished',
+    updatedAt: '2026-09-01T18:00:00+01:00',
+  },
 };
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
@@ -348,7 +356,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'ju-cabral-bravos', name: 'Ju Cabral', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'lito-bravos', name: 'Lito', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'gladilson-bravos', name: 'Gladilson', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
-  { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 2, appearances: 2 },
+  { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 3, appearances: 3 },
   { id: 'kabelo-dlamini', name: 'Kabelo Dlamini', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'valter-monteiro', name: 'Valter Monteiro', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'alem-interclube', name: 'Além', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
@@ -358,6 +366,8 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'anderson-mputa-saosalvador', name: 'Anderson Mputa', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'm-dala-sagrada', name: 'M. Dala', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'higino-bravos', name: 'Higino Kaptingo Epalanga', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Médio', goals: 1, appearances: 2 },
+  { id: 'fifa-1jm8058', name: 'Calebi Yanda', club: '1.º de Agosto', teamId: 'dago', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'alexandre-fernando-interclube', name: 'Alexandre Fernando', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -3615,6 +3625,12 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 82, type: 'sub', team: 'home', player: 'António Kapata', playerId: 'antonio-kapata-cabinda', playerOut: 'Frederico Zau' },
   ];
 
+  if (match.id === 'm27-3-6') return [
+    { minute: 45, type: 'goal', team: 'away', player: 'Alexandre Fernando', playerId: 'alexandre-fernando-interclube', detail: "Grande penalidade · 45'+5 (0-1)" },
+    { minute: 79, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: '1-1' },
+    { minute: 90, type: 'goal', team: 'home', player: 'Calebi Yanda', playerId: 'fifa-1jm8058', detail: '2-1' },
+  ];
+
   if (match.id === 'm27-3-7') return [
     { minute: 17, type: 'yellow', team: 'away', player: 'Marcos', playerId: 'marcos-libolo' },
     { minute: 22, type: 'goal', team: 'home', player: 'Rúben Adérito', playerId: 'ruben-aderito', detail: '1-0' },
@@ -3765,6 +3781,7 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-1-6': { home: { corners: 1, yellowCards: 2 }, away: { corners: 0, yellowCards: 4 }, keys: ['corners', 'yellowCards'] },
   'm27-1-7': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 0, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-3-7': { home: { yellowCards: 1, redCards: 0 }, away: { yellowCards: 2, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-3-6': { home: { corners: 4, yellowCards: 2, redCards: 0 }, away: { corners: 4, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
 };
 
 /**
@@ -3856,6 +3873,7 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
   'm27-1-3': { home: 'Filipe Nzanza' },
   'm27-2-8': { home: 'Silvestre Pelé', away: 'João Pedro Sousa' },
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
+  'm27-3-6': { home: 'Filipe Nzanza', away: 'Divaldo Alves' },
 };
 
 export function getMatchDetail(match: Match): MatchDetail {
