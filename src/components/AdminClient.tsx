@@ -21,6 +21,7 @@ import {
 } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import FichaSection from '@/components/admin/FichaSection';
+import JornadaSection from '@/components/admin/JornadaSection';
 import LivePreviewPanel from '@/components/admin/LivePreviewPanel';
 import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
 import { publishOverride, type OverrideSection } from '@/lib/portal-overrides';
@@ -39,7 +40,7 @@ const NOMINATION_KEY = 'faf_nomination_overrides';
 const TEAM_KEY = 'faf_team_store';
 const SITE_KEY = 'faf_site_settings';
 
-type Section = 'dashboard' | 'site' | 'calendar' | 'competition' | 'ficha' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
+type Section = 'dashboard' | 'site' | 'calendar' | 'competition' | 'jornada' | 'ficha' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
 
 // ════════════════════════════════════════════════════════════════════════
 // RASCUNHO EDITÁVEL + GRAVAÇÃO EXPLÍCITA
@@ -344,6 +345,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
     {
       title: 'Competição',
       items: [
+        { key: 'jornada', label: 'Jornada', icon: CalendarDays },
         { key: 'calendar', label: 'Calendário · ANCAF', icon: CalendarDays },
         { key: 'competition', label: 'Jogos e Classificação', icon: BarChart3 },
         { key: 'nominations', label: 'Nomeações', icon: Flag },
@@ -460,6 +462,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
                 {!canAccessFifaConnect && section === 'site' && <SiteSection />}
                 {!canAccessFifaConnect && section === 'calendar' && <CalendarSection />}
                 {!canAccessFifaConnect && section === 'competition' && <CompetitionSection />}
+                {!canAccessFifaConnect && section === 'jornada' && <JornadaSection onGo={goToSection} />}
                 {!canAccessFifaConnect && section === 'ficha' && <FichaSection />}
                 {canAccessFifaConnect && section === 'fifa' && <FifaSection />}
                 {!canAccessFifaConnect && section === 'teams' && <TeamsSection />}
