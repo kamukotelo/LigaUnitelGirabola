@@ -22,6 +22,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [recoveryMode, setRecoveryMode] = useState(false);
+  const [recoverySent, setRecoverySent] = useState(false);
   const [logs, setLogs] = useState<string[]>([]);
 
   // Add initial console output log lines for futuristic feel
@@ -77,6 +79,31 @@ export default function LoginPage() {
     }
   };
 
+  const handleRecovery = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/admin/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const body = await res.json().catch(() => null);
+      if (!res.ok) {
+        setError(body?.message ?? 'Não foi possível processar o pedido.');
+        return;
+      }
+      setRecoverySent(true);
+      setLogs((prev) => [...prev, 'Pedido de recuperação processado com segurança.']);
+    } catch {
+      setError('Falha de ligação ao servidor de autenticação.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen relative flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-background overflow-hidden z-10">
       {/* Background Tech Details */}
@@ -126,7 +153,7 @@ export default function LoginPage() {
           </div>
           
           <h1 className="text-2xl font-display font-extrabold text-foreground uppercase tracking-tight sm:text-3xl">
-            Iniciar Sessão
+            {recoveryMode ? 'Recuperar palavra-passe' : 'Iniciar Sessão'}
           </h1>
           <p className="mt-2 text-xs text-zinc-500 font-mono uppercase tracking-widest">
             Acesso reservado aos representantes oficiais
@@ -142,7 +169,7 @@ export default function LoginPage() {
         >
           <AnimatePresence mode="wait">
             {!success ? (
-              <motion.form key="login-form" onSubmit={handleLogin} className="space-y-5">
+              <motion.form key={recoveryMode ? 'recovery-form' : 'login-form'} onSubmit={recoveryMode ? handleRecovery : handleLogin} className="space-y-5">
                 {/* E-mail individual da conta administrativa */}
                 <div className="space-y-1.5">
                   <label htmlFor="email" className="block text-[10px] font-mono uppercase tracking-wider text-zinc-500">
@@ -166,8 +193,7 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                {/* Password / Passcode Field */}
-                <div className="space-y-1.5">
+                {!recoveryMode && <div className="space-y-1.5">
                   <div className="flex justify-between items-center">
                     <label htmlFor="password" className="block text-[10px] font-mono uppercase tracking-wider text-zinc-500">
                       Código de Acesso / Palavra-Passe
@@ -192,11 +218,20 @@ export default function LoginPage() {
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-400 hover:text-foreground transition-colors"
+                      aria-label={showPassword ? 'Ocultar palavra-passe' : 'Mostrar palavra-passe'}
+                      title={showPassword ? 'Ocultar palavra-passe' : 'Mostrar palavra-passe'}
                     >
                       {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
-                </div>
+                </div>}
+
+                {recoveryMode && recoverySent && (
+                  <div className="flex items-start gap-2.5 p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-600 dark:text-emerald-400 font-mono text-[10px] uppercase font-bold">
+                    <CheckCircle2 size={15} className="shrink-0 mt-0.5" />
+                    <span>Se o e-mail estiver associado a uma conta autorizada, receberá um link para definir uma nova palavra-passe.</span>
+                  </div>
+                )}
 
                 {/* Error Panel */}
                 <AnimatePresence>
@@ -216,7 +251,7 @@ export default function LoginPage() {
                 {/* Action Submit Button */}
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || (recoveryMode && recoverySent)}
                   className="w-full flex items-center justify-center gap-2 py-3.5 px-4 border border-transparent rounded-2xl shadow-sm text-sm font-semibold uppercase tracking-wider text-white bg-accent hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent disabled:opacity-50 transition-all cursor-pointer select-none active:scale-[0.98] duration-150"
                 >
                   {loading ? (
@@ -226,10 +261,23 @@ export default function LoginPage() {
                     </>
                   ) : (
                     <>
-                      <Lock size={15} />
-                      <span>Autenticar Terminal</span>
+                      {recoveryMode ? <Mail size={15} /> : <Lock size={15} />}
+                      <span>{recoveryMode ? 'Enviar link de recuperação' : 'Autenticar Terminal'}</span>
                     </>
                   )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRecoveryMode((value) => !value);
+                    setRecoverySent(false);
+                    setError('');
+                    setPassword('');
+                  }}
+                  className="w-full text-xs font-mono text-accent hover:underline"
+                >
+                  {recoveryMode ? 'Voltar ao início de sessão' : 'Esqueci a palavra-passe'}
                 </button>
               </motion.form>
             ) : (

@@ -10,7 +10,8 @@
     "test:ancaf-reception": "node scripts/test-ancaf-calendar-reception.mjs",
     "supabase:verify": "node scripts/verify-supabase.mjs",
     "db:seed:generate": "tsx scripts/generate-db-seed.mts",
-    "test:regressions": "node scripts/test-portal-regressions.mjs"
+    "test:regressions": "node scripts/test-portal-regressions.mjs",
+    "test:fcms": "tsx scripts/test-fcms-sync.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",
@@ -18,6 +19,7 @@
     "lucide-react": "^1.14.0",
     "next": "^16.3.2",
     "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.3.289",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "recharts": "^3.8.1"

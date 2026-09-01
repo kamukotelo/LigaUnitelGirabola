@@ -9,7 +9,7 @@ import {
   LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
   Fingerprint, FileText, Plane, HeartPulse, Loader2, CheckCircle2,
   AlertTriangle, BadgeCheck, Search, Download, Home,
-  Plus, Trash2, Pencil, Shirt, Flag, ImagePlus, Palette, Undo2, BarChart3, Sparkles, ExternalLink,
+  Plus, Trash2, Pencil, Shirt, Flag, ImagePlus, Palette, Undo2, BarChart3, Sparkles, ExternalLink, UploadCloud,
 } from 'lucide-react';
 import {
   MATCHES, TEAMS, PLAYERS, newsMock, getStandings, getNewsArticles,
@@ -40,7 +40,7 @@ const NOMINATION_KEY = 'faf_nomination_overrides';
 const TEAM_KEY = 'faf_team_store';
 const SITE_KEY = 'faf_site_settings';
 
-type Section = 'dashboard' | 'site' | 'calendar' | 'competition' | 'jornada' | 'ficha' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
+type Section = 'dashboard' | 'site' | 'calendar' | 'competition' | 'jornada' | 'ficha' | 'fcms' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
 
 // ════════════════════════════════════════════════════════════════════════
 // RASCUNHO EDITÁVEL + GRAVAÇÃO EXPLÍCITA
@@ -350,6 +350,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
         { key: 'competition', label: 'Jogos e Classificação', icon: BarChart3 },
         { key: 'nominations', label: 'Nomeações', icon: Flag },
         { key: 'ficha', label: 'Ficha de Jogo', icon: FileText },
+        { key: 'fcms', label: 'Importar FCMS', icon: UploadCloud },
       ],
     },
     {
@@ -464,6 +465,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
                 {!canAccessFifaConnect && section === 'competition' && <CompetitionSection />}
                 {!canAccessFifaConnect && section === 'jornada' && <JornadaSection onGo={goToSection} />}
                 {!canAccessFifaConnect && section === 'ficha' && <FichaSection />}
+                {!canAccessFifaConnect && section === 'fcms' && <FcmsImportSection />}
                 {canAccessFifaConnect && section === 'fifa' && <FifaSection />}
                 {!canAccessFifaConnect && section === 'teams' && <TeamsSection />}
                 {!canAccessFifaConnect && section === 'players' && <PlayersSection />}
@@ -514,6 +516,75 @@ function ConnectionBadge({ icon: Icon, label, endpoint, ok = true }: { icon: Rea
         <span className={`w-1.5 h-1.5 rounded-full ${ok ? 'bg-green-500 animate-pulse' : 'bg-amber-500'}`} />
         {ok ? 'Ativo' : 'Pendente'}
       </span>
+    </div>
+  );
+}
+
+function FcmsImportSection() {
+  const [file, setFile] = useState<File | null>(null);
+  const [payload, setPayload] = useState<Record<string, unknown> | null>(null);
+  const [busy, setBusy] = useState<'read' | 'validate' | 'publish' | null>(null);
+  const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
+
+  const readReport = async () => {
+    if (!file) return;
+    setBusy('read'); setMessage(null); setPayload(null);
+    try {
+      const form = new FormData(); form.append('report', file);
+      const response = await fetch('/api/admin/fcms-report', { method: 'POST', body: form });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || 'Não foi possível ler o relatório.');
+      setPayload(result.payload);
+      setMessage({ ok: true, text: `${result.summary.events} eventos extraídos. Reveja os dados antes de validar.` });
+    } catch (error) {
+      setMessage({ ok: false, text: error instanceof Error ? error.message : 'Erro ao ler o relatório.' });
+    } finally { setBusy(null); }
+  };
+
+  const sync = async (publish: boolean) => {
+    if (!payload) return;
+    setBusy(publish ? 'publish' : 'validate'); setMessage(null);
+    try {
+      const body = { ...payload, dryRun: !publish };
+      const response = await fetch('/api/fcms/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || 'A sincronização falhou.');
+      setMessage({ ok: true, text: publish ? `${result.matchesWritten} jogo e ${result.eventsWritten} eventos publicados.` : 'Relatório validado. Pode agora publicar.' });
+    } catch (error) {
+      setMessage({ ok: false, text: error instanceof Error ? error.message : 'Erro na sincronização.' });
+    } finally { setBusy(null); }
+  };
+
+  const match = payload && Array.isArray(payload.matches) ? payload.matches[0] as Record<string, unknown> : null;
+  return (
+    <div className="space-y-5">
+      <SectionHeader icon={UploadCloud} subtitle="FCMS_MATCH_REPORT" title="Importar relatório FCMS" />
+      <Panel className="space-y-4">
+        <div className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-700 p-6 text-center">
+          <UploadCloud className="mx-auto mb-3 text-accent" size={30} />
+          <p className="text-sm font-semibold text-foreground">Match Report oficial em PDF</p>
+          <p className="mt-1 text-xs text-zinc-500">Descarregado pelo botão GET REPORT do FIFA CMS · máximo 10 MB</p>
+          <input type="file" accept="application/pdf,.pdf" className="mt-4 block w-full text-xs text-zinc-500 file:mr-3 file:rounded-lg file:border-0 file:bg-accent/10 file:px-4 file:py-2 file:text-accent file:font-semibold" onChange={(event) => { setFile(event.target.files?.[0] ?? null); setPayload(null); setMessage(null); }} />
+        </div>
+        <button disabled={!file || busy !== null} onClick={readReport} className="w-full rounded-xl bg-accent px-4 py-3 text-xs font-mono font-bold uppercase tracking-widest text-white disabled:opacity-40">
+          {busy === 'read' ? <><Loader2 className="inline mr-2 animate-spin" size={14} />A extrair dados</> : 'Ler e pré-visualizar'}
+        </button>
+      </Panel>
+      {match && (
+        <Panel className="space-y-4">
+          <div className="flex items-center justify-between gap-3"><h3 className="font-display uppercase text-foreground">Pré-visualização</h3><span className="text-[10px] font-mono text-amber-500">AINDA NÃO PUBLICADO</span></div>
+          <div className="grid sm:grid-cols-2 gap-3 text-sm">
+            <div className="rounded-xl bg-white/60 dark:bg-black/30 p-4"><p className="text-[10px] font-mono text-zinc-500">JOGO</p><p className="mt-1 font-semibold">{String(match.homeExternalId)} {String(match.homeScore)}–{String(match.awayScore)} {String(match.awayExternalId)}</p></div>
+            <div className="rounded-xl bg-white/60 dark:bg-black/30 p-4"><p className="text-[10px] font-mono text-zinc-500">DATA · ESTÁDIO</p><p className="mt-1">{new Date(String(match.kickoff)).toLocaleString('pt-AO')} · {String(match.stadium)}</p></div>
+          </div>
+          <p className="text-xs text-zinc-500">{Array.isArray(match.events) ? match.events.length : 0} eventos encontrados. A validação confirma mapeamentos, resultado e correspondência dos golos.</p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <button disabled={busy !== null} onClick={() => sync(false)} className="rounded-xl border border-accent/40 bg-accent/10 px-4 py-3 text-xs font-mono font-bold uppercase tracking-widest text-accent disabled:opacity-40">{busy === 'validate' ? 'A validar…' : 'Validar sem publicar'}</button>
+            <button disabled={busy !== null || !message?.ok} onClick={() => sync(true)} className="rounded-xl bg-green-600 px-4 py-3 text-xs font-mono font-bold uppercase tracking-widest text-white disabled:opacity-40">{busy === 'publish' ? 'A publicar…' : 'Confirmar e publicar'}</button>
+          </div>
+        </Panel>
+      )}
+      {message && <div className={`rounded-xl border p-4 text-sm ${message.ok ? 'border-green-500/30 bg-green-500/10 text-green-500' : 'border-red-500/30 bg-red-500/10 text-red-500'}`}>{message.text}</div>}
     </div>
   );
 }
