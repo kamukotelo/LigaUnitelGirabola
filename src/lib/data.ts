@@ -251,13 +251,6 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
-  'm27-3-6': {
-    homeScore: 2,
-    awayScore: 1,
-    score: '2-1',
-    status: 'finished',
-    updatedAt: '2026-09-01T18:00:00+01:00',
-  },
 };
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
