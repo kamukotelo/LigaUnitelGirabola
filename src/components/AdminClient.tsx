@@ -530,6 +530,20 @@ function FcmsImportSection() {
     if (!file) return;
     setBusy('read'); setMessage(null); setPayload(null);
     try {
+      if (file.name.toLowerCase().endsWith('.json') || file.type === 'application/json') {
+        const parsed = JSON.parse(await file.text()) as Record<string, unknown>;
+        if (!Array.isArray(parsed.matches) || parsed.matches.length === 0) {
+          throw new Error('O JSON deve conter pelo menos um jogo em "matches".');
+        }
+        setPayload(parsed);
+        const eventCount = parsed.matches.reduce((total: number, item: unknown) => {
+          if (!item || typeof item !== 'object') return total;
+          const events = (item as Record<string, unknown>).events;
+          return total + (Array.isArray(events) ? events.length : 0);
+        }, 0);
+        setMessage({ ok: true, text: `${parsed.matches.length} jogo(s) e ${eventCount} evento(s) carregados do JSON. Valide antes de publicar.` });
+        return;
+      }
       const form = new FormData(); form.append('report', file);
       const response = await fetch('/api/admin/fcms-report', { method: 'POST', body: form });
       const result = await response.json();
@@ -562,9 +576,10 @@ function FcmsImportSection() {
       <Panel className="space-y-4">
         <div className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-700 p-6 text-center">
           <UploadCloud className="mx-auto mb-3 text-accent" size={30} />
-          <p className="text-sm font-semibold text-foreground">Match Report oficial em PDF</p>
-          <p className="mt-1 text-xs text-zinc-500">Descarregado pelo botão GET REPORT do FIFA CMS · máximo 10 MB</p>
-          <input type="file" accept="application/pdf,.pdf" className="mt-4 block w-full text-xs text-zinc-500 file:mr-3 file:rounded-lg file:border-0 file:bg-accent/10 file:px-4 file:py-2 file:text-accent file:font-semibold" onChange={(event) => { setFile(event.target.files?.[0] ?? null); setPayload(null); setMessage(null); }} />
+          <p className="text-sm font-semibold text-foreground">Match Report em PDF ou ficheiro-base JSON</p>
+          <p className="mt-1 text-xs text-zinc-500">PDF descarregado no FIFA CMS ou JSON preenchido · máximo 10 MB</p>
+          <input type="file" accept="application/pdf,application/json,.pdf,.json" className="mt-4 block w-full text-xs text-zinc-500 file:mr-3 file:rounded-lg file:border-0 file:bg-accent/10 file:px-4 file:py-2 file:text-accent file:font-semibold" onChange={(event) => { setFile(event.target.files?.[0] ?? null); setPayload(null); setMessage(null); }} />
+          <a href="/templates/fcms_importacao_base.json" download className="mt-3 inline-flex text-xs font-semibold text-accent hover:underline">Descarregar ficheiro-base JSON</a>
         </div>
         <button disabled={!file || busy !== null} onClick={readReport} className="w-full rounded-xl bg-accent px-4 py-3 text-xs font-mono font-bold uppercase tracking-widest text-white disabled:opacity-40">
           {busy === 'read' ? <><Loader2 className="inline mr-2 animate-spin" size={14} />A extrair dados</> : 'Ler e pré-visualizar'}

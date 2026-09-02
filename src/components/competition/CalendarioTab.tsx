@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Trophy, Target, CalendarDays, Flag, Tv, X } from 'lucide-react';
-import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, isMatchDateOfficial, Match } from '@/lib/data';
+import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -45,7 +45,6 @@ function getDefaultFilters(seasonId: string): CalendarFilters {
 function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTeamId: string | null }) {
   const isFinished = match.status === 'finished';
   const isLive = match.status === 'live';
-  const hasOfficialDate = isMatchDateOfficial(match);
   const matchDate = new Date(match.date);
   const formattedTime = matchDate.toLocaleTimeString('pt-AO', {
     hour: '2-digit', minute: '2-digit',
@@ -73,9 +72,9 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
       className={`group relative z-10 flex flex-col gap-1.5 border-b border-zinc-300/80 px-2.5 py-2.5 transition-all last:border-b-0 ${
         muted ? 'opacity-40 grayscale hover:opacity-80 hover:grayscale-0' : 'hover:bg-orange-50/90'
       }`}
-      title={`${match.homeTeam} — ${match.awayTeam} · ${formattedDay} · ${formattedTime}${hasOfficialDate ? '' : ' · Data provisória/editável'}`}
+      title={`${match.homeTeam} — ${match.awayTeam} · ${formattedDay} · ${formattedTime}`}
     >
-      <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-2">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
         {/* Casa */}
         <div className="flex min-w-0 items-center justify-end gap-2 text-right">
           <span className={teamNameClass(selected)}>{match.homeTeam}</span>
@@ -97,7 +96,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
-        <span className={isLive ? 'text-red-600' : undefined}>{isLive ? `● ${match.liveMinute ?? ''}' · Em direto` : `${formattedDay} · ${formattedTime}${hasOfficialDate ? '' : ' · Provisória'}`}</span>
+        <span className={isLive ? 'text-red-600' : undefined}>{isLive ? `● ${match.liveMinute ?? ''}' · Em direto` : `${formattedDay} · ${formattedTime}`}</span>
         {broadcast !== 'Por confirmar' && (
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 shadow-sm ring-1 ${match.broadcaster ? 'bg-[#5C0F8B] text-white ring-white/40' : 'bg-amber-100 text-amber-900 ring-amber-300'}`}>
             <Tv size={10} aria-hidden="true" /> {match.broadcaster && !isDeferredBroadcast ? `${isFinished ? 'Transmitido' : 'Em direto'} · ${broadcast}` : broadcast}
@@ -418,13 +417,6 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
           {visibleRounds.map((group) => {
             const orderedMatches = [...group.matches].sort((a, b) => a.date.localeCompare(b.date));
-            const firstDate = new Date(orderedMatches[0].date).toLocaleDateString('pt-AO', {
-              day: '2-digit', month: '2-digit', year: 'numeric', timeZone: ANGOLA_TIME_ZONE,
-            });
-            const lastDate = new Date(orderedMatches[orderedMatches.length - 1].date).toLocaleDateString('pt-AO', {
-              day: '2-digit', month: '2-digit', year: 'numeric', timeZone: ANGOLA_TIME_ZONE,
-            });
-            const isProvisionalRound = orderedMatches.every((match) => !isMatchDateOfficial(match));
             return (
               <motion.section
                 key={group.round}
@@ -434,12 +426,10 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
                 transition={{ duration: 0.25, delay: Math.min(group.round * 0.015, 0.25) }}
                 className="overflow-hidden rounded-[10px] border-[3px] border-zinc-800 bg-[#fffdf8] shadow-[0_5px_0_rgba(24,24,27,0.85)] dark:border-zinc-950 dark:bg-zinc-100"
               >
-                <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 bg-gradient-to-b from-[#F07942] to-[#E6540F] px-2.5 py-2 text-white">
-                  <span className="whitespace-nowrap font-mono text-base font-bold tracking-tight">{firstDate}</span>
-                  <h2 className="whitespace-nowrap font-display text-sm font-black uppercase tracking-tight sm:text-base">
-                    {group.round}.ª Jornada{isProvisionalRound ? ' · Provisória' : ''}
+                <div className="flex items-center justify-center bg-gradient-to-b from-[#F07942] to-[#E6540F] px-3 py-2 text-white">
+                  <h2 className="whitespace-nowrap font-display text-sm font-black uppercase tracking-wider text-center sm:text-base">
+                    {group.round}.ª Jornada
                   </h2>
-                  <span className="whitespace-nowrap text-right font-mono text-base font-bold tracking-tight">{lastDate}</span>
                 </div>
                 <div className="relative isolate overflow-hidden px-1.5 py-1 text-zinc-950">
                   <Image

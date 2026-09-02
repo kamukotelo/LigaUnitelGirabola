@@ -1,0 +1,42 @@
+{
+  "provider": "authorised-push",
+  "tenant": "ang",
+  "competitionExternalId": "3934",
+  "seasonId": "2026-27",
+  "dryRun": true,
+  "matches": [
+    {
+      "externalMatchId": "SUBSTITUIR_PELO_ID_FCMS_DO_JOGO",
+      "round": 1,
+      "kickoff": "2026-09-01T15:00:00+01:00",
+      "homeExternalId": "Atlético Petróleos de Luanda",
+      "awayExternalId": "Clube Desportivo 1.º de Agosto",
+      "homeScore": 1,
+      "awayScore": 0,
+      "halfTimeHomeScore": 1,
+      "halfTimeAwayScore": 0,
+      "status": "finished",
+      "stadium": "Estádio 11 de Novembro",
+      "broadcaster": null,
+      "events": [
+        {
+          "minute": 10,
+          "type": "goal",
+          "teamExternalId": "Atlético Petróleos de Luanda",
+          "player": "NOME DO JOGADOR",
+          "playerExternalId": null,
+          "detail": null
+        },
+        {
+          "minute": 60,
+          "type": "sub",
+          "teamExternalId": "Clube Desportivo 1.º de Agosto",
+          "player": "JOGADOR QUE ENTROU",
+          "playerOut": "JOGADOR QUE SAIU",
+          "playerExternalId": null,
+          "detail": null
+        }
+      ]
+    }
+  ]
+}

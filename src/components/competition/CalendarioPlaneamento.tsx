@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { CalendarDays, HelpCircle } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
-import { isMatchDateOfficial, type Match } from '@/lib/data';
+import { type Match } from '@/lib/data';
 
 type EventType = 'girabola' | 'supertaca' | 'ta' | 'cl' | 'cc' | 'supercup' | 'can' | 'holiday';
 
@@ -216,7 +216,7 @@ function buildOfficialScheduleEvents(matches: Match[]): Record<string, Record<nu
 
     const monthEvents = events[monthDefinition.label] ?? (events[monthDefinition.label] = {});
     const dayEvents = monthEvents[day] ?? (monthEvents[day] = []);
-    const label = `${match.round}ª Jornada${isMatchDateOfficial(match) ? '' : ' (provisória)'}`;
+    const label = `${match.round}ª Jornada`;
     if (!dayEvents.some((event) => event.type === 'girabola' && event.label === label)) {
       dayEvents.unshift({ label, type: 'girabola' });
     }
