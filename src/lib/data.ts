@@ -125,28 +125,36 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     homeScore: 0,
     awayScore: 0,
     score: '0-0',
+    halfTimeScore: '0-0',
     status: 'finished',
+    attendance: 1500,
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
   'm27-1-2': {
     homeScore: 3,
     awayScore: 0,
     score: '3-0',
+    halfTimeScore: '2-0',
     status: 'finished',
+    attendance: 400,
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
   'm27-1-3': {
     homeScore: 1,
     awayScore: 0,
     score: '1-0',
+    halfTimeScore: '0-0',
     status: 'finished',
+    attendance: 200,
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
   'm27-1-4': {
     homeScore: 0,
     awayScore: 0,
     score: '0-0',
+    halfTimeScore: '0-0',
     status: 'finished',
+    attendance: 5000,
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
   'm27-1-5': {
@@ -160,7 +168,9 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     homeScore: 1,
     awayScore: 1,
     score: '1-1',
+    halfTimeScore: '1-0',
     status: 'finished',
+    attendance: 2000,
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
   'm27-1-7': {
@@ -3651,13 +3661,23 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-1-1') return [
+    { minute: 5, type: 'sub', team: 'away', player: 'José Manuel Raul', playerOut: 'Manuel Zange Miguel' },
     { minute: 40, type: 'yellow', team: 'away', player: 'Lisneu Emanuel Neto Simao', playerId: 'lisneu-caala', detail: 'Rasteirou o adversário' },
+    { minute: 63, type: 'sub', team: 'home', player: 'Estêvão Cahoko', playerOut: 'Miguel Nzau Manuel Matos' },
+    { minute: 63, type: 'sub', team: 'home', player: 'Pedro Paulo', playerOut: 'Jaime Caetano' },
+    { minute: 65, type: 'sub', team: 'away', player: 'Timóteo Sambissa', playerOut: 'Domingos Lourenço Cuxixima' },
+    { minute: 65, type: 'sub', team: 'away', player: 'Benvindo Miguel André Afonso', playerOut: 'Arilson de Ceita Pereira Jorge' },
+    { minute: 79, type: 'sub', team: 'away', player: 'Osvaldo José', playerOut: 'Benedito Antunes' },
+    { minute: 79, type: 'sub', team: 'away', player: 'Gabriel Venâncio', playerOut: 'Hermenegildo Sandumbo' },
+    { minute: 81, type: 'sub', team: 'home', player: 'Domingos André', playerOut: 'Arnaldo Dielo' },
+    { minute: 81, type: 'sub', team: 'home', player: 'Batista João Kachama', playerOut: 'Domingos Bangula' },
+    { minute: 87, type: 'sub', team: 'home', player: 'Francisco Chiquinho', playerOut: 'Denilson Makokisa' },
   ];
 
   if (match.id === 'm27-1-2') return [
-    { type: 'goal', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos' },
-    { type: 'goal', team: 'home', player: 'Lito', playerId: 'lito-bravos' },
-    { type: 'goal', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos' },
+    { minute: 23, type: 'goal', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos', detail: '1-0' },
+    { minute: 33, type: 'goal', team: 'home', player: 'Lito', playerId: 'lito-bravos', detail: '2-0' },
+    { minute: 78, type: 'goal', team: 'home', player: 'Gladilson', playerId: 'gladilson-bravos', detail: '3-0' },
     { minute: 6, type: 'red', team: 'away', player: 'Hahilo Sapalo Alberto', playerId: 'cahilo-sagrada', detail: 'Rasteirar o adversário' },
     { minute: 45, type: 'sub', team: 'home', player: 'Higino', playerId: 'higino-bravos', playerOut: 'Cueta' },
     { minute: 45, type: 'sub', team: 'home', player: 'Tony', playerId: 'tony-bravos', playerOut: 'Bani' },
@@ -3715,8 +3735,24 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-1-6') return [
-    { minute: 23, type: 'goal', team: 'home', player: 'Deninho', playerId: 'deninho-maio', detail: '1-0' },
+    { minute: 21, type: 'goal', team: 'home', player: 'Deninho', playerId: 'deninho-maio', detail: '1-0' },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Daniel Kilola' },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Saombe Sukuakueche Ángelo Jorge' },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Zamorano Lopes' },
+    { minute: 46, type: 'yellow', team: 'home', player: 'Moisés Alberto Calepi', detail: 'Falta táctica' },
+    { minute: 46, type: 'sub', team: 'away', player: 'Celestino Luís Maleco', playerOut: 'Eliseu Cabanga' },
+    { minute: 59, type: 'sub', team: 'away', player: 'Joaquim Paciência', playerOut: 'Alberto Elizeu Xavier' },
+    { minute: 59, type: 'sub', team: 'away', player: 'Diógenes Capemba João', playerOut: 'Daniel Kilola' },
     { minute: 65, type: 'goal', team: 'away', player: 'Benarfa', playerId: 'benarfa-kabuscorp', detail: '1-1' },
+    { minute: 69, type: 'sub', team: 'home', player: 'Fernando Mateus Duarte', playerOut: 'Luís Simões Escovalo' },
+    { minute: 69, type: 'sub', team: 'home', player: 'Rodrigues Muehombo', playerOut: 'Deninho' },
+    { minute: 69, type: 'sub', team: 'home', player: 'Vicente Domingos', playerOut: 'Muila Lengo Congolo' },
+    { minute: 70, type: 'yellow', team: 'home', player: 'Simão Culeca Gonga' },
+    { minute: 73, type: 'yellow', team: 'away', player: 'Diógenes Capemba João' },
+    { minute: 73, type: 'sub', team: 'away', player: 'Teodoro Fernandes Correia', playerOut: 'Bayala Nsimba' },
+    { minute: 80, type: 'sub', team: 'away', player: 'Aluízio Joel André Cacharamba', playerOut: 'José Semedo Vunge' },
+    { minute: 86, type: 'sub', team: 'home', player: 'Kijungu Kitumba Francisco', playerOut: 'Simão Culeca Gonga' },
+    { minute: 90, type: 'sub', team: 'home', player: 'Malebani Rabby', playerOut: 'Fernando Mateus Duarte' },
   ];
 
   if (match.id === 'm27-1-7') return [
@@ -3984,6 +4020,11 @@ export function getMatchOfficials(match: Match): MatchOfficials {
   const ov = RUNTIME_OVERRIDES.nominations?.[match.id];
   const defined = (value?: string) => value?.trim() || 'A definir';
   const publishedByMatch: Readonly<Record<string, MatchOfficials>> = {
+    'm27-1-1': {
+      referee: 'Gilberto Bernardino Kativa',
+      assistants: ['Estanislau Guedes Tavares Muluta Prata', 'Jeremias Sessenta Cafussa'],
+      fourth: 'Aldair Quissanga Rodrigues Carmelino',
+    },
     'm27-1-2': {
       referee: 'Sanda Mateus Miguel Kitu',
       assistants: ['Natarino António Soares', 'Nelson Lutumba Quiala'],
@@ -3998,6 +4039,11 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       referee: 'Miguel Tchissingu Augusto Américo',
       assistants: ['João Manuel Fula António', 'Nery Domingos Pereira Amador da Silva'],
       fourth: 'Isaías Justino Camaxi',
+    },
+    'm27-1-6': {
+      referee: 'Bernardo Hossi Nangolo',
+      assistants: ['António Emiliano Livongue', 'Adolfo Luís Mutenha'],
+      fourth: 'António Caluassi Dungula',
     },
     'm27-1-7': {
       referee: 'Nelson João Milagre',
