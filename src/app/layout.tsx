@@ -7,6 +7,8 @@ import { TeamLogosProvider } from "@/lib/team-logos";
 import { PortalDataProvider } from "@/lib/portal-overrides";
 import HoloBgLogo from "@/components/layout/HoloBgLogo";
 import AppSplash from "@/components/layout/AppSplash";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 /**
  * Substituto temporário da tipografia corporativa "Intro" (Manual de Normas
@@ -108,6 +110,8 @@ export default function RootLayout({
         </div>
         </PortalDataProvider>
         </TeamLogosProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
