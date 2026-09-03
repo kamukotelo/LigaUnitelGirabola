@@ -328,6 +328,28 @@ let skipped = 0;
   files.push(['11_match_artifacts.sql', sql]);
 }
 
+// ── 12 · nomeações de arbitragem publicadas ─────────────────────────
+{
+  const cols = ['season_id', 'round', 'match_id', 'referee', 'assistants', 'fourth_official'];
+  const rows: string[][] = [];
+  for (const match of d.getMatchesForSeason('2026-27') as unknown as Array<Record<string, unknown>>) {
+    const o = d.getMatchOfficials(match as never) as unknown as {
+      referee: string; assistants: [string, string]; fourth: string;
+    };
+    const clean = (v?: string) => (v && v.trim() && v.trim() !== 'A definir' ? v.trim() : null);
+    const referee = clean(o.referee);
+    if (!referee) continue;
+    const assistants = [clean(o.assistants[0]), clean(o.assistants[1])].filter(Boolean);
+    rows.push([
+      s('2026-27'), n(match.round), s(match.id), s(referee),
+      jsonb(assistants), s(clean(o.fourth)),
+    ]);
+  }
+  const sql = header('NOMEAÇÕES DE ARBITRAGEM PUBLICADAS') +
+    upsert('ancaf_referee_nominations', rows, cols, 'match_id');
+  files.push(['12_referee_nominations.sql', sql]);
+}
+
 // ── escrever ──────────────────────────────────────────────────────────
 for (const [name, content] of files) {
   await writeFile(new URL(name, OUT), content, 'utf8');
