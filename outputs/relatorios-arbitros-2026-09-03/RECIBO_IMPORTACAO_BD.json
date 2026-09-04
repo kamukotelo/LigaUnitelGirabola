@@ -1,0 +1,116 @@
+{
+  "completedAt": "2026-09-03T21:30:21.644Z",
+  "source": "dados_para_insercao_COM_ALCUNHAS_REVISAR.json",
+  "backup": "/Users/nsungukamukotelo/LigaUnitelGiraBola/outputs/relatorios-arbitros-2026-09-03/backup-antes-importacao-2026-09-03T21-30-21-644Z.json",
+  "distinctMatches": 11,
+  "pdfFiles": 12,
+  "verified": [
+    {
+      "matchId": "m27-1-8",
+      "reportNumber": 7,
+      "score": "0-1",
+      "lineups": 40,
+      "events": 11,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-1-5",
+      "reportNumber": 8,
+      "score": "2-0",
+      "lineups": 40,
+      "events": 15,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-2-7",
+      "reportNumber": 10,
+      "score": "1-2",
+      "lineups": 40,
+      "events": 17,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-2-1",
+      "reportNumber": 11,
+      "score": "1-2",
+      "lineups": 40,
+      "events": 18,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-2-4",
+      "reportNumber": 13,
+      "score": "3-1",
+      "lineups": 40,
+      "events": 14,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-2-2",
+      "reportNumber": 14,
+      "score": "1-1",
+      "lineups": 40,
+      "events": 17,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-2-6",
+      "reportNumber": 15,
+      "score": "0-1",
+      "lineups": 39,
+      "events": 14,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-2-8",
+      "reportNumber": 16,
+      "score": "0-2",
+      "lineups": 40,
+      "events": 13,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-3-7",
+      "reportNumber": 17,
+      "score": "3-0",
+      "lineups": 39,
+      "events": 16,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-3-2",
+      "reportNumber": 18,
+      "score": "0-1",
+      "lineups": 40,
+      "events": 13,
+      "officials": 5,
+      "pendingExcluded": 0
+    },
+    {
+      "matchId": "m27-3-6",
+      "reportNumber": 19,
+      "score": "2-1",
+      "lineups": 40,
+      "events": 13,
+      "officials": 5,
+      "pendingExcluded": 1
+    }
+  ],
+  "playerSeasonRowsRecomputed": 363,
+  "notes": [
+    "Ficha 8 duplicada inserida uma vez.",
+    "Assistência da ficha 11 não substituída: valor 8 pendente.",
+    "Substituição Afonso Baptista 90+2 não inserida: identidade da reentrada pendente.",
+    "Autogolos gravados como goal para a equipa beneficiada, player_id null e descrição explícita.",
+    "Notas integrais, comissário e staff completo permanecem no JSON de auditoria porque a BD do portal não possui campos específicos."
+  ]
+}

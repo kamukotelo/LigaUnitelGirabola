@@ -1,0 +1,2478 @@
+[
+  {
+    "matchId": "m27-1-4",
+    "report": 1,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-1-Clube Desportivo de Lunda Sul -vs-Petro Atlético Futebol SAD (2).pdf",
+    "home": "lundasul",
+    "away": "petro",
+    "date": "2026-08-21T15:00:00+01:00",
+    "stadium": "Estádio Sagrada Esperança",
+    "homeScore": 0,
+    "awayScore": 0,
+    "halfTimeScore": "0-0",
+    "officials": [
+      "Miguel Tchissingui Augusto Américo",
+      "João Manuel Fula António",
+      "Nery Domingos Pereira Amador da Silva",
+      "Isaías Justino Camaxi"
+    ],
+    "lineups": {
+      "home": [
+        {
+          "number": 12,
+          "name": "ADALBERTO WACAMBA",
+          "maId": "000786M00",
+          "isStarter": true
+        },
+        {
+          "number": 20,
+          "name": "JOAQUIM TEIXEIRA",
+          "maId": "000669M91",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "Frederico Xangongo Singongo",
+          "maId": "001069M01",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "ELINDO WANGA PAULINO",
+          "maId": "000567M00",
+          "isStarter": true
+        },
+        {
+          "number": 8,
+          "name": "OSVALDO MIGUEL",
+          "maId": "000677M93",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "Maranata Domingos Sicuba Vunge",
+          "maId": "001064M99",
+          "isStarter": true
+        },
+        {
+          "number": 11,
+          "name": "FELIX HONJO",
+          "maId": "000680M97",
+          "isStarter": true
+        },
+        {
+          "number": 19,
+          "name": "MANUEL TCHINHANGUITA CACHINDELE",
+          "maId": "000639M97",
+          "isStarter": true
+        },
+        {
+          "number": 25,
+          "name": "Dieu Maquissossila David",
+          "maId": "001070M93",
+          "isStarter": true
+        },
+        {
+          "number": 27,
+          "name": "João Baptista Cassicote",
+          "maId": "000764M96",
+          "isStarter": true
+        },
+        {
+          "number": 28,
+          "name": "João Ambrosio",
+          "maId": "001130M01",
+          "isStarter": true
+        },
+        {
+          "number": 2,
+          "name": "NIONGONONA MULIQUITA",
+          "maId": "000794M01",
+          "isStarter": false
+        },
+        {
+          "number": 7,
+          "name": "INOCENCIO RUI",
+          "maId": "000784M04",
+          "isStarter": false
+        },
+        {
+          "number": 16,
+          "name": "Domingos Ximba",
+          "maId": "001581M95",
+          "isStarter": false
+        },
+        {
+          "number": 17,
+          "name": "ANTONIO NGOLA NGULU",
+          "maId": "000529M99",
+          "isStarter": false
+        },
+        {
+          "number": 26,
+          "name": "MARIO BERNARDO KETA",
+          "maId": "000696M96",
+          "isStarter": false
+        },
+        {
+          "number": 33,
+          "name": "joão Silvano caluvili",
+          "maId": "001178M03",
+          "isStarter": false
+        },
+        {
+          "number": 34,
+          "name": "Atavares Pinto",
+          "maId": "002878M04",
+          "isStarter": false
+        },
+        {
+          "number": 35,
+          "name": "Joao Bivoba Zau",
+          "maId": "001256M95",
+          "isStarter": false
+        },
+        {
+          "number": 41,
+          "name": "Tomás Dias",
+          "maId": "002880M04",
+          "isStarter": false
+        }
+      ],
+      "away": [
+        {
+          "number": 22,
+          "name": "Adilson Cipriano da Cruz",
+          "maId": "000430M93",
+          "isStarter": true
+        },
+        {
+          "number": 26,
+          "name": "TIAGO LIMA LEAL",
+          "maId": "000384M88",
+          "isStarter": true
+        },
+        {
+          "number": 4,
+          "name": "Ruben Constantino Adérito",
+          "maId": "000725M03",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "LEONARDO DA COSTA BOLGADO",
+          "maId": "008899M98",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "MÁRIO CÉSAR AZEVEDO ALVES BALBÚRDIA",
+          "maId": "008903M97",
+          "isStarter": true
+        },
+        {
+          "number": 7,
+          "name": "IVAN RICARDO NEVES ABREU CAVALEIRO",
+          "maId": "008901M93",
+          "isStarter": true
+        },
+        {
+          "number": 8,
+          "name": "JONATHAN JOSUE RUBIO TORO",
+          "maId": "002920M96",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "PEDRO MIGUEL SANTOS APARÍCIO",
+          "maId": "005283M95",
+          "isStarter": true
+        },
+        {
+          "number": 12,
+          "name": "DEYBI ALDAIR FLORES FLORES",
+          "maId": "008900M96",
+          "isStarter": true
+        },
+        {
+          "number": 13,
+          "name": "BERNARDO SILVA DA CONCEIÇÃO",
+          "maId": "008895M03",
+          "isStarter": true
+        },
+        {
+          "number": 25,
+          "name": "EDDIE MARCOS MELO AFONSO",
+          "maId": "000398M94",
+          "isStarter": true
+        },
+        {
+          "number": 1,
+          "name": "HUGO MIGUEL BARRETO HENRIQUES MARQUES",
+          "maId": "000376M86",
+          "isStarter": false
+        },
+        {
+          "number": 2,
+          "name": "NURIO DOMINGOS MATIAS FORTUNA",
+          "maId": "008892M95",
+          "isStarter": false
+        },
+        {
+          "number": 11,
+          "name": "HÉLDER WANDER SOUSA DE AZEVEDO COSTA",
+          "maId": "008891M94",
+          "isStarter": false
+        },
+        {
+          "number": 18,
+          "name": "VICTOR PEDRO NANQUE",
+          "maId": "001019M98",
+          "isStarter": false
+        },
+        {
+          "number": 20,
+          "name": "JORGE JAVIER MOREIRA PEREIRA",
+          "maId": "007211M98",
+          "isStarter": false
+        },
+        {
+          "number": 23,
+          "name": "TIAGO RODRIGUES DOS REIS",
+          "maId": "007212M99",
+          "isStarter": false
+        },
+        {
+          "number": 27,
+          "name": "Antonio da Silva Chitanga Hossi",
+          "maId": "000427M01",
+          "isStarter": false
+        },
+        {
+          "number": 29,
+          "name": "LAURINDO DILSON MARIA AURÉLIO",
+          "maId": "000454M00",
+          "isStarter": false
+        },
+        {
+          "number": 33,
+          "name": "ILÍDIO AUGUSTO BUNGA PANDA",
+          "maId": "002657M08",
+          "isStarter": false
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 28,
+        "minuteLabel": "28",
+        "player": "Maranata Domingos Sicuba Vunge",
+        "maId": "001064M99",
+        "detail": "Relatório do árbitro · 28'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 37,
+        "minuteLabel": "37",
+        "player": "ELINDO WANGA PAULINO",
+        "maId": "000567M00",
+        "detail": "Relatório do árbitro · 37'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 45,
+        "minuteLabel": "45",
+        "player": "INOCENCIO RUI",
+        "maId": "000784M04",
+        "detail": "Relatório do árbitro · 45'",
+        "player_out": "Maranata Domingos Sicuba Vunge",
+        "outMaId": "001064M99"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 45,
+        "minuteLabel": "45",
+        "player": "ILÍDIO AUGUSTO BUNGA PANDA",
+        "maId": "002657M08",
+        "detail": "Relatório do árbitro · 45'",
+        "player_out": "IVAN RICARDO NEVES ABREU CAVALEIRO",
+        "outMaId": "008901M93"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 53,
+        "minuteLabel": "53",
+        "player": "DEYBI ALDAIR FLORES FLORES",
+        "maId": "008900M96",
+        "detail": "Relatório do árbitro · 53'"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 60,
+        "minuteLabel": "60",
+        "player": "Antonio da Silva Chitanga Hossi",
+        "maId": "000427M01",
+        "detail": "Relatório do árbitro · 60'",
+        "player_out": "EDDIE MARCOS MELO AFONSO",
+        "outMaId": "000398M94"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 60,
+        "minuteLabel": "60",
+        "player": "HÉLDER WANDER SOUSA DE AZEVEDO COSTA",
+        "maId": "008891M94",
+        "detail": "Relatório do árbitro · 60'",
+        "player_out": "PEDRO MIGUEL SANTOS APARÍCIO",
+        "outMaId": "005283M95"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 63,
+        "minuteLabel": "63",
+        "player": "Antonio da Silva Chitanga Hossi",
+        "maId": "000427M01",
+        "detail": "Relatório do árbitro · 63'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 65,
+        "minuteLabel": "65",
+        "player": "Atavares Pinto",
+        "maId": "002878M04",
+        "detail": "Relatório do árbitro · 65'",
+        "player_out": "João Baptista Cassicote",
+        "outMaId": "000764M96"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 65,
+        "minuteLabel": "65",
+        "player": "ANTONIO NGOLA NGULU",
+        "maId": "000529M99",
+        "detail": "Relatório do árbitro · 65'",
+        "player_out": "JOAQUIM TEIXEIRA",
+        "outMaId": "000669M91"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 73,
+        "minuteLabel": "73",
+        "player": "MARIO BERNARDO KETA",
+        "maId": "000696M96",
+        "detail": "Relatório do árbitro · 73'",
+        "player_out": "FELIX HONJO",
+        "outMaId": "000680M97"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 73,
+        "minuteLabel": "73",
+        "player": "joão Silvano caluvili",
+        "maId": "001178M03",
+        "detail": "Relatório do árbitro · 73'",
+        "player_out": "INOCENCIO RUI",
+        "outMaId": "000784M04"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 73,
+        "minuteLabel": "73",
+        "player": "LAURINDO DILSON MARIA AURÉLIO",
+        "maId": "000454M00",
+        "detail": "Relatório do árbitro · 73'",
+        "player_out": "TIAGO LIMA LEAL",
+        "outMaId": "000384M88"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 73,
+        "minuteLabel": "73",
+        "player": "TIAGO RODRIGUES DOS REIS",
+        "maId": "007212M99",
+        "detail": "Relatório do árbitro · 73'",
+        "player_out": "JONATHAN JOSUE RUBIO TORO",
+        "outMaId": "002920M96"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 76,
+        "minuteLabel": "76",
+        "player": "BERNARDO SILVA DA CONCEIÇÃO",
+        "maId": "008895M03",
+        "detail": "Relatório do árbitro · 76'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 86,
+        "minuteLabel": "86",
+        "player": "Domingos Ximba",
+        "maId": "001581M95",
+        "detail": "Relatório do árbitro · 86'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 90,
+        "minuteLabel": "90+5",
+        "player": "João Ambrosio",
+        "maId": "001130M01",
+        "detail": "Relatório do árbitro · 90+5'"
+      }
+    ],
+    "attendance": 5000
+  },
+  {
+    "matchId": "m27-1-2",
+    "report": 2,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-2-Futebol Clube Bravos de Maquis -vs-Grupo Desportivo Sagrada Esperança.pdf",
+    "home": "bravos",
+    "away": "sagrada",
+    "date": "2026-08-22T15:00:00+01:00",
+    "stadium": "Estádio do Mundunduleno",
+    "homeScore": 3,
+    "awayScore": 0,
+    "halfTimeScore": "2-0",
+    "officials": [
+      "Sanda Mateus Miguel Kitu",
+      "Natarino António Soares",
+      "Nelson Lutumba Quiala",
+      "Custódio Roque Lote"
+    ],
+    "lineups": {
+      "home": [
+        {
+          "number": 22,
+          "name": "MANUEL POMBOLO ANTÓNIO",
+          "maId": "000646M01",
+          "isStarter": true
+        },
+        {
+          "number": 26,
+          "name": "Luis Gonçalves",
+          "maId": "000958M95",
+          "isStarter": true
+        },
+        {
+          "number": 2,
+          "name": "DANILSON JOSÉ PEDRO ALBERTO",
+          "maId": "000369M03",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "Jeronimo Mendes Abrao",
+          "maId": "000424M02",
+          "isStarter": true
+        },
+        {
+          "number": 7,
+          "name": "MIGUEL JOSÉ SEBASTIÃO",
+          "maId": "005446M05",
+          "isStarter": true
+        },
+        {
+          "number": 8,
+          "name": "Eric Manuel Gouveia Cabral",
+          "maId": "001078M99",
+          "isStarter": true
+        },
+        {
+          "number": 19,
+          "name": "JORGE CORREIA",
+          "maId": "000488M98",
+          "isStarter": true
+        },
+        {
+          "number": 20,
+          "name": "Joffre Faztudo",
+          "maId": "001093M96",
+          "isStarter": true
+        },
+        {
+          "number": 23,
+          "name": "LUÍS CAETANO PAQUETE",
+          "maId": "001251M04",
+          "isStarter": true
+        },
+        {
+          "number": 24,
+          "name": "FILIPE PREGO CANDUMBO",
+          "maId": "000566M01",
+          "isStarter": true
+        },
+        {
+          "number": 27,
+          "name": "OLIVEIRA ANTONIO",
+          "maId": "001145M97",
+          "isStarter": true
+        },
+        {
+          "number": 31,
+          "name": "Yubanis Joao",
+          "maId": "002798M06",
+          "isStarter": true
+        },
+        {
+          "number": 0,
+          "name": "BRUNO TRINDADE",
+          "maId": "000772M98",
+          "isStarter": false
+        },
+        {
+          "number": 0,
+          "name": "ANTONIO JOSE",
+          "maId": "008948M04",
+          "isStarter": false
+        },
+        {
+          "number": 3,
+          "name": "Agnaldo Emerson Catanga Agnaldo",
+          "maId": "001731M01",
+          "isStarter": false
+        },
+        {
+          "number": 10,
+          "name": "Higino Kaptingo Epalanga",
+          "maId": "000728M01",
+          "isStarter": false
+        },
+        {
+          "number": 12,
+          "name": "Belito Batalha Messias Lionardo",
+          "maId": "000717M01",
+          "isStarter": false
+        },
+        {
+          "number": 15,
+          "name": "Tiago Uzana Fota",
+          "maId": "003075M02",
+          "isStarter": false
+        },
+        {
+          "number": 17,
+          "name": "Eduwine Alfredo Dos Vantrier Lourenço",
+          "maId": "002715M03",
+          "isStarter": false
+        },
+        {
+          "number": 28,
+          "name": "GASTÃO TANGU",
+          "maId": "002950M01",
+          "isStarter": false
+        },
+        {
+          "number": 29,
+          "name": "Edmilson Paulo Generoso",
+          "maId": "002718M05",
+          "isStarter": false
+        }
+      ],
+      "away": [
+        {
+          "number": 13,
+          "name": "LEONARDO ARMANDO MUTUNDA",
+          "maId": "000354M97",
+          "isStarter": true
+        },
+        {
+          "number": 7,
+          "name": "Felisberto Dala Sebastiao",
+          "maId": "000718M94",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "MIGUEL ANSELMO BASILIO DANIEL",
+          "maId": "007614M00",
+          "isStarter": true
+        },
+        {
+          "number": 9,
+          "name": "JORGE TXANDO FRANCISCO LUCUSSA",
+          "maId": "000962M02",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "SIMONE EDUARDO ASSA MIRANDA",
+          "maId": "000345M99",
+          "isStarter": true
+        },
+        {
+          "number": 14,
+          "name": "Bartolomeu Domingos",
+          "maId": "000961M89",
+          "isStarter": true
+        },
+        {
+          "number": 16,
+          "name": "Filipe Pimpao",
+          "maId": "000788M02",
+          "isStarter": true
+        },
+        {
+          "number": 17,
+          "name": "Joao Ngunza Muanha",
+          "maId": "001068M95",
+          "isStarter": true
+        },
+        {
+          "number": 20,
+          "name": "LUIS BUMBA TATI",
+          "maId": "000350M92",
+          "isStarter": true
+        },
+        {
+          "number": 24,
+          "name": "AFONSO MARQUES",
+          "maId": "000938M00",
+          "isStarter": true
+        },
+        {
+          "number": 32,
+          "name": "HAHILO SAPALO ALBERTO",
+          "maId": "004426M06",
+          "isStarter": true
+        },
+        {
+          "number": 3,
+          "name": "MANUEL VUNGE",
+          "maId": "001090M94",
+          "isStarter": false
+        },
+        {
+          "number": 4,
+          "name": "EVARISTO KAPUNGE",
+          "maId": "000322M95",
+          "isStarter": false
+        },
+        {
+          "number": 8,
+          "name": "GUILHERME FRANCISCO SAIENDO CABUÇO",
+          "maId": "000359M95",
+          "isStarter": false
+        },
+        {
+          "number": 11,
+          "name": "Melone Moundo Dala",
+          "maId": "000418M01",
+          "isStarter": false
+        },
+        {
+          "number": 12,
+          "name": "NSESANI EMANUEL SIMÃO",
+          "maId": "007245M00",
+          "isStarter": false
+        },
+        {
+          "number": 18,
+          "name": "Silvano Mauro Dos Santos Dos Santos",
+          "maId": "002193M01",
+          "isStarter": false
+        },
+        {
+          "number": 28,
+          "name": "Barreira Paulo",
+          "maId": "001099M98",
+          "isStarter": false
+        },
+        {
+          "number": 31,
+          "name": "SAPALO CAIPUZO MAURÍCIO ANDRÉ",
+          "maId": "002712M04",
+          "isStarter": false
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 6,
+        "minuteLabel": "6",
+        "player": "HAHILO SAPALO ALBERTO",
+        "maId": "004426M06",
+        "detail": "Relatório do árbitro · 6'"
+      },
+      {
+        "type": "goal",
+        "team_side": "home",
+        "minute": 23,
+        "minuteLabel": "23",
+        "player": "Eric Manuel Gouveia Cabral",
+        "maId": "001078M99",
+        "detail": "Relatório do árbitro · 23'"
+      },
+      {
+        "type": "goal",
+        "team_side": "home",
+        "minute": 33,
+        "minuteLabel": "33",
+        "player": "LUÍS CAETANO PAQUETE",
+        "maId": "001251M04",
+        "detail": "Relatório do árbitro · 33'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 45,
+        "minuteLabel": "45",
+        "player": "Higino Kaptingo Epalanga",
+        "maId": "000728M01",
+        "detail": "Relatório do árbitro · 45'",
+        "player_out": "MIGUEL JOSÉ SEBASTIÃO",
+        "outMaId": "005446M05"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 45,
+        "minuteLabel": "45",
+        "player": "ANTONIO JOSE",
+        "maId": "008948M04",
+        "detail": "Relatório do árbitro · 45'",
+        "player_out": "Yubanis Joao",
+        "outMaId": "002798M06"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 45,
+        "minuteLabel": "45",
+        "player": "Melone Moundo Dala",
+        "maId": "000418M01",
+        "detail": "Relatório do árbitro · 45'",
+        "player_out": "Felisberto Dala Sebastiao",
+        "outMaId": "000718M94"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 45,
+        "minuteLabel": "45",
+        "player": "GUILHERME FRANCISCO SAIENDO CABUÇO",
+        "maId": "000359M95",
+        "detail": "Relatório do árbitro · 45'",
+        "player_out": "HAHILO SAPALO ALBERTO",
+        "outMaId": "004426M06"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 48,
+        "minuteLabel": "48",
+        "player": "MIGUEL ANSELMO BASILIO DANIEL",
+        "maId": "007614M00",
+        "detail": "Relatório do árbitro · 48'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 49,
+        "minuteLabel": "49",
+        "player": "Eric Manuel Gouveia Cabral",
+        "maId": "001078M99",
+        "detail": "Relatório do árbitro · 49'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 51,
+        "minuteLabel": "51",
+        "player": "Filipe Pimpao",
+        "maId": "000788M02",
+        "detail": "Relatório do árbitro · 51'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 60,
+        "minuteLabel": "60",
+        "player": "GASTÃO TANGU",
+        "maId": "002950M01",
+        "detail": "Relatório do árbitro · 60'",
+        "player_out": "LUÍS CAETANO PAQUETE",
+        "outMaId": "001251M04"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 69,
+        "minuteLabel": "69",
+        "player": "Silvano Mauro Dos Santos Dos Santos",
+        "maId": "002193M01",
+        "detail": "Relatório do árbitro · 69'",
+        "player_out": "Filipe Pimpao",
+        "outMaId": "000788M02"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 75,
+        "minuteLabel": "75",
+        "player": "Tiago Uzana Fota",
+        "maId": "003075M02",
+        "detail": "Relatório do árbitro · 75'",
+        "player_out": "Eric Manuel Gouveia Cabral",
+        "outMaId": "001078M99"
+      },
+      {
+        "type": "goal",
+        "team_side": "home",
+        "minute": 78,
+        "minuteLabel": "78",
+        "player": "GASTÃO TANGU",
+        "maId": "002950M01",
+        "detail": "Relatório do árbitro · 78'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 86,
+        "minuteLabel": "86",
+        "player": "OLIVEIRA ANTONIO",
+        "maId": "001145M97",
+        "detail": "Relatório do árbitro · 86'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 88,
+        "minuteLabel": "88",
+        "player": "Eduwine Alfredo Dos Vantrier Lourenço",
+        "maId": "002715M03",
+        "detail": "Relatório do árbitro · 88'",
+        "player_out": "JORGE CORREIA",
+        "outMaId": "000488M98"
+      }
+    ],
+    "attendance": 400
+  },
+  {
+    "matchId": "m27-1-7",
+    "report": 3,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-3-Futebol Clube de Cabinda-vs-Clube Recreativo e Desportivo do Libolo.pdf",
+    "home": "cabinda",
+    "away": "libolo",
+    "date": "2026-08-22T15:00:00+01:00",
+    "stadium": "Campo Vice António",
+    "homeScore": 0,
+    "awayScore": 3,
+    "halfTimeScore": "0-1",
+    "officials": [
+      "Nelson João Milagre",
+      "Manuel Daniel Coelho",
+      "Hélder João Milagre",
+      "Laurindo Feliciano Aureleo"
+    ],
+    "lineups": {
+      "home": [
+        {
+          "number": 12,
+          "name": "FRANCISCO DOMINGAS CHICAPA",
+          "maId": "002305M03",
+          "isStarter": true
+        },
+        {
+          "number": 2,
+          "name": "Rodrigo dos Santos Ngimbi",
+          "maId": "000906M95",
+          "isStarter": true
+        },
+        {
+          "number": 3,
+          "name": "Gedeon Macosso Mananga",
+          "maId": "003021M00",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "Marcos Lando",
+          "maId": "002935M04",
+          "isStarter": true
+        },
+        {
+          "number": 8,
+          "name": "Cristiano Malonda",
+          "maId": "000885M97",
+          "isStarter": true
+        },
+        {
+          "number": 16,
+          "name": "António Makiobo Mbungo",
+          "maId": "003077M00",
+          "isStarter": true
+        },
+        {
+          "number": 17,
+          "name": "Júlio Mavungo André",
+          "maId": "000896M02",
+          "isStarter": true
+        },
+        {
+          "number": 18,
+          "name": "Jose Pitra Ieze Manteiga",
+          "maId": "000903M93",
+          "isStarter": true
+        },
+        {
+          "number": 20,
+          "name": "FREDERICO ZAU",
+          "maId": "000328M97",
+          "isStarter": true
+        },
+        {
+          "number": 21,
+          "name": "FERNANDO MATOMBE BAZONGA",
+          "maId": "002058M05",
+          "isStarter": true
+        },
+        {
+          "number": 29,
+          "name": "Ariclenis Afonso Araújo Lede",
+          "maId": "000910M03",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "MARIO ANTONIO BUMBA",
+          "maId": "002297M97",
+          "isStarter": false
+        },
+        {
+          "number": 7,
+          "name": "Costa Miguel Domingos Titi",
+          "maId": "001084M93",
+          "isStarter": false
+        },
+        {
+          "number": 15,
+          "name": "CORNELIO QUEBA LELO BAPTISTA",
+          "maId": "007602M07",
+          "isStarter": false
+        },
+        {
+          "number": 23,
+          "name": "JOSÉ ESPANHOL CARDOSO BRÁS",
+          "maId": "007610M98",
+          "isStarter": false
+        },
+        {
+          "number": 26,
+          "name": "JAIME DA GRACA MALONDA BUANGE",
+          "maId": "002301M94",
+          "isStarter": false
+        },
+        {
+          "number": 27,
+          "name": "Luís Liberal Lemos Casimiro Casimiro",
+          "maId": "004713M06",
+          "isStarter": false
+        },
+        {
+          "number": 31,
+          "name": "ARSENIO MUANDA",
+          "maId": "005543M04",
+          "isStarter": false
+        }
+      ],
+      "away": [
+        {
+          "number": 12,
+          "name": "Bernardo Lomanda kamutcha Gunda",
+          "maId": "001918M02",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "ADELINO WIMA CALUNHI ANTONIO",
+          "maId": "001041M96",
+          "isStarter": true
+        },
+        {
+          "number": 3,
+          "name": "MARCOS BENUA",
+          "maId": "003692M98",
+          "isStarter": true
+        },
+        {
+          "number": 4,
+          "name": "ARISTOTES KINGUI MAKANI",
+          "maId": "001797M95",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "GERSON FRANCISCO CHIMBELE DA COSTA",
+          "maId": "000884M00",
+          "isStarter": true
+        },
+        {
+          "number": 8,
+          "name": "Ilidio da Silva",
+          "maId": "001094M91",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "Andre Alexandre",
+          "maId": "001106M01",
+          "isStarter": true
+        },
+        {
+          "number": 14,
+          "name": "Manuel Manjolo",
+          "maId": "000979M01",
+          "isStarter": true
+        },
+        {
+          "number": 17,
+          "name": "PEDRO AFONSO MASSAKI",
+          "maId": "008940M04",
+          "isStarter": true
+        },
+        {
+          "number": 27,
+          "name": "Edmilson Joao Francisco Cuxixima",
+          "maId": "003307M00",
+          "isStarter": true
+        },
+        {
+          "number": 30,
+          "name": "Joel Kaluvala Alexandre Lucamba",
+          "maId": "001684M01",
+          "isStarter": true
+        },
+        {
+          "number": 15,
+          "name": "JORGE MATEQUE",
+          "maId": "002078M07",
+          "isStarter": false
+        },
+        {
+          "number": 19,
+          "name": "JOSÉ BATALHA",
+          "maId": "007243M00",
+          "isStarter": false
+        },
+        {
+          "number": 20,
+          "name": "João Mário Justino Jamba",
+          "maId": "005427M06",
+          "isStarter": false
+        },
+        {
+          "number": 22,
+          "name": "Zidan Bernardo António Francisco",
+          "maId": "003627M98",
+          "isStarter": false
+        },
+        {
+          "number": 24,
+          "name": "Zinadine Zidane Moises Catraio",
+          "maId": "000432M98",
+          "isStarter": false
+        },
+        {
+          "number": 25,
+          "name": "Salomão Mukanda",
+          "maId": "002983M01",
+          "isStarter": false
+        },
+        {
+          "number": 28,
+          "name": "Manuel Jacinto Domingos",
+          "maId": "000730M92",
+          "isStarter": false
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 14,
+        "minuteLabel": "14",
+        "player": "Marcos Lando",
+        "maId": "002935M04",
+        "detail": "Relatório do árbitro · 14'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 27,
+        "minuteLabel": "27",
+        "player": "JOSÉ ESPANHOL CARDOSO BRÁS",
+        "maId": "007610M98",
+        "detail": "Relatório do árbitro · 27'",
+        "player_out": "Jose Pitra Ieze Manteiga",
+        "outMaId": "000903M93"
+      },
+      {
+        "type": "goal",
+        "team_side": "away",
+        "minute": 34,
+        "minuteLabel": "34",
+        "player": "Edmilson Joao Francisco Cuxixima",
+        "maId": "003307M00",
+        "detail": "Relatório do árbitro · 34'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 55,
+        "minuteLabel": "55",
+        "player": "António Makiobo Mbungo",
+        "maId": "003077M00",
+        "detail": "Relatório do árbitro · 55'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 56,
+        "minuteLabel": "56",
+        "player": "CORNELIO QUEBA LELO BAPTISTA",
+        "maId": "007602M07",
+        "detail": "Relatório do árbitro · 56'",
+        "player_out": "Gedeon Macosso Mananga",
+        "outMaId": "003021M00"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 66,
+        "minuteLabel": "66",
+        "player": "Costa Miguel Domingos Titi",
+        "maId": "001084M93",
+        "detail": "Relatório do árbitro · 66'",
+        "player_out": "JOSÉ ESPANHOL CARDOSO BRÁS",
+        "outMaId": "007610M98"
+      },
+      {
+        "type": "goal",
+        "team_side": "away",
+        "minute": 68,
+        "minuteLabel": "68",
+        "player": "Edmilson Joao Francisco Cuxixima",
+        "maId": "003307M00",
+        "detail": "Relatório do árbitro · 68'"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 70,
+        "minuteLabel": "70",
+        "player": "Zidan Bernardo António Francisco",
+        "maId": "003627M98",
+        "detail": "Relatório do árbitro · 70'",
+        "player_out": "PEDRO AFONSO MASSAKI",
+        "outMaId": "008940M04"
+      },
+      {
+        "type": "goal",
+        "team_side": "away",
+        "minute": 74,
+        "minuteLabel": "74",
+        "player": "Andre Alexandre",
+        "maId": "001106M01",
+        "detail": "Relatório do árbitro · 74'"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 76,
+        "minuteLabel": "76",
+        "player": "Salomão Mukanda",
+        "maId": "002983M01",
+        "detail": "Relatório do árbitro · 76'",
+        "player_out": "GERSON FRANCISCO CHIMBELE DA COSTA",
+        "outMaId": "000884M00"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 76,
+        "minuteLabel": "76",
+        "player": "Zinadine Zidane Moises Catraio",
+        "maId": "000432M98",
+        "detail": "Relatório do árbitro · 76'",
+        "player_out": "ADELINO WIMA CALUNHI ANTONIO",
+        "outMaId": "001041M96"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 76,
+        "minuteLabel": "76",
+        "player": "JORGE MATEQUE",
+        "maId": "002078M07",
+        "detail": "Relatório do árbitro · 76'",
+        "player_out": "Ilidio da Silva",
+        "outMaId": "001094M91"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 85,
+        "minuteLabel": "85",
+        "player": "JOSÉ BATALHA",
+        "maId": "007243M00",
+        "detail": "Relatório do árbitro · 85'",
+        "player_out": "Andre Alexandre",
+        "outMaId": "001106M01"
+      }
+    ]
+  },
+  {
+    "matchId": "m27-1-3",
+    "report": 4,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-4-Clube Desportivo 1º de Agosto-vs-Clube Desportivo da Huila.pdf",
+    "home": "dago",
+    "away": "desphuila",
+    "date": "2026-08-22T15:00:00+01:00",
+    "stadium": "Estádio França Ndalu",
+    "homeScore": 1,
+    "awayScore": 0,
+    "halfTimeScore": "0-0",
+    "officials": [
+      "Edilson Roberto Gomes André",
+      "Manuel Luís Benguela",
+      "Joaquim Manuel Chiyo",
+      "Miguel Julião Mateus"
+    ],
+    "lineups": {
+      "home": [
+        {
+          "number": 1,
+          "name": "FERNANDO LOPES DE ALMEIDA",
+          "maId": "000634M01",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "Bonifacio Francisco Caetano",
+          "maId": "000423M93",
+          "isStarter": true
+        },
+        {
+          "number": 2,
+          "name": "MILTON ANTONIO CANDIDO",
+          "maId": "005431M03",
+          "isStarter": true
+        },
+        {
+          "number": 3,
+          "name": "Simao Dianzenza",
+          "maId": "000451M99",
+          "isStarter": true
+        },
+        {
+          "number": 7,
+          "name": "ANTONIO FRANCISCO DOMINGOS",
+          "maId": "005428M02",
+          "isStarter": true
+        },
+        {
+          "number": 9,
+          "name": "Florindo Machado",
+          "maId": "000843M94",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "CALEBI YANDA",
+          "maId": "000327M99",
+          "isStarter": true
+        },
+        {
+          "number": 11,
+          "name": "Fernando Inácio Costa",
+          "maId": "004963M05",
+          "isStarter": true
+        },
+        {
+          "number": 15,
+          "name": "Venancio Landu kukula",
+          "maId": "000436M95",
+          "isStarter": true
+        },
+        {
+          "number": 16,
+          "name": "Jose Macaia ganga",
+          "maId": "001997M94",
+          "isStarter": true
+        },
+        {
+          "number": 17,
+          "name": "Samu Tshibamba Dago",
+          "maId": "000441M97",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "Bruno de Jesus Manuel",
+          "maId": "000437M95",
+          "isStarter": false
+        },
+        {
+          "number": 8,
+          "name": "Axel Gaudêncio Mabaqui de Sousa Axel",
+          "maId": "002187M03",
+          "isStarter": false
+        },
+        {
+          "number": 14,
+          "name": "Obed Mayamb Mukokiani Obed",
+          "maId": "003026M94",
+          "isStarter": false
+        },
+        {
+          "number": 18,
+          "name": "Cliver Camango Andre",
+          "maId": "002767M04",
+          "isStarter": false
+        },
+        {
+          "number": 20,
+          "name": "Francisco Carlos Chilumbo",
+          "maId": "001234M00",
+          "isStarter": false
+        },
+        {
+          "number": 22,
+          "name": "ANSELMO MWENI",
+          "maId": "001210M98",
+          "isStarter": false
+        },
+        {
+          "number": 27,
+          "name": "Carvalho dos Santos",
+          "maId": "000978M01",
+          "isStarter": false
+        },
+        {
+          "number": 28,
+          "name": "Felix Bulaya",
+          "maId": "007639M96",
+          "isStarter": false
+        },
+        {
+          "number": 36,
+          "name": "BENÇÃO NBONGO EVARISTO NZINGA",
+          "maId": "005429M03",
+          "isStarter": false
+        }
+      ],
+      "away": [
+        {
+          "number": 1,
+          "name": "Cristóvão Simão",
+          "maId": "000960M96",
+          "isStarter": true
+        },
+        {
+          "number": 15,
+          "name": "Elias Daniel",
+          "maId": "000844M92",
+          "isStarter": true
+        },
+        {
+          "number": 2,
+          "name": "NSAMBO KATENDI",
+          "maId": "000940M04",
+          "isStarter": true
+        },
+        {
+          "number": 4,
+          "name": "ANTONIO DOS SANTOS FUTILA KINANGA",
+          "maId": "003460M04",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "José Mendes",
+          "maId": "000846M96",
+          "isStarter": true
+        },
+        {
+          "number": 13,
+          "name": "LUCAS ELIAS ANTONIO PAULO",
+          "maId": "001158M05",
+          "isStarter": true
+        },
+        {
+          "number": 18,
+          "name": "MILTON ALBERTO DE OLIVEIRA SUCA",
+          "maId": "000458M96",
+          "isStarter": true
+        },
+        {
+          "number": 21,
+          "name": "Angelo Cangu",
+          "maId": "000853M98",
+          "isStarter": true
+        },
+        {
+          "number": 25,
+          "name": "Milagre Carlos Simba",
+          "maId": "006020M95",
+          "isStarter": true
+        },
+        {
+          "number": 26,
+          "name": "Jeremias Pedro",
+          "maId": "000823M02",
+          "isStarter": true
+        },
+        {
+          "number": 32,
+          "name": "Constantino Tchicundico Cassoma Tchitunda",
+          "maId": "001412M02",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "JOÃO MILAGRE CHIVA SIMÕES",
+          "maId": "001232M98",
+          "isStarter": false
+        },
+        {
+          "number": 7,
+          "name": "LEONARDO MANUEL ISOLA RAMOS",
+          "maId": "000447M92",
+          "isStarter": false
+        },
+        {
+          "number": 8,
+          "name": "Mauricio Pedro",
+          "maId": "000822M02",
+          "isStarter": false
+        },
+        {
+          "number": 12,
+          "name": "Emanuel Laurindo",
+          "maId": "000817M01",
+          "isStarter": false
+        },
+        {
+          "number": 20,
+          "name": "Duarte Kapoela",
+          "maId": "000819M00",
+          "isStarter": false
+        },
+        {
+          "number": 27,
+          "name": "António Pena",
+          "maId": "000959M96",
+          "isStarter": false
+        },
+        {
+          "number": 29,
+          "name": "Pequenino Castro",
+          "maId": "000845M93",
+          "isStarter": false
+        },
+        {
+          "number": 34,
+          "name": "João Baptista Ferraz Samazanga Juny",
+          "maId": "006317M06",
+          "isStarter": false
+        },
+        {
+          "number": 35,
+          "name": "Mirovaldo da Silva vandunem",
+          "maId": "008904M03",
+          "isStarter": false
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 6,
+        "minuteLabel": "6",
+        "player": "JOÃO MILAGRE CHIVA SIMÕES",
+        "maId": "001232M98",
+        "detail": "Relatório do árbitro · 6'",
+        "player_out": "José Mendes",
+        "outMaId": "000846M96"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 30,
+        "minuteLabel": "30",
+        "player": "Samu Tshibamba Dago",
+        "maId": "000441M97",
+        "detail": "Relatório do árbitro · 30'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 40,
+        "minuteLabel": "40",
+        "player": "Simao Dianzenza",
+        "maId": "000451M99",
+        "detail": "Relatório do árbitro · 40'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 52,
+        "minuteLabel": "52",
+        "player": "LUCAS ELIAS ANTONIO PAULO",
+        "maId": "001158M05",
+        "detail": "Relatório do árbitro · 52'"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 55,
+        "minuteLabel": "55",
+        "player": "Mauricio Pedro",
+        "maId": "000822M02",
+        "detail": "Relatório do árbitro · 55'",
+        "player_out": "Angelo Cangu",
+        "outMaId": "000853M98"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 55,
+        "minuteLabel": "55",
+        "player": "António Pena",
+        "maId": "000959M96",
+        "detail": "Relatório do árbitro · 55'",
+        "player_out": "MILTON ALBERTO DE OLIVEIRA SUCA",
+        "outMaId": "000458M96"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 60,
+        "minuteLabel": "60",
+        "player": "Obed Mayamb Mukokiani Obed",
+        "maId": "003026M94",
+        "detail": "Relatório do árbitro · 60'",
+        "player_out": "Florindo Machado",
+        "outMaId": "000843M94"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 60,
+        "minuteLabel": "60",
+        "player": "Felix Bulaya",
+        "maId": "007639M96",
+        "detail": "Relatório do árbitro · 60'",
+        "player_out": "Fernando Inácio Costa",
+        "outMaId": "004963M05"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 60,
+        "minuteLabel": "60",
+        "player": "Axel Gaudêncio Mabaqui de Sousa Axel",
+        "maId": "002187M03",
+        "detail": "Relatório do árbitro · 60'",
+        "player_out": "Simao Dianzenza",
+        "outMaId": "000451M99"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 68,
+        "minuteLabel": "68",
+        "player": "LEONARDO MANUEL ISOLA RAMOS",
+        "maId": "000447M92",
+        "detail": "Relatório do árbitro · 68'",
+        "player_out": "Milagre Carlos Simba",
+        "outMaId": "006020M95"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 78,
+        "minuteLabel": "78",
+        "player": "Pequenino Castro",
+        "maId": "000845M93",
+        "detail": "Relatório do árbitro · 78'",
+        "player_out": "Constantino Tchicundico Cassoma Tchitunda",
+        "outMaId": "001412M02"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 87,
+        "minuteLabel": "87",
+        "player": "Venancio Landu kukula",
+        "maId": "000436M95",
+        "detail": "Relatório do árbitro · 87'"
+      },
+      {
+        "type": "goal",
+        "team_side": "home",
+        "minute": 90,
+        "minuteLabel": "90+1",
+        "player": "Samu Tshibamba Dago",
+        "maId": "000441M97",
+        "detail": "Relatório do árbitro · 90+1'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 90,
+        "minuteLabel": "90+5",
+        "player": "Francisco Carlos Chilumbo",
+        "maId": "001234M00",
+        "detail": "Relatório do árbitro · 90+5'",
+        "player_out": "ANTONIO FRANCISCO DOMINGOS",
+        "outMaId": "005428M02"
+      }
+    ],
+    "attendance": 200
+  },
+  {
+    "matchId": "m27-1-1",
+    "report": 5,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-5-Futebol Clube de Luanda-vs-Clube Recreativo da Caála.pdf",
+    "home": "fcluanda",
+    "away": "caala",
+    "date": "2026-08-23T15:00:00+01:00",
+    "stadium": "Estádio França Ndalu",
+    "homeScore": 0,
+    "awayScore": 0,
+    "halfTimeScore": "0-0",
+    "officials": [
+      "Gilberto Bernardino Kativa",
+      "Estanislau Guedes Tavares Muluta Prata",
+      "Jeremias Sessenta Cafussa",
+      "Aldair Quissanga Rodrigues Carmelino"
+    ],
+    "lineups": {
+      "home": [
+        {
+          "number": 12,
+          "name": "LUDIAKUENO AFONSO",
+          "maId": "001566M05",
+          "isStarter": true
+        },
+        {
+          "number": 17,
+          "name": "Filipe Malanda",
+          "maId": "001100M93",
+          "isStarter": true
+        },
+        {
+          "number": 4,
+          "name": "Joel Diaku",
+          "maId": "005756M94",
+          "isStarter": true
+        },
+        {
+          "number": 8,
+          "name": "Gelson Dos Santos André Gelson",
+          "maId": "002190M99",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "DENILSON ,MAKOKISA",
+          "maId": "001538M06",
+          "isStarter": true
+        },
+        {
+          "number": 15,
+          "name": "RUBEN CRISTIANO MBALA LUWAWA",
+          "maId": "007431M06",
+          "isStarter": true
+        },
+        {
+          "number": 16,
+          "name": "Arnaldo Dielo",
+          "maId": "002707M03",
+          "isStarter": true
+        },
+        {
+          "number": 23,
+          "name": "MIGUEL NZAU MANUEL MATOS",
+          "maId": "001326M06",
+          "isStarter": true
+        },
+        {
+          "number": 25,
+          "name": "DOMINGOS BANGULA",
+          "maId": "001336M04",
+          "isStarter": true
+        },
+        {
+          "number": 26,
+          "name": "Celio Nimi",
+          "maId": "006197M05",
+          "isStarter": true
+        },
+        {
+          "number": 30,
+          "name": "JAIME CAETANO",
+          "maId": "006241M07",
+          "isStarter": true
+        },
+        {
+          "number": 1,
+          "name": "JOAO MADUVO CAPITA CAFULA",
+          "maId": "007427M02",
+          "isStarter": false
+        },
+        {
+          "number": 6,
+          "name": "Jonilson José Manuel Manuel",
+          "maId": "002208M01",
+          "isStarter": false
+        },
+        {
+          "number": 7,
+          "name": "PEDRO PAULO",
+          "maId": "002014M04",
+          "isStarter": false
+        },
+        {
+          "number": 9,
+          "name": "FRANCISCO CHIQUINHO",
+          "maId": "001357M05",
+          "isStarter": false
+        },
+        {
+          "number": 14,
+          "name": "DOMINGOS ANDRE",
+          "maId": "002901M07",
+          "isStarter": false
+        },
+        {
+          "number": 22,
+          "name": "DEO YOKA",
+          "maId": "001560M03",
+          "isStarter": false
+        },
+        {
+          "number": 24,
+          "name": "Estevao Cahoko",
+          "maId": "000770M91",
+          "isStarter": false
+        },
+        {
+          "number": 27,
+          "name": "BATISTA JÁO KACHAMA KACHAMA",
+          "maId": "008947M05",
+          "isStarter": false
+        }
+      ],
+      "away": [
+        {
+          "number": 22,
+          "name": "Landu Mavanga",
+          "maId": "000721M90",
+          "isStarter": true
+        },
+        {
+          "number": 9,
+          "name": "Hermenegildo Sandumbo",
+          "maId": "000763M97",
+          "isStarter": true
+        },
+        {
+          "number": 2,
+          "name": "valentim sacuvale",
+          "maId": "007412M04",
+          "isStarter": true
+        },
+        {
+          "number": 3,
+          "name": "ALBANO KUPENALA",
+          "maId": "001694M05",
+          "isStarter": true
+        },
+        {
+          "number": 7,
+          "name": "Domingos Lourenço Cuxixima",
+          "maId": "000428M96",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "ARILSON DE CEITA PEREIRA JORGE",
+          "maId": "000521M99",
+          "isStarter": true
+        },
+        {
+          "number": 15,
+          "name": "MARIANO DA COSTA VIDAL",
+          "maId": "000462M95",
+          "isStarter": true
+        },
+        {
+          "number": 19,
+          "name": "Benedito Antunes",
+          "maId": "001763M95",
+          "isStarter": true
+        },
+        {
+          "number": 20,
+          "name": "Manuel Zange Miguel",
+          "maId": "003157M01",
+          "isStarter": true
+        },
+        {
+          "number": 23,
+          "name": "LISNEU EMANUEL NETO SIMAO",
+          "maId": "000691M00",
+          "isStarter": true
+        },
+        {
+          "number": 25,
+          "name": "ABEL SILAS SEQUESSEQUE",
+          "maId": "000603M93",
+          "isStarter": true
+        },
+        {
+          "number": 4,
+          "name": "BENVINDO MIGUEL ANDRÉ AFONSO",
+          "maId": "000648M01",
+          "isStarter": false
+        },
+        {
+          "number": 6,
+          "name": "Osvaldo José",
+          "maId": "001215M00",
+          "isStarter": false
+        },
+        {
+          "number": 8,
+          "name": "Claúdio Sozinho",
+          "maId": "000768M94",
+          "isStarter": false
+        },
+        {
+          "number": 16,
+          "name": "FRANCISCO CHITANGA",
+          "maId": "000673M97",
+          "isStarter": false
+        },
+        {
+          "number": 17,
+          "name": "GABRIEL VENANCIO",
+          "maId": "001592M05",
+          "isStarter": false
+        },
+        {
+          "number": 21,
+          "name": "Gonçalves Zinho Manico",
+          "maId": "000656M76",
+          "isStarter": false
+        },
+        {
+          "number": 24,
+          "name": "Timoteo Sambissa",
+          "maId": "001086M96",
+          "isStarter": false
+        },
+        {
+          "number": 27,
+          "name": "JOSÉ MANUEL RAUL",
+          "maId": "006363M99",
+          "isStarter": false
+        },
+        {
+          "number": 30,
+          "name": "JOSE AFONSO DOS SANTOS FERNANDO",
+          "maId": "000738M91",
+          "isStarter": false
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 5,
+        "minuteLabel": "5",
+        "player": "JOSÉ MANUEL RAUL",
+        "maId": "006363M99",
+        "detail": "Relatório do árbitro · 5'",
+        "player_out": "Manuel Zange Miguel",
+        "outMaId": "003157M01"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 40,
+        "minuteLabel": "40",
+        "player": "LISNEU EMANUEL NETO SIMAO",
+        "maId": "000691M00",
+        "detail": "Relatório do árbitro · 40'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 63,
+        "minuteLabel": "63",
+        "player": "Estevao Cahoko",
+        "maId": "000770M91",
+        "detail": "Relatório do árbitro · 63'",
+        "player_out": "MIGUEL NZAU MANUEL MATOS",
+        "outMaId": "001326M06"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 63,
+        "minuteLabel": "63",
+        "player": "PEDRO PAULO",
+        "maId": "002014M04",
+        "detail": "Relatório do árbitro · 63'",
+        "player_out": "JAIME CAETANO",
+        "outMaId": "006241M07"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 65,
+        "minuteLabel": "65",
+        "player": "Timoteo Sambissa",
+        "maId": "001086M96",
+        "detail": "Relatório do árbitro · 65'",
+        "player_out": "Domingos Lourenço Cuxixima",
+        "outMaId": "000428M96"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 65,
+        "minuteLabel": "65",
+        "player": "BENVINDO MIGUEL ANDRÉ AFONSO",
+        "maId": "000648M01",
+        "detail": "Relatório do árbitro · 65'",
+        "player_out": "ARILSON DE CEITA PEREIRA JORGE",
+        "outMaId": "000521M99"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 79,
+        "minuteLabel": "79",
+        "player": "Osvaldo José",
+        "maId": "001215M00",
+        "detail": "Relatório do árbitro · 79'",
+        "player_out": "Benedito Antunes",
+        "outMaId": "001763M95"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 79,
+        "minuteLabel": "79",
+        "player": "GABRIEL VENANCIO",
+        "maId": "001592M05",
+        "detail": "Relatório do árbitro · 79'",
+        "player_out": "Hermenegildo Sandumbo",
+        "outMaId": "000763M97"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 81,
+        "minuteLabel": "81",
+        "player": "DOMINGOS ANDRE",
+        "maId": "002901M07",
+        "detail": "Relatório do árbitro · 81'",
+        "player_out": "Arnaldo Dielo",
+        "outMaId": "002707M03"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 81,
+        "minuteLabel": "81",
+        "player": "BATISTA JÁO KACHAMA KACHAMA",
+        "maId": "008947M05",
+        "detail": "Relatório do árbitro · 81'",
+        "player_out": "DOMINGOS BANGULA",
+        "outMaId": "001336M04"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 87,
+        "minuteLabel": "87",
+        "player": "FRANCISCO CHIQUINHO",
+        "maId": "001357M05",
+        "detail": "Relatório do árbitro · 87'",
+        "player_out": "DENILSON ,MAKOKISA",
+        "outMaId": "001538M06"
+      }
+    ],
+    "attendance": 1500
+  },
+  {
+    "matchId": "m27-1-6",
+    "report": 6,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-6-Estrela Clube 1º de Maio de Benguela-vs-Kabuscorp Sport Clube do Palanca.pdf",
+    "home": "primeiromaio",
+    "away": "kabuscorp",
+    "date": "2026-08-23T15:00:00+01:00",
+    "stadium": "Campo Municipal (Benguela)",
+    "homeScore": 1,
+    "awayScore": 1,
+    "halfTimeScore": "1-0",
+    "officials": [
+      "Bernardo Hossi Nangolo",
+      "António Emiliano Livongue",
+      "Adolfo Luís Mutenha",
+      "António Caluassi Dungula"
+    ],
+    "lineups": {
+      "home": [
+        {
+          "number": 1,
+          "name": "ANTÓNIO PASCOAL",
+          "maId": "000942M00",
+          "isStarter": true
+        },
+        {
+          "number": 7,
+          "name": "MÁRCIO ARMANDO GONÇALVES LUVAMBO",
+          "maId": "000629M86",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "MOISES MBUTA DOMINGOS",
+          "maId": "000873M02",
+          "isStarter": true
+        },
+        {
+          "number": 6,
+          "name": "ELISEU ANTÓNIO BORGES VARELA",
+          "maId": "000565M01",
+          "isStarter": true
+        },
+        {
+          "number": 9,
+          "name": "MOISÉS ALBERTO CALEPI",
+          "maId": "000457M96",
+          "isStarter": true
+        },
+        {
+          "number": 14,
+          "name": "Odenir Tavares Pereira Jorge",
+          "maId": "003082M02",
+          "isStarter": true
+        },
+        {
+          "number": 15,
+          "name": "JOSE MARCOS PEREIRA TCHIVINGA",
+          "maId": "000747M00",
+          "isStarter": true
+        },
+        {
+          "number": 16,
+          "name": "Muila Lengo Congolo",
+          "maId": "001067M01",
+          "isStarter": true
+        },
+        {
+          "number": 19,
+          "name": "Luis Simoes Escovalo",
+          "maId": "001258M01",
+          "isStarter": true
+        },
+        {
+          "number": 22,
+          "name": "SIMÃO CULECA GONGA",
+          "maId": "003470M02",
+          "isStarter": true
+        },
+        {
+          "number": 24,
+          "name": "PAULO BALACA MUTOSSI",
+          "maId": "000644M00",
+          "isStarter": true
+        },
+        {
+          "number": 2,
+          "name": "Miguel Agostinho Dey",
+          "maId": "002775M03",
+          "isStarter": false
+        },
+        {
+          "number": 8,
+          "name": "Rodrigues Muehombo",
+          "maId": "000848M96",
+          "isStarter": false
+        },
+        {
+          "number": 18,
+          "name": "GELSON TELES",
+          "maId": "000676M91",
+          "isStarter": false
+        },
+        {
+          "number": 20,
+          "name": "Fernando Mateus Duarte Duarte",
+          "maId": "002162M00",
+          "isStarter": false
+        },
+        {
+          "number": 25,
+          "name": "KIJUNGU KITUMBA FRANCISCO",
+          "maId": "003535M02",
+          "isStarter": false
+        },
+        {
+          "number": 31,
+          "name": "MALEBANI RABBY",
+          "maId": "000923M00",
+          "isStarter": false
+        },
+        {
+          "number": 33,
+          "name": "FRANCISCO NGALANGUI TCHITANE",
+          "maId": "003468M02",
+          "isStarter": false
+        },
+        {
+          "number": 34,
+          "name": "VICENTE DOMINGOS",
+          "maId": "002898M04",
+          "isStarter": false
+        },
+        {
+          "number": 56,
+          "name": "JOAQUIM KANHIHI TCHINGOMBE",
+          "maId": "003471M02",
+          "isStarter": false
+        }
+      ],
+      "away": [
+        {
+          "number": 22,
+          "name": "AUGUSTO MONTEIRO MUALUCANO",
+          "maId": "000392M98",
+          "isStarter": true
+        },
+        {
+          "number": 16,
+          "name": "Henock Mangindula",
+          "maId": "003056M99",
+          "isStarter": true
+        },
+        {
+          "number": 2,
+          "name": "Zamorano Lopes",
+          "maId": "001136M01",
+          "isStarter": true
+        },
+        {
+          "number": 3,
+          "name": "ELISEU CABANGA",
+          "maId": "000631M97",
+          "isStarter": true
+        },
+        {
+          "number": 4,
+          "name": "ADAIR GARCIA DOMINGOS",
+          "maId": "001833M03",
+          "isStarter": true
+        },
+        {
+          "number": 5,
+          "name": "Saombe Sukuakueche Ángelo Jorge",
+          "maId": "007238M00",
+          "isStarter": true
+        },
+        {
+          "number": 7,
+          "name": "BAYALA NSIMBA",
+          "maId": "003262M05",
+          "isStarter": true
+        },
+        {
+          "number": 10,
+          "name": "José Semedo Vunge",
+          "maId": "001072M96",
+          "isStarter": true
+        },
+        {
+          "number": 15,
+          "name": "DANIEL KILOLA",
+          "maId": "000326M99",
+          "isStarter": true
+        },
+        {
+          "number": 18,
+          "name": "Mankoka Hegene Afonso",
+          "maId": "000371M01",
+          "isStarter": true
+        },
+        {
+          "number": 29,
+          "name": "Alberto Elizeu Xavier",
+          "maId": "000425M99",
+          "isStarter": true
+        },
+        {
+          "number": 11,
+          "name": "TEODORO FERNANDES CORREIA",
+          "maId": "001831M02",
+          "isStarter": false
+        },
+        {
+          "number": 12,
+          "name": "JOÃO BAPTISTA MISSENGA DE NASCIMENTO",
+          "maId": "000355M98",
+          "isStarter": false
+        },
+        {
+          "number": 14,
+          "name": "ARTUR MALUNGO",
+          "maId": "000936M98",
+          "isStarter": false
+        },
+        {
+          "number": 17,
+          "name": "CELESTINO LUIS MALECO",
+          "maId": "000576M03",
+          "isStarter": false
+        },
+        {
+          "number": 19,
+          "name": "JOAQUIM PACIENCIA",
+          "maId": "000331M96",
+          "isStarter": false
+        },
+        {
+          "number": 27,
+          "name": "Aluízio Joel André Cacharamba",
+          "maId": "004835M05",
+          "isStarter": false
+        },
+        {
+          "number": 28,
+          "name": "MVEMBA MATONDO KUANZAMBI",
+          "maId": "006297M99",
+          "isStarter": false
+        },
+        {
+          "number": 32,
+          "name": "DIÓGENES CAPEMBA JOÃO",
+          "maId": "000395M97",
+          "isStarter": false
+        }
+      ]
+    },
+    "events": [
+      {
+        "type": "goal",
+        "team_side": "home",
+        "minute": 21,
+        "minuteLabel": "21",
+        "player": "Odenir Tavares Pereira Jorge",
+        "maId": "003082M02",
+        "detail": "Relatório do árbitro · 21'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 45,
+        "minuteLabel": "45+1",
+        "player": "DANIEL KILOLA",
+        "maId": "000326M99",
+        "detail": "Relatório do árbitro · 45+1'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 45,
+        "minuteLabel": "45+2",
+        "player": "Saombe Sukuakueche Ángelo Jorge",
+        "maId": "007238M00",
+        "detail": "Relatório do árbitro · 45+2'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 45,
+        "minuteLabel": "45+3",
+        "player": "Zamorano Lopes",
+        "maId": "001136M01",
+        "detail": "Relatório do árbitro · 45+3'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 46,
+        "minuteLabel": "46",
+        "player": "MOISÉS ALBERTO CALEPI",
+        "maId": "000457M96",
+        "detail": "Relatório do árbitro · 46'"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 46,
+        "minuteLabel": "46",
+        "player": "CELESTINO LUIS MALECO",
+        "maId": "000576M03",
+        "detail": "Relatório do árbitro · 46'",
+        "player_out": "ELISEU CABANGA",
+        "outMaId": "000631M97"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 59,
+        "minuteLabel": "59",
+        "player": "JOAQUIM PACIENCIA",
+        "maId": "000331M96",
+        "detail": "Relatório do árbitro · 59'",
+        "player_out": "Alberto Elizeu Xavier",
+        "outMaId": "000425M99"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 59,
+        "minuteLabel": "59",
+        "player": "DIÓGENES CAPEMBA JOÃO",
+        "maId": "000395M97",
+        "detail": "Relatório do árbitro · 59'",
+        "player_out": "DANIEL KILOLA",
+        "outMaId": "000326M99"
+      },
+      {
+        "type": "goal",
+        "team_side": "away",
+        "minute": 65,
+        "minuteLabel": "65",
+        "player": "Mankoka Hegene Afonso",
+        "maId": "000371M01",
+        "detail": "Relatório do árbitro · 65'"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 69,
+        "minuteLabel": "69",
+        "player": "Fernando Mateus Duarte Duarte",
+        "maId": "002162M00",
+        "detail": "Relatório do árbitro · 69'",
+        "player_out": "Luis Simoes Escovalo",
+        "outMaId": "001258M01"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 69,
+        "minuteLabel": "69",
+        "player": "Rodrigues Muehombo",
+        "maId": "000848M96",
+        "detail": "Relatório do árbitro · 69'",
+        "player_out": "Odenir Tavares Pereira Jorge",
+        "outMaId": "003082M02"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 69,
+        "minuteLabel": "69",
+        "player": "VICENTE DOMINGOS",
+        "maId": "002898M04",
+        "detail": "Relatório do árbitro · 69'",
+        "player_out": "Muila Lengo Congolo",
+        "outMaId": "001067M01"
+      },
+      {
+        "type": "yellow",
+        "team_side": "home",
+        "minute": 70,
+        "minuteLabel": "70",
+        "player": "SIMÃO CULECA GONGA",
+        "maId": "003470M02",
+        "detail": "Relatório do árbitro · 70'"
+      },
+      {
+        "type": "yellow",
+        "team_side": "away",
+        "minute": 73,
+        "minuteLabel": "73",
+        "player": "DIÓGENES CAPEMBA JOÃO",
+        "maId": "000395M97",
+        "detail": "Relatório do árbitro · 73'"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 73,
+        "minuteLabel": "73",
+        "player": "TEODORO FERNANDES CORREIA",
+        "maId": "001831M02",
+        "detail": "Relatório do árbitro · 73'",
+        "player_out": "BAYALA NSIMBA",
+        "outMaId": "003262M05"
+      },
+      {
+        "type": "sub",
+        "team_side": "away",
+        "minute": 80,
+        "minuteLabel": "80",
+        "player": "Aluízio Joel André Cacharamba",
+        "maId": "004835M05",
+        "detail": "Relatório do árbitro · 80'",
+        "player_out": "José Semedo Vunge",
+        "outMaId": "001072M96"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 86,
+        "minuteLabel": "86",
+        "player": "KIJUNGU KITUMBA FRANCISCO",
+        "maId": "003535M02",
+        "detail": "Relatório do árbitro · 86'",
+        "player_out": "SIMÃO CULECA GONGA",
+        "outMaId": "003470M02"
+      },
+      {
+        "type": "sub",
+        "team_side": "home",
+        "minute": 90,
+        "minuteLabel": "90+1",
+        "player": "MALEBANI RABBY",
+        "maId": "000923M00",
+        "detail": "Relatório do árbitro · 90+1'",
+        "player_out": "Fernando Mateus Duarte Duarte",
+        "outMaId": "002162M00"
+      }
+    ],
+    "attendance": 2000
+  }
+]

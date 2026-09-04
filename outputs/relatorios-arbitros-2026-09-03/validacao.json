@@ -1,0 +1,117 @@
+{
+  "summary": {
+    "pdfFiles": 12,
+    "distinctMatches": 11,
+    "rosterEntries": 438,
+    "eventsByType": {
+      "yellow": 36,
+      "sub": 100,
+      "goal": 23,
+      "red": 1,
+      "own_goal": 2
+    },
+    "staffCautions": 2,
+    "flaggedItems": 15
+  },
+  "checks": [
+    {
+      "reportNumber": 10,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 11,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 13,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 14,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 15,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 16,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 17,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 18,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 19,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 7,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    },
+    {
+      "reportNumber": 8,
+      "fullTimeGoalsReconciled": true,
+      "halfTimeGoalsReconciled": true,
+      "startingElevenBothTeams": true,
+      "playerIdentitiesUniqueWithinTeam": true,
+      "substitutionSequenceValidExceptFlagged": true,
+      "officialsCount": 5
+    }
+  ]
+}

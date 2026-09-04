@@ -1,0 +1,1640 @@
+[
+  {
+    "playerId": "cacusso",
+    "teamId": "lundasul",
+    "maId": "000786M00",
+    "fullName": "ADALBERTO WACAMBA",
+    "name": "Kacusso"
+  },
+  {
+    "playerId": "mussa-lunda-sul",
+    "teamId": "lundasul",
+    "maId": "000669M91",
+    "fullName": "JOAQUIM TEIXEIRA",
+    "name": "Mussá"
+  },
+  {
+    "playerId": "fred",
+    "teamId": "lundasul",
+    "maId": "001069M01",
+    "fullName": "Frederico Xangongo Singongo",
+    "name": "Singongo"
+  },
+  {
+    "playerId": "platini",
+    "teamId": "lundasul",
+    "maId": "000567M00",
+    "fullName": "ELINDO WANGA PAULINO",
+    "name": "Paulino"
+  },
+  {
+    "playerId": "vado-lunda-sul",
+    "teamId": "lundasul",
+    "maId": "000677M93",
+    "fullName": "OSVALDO MIGUEL",
+    "name": "Vado"
+  },
+  {
+    "playerId": "maranata",
+    "teamId": "lundasul",
+    "maId": "001064M99",
+    "fullName": "Maranata Domingos Sicuba Vunge",
+    "name": "Sicuba Vunge"
+  },
+  {
+    "playerId": "magrinho",
+    "teamId": "lundasul",
+    "maId": "000680M97",
+    "fullName": "FELIX HONJO",
+    "name": "Magrinho"
+  },
+  {
+    "playerId": "manucho-lunda-sul",
+    "teamId": "lundasul",
+    "maId": "000639M97",
+    "fullName": "MANUEL TCHINHANGUITA CACHINDELE",
+    "name": "Cachindele"
+  },
+  {
+    "playerId": "dieu",
+    "teamId": "lundasul",
+    "maId": "001070M93",
+    "fullName": "Dieu Maquissossila David",
+    "name": "David"
+  },
+  {
+    "playerId": "joca-lunda-sul",
+    "teamId": "lundasul",
+    "maId": "000764M96",
+    "fullName": "João Baptista Cassicote",
+    "name": "Joca"
+  },
+  {
+    "playerId": "kibuata",
+    "teamId": "lundasul",
+    "maId": "001130M01",
+    "fullName": "João Ambrosio",
+    "name": "Kibuata"
+  },
+  {
+    "playerId": "nono",
+    "teamId": "lundasul",
+    "maId": "000794M01",
+    "fullName": "NIONGONONA MULIQUITA",
+    "name": "Nonó"
+  },
+  {
+    "playerId": "neymar-lunda-sul",
+    "teamId": "lundasul",
+    "maId": "000784M04",
+    "fullName": "INOCENCIO RUI",
+    "name": "Neymar"
+  },
+  {
+    "playerId": "ximba",
+    "teamId": "lundasul",
+    "maId": "001581M95",
+    "fullName": "Domingos Ximba",
+    "name": "Ximba"
+  },
+  {
+    "playerId": "jepson",
+    "teamId": "lundasul",
+    "maId": "000529M99",
+    "fullName": "ANTONIO NGOLA NGULU",
+    "name": "Ngulu"
+  },
+  {
+    "playerId": "sozito",
+    "teamId": "lundasul",
+    "maId": "000696M96",
+    "fullName": "MARIO BERNARDO KETA",
+    "name": "Keta"
+  },
+  {
+    "playerId": "zonzo",
+    "teamId": "lundasul",
+    "maId": "001178M03",
+    "fullName": "joão Silvano caluvili",
+    "name": "Caluvili"
+  },
+  {
+    "playerId": "nicon",
+    "teamId": "lundasul",
+    "maId": "002878M04",
+    "fullName": "Atavares Pinto",
+    "name": "Nicon"
+  },
+  {
+    "playerId": "fuca",
+    "teamId": "lundasul",
+    "maId": "001256M95",
+    "fullName": "Joao Bivoba Zau",
+    "name": "Zau"
+  },
+  {
+    "playerId": "angola-gr",
+    "teamId": "lundasul",
+    "maId": "002880M04",
+    "fullName": "Tomás Dias",
+    "name": "Angola"
+  },
+  {
+    "playerId": "neblu",
+    "teamId": "petro",
+    "maId": "000430M93",
+    "fullName": "Adilson Cipriano da Cruz",
+    "name": "Neblú"
+  },
+  {
+    "playerId": "tiago-azulao",
+    "teamId": "petro",
+    "maId": "000384M88",
+    "fullName": "TIAGO LIMA LEAL",
+    "name": "Tiago Azulão"
+  },
+  {
+    "playerId": "ruben-aderito",
+    "teamId": "petro",
+    "maId": "000725M03",
+    "fullName": "Ruben Constantino Adérito",
+    "name": "Rúben Adérito"
+  },
+  {
+    "playerId": "leo-bolgado",
+    "teamId": "petro",
+    "maId": "008899M98",
+    "fullName": "LEONARDO DA COSTA BOLGADO",
+    "name": "Léo Bolgado"
+  },
+  {
+    "playerId": "mario-balburdia",
+    "teamId": "petro",
+    "maId": "008903M97",
+    "fullName": "MÁRIO CÉSAR AZEVEDO ALVES BALBÚRDIA",
+    "name": "Mário Balbúrdia"
+  },
+  {
+    "playerId": "ivan-cavaleiro",
+    "teamId": "petro",
+    "maId": "008901M93",
+    "fullName": "IVAN RICARDO NEVES ABREU CAVALEIRO",
+    "name": "Ivan Cavaleiro"
+  },
+  {
+    "playerId": "jonathan-toro",
+    "teamId": "petro",
+    "maId": "002920M96",
+    "fullName": "JONATHAN JOSUE RUBIO TORO",
+    "name": "Jonathan Toro"
+  },
+  {
+    "playerId": "pedro-aparicio",
+    "teamId": "petro",
+    "maId": "005283M95",
+    "fullName": "PEDRO MIGUEL SANTOS APARÍCIO",
+    "name": "Pedro Aparício"
+  },
+  {
+    "playerId": "deybi-flores",
+    "teamId": "petro",
+    "maId": "008900M96",
+    "fullName": "DEYBI ALDAIR FLORES FLORES",
+    "name": "Deybi Flores"
+  },
+  {
+    "playerId": "berna",
+    "teamId": "petro",
+    "maId": "008895M03",
+    "fullName": "BERNARDO SILVA DA CONCEIÇÃO",
+    "name": "Berna"
+  },
+  {
+    "playerId": "eddie-afonso",
+    "teamId": "petro",
+    "maId": "000398M94",
+    "fullName": "EDDIE MARCOS MELO AFONSO",
+    "name": "Eddie Afonso"
+  },
+  {
+    "playerId": "hugo-marques",
+    "teamId": "petro",
+    "maId": "000376M86",
+    "fullName": "HUGO MIGUEL BARRETO HENRIQUES MARQUES",
+    "name": "Hugo Marques"
+  },
+  {
+    "playerId": "nurio-fortuna",
+    "teamId": "petro",
+    "maId": "008892M95",
+    "fullName": "NURIO DOMINGOS MATIAS FORTUNA",
+    "name": "Núrio Fortuna"
+  },
+  {
+    "playerId": "helder-costa",
+    "teamId": "petro",
+    "maId": "008891M94",
+    "fullName": "HÉLDER WANDER SOUSA DE AZEVEDO COSTA",
+    "name": "Hélder Costa"
+  },
+  {
+    "playerId": "vidinho",
+    "teamId": "petro",
+    "maId": "001019M98",
+    "fullName": "VICTOR PEDRO NANQUE",
+    "name": "Vidinho"
+  },
+  {
+    "playerId": "jorge-pereira",
+    "teamId": "petro",
+    "maId": "007211M98",
+    "fullName": "JORGE JAVIER MOREIRA PEREIRA",
+    "name": "Jorge Pereira"
+  },
+  {
+    "playerId": "tiago-reis",
+    "teamId": "petro",
+    "maId": "007212M99",
+    "fullName": "TIAGO RODRIGUES DOS REIS",
+    "name": "Tiago Reis"
+  },
+  {
+    "playerId": "antonio-hossi",
+    "teamId": "petro",
+    "maId": "000427M01",
+    "fullName": "Antonio da Silva Chitanga Hossi",
+    "name": "António Hossi"
+  },
+  {
+    "playerId": "depu",
+    "teamId": "petro",
+    "maId": "000454M00",
+    "fullName": "LAURINDO DILSON MARIA AURÉLIO",
+    "name": "Depú"
+  },
+  {
+    "playerId": "ilidio-panda",
+    "teamId": "petro",
+    "maId": "002657M08",
+    "fullName": "ILÍDIO AUGUSTO BUNGA PANDA",
+    "name": "Ilídio Panda"
+  },
+  {
+    "playerId": "nathan-bravos",
+    "teamId": "bravos",
+    "maId": "000646M01",
+    "fullName": "MANUEL POMBOLO ANTÓNIO",
+    "name": "Nathan"
+  },
+  {
+    "playerId": "manico-bravos",
+    "teamId": "bravos",
+    "maId": "000958M95",
+    "fullName": "Luis Gonçalves",
+    "name": "Manico"
+  },
+  {
+    "playerId": "denilson-bravos",
+    "teamId": "bravos",
+    "maId": "000369M03",
+    "fullName": "DANILSON JOSÉ PEDRO ALBERTO",
+    "name": "Denilson"
+  },
+  {
+    "playerId": "abrao-bravos",
+    "teamId": "bravos",
+    "maId": "000424M02",
+    "fullName": "Jeronimo Mendes Abrao",
+    "name": "Abrão"
+  },
+  {
+    "playerId": "cueta-bravos",
+    "teamId": "bravos",
+    "maId": "005446M05",
+    "fullName": "MIGUEL JOSÉ SEBASTIÃO",
+    "name": "Cueta"
+  },
+  {
+    "playerId": "ju-cabral-bravos",
+    "teamId": "bravos",
+    "maId": "001078M99",
+    "fullName": "Eric Manuel Gouveia Cabral",
+    "name": "Ju Cabral"
+  },
+  {
+    "playerId": "jorginho-bravos",
+    "teamId": "bravos",
+    "maId": "000488M98",
+    "fullName": "JORGE CORREIA",
+    "name": "Jorginho"
+  },
+  {
+    "playerId": "bani-bravos",
+    "teamId": "bravos",
+    "maId": "001093M96",
+    "fullName": "Joffre Faztudo",
+    "name": "Bani"
+  },
+  {
+    "playerId": "lito-bravos",
+    "teamId": "bravos",
+    "maId": "001251M04",
+    "fullName": "LUÍS CAETANO PAQUETE",
+    "name": "Lito"
+  },
+  {
+    "playerId": "caprego-bravos",
+    "teamId": "bravos",
+    "maId": "000566M01",
+    "fullName": "FILIPE PREGO CANDUMBO",
+    "name": "Caprego"
+  },
+  {
+    "playerId": "dabanda-bravos",
+    "teamId": "bravos",
+    "maId": "001145M97",
+    "fullName": "OLIVEIRA ANTONIO",
+    "name": "Dabanda"
+  },
+  {
+    "playerId": "fifa-1m9kim9",
+    "teamId": "bravos",
+    "maId": "002798M06",
+    "fullName": "Yubanis Joao",
+    "name": "Yubanis Joao"
+  },
+  {
+    "playerId": "fifa-1k0rpz2",
+    "teamId": "bravos",
+    "maId": "000772M98",
+    "fullName": "BRUNO TRINDADE",
+    "name": "Bruno Trindade"
+  },
+  {
+    "playerId": "fifa-1v0f2v0",
+    "teamId": "bravos",
+    "maId": "008948M04",
+    "fullName": "ANTONIO JOSE",
+    "name": "Antonio Jose"
+  },
+  {
+    "playerId": "agnaldo-bravos",
+    "teamId": "bravos",
+    "maId": "001731M01",
+    "fullName": "Agnaldo Emerson Catanga Agnaldo",
+    "name": "Agnaldo"
+  },
+  {
+    "playerId": "higino-bravos",
+    "teamId": "bravos",
+    "maId": "000728M01",
+    "fullName": "Higino Kaptingo Epalanga",
+    "name": "Higino Kaptingo Epalanga"
+  },
+  {
+    "playerId": "bravos-player-3",
+    "teamId": "bravos",
+    "maId": "000717M01",
+    "fullName": "Belito Batalha Messias Lionardo",
+    "name": "Lionardo"
+  },
+  {
+    "playerId": "tiago-bravos",
+    "teamId": "bravos",
+    "maId": "003075M02",
+    "fullName": "Tiago Uzana Fota",
+    "name": "Fota"
+  },
+  {
+    "playerId": "eduwine-bravos",
+    "teamId": "bravos",
+    "maId": "002715M03",
+    "fullName": "Eduwine Alfredo Dos Vantrier Lourenço",
+    "name": "Eduwine"
+  },
+  {
+    "playerId": "gladilson-bravos",
+    "teamId": "bravos",
+    "maId": "002950M01",
+    "fullName": "GASTÃO TANGU",
+    "name": "Gladilson"
+  },
+  {
+    "playerId": "fifa-1m8y3d4",
+    "teamId": "bravos",
+    "maId": "002718M05",
+    "fullName": "Edmilson Paulo Generoso",
+    "name": "Edmilson Generoso"
+  },
+  {
+    "playerId": "leonardo-sagrada",
+    "teamId": "sagrada",
+    "maId": "000354M97",
+    "fullName": "LEONARDO ARMANDO MUTUNDA",
+    "name": "Leonardo"
+  },
+  {
+    "playerId": "dabanda-sagrada",
+    "teamId": "sagrada",
+    "maId": "000718M94",
+    "fullName": "Felisberto Dala Sebastiao",
+    "name": "Sebastiao"
+  },
+  {
+    "playerId": "miguel-sagrada",
+    "teamId": "sagrada",
+    "maId": "007614M00",
+    "fullName": "MIGUEL ANSELMO BASILIO DANIEL",
+    "name": "Miguel"
+  },
+  {
+    "playerId": "jorge-sagrada",
+    "teamId": "sagrada",
+    "maId": "000962M02",
+    "fullName": "JORGE TXANDO FRANCISCO LUCUSSA",
+    "name": "Francisco Lucussa"
+  },
+  {
+    "playerId": "lepua-sagrada",
+    "teamId": "sagrada",
+    "maId": "000345M99",
+    "fullName": "SIMONE EDUARDO ASSA MIRANDA",
+    "name": "Miranda"
+  },
+  {
+    "playerId": "tobias-sagrada",
+    "teamId": "sagrada",
+    "maId": "000961M89",
+    "fullName": "Bartolomeu Domingos",
+    "name": "Tobias"
+  },
+  {
+    "playerId": "pimpao-sagrada",
+    "teamId": "sagrada",
+    "maId": "000788M02",
+    "fullName": "Filipe Pimpao",
+    "name": "Pimpão"
+  },
+  {
+    "playerId": "gogoro-sagrada",
+    "teamId": "sagrada",
+    "maId": "001068M95",
+    "fullName": "Joao Ngunza Muanha",
+    "name": "Muanha"
+  },
+  {
+    "playerId": "luis-tati-sagrada",
+    "teamId": "sagrada",
+    "maId": "000350M92",
+    "fullName": "LUIS BUMBA TATI",
+    "name": "Tati"
+  },
+  {
+    "playerId": "afonso-sagrada",
+    "teamId": "sagrada",
+    "maId": "000938M00",
+    "fullName": "AFONSO MARQUES",
+    "name": "Afonso"
+  },
+  {
+    "playerId": "cahilo-sagrada",
+    "teamId": "sagrada",
+    "maId": "004426M06",
+    "fullName": "HAHILO SAPALO ALBERTO",
+    "name": "Cahilo"
+  },
+  {
+    "playerId": "manuel-sagrada",
+    "teamId": "sagrada",
+    "maId": "001090M94",
+    "fullName": "MANUEL VUNGE",
+    "name": "Manuel"
+  },
+  {
+    "playerId": "evaristo-sagrada",
+    "teamId": "sagrada",
+    "maId": "000322M95",
+    "fullName": "EVARISTO KAPUNGE",
+    "name": "Evaristo"
+  },
+  {
+    "playerId": "guilherme-sagrada",
+    "teamId": "sagrada",
+    "maId": "000359M95",
+    "fullName": "GUILHERME FRANCISCO SAIENDO CABUÇO",
+    "name": "Cabuço"
+  },
+  {
+    "playerId": "melono-sagrada",
+    "teamId": "sagrada",
+    "maId": "000418M01",
+    "fullName": "Melone Moundo Dala",
+    "name": "Dala"
+  },
+  {
+    "playerId": "nsesani-sagrada",
+    "teamId": "sagrada",
+    "maId": "007245M00",
+    "fullName": "NSESANI EMANUEL SIMÃO",
+    "name": "Simão"
+  },
+  {
+    "playerId": "silvano-sagrada",
+    "teamId": "sagrada",
+    "maId": "002193M01",
+    "fullName": "Silvano Mauro Dos Santos Dos Santos",
+    "name": "Silvano"
+  },
+  {
+    "playerId": "barreira-sagrada",
+    "teamId": "sagrada",
+    "maId": "001099M98",
+    "fullName": "Barreira Paulo",
+    "name": "Barreira"
+  },
+  {
+    "playerId": "sapalo-sagrada",
+    "teamId": "sagrada",
+    "maId": "002712M04",
+    "fullName": "SAPALO CAIPUZO MAURÍCIO ANDRÉ",
+    "name": "Maurício André"
+  },
+  {
+    "playerId": "francisco-cabinda",
+    "teamId": "cabinda",
+    "maId": "002305M03",
+    "fullName": "FRANCISCO DOMINGAS CHICAPA",
+    "name": "Francisco"
+  },
+  {
+    "playerId": "rodrigo-cabinda",
+    "teamId": "cabinda",
+    "maId": "000906M95",
+    "fullName": "Rodrigo dos Santos Ngimbi",
+    "name": "Rodrigo"
+  },
+  {
+    "playerId": "gedeon-cabinda",
+    "teamId": "cabinda",
+    "maId": "003021M00",
+    "fullName": "Gedeon Macosso Mananga",
+    "name": "Gedeon"
+  },
+  {
+    "playerId": "marcos-cabinda",
+    "teamId": "cabinda",
+    "maId": "002935M04",
+    "fullName": "Marcos Lando",
+    "name": "Marcos"
+  },
+  {
+    "playerId": "cristiano-cabinda",
+    "teamId": "cabinda",
+    "maId": "000885M97",
+    "fullName": "Cristiano Malonda",
+    "name": "Cristiano Malonda"
+  },
+  {
+    "playerId": "antonio-cabinda",
+    "teamId": "cabinda",
+    "maId": "003077M00",
+    "fullName": "António Makiobo Mbungo",
+    "name": "António"
+  },
+  {
+    "playerId": "julio-cabinda",
+    "teamId": "cabinda",
+    "maId": "000896M02",
+    "fullName": "Júlio Mavungo André",
+    "name": "Júlio Mavungo André"
+  },
+  {
+    "playerId": "jose-cabinda",
+    "teamId": "cabinda",
+    "maId": "000903M93",
+    "fullName": "Jose Pitra Ieze Manteiga",
+    "name": "José"
+  },
+  {
+    "playerId": "frederico-cabinda",
+    "teamId": "cabinda",
+    "maId": "000328M97",
+    "fullName": "FREDERICO ZAU",
+    "name": "Frederico Zau"
+  },
+  {
+    "playerId": "fernando-cabinda",
+    "teamId": "cabinda",
+    "maId": "002058M05",
+    "fullName": "FERNANDO MATOMBE BAZONGA",
+    "name": "Fernando"
+  },
+  {
+    "playerId": "ariclenis-cabinda",
+    "teamId": "cabinda",
+    "maId": "000910M03",
+    "fullName": "Ariclenis Afonso Araújo Lede",
+    "name": "Ariclenis Afonso Araújo Lede"
+  },
+  {
+    "playerId": "fifa-1lk64f5",
+    "teamId": "cabinda",
+    "maId": "002297M97",
+    "fullName": "MARIO ANTONIO BUMBA",
+    "name": "Mario Bumba"
+  },
+  {
+    "playerId": "fifa-1k2q5n7",
+    "teamId": "cabinda",
+    "maId": "001084M93",
+    "fullName": "Costa Miguel Domingos Titi",
+    "name": "Costa Titi"
+  },
+  {
+    "playerId": "fifa-1tc8vr0",
+    "teamId": "cabinda",
+    "maId": "007602M07",
+    "fullName": "CORNELIO QUEBA LELO BAPTISTA",
+    "name": "Cornelio Baptista"
+  },
+  {
+    "playerId": "fifa-1tctji1",
+    "teamId": "cabinda",
+    "maId": "007610M98",
+    "fullName": "JOSÉ ESPANHOL CARDOSO BRÁS",
+    "name": "José Brás"
+  },
+  {
+    "playerId": "fifa-1lk64m0",
+    "teamId": "cabinda",
+    "maId": "002301M94",
+    "fullName": "JAIME DA GRACA MALONDA BUANGE",
+    "name": "Jaime Buange"
+  },
+  {
+    "playerId": "fifa-1pnmr23",
+    "teamId": "cabinda",
+    "maId": "004713M06",
+    "fullName": "Luís Liberal Lemos Casimiro Casimiro",
+    "name": "Luís Casimiro"
+  },
+  {
+    "playerId": "fifa-1qf3qj8",
+    "teamId": "cabinda",
+    "maId": "005543M04",
+    "fullName": "ARSENIO MUANDA",
+    "name": "Arsenio Muanda"
+  },
+  {
+    "playerId": "beny-libolo",
+    "teamId": "libolo",
+    "maId": "001918M02",
+    "fullName": "Bernardo Lomanda kamutcha Gunda",
+    "name": "Beny"
+  },
+  {
+    "playerId": "maninho-libolo",
+    "teamId": "libolo",
+    "maId": "001041M96",
+    "fullName": "ADELINO WIMA CALUNHI ANTONIO",
+    "name": "Maninho"
+  },
+  {
+    "playerId": "marcos-libolo",
+    "teamId": "libolo",
+    "maId": "003692M98",
+    "fullName": "MARCOS BENUA",
+    "name": "Marcos"
+  },
+  {
+    "playerId": "toti-libolo",
+    "teamId": "libolo",
+    "maId": "001797M95",
+    "fullName": "ARISTOTES KINGUI MAKANI",
+    "name": "Toti"
+  },
+  {
+    "playerId": "chimito-libolo",
+    "teamId": "libolo",
+    "maId": "000884M00",
+    "fullName": "GERSON FRANCISCO CHIMBELE DA COSTA",
+    "name": "Chimito"
+  },
+  {
+    "playerId": "tchube-libolo",
+    "teamId": "libolo",
+    "maId": "001094M91",
+    "fullName": "Ilidio da Silva",
+    "name": "Tchube"
+  },
+  {
+    "playerId": "andeloy-libolo",
+    "teamId": "libolo",
+    "maId": "001106M01",
+    "fullName": "Andre Alexandre",
+    "name": "Andeloy"
+  },
+  {
+    "playerId": "nelo-libolo",
+    "teamId": "libolo",
+    "maId": "000979M01",
+    "fullName": "Manuel Manjolo",
+    "name": "Nelo"
+  },
+  {
+    "playerId": "pedro-libolo",
+    "teamId": "libolo",
+    "maId": "008940M04",
+    "fullName": "PEDRO AFONSO MASSAKI",
+    "name": "Pedro"
+  },
+  {
+    "playerId": "cuxixima-libolo",
+    "teamId": "libolo",
+    "maId": "003307M00",
+    "fullName": "Edmilson Joao Francisco Cuxixima",
+    "name": "Cuxixima"
+  },
+  {
+    "playerId": "tubarao-libolo",
+    "teamId": "libolo",
+    "maId": "001684M01",
+    "fullName": "Joel Kaluvala Alexandre Lucamba",
+    "name": "Tubarão"
+  },
+  {
+    "playerId": "jorgito-libolo",
+    "teamId": "libolo",
+    "maId": "002078M07",
+    "fullName": "JORGE MATEQUE",
+    "name": "Jorgito"
+  },
+  {
+    "playerId": "jamanta-libolo",
+    "teamId": "libolo",
+    "maId": "007243M00",
+    "fullName": "JOSÉ BATALHA",
+    "name": "Jamanta"
+  },
+  {
+    "playerId": "mario-libolo",
+    "teamId": "libolo",
+    "maId": "005427M06",
+    "fullName": "João Mário Justino Jamba",
+    "name": "Mário"
+  },
+  {
+    "playerId": "zidane-libolo",
+    "teamId": "libolo",
+    "maId": "003627M98",
+    "fullName": "Zidan Bernardo António Francisco",
+    "name": "Zidane"
+  },
+  {
+    "playerId": "catraio-libolo",
+    "teamId": "libolo",
+    "maId": "000432M98",
+    "fullName": "Zinadine Zidane Moises Catraio",
+    "name": "Catraio"
+  },
+  {
+    "playerId": "miro-libolo",
+    "teamId": "libolo",
+    "maId": "002983M01",
+    "fullName": "Salomão Mukanda",
+    "name": "Miro"
+  },
+  {
+    "playerId": "lara-libolo",
+    "teamId": "libolo",
+    "maId": "000730M92",
+    "fullName": "Manuel Jacinto Domingos",
+    "name": "Lara"
+  },
+  {
+    "playerId": "nuno-dago",
+    "teamId": "dago",
+    "maId": "000634M01",
+    "fullName": "FERNANDO LOPES DE ALMEIDA",
+    "name": "Nuno"
+  },
+  {
+    "playerId": "bonifacio-dago",
+    "teamId": "dago",
+    "maId": "000423M93",
+    "fullName": "Bonifacio Francisco Caetano",
+    "name": "Bonifácio"
+  },
+  {
+    "playerId": "milton-dago",
+    "teamId": "dago",
+    "maId": "005431M03",
+    "fullName": "MILTON ANTONIO CANDIDO",
+    "name": "Milton"
+  },
+  {
+    "playerId": "simao-dianzenza",
+    "teamId": "dago",
+    "maId": "000451M99",
+    "fullName": "Simao Dianzenza",
+    "name": "Simao Dianzenza"
+  },
+  {
+    "playerId": "mabilson-dago",
+    "teamId": "dago",
+    "maId": "005428M02",
+    "fullName": "ANTONIO FRANCISCO DOMINGOS",
+    "name": "Mabilson"
+  },
+  {
+    "playerId": "rupson-dago",
+    "teamId": "dago",
+    "maId": "000843M94",
+    "fullName": "Florindo Machado",
+    "name": "Rupson"
+  },
+  {
+    "playerId": "calebi-dago",
+    "teamId": "dago",
+    "maId": "000327M99",
+    "fullName": "CALEBI YANDA",
+    "name": "Calebi"
+  },
+  {
+    "playerId": "fernando-dago",
+    "teamId": "dago",
+    "maId": "004963M05",
+    "fullName": "Fernando Inácio Costa",
+    "name": "Fernando"
+  },
+  {
+    "playerId": "venancio-dago",
+    "teamId": "dago",
+    "maId": "000436M95",
+    "fullName": "Venancio Landu kukula",
+    "name": "Venâncio"
+  },
+  {
+    "playerId": "macaia-dago",
+    "teamId": "dago",
+    "maId": "001997M94",
+    "fullName": "Jose Macaia ganga",
+    "name": "Macaia"
+  },
+  {
+    "playerId": "dago-tshibamba",
+    "teamId": "dago",
+    "maId": "000441M97",
+    "fullName": "Samu Tshibamba Dago",
+    "name": "Dagó Tshibamba"
+  },
+  {
+    "playerId": "bruno-dago",
+    "teamId": "dago",
+    "maId": "000437M95",
+    "fullName": "Bruno de Jesus Manuel",
+    "name": "Bruno"
+  },
+  {
+    "playerId": "axel-dago",
+    "teamId": "dago",
+    "maId": "002187M03",
+    "fullName": "Axel Gaudêncio Mabaqui de Sousa Axel",
+    "name": "Axel"
+  },
+  {
+    "playerId": "obed-dago",
+    "teamId": "dago",
+    "maId": "003026M94",
+    "fullName": "Obed Mayamb Mukokiani Obed",
+    "name": "Obed"
+  },
+  {
+    "playerId": "cliver-dago",
+    "teamId": "dago",
+    "maId": "002767M04",
+    "fullName": "Cliver Camango Andre",
+    "name": "Clíver"
+  },
+  {
+    "playerId": "tombe-dago",
+    "teamId": "dago",
+    "maId": "001234M00",
+    "fullName": "Francisco Carlos Chilumbo",
+    "name": "Tombé"
+  },
+  {
+    "playerId": "anselmo-dago",
+    "teamId": "dago",
+    "maId": "001210M98",
+    "fullName": "ANSELMO MWENI",
+    "name": "Anselmo"
+  },
+  {
+    "playerId": "castro-dago",
+    "teamId": "dago",
+    "maId": "000978M01",
+    "fullName": "Carvalho dos Santos",
+    "name": "Castro"
+  },
+  {
+    "playerId": "bulaya-dago",
+    "teamId": "dago",
+    "maId": "007639M96",
+    "fullName": "Felix Bulaya",
+    "name": "Bulaya"
+  },
+  {
+    "playerId": "bencao-dago",
+    "teamId": "dago",
+    "maId": "005429M03",
+    "fullName": "BENÇÃO NBONGO EVARISTO NZINGA",
+    "name": "Benção"
+  },
+  {
+    "playerId": "ndulo-huila",
+    "teamId": "desphuila",
+    "maId": "000960M96",
+    "fullName": "Cristóvão Simão",
+    "name": "Ndulo"
+  },
+  {
+    "playerId": "elias-huila",
+    "teamId": "desphuila",
+    "maId": "000844M92",
+    "fullName": "Elias Daniel",
+    "name": "Elias"
+  },
+  {
+    "playerId": "katendi-huila",
+    "teamId": "desphuila",
+    "maId": "000940M04",
+    "fullName": "NSAMBO KATENDI",
+    "name": "Katendi"
+  },
+  {
+    "playerId": "dos-santos-huila",
+    "teamId": "desphuila",
+    "maId": "003460M04",
+    "fullName": "ANTONIO DOS SANTOS FUTILA KINANGA",
+    "name": "Dos Santos"
+  },
+  {
+    "playerId": "mendes-huila",
+    "teamId": "desphuila",
+    "maId": "000846M96",
+    "fullName": "José Mendes",
+    "name": "Mendes"
+  },
+  {
+    "playerId": "lucas-elias-huila",
+    "teamId": "desphuila",
+    "maId": "001158M05",
+    "fullName": "LUCAS ELIAS ANTONIO PAULO",
+    "name": "Ludy"
+  },
+  {
+    "playerId": "milton-suca-huila",
+    "teamId": "desphuila",
+    "maId": "000458M96",
+    "fullName": "MILTON ALBERTO DE OLIVEIRA SUCA",
+    "name": "Milton"
+  },
+  {
+    "playerId": "angelo-cangu-huila",
+    "teamId": "desphuila",
+    "maId": "000853M98",
+    "fullName": "Angelo Cangu",
+    "name": "Angelo Cangu (Tchutchu)"
+  },
+  {
+    "playerId": "milagre-simba-huila",
+    "teamId": "desphuila",
+    "maId": "006020M95",
+    "fullName": "Milagre Carlos Simba",
+    "name": "Milagre Carlos Simba"
+  },
+  {
+    "playerId": "jeremias-huila",
+    "teamId": "desphuila",
+    "maId": "000823M02",
+    "fullName": "Jeremias Pedro",
+    "name": "Jeremias"
+  },
+  {
+    "playerId": "tchicundico-huila",
+    "teamId": "desphuila",
+    "maId": "001412M02",
+    "fullName": "Constantino Tchicundico Cassoma Tchitunda",
+    "name": "Tchicundico Cassoma Tchitunda (Constantino)"
+  },
+  {
+    "playerId": "joao-milagre-huila",
+    "teamId": "desphuila",
+    "maId": "001232M98",
+    "fullName": "JOÃO MILAGRE CHIVA SIMÕES",
+    "name": "Jo"
+  },
+  {
+    "playerId": "leonardo-isola-huila",
+    "teamId": "desphuila",
+    "maId": "000447M92",
+    "fullName": "LEONARDO MANUEL ISOLA RAMOS",
+    "name": "Cabibi"
+  },
+  {
+    "playerId": "mauricio-pedro-huila",
+    "teamId": "desphuila",
+    "maId": "000822M02",
+    "fullName": "Mauricio Pedro",
+    "name": "Mauricio Pedro (Jeizi)"
+  },
+  {
+    "playerId": "passy-huila",
+    "teamId": "desphuila",
+    "maId": "000817M01",
+    "fullName": "Emanuel Laurindo",
+    "name": "Passy"
+  },
+  {
+    "playerId": "toyzinho-huila",
+    "teamId": "desphuila",
+    "maId": "000819M00",
+    "fullName": "Duarte Kapoela",
+    "name": "Toyzinho"
+  },
+  {
+    "playerId": "antonio-huila",
+    "teamId": "desphuila",
+    "maId": "000959M96",
+    "fullName": "António Pena",
+    "name": "António"
+  },
+  {
+    "playerId": "pequenino-castro-huila",
+    "teamId": "desphuila",
+    "maId": "000845M93",
+    "fullName": "Pequenino Castro",
+    "name": "Pequenino Castro (Cagodo)"
+  },
+  {
+    "playerId": "joao-samazanga-huila",
+    "teamId": "desphuila",
+    "maId": "006317M06",
+    "fullName": "João Baptista Ferraz Samazanga Juny",
+    "name": "João Baptista Ferraz Samazanga Juny (Jony)"
+  },
+  {
+    "playerId": "geovany-huila",
+    "teamId": "desphuila",
+    "maId": "008904M03",
+    "fullName": "Mirovaldo da Silva vandunem",
+    "name": "Geovany"
+  },
+  {
+    "playerId": "fifa-1l7wk59",
+    "teamId": "fcluanda",
+    "maId": "001566M05",
+    "fullName": "LUDIAKUENO AFONSO",
+    "name": "Ludiakueno"
+  },
+  {
+    "playerId": "fifa-1k2wth5",
+    "teamId": "fcluanda",
+    "maId": "001100M93",
+    "fullName": "Filipe Malanda",
+    "name": "Filipe Malanda"
+  },
+  {
+    "playerId": "fifa-1qhqn96",
+    "teamId": "fcluanda",
+    "maId": "005756M94",
+    "fullName": "Joel Diaku",
+    "name": "Joel Diaku"
+  },
+  {
+    "playerId": "fifa-1ljudk2",
+    "teamId": "fcluanda",
+    "maId": "002190M99",
+    "fullName": "Gelson Dos Santos André Gelson",
+    "name": "Gelson André"
+  },
+  {
+    "playerId": "fifa-1l7lph0",
+    "teamId": "fcluanda",
+    "maId": "001538M06",
+    "fullName": "DENILSON ,MAKOKISA",
+    "name": "Denilson"
+  },
+  {
+    "playerId": "fifa-1t6b2z2",
+    "teamId": "fcluanda",
+    "maId": "007431M06",
+    "fullName": "RUBEN CRISTIANO MBALA LUWAWA",
+    "name": "Ruben Luwawa"
+  },
+  {
+    "playerId": "fifa-1m8xdu3",
+    "teamId": "fcluanda",
+    "maId": "002707M03",
+    "fullName": "Arnaldo Dielo",
+    "name": "Arnaldo Dielo"
+  },
+  {
+    "playerId": "fifa-1l064e1",
+    "teamId": "fcluanda",
+    "maId": "001326M06",
+    "fullName": "MIGUEL NZAU MANUEL MATOS",
+    "name": "Miguel Matos"
+  },
+  {
+    "playerId": "fifa-1l08hy2",
+    "teamId": "fcluanda",
+    "maId": "001336M04",
+    "fullName": "DOMINGOS BANGULA",
+    "name": "Domingos"
+  },
+  {
+    "playerId": "fifa-1qw3z14",
+    "teamId": "fcluanda",
+    "maId": "006197M05",
+    "fullName": "Celio Nimi",
+    "name": "Celio Nimi"
+  },
+  {
+    "playerId": "fifa-1qw9vb1",
+    "teamId": "fcluanda",
+    "maId": "006241M07",
+    "fullName": "JAIME CAETANO",
+    "name": "Jaime"
+  },
+  {
+    "playerId": "fifa-1t6azn3",
+    "teamId": "fcluanda",
+    "maId": "007427M02",
+    "fullName": "JOAO MADUVO CAPITA CAFULA",
+    "name": "Joao Cafula"
+  },
+  {
+    "playerId": "fifa-1ljvmr0",
+    "teamId": "fcluanda",
+    "maId": "002208M01",
+    "fullName": "Jonilson José Manuel Manuel",
+    "name": "Jonilson Manuel"
+  },
+  {
+    "playerId": "fifa-1liwnq8",
+    "teamId": "fcluanda",
+    "maId": "002014M04",
+    "fullName": "PEDRO PAULO",
+    "name": "Pedro"
+  },
+  {
+    "playerId": "fifa-1l11132",
+    "teamId": "fcluanda",
+    "maId": "001357M05",
+    "fullName": "FRANCISCO CHIQUINHO",
+    "name": "Francisco"
+  },
+  {
+    "playerId": "fifa-1mall47",
+    "teamId": "fcluanda",
+    "maId": "002901M07",
+    "fullName": "DOMINGOS ANDRE",
+    "name": "Domingos"
+  },
+  {
+    "playerId": "fifa-1l7w9k9",
+    "teamId": "fcluanda",
+    "maId": "001560M03",
+    "fullName": "DEO YOKA",
+    "name": "Deo"
+  },
+  {
+    "playerId": "fifa-1k0rp19",
+    "teamId": "fcluanda",
+    "maId": "000770M91",
+    "fullName": "Estevao Cahoko",
+    "name": "Estevao Cahoko"
+  },
+  {
+    "playerId": "fifa-1v0ca42",
+    "teamId": "fcluanda",
+    "maId": "008947M05",
+    "fullName": "BATISTA JÁO KACHAMA KACHAMA",
+    "name": "Batista Kachama"
+  },
+  {
+    "playerId": "fifa-1k002p8",
+    "teamId": "caala",
+    "maId": "000721M90",
+    "fullName": "Landu Mavanga",
+    "name": "Landu"
+  },
+  {
+    "playerId": "fifa-1k0r4w6",
+    "teamId": "caala",
+    "maId": "000763M97",
+    "fullName": "Hermenegildo Sandumbo",
+    "name": "Valente"
+  },
+  {
+    "playerId": "fifa-1t647t5",
+    "teamId": "caala",
+    "maId": "007412M04",
+    "fullName": "valentim sacuvale",
+    "name": "Valentim Sacuvale"
+  },
+  {
+    "playerId": "fifa-1lb66s2",
+    "teamId": "caala",
+    "maId": "001694M05",
+    "fullName": "ALBANO KUPENALA",
+    "name": "Albano Kupenala"
+  },
+  {
+    "playerId": "fifa-1js6nr7",
+    "teamId": "caala",
+    "maId": "000428M96",
+    "fullName": "Domingos Lourenço Cuxixima",
+    "name": "Domingos Cuxixima"
+  },
+  {
+    "playerId": "fifa-1jwgzb2",
+    "teamId": "caala",
+    "maId": "000521M99",
+    "fullName": "ARILSON DE CEITA PEREIRA JORGE",
+    "name": "Arilson Jorge"
+  },
+  {
+    "playerId": "fifa-1jsrqb0",
+    "teamId": "caala",
+    "maId": "000462M95",
+    "fullName": "MARIANO DA COSTA VIDAL",
+    "name": "Mariano Vidal"
+  },
+  {
+    "playerId": "fifa-1lda172",
+    "teamId": "caala",
+    "maId": "001763M95",
+    "fullName": "Benedito Antunes",
+    "name": "Benedito Antunes"
+  },
+  {
+    "playerId": "fifa-1muvv97",
+    "teamId": "caala",
+    "maId": "003157M01",
+    "fullName": "Manuel Zange Miguel",
+    "name": "Manuel Miguel"
+  },
+  {
+    "playerId": "lisneu-caala",
+    "teamId": "caala",
+    "maId": "000691M00",
+    "fullName": "LISNEU EMANUEL NETO SIMAO",
+    "name": "Lisneu Emanuel Neto Simao"
+  },
+  {
+    "playerId": "fifa-1jxikq1",
+    "teamId": "caala",
+    "maId": "000603M93",
+    "fullName": "ABEL SILAS SEQUESSEQUE",
+    "name": "Sequesseque"
+  },
+  {
+    "playerId": "fifa-1jz4pi8",
+    "teamId": "caala",
+    "maId": "000648M01",
+    "fullName": "BENVINDO MIGUEL ANDRÉ AFONSO",
+    "name": "Benvindo Afonso"
+  },
+  {
+    "playerId": "fifa-1kz4es4",
+    "teamId": "caala",
+    "maId": "001215M00",
+    "fullName": "Osvaldo José",
+    "name": "Osvaldo"
+  },
+  {
+    "playerId": "fifa-1k0rem6",
+    "teamId": "caala",
+    "maId": "000768M94",
+    "fullName": "Claúdio Sozinho",
+    "name": "Claúdio Sozinho"
+  },
+  {
+    "playerId": "fifa-1jzj8y2",
+    "teamId": "caala",
+    "maId": "000673M97",
+    "fullName": "FRANCISCO CHITANGA",
+    "name": "Francisco"
+  },
+  {
+    "playerId": "fifa-1l96dj1",
+    "teamId": "caala",
+    "maId": "001592M05",
+    "fullName": "GABRIEL VENANCIO",
+    "name": "Gabriel"
+  },
+  {
+    "playerId": "fifa-1jzhzh1",
+    "teamId": "caala",
+    "maId": "000656M76",
+    "fullName": "Gonçalves Zinho Manico",
+    "name": "Gonçalves Manico"
+  },
+  {
+    "playerId": "fifa-1k2qwk8",
+    "teamId": "caala",
+    "maId": "001086M96",
+    "fullName": "Timoteo Sambissa",
+    "name": "Timoteo Sambissa"
+  },
+  {
+    "playerId": "fifa-1r8lp51",
+    "teamId": "caala",
+    "maId": "006363M99",
+    "fullName": "JOSÉ MANUEL RAUL",
+    "name": "José Raul"
+  },
+  {
+    "playerId": "fifa-1k0ag17",
+    "teamId": "caala",
+    "maId": "000738M91",
+    "fullName": "JOSE AFONSO DOS SANTOS FERNANDO",
+    "name": "Jose Fernando"
+  },
+  {
+    "playerId": "fifa-1k1sg53",
+    "teamId": "primeiromaio",
+    "maId": "000942M00",
+    "fullName": "ANTÓNIO PASCOAL",
+    "name": "António Pascoal"
+  },
+  {
+    "playerId": "fifa-1jyn4k6",
+    "teamId": "primeiromaio",
+    "maId": "000629M86",
+    "fullName": "MÁRCIO ARMANDO GONÇALVES LUVAMBO",
+    "name": "Márcio Luvambo"
+  },
+  {
+    "playerId": "fifa-1k1hkv2",
+    "teamId": "primeiromaio",
+    "maId": "000873M02",
+    "fullName": "MOISES MBUTA DOMINGOS",
+    "name": "Moises Domingos"
+  },
+  {
+    "playerId": "fifa-1jxhxl1",
+    "teamId": "primeiromaio",
+    "maId": "000565M01",
+    "fullName": "ELISEU ANTÓNIO BORGES VARELA",
+    "name": "Eliseu Varela"
+  },
+  {
+    "playerId": "fifa-1jsrcp9",
+    "teamId": "primeiromaio",
+    "maId": "000457M96",
+    "fullName": "MOISÉS ALBERTO CALEPI",
+    "name": "Deco"
+  },
+  {
+    "playerId": "fifa-1mqvbd5",
+    "teamId": "primeiromaio",
+    "maId": "003082M02",
+    "fullName": "Odenir Tavares Pereira Jorge",
+    "name": "Odenir Jorge"
+  },
+  {
+    "playerId": "fifa-1k0c7s4",
+    "teamId": "primeiromaio",
+    "maId": "000747M00",
+    "fullName": "JOSE MARCOS PEREIRA TCHIVINGA",
+    "name": "Jose Tchivinga"
+  },
+  {
+    "playerId": "fifa-1k2pey7",
+    "teamId": "primeiromaio",
+    "maId": "001067M01",
+    "fullName": "Muila Lengo Congolo",
+    "name": "Muila Congolo"
+  },
+  {
+    "playerId": "fifa-1kztk20",
+    "teamId": "primeiromaio",
+    "maId": "001258M01",
+    "fullName": "Luis Simoes Escovalo",
+    "name": "Luis Escovalo"
+  },
+  {
+    "playerId": "fifa-1nb4bp9",
+    "teamId": "primeiromaio",
+    "maId": "003470M02",
+    "fullName": "SIMÃO CULECA GONGA",
+    "name": "Simão Gonga"
+  },
+  {
+    "playerId": "fifa-1jz4j23",
+    "teamId": "primeiromaio",
+    "maId": "000644M00",
+    "fullName": "PAULO BALACA MUTOSSI",
+    "name": "Paulo Mutossi"
+  },
+  {
+    "playerId": "fifa-1m9iby1",
+    "teamId": "primeiromaio",
+    "maId": "002775M03",
+    "fullName": "Miguel Agostinho Dey",
+    "name": "Miguel Dey"
+  },
+  {
+    "playerId": "fifa-1k176e0",
+    "teamId": "primeiromaio",
+    "maId": "000848M96",
+    "fullName": "Rodrigues Muehombo",
+    "name": "Rodrigues Muehombo"
+  },
+  {
+    "playerId": "fifa-1jzjeu2",
+    "teamId": "primeiromaio",
+    "maId": "000676M91",
+    "fullName": "GELSON TELES",
+    "name": "Gelson Teles"
+  },
+  {
+    "playerId": "fifa-1ljh1x4",
+    "teamId": "primeiromaio",
+    "maId": "002162M00",
+    "fullName": "Fernando Mateus Duarte Duarte",
+    "name": "Fernando Duarte"
+  },
+  {
+    "playerId": "fifa-1nd4nn2",
+    "teamId": "primeiromaio",
+    "maId": "003535M02",
+    "fullName": "KIJUNGU KITUMBA FRANCISCO",
+    "name": "Kijungu Francisco"
+  },
+  {
+    "playerId": "fifa-1k1m4e0",
+    "teamId": "primeiromaio",
+    "maId": "000923M00",
+    "fullName": "MALEBANI RABBY",
+    "name": "Malebani Rabby"
+  },
+  {
+    "playerId": "fifa-1nb49x0",
+    "teamId": "primeiromaio",
+    "maId": "003468M02",
+    "fullName": "FRANCISCO NGALANGUI TCHITANE",
+    "name": "Francisco Tchitane"
+  },
+  {
+    "playerId": "fifa-1malez5",
+    "teamId": "primeiromaio",
+    "maId": "002898M04",
+    "fullName": "VICENTE DOMINGOS",
+    "name": "Vicente Domingos"
+  },
+  {
+    "playerId": "fifa-1nb4dq1",
+    "teamId": "primeiromaio",
+    "maId": "003471M02",
+    "fullName": "JOAQUIM KANHIHI TCHINGOMBE",
+    "name": "Joaquim Tchingombe"
+  },
+  {
+    "playerId": "fifa-1jrtva7",
+    "teamId": "kabuscorp",
+    "maId": "000392M98",
+    "fullName": "AUGUSTO MONTEIRO MUALUCANO",
+    "name": "Augusto Mualucano"
+  },
+  {
+    "playerId": "fifa-1mppsb5",
+    "teamId": "kabuscorp",
+    "maId": "003056M99",
+    "fullName": "Henock Mangindula",
+    "name": "Henock Mangindula"
+  },
+  {
+    "playerId": "fifa-1k4a836",
+    "teamId": "kabuscorp",
+    "maId": "001136M01",
+    "fullName": "Zamorano Lopes",
+    "name": "Zamorano Lopes"
+  },
+  {
+    "playerId": "fifa-1jyp8v8",
+    "teamId": "kabuscorp",
+    "maId": "000631M97",
+    "fullName": "ELISEU CABANGA",
+    "name": "Eliseu"
+  },
+  {
+    "playerId": "fifa-1lgpgy7",
+    "teamId": "kabuscorp",
+    "maId": "001833M03",
+    "fullName": "ADAIR GARCIA DOMINGOS",
+    "name": "Adair Domingos"
+  },
+  {
+    "playerId": "fifa-1snb179",
+    "teamId": "kabuscorp",
+    "maId": "007238M00",
+    "fullName": "Saombe Sukuakueche Ángelo Jorge",
+    "name": "Saombe Jorge"
+  },
+  {
+    "playerId": "fifa-1n3uhm6",
+    "teamId": "kabuscorp",
+    "maId": "003262M05",
+    "fullName": "BAYALA NSIMBA",
+    "name": "Bayala Nsimba"
+  },
+  {
+    "playerId": "fifa-1k2pk58",
+    "teamId": "kabuscorp",
+    "maId": "001072M96",
+    "fullName": "José Semedo Vunge",
+    "name": "José Vunge"
+  },
+  {
+    "playerId": "fifa-1jm7zr2",
+    "teamId": "kabuscorp",
+    "maId": "000326M99",
+    "fullName": "DANIEL KILOLA",
+    "name": "Daniel Kilola"
+  },
+  {
+    "playerId": "fifa-1jrku39",
+    "teamId": "kabuscorp",
+    "maId": "000371M01",
+    "fullName": "Mankoka Hegene Afonso",
+    "name": "Mankoka Afonso"
+  },
+  {
+    "playerId": "fifa-1js6m05",
+    "teamId": "kabuscorp",
+    "maId": "000425M99",
+    "fullName": "Alberto Elizeu Xavier",
+    "name": "Alberto Xavier"
+  },
+  {
+    "playerId": "fifa-1lgpb81",
+    "teamId": "kabuscorp",
+    "maId": "001831M02",
+    "fullName": "TEODORO FERNANDES CORREIA",
+    "name": "Teodoro Correia"
+  },
+  {
+    "playerId": "fifa-1jriue5",
+    "teamId": "kabuscorp",
+    "maId": "000355M98",
+    "fullName": "JOÃO BAPTISTA MISSENGA DE NASCIMENTO",
+    "name": "João de Nascimento"
+  },
+  {
+    "playerId": "fifa-1k1sen7",
+    "teamId": "kabuscorp",
+    "maId": "000936M98",
+    "fullName": "ARTUR MALUNGO",
+    "name": "Artur Malungo"
+  },
+  {
+    "playerId": "fifa-1jxicb5",
+    "teamId": "kabuscorp",
+    "maId": "000576M03",
+    "fullName": "CELESTINO LUIS MALECO",
+    "name": "Mona Maleco"
+  },
+  {
+    "playerId": "fifa-1jm8hd7",
+    "teamId": "kabuscorp",
+    "maId": "000331M96",
+    "fullName": "JOAQUIM PACIENCIA",
+    "name": "Joaquim Paciencia"
+  },
+  {
+    "playerId": "fifa-1pnr1r0",
+    "teamId": "kabuscorp",
+    "maId": "004835M05",
+    "fullName": "Aluízio Joel André Cacharamba",
+    "name": "Aluízio Cacharamba"
+  },
+  {
+    "playerId": "fifa-1qxnl72",
+    "teamId": "kabuscorp",
+    "maId": "006297M99",
+    "fullName": "MVEMBA MATONDO KUANZAMBI",
+    "name": "Mvemba Kuanzambi"
+  },
+  {
+    "playerId": "fifa-1jrtxh4",
+    "teamId": "kabuscorp",
+    "maId": "000395M97",
+    "fullName": "DIÓGENES CAPEMBA JOÃO",
+    "name": "Diógenes João"
+  }
+]

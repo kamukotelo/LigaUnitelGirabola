@@ -1,0 +1,98 @@
+[
+  {
+    "reportNumber": 10,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-10-Estrela Clube 1º de Maio de Benguela-vs-Clube Desportivo 1º de Agosto.pdf",
+    "sha256": "a3bfb78327d635ec2be5df3744e2bf66c11ba635d08134eb9872174fdc70a798",
+    "textSha256": "dc9d05547e05ea4fdc4a45865aa1551ba3e207317a8712e11497c2d2e43f55e3",
+    "pages": 3,
+    "textFile": "relatorio-10.txt"
+  },
+  {
+    "reportNumber": 11,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-11-Clube Recreativo da Caála-vs-Wiliete Sport Clube de Benguela.pdf",
+    "sha256": "f6715110b136aa6ef6a98c58e0bcadba0cfe9bfdaf30981d80098b62c8f76759",
+    "textSha256": "41a9f5367e9a74757b7cf05bceb512e6d6449868e9965815e1727977a07dfe54",
+    "pages": 3,
+    "textFile": "relatorio-11.txt"
+  },
+  {
+    "reportNumber": 13,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-13-Grupo Desportivo Sagrada Esperança-vs-Clube Desportivo São Salvador do Kongo.pdf",
+    "sha256": "8a07d4e62e75e66ad7b10e5d39d6431278105a81c68f9e4d552fa2996685bb4e",
+    "textSha256": "365c65b5e9ca19c79a6ee9a01aa4cf6267edc48415b77a1cb3dafc033822791b",
+    "pages": 3,
+    "textFile": "relatorio-13.txt"
+  },
+  {
+    "reportNumber": 14,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-14-Kabuscorp Sport Clube do Palanca-vs-Clube Desportivo de Lunda Sul .pdf",
+    "sha256": "1288fb3a3f052f9946b667533a5594b0f61e8916d2c1e95ed821c8dce5ae029f",
+    "textSha256": "028c901e51c89b0eba346491ba98cea845eb66c6b68537f2fc197f7a11ab0060",
+    "pages": 3,
+    "textFile": "relatorio-14.txt"
+  },
+  {
+    "reportNumber": 15,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-15-Clube Recreativo e Desportivo do Libolo-vs-Futebol Clube Bravos de Maquis .pdf",
+    "sha256": "b148cd1acfa473f53a25d0822414382e7b367c76d5f6ecfbbaa05a7d7266a413",
+    "textSha256": "4aa9420e0859b7a9a0db80e16d960eb3efcb190f632a2b86b814c528e7aee0e8",
+    "pages": 3,
+    "textFile": "relatorio-15.txt"
+  },
+  {
+    "reportNumber": 16,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-16-Acadêmica Petróleos do Lobito APL-vs-Petro Atlético Futebol SAD.pdf",
+    "sha256": "e5737b0a1703dacdcee8191ecd2592688882f8337df26186e5e31082b5a76fc6",
+    "textSha256": "44a958fe64d297dffb73c1f3b262ea17c38d3b4c14ab589824fd1d6faeb5ebcc",
+    "pages": 3,
+    "textFile": "relatorio-16.txt"
+  },
+  {
+    "reportNumber": 17,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-17-Petro Atlético Futebol SAD-vs-Clube Recreativo e Desportivo do Libolo.pdf",
+    "sha256": "394bbcf3a3273601a5604fed5d435855d72966a51d72ae7eb9c018ad95ad59d0",
+    "textSha256": "d458e5068c9c5da237e0262394be155bc26bf67d1c6f2a2155aa46c5b0f19c45",
+    "pages": 3,
+    "textFile": "relatorio-17.txt"
+  },
+  {
+    "reportNumber": 18,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-18-Clube Desportivo da Huila-vs-Wiliete Sport Clube de Benguela (1).pdf",
+    "sha256": "90abd698f1c04820119cabbfa2a10cba22a31d7600906c40b8930d0db18a11ec",
+    "textSha256": "6096735dea7851943ec1fe9d1cfeb47b6819abe0df1396c4cd4b5e46d2806fe8",
+    "pages": 3,
+    "textFile": "relatorio-18-copia.txt"
+  },
+  {
+    "reportNumber": 19,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-19-Clube Desportivo 1º de Agosto-vs-Grupo Desportivo Interclube.pdf",
+    "sha256": "fff4174b8faa564853404898ca7773cfe70bcfaa005acd90cb55afa3c41bd6f4",
+    "textSha256": "afe7552fab9ca3ac154d1cac5d2ee3214cf56daef29a35d20b7e03992a3b842f",
+    "pages": 3,
+    "textFile": "relatorio-19.txt"
+  },
+  {
+    "reportNumber": 7,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-7-Clube Desportivo São Salvador do Kongo-vs-Grupo Desportivo Interclube.pdf",
+    "sha256": "7e8dd1560b4415b438f4f55235901840ff1ee1844154be90bc3b3526a56b5392",
+    "textSha256": "26b5c4dec8accd67ada4d9eeba56b73625bcba7f49eff566411633a30cab24b6",
+    "pages": 3,
+    "textFile": "relatorio-7.txt"
+  },
+  {
+    "reportNumber": 8,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-8-Wiliete Sport Clube de Benguela-vs-Acadêmica Petróleos do Lobito APL (1).pdf",
+    "sha256": "876b9b7825e7759e9a0dc4bac202e0a95e57b53a899c233b91d74c684c0c1b17",
+    "textSha256": "0976139a23f123d4b4ccc914ac79be9b73bfc50b244fb707165e462ae19a0af5",
+    "pages": 3,
+    "textFile": "relatorio-8-copia.txt"
+  },
+  {
+    "reportNumber": 8,
+    "source": "/Users/nsungukamukotelo/Downloads/REFEREE_MATCH_REPORT-8-Wiliete Sport Clube de Benguela-vs-Acadêmica Petróleos do Lobito APL.pdf",
+    "sha256": "370559b8a5af3bdb9837b0dcdf87672c5dcad6f68cbe09abbf5c85da821dd2a1",
+    "textSha256": "150adc1b752025eb8b033d45d6ed8f23cbb42ce0b3bdb1a1f50938b8bc2b6b8b",
+    "pages": 3,
+    "textFile": "relatorio-8.txt"
+  }
+]

@@ -1,0 +1,2757 @@
+{
+  "createdAt": "2026-09-03T21:27:45.592Z",
+  "ids": [
+    "m27-1-8",
+    "m27-1-5",
+    "m27-2-7",
+    "m27-2-1",
+    "m27-2-4",
+    "m27-2-2",
+    "m27-2-6",
+    "m27-2-8",
+    "m27-3-7",
+    "m27-3-2",
+    "m27-3-6"
+  ],
+  "ancaf_matches": [
+    {
+      "id": "m27-1-5",
+      "season_id": "2026-27",
+      "round": 1,
+      "home_team_id": "wiliete",
+      "away_team_id": "lobito",
+      "home_team": "Wiliete de Benguela",
+      "away_team": "Académica do Lobito",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-22T14:00:00+00:00",
+      "stadium": "Estádio Nacional de Ombaka",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-1-8",
+      "season_id": "2026-27",
+      "round": 1,
+      "home_team_id": "saosalvador",
+      "away_team_id": "interclube",
+      "home_team": "São Salvador",
+      "away_team": "GD Interclube",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-22T14:00:00+00:00",
+      "stadium": "Estádio Álvaro Buta",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-2-1",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "caala",
+      "away_team_id": "wiliete",
+      "home_team": "CR Caála",
+      "away_team": "Wiliete de Benguela",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio dos Mártires da Canhala",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-2-2",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "kabuscorp",
+      "away_team_id": "lundasul",
+      "home_team": "Kabuscorp SC",
+      "away_team": "Desportivo da Lunda Sul",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio dos Coqueiros",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-2-4",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "sagrada",
+      "away_team_id": "saosalvador",
+      "home_team": "Sagrada Esperança",
+      "away_team": "São Salvador",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio Sagrada Esperança",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-2-6",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "libolo",
+      "away_team_id": "bravos",
+      "home_team": "Recreativo do Libolo",
+      "away_team": "Bravos do Maquis",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio Municipal de Calulo",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-2-7",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "primeiromaio",
+      "away_team_id": "dago",
+      "home_team": "Estrela 1.º de Maio",
+      "away_team": "CD 1.º de Agosto",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio de São Filipe",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-2-8",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "lobito",
+      "away_team_id": "petro",
+      "home_team": "Académica do Lobito",
+      "away_team": "Petro de Luanda",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio do Buraco",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-3-2",
+      "season_id": "2026-27",
+      "round": 3,
+      "home_team_id": "desphuila",
+      "away_team_id": "wiliete",
+      "home_team": "Desportivo da Huíla",
+      "away_team": "Wiliete de Benguela",
+      "home_score": 0,
+      "away_score": 1,
+      "score": "0-1",
+      "date": "2026-09-05T14:00:00+00:00",
+      "stadium": "Estádio da Tundavala",
+      "status": "finished",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-31T18:27:58.134503+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-3-6",
+      "season_id": "2026-27",
+      "round": 3,
+      "home_team_id": "dago",
+      "away_team_id": "interclube",
+      "home_team": "CD 1.º de Agosto",
+      "away_team": "GD Interclube",
+      "home_score": 2,
+      "away_score": 1,
+      "score": "2-1",
+      "date": "2026-09-01T14:30:00+00:00",
+      "stadium": "Estádio França Ndalu",
+      "status": "finished",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-09-01T17:35:45.952089+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": "0-1",
+      "useful_time_minutes": null,
+      "schedule_status": null
+    },
+    {
+      "id": "m27-3-7",
+      "season_id": "2026-27",
+      "round": 3,
+      "home_team_id": "petro",
+      "away_team_id": "libolo",
+      "home_team": "Petro de Luanda",
+      "away_team": "Recreativo do Libolo",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-09-05T14:00:00+00:00",
+      "stadium": "Estádio 11 de Novembro",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    }
+  ],
+  "liga_matches": [
+    {
+      "id": "m27-1-5",
+      "season_id": "2026-27",
+      "round": 1,
+      "home_team_id": "wiliete",
+      "away_team_id": "lobito",
+      "home_team": "Wiliete de Benguela",
+      "away_team": "Académica do Lobito",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-22T14:00:00+00:00",
+      "stadium": "Estádio Nacional de Ombaka",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    },
+    {
+      "id": "m27-1-8",
+      "season_id": "2026-27",
+      "round": 1,
+      "home_team_id": "saosalvador",
+      "away_team_id": "interclube",
+      "home_team": "São Salvador",
+      "away_team": "GD Interclube",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-22T14:00:00+00:00",
+      "stadium": "Estádio Álvaro Buta",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    },
+    {
+      "id": "m27-2-1",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "caala",
+      "away_team_id": "wiliete",
+      "home_team": "CR Caála",
+      "away_team": "Wiliete de Benguela",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio dos Mártires da Canhala",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    },
+    {
+      "id": "m27-2-2",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "kabuscorp",
+      "away_team_id": "lundasul",
+      "home_team": "Kabuscorp SC",
+      "away_team": "Desportivo da Lunda Sul",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio dos Coqueiros",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    },
+    {
+      "id": "m27-2-4",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "sagrada",
+      "away_team_id": "saosalvador",
+      "home_team": "Sagrada Esperança",
+      "away_team": "São Salvador",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio Sagrada Esperança",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    },
+    {
+      "id": "m27-2-6",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "libolo",
+      "away_team_id": "bravos",
+      "home_team": "Recreativo do Libolo",
+      "away_team": "Bravos do Maquis",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio Municipal de Calulo",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    },
+    {
+      "id": "m27-2-7",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "primeiromaio",
+      "away_team_id": "dago",
+      "home_team": "Estrela 1.º de Maio",
+      "away_team": "CD 1.º de Agosto",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio de São Filipe",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    },
+    {
+      "id": "m27-2-8",
+      "season_id": "2026-27",
+      "round": 2,
+      "home_team_id": "lobito",
+      "away_team_id": "petro",
+      "home_team": "Académica do Lobito",
+      "away_team": "Petro de Luanda",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-08-29T14:00:00+00:00",
+      "stadium": "Estádio do Buraco",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    },
+    {
+      "id": "m27-3-2",
+      "season_id": "2026-27",
+      "round": 3,
+      "home_team_id": "desphuila",
+      "away_team_id": "wiliete",
+      "home_team": "Desportivo da Huíla",
+      "away_team": "Wiliete de Benguela",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-09-05T14:00:00+00:00",
+      "stadium": "Estádio da Tundavala",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    },
+    {
+      "id": "m27-3-6",
+      "season_id": "2026-27",
+      "round": 3,
+      "home_team_id": "dago",
+      "away_team_id": "interclube",
+      "home_team": "CD 1.º de Agosto",
+      "away_team": "GD Interclube",
+      "home_score": 2,
+      "away_score": 1,
+      "score": "2-1",
+      "date": "2026-09-01T14:30:00+00:00",
+      "stadium": "Estádio França Ndalu",
+      "status": "finished",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-09-01T17:35:53.689044+00:00"
+    },
+    {
+      "id": "m27-3-7",
+      "season_id": "2026-27",
+      "round": 3,
+      "home_team_id": "petro",
+      "away_team_id": "libolo",
+      "home_team": "Petro de Luanda",
+      "away_team": "Recreativo do Libolo",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-09-05T14:00:00+00:00",
+      "stadium": "Estádio 11 de Novembro",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    }
+  ],
+  "ancaf_match_lineups": [
+    {
+      "id": "b43b39ab-f2fa-4a12-a43b-296123329416",
+      "match_id": "m27-3-2",
+      "team_id": "desphuila",
+      "side": "home",
+      "players": [
+        {
+          "name": "Ndulo",
+          "number": 1,
+          "playerId": "ndulo-huila",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Ludy",
+          "number": 13,
+          "playerId": "lucas-elias-huila",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Dos Santos",
+          "number": 4,
+          "playerId": "dos-santos-huila",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Katendi",
+          "number": 2,
+          "playerId": "katendi-huila",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Jeremias",
+          "number": 26,
+          "playerId": "jeremias-huila",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Elias",
+          "number": 15,
+          "playerId": "elias-huila",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Cagodo",
+          "number": 29,
+          "playerId": "pequenino-castro-huila",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Constantino",
+          "number": 32,
+          "playerId": "tchicundico-huila",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Milton",
+          "number": 18,
+          "playerId": "milton-suca-huila",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Milagre",
+          "number": 25,
+          "playerId": "milagre-simba-huila",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Mendes",
+          "number": 10,
+          "playerId": "mendes-huila",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Passy",
+          "number": 12,
+          "playerId": "passy-huila",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Jo",
+          "number": 6,
+          "playerId": "joao-milagre-huila",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Cabibi",
+          "number": 7,
+          "playerId": "leonardo-isola-huila",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Angelo",
+          "number": 21,
+          "playerId": "angelo-cangu-huila",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Toyzinho",
+          "number": 20,
+          "playerId": "toyzinho-huila",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "António",
+          "number": 27,
+          "playerId": "antonio-huila",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Jony",
+          "number": 34,
+          "playerId": "joao-samazanga-huila",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Florentino",
+          "number": 23,
+          "playerId": "fifa-1k176v9",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Camati",
+          "number": 28,
+          "playerId": "fifa-1pq2jf4",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        }
+      ],
+      "coach": "Paulo Torres",
+      "confirmed_at": "2026-08-31T18:05:09.11+00:00",
+      "confirmed_by": "Futebol Total",
+      "updated_at": "2026-08-31T18:26:18.395141+00:00"
+    },
+    {
+      "id": "2fc4d31f-84ae-42b0-9e20-615b827ada9e",
+      "match_id": "m27-3-2",
+      "team_id": "wiliete",
+      "side": "away",
+      "players": [
+        {
+          "name": "Nayan",
+          "number": 1,
+          "playerId": "fifa-1pkwt84",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Giovani",
+          "number": 17,
+          "playerId": "fifa-1jwu6z0",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Júnior Goiano",
+          "number": 27,
+          "playerId": "fifa-1pnmj53",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Wiwi",
+          "number": 5,
+          "playerId": "fifa-1jsrpl0",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Karanga",
+          "number": 7,
+          "playerId": "fifa-1jsjbh0",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Célio Zua",
+          "number": 32,
+          "playerId": "fifa-1m95s64",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Mindinho",
+          "number": 10,
+          "playerId": "fifa-1jru7c5",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Sidibé",
+          "number": 30,
+          "playerId": "fifa-1qvfjm7",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Gibelé",
+          "number": 11,
+          "playerId": "fifa-1jsj8t3",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Bito",
+          "number": 28,
+          "playerId": "fifa-1jrxs05",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Bello",
+          "number": 18,
+          "playerId": "bello-lukman-wiliete",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Elber",
+          "number": 31,
+          "playerId": "fifa-1jm7y97",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Silva",
+          "number": 3,
+          "playerId": "fifa-1ljz6e0",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Guilherme",
+          "number": 4,
+          "playerId": "fifa-1pu18x2",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Mule",
+          "number": 8,
+          "playerId": "fifa-1k39nk6",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Mabululu",
+          "number": 9,
+          "playerId": "fifa-1uxfl56",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Filó",
+          "number": 21,
+          "playerId": "fifa-1ni87h8",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Ning",
+          "number": 25,
+          "playerId": "ning-wiliete",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "César Cangue",
+          "number": 34,
+          "playerId": "fifa-1k36hf0",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Quare",
+          "number": 33,
+          "playerId": "fifa-1kzr1v5",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        }
+      ],
+      "coach": "Beto Bianchi",
+      "confirmed_at": "2026-08-31T18:05:09.111+00:00",
+      "confirmed_by": "Futebol Total",
+      "updated_at": "2026-08-31T18:26:18.395141+00:00"
+    },
+    {
+      "id": "3d50157c-cfcb-4586-a989-30c4c75a6db1",
+      "match_id": "m27-3-6",
+      "team_id": "dago",
+      "side": "home",
+      "players": [
+        {
+          "name": "Anselmo",
+          "number": 22,
+          "playerId": "anselmo-dago",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Mabelé",
+          "number": 3,
+          "playerId": "mabele-dago",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Bonifácio",
+          "number": 5,
+          "playerId": "bonifacio-dago",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Milton",
+          "number": 2,
+          "playerId": "milton-dago",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Macaia",
+          "number": 16,
+          "playerId": "macaia-dago",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Calebi",
+          "number": 10,
+          "playerId": "calebi-dago",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Mabilson",
+          "number": 7,
+          "playerId": "mabilson-dago",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Venâncio",
+          "number": 15,
+          "playerId": "venancio-dago",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Fernando",
+          "number": 11,
+          "playerId": "fernando-dago",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Axel",
+          "number": 8,
+          "playerId": "axel-dago",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Dagó",
+          "number": 17,
+          "playerId": "dago-tshibamba",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Nuno",
+          "number": 1,
+          "playerId": "nuno-dago",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Benção",
+          "number": 36,
+          "playerId": "bencao-dago",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Bulaya",
+          "number": 28,
+          "playerId": "bulaya-dago",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Castro",
+          "number": 27,
+          "playerId": "castro-dago",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Luciano",
+          "number": 25,
+          "playerId": "fifa-1v12ek6",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Paxe",
+          "number": 19,
+          "playerId": "fifa-1pxu511",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Obed",
+          "number": 14,
+          "playerId": "obed-dago",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Rupson",
+          "number": 9,
+          "playerId": "rupson-dago",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Bruno",
+          "number": 6,
+          "playerId": "bruno-dago",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        }
+      ],
+      "coach": "Filipe Nzanza",
+      "confirmed_at": "2026-09-01T12:25:23.3+00:00",
+      "confirmed_by": "ficha-clube",
+      "updated_at": "2026-09-01T12:25:23.306+00:00"
+    },
+    {
+      "id": "60ed8263-35fb-4897-a363-1d56de4ab9f7",
+      "match_id": "m27-3-6",
+      "team_id": "interclube",
+      "side": "away",
+      "players": [
+        {
+          "name": "Rui",
+          "number": 22,
+          "playerId": "fifa-1jtvf71",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Moisés",
+          "number": 28,
+          "playerId": "fifa-1lzlzp0",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Nandinho",
+          "number": 25,
+          "playerId": "fifa-1jsrqx5",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Bey",
+          "number": 27,
+          "playerId": "fifa-1k1ket3",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Jamanta",
+          "number": 18,
+          "playerId": "fifa-1jtuys4",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Paulo Gaspar",
+          "number": 33,
+          "playerId": "fifa-1m92d85",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Alcides",
+          "number": 14,
+          "playerId": "fifa-1kz4cq5",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Além",
+          "number": 6,
+          "playerId": "alem-interclube",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Caneta",
+          "number": 32,
+          "playerId": "fifa-1k26vw6",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Afonso",
+          "number": 36,
+          "playerId": "fifa-1ni2dp9",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Betinho",
+          "number": 29,
+          "playerId": "fifa-1k0sa99",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Panzo",
+          "number": 12,
+          "playerId": "fifa-1jz6pv1",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Stone",
+          "number": 39,
+          "playerId": "fifa-1myp5z8",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Pitroipa",
+          "number": 38,
+          "playerId": "fifa-1scciv4",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Sandro",
+          "number": 37,
+          "playerId": "fifa-1jrkqx3",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Vata",
+          "number": 35,
+          "playerId": "fifa-1nw4p04",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Boiado",
+          "number": 30,
+          "playerId": "fifa-1jzyk44",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Toy",
+          "number": 26,
+          "playerId": "fifa-1t9mip7",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Altura",
+          "number": 23,
+          "playerId": "fifa-1m7hyz3",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Gaby",
+          "number": 8,
+          "playerId": "fifa-1qfxvu3",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        }
+      ],
+      "coach": "Divaldo Alves",
+      "confirmed_at": "2026-09-01T12:25:24.093+00:00",
+      "confirmed_by": "ficha-clube",
+      "updated_at": "2026-09-01T12:25:24.093+00:00"
+    },
+    {
+      "id": "a3a76103-cb32-4361-9beb-6fad2da8dbbd",
+      "match_id": "m27-3-7",
+      "team_id": "libolo",
+      "side": "away",
+      "players": [
+        {
+          "name": "Beny",
+          "number": 12,
+          "playerId": "beny-libolo",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Maninho",
+          "number": 5,
+          "playerId": "maninho-libolo",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Marcos",
+          "number": 3,
+          "playerId": "marcos-libolo",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Toti",
+          "number": 4,
+          "playerId": "toti-libolo",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Nelo",
+          "number": 14,
+          "playerId": "nelo-libolo",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Chimito",
+          "number": 6,
+          "playerId": "chimito-libolo",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Tchube",
+          "number": 8,
+          "playerId": "tchube-libolo",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Andeloy",
+          "number": 10,
+          "playerId": "andeloy-libolo",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Amado",
+          "number": 18,
+          "playerId": "amado-libolo",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Tubarão",
+          "number": 30,
+          "playerId": "tubarao-libolo",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Cuxixima",
+          "number": 27,
+          "playerId": "cuxixima-libolo",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Mário",
+          "number": 20,
+          "playerId": "mario-libolo",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Miro",
+          "number": 25,
+          "playerId": "miro-libolo",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Jorgito",
+          "number": 15,
+          "playerId": "jorgito-libolo",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Pedro",
+          "number": 17,
+          "playerId": "pedro-libolo",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Jamanta",
+          "number": 19,
+          "playerId": "jamanta-libolo",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Zidan",
+          "number": 22,
+          "playerId": "zidan-libolo",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Zidane",
+          "number": 24,
+          "playerId": "zidane-libolo",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Salomão",
+          "number": 25,
+          "playerId": "salomao-libolo",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Lara",
+          "number": 28,
+          "playerId": "lara-libolo",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        }
+      ],
+      "coach": "Osvaldo Roque",
+      "confirmed_at": null,
+      "confirmed_by": "seed",
+      "updated_at": "2026-09-03T14:53:06.040523+00:00"
+    },
+    {
+      "id": "7427a24f-44a3-4874-911c-875f510385c0",
+      "match_id": "m27-2-8",
+      "team_id": "lobito",
+      "side": "home",
+      "players": [
+        {
+          "name": "Guilherme",
+          "number": 12,
+          "playerId": "guilherme-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Joel",
+          "number": 2,
+          "playerId": "joel-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Rosário",
+          "number": 4,
+          "playerId": "rosario-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Jorge",
+          "number": 28,
+          "playerId": "jorge-28-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Leonel",
+          "number": 38,
+          "playerId": "leonel-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Lourenço",
+          "number": 5,
+          "playerId": "lourenco-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Manuel",
+          "number": 6,
+          "playerId": "manuel-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Januário",
+          "number": 7,
+          "playerId": "januario-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Joaquim",
+          "number": 16,
+          "playerId": "joaquim-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Ezequiel",
+          "number": 10,
+          "playerId": "ezequiel-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "António",
+          "number": 19,
+          "playerId": "antonio-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Marcos",
+          "number": 40,
+          "playerId": "marcos-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Carlos",
+          "number": 35,
+          "playerId": "carlos-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Aurélio",
+          "number": 33,
+          "playerId": "aurelio-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Valério",
+          "number": 29,
+          "playerId": "valerio-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Jorge Enio",
+          "number": 27,
+          "playerId": "jorge-enio-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Wilson David",
+          "number": 25,
+          "playerId": "wilson-david-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Miguel",
+          "number": 24,
+          "playerId": "miguel-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Geraldo",
+          "number": 21,
+          "playerId": "geraldo-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Nanga",
+          "number": 3,
+          "playerId": "nanga-lobito",
+          "position": null,
+          "isCaptain": false,
+          "isStarter": false
+        }
+      ],
+      "coach": "Silvestre Pelé",
+      "confirmed_at": null,
+      "confirmed_by": "seed",
+      "updated_at": "2026-09-03T14:53:06.040523+00:00"
+    },
+    {
+      "id": "d4fb4a6e-e76b-47ae-a6bb-479cd89649db",
+      "match_id": "m27-2-8",
+      "team_id": "petro",
+      "side": "away",
+      "players": [
+        {
+          "name": "Hugo Marques",
+          "number": 1,
+          "playerId": "hugo-marques",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Núrio Fortuna",
+          "number": 2,
+          "playerId": "nurio-fortuna",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Kinito",
+          "number": 24,
+          "playerId": "kinito",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Rúben Adérito",
+          "number": 4,
+          "playerId": "ruben-aderito",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "António Hossi",
+          "number": 27,
+          "playerId": "antonio-hossi",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Mário Balbúrdia",
+          "number": 6,
+          "playerId": "mario-balburdia",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Deybi Flores",
+          "number": 12,
+          "playerId": "deybi-flores",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Jonathan Toro",
+          "number": 8,
+          "playerId": "jonathan-toro",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Hélder Costa",
+          "number": 11,
+          "playerId": "helder-costa",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Ilídio Panda",
+          "number": 33,
+          "playerId": "ilidio-panda",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Tiago Azulão",
+          "number": 26,
+          "playerId": "tiago-azulao",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Neblú",
+          "number": 22,
+          "playerId": "neblu",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Léo Bolgado",
+          "number": 5,
+          "playerId": "leo-bolgado",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Ivan Cavaleiro",
+          "number": 7,
+          "playerId": "ivan-cavaleiro",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Pedro Aparício",
+          "number": 10,
+          "playerId": "pedro-aparicio",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Vanilson",
+          "number": 17,
+          "playerId": "vanilson",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Jorge Pereira",
+          "number": 20,
+          "playerId": "jorge-pereira",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Tiago Reis",
+          "number": 23,
+          "playerId": "tiago-reis",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Eddie Afonso",
+          "number": 25,
+          "playerId": "eddie-afonso",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Depú",
+          "number": 29,
+          "playerId": "depu",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        }
+      ],
+      "coach": "João Pedro Sousa",
+      "confirmed_at": null,
+      "confirmed_by": "seed",
+      "updated_at": "2026-09-03T14:53:06.040523+00:00"
+    },
+    {
+      "id": "d366691e-abe9-4ffc-a31e-8af758f476cb",
+      "match_id": "m27-3-7",
+      "team_id": "petro",
+      "side": "home",
+      "players": [
+        {
+          "name": "Hugo Marques",
+          "number": 1,
+          "playerId": "hugo-marques",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Núrio Fortuna",
+          "number": 2,
+          "playerId": "nurio-fortuna",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Léo Bolgado",
+          "number": 5,
+          "playerId": "leo-bolgado",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Rúben Adérito",
+          "number": 4,
+          "playerId": "ruben-aderito",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Eddie Afonso",
+          "number": 25,
+          "playerId": "eddie-afonso",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Jonathan Toro",
+          "number": 8,
+          "playerId": "jonathan-toro",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Deybi Flores",
+          "number": 12,
+          "playerId": "deybi-flores",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Pedro Aparício",
+          "number": 10,
+          "playerId": "pedro-aparicio",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Ivan Cavaleiro",
+          "number": 7,
+          "playerId": "ivan-cavaleiro",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Hélder Costa",
+          "number": 11,
+          "playerId": "helder-costa",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Depú",
+          "number": 29,
+          "playerId": "depu",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": true
+        },
+        {
+          "name": "Neblú",
+          "number": 22,
+          "playerId": "neblu",
+          "position": "GK",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Mário Balbúrdia",
+          "number": 6,
+          "playerId": "mario-balburdia",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Vanilson",
+          "number": 17,
+          "playerId": "vanilson",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Vidinho",
+          "number": 18,
+          "playerId": "vidinho",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Jorge Pereira",
+          "number": 20,
+          "playerId": "jorge-pereira",
+          "position": "MID",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Tiago Reis",
+          "number": 23,
+          "playerId": "tiago-reis",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Tiago Azulão",
+          "number": 26,
+          "playerId": "tiago-azulao",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "António Hossi",
+          "number": 27,
+          "playerId": "antonio-hossi",
+          "position": "DEF",
+          "isCaptain": false,
+          "isStarter": false
+        },
+        {
+          "name": "Ilídio Panda",
+          "number": 33,
+          "playerId": "ilidio-panda",
+          "position": "FWD",
+          "isCaptain": false,
+          "isStarter": false
+        }
+      ],
+      "coach": "João Pedro Sousa",
+      "confirmed_at": null,
+      "confirmed_by": "seed",
+      "updated_at": "2026-09-03T14:53:06.040523+00:00"
+    }
+  ],
+  "ancaf_match_events": [
+    {
+      "id": "750fbba0-a13c-407c-bee2-c508c5beb293",
+      "match_id": "m27-1-5",
+      "minute": 11,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Kabelo Dlamini",
+      "player_id": "kabelo-dlamini",
+      "assist": null,
+      "player_out": null,
+      "detail": "1-0",
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "9c93ad34-3022-4e20-9ea6-e157ad9773a5",
+      "match_id": "m27-1-5",
+      "minute": 47,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Valter Monteiro",
+      "player_id": "valter-monteiro",
+      "assist": null,
+      "player_out": null,
+      "detail": "45'+2 (2-0)",
+      "sort": 1,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "277c014c-c3b1-4348-bf8a-5c4e6de67cac",
+      "match_id": "m27-1-8",
+      "minute": 70,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Além",
+      "player_id": "alem-interclube",
+      "assist": null,
+      "player_out": null,
+      "detail": "0-1",
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "8889877a-feab-4fee-98bf-6be49035ff45",
+      "match_id": "m27-2-1",
+      "minute": 32,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Valegol",
+      "player_id": "valegol-caala",
+      "assist": null,
+      "player_out": null,
+      "detail": "Grande penalidade · 1-0",
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "afecc433-f7ea-4b9e-8e35-df666545f1e4",
+      "match_id": "m27-2-1",
+      "minute": 34,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Bello Lukman",
+      "player_id": "bello-lukman-wiliete",
+      "assist": null,
+      "player_out": null,
+      "detail": "1-1",
+      "sort": 1,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "3787e6ad-2935-4f2a-8e94-e82671001ce8",
+      "match_id": "m27-2-1",
+      "minute": 44,
+      "type": "red",
+      "team_side": "home",
+      "player": "Valegol",
+      "player_id": "valegol-caala",
+      "assist": null,
+      "player_out": null,
+      "detail": null,
+      "sort": 2,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "4b82c565-b9ca-4073-aacc-96d8ad76e726",
+      "match_id": "m27-2-1",
+      "minute": 49,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Ning",
+      "player_id": "ning-wiliete",
+      "assist": null,
+      "player_out": null,
+      "detail": "1-2",
+      "sort": 3,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "936caf20-fae4-4054-b3d1-db9e1408956c",
+      "match_id": "m27-2-2",
+      "minute": 26,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Marcador por confirmar",
+      "player_id": null,
+      "assist": null,
+      "player_out": null,
+      "detail": "1-0",
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "c95ff9a8-0f21-460d-a311-3e7657efb40b",
+      "match_id": "m27-2-2",
+      "minute": 58,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Marcador por confirmar",
+      "player_id": null,
+      "assist": null,
+      "player_out": null,
+      "detail": "1-1",
+      "sort": 1,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "55352232-9438-4746-a17b-6c18fecaf4d2",
+      "match_id": "m27-2-4",
+      "minute": 45,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Mafuta",
+      "player_id": "mafuta-sagrada",
+      "assist": null,
+      "player_out": null,
+      "detail": "1-0",
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "dbc8ef3e-4178-4b0e-89f3-eb4acc65ce38",
+      "match_id": "m27-2-4",
+      "minute": 49,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Anderson Mputa",
+      "player_id": "anderson-mputa-saosalvador",
+      "assist": null,
+      "player_out": null,
+      "detail": "1-1",
+      "sort": 1,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "63a67db3-e80b-44cc-a2db-86f34a1f9597",
+      "match_id": "m27-2-4",
+      "minute": 64,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Augusto Fecayamale",
+      "player_id": null,
+      "assist": null,
+      "player_out": null,
+      "detail": "A confirmar · 2-1",
+      "sort": 2,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "c7a75616-3b14-4b95-8314-6a49f1f63d62",
+      "match_id": "m27-2-4",
+      "minute": 92,
+      "type": "goal",
+      "team_side": "home",
+      "player": "M. Dala",
+      "player_id": "m-dala-sagrada",
+      "assist": null,
+      "player_out": null,
+      "detail": "90'+2 · 3-1",
+      "sort": 3,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "3e518e88-9f6e-4b56-8547-659f8f794bbe",
+      "match_id": "m27-2-6",
+      "minute": 85,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Higino Kaptingo Epalanga",
+      "player_id": "higino-bravos",
+      "assist": null,
+      "player_out": null,
+      "detail": "0-1",
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "e69d4b4e-1372-4d54-b61f-1a107bb0598d",
+      "match_id": "m27-2-7",
+      "minute": 24,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Axel",
+      "player_id": "axel-dago",
+      "assist": null,
+      "player_out": null,
+      "detail": "0-1",
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "0c2ce0b4-1cee-4ab8-a398-b9d2dc99af2c",
+      "match_id": "m27-2-7",
+      "minute": 72,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Luís Profi",
+      "player_id": "luis-profi-primeiromaio",
+      "assist": null,
+      "player_out": null,
+      "detail": "1-1",
+      "sort": 1,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "243fa972-d153-4865-aec2-303651244d8d",
+      "match_id": "m27-2-7",
+      "minute": 75,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Dagó Tshibamba",
+      "player_id": "dago-tshibamba",
+      "assist": null,
+      "player_out": null,
+      "detail": "1-2",
+      "sort": 2,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "b1e5d1c1-6f6a-469d-b1e6-2c56e71b9b15",
+      "match_id": "m27-2-8",
+      "minute": 47,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Tiago Azulão",
+      "player_id": "tiago-azulao",
+      "assist": null,
+      "player_out": null,
+      "detail": "0-1",
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "98a7531a-313b-48ce-b90b-d85a188d69bd",
+      "match_id": "m27-2-8",
+      "minute": 91,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Depú",
+      "player_id": "depu",
+      "assist": null,
+      "player_out": null,
+      "detail": "90'+1 · 0-2",
+      "sort": 1,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "d54ed003-1997-4f8b-9efc-0a7d0e6af478",
+      "match_id": "m27-3-2",
+      "minute": 75,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Ning",
+      "player_id": "ning-wiliete",
+      "assist": "Mabululu",
+      "player_out": null,
+      "detail": "0-1",
+      "sort": 0,
+      "updated_at": "2026-08-31T18:27:58.779834+00:00"
+    },
+    {
+      "id": "ef34a82c-cc95-400c-9888-7953f769d8f4",
+      "match_id": "m27-3-6",
+      "minute": 45,
+      "type": "goal",
+      "team_side": "away",
+      "player": "Alexandre Fernando",
+      "player_id": "alexandre-fernando-interclube",
+      "assist": null,
+      "player_out": null,
+      "detail": "Grande penalidade · 45'+5 (0-1)",
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "ae22734c-030c-44a9-9150-1441cb2255d9",
+      "match_id": "m27-3-6",
+      "minute": 79,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Dagó Tshibamba",
+      "player_id": "dago-tshibamba",
+      "assist": null,
+      "player_out": null,
+      "detail": "1-1",
+      "sort": 1,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "d750ce86-aa33-477d-9bec-e4d12d7859f9",
+      "match_id": "m27-3-6",
+      "minute": 90,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Calebi Yanda",
+      "player_id": "fifa-1jm8058",
+      "assist": null,
+      "player_out": null,
+      "detail": "2-1",
+      "sort": 2,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "15b740ef-37ee-49d8-b0a5-7715bc1becb4",
+      "match_id": "m27-3-7",
+      "minute": 17,
+      "type": "yellow",
+      "team_side": "away",
+      "player": "Marcos",
+      "player_id": "marcos-libolo",
+      "assist": null,
+      "player_out": null,
+      "detail": null,
+      "sort": 0,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "cbb60ddb-d7af-47ae-bf8a-56dd09be67ec",
+      "match_id": "m27-3-7",
+      "minute": 22,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Rúben Adérito",
+      "player_id": "ruben-aderito",
+      "assist": null,
+      "player_out": null,
+      "detail": "1-0",
+      "sort": 1,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "1ad360f7-d443-4c6d-921b-7fa8321ede08",
+      "match_id": "m27-3-7",
+      "minute": 61,
+      "type": "yellow",
+      "team_side": "home",
+      "player": "Núrio Fortuna",
+      "player_id": "nurio-fortuna",
+      "assist": null,
+      "player_out": null,
+      "detail": null,
+      "sort": 2,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "ce7cea10-29fc-43a5-9069-9f08cdebf710",
+      "match_id": "m27-3-7",
+      "minute": 65,
+      "type": "sub",
+      "team_side": "home",
+      "player": "Ilídio Panda",
+      "player_id": "ilidio-panda",
+      "assist": null,
+      "player_out": "Ivan Cavaleiro",
+      "detail": null,
+      "sort": 3,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "f07e09a8-2c7c-4b1a-b4ed-c6b24e453e99",
+      "match_id": "m27-3-7",
+      "minute": 65,
+      "type": "sub",
+      "team_side": "home",
+      "player": "António Hossi",
+      "player_id": "antonio-hossi",
+      "assist": null,
+      "player_out": "Núrio Fortuna",
+      "detail": null,
+      "sort": 4,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "eda5bd10-296a-492b-b01c-aa47c6571af9",
+      "match_id": "m27-3-7",
+      "minute": 65,
+      "type": "sub",
+      "team_side": "away",
+      "player": "Pedro Afonso",
+      "player_id": null,
+      "assist": null,
+      "player_out": "Cuxixima",
+      "detail": null,
+      "sort": 5,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "c0609cc0-cb6b-4df8-b3b7-2a1094276d6f",
+      "match_id": "m27-3-7",
+      "minute": 73,
+      "type": "sub",
+      "team_side": "home",
+      "player": "Mário Balbúrdia",
+      "player_id": "mario-balburdia",
+      "assist": null,
+      "player_out": "Pedro Aparício",
+      "detail": null,
+      "sort": 6,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "0ab8cfb0-ff30-471b-bd87-18d14a4b8b97",
+      "match_id": "m27-3-7",
+      "minute": 76,
+      "type": "sub",
+      "team_side": "away",
+      "player": "Zidane",
+      "player_id": "zidane-libolo",
+      "assist": null,
+      "player_out": "Amado",
+      "detail": null,
+      "sort": 7,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "7d4d7e7a-eda0-4632-9e7a-d2c024e30621",
+      "match_id": "m27-3-7",
+      "minute": 76,
+      "type": "sub",
+      "team_side": "away",
+      "player": "Zinadine",
+      "player_id": null,
+      "assist": null,
+      "player_out": "Ilídio",
+      "detail": null,
+      "sort": 8,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "b22bf0f0-e066-44b7-aa89-08fc0954669d",
+      "match_id": "m27-3-7",
+      "minute": 80,
+      "type": "sub",
+      "team_side": "home",
+      "player": "Tiago Azulão",
+      "player_id": "tiago-azulao",
+      "assist": null,
+      "player_out": "Depú",
+      "detail": null,
+      "sort": 9,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "bcbca17f-2af9-4baa-8644-52afb69a5fab",
+      "match_id": "m27-3-7",
+      "minute": 80,
+      "type": "sub",
+      "team_side": "home",
+      "player": "Vanilson",
+      "player_id": "vanilson",
+      "assist": null,
+      "player_out": "Hélder Costa",
+      "detail": null,
+      "sort": 10,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "eeea0abf-61ad-4a4a-a68a-1b94ce1b3689",
+      "match_id": "m27-3-7",
+      "minute": 84,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Tiago Azulão",
+      "player_id": "tiago-azulao",
+      "assist": null,
+      "player_out": null,
+      "detail": "2-0",
+      "sort": 11,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "4245e0da-09bc-4e4a-88fc-abc5b00820d6",
+      "match_id": "m27-3-7",
+      "minute": 87,
+      "type": "yellow",
+      "team_side": "away",
+      "player": "Andeloy",
+      "player_id": "andeloy-libolo",
+      "assist": null,
+      "player_out": null,
+      "detail": null,
+      "sort": 12,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "ab9dee16-04c4-4ea3-8af9-0d9a3f42261f",
+      "match_id": "m27-3-7",
+      "minute": 90,
+      "type": "sub",
+      "team_side": "away",
+      "player": "Jorge",
+      "player_id": null,
+      "assist": null,
+      "player_out": "Aristóteles",
+      "detail": null,
+      "sort": 13,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "b5daeb4c-00cb-4ca1-95da-0a27d7abdc07",
+      "match_id": "m27-3-7",
+      "minute": 90,
+      "type": "sub",
+      "team_side": "away",
+      "player": "José Batalha",
+      "player_id": null,
+      "assist": null,
+      "player_out": "Adelino",
+      "detail": null,
+      "sort": 14,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    },
+    {
+      "id": "10b0d8f3-76c3-4595-bb70-6de508a888d9",
+      "match_id": "m27-3-7",
+      "minute": 95,
+      "type": "goal",
+      "team_side": "home",
+      "player": "Deybi Flores",
+      "player_id": "deybi-flores",
+      "assist": null,
+      "player_out": null,
+      "detail": "90'+5 (3-0)",
+      "sort": 15,
+      "updated_at": "2026-09-03T14:53:06.606606+00:00"
+    }
+  ],
+  "ancaf_match_stats": [
+    {
+      "match_id": "m27-1-5",
+      "side": "home",
+      "stat_key": "corners",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-1-5",
+      "side": "away",
+      "stat_key": "corners",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-1-5",
+      "side": "home",
+      "stat_key": "yellowCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-1-5",
+      "side": "away",
+      "stat_key": "yellowCards",
+      "value": 1,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-7",
+      "side": "home",
+      "stat_key": "corners",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-7",
+      "side": "away",
+      "stat_key": "corners",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-7",
+      "side": "home",
+      "stat_key": "saves",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-7",
+      "side": "away",
+      "stat_key": "saves",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-7",
+      "side": "home",
+      "stat_key": "yellowCards",
+      "value": 2,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-7",
+      "side": "away",
+      "stat_key": "yellowCards",
+      "value": 2,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-7",
+      "side": "home",
+      "stat_key": "redCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-7",
+      "side": "away",
+      "stat_key": "redCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-1",
+      "side": "home",
+      "stat_key": "redCards",
+      "value": 1,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-1",
+      "side": "away",
+      "stat_key": "redCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-2",
+      "side": "home",
+      "stat_key": "yellowCards",
+      "value": 2,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-2",
+      "side": "away",
+      "stat_key": "yellowCards",
+      "value": 4,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-2",
+      "side": "home",
+      "stat_key": "redCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-2",
+      "side": "away",
+      "stat_key": "redCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-8",
+      "side": "home",
+      "stat_key": "possession",
+      "value": 50,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-8",
+      "side": "away",
+      "stat_key": "possession",
+      "value": 50,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-8",
+      "side": "home",
+      "stat_key": "corners",
+      "value": 1,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-8",
+      "side": "away",
+      "stat_key": "corners",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-8",
+      "side": "home",
+      "stat_key": "yellowCards",
+      "value": 1,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-8",
+      "side": "away",
+      "stat_key": "yellowCards",
+      "value": 1,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-8",
+      "side": "home",
+      "stat_key": "saves",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-2-8",
+      "side": "away",
+      "stat_key": "saves",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-7",
+      "side": "home",
+      "stat_key": "yellowCards",
+      "value": 1,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-7",
+      "side": "away",
+      "stat_key": "yellowCards",
+      "value": 2,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-7",
+      "side": "home",
+      "stat_key": "redCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-7",
+      "side": "away",
+      "stat_key": "redCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-6",
+      "side": "home",
+      "stat_key": "corners",
+      "value": 4,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-6",
+      "side": "away",
+      "stat_key": "corners",
+      "value": 4,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-6",
+      "side": "home",
+      "stat_key": "yellowCards",
+      "value": 2,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-6",
+      "side": "away",
+      "stat_key": "yellowCards",
+      "value": 1,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-6",
+      "side": "home",
+      "stat_key": "redCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    },
+    {
+      "match_id": "m27-3-6",
+      "side": "away",
+      "stat_key": "redCards",
+      "value": 0,
+      "published": true,
+      "updated_at": "2026-09-03T14:53:06.874191+00:00"
+    }
+  ],
+  "ancaf_referee_nominations": [
+    {
+      "id": "74c89718-090c-451d-a2ea-f6a26161ddb7",
+      "season_id": "2026-27",
+      "round": 3,
+      "match_id": "m27-3-6",
+      "referee": "Edson Esoko",
+      "assistants": [
+        "Jerson Emiliano",
+        "Estanislau Prata"
+      ],
+      "fourth_official": "Sandra Kitu",
+      "published_at": "2026-09-01T14:08:27.624+00:00",
+      "created_at": "2026-09-01T14:08:27.91201+00:00",
+      "updated_at": "2026-09-01T14:08:27.91201+00:00"
+    },
+    {
+      "id": "4480b4d4-1a14-4a25-8d44-96159c0429bd",
+      "season_id": "2026-27",
+      "round": 2,
+      "match_id": "m27-2-8",
+      "referee": "Gilberto Kativa",
+      "assistants": [
+        "Jeremias Cafussa",
+        "Pedro Alberto"
+      ],
+      "fourth_official": "Pedro Katchisosa",
+      "published_at": "2026-09-03T14:53:03.924+00:00",
+      "created_at": "2026-09-03T12:54:17.473699+00:00",
+      "updated_at": "2026-09-03T14:53:05.115115+00:00"
+    },
+    {
+      "id": "ba5ece95-b1e9-4cca-a3ed-6b3e03bf8c33",
+      "season_id": "2026-27",
+      "round": 3,
+      "match_id": "m27-3-7",
+      "referee": "Bernardo Mário",
+      "assistants": [
+        "João António",
+        "António Miguel"
+      ],
+      "fourth_official": "Sabino De Carvalho",
+      "published_at": "2026-09-03T14:53:03.924+00:00",
+      "created_at": "2026-09-03T12:54:17.473699+00:00",
+      "updated_at": "2026-09-03T14:53:05.115115+00:00"
+    }
+  ],
+  "ancaf_configs": [
+    {
+      "key": "override_nominations",
+      "value": "{\"m27-1-4\":{\"referee\":\"Miguel Tchissingui Augusto Américo\",\"assistants\":[\"João Manuel Fula António\",\"Nery Domingos Pereira Amador da Silva\"],\"fourth\":\"Isaías Justino Camaxi\"},\"m27-1-2\":{\"referee\":\"Sanda Mateus Miguel Kitu\",\"assistants\":[\"Natarino António Soares\",\"Nelson Lutumba Quiala\"],\"fourth\":\"Custódio Roque Lote\"},\"m27-1-7\":{\"referee\":\"Nelson João Milagre\",\"assistants\":[\"Manuel Daniel Coelho\",\"Hélder João Milagre\"],\"fourth\":\"Laurindo Feliciano Aureleo\"},\"m27-1-3\":{\"referee\":\"Edilson Roberto Gomes André\",\"assistants\":[\"Manuel Luís Benguela\",\"Joaquim Manuel Chiyo\"],\"fourth\":\"Miguel Julião Mateus\"},\"m27-1-1\":{\"referee\":\"Gilberto Bernardino Kativa\",\"assistants\":[\"Estanislau Guedes Tavares Muluta Prata\",\"Jeremias Sessenta Cafussa\"],\"fourth\":\"Aldair Quissanga Rodrigues Carmelino\"},\"m27-1-6\":{\"referee\":\"Bernardo Hossi Nangolo\",\"assistants\":[\"António Emiliano Livongue\",\"Adolfo Luís Mutenha\"],\"fourth\":\"António Caluassi Dungula\"}}",
+      "updated_at": "2026-09-03T16:10:15.787419+00:00"
+    },
+    {
+      "key": "override_calendar",
+      "value": "{\"m27-1-4\":{\"stadium\":\"Estádio Sagrada Esperança\",\"date\":\"2026-08-21T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"0-0\",\"homeScore\":0,\"awayScore\":0,\"halfTimeScore\":\"0-0\",\"referee\":\"Miguel Tchissingui Augusto Américo\",\"attendance\":5000},\"m27-1-1\":{\"stadium\":\"Estádio França Ndalu\",\"date\":\"2026-08-23T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"0-0\",\"homeScore\":0,\"awayScore\":0,\"halfTimeScore\":\"0-0\",\"referee\":\"Gilberto Bernardino Kativa\",\"attendance\":1500},\"m27-1-7\":{\"stadium\":\"Campo Vice António\",\"date\":\"2026-08-22T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"0-3\",\"homeScore\":0,\"awayScore\":3,\"halfTimeScore\":\"0-1\",\"referee\":\"Nelson João Milagre\"},\"m27-1-5\":{\"status\":\"finished\"},\"m27-3-2\":{\"homeScore\":0,\"awayScore\":1,\"status\":\"finished\"},\"m27-3-4\":{\"date\":\"2026-09-05T15:30:00+01:00\",\"status\":\"scheduled\",\"scheduleStatus\":\"official\"},\"m27-1-2\":{\"date\":\"2026-08-22T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"3-0\",\"homeScore\":3,\"awayScore\":0,\"halfTimeScore\":\"2-0\",\"stadium\":\"Estádio do Mundunduleno\",\"referee\":\"Sanda Mateus Miguel Kitu\",\"attendance\":400},\"m27-1-3\":{\"date\":\"2026-08-22T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"1-0\",\"homeScore\":1,\"awayScore\":0,\"halfTimeScore\":\"0-0\",\"stadium\":\"Estádio França Ndalu\",\"referee\":\"Edilson Roberto Gomes André\",\"attendance\":200},\"m27-1-6\":{\"date\":\"2026-08-23T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"1-1\",\"homeScore\":1,\"awayScore\":1,\"halfTimeScore\":\"1-0\",\"stadium\":\"Campo Municipal (Benguela)\",\"referee\":\"Bernardo Hossi Nangolo\",\"attendance\":2000}}",
+      "updated_at": "2026-09-03T16:10:15.314979+00:00"
+    }
+  ]
+}
