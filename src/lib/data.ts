@@ -3994,6 +3994,109 @@ export function getCurrentSeasonCleanSheets(): CleanSheetRecord[] {
   return [...totals.values()].sort((a, b) => b.cleanSheets - a.cleanSheets || b.appearances - a.appearances);
 }
 
+export interface MinutesPlayedRecord {
+  id: string;
+  name: string;
+  club: string;
+  teamId: string;
+  position: string;
+  minutesPlayed: number;
+  appearances: number; // jogos com escalação oficial em que entrou em campo
+}
+
+/** Remove acentos para comparar nomes de forma tolerante (ex.: "Pimpao" ≈ "Pimpão"). */
+function foldName(value: string): string {
+  return value.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+}
+
+const NOMINAL_MATCH_LENGTH = 90;
+
+const PITCH_POSITION_LABEL: Record<NonNullable<LineupPlayer['position']>, string> = {
+  GK: 'Guarda-redes',
+  DEF: 'Defesa',
+  MID: 'Médio',
+  FWD: 'Avançado',
+};
+
+/**
+ * Minutos em campo: calculados automaticamente a partir da escalação oficial
+ * (titulares/suplentes) e da cronologia de substituições/expulsões de cada
+ * jogo terminado — nunca um valor estimado ou introduzido à mão. Só entram
+ * jogos com escalação confirmada, porque só aí sabemos quem começou a jogar.
+ * Assume-se um jogo nominal de 90 minutos (o tempo útil publicado, quando
+ * existe, é uma métrica à parte — ver getMatchTempoUtil).
+ */
+export function getCurrentSeasonMinutesPlayed(): MinutesPlayedRecord[] {
+  const totals = new Map<string, MinutesPlayedRecord>();
+
+  const addMinutes = (playerId: string, name: string, teamId: string, position: LineupPlayer['position'], minutes: number) => {
+    if (minutes <= 0) return;
+    const team = TEAMS.find((t) => t.id === teamId);
+    const entry = totals.get(playerId) ?? {
+      id: playerId,
+      name,
+      club: team?.name ?? teamId,
+      teamId,
+      position: position ? PITCH_POSITION_LABEL[position] : 'Posição por confirmar',
+      minutesPlayed: 0,
+      appearances: 0,
+    };
+    entry.minutesPlayed += minutes;
+    entry.appearances += 1;
+    totals.set(playerId, entry);
+  };
+
+  for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
+    if (match.status !== 'finished') continue;
+    const detail = getMatchDetail(match);
+    const isPublishedLineup = [...detail.homeLineup, ...detail.awayLineup].some((p) => p.rating === 0);
+    if (!isPublishedLineup) continue;
+
+    for (const [lineup, teamId] of [
+      [detail.homeLineup, match.homeTeamId],
+      [detail.awayLineup, match.awayTeamId],
+    ] as const) {
+      const team = teamId === match.homeTeamId ? 'home' : 'away';
+      // Intervalo [entrada, saída] por jogador, iniciado pelos titulares.
+      const spans = new Map<string, { start: number; end: number; name: string; position?: LineupPlayer['position'] }>();
+      for (const starter of lineup.filter((p) => p.isStarter && p.playerId)) {
+        spans.set(starter.playerId!, { start: 0, end: NOMINAL_MATCH_LENGTH, name: starter.name, position: starter.position });
+      }
+
+      const teamEvents = detail.events.filter((e) => e.team === team).sort((a, b) => (a.minute ?? 0) - (b.minute ?? 0));
+      for (const event of teamEvents) {
+        if (event.minute === undefined) continue;
+        if (event.type === 'sub') {
+          // Quem sai: procura o titular ainda em campo com nome equivalente.
+          if (event.playerOut) {
+            const outFolded = foldName(event.playerOut);
+            const outEntry = [...spans.values()].find((s) => foldName(s.name) === outFolded && s.end === NOMINAL_MATCH_LENGTH);
+            if (outEntry) outEntry.end = Math.min(outEntry.end, event.minute);
+          }
+          // Quem entra: fica em campo até ao fim, salvo cartão vermelho depois.
+          if (event.playerId) {
+            spans.set(event.playerId, {
+              start: event.minute,
+              end: NOMINAL_MATCH_LENGTH,
+              name: event.player,
+              position: lineup.find((p) => p.playerId === event.playerId)?.position,
+            });
+          }
+        } else if (event.type === 'red' && event.playerId) {
+          const entry = spans.get(event.playerId);
+          if (entry) entry.end = Math.min(entry.end, event.minute);
+        }
+      }
+
+      for (const [playerId, span] of spans) {
+        addMinutes(playerId, span.name, teamId, span.position, Math.max(0, span.end - span.start));
+      }
+    }
+  }
+
+  return [...totals.values()].sort((a, b) => b.minutesPlayed - a.minutesPlayed || b.appearances - a.appearances);
+}
+
 function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: number): LineupPlayer[] {
   if (count <= 0) return [];
   const candidates = lineup.filter(p => p.isStarter && p.position !== 'GK')

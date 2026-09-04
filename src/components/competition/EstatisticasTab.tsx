@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Award, Shield, AlertTriangle, CheckCircle2, Clock3 } from 'lucide-react';
-import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonGoalReconciliation, getCurrentSeasonDiscipline, getCurrentSeasonCleanSheets, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
+import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonGoalReconciliation, getCurrentSeasonDiscipline, getCurrentSeasonCleanSheets, getCurrentSeasonMinutesPlayed, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -86,6 +86,12 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       id: gk.id, name: gk.name, club: gk.club, teamId: gk.teamId,
       position: gk.position, value: gk.cleanSheets, secondaryLabel: 'Jogos',
       secondaryValue: gk.appearances, hasProfile: true,
+    }));
+  } else if (isUpcoming && seasonHasStarted && activeTab === 'minutes') {
+    displayPlayers = getCurrentSeasonMinutesPlayed().map((p) => ({
+      id: p.id, name: p.name, club: p.club, teamId: p.teamId,
+      position: p.position, value: p.minutesPlayed, secondaryLabel: 'Jogos',
+      secondaryValue: p.appearances, hasProfile: true,
     }));
   } else if (isUpcoming) {
     displayPlayers = [];
@@ -172,8 +178,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
     { label: 'Cartões amarelos', available: getCurrentSeasonDiscipline().some((p) => p.yellowCards > 0) },
     { label: 'Cartões vermelhos', available: getCurrentSeasonDiscipline().some((p) => p.redCards > 0) },
     { label: 'Balizas limpas', available: getCurrentSeasonCleanSheets().length > 0 },
+    { label: 'Minutos jogados', available: getCurrentSeasonMinutesPlayed().length > 0 },
     { label: 'Assistências', available: false },
-    { label: 'Minutos jogados', available: false },
   ];
 
   return (
