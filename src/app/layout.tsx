@@ -85,8 +85,8 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-background text-foreground min-h-screen">
-        <AppSplash />
         <TeamLogosProvider>
+        <AppSplash />
         {/* PortalDataProvider envolve todo o layout (e não só o `main`) para que
             o cabeçalho, o rodapé e a paleta da marca reflitam as edições
             publicadas na consola de administração. */}
