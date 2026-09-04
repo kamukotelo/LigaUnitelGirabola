@@ -3940,6 +3940,60 @@ export function getCurrentSeasonGoalReconciliation() {
   };
 }
 
+export interface CleanSheetRecord {
+  id: string;
+  name: string;
+  club: string;
+  teamId: string;
+  position: string;
+  cleanSheets: number;
+  appearances: number; // jogos com escalação oficial em que foi titular
+}
+
+/**
+ * Balizas invioladas: calculadas automaticamente a partir do guarda-redes
+ * titular (escalação oficial — BD ou código) e do resultado de cada jogo
+ * terminado. Nunca é um número introduzido à mão — só entram jogos com
+ * escalação confirmada, porque só aí sabemos quem defendeu a baliza.
+ * Golos sofridos pela equipa == 0 nesse jogo conta como baliza limpa.
+ */
+export function getCurrentSeasonCleanSheets(): CleanSheetRecord[] {
+  const totals = new Map<string, CleanSheetRecord>();
+
+  const bump = (gk: LineupPlayer | undefined, teamId: string, conceded: number) => {
+    if (!gk?.playerId) return; // sem ID de jogador, não há ficha para atribuir a baliza
+    const team = TEAMS.find((t) => t.id === teamId);
+    const entry = totals.get(gk.playerId) ?? {
+      id: gk.playerId,
+      name: gk.name,
+      club: team?.name ?? teamId,
+      teamId,
+      position: 'Guarda-redes',
+      cleanSheets: 0,
+      appearances: 0,
+    };
+    entry.appearances += 1;
+    if (conceded === 0) entry.cleanSheets += 1;
+    totals.set(gk.playerId, entry);
+  };
+
+  for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
+    if (match.status !== 'finished') continue;
+    const detail = getMatchDetail(match);
+    // rating === 0 assinala escalação oficial (BD/código); rating > 0 é
+    // procedural (onze gerado), onde não sabemos o guarda-redes real.
+    const isPublishedLineup = [...detail.homeLineup, ...detail.awayLineup].some((p) => p.rating === 0);
+    if (!isPublishedLineup) continue;
+
+    const homeGK = detail.homeLineup.find((p) => p.isStarter && p.position === 'GK');
+    const awayGK = detail.awayLineup.find((p) => p.isStarter && p.position === 'GK');
+    bump(homeGK, match.homeTeamId, match.awayScore);
+    bump(awayGK, match.awayTeamId, match.homeScore);
+  }
+
+  return [...totals.values()].sort((a, b) => b.cleanSheets - a.cleanSheets || b.appearances - a.appearances);
+}
+
 function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: number): LineupPlayer[] {
   if (count <= 0) return [];
   const candidates = lineup.filter(p => p.isStarter && p.position !== 'GK')
