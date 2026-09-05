@@ -24,7 +24,7 @@ insert into public.ancaf_match_lineups (match_id, team_id, side, players, coach,
   ('m27-3-4', 'cabinda', 'away', '[{"playerId":"cabinda-player-1","name":"João Eduardo","number":1,"position":"GK","isStarter":true,"isCaptain":false},{"playerId":"rodrigo-cabinda","name":"Rodrigo dos Santos Ngimbi","number":2,"position":"DEF","isStarter":true,"isCaptain":true},{"playerId":"gedeon-cabinda","name":"Gedeon Macosso Mananga","number":3,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"fifa-1qtzy92","name":"Francisco Luemba","number":4,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"cristiano-cabinda","name":"Cristiano Malonda","number":8,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"luyeye-cabinda","name":"Luyeye Tomás Tomás","number":13,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"frederico-cabinda","name":"Frederico Zau","number":20,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"fifa-1ljjyh4","name":"Mário Chiwale Caluaco da Silva Mário","number":24,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"joao-cambo-cabinda","name":"João Cambo","number":25,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"ariclenis-cabinda","name":"Ariclenis Afonso Araújo Lede","number":29,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"pedro-da-silva-cabinda","name":"Pedro da Silva da Silva","number":30,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"marcos-cabinda","name":"Marcos Lando","number":5,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":"fifa-1lk64f5","name":"Mário Antonio Bumba","number":6,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":"francisco-cabinda","name":"Francisco Domingas Chicapa","number":12,"position":"GK","isStarter":false,"isCaptain":false},{"playerId":"simao-gomes-cabinda","name":"Simão Gomes","number":14,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"fifa-1tc8vr0","name":"Cornelio Queba Lelo Baptista","number":15,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":"julio-cabinda","name":"Júlio Mavungo André","number":17,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":"domingos-paixao-cabinda","name":"Domingos Paixão Paulino Lourenço","number":19,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":"fernando-cabinda","name":"Fernando Matombe Bazonga","number":21,"position":"MID","isStarter":false,"isCaptain":false},{"name":"Crichano Diacango","number":28,"position":"FWD","isStarter":false,"isCaptain":false}]'::jsonb, null, 'seed')
 on conflict (match_id,team_id) do update set side = excluded.side, players = excluded.players, coach = excluded.coach, confirmed_by = excluded.confirmed_by;
 
-delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-6');
+delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-6', 'm27-3-1', 'm27-3-4', 'm27-3-8');
 insert into public.ancaf_match_events (match_id, minute, type, team_side, player, player_id, assist, player_out, detail, sort) values
   ('m27-1-4', 28, 'yellow', 'home', 'Maranata Domingos Sicuba Vunge', 'maranata', null, null, 'Rasteirou o adversário', 0),
   ('m27-1-4', 37, 'yellow', 'home', 'Elindo Wanga Paulino', 'platini', null, null, 'Rasteirou o adversário', 1),
@@ -149,7 +149,15 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-3-7', 95, 'goal', 'home', 'Deybi Flores', 'deybi-flores', null, null, '90''+5 (3-0)', 15),
   ('m27-3-6', 45, 'goal', 'away', 'Alexandre Fernando', 'alexandre-fernando-interclube', null, null, 'Grande penalidade · 45''+5 (0-1)', 0),
   ('m27-3-6', 79, 'goal', 'home', 'Dagó Tshibamba', 'dago-tshibamba', null, null, '1-1', 1),
-  ('m27-3-6', 90, 'goal', 'home', 'Calebi Yanda', 'fifa-1jm8058', null, null, '2-1', 2);
+  ('m27-3-6', 90, 'goal', 'home', 'Calebi Yanda', 'fifa-1jm8058', null, null, '2-1', 2),
+  ('m27-3-1', 33, 'goal', 'home', 'Jo Vidal', null, null, null, 'Autogolo · 1-0', 0),
+  ('m27-3-1', 64, 'goal', 'away', 'Benvindo Miguel André Afonso', 'fifa-1jz4pi8', null, null, '1-1', 1),
+  ('m27-3-1', 90, 'goal', 'away', 'Felix Cassule Andre', 'fifa-1k2ip48', null, null, '1-2', 2),
+  ('m27-3-4', 2, 'goal', 'home', 'Jaime Caetano', 'fifa-1qw9vb1', null, null, '1-0', 0),
+  ('m27-3-4', 47, 'goal', 'away', 'Ariclenis Afonso Araújo Lede', 'ariclenis-cabinda', null, null, '1-1', 1),
+  ('m27-3-4', 68, 'goal', 'home', 'Jaime Caetano', 'fifa-1qw9vb1', null, null, '2-1', 2),
+  ('m27-3-8', 47, 'goal', 'away', 'Moisés', null, null, null, '45''+2 · 0-1', 0),
+  ('m27-3-8', 81, 'goal', 'away', 'Kessie Messi', null, null, null, '0-2', 1);
 
 insert into public.ancaf_match_stats (match_id, side, stat_key, value, published) values
   ('m27-1-4', 'home', 'yellowCards', 4, true),
@@ -221,5 +229,9 @@ insert into public.ancaf_match_stats (match_id, side, stat_key, value, published
   ('m27-3-6', 'home', 'yellowCards', 2, true),
   ('m27-3-6', 'away', 'yellowCards', 1, true),
   ('m27-3-6', 'home', 'redCards', 0, true),
-  ('m27-3-6', 'away', 'redCards', 0, true)
+  ('m27-3-6', 'away', 'redCards', 0, true),
+  ('m27-3-8', 'home', 'corners', 1, true),
+  ('m27-3-8', 'away', 'corners', 0, true),
+  ('m27-3-8', 'home', 'yellowCards', 6, true),
+  ('m27-3-8', 'away', 'yellowCards', 3, true)
 on conflict (match_id,side,stat_key) do update set value = excluded.value, published = excluded.published;

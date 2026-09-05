@@ -90,6 +90,20 @@ for (const scorer of ['Silvano da Cruz', 'Alberto Alves', 'Ricardo Batista']) {
   assert.match(data, new RegExp(scorer));
 }
 
+// Resultados publicados em 05/09/2026: placares, intervalos e marcadores
+// devem permanecer ligados às fichas reais recebidas.
+for (const resultPattern of [
+  /'m27-3-1'[\s\S]*?score: '1-2'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/,
+  /'m27-3-4'[\s\S]*?score: '2-1'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/,
+  /'m27-3-8'[\s\S]*?score: '0-2'[\s\S]*?halfTimeScore: '0-1'[\s\S]*?status: 'finished'/,
+]) {
+  assert.match(data, resultPattern);
+}
+for (const scorer of ['Jo Vidal', 'Benvindo Miguel André Afonso', 'Felix Cassule Andre', 'Jaime Caetano', 'Ariclenis Afonso Araújo Lede', 'Moisés', 'Kessie Messi']) {
+  assert.match(data, new RegExp(scorer));
+}
+assert.match(data, /'m27-3-8': \{ home: \{ corners: 1, yellowCards: 6 \}, away: \{ corners: 0, yellowCards: 3 \}/);
+
 // A ficha FC Luanda–FC Cabinda deve manter as convocatórias e a arbitragem
 // oficiais recebidas para a 3.ª jornada.
 assert.match(data, /getPublishedLuandaCabindaLineups/);

@@ -297,11 +297,14 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "caala",
     "homeTeam": "Desportivo da Lunda Sul",
     "awayTeam": "CR Caála",
-    "homeScore": 0,
-    "awayScore": 0,
+    "homeScore": 1,
+    "awayScore": 2,
     "date": "2026-09-05T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
-    "status": "scheduled"
+    "status": "finished",
+    "score": "1-2",
+    "halfTimeScore": "1-0",
+    "updatedAt": "2026-09-05T18:15:00+01:00"
   },
   {
     "id": "m27-3-8",
@@ -311,10 +314,13 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "homeTeam": "Académica do Lobito",
     "awayTeam": "Estrela 1.º de Maio",
     "homeScore": 0,
-    "awayScore": 0,
+    "awayScore": 2,
     "date": "2026-09-05T15:30:00+01:00",
     "stadium": "Estádio do Buraco",
-    "status": "scheduled",
+    "status": "finished",
+    "score": "0-2",
+    "halfTimeScore": "0-1",
+    "updatedAt": "2026-09-05T18:15:00+01:00",
     "broadcaster": "Zsports"
   },
   {
@@ -324,11 +330,14 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "cabinda",
     "homeTeam": "FC Luanda",
     "awayTeam": "FC Cabinda",
-    "homeScore": 0,
-    "awayScore": 0,
+    "homeScore": 2,
+    "awayScore": 1,
     "date": "2026-09-05T15:30:00+01:00",
     "stadium": "Estádio França N’dalu",
-    "status": "scheduled"
+    "status": "finished",
+    "score": "2-1",
+    "halfTimeScore": "1-0",
+    "updatedAt": "2026-09-05T18:15:00+01:00"
   },
   {
     "id": "m27-3-5",

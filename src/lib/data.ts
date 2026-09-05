@@ -273,6 +273,30 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: '2026-09-01T18:00:00+01:00',
   },
+  'm27-3-1': {
+    homeScore: 1,
+    awayScore: 2,
+    score: '1-2',
+    halfTimeScore: '1-0',
+    status: 'finished',
+    updatedAt: '2026-09-05T18:15:00+01:00',
+  },
+  'm27-3-4': {
+    homeScore: 2,
+    awayScore: 1,
+    score: '2-1',
+    halfTimeScore: '1-0',
+    status: 'finished',
+    updatedAt: '2026-09-05T18:15:00+01:00',
+  },
+  'm27-3-8': {
+    homeScore: 0,
+    awayScore: 2,
+    score: '0-2',
+    halfTimeScore: '0-1',
+    status: 'finished',
+    updatedAt: '2026-09-05T18:15:00+01:00',
+  },
 };
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
@@ -382,6 +406,12 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'higino-bravos', name: 'Higino Kaptingo Epalanga', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Médio', goals: 1, appearances: 2 },
   { id: 'fifa-1jm8058', name: 'Calebi Yanda', club: '1.º de Agosto', teamId: 'dago', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'alexandre-fernando-interclube', name: 'Alexandre Fernando', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'fifa-1qw9vb1', name: 'Jaime Caetano', club: 'FC Luanda', teamId: 'fcluanda', position: 'Médio', goals: 2, appearances: 1 },
+  { id: 'ariclenis-cabinda', name: 'Ariclenis Afonso Araújo Lede', club: 'FC Cabinda', teamId: 'cabinda', position: 'Avançado', goals: 1, appearances: 2 },
+  { id: 'moises-primeiromaio', name: 'Moisés', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'kessie-messi-primeiromaio', name: 'Kessie Messi', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'fifa-1jz4pi8', name: 'Benvindo Miguel André Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 1, appearances: 1 },
+  { id: 'fifa-1k2ip48', name: 'Felix Cassule Andre', club: 'CR Caála', teamId: 'caala', position: 'Defesa', goals: 1, appearances: 1 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -3626,6 +3656,23 @@ function getPublishedLuandaCabindaLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  if (match.id === 'm27-3-1') return [
+    { minute: 33, type: 'goal', team: 'home', player: 'Jo Vidal', detail: 'Autogolo · 1-0' },
+    { minute: 64, type: 'goal', team: 'away', player: 'Benvindo Miguel André Afonso', playerId: 'fifa-1jz4pi8', detail: '1-1' },
+    { minute: 90, type: 'goal', team: 'away', player: 'Felix Cassule Andre', playerId: 'fifa-1k2ip48', detail: '1-2' },
+  ];
+
+  if (match.id === 'm27-3-4') return [
+    { minute: 2, type: 'goal', team: 'home', player: 'Jaime Caetano', playerId: 'fifa-1qw9vb1', detail: '1-0' },
+    { minute: 47, type: 'goal', team: 'away', player: 'Ariclenis Afonso Araújo Lede', playerId: 'ariclenis-cabinda', detail: '1-1' },
+    { minute: 68, type: 'goal', team: 'home', player: 'Jaime Caetano', playerId: 'fifa-1qw9vb1', detail: '2-1' },
+  ];
+
+  if (match.id === 'm27-3-8') return [
+    { minute: 47, type: 'goal', team: 'away', player: 'Moisés', playerId: 'moises-primeiromaio', detail: "45'+2 · 0-1" },
+    { minute: 81, type: 'goal', team: 'away', player: 'Kessie Messi', playerId: 'kessie-messi-primeiromaio', detail: '0-2' },
+  ];
+
   if (match.id === 'm27-2-6') return [
     { minute: 85, type: 'goal', team: 'away', player: 'Higino Kaptingo Epalanga', playerId: 'higino-bravos', detail: '0-1' },
   ];
@@ -3910,6 +3957,7 @@ type PublishedMatchStats = {
 
 /** Apenas métricas efetivamente visíveis nas fichas/fontes recebidas. */
 const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
+  'm27-3-8': { home: { corners: 1, yellowCards: 6 }, away: { corners: 0, yellowCards: 3 }, keys: ['corners', 'yellowCards'] },
   'm27-2-1': { home: { redCards: 1 }, away: { redCards: 0 }, keys: ['redCards'] },
   'm27-2-2': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 4, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-2-7': { home: { corners: 0, saves: 0, yellowCards: 2, redCards: 0 }, away: { corners: 0, saves: 0, yellowCards: 2, redCards: 0 }, keys: ['corners', 'saves', 'yellowCards', 'redCards'] },
