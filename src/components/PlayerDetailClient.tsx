@@ -283,7 +283,10 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
 
 // ── ABA 2: Estatísticas Detalhadas ──────────
 function StatsTab({ player }: { player: Player }) {
-  if (!player.statsVerified) {
+  // O portal ainda não recebe métricas avançadas oficiais por atleta.
+  // Até essa integração existir, mostra apenas totais editoriais confirmados.
+  const hasOfficialAdvancedPlayerMetrics = false;
+  if (!hasOfficialAdvancedPlayerMetrics || !player.statsVerified) {
     const yellowCards = player.detailedStats?.yellowCards ?? 0;
     const redCards = player.detailedStats?.redCards ?? 0;
     const confirmedStats = [

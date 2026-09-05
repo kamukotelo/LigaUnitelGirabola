@@ -417,6 +417,8 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
 
 export interface Player extends PlayerStats {
   teamId: string; // References Team.id
+  /** Alcunha/nome desportivo usado nas fichas de jogo. */
+  nickname?: string;
   jerseyNumber: number;
   age: number;
   nationality: string;
@@ -592,6 +594,9 @@ function getDeterministicScore(homeId: string, awayId: string, round: number): {
   };
 }
 
+// Mantido apenas para leitura de versões antigas durante a migração; não é
+// exportado nem executado por qualquer rota pública.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateAllMatches(): Match[] {
   const teamIds = TEAMS.map(t => t.id);
   const n = teamIds.length;
@@ -727,7 +732,9 @@ function generateAllMatches(): Match[] {
   });
 }
 
-export const MATCHES: Match[] = generateAllMatches();
+// Compatibilidade com integrações antigas. O portal deixou de executar o
+// gerador demonstrativo: épocas sem calendário oficial retornam uma lista vazia.
+export const MATCHES: Match[] = [];
 
 // ── 2b. CLASSIFICAÇÃO DERIVADA DOS JOGOS ───────────────────────────
 // A tabela mostrada no site é calculada a partir dos jogos terminados,
@@ -2182,6 +2189,9 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
       name: record.popularName
         ? formatOfficialPlayerName(record.popularName)
         : fallback?.name ?? shortDisplayName(formatOfficialPlayerName(record.name)),
+      nickname: record.popularName
+        ? formatOfficialPlayerName(record.popularName)
+        : (fallback?.nickname ?? (fallback?.fullName && fallback.name !== fallback.fullName ? fallback.name : undefined)),
       fullName: formatOfficialPlayerName(record.fullName),
       club: squad.club,
       teamId: squad.teamId,
@@ -2299,11 +2309,11 @@ const CURRENT_PLAYERS_RAW: Player[] = [
   })),
 ].map((player) => ({
   ...player,
-  goals: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.goals ?? (['bravos', 'libolo'].includes(player.teamId) ? player.goals : 0),
-  assists: ['bravos', 'libolo'].includes(player.teamId) ? player.assists : 0,
+  goals: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.goals ?? 0,
+  assists: 0,
   appearances: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.appearances
     ?? (CURRENT_CONFIRMED_CARDS[player.id] ? Math.max(1, player.appearances) : undefined)
-    ?? (['bravos', 'sagrada', 'cabinda', 'libolo'].includes(player.teamId) ? player.appearances : 0),
+    ?? 0,
 }));
 
 export const PLAYERS: Player[] = CURRENT_PLAYERS_RAW.map(enrichPlayer);
@@ -2870,6 +2880,7 @@ export function getPlayers(): Player[] {
 
 export function getCurrentSeasonDiscipline() {
   return getPlayers()
+    .filter((player) => CURRENT_CONFIRMED_CARDS[player.id] !== undefined)
     .map((player) => ({
       id: player.id,
       name: player.name,
@@ -2877,10 +2888,9 @@ export function getCurrentSeasonDiscipline() {
       teamId: player.teamId,
       position: player.position,
       appearances: player.appearances,
-      yellowCards: player.detailedStats?.yellowCards ?? 0,
-      redCards: player.detailedStats?.redCards ?? 0,
+      yellowCards: CURRENT_CONFIRMED_CARDS[player.id].yellow,
+      redCards: CURRENT_CONFIRMED_CARDS[player.id].red,
     }))
-    .filter((player) => player.yellowCards > 0 || player.redCards > 0)
     .sort((a, b) => b.redCards - a.redCards || b.yellowCards - a.yellowCards || a.name.localeCompare(b.name));
 }
 
@@ -2952,7 +2962,6 @@ export function getPlayerFicha(player: Player): PlayerFicha {
 
 export function getMatchById(id: string): Match | undefined {
   const match = (id.startsWith('m27-') ? getMatchesForSeason(UPCOMING_SEASON_ID).find(m => m.id === id) : undefined)
-    ?? MATCHES.find(m => m.id === id)
     ?? Object.values(HISTORICAL_MATCHES).flat().find(m => m.id === id);
   return match ? applyRuntimeMatchOverrides([match])[0] : undefined;
 }
@@ -3123,6 +3132,7 @@ export interface LineupPlayer {
   position?: PitchPosition;  // ausente quando a fonte não identifica a posição
   rating: number;           // 0–10
   isStarter: boolean;
+  isCaptain?: boolean;
 }
 
 export interface MatchEventDetail {
@@ -3131,6 +3141,7 @@ export interface MatchEventDetail {
   team: 'home' | 'away';
   player: string;
   playerId?: string;
+  number?: number;          // camisola publicada na ficha, usada para conciliar a identidade
   assist?: string;
   playerOut?: string;       // para substituições
   detail?: string;          // ex.: 'Grande penalidade'
@@ -3153,72 +3164,55 @@ export interface MatchDetail {
   manOfTheMatch?: { name: string; playerId?: string; rating: number; team: 'home' | 'away' };
 }
 
-const SQUAD_FIRST = ['Manuel', 'João', 'Pedro', 'Alberto', 'Geraldo', 'Mateus', 'Domingos', 'Carlos', 'Bruno', 'Hélder', 'Nuno', 'Ivo', 'Cláudio', 'Wilson', 'Fredy', 'Gilberto', 'Yuri', 'Dani', 'Zito', 'Job', 'Edmilson', 'Buatu', 'Picas', 'Bastos'];
-const SQUAD_LAST = ['Cabungula', 'Capita', 'Buá', 'Catraio', 'Mavinga', 'Manucho', 'Bero', 'Lamá', 'Quinito', 'Bokila', 'Kialonda', 'Afonso', 'Nzola', 'Caboco', 'Wilá', 'Fabrício', 'Massunguna', 'Ginga', 'Depú', 'Isaac', 'Gelson', 'Tó Carneiro', 'Macaia', 'Bambi'];
 export const BROADCASTERS = ['ZSports', 'Rádio 5'];
 
 // Clubes angolanos nas Afro Taças. Nos jogos do Girabola entre duas destas
 // equipas, a transmissão é sempre assegurada pela ZSports.
 
-function seededInt(seed: number, salt: number, min: number, max: number): number {
-  const x = Math.abs(Math.sin(seed * 374761 + salt * 99991) * 43758.5453);
-  return min + Math.floor((x - Math.floor(x)) * (max - min + 1));
-}
-
-function mapPitchPosition(p: string): PitchPosition {
-  const s = p.toLowerCase();
-  if (s.includes('guarda')) return 'GK';
-  if (s.includes('defesa') || s.includes('lateral') || s.includes('central')) return 'DEF';
-  if (s.includes('médio') || s.includes('medio')) return 'MID';
+function mapPitchPosition(position: string): PitchPosition {
+  const normalized = position.toLowerCase();
+  if (normalized.includes('guarda') || normalized.includes('goleiro')) return 'GK';
+  if (normalized.includes('defesa') || normalized.includes('lateral') || normalized.includes('central')) return 'DEF';
+  if (normalized.includes('médio') || normalized.includes('medio')) return 'MID';
   return 'FWD';
 }
 
-// Estrutura 4-3-3: titulares + suplentes (1 GK, 2 DEF, 2 MID, 2 FWD)
-const STARTER_SLOTS: PitchPosition[] = ['GK', 'DEF', 'DEF', 'DEF', 'DEF', 'MID', 'MID', 'MID', 'FWD', 'FWD', 'FWD'];
-const SUB_SLOTS: PitchPosition[] = ['GK', 'DEF', 'DEF', 'MID', 'MID', 'FWD', 'FWD'];
+/** Nome curto que deve aparecer numa escalação, sem perder o nome civil na ficha. */
+export function getPlayerMatchName(player: Player): string {
+  return player.nickname?.trim() || player.name;
+}
 
-function buildLineup(teamId: string, seed: number): LineupPlayer[] {
-  const real = getPlayersByTeam(teamId);
-  const realByPos: Record<PitchPosition, Player[]> = { GK: [], DEF: [], MID: [], FWD: [] };
-  real.forEach(p => realByPos[mapPitchPosition(p.position)].push(p));
-
-  const usedNumbers = new Set<number>();
-  const lineup: LineupPlayer[] = [];
-  const slots = [...STARTER_SLOTS.map(s => ({ pos: s, starter: true })), ...SUB_SLOTS.map(s => ({ pos: s, starter: false }))];
-
-  slots.forEach((slot, idx) => {
-    const realPick = realByPos[slot.pos].shift();
-    if (realPick) {
-      let num = realPick.jerseyNumber;
-      while (usedNumbers.has(num)) num++;
-      usedNumbers.add(num);
-      const r = baseRating(realPick) + (seededInt(seed, idx + 50, -4, 6) / 10);
-      lineup.push({
-        name: realPick.name,
-        playerId: realPick.id,
-        number: num,
-        position: slot.pos,
-        rating: Math.min(Math.max(Math.round(r * 10) / 10, 5.5), 9.5),
-        isStarter: slot.starter,
-      });
-    } else {
-      const fn = SQUAD_FIRST[seededInt(seed, idx * 7 + 1, 0, SQUAD_FIRST.length - 1)];
-      const ln = SQUAD_LAST[seededInt(seed, idx * 13 + 3, 0, SQUAD_LAST.length - 1)];
-      let num = seededInt(seed, idx * 3 + 2, 1, 30);
-      while (usedNumbers.has(num)) num = (num % 30) + 1;
-      usedNumbers.add(num);
-      const base = slot.starter ? 6.2 : 5.9;
-      lineup.push({
-        name: `${fn} ${ln}`,
-        number: num,
-        position: slot.pos,
-        rating: Math.round((base + seededInt(seed, idx + 200, 0, 14) / 10) * 10) / 10,
-        isStarter: slot.starter,
-      });
-    }
+/**
+ * Liga cada entrada da ficha ao plantel. Clube + camisola é a chave principal
+ * para impedir que um ID ou nome antigo atribua estatísticas ao atleta errado.
+ */
+function reconcileLineupPlayers(teamId: string, lineup: LineupPlayer[]): LineupPlayer[] {
+  const squad = getPlayersByTeam(teamId);
+  return lineup.map((slot) => {
+    const byId = slot.playerId ? squad.find((player) => player.id === slot.playerId) : undefined;
+    const byShirt = slot.number > 0 ? squad.find((player) => player.jerseyNumber === slot.number) : undefined;
+    const player = byShirt ?? byId;
+    if (!player) return slot;
+    return {
+      ...slot,
+      playerId: player.id,
+      name: getPlayerMatchName(player),
+      position: slot.position ?? mapPitchPosition(player.position),
+    };
   });
+}
 
-  return lineup;
+function reconcileMatchEvents(events: MatchEventDetail[], home: LineupPlayer[], away: LineupPlayer[]): MatchEventDetail[] {
+  return events.map((event) => {
+    const lineup = event.team === 'home' ? home : away;
+    const byId = event.playerId ? lineup.find((slot) => slot.playerId === event.playerId) : undefined;
+    const byShirt = event.number && event.number > 0
+      ? lineup.find((slot) => slot.number === event.number)
+      : undefined;
+    const byName = lineup.find((slot) => foldName(slot.name) === foldName(event.player));
+    const player = byShirt ?? byId ?? byName;
+    return player ? { ...event, player: player.name, playerId: player.playerId, number: player.number } : event;
+  });
 }
 
 /** Escalações oficiais publicadas pelos clubes para o jogo inaugural. */
@@ -3565,6 +3559,67 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
       player('Catraio', 'catraio-libolo', 24, 'DEF', false),
       player('Miro', 'miro-libolo', 25, 'DEF', false),
       player('Lara', 'lara-libolo', 28, 'FWD', false),
+    ],
+  };
+}
+
+/** Onze inicial e suplentes de FC Luanda–FC Cabinda (3.ª jornada). */
+function getPublishedLuandaCabindaLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-3-4') return undefined;
+
+  const player = (
+    name: string,
+    playerId: string | undefined,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+    isCaptain = false,
+  ): LineupPlayer => ({ name, playerId, number, position, isStarter, isCaptain, rating: 0 });
+
+  return {
+    home: [
+      player('Ludiakueno Afonso', 'fifa-1l7wk59', 12, 'GK', true),
+      player('Filipe Malanda', 'fifa-1k2wth5', 17, 'DEF', true, true),
+      player('Jonilson José Manuel Manuel', 'fifa-1ljvmr0', 6, 'DEF', true),
+      player('Pedro Paulo', 'fifa-1liwnq8', 7, 'MID', true),
+      player('Gelson dos Santos André Gelson', 'fifa-1ljudk2', 8, 'MID', true),
+      player('Denilson Makokisa', 'fifa-1l7lph0', 10, 'FWD', true),
+      player('Rube Cristiano Mbala Luwawa', 'fifa-1t6b2z2', 15, 'MID', true),
+      player('Arnaldo Dielo', 'fifa-1m8xdu3', 16, 'MID', true),
+      player('Miguel Nzau Manuel Matos', 'fifa-1l064e1', 23, 'MID', true),
+      player('Celio Nimi', 'fifa-1qw3z14', 26, 'MID', true),
+      player('Jaime Caetano', 'fifa-1qw9vb1', 30, 'MID', true),
+      player('Hamilton Ebo', 'fifa-1maldz0', 2, 'MID', false),
+      player('Joel Diaku', 'fifa-1qhqn96', 4, 'DEF', false),
+      player('Euclides dos Santos', 'fifa-1mtndt1', 5, 'MID', false),
+      player('Francisco Chiquinho', 'fifa-1l11132', 9, 'FWD', false),
+      player('Domingo André', 'fifa-1mall47', 14, 'MID', false),
+      player('Deo Yoka', 'fifa-1l7w9k9', 22, 'GK', false),
+      player('Domingo Bangula', 'fifa-1l08hy2', 25, 'MID', false),
+      player('Batista Jão Kachama Kachama', 'fifa-1v0ca42', 27, 'MID', false),
+      player('Pedro Chissaluquila', 'fifa-1maldr2', 28, 'DEF', false),
+    ],
+    away: [
+      player('João Eduardo', 'cabinda-player-1', 1, 'GK', true),
+      player('Rodrigo dos Santos Ngimbi', 'rodrigo-cabinda', 2, 'DEF', true, true),
+      player('Gedeon Macosso Mananga', 'gedeon-cabinda', 3, 'FWD', true),
+      player('Francisco Luemba', 'fifa-1qtzy92', 4, 'DEF', true),
+      player('Cristiano Malonda', 'cristiano-cabinda', 8, 'MID', true),
+      player('Luyeye Tomás Tomás', 'luyeye-cabinda', 13, 'MID', true),
+      player('Frederico Zau', 'frederico-cabinda', 20, 'DEF', true),
+      player('Mário Chiwale Caluaco da Silva Mário', 'fifa-1ljjyh4', 24, 'MID', true),
+      player('João Cambo', 'joao-cambo-cabinda', 25, 'DEF', true),
+      player('Ariclenis Afonso Araújo Lede', 'ariclenis-cabinda', 29, 'FWD', true),
+      player('Pedro da Silva da Silva', 'pedro-da-silva-cabinda', 30, 'FWD', true),
+      player('Marcos Lando', 'marcos-cabinda', 5, 'DEF', false),
+      player('Mário Antonio Bumba', 'fifa-1lk64f5', 6, 'DEF', false),
+      player('Francisco Domingas Chicapa', 'francisco-cabinda', 12, 'GK', false),
+      player('Simão Gomes', 'simao-gomes-cabinda', 14, 'FWD', false),
+      player('Cornelio Queba Lelo Baptista', 'fifa-1tc8vr0', 15, 'MID', false),
+      player('Júlio Mavungo André', 'julio-cabinda', 17, 'DEF', false),
+      player('Domingos Paixão Paulino Lourenço', 'domingos-paixao-cabinda', 19, 'MID', false),
+      player('Fernando Matombe Bazonga', 'fernando-cabinda', 21, 'MID', false),
+      player('Crichano Diacango', undefined, 28, 'FWD', false),
     ],
   };
 }
@@ -4070,6 +4125,72 @@ export function getCurrentSeasonAssists(): AssistRecord[] {
     b.assists - a.assists || b.appearances - a.appearances || a.name.localeCompare(b.name));
 }
 
+export interface GoalHaulRecord {
+  id: string;
+  name: string;
+  club: string;
+  teamId: string;
+  braces: number;
+  hatTricks: number;
+  pokers: number;
+  manitas: number;
+  overFive: number;
+}
+
+/**
+ * Jogos com múltiplos golos pelo mesmo atleta. Só considera ocorrências
+ * publicadas com jogador identificado; golos repartidos por jogos diferentes
+ * nunca são convertidos em doblete, hat-trick, poker ou manita.
+ */
+export function getCurrentSeasonGoalHauls(): GoalHaulRecord[] {
+  const players = new Map(getPlayers().map((player) => [player.id, player]));
+  const totals = new Map<string, GoalHaulRecord>();
+
+  for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
+    if (match.status !== 'finished' || !hasPublishedMatchEvents(match)) continue;
+
+    const goalsInMatch = new Map<string, { goals: number; name: string; teamId: string }>();
+    for (const event of getMatchDetail(match).events) {
+      if (event.type !== 'goal' || !event.playerId) continue;
+      const teamId = event.team === 'home' ? match.homeTeamId : match.awayTeamId;
+      const row = goalsInMatch.get(event.playerId) ?? { goals: 0, name: event.player, teamId };
+      row.goals += 1;
+      goalsInMatch.set(event.playerId, row);
+    }
+
+    for (const [playerId, matchTotal] of goalsInMatch) {
+      if (matchTotal.goals < 2) continue;
+      const profile = players.get(playerId);
+      const row = totals.get(playerId) ?? {
+        id: playerId,
+        name: profile?.name ?? matchTotal.name,
+        club: profile?.club ?? getTeamFullName(matchTotal.teamId, matchTotal.teamId),
+        teamId: matchTotal.teamId,
+        braces: 0,
+        hatTricks: 0,
+        pokers: 0,
+        manitas: 0,
+        overFive: 0,
+      };
+
+      if (matchTotal.goals === 2) row.braces += 1;
+      else if (matchTotal.goals === 3) row.hatTricks += 1;
+      else if (matchTotal.goals === 4) row.pokers += 1;
+      else if (matchTotal.goals === 5) row.manitas += 1;
+      else row.overFive += 1;
+      totals.set(playerId, row);
+    }
+  }
+
+  return [...totals.values()].sort((a, b) =>
+    b.overFive - a.overFive
+    || b.manitas - a.manitas
+    || b.pokers - a.pokers
+    || b.hatTricks - a.hatTricks
+    || b.braces - a.braces
+    || a.name.localeCompare(b.name));
+}
+
 const NOMINAL_MATCH_LENGTH = 90;
 
 const PITCH_POSITION_LABEL: Record<NonNullable<LineupPlayer['position']>, string> = {
@@ -4088,6 +4209,11 @@ const PITCH_POSITION_LABEL: Record<NonNullable<LineupPlayer['position']>, string
  * existe, é uma métrica à parte — ver getMatchTempoUtil).
  */
 export function getCurrentSeasonMinutesPlayed(): MinutesPlayedRecord[] {
+  // A ficha atual não publica a duração oficial em campo de cada atleta.
+  // Não expor minutos regulamentares presumidos como se fossem oficiais.
+  const hasOfficialPlayerMinuteTotals = false;
+  if (!hasOfficialPlayerMinuteTotals) return [];
+
   const totals = new Map<string, MinutesPlayedRecord>();
 
   const addMinutes = (playerId: string, name: string, teamId: string, position: LineupPlayer['position'], minutes: number) => {
@@ -4158,22 +4284,6 @@ export function getCurrentSeasonMinutesPlayed(): MinutesPlayedRecord[] {
   return [...totals.values()].sort((a, b) => b.minutesPlayed - a.minutesPlayed || b.appearances - a.appearances);
 }
 
-function pickScorers(lineup: LineupPlayer[], count: number, seed: number, salt: number): LineupPlayer[] {
-  if (count <= 0) return [];
-  const candidates = lineup.filter(p => p.isStarter && p.position !== 'GK')
-    .sort((a, b) => {
-      const wa = a.position === 'FWD' ? 3 : a.position === 'MID' ? 2 : 1;
-      const wb = b.position === 'FWD' ? 3 : b.position === 'MID' ? 2 : 1;
-      return wb - wa;
-    });
-  const out: LineupPlayer[] = [];
-  for (let i = 0; i < count; i++) {
-    const idx = seededInt(seed, salt + i, 0, Math.min(candidates.length - 1, 4));
-    out.push(candidates[idx] || candidates[0]);
-  }
-  return out;
-}
-
 /** Treinadores confirmados nas fichas de jogo. */
 const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: string }>> = {
   'm27-1-3': { home: 'Filipe Nzanza' },
@@ -4183,18 +4293,17 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
 };
 
 export function getMatchDetail(match: Match): MatchDetail {
-  const seed = hashString(match.id);
-
-  // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código → procedural.
+  // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código.
   const dbLineup = RUNTIME_DATA.lineups?.[match.id];
   const publishedLineups = dbLineup ?? getPublishedBravosSagradaLineups(match)
     ?? getPublishedCabindaLiboloLineups(match)
+    ?? getPublishedLuandaCabindaLineups(match)
     ?? getPublishedAgostoHuilaLineups(match)
     ?? getPublishedLundaSulPetroLineups(match)
     ?? getPublishedLobitoPetroLineups(match)
     ?? getPublishedPetroLiboloLineups(match);
-  const homeLineup = publishedLineups?.home ?? buildLineup(match.homeTeamId, seed);
-  const awayLineup = publishedLineups?.away ?? buildLineup(match.awayTeamId, seed + 7);
+  const homeLineup = reconcileLineupPlayers(match.homeTeamId, publishedLineups?.home ?? []);
+  const awayLineup = reconcileLineupPlayers(match.awayTeamId, publishedLineups?.away ?? []);
 
   const publishedStats = RUNTIME_DATA.matchStats?.[match.id] ?? PUBLISHED_MATCH_STATS[match.id];
   const homeStats = { ...EMPTY_MATCH_STATS, ...publishedStats?.home };
@@ -4203,59 +4312,13 @@ export function getMatchDetail(match: Match): MatchDetail {
   const events: MatchEventDetail[] = [];
   const publishedEvents = RUNTIME_DATA.events?.[match.id] ?? getPublishedMatchEvents(match);
 
-  if (match.status === 'finished' || match.status === 'live') {
-    if (publishedEvents) {
-      events.push(...publishedEvents);
-    } else {
-    // Golos
-    const homeScorers = pickScorers(homeLineup, match.homeScore, seed, 100);
-    const awayScorers = pickScorers(awayLineup, match.awayScore, seed, 200);
-    homeScorers.forEach((s, i) => {
-      const isPen = seededInt(seed, 300 + i, 0, 6) === 0;
-      events.push({
-        minute: seededInt(seed, 310 + i, 3, 89),
-        type: 'goal', team: 'home', player: s.name, playerId: s.playerId,
-        detail: isPen ? 'Grande penalidade' : undefined,
-      });
-      s.rating = Math.min(s.rating + 0.6, 9.9);
-    });
-    awayScorers.forEach((s, i) => {
-      const isPen = seededInt(seed, 400 + i, 0, 6) === 0;
-      events.push({
-        minute: seededInt(seed, 410 + i, 3, 89),
-        type: 'goal', team: 'away', player: s.name, playerId: s.playerId,
-        detail: isPen ? 'Grande penalidade' : undefined,
-      });
-      s.rating = Math.min(s.rating + 0.6, 9.9);
-    });
-
-    // Cartões amarelos (mostra até 2 por equipa)
-    const homeYellow = pickScorers(homeLineup, Math.min(homeStats.yellowCards, 2), seed, 500);
-    homeYellow.forEach((p, i) => events.push({ minute: seededInt(seed, 510 + i, 20, 88), type: 'yellow', team: 'home', player: p.name, playerId: p.playerId }));
-    const awayYellow = pickScorers(awayLineup, Math.min(awayStats.yellowCards, 2), seed, 600);
-    awayYellow.forEach((p, i) => events.push({ minute: seededInt(seed, 610 + i, 20, 88), type: 'yellow', team: 'away', player: p.name, playerId: p.playerId }));
-
-    // Substituições (2 por equipa)
-    const homeSubsIn = homeLineup.filter(p => !p.isStarter).slice(0, 2);
-    const homeSubsOut = homeLineup.filter(p => p.isStarter && p.position !== 'GK').slice(-2);
-    homeSubsIn.forEach((p, i) => events.push({ minute: seededInt(seed, 710 + i, 55, 85), type: 'sub', team: 'home', player: p.name, playerId: p.playerId, playerOut: homeSubsOut[i]?.name }));
-    const awaySubsIn = awayLineup.filter(p => !p.isStarter).slice(0, 2);
-    const awaySubsOut = awayLineup.filter(p => p.isStarter && p.position !== 'GK').slice(-2);
-    awaySubsIn.forEach((p, i) => events.push({ minute: seededInt(seed, 810 + i, 55, 85), type: 'sub', team: 'away', player: p.name, playerId: p.playerId, playerOut: awaySubsOut[i]?.name }));
-    }
+  if ((match.status === 'finished' || match.status === 'live') && publishedEvents) {
+    events.push(...reconcileMatchEvents(publishedEvents, homeLineup, awayLineup));
   }
 
   // Eventos cujo minuto ainda não foi confirmado aparecem primeiro, com
   // indicação explícita, e nunca recebem um minuto inventado.
   events.sort((a, b) => (a.minute ?? -1) - (b.minute ?? -1));
-
-  const allStarters = match.status !== 'finished' || publishedEvents
-    ? []
-    : [...homeLineup.filter(p => p.isStarter && p.rating > 0).map(p => ({ ...p, team: 'home' as const })), ...awayLineup.filter(p => p.isStarter && p.rating > 0).map(p => ({ ...p, team: 'away' as const }))];
-  const motmSrc = allStarters.sort((a, b) => b.rating - a.rating)[0];
-  const manOfTheMatch = motmSrc
-    ? { name: motmSrc.name, playerId: motmSrc.playerId, rating: motmSrc.rating, team: motmSrc.team }
-    : undefined;
 
   return {
     match,
@@ -4271,7 +4334,7 @@ export function getMatchDetail(match: Match): MatchDetail {
     referee: match.referee ?? getMatchOfficials(match).referee,
     homeCoach: dbLineup?.homeCoach ?? PUBLISHED_MATCH_COACHES[match.id]?.home,
     awayCoach: dbLineup?.awayCoach ?? PUBLISHED_MATCH_COACHES[match.id]?.away,
-    manOfTheMatch,
+    manOfTheMatch: undefined,
   };
 }
 
@@ -4349,6 +4412,11 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       referee: 'Bernardo Mário',
       assistants: ['João António', 'António Miguel'],
       fourth: 'Sabino De Carvalho',
+    },
+    'm27-3-4': {
+      referee: 'Edilson Roberto Gomes André',
+      assistants: ['Evanildo Gaspar dos Santos Martins', 'Pedro Domingos de Andrade Micolo'],
+      fourth: 'Nelson Agostinho da Silva',
     },
   };
   // Prioridade: override publicado no admin → BD (ancaf_referee_nominations)

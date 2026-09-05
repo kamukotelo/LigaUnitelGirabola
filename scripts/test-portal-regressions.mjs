@@ -10,9 +10,11 @@ const files = {
   adminAuth: new URL('../src/lib/admin-auth.ts', import.meta.url),
   adminLogin: new URL('../src/app/api/admin/login/route.ts', import.meta.url),
   loginPage: new URL('../src/app/login/page.tsx', import.meta.url),
+  advancedStatistics: new URL('../src/components/competition/AdvancedStatistics.tsx', import.meta.url),
+  playerDetail: new URL('../src/components/PlayerDetailClient.tsx', import.meta.url),
 };
 
-const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage] = await Promise.all(
+const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage, advancedStatistics, playerDetail] = await Promise.all(
   Object.values(files).map((file) => readFile(file, 'utf8')),
 );
 
@@ -88,12 +90,40 @@ for (const scorer of ['Silvano da Cruz', 'Alberto Alves', 'Ricardo Batista']) {
   assert.match(data, new RegExp(scorer));
 }
 
+// A ficha FC Luanda–FC Cabinda deve manter as convocatórias e a arbitragem
+// oficiais recebidas para a 3.ª jornada.
+assert.match(data, /getPublishedLuandaCabindaLineups/);
+for (const officialEntry of [
+  'Ludiakueno Afonso',
+  'Filipe Malanda',
+  'João Eduardo',
+  'Rodrigo dos Santos Ngimbi',
+  'Evanildo Gaspar dos Santos Martins',
+  'Nelson Agostinho da Silva',
+]) {
+  assert.match(data, new RegExp(officialEntry));
+}
+
 // A classificação pública só pode usar resultados finais, e estatísticas
 // individuais não podem recorrer a eventos gerados ou valores estimados.
 assert.match(data, /\.filter\(m => m\.status === 'finished'\)/);
 assert.doesNotMatch(data, /status === 'finished' \|\| m\.status === 'live'/);
 assert.match(data, /export function getCurrentSeasonAssists/);
+assert.match(data, /export function getCurrentSeasonGoalHauls/);
+assert.match(data, /matchTotal\.goals === 4[\s\S]*?row\.pokers \+= 1/);
+assert.match(data, /matchTotal\.goals === 5[\s\S]*?row\.manitas \+= 1/);
+assert.match(data, /else row\.overFive \+= 1/);
 assert.match(data, /hasOfficialEvents/);
+assert.match(data, /export const MATCHES: Match\[\] = \[\]/);
+assert.doesNotMatch(data, /export const MATCHES: Match\[\] = generateAllMatches\(\)/);
+assert.match(data, /publishedLineups\?\.home \?\? \[\]/);
+assert.match(data, /publishedLineups\?\.away \?\? \[\]/);
+assert.match(data, /goals: CURRENT_SEASON_PLAYER_TOTALS\.get\(player\.id\)\?\.goals \?\? 0/);
+assert.match(data, /hasOfficialPlayerMinuteTotals = false/);
+assert.doesNotMatch(data, /publishedLineups\?\.home \?\? buildLineup/);
+assert.doesNotMatch(data, /homeScorers = pickScorers/);
+assert.match(advancedStatistics, /referee === 'A definir'/);
+assert.match(playerDetail, /hasOfficialAdvancedPlayerMetrics = false/);
 
 // O login administrativo deve identificar cada pessoa, validar o perfil no
 // servidor e emitir uma sessão assinada e limitada no tempo.

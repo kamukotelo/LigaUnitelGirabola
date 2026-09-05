@@ -5,8 +5,10 @@ import { Activity, BarChart3, Clock3, ShieldCheck, TrendingUp, Users } from 'luc
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import {
   computeStandings,
+  CURRENT_SEASON_SCORERS,
   getCurrentSeasonAssists,
   getCurrentSeasonCleanSheets,
+  getCurrentSeasonGoalHauls,
   getCurrentSeasonMinutesPlayed,
   getMatchDetail,
   getMatchOfficials,
@@ -64,7 +66,7 @@ export default function AdvancedStatistics({ seasonId }: { seasonId: string }) {
     const refereeMap = new Map<string, { matches: number; yellow: number; red: number }>();
     for (const match of finished) {
       const referee = getMatchOfficials(match).referee;
-      if (!referee) continue;
+      if (!referee || referee === 'A definir') continue;
       const detail = getMatchDetail(match);
       const official = new Set(detail.officialStatKeys);
       const row = refereeMap.get(referee) ?? { matches: 0, yellow: 0, red: 0 };
@@ -113,13 +115,19 @@ export default function AdvancedStatistics({ seasonId }: { seasonId: string }) {
     const assists = seasonId === UPCOMING_SEASON_ID ? getCurrentSeasonAssists() : [];
     const minuteMap = new Map(minutes.map((row) => [row.id, row.minutesPlayed]));
     const assistMap = new Map(assists.map((row) => [row.id, row.assists]));
-    const playerRates = players.map((player) => {
-      const playedMinutes = minuteMap.get(player.id) ?? (player.statsVerified ? player.detailedStats?.minutesPlayed : undefined);
-      const playerAssists = assistMap.get(player.id) ?? player.assists;
+    const playerMap = new Map(players.map((player) => [player.id, player]));
+    const scorerMap = new Map<string, (typeof CURRENT_SEASON_SCORERS)[number]>(CURRENT_SEASON_SCORERS.map((player) => [player.id, player]));
+    const playerIds = new Set([...scorerMap.keys(), ...assistMap.keys()]);
+    const playerRates = [...playerIds].map((playerId) => {
+      const player = playerMap.get(playerId);
+      const scorer = scorerMap.get(playerId);
+      const playedMinutes = minuteMap.get(playerId);
+      const playerGoals = scorer?.goals ?? 0;
+      const playerAssists = assistMap.get(playerId) ?? 0;
       return {
-        id: player.id, name: player.name, club: player.club, goals: player.goals,
-        assists: playerAssists, contributions: player.goals + playerAssists,
-        goalsPer90: playedMinutes ? (player.goals * 90) / playedMinutes : null,
+        id: playerId, name: player?.name ?? scorer?.name ?? playerId, club: player?.club ?? scorer?.club ?? 'Clube por confirmar', goals: playerGoals,
+        assists: playerAssists, contributions: playerGoals + playerAssists,
+        goalsPer90: playedMinutes ? (playerGoals * 90) / playedMinutes : null,
         assistsPer90: playedMinutes ? (playerAssists * 90) / playedMinutes : null,
       };
     }).filter((row) => row.contributions > 0);
@@ -129,7 +137,9 @@ export default function AdvancedStatistics({ seasonId }: { seasonId: string }) {
       ? getCurrentSeasonCleanSheets().map((row) => ({ ...row, percentage: row.appearances ? (row.cleanSheets / row.appearances) * 100 : 0 }))
       : [];
 
-    return { finished, teamMetrics, roundMetrics, evolution, goalIntervals, referees, attendanceTeams, attendanceStadiums, swings, playerRates, cleanSheets };
+    const goalHauls = seasonId === UPCOMING_SEASON_ID ? getCurrentSeasonGoalHauls() : [];
+
+    return { finished, teamMetrics, roundMetrics, evolution, goalIntervals, referees, attendanceTeams, attendanceStadiums, swings, playerRates, cleanSheets, goalHauls };
   }, [seasonId]);
 
   if (analytics.finished.length === 0) return null;
@@ -163,6 +173,13 @@ export default function AdvancedStatistics({ seasonId }: { seasonId: string }) {
         </Panel>
         <Panel title="Balizas limpas" icon={<ShieldCheck size={16} />}>
           <Table headers={['Guarda-redes', 'Jogos', 'Sem sofrer', '%']} rows={analytics.cleanSheets.slice(0, 8).map((row) => [row.name, String(row.appearances), String(row.cleanSheets), `${row.percentage.toFixed(1)}%`])} empty="Aguardam-se escalações oficiais suficientes." />
+        </Panel>
+        <Panel title="Golos múltiplos no mesmo jogo" icon={<Activity size={16} />}>
+          <Table
+            headers={['Jogador', '2 · Doblete', '3 · Hat-trick', '4 · Poker', '5 · Manita', 'Mais de 5']}
+            rows={analytics.goalHauls.slice(0, 8).map((row) => [row.name, String(row.braces), String(row.hatTricks), String(row.pokers), String(row.manitas), String(row.overFive)])}
+            empty="Nenhum jogador marcou duas ou mais vezes no mesmo jogo oficial."
+          />
         </Panel>
         <Panel title="Estatísticas por jornada" icon={<BarChart3 size={16} />}>
           <Table headers={['Jornada', 'Jogos', 'Golos', 'Média']} rows={analytics.roundMetrics.map((row) => [`J${row.round}`, String(row.matches), String(row.goals), row.average.toFixed(2)])} />
