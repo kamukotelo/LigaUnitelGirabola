@@ -85,6 +85,13 @@ for (const scorer of ['Silvano da Cruz', 'Alberto Alves', 'Ricardo Batista']) {
   assert.match(data, new RegExp(scorer));
 }
 
+// A classificação pública só pode usar resultados finais, e estatísticas
+// individuais não podem recorrer a eventos gerados ou valores estimados.
+assert.match(data, /\.filter\(m => m\.status === 'finished'\)/);
+assert.doesNotMatch(data, /status === 'finished' \|\| m\.status === 'live'/);
+assert.match(data, /export function getCurrentSeasonAssists/);
+assert.match(data, /hasOfficialEvents/);
+
 // O login administrativo deve identificar cada pessoa, validar o perfil no
 // servidor e emitir uma sessão assinada e limitada no tempo.
 assert.match(adminAuth, /signInWithPassword/);

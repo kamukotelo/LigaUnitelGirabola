@@ -4,9 +4,10 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Award, Shield, AlertTriangle, CheckCircle2, Clock3 } from 'lucide-react';
-import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonGoalReconciliation, getCurrentSeasonDiscipline, getCurrentSeasonCleanSheets, getCurrentSeasonMinutesPlayed, getDetailedMetrics, getMatchesForSeason } from '@/lib/data';
+import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonGoalReconciliation, getCurrentSeasonDiscipline, getCurrentSeasonAssists, getCurrentSeasonCleanSheets, getCurrentSeasonMinutesPlayed, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
+import AdvancedStatistics from './AdvancedStatistics';
 
 type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'yellowcards' | 'redcards' | 'minutes';
 
@@ -52,6 +53,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const allPlayers = getPlayers();
+  const currentSeasonAssists = getCurrentSeasonAssists();
   const seasonHasStarted = getMatchesForSeason(seasonId).some((match) => match.status === 'finished' || match.status === 'live');
 
   // Compile statistics list based on selected season and active tab
@@ -63,6 +65,12 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       position: player.position, value: player.goals, secondaryLabel: 'Jogos',
       secondaryValue: player.appearances, hasProfile: true,
     })).sort((a, b) => b.value - a.value || (b.secondaryValue as number) - (a.secondaryValue as number));
+  } else if (isUpcoming && seasonHasStarted && activeTab === 'assists') {
+    displayPlayers = currentSeasonAssists.map((player) => ({
+      id: player.id, name: player.name, club: player.club, teamId: player.teamId,
+      position: player.position, value: player.assists, secondaryLabel: 'Jogos',
+      secondaryValue: player.appearances, hasProfile: true,
+    }));
   } else if (isUpcoming && seasonHasStarted && activeTab === 'yellowcards') {
     displayPlayers = getCurrentSeasonDiscipline()
       .filter((player) => player.yellowCards > 0)
@@ -127,9 +135,10 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       };
 
       displayPlayers = goalkeepers
+        .filter((p) => cleanSheetsMap[p.id] !== undefined)
         .map((p) => ({
           id: p.id, name: p.name, club: p.club, teamId: p.teamId, position: p.position,
-          value: cleanSheetsMap[p.id] || Math.max(2, 10 - (p.appearances % 6)),
+          value: cleanSheetsMap[p.id],
           secondaryLabel: 'Jogos', secondaryValue: p.appearances,
         }))
         .sort((a, b) => b.value - a.value)
@@ -153,11 +162,12 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         .sort((a, b) => b.value - a.value || (b.secondaryValue as number) - (a.secondaryValue as number))
         .slice(0, 8);
     } else if (activeTab === 'minutes') {
-      // Minutos jogados (métrica derivada, estilo Liga Angola)
+      // Minutos históricos só entram quando foram efetivamente publicados.
       displayPlayers = [...allPlayers]
+        .filter((p) => p.statsVerified && p.detailedStats?.minutesPlayed !== undefined)
         .map((p) => ({
           id: p.id, name: p.name, club: p.club, teamId: p.teamId, position: p.position,
-          value: p.detailedStats?.minutesPlayed ?? getDetailedMetrics(p).minutesPlayed,
+          value: p.detailedStats!.minutesPlayed,
           secondaryLabel: 'Jogos', secondaryValue: p.appearances,
         }))
         .sort((a, b) => b.value - a.value)
@@ -179,7 +189,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
     { label: 'Cartões vermelhos', available: getCurrentSeasonDiscipline().some((p) => p.redCards > 0) },
     { label: 'Balizas limpas', available: getCurrentSeasonCleanSheets().length > 0 },
     { label: 'Minutos jogados', available: getCurrentSeasonMinutesPlayed().length > 0 },
-    { label: 'Assistências', available: false },
+    { label: 'Assistências', available: currentSeasonAssists.length > 0 },
   ];
 
   return (
@@ -430,6 +440,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         </div>
 
       </div>
+      <AdvancedStatistics seasonId={seasonId} />
     </div>
   );
 }

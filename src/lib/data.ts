@@ -771,9 +771,10 @@ export function computeStandings(matches: Match[], venue: StandingsVenue = 'all'
     });
   }
 
-  // Inclui os jogos em curso para acompanhar a classificação ao vivo.
+  // A classificação oficial só muda depois do encerramento do jogo. Partidas
+  // em direto podem ter um resultado provisório, mas não entram nesta tabela.
   const finished = matches
-    .filter(m => m.status === 'finished' || m.status === 'live')
+    .filter(m => m.status === 'finished')
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   for (const m of finished) {
@@ -3829,7 +3830,7 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
 
 /** Indica se os eventos da partida provêm de uma fonte publicada. */
 export function hasPublishedMatchEvents(match: Match): boolean {
-  return getPublishedMatchEvents(match) !== undefined;
+  return RUNTIME_DATA.events?.[match.id] !== undefined || getPublishedMatchEvents(match) !== undefined;
 }
 
 const EMPTY_MATCH_STATS: MatchTeamStats = {
@@ -4007,6 +4008,66 @@ export interface MinutesPlayedRecord {
 /** Remove acentos para comparar nomes de forma tolerante (ex.: "Pimpao" ≈ "Pimpão"). */
 function foldName(value: string): string {
   return value.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+}
+
+export interface AssistRecord {
+  id: string;
+  name: string;
+  club: string;
+  teamId: string;
+  position: string;
+  assists: number;
+  appearances: number;
+}
+
+/**
+ * Assistências da época em curso, derivadas exclusivamente dos eventos
+ * publicados. Eventos procedurais e assistências sem jogador identificável
+ * não entram no ranking.
+ */
+export function getCurrentSeasonAssists(): AssistRecord[] {
+  const players = getPlayers();
+  const totals = new Map<string, AssistRecord>();
+  const matchesByPlayer = new Map<string, Set<string>>();
+
+  for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
+    if (match.status !== 'finished') continue;
+    const hasOfficialEvents = RUNTIME_DATA.events?.[match.id] !== undefined
+      || getPublishedMatchEvents(match) !== undefined;
+    if (!hasOfficialEvents) continue;
+
+    for (const event of getMatchDetail(match).events) {
+      if (event.type !== 'goal' || !event.assist?.trim()) continue;
+      const teamId = event.team === 'home' ? match.homeTeamId : match.awayTeamId;
+      const wanted = foldName(event.assist);
+      const player = players.find((candidate) =>
+        candidate.teamId === teamId
+        && (foldName(candidate.name) === wanted || foldName(candidate.fullName ?? '') === wanted));
+      if (!player) continue;
+
+      const entry = totals.get(player.id) ?? {
+        id: player.id,
+        name: player.name,
+        club: player.club,
+        teamId: player.teamId,
+        position: player.position,
+        assists: 0,
+        appearances: 0,
+      };
+      entry.assists += 1;
+      totals.set(player.id, entry);
+      const playerMatches = matchesByPlayer.get(player.id) ?? new Set<string>();
+      playerMatches.add(match.id);
+      matchesByPlayer.set(player.id, playerMatches);
+    }
+  }
+
+  for (const entry of totals.values()) {
+    entry.appearances = matchesByPlayer.get(entry.id)?.size ?? 0;
+  }
+
+  return [...totals.values()].sort((a, b) =>
+    b.assists - a.assists || b.appearances - a.appearances || a.name.localeCompare(b.name));
 }
 
 const NOMINAL_MATCH_LENGTH = 90;
