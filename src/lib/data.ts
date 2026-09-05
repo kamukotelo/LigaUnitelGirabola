@@ -110,7 +110,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 5, homeTeamId: 'desphuila', awayTeamId: 'lobito', date: '2026-09-19T15:00:00+01:00' },
   { round: 5, homeTeamId: 'primeiromaio', awayTeamId: 'lundasul', date: '2026-09-20T15:00:00+01:00' },
   { round: 5, homeTeamId: 'wiliete', awayTeamId: 'libolo', date: '2026-09-20T15:00:00+01:00' },
-  { round: 5, homeTeamId: 'kabuscorp', awayTeamId: 'interclube', date: '2026-09-19T15:30:00+01:00', broadcaster: 'Zsports' },
+  { round: 5, homeTeamId: 'kabuscorp', awayTeamId: 'interclube', date: '2026-09-19T15:30:00+01:00', stadium: 'Estádio França N’dalu', broadcaster: 'Zsports' },
   { round: 5, homeTeamId: 'saosalvador', awayTeamId: 'cabinda', date: '2026-09-20T15:00:00+01:00' },
 ] as const;
 

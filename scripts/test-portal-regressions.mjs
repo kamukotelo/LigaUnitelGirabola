@@ -78,6 +78,8 @@ for (const confirmedDate of [
 assert.match(publishedCalendar, /"homeTeamId": "interclube"[\s\S]*?"date": "2026-08-28T15:30:00\+01:00"/);
 assert.match(publishedCalendar, /"homeTeamId": "kabuscorp"[\s\S]*?"date": "2026-08-29T15:30:00\+01:00"/);
 assert.match(publishedCalendar, /"id": "m27-4-5"[\s\S]*?"date": "2026-09-09T15:00:00\+01:00"/);
+assert.match(publishedCalendar, /"id": "m27-5-1"[\s\S]*?"date": "2026-09-20T15:00:00\+01:00"/);
+assert.match(publishedCalendar, /"id": "m27-5-7"[\s\S]*?"date": "2026-09-19T15:30:00\+01:00"[\s\S]*?"stadium": "Estádio França N’dalu"/);
 assert.match(publishedCalendar, /"id": "m27-2-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"date": "2026-08-27T16:00:00\+01:00"[\s\S]*?"status": "finished"/);
 assert.match(publishedCalendar, /"id": "m27-2-7"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"status": "finished"/);
 assert.match(publishedCalendar, /"id": "m27-2-5"[\s\S]*?"homeScore": 2[\s\S]*?"awayScore": 1[\s\S]*?"date": "2026-08-28T15:30:00\+01:00"[\s\S]*?"status": "finished"[\s\S]*?"halfTimeScore": "0-0"/);
