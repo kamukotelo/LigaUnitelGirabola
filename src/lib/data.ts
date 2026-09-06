@@ -298,6 +298,14 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: '2026-09-05T18:15:00+01:00',
   },
+  'm27-3-5': {
+    homeScore: 0,
+    awayScore: 1,
+    score: '0-1',
+    halfTimeScore: '0-1',
+    status: 'finished',
+    updatedAt: '2026-09-06T17:50:00+01:00',
+  },
 };
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
@@ -413,6 +421,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'kessie-messi-primeiromaio', name: 'Kessie Messi', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'fifa-1jz4pi8', name: 'Benvindo Miguel André Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'fifa-1uy6ar6', name: 'Tiago Jamba Adelino', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'beni-papel-saosalvador', name: 'Beni Papel', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -3667,6 +3676,10 @@ function getPublishedLuandaCabindaLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  if (match.id === 'm27-3-5') return [
+    { minute: 27, type: 'goal', team: 'away', player: 'Beni Papel', playerId: 'beni-papel-saosalvador', detail: '0-1' },
+  ];
+
   // Ficha oficial da arbitragem (Match No. 20 · 05/09/2026 · Estádio Sagrada Esperança, Dundo).
   if (match.id === 'm27-3-1') return [
     { minute: 1, type: 'yellow', team: 'home', player: 'Cachindele', playerId: 'fifa-1jz48i2' },

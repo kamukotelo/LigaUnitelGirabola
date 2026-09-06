@@ -347,10 +347,13 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "homeTeam": "Bravos do Maquis",
     "awayTeam": "São Salvador",
     "homeScore": 0,
-    "awayScore": 0,
+    "awayScore": 1,
     "date": "2026-09-06T15:00:00+01:00",
     "stadium": "Estádio Mundunduleno",
-    "status": "scheduled"
+    "status": "finished",
+    "score": "0-1",
+    "halfTimeScore": "0-1",
+    "updatedAt": "2026-09-06T17:50:00+01:00"
   },
   {
     "id": "m27-4-5",
