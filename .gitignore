@@ -38,3 +38,6 @@ backups/
 tmp/
 supabase/.temp/
 ~$*
+
+# xlsx skill inspection dumps
+*.xlsx.inspect.ndjson

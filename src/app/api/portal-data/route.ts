@@ -56,6 +56,7 @@ export async function GET() {
         bump(r.updated_at);
         return {
           id: str(r.id), name: str(r.name), fullName: r.full_name ? str(r.full_name) : undefined,
+          nickname: r.nickname ? str(r.nickname) : (r.popular_name ? str(r.popular_name) : undefined),
           club: str(r.club), teamId: str(r.team_id), position: str(r.position),
           goals: num(r.goals), assists: num(r.assists), appearances: num(r.appearances),
           jerseyNumber: num(r.jersey_number), age: num(r.age), nationality: str(r.nationality),
@@ -82,6 +83,9 @@ export async function GET() {
           referee: str(r.referee) || 'A definir',
           assistants: [a[0] ?? '', a[1] ?? ''],
           fourth: str(r.fourth ?? r.fourth_official) || 'A definir',
+          ...(r.commissioner || r.match_commissioner
+            ? { commissioner: str(r.commissioner ?? r.match_commissioner) }
+            : {}),
         };
       }
     }
@@ -217,6 +221,7 @@ export async function GET() {
           team: str(r.team_side) as 'home' | 'away',
           player: str(r.player),
           playerId: r.player_id ? str(r.player_id) : undefined,
+          number: num(r.player_number ?? r.jersey_number ?? r.number) || undefined,
           assist: r.assist ? str(r.assist) : undefined,
           playerOut: r.player_out ? str(r.player_out) : undefined,
           detail: r.detail ? str(r.detail) : undefined,

@@ -1,0 +1,61 @@
+{
+  "ancaf_matches": [
+    {
+      "id": "m27-3-8",
+      "season_id": "2026-27",
+      "round": 3,
+      "home_team_id": "lobito",
+      "away_team_id": "primeiromaio",
+      "home_team": "Académica do Lobito",
+      "away_team": "Estrela 1.º de Maio",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-09-05T14:00:00+00:00",
+      "stadium": "Estádio do Buraco",
+      "status": "scheduled",
+      "created_at": "2026-07-27T10:56:22.568857+00:00",
+      "updated_at": "2026-08-07T17:20:39.050286+00:00",
+      "referee": null,
+      "assistant_referees": [],
+      "fourth_official": null,
+      "broadcaster": null,
+      "attendance": null,
+      "half_time_score": null,
+      "useful_time_minutes": null,
+      "schedule_status": null
+    }
+  ],
+  "liga_matches": [
+    {
+      "id": "m27-3-8",
+      "season_id": "2026-27",
+      "round": 3,
+      "home_team_id": "lobito",
+      "away_team_id": "primeiromaio",
+      "home_team": "Académica do Lobito",
+      "away_team": "Estrela 1.º de Maio",
+      "home_score": 0,
+      "away_score": 0,
+      "score": null,
+      "date": "2026-09-05T14:00:00+00:00",
+      "stadium": "Estádio do Buraco",
+      "status": "scheduled",
+      "created_at": "2026-07-23T01:50:10.547086+00:00",
+      "updated_at": "2026-08-07T17:20:39.583024+00:00"
+    }
+  ],
+  "ancaf_referee_nominations": [],
+  "configs": [
+    {
+      "key": "override_calendar",
+      "value": "{\"m27-1-4\":{\"stadium\":\"Estádio Sagrada Esperança\",\"date\":\"2026-08-21T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"0-0\",\"homeScore\":0,\"awayScore\":0,\"halfTimeScore\":\"0-0\",\"referee\":\"Miguel Tchissingui Augusto Américo\",\"attendance\":5000},\"m27-1-1\":{\"stadium\":\"Estádio França Ndalu\",\"date\":\"2026-08-23T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"0-0\",\"homeScore\":0,\"awayScore\":0,\"halfTimeScore\":\"0-0\",\"referee\":\"Gilberto Bernardino Kativa\",\"attendance\":1500},\"m27-1-7\":{\"stadium\":\"Campo Vice António\",\"date\":\"2026-08-22T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"0-3\",\"homeScore\":0,\"awayScore\":3,\"halfTimeScore\":\"0-1\",\"referee\":\"Nelson João Milagre\"},\"m27-1-5\":{\"status\":\"finished\",\"date\":\"2026-08-23T17:30:00+01:00\",\"scheduleStatus\":\"official\",\"score\":\"2-0\",\"homeScore\":2,\"awayScore\":0,\"halfTimeScore\":\"2-0\",\"stadium\":\"Estádio de Ombaka (Benguela)\",\"referee\":\"Sabino Garcez de Sousa de Carvalho\",\"attendance\":5000},\"m27-3-2\":{\"homeScore\":0,\"awayScore\":1,\"status\":\"finished\",\"date\":\"2026-08-31T15:30:00+01:00\",\"scheduleStatus\":\"official\",\"score\":\"0-1\",\"halfTimeScore\":\"0-0\",\"stadium\":\"Estádio da Tundavala\",\"referee\":\"Chitano Domingos Francisco\",\"attendance\":3000},\"m27-3-4\":{\"date\":\"2026-09-05T15:30:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"homeScore\":2,\"awayScore\":1,\"score\":\"2-1\",\"referee\":\"Edilson Roberto Gomes André\"},\"m27-1-2\":{\"date\":\"2026-08-22T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"3-0\",\"homeScore\":3,\"awayScore\":0,\"halfTimeScore\":\"2-0\",\"stadium\":\"Estádio do Mundunduleno\",\"referee\":\"Sanda Mateus Miguel Kitu\",\"attendance\":400},\"m27-1-3\":{\"date\":\"2026-08-22T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"1-0\",\"homeScore\":1,\"awayScore\":0,\"halfTimeScore\":\"0-0\",\"stadium\":\"Estádio França Ndalu\",\"referee\":\"Edilson Roberto Gomes André\",\"attendance\":200},\"m27-1-6\":{\"date\":\"2026-08-23T15:00:00+01:00\",\"status\":\"finished\",\"score\":\"1-1\",\"homeScore\":1,\"awayScore\":1,\"halfTimeScore\":\"1-0\",\"stadium\":\"Campo Municipal (Benguela)\",\"referee\":\"Bernardo Hossi Nangolo\",\"attendance\":2000},\"m27-1-8\":{\"date\":\"2026-08-23T15:00:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"score\":\"0-1\",\"homeScore\":0,\"awayScore\":1,\"halfTimeScore\":\"0-0\",\"stadium\":\"Campo Vice António\",\"referee\":\"Donaciano Mulumba\",\"attendance\":4000},\"m27-2-7\":{\"date\":\"2026-08-27T15:30:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"score\":\"1-2\",\"homeScore\":1,\"awayScore\":2,\"halfTimeScore\":\"0-1\",\"stadium\":\"Campo Municipal (Benguela)\",\"referee\":\"Chitano Domingos Francisco\",\"attendance\":2700},\"m27-2-1\":{\"date\":\"2026-08-27T16:00:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"score\":\"1-2\",\"homeScore\":1,\"awayScore\":2,\"halfTimeScore\":\"1-1\",\"stadium\":\"Estádio Daniel Lutucuta\",\"referee\":\"Miguel Tchissingui Augusto Américo\"},\"m27-2-4\":{\"date\":\"2026-08-29T15:00:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"score\":\"3-1\",\"homeScore\":3,\"awayScore\":1,\"halfTimeScore\":\"1-0\",\"stadium\":\"Estádio Sagrada Esperança\",\"referee\":\"Paulo Sérgio Moreira\",\"attendance\":1000},\"m27-2-2\":{\"date\":\"2026-08-29T15:30:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"score\":\"1-1\",\"homeScore\":1,\"awayScore\":1,\"halfTimeScore\":\"1-0\",\"stadium\":\"Estádio 22 de Junho\",\"referee\":\"Edilson Roberto Gomes André\",\"attendance\":1000},\"m27-2-6\":{\"date\":\"2026-08-31T15:00:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"score\":\"0-1\",\"homeScore\":0,\"awayScore\":1,\"halfTimeScore\":\"0-0\",\"stadium\":\"Estádio de Calulo\",\"referee\":\"António Caluassi Dungula\",\"attendance\":2500},\"m27-2-8\":{\"date\":\"2026-08-30T16:00:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"score\":\"0-2\",\"homeScore\":0,\"awayScore\":2,\"halfTimeScore\":\"0-0\",\"stadium\":\"Estádio de Ombaka (Benguela)\",\"referee\":\"Gilberto Bernardino Kativa\",\"attendance\":5500},\"m27-3-7\":{\"date\":\"2026-08-26T16:30:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"score\":\"3-0\",\"homeScore\":3,\"awayScore\":0,\"halfTimeScore\":\"1-0\",\"stadium\":\"Estádio Nacional 11 de Novembro\",\"referee\":\"Bernardo Kenge Mário\"},\"m27-3-6\":{\"date\":\"2026-09-01T15:30:00+01:00\",\"status\":\"finished\",\"scheduleStatus\":\"official\",\"score\":\"2-1\",\"homeScore\":2,\"awayScore\":1,\"halfTimeScore\":\"0-1\",\"stadium\":\"Estádio França Ndalu\",\"referee\":\"Edson António Esoko\",\"attendance\":8000},\"m27-3-5\":{\"homeScore\":0,\"awayScore\":1,\"score\":\"0-1\",\"halfTimeScore\":\"0-1\",\"status\":\"finished\",\"referee\":\"Sabino Garcez de Sousa de Carvalho\"}}",
+      "updated_at": "2026-09-06T20:48:16.816895+00:00"
+    },
+    {
+      "key": "override_nominations",
+      "value": "{\"m27-1-4\":{\"referee\":\"Miguel Tchissingui Augusto Américo\",\"assistants\":[\"João Manuel Fula António\",\"Nery Domingos Pereira Amador da Silva\"],\"fourth\":\"Isaías Justino Camaxi\"},\"m27-1-2\":{\"referee\":\"Sanda Mateus Miguel Kitu\",\"assistants\":[\"Natarino António Soares\",\"Nelson Lutumba Quiala\"],\"fourth\":\"Custódio Roque Lote\"},\"m27-1-7\":{\"referee\":\"Nelson João Milagre\",\"assistants\":[\"Manuel Daniel Coelho\",\"Hélder João Milagre\"],\"fourth\":\"Laurindo Feliciano Aureleo\"},\"m27-1-3\":{\"referee\":\"Edilson Roberto Gomes André\",\"assistants\":[\"Manuel Luís Benguela\",\"Joaquim Manuel Chiyo\"],\"fourth\":\"Miguel Julião Mateus\"},\"m27-1-1\":{\"referee\":\"Gilberto Bernardino Kativa\",\"assistants\":[\"Estanislau Guedes Tavares Muluta Prata\",\"Jeremias Sessenta Cafussa\"],\"fourth\":\"Aldair Quissanga Rodrigues Carmelino\"},\"m27-1-6\":{\"referee\":\"Bernardo Hossi Nangolo\",\"assistants\":[\"António Emiliano Livongue\",\"Adolfo Luís Mutenha\"],\"fourth\":\"António Caluassi Dungula\"},\"m27-1-8\":{\"referee\":\"Donaciano Mulumba\",\"assistants\":[\"Alzandre Diógenes Muiamba Capola\",\"Manuel Dulo Cabaça\"],\"fourth\":\"Bernardo Kenge Mário\"},\"m27-1-5\":{\"referee\":\"Sabino Garcez de Sousa de Carvalho\",\"assistants\":[\"Evandro Henrique Freitas da Rocha\",\"Flávio Luís Cadete Dias\"],\"fourth\":\"Pedro Filomeno Jacinto Katchisosa\"},\"m27-2-7\":{\"referee\":\"Chitano Domingos Francisco\",\"assistants\":[\"Wilson Valdmiro Ntyamba\",\"Andália Bimbi Francisco Jeremias\"],\"fourth\":\"Flamel Victorino Matos\"},\"m27-2-1\":{\"referee\":\"Miguel Tchissingui Augusto Américo\",\"assistants\":[\"Bernardo Kunjuca Lúcio Serafim\",\"Floriano Cawala\"],\"fourth\":\"Ana Kuvundu Pumba\"},\"m27-2-4\":{\"referee\":\"Paulo Sérgio Moreira\",\"assistants\":[\"Lídio Chicomo Cuimbra\",\"Segunda Chisseque Francisco\"],\"fourth\":\"Donaciano Mulumba\"},\"m27-2-2\":{\"referee\":\"Edilson Roberto Gomes André\",\"assistants\":[\"Manuel Luís Benguela\",\"Joaquim Manuel Chiyo\"],\"fourth\":\"Sabino Garcez de Sousa de Carvalho\"},\"m27-2-6\":{\"referee\":\"António Caluassi Dungula\",\"assistants\":[\"Zacarias Chivanja Calembe\",\"Victorino Nangolo Dungula\"],\"fourth\":\"Jacinto Isidro Lucas\"},\"m27-2-8\":{\"referee\":\"Gilberto Bernardino Kativa\",\"assistants\":[\"Jeremias Sessenta Cafussa\",\"Pedro Nguelengue Alberto\"],\"fourth\":\"Pedro Filomeno Jacinto Katchisosa\"},\"m27-3-7\":{\"referee\":\"Bernardo Kenge Mário\",\"assistants\":[\"João Manuel Fula António\",\"António Domingos Miguel\"],\"fourth\":\"Sabino Garcez de Sousa de Carvalho\"},\"m27-3-2\":{\"referee\":\"Chitano Domingos Francisco\",\"assistants\":[\"Wilson Valdmiro Ntyamba\",\"Andália Bimbi Francisco Jeremias\"],\"fourth\":\"José Álvaro Clemente Chitumba\"},\"m27-3-6\":{\"referee\":\"Edson António Esoko\",\"assistants\":[\"Jerson Emiliano dos Santos\",\"Estanislau Guedes Tavares Muluta Prata\"],\"fourth\":\"Sanda Mateus Miguel Kitu\"},\"m27-3-5\":{\"referee\":\"Sabino Garcez de Sousa de Carvalho\",\"assistants\":[\"Evandro Henrique Freitas da Rocha\",\"Flávio Luís Cadete Dias\"],\"fourth\":\"João Chipombe\"},\"m27-3-4\":{\"referee\":\"Edilson Roberto Gomes André\",\"assistants\":[\"Evanildo Gaspar dos Santos Martins\",\"Pedro Domingos de Andrade Micolo\"],\"fourth\":\"Nelson Agostinho da Silva\"}}",
+      "updated_at": "2026-09-06T20:48:17.247409+00:00"
+    }
+  ]
+}

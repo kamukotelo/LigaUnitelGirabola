@@ -12,9 +12,10 @@ const files = {
   loginPage: new URL('../src/app/login/page.tsx', import.meta.url),
   advancedStatistics: new URL('../src/components/competition/AdvancedStatistics.tsx', import.meta.url),
   playerDetail: new URL('../src/components/PlayerDetailClient.tsx', import.meta.url),
+  matchDetailClient: new URL('../src/components/MatchDetailClient.tsx', import.meta.url),
 };
 
-const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage, advancedStatistics, playerDetail] = await Promise.all(
+const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage, advancedStatistics, playerDetail, matchDetailClient] = await Promise.all(
   Object.values(files).map((file) => readFile(file, 'utf8')),
 );
 
@@ -66,6 +67,7 @@ assert.match(favicon, /logo-girabola\.png/);
 const huilaWilieteDate = '2026-08-31T15:30:00+01:00';
 assert.match(data, new RegExp(huilaWilieteDate.replace(/[+]/g, '\\+')));
 assert.match(publishedCalendar, new RegExp(huilaWilieteDate.replace(/[+]/g, '\\+')));
+assert.match(data, /PLATFORM_MATCH_UPDATED_AT = '2026-09-06T17:50:00\+01:00'/);
 
 // Alterações oficiais da 2.ª jornada devem permanecer iguais no calendário
 // base e na agenda que alimenta competição, calendário e página inicial.
@@ -118,6 +120,18 @@ for (const officialEntry of [
 ]) {
   assert.match(data, new RegExp(officialEntry));
 }
+
+// Arbitragem e comissário da 3.ª jornada devem ficar registados em código.
+for (const official of [
+  'Aldair Quissanga Rodrigues Carmelino', 'João Amado Muanda Goma',
+  'Sabino Garcez de Sousa de Carvalho', 'Rodrigues Aleixo César',
+  'Edson António Esoko', 'Manuel Pires Nunda',
+  'José Mateus de Carvalho Félix',
+]) {
+  assert.match(data, new RegExp(official));
+}
+assert.match(data, /commissioner\?: string/);
+assert.match(matchDetailClient, /Comiss[aá]rio: \{officials\.commissioner\}/);
 
 // A classificação pública só pode usar resultados finais, e estatísticas
 // individuais não podem recorrer a eventos gerados ou valores estimados.

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { ADMIN_COOKIE, getAdminSession } from '@/lib/admin-auth';
 import { checkRateLimit, isSameOriginRequest } from '@/lib/request-security';
-import { getMatchById, getPlayersByTeam, getTeamById, getTeamStaff, getMatchOfficials } from '@/lib/data';
+import { getMatchById, getPlayersByTeam, getPlayerMatchName, getTeamById, getTeamStaff, getMatchOfficials } from '@/lib/data';
 import {
   getMatchLineups, saveMatchLineup, sanitizeLineupPlayers, toSlotPosition, type LineupSlot,
 } from '@/lib/match-lineups';
@@ -19,7 +19,7 @@ function suggestedCoach(teamId: string): string {
 function squadOptions(teamId: string) {
   return getPlayersByTeam(teamId).map((p) => ({
     id: p.id,
-    name: p.name,
+    name: getPlayerMatchName(p),
     fullName: p.fullName ?? p.name,
     position: toSlotPosition(p.position),
     positionLabel: p.position,

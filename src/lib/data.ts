@@ -118,7 +118,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
 // aplicada depois da agenda oficial, para que a confirmação de datas não
 // volte a transformar um jogo já realizado em "agendado". As edições
 // publicadas pelo administrador continuam a ter a última palavra.
-export const PLATFORM_MATCH_UPDATED_AT = '2026-08-30T17:30:00+01:00';
+export const PLATFORM_MATCH_UPDATED_AT = '2026-09-06T17:50:00+01:00';
 
 export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>> = {
   'm27-1-1': {
@@ -4454,6 +4454,8 @@ export interface MatchOfficials {
   referee: string;
   assistants: [string, string];
   fourth: string;
+  /** Comissário de jogo, quando consta da ficha oficial. */
+  commissioner?: string;
 }
 
 export function getMatchOfficials(match: Match): MatchOfficials {
@@ -4500,6 +4502,12 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'],
       fourth: 'Sabino Garcez de Sousa de Carvalho',
     },
+    'm27-2-3': {
+      referee: 'Sanda Mateus Miguel Kitu',
+      assistants: ['Natarino António Soares', 'Nelson Lutumba Quiala'],
+      fourth: 'Regina Vita Ngola Catati Bernardo',
+      commissioner: 'Júlio Gonçalves da Silva Lemos',
+    },
     'm27-2-4': {
       referee: 'Paulo Sérgio Moreira',
       assistants: ['Lídio Chicomo Cuimbra', 'Segunda Chisseque Francisco'],
@@ -4524,17 +4532,34 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       referee: 'Edilson Roberto Gomes André',
       assistants: ['Evanildo Gaspar dos Santos Martins', 'Pedro Domingos de Andrade Micolo'],
       fourth: 'Nelson Agostinho da Silva',
+      commissioner: 'José Mateus de Carvalho Félix',
     },
     'm27-3-1': {
       referee: 'Aldair Quissanga Rodrigues Carmelino',
       assistants: ['Nery Domingos Pereira Amador da Silva', 'Januário Simões Francisco'],
       fourth: 'Fábio Ricardo dos Santos Macano',
+      commissioner: 'João Amado Muanda Goma',
+    },
+    'm27-3-5': {
+      referee: 'Sabino Garcez de Sousa de Carvalho',
+      assistants: ['Evandro Henrique Freitas da Rocha', 'Flávio Luís Cadete Dias'],
+      fourth: 'João Chipombe',
+      commissioner: 'Rodrigues Aleixo César',
+    },
+    'm27-3-8': {
+      referee: 'Edson António Esoko',
+      assistants: ['Estanislau Guedes Tavares Muluta Prata', 'João Manuel Fula António'],
+      fourth: 'Nelson Joaquim Camunga',
+      commissioner: 'Manuel Pires Nunda',
     },
   };
   // Prioridade: override publicado no admin → BD (ancaf_referee_nominations)
   // → tabela publicada em código → campo Match.referee.
   const db = RUNTIME_DATA.nominations?.[match.id];
   const published = db ?? publishedByMatch[match.id];
+  // O comissário só vive na tabela publicada em código (a BD ainda não o guarda),
+  // por isso completa-o mesmo quando a nomeação vem da BD.
+  const commissioner = ov?.commissioner ?? published?.commissioner ?? publishedByMatch[match.id]?.commissioner;
 
   return {
     referee: defined(ov?.referee ?? match.referee ?? published?.referee),
@@ -4543,6 +4568,7 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       defined(ov?.assistants?.[1] ?? published?.assistants[1]),
     ],
     fourth: defined(ov?.fourth ?? published?.fourth),
+    commissioner: commissioner?.trim() || undefined,
   };
 }
 

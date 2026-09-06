@@ -1,0 +1,83 @@
+{
+  "match": {
+    "id": "m27-3-4",
+    "season_id": "2026-27",
+    "round": 3,
+    "home_team_id": "fcluanda",
+    "away_team_id": "cabinda",
+    "home_team": "FC Luanda",
+    "away_team": "FC Cabinda",
+    "home_score": 2,
+    "away_score": 1,
+    "score": "2-1",
+    "date": "2026-09-05T14:30:00+00:00",
+    "stadium": "Campo da Cidadela",
+    "status": "finished",
+    "created_at": "2026-07-27T10:56:22.568857+00:00",
+    "updated_at": "2026-09-06T20:48:16.197463+00:00",
+    "referee": "Edilson Roberto Gomes André",
+    "assistant_referees": [
+      "Evanildo Gaspar dos Santos Martins",
+      "Pedro Domingos de Andrade Micolo"
+    ],
+    "fourth_official": "Nelson Agostinho da Silva",
+    "broadcaster": null,
+    "attendance": null,
+    "half_time_score": null,
+    "useful_time_minutes": null,
+    "schedule_status": null
+  },
+  "nominations": {
+    "id": "2e71ee99-397a-4793-85c2-adfea18e2695",
+    "season_id": "2026-27",
+    "round": 3,
+    "match_id": "m27-3-4",
+    "referee": "Edilson Roberto Gomes André",
+    "assistants": [
+      "Evanildo Gaspar dos Santos Martins",
+      "Pedro Domingos de Andrade Micolo"
+    ],
+    "fourth_official": "Nelson Agostinho da Silva",
+    "published_at": "2026-09-06T20:48:16.408105+00:00",
+    "created_at": "2026-09-06T20:48:16.408105+00:00",
+    "updated_at": "2026-09-06T20:48:16.408105+00:00"
+  },
+  "officials": [
+    {
+      "name": "Edilson Roberto Gomes André",
+      "role": "referee",
+      "category": "Árbitro da 1ª Categoria Internacional",
+      "country": "AGO",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Evanildo Gaspar dos Santos Martins",
+      "role": "first_assistant",
+      "category": "Árbitro Assistente da 1ª Categoria Internacional",
+      "country": "AGO",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Pedro Domingos de Andrade Micolo",
+      "role": "second_assistant",
+      "category": "Árbitro Assistente da 1ª Categoria Internacional",
+      "country": "AGO",
+      "status": "Confirmed"
+    },
+    {
+      "name": "Nelson Agostinho da Silva",
+      "role": "fourth_official",
+      "category": "Árbitro da 1ª Categoria Internacional",
+      "country": "AGO",
+      "status": "Confirmed"
+    },
+    {
+      "name": "José Mateus de Carvalho Félix",
+      "role": "match_commissioner",
+      "category": "COMISSÁRIO NACIONAL",
+      "country": "AGO",
+      "status": "Confirmed"
+    }
+  ],
+  "verifiedAt": "2026-09-06T20:48:18.075Z"
+}

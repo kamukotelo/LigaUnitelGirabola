@@ -268,6 +268,9 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
             <span className="text-zinc-600 dark:text-zinc-400">
               Assistentes: {officials.assistants[0]} · {officials.assistants[1]}
               <span className="block">4.º Árbitro: {officials.fourth}</span>
+              {officials.commissioner && (
+                <span className="block">Comissário: {officials.commissioner}</span>
+              )}
             </span>
           </div>
           <div className="flex items-center gap-3">

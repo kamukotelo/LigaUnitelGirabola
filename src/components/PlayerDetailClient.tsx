@@ -729,10 +729,12 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
                 {player.position}
               </span>
               <h1 className="text-4xl md:text-5xl font-display text-foreground uppercase leading-none font-black">
-                {player.name}
+                {player.fullName ?? player.name}
               </h1>
-              {player.fullName && player.fullName !== player.name && (
-                <p className="text-zinc-500 dark:text-zinc-500 text-sm mt-1.5 italic">{player.fullName}</p>
+              {(player.nickname || (player.fullName && player.fullName !== player.name)) && (
+                <p className="text-zinc-500 dark:text-zinc-500 text-sm mt-1.5 italic">
+                  Alcunha: {player.nickname ?? player.name}
+                </p>
               )}
               <p className="text-zinc-600 dark:text-zinc-400 font-mono text-xs uppercase tracking-wider mt-1 flex flex-wrap items-center justify-center md:justify-start gap-x-2 gap-y-1">
                 <span className="text-base leading-none">{getNationalityFlag(player.nationality)}</span>
@@ -809,6 +811,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
               const ficha = getPlayerFicha(player);
               const rows: { label: string; value: React.ReactNode }[] = [
                 { label: 'Nome completo', value: ficha.fullName },
+                { label: 'Alcunha', value: player.nickname ?? (player.fullName && player.fullName !== player.name ? player.name : '—') },
                 { label: 'Posição', value: ficha.position },
                 {
                   label: 'Nacionalidade',
