@@ -94,12 +94,12 @@ for (const scorer of ['Silvano da Cruz', 'Alberto Alves', 'Ricardo Batista']) {
 // devem permanecer ligados às fichas reais recebidas.
 for (const resultPattern of [
   /'m27-3-1'[\s\S]*?score: '1-2'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/,
-  /'m27-3-4'[\s\S]*?score: '2-1'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/,
+  /'m27-3-4'[\s\S]*?score: '2-1'[\s\S]*?halfTimeScore: '1-1'[\s\S]*?status: 'finished'/,
   /'m27-3-8'[\s\S]*?score: '0-2'[\s\S]*?halfTimeScore: '0-1'[\s\S]*?status: 'finished'/,
 ]) {
   assert.match(data, resultPattern);
 }
-for (const scorer of ['Jo Vidal', 'Benvindo Miguel André Afonso', 'Felix Cassule Andre', 'Jaime Caetano', 'Ariclenis Afonso Araújo Lede', 'Moisés', 'Kessie Messi']) {
+for (const scorer of ['Mariano da Costa Vidal', 'Benvindo Miguel André Afonso', 'Tiago Jamba Adelino', 'Jaime Caetano', 'Ariclenis Afonso Araújo Lede', 'Moisés', 'Kessie Messi']) {
   assert.match(data, new RegExp(scorer));
 }
 assert.match(data, /'m27-3-8': \{ home: \{ corners: 1, yellowCards: 6 \}, away: \{ corners: 0, yellowCards: 3 \}/);

@@ -279,15 +279,16 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     score: '1-2',
     halfTimeScore: '1-0',
     status: 'finished',
-    updatedAt: '2026-09-05T18:15:00+01:00',
+    attendance: 200,
+    updatedAt: '2026-09-06T09:00:00+01:00',
   },
   'm27-3-4': {
     homeScore: 2,
     awayScore: 1,
     score: '2-1',
-    halfTimeScore: '1-0',
+    halfTimeScore: '1-1',
     status: 'finished',
-    updatedAt: '2026-09-05T18:15:00+01:00',
+    updatedAt: '2026-09-06T09:00:00+01:00',
   },
   'm27-3-8': {
     homeScore: 0,
@@ -411,14 +412,14 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'moises-primeiromaio', name: 'Moisés', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'kessie-messi-primeiromaio', name: 'Kessie Messi', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'fifa-1jz4pi8', name: 'Benvindo Miguel André Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 1, appearances: 1 },
-  { id: 'fifa-1k2ip48', name: 'Felix Cassule Andre', club: 'CR Caála', teamId: 'caala', position: 'Defesa', goals: 1, appearances: 1 },
+  { id: 'fifa-1uy6ar6', name: 'Tiago Jamba Adelino', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 1 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
   'valegol-caala': { yellow: 0, red: 1 },
   'pedro-da-silva-cabinda': { yellow: 1, red: 0 },
   'joao-cambo-cabinda': { yellow: 1, red: 0 },
-  'luyeye-cabinda': { yellow: 1, red: 0 },
+  'luyeye-cabinda': { yellow: 2, red: 0 },
   'cipriano-cumba-cabinda': { yellow: 1, red: 0 },
   'luciano-capoco-cabinda': { yellow: 1, red: 0 },
   'ariclenis-cabinda': { yellow: 1, red: 0 },
@@ -428,7 +429,7 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'joao-milagre-huila': { yellow: 1, red: 0 },
   'angelo-cangu-huila': { yellow: 1, red: 0 },
   'maranata': { yellow: 1, red: 0 },
-  'platini': { yellow: 1, red: 0 },
+  'platini': { yellow: 2, red: 0 },
   'ximba': { yellow: 1, red: 0 },
   'kibuata': { yellow: 1, red: 0 },
   'deybi-flores': { yellow: 1, red: 0 },
@@ -443,6 +444,16 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'simao-dianzenza': { yellow: 1, red: 0 },
   'venancio-dago': { yellow: 1, red: 0 },
   'lisneu-caala': { yellow: 1, red: 0 },
+  // 3.ª jornada — ficha oficial de arbitragem (jogos 20 e 22).
+  'fifa-1jz48i2': { yellow: 1, red: 0 },   // Cachindele (Lunda Sul)
+  'fifa-1k2pgl3': { yellow: 1, red: 0 },   // Singongo (Lunda Sul)
+  'fifa-1jwgzb2': { yellow: 1, red: 0 },   // Arilson de Ceita Pereira Jorge (Caála)
+  'fifa-1qvfe29': { yellow: 1, red: 0 },   // Ernesto Vieira (Caála)
+  'fifa-1uy6ar6': { yellow: 1, red: 0 },   // Tiago Jamba Adelino (Caála)
+  'fifa-1l7lph0': { yellow: 1, red: 0 },   // Denilson Makokisa (FC Luanda)
+  'fifa-1qw9vb1': { yellow: 1, red: 0 },   // Jaime Caetano (FC Luanda)
+  'fifa-1qtzy92': { yellow: 1, red: 0 },   // Francisco Luemba (FC Cabinda)
+  'rodrigo-cabinda': { yellow: 1, red: 0 }, // Rodrigo dos Santos Ngimbi (FC Cabinda)
 };
 
 export interface Player extends PlayerStats {
@@ -3656,16 +3667,49 @@ function getPublishedLuandaCabindaLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  // Ficha oficial da arbitragem (Match No. 20 · 05/09/2026 · Estádio Sagrada Esperança, Dundo).
   if (match.id === 'm27-3-1') return [
-    { minute: 33, type: 'goal', team: 'home', player: 'Jo Vidal', detail: 'Autogolo · 1-0' },
-    { minute: 64, type: 'goal', team: 'away', player: 'Benvindo Miguel André Afonso', playerId: 'fifa-1jz4pi8', detail: '1-1' },
-    { minute: 90, type: 'goal', team: 'away', player: 'Felix Cassule Andre', playerId: 'fifa-1k2ip48', detail: '1-2' },
+    { minute: 1, type: 'yellow', team: 'home', player: 'Cachindele', playerId: 'fifa-1jz48i2' },
+    { minute: 15, type: 'goal', team: 'home', player: 'Mariano da Costa Vidal', playerId: 'fifa-1jsrqb0', detail: 'Autogolo · 1-0' },
+    { minute: 44, type: 'yellow', team: 'home', player: 'Platiny', playerId: 'platini' },
+    { minute: 45, type: 'sub', team: 'home', player: 'João Bivoba Zau', playerId: 'fifa-1kzthb4', playerOut: 'Joaquim Teixeira' },
+    { minute: 52, type: 'goal', team: 'away', player: 'Benvindo Miguel André Afonso', playerId: 'fifa-1jz4pi8', detail: '1-1' },
+    { minute: 57, type: 'sub', team: 'home', player: 'Bernardo Raimundo Nacavuza', playerOut: 'Félix Honjo' },
+    { minute: 57, type: 'sub', team: 'home', player: 'António Ngola Ngulu', playerId: 'fifa-1jwt8s6', playerOut: 'João Baptista Cassicote' },
+    { minute: 61, type: 'sub', team: 'away', player: 'Benedito Antunes', playerId: 'fifa-1lda172', playerOut: 'Benvindo Miguel André Afonso' },
+    { minute: 61, type: 'sub', team: 'away', player: 'Ernesto Vieira', playerId: 'fifa-1qvfe29', playerOut: 'Gabriel Venâncio' },
+    { minute: 64, type: 'yellow', team: 'away', player: 'Arilson de Ceita Pereira Jorge', playerId: 'fifa-1jwgzb2' },
+    { minute: 68, type: 'sub', team: 'away', player: 'José Manuel Raul', playerId: 'fifa-1r8lp51', playerOut: 'Timóteo Sambissa' },
+    { minute: 72, type: 'yellow', team: 'home', player: 'Singongo', playerId: 'fifa-1k2pgl3' },
+    { minute: 75, type: 'sub', team: 'home', player: 'João Silvano Caluvili', playerId: 'fifa-1kf4fa8', playerOut: 'Platiny' },
+    { minute: 82, type: 'sub', team: 'away', player: 'Tiago Jamba Adelino', playerId: 'fifa-1uy6ar6', playerOut: 'Cuxixima' },
+    { minute: 82, type: 'sub', team: 'away', player: 'Osvaldo José', playerId: 'fifa-1kz4es4', playerOut: 'Arilson de Ceita Pereira Jorge' },
+    { minute: 83, type: 'yellow', team: 'away', player: 'Ernesto Vieira', playerId: 'fifa-1qvfe29' },
+    { minute: 90, type: 'sub', team: 'home', player: 'Mário Bernardo Keta', playerId: 'fifa-1jzmgd3', playerOut: 'Kibuata' },
+    { minute: 90, type: 'goal', team: 'away', player: 'Tiago Jamba Adelino', playerId: 'fifa-1uy6ar6', detail: "90'+4' · 1-2" },
+    { minute: 90, type: 'yellow', team: 'away', player: 'Tiago Jamba Adelino', playerId: 'fifa-1uy6ar6', detail: "90'+5' · celebração excessiva" },
   ];
 
+  // Ficha oficial da arbitragem (Match No. 22 · 05/09/2026 · Estádio França Ndalu, Luanda).
   if (match.id === 'm27-3-4') return [
-    { minute: 2, type: 'goal', team: 'home', player: 'Jaime Caetano', playerId: 'fifa-1qw9vb1', detail: '1-0' },
-    { minute: 47, type: 'goal', team: 'away', player: 'Ariclenis Afonso Araújo Lede', playerId: 'ariclenis-cabinda', detail: '1-1' },
-    { minute: 68, type: 'goal', team: 'home', player: 'Jaime Caetano', playerId: 'fifa-1qw9vb1', detail: '2-1' },
+    { minute: 1, type: 'goal', team: 'home', player: 'Jaime Caetano', playerId: 'fifa-1qw9vb1', detail: '1-0' },
+    { minute: 19, type: 'yellow', team: 'home', player: 'Denilson Makokisa', playerId: 'fifa-1l7lph0', detail: 'Comportamento antidesportivo' },
+    { minute: 21, type: 'yellow', team: 'away', player: 'Francisco Luemba', playerId: 'fifa-1qtzy92', detail: 'Protestou a decisão do árbitro' },
+    { minute: 26, type: 'sub', team: 'home', player: 'Hamilton Ebo', playerId: 'fifa-1maldz0', playerOut: 'Célio Nimi' },
+    { minute: 29, type: 'goal', team: 'away', player: 'Ariclenis Afonso Araújo Lede', playerId: 'ariclenis-cabinda', detail: '1-1' },
+    { minute: 29, type: 'yellow', team: 'away', player: 'Rodrigo dos Santos Ngimbi', playerId: 'rodrigo-cabinda', detail: 'Rasteirou o adversário' },
+    { minute: 33, type: 'yellow', team: 'home', player: 'Jaime Caetano', playerId: 'fifa-1qw9vb1', detail: 'Rasteirou o adversário' },
+    { minute: 45, type: 'sub', team: 'home', player: 'Francisco Chiquinho', playerId: 'fifa-1l11132', playerOut: 'Pedro Paulo' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Fernando Matombe Bazonga', playerId: 'fernando-cabinda', playerOut: 'Cristiano Malonda' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Crichano Diacango', playerOut: 'Gedeon Macosso Mananga' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Júlio Mavungo André', playerId: 'julio-cabinda', playerOut: 'Frederico Zau' },
+    { minute: 47, type: 'yellow', team: 'away', player: 'Luyeye Tomás Tomás', playerId: 'luyeye-cabinda', detail: 'Rasteirou o adversário' },
+    { minute: 67, type: 'goal', team: 'home', player: 'Jaime Caetano', playerId: 'fifa-1qw9vb1', detail: '2-1' },
+    { minute: 72, type: 'sub', team: 'home', player: 'Pedro Chissaluquila', playerId: 'fifa-1maldr2', playerOut: 'Miguel Nzau Manuel Matos' },
+    { minute: 72, type: 'sub', team: 'home', player: 'Batista Jáo Kachama Kachama', playerId: 'fifa-1v0ca42', playerOut: 'Denilson Makokisa' },
+    { minute: 78, type: 'sub', team: 'away', player: 'Simão Gomes', playerId: 'simao-gomes-cabinda', playerOut: 'Mário Chiwale Caluaco da Silva' },
+    { minute: 83, type: 'sub', team: 'home', player: 'Domingos Bangula', playerId: 'fifa-1l08hy2', playerOut: 'Jaime Caetano' },
+    { minute: 83, type: 'sub', team: 'away', player: 'Cornélio Queba Lelo Baptista', playerId: 'fifa-1tc8vr0', playerOut: 'Crichano Diacango' },
   ];
 
   if (match.id === 'm27-3-8') return [
@@ -3974,6 +4018,8 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-1-7': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 0, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-3-7': { home: { yellowCards: 1, redCards: 0 }, away: { yellowCards: 2, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-3-6': { home: { corners: 4, yellowCards: 2, redCards: 0 }, away: { corners: 4, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
+  'm27-3-1': { home: { yellowCards: 3, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-3-4': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
 };
 
 /**
@@ -4465,6 +4511,11 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       referee: 'Edilson Roberto Gomes André',
       assistants: ['Evanildo Gaspar dos Santos Martins', 'Pedro Domingos de Andrade Micolo'],
       fourth: 'Nelson Agostinho da Silva',
+    },
+    'm27-3-1': {
+      referee: 'Aldair Quissanga Rodrigues Carmelino',
+      assistants: ['Nery Domingos Pereira Amador da Silva', 'Januário Simões Francisco'],
+      fourth: 'Fábio Ricardo dos Santos Macano',
     },
   };
   // Prioridade: override publicado no admin → BD (ancaf_referee_nominations)
