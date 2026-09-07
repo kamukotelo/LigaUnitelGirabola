@@ -1,0 +1,1045 @@
+{
+  "summary": {
+    "officialPlayers": 514,
+    "nicknameRows": 536,
+    "exactMatches": 493,
+    "officialWithoutExactMatch": 21,
+    "nicknameRowsWithoutExactMatch": 43,
+    "issueCount": 70,
+    "bySeverity": {
+      "medium": 69,
+      "high": 1
+    },
+    "byKind": {
+      "duplicate_official_team_fullName": 2,
+      "duplicate_nickname_team_Nº camisola": 1,
+      "duplicate_nickname_team_Nome completo atual": 3,
+      "official_player_without_exact_nickname_match": 21,
+      "nickname_row_without_exact_official_match": 43
+    }
+  },
+  "issues": [
+    {
+      "severity": "medium",
+      "kind": "duplicate_official_team_fullName",
+      "evidence": {
+        "teamId": "fcluanda",
+        "value": "DOMINGOS",
+        "players": [
+          "DOMINGOS",
+          "DOMINGOS"
+        ]
+      },
+      "impact": "A ligação por clube e camisola/nome torna-se ambígua.",
+      "fix": "Confirmar e corrigir o registo oficial.",
+      "confidence": "high"
+    },
+    {
+      "severity": "medium",
+      "kind": "duplicate_official_team_fullName",
+      "evidence": {
+        "teamId": "fcluanda",
+        "value": "PEDRO",
+        "players": [
+          "PEDRO",
+          "PEDRO"
+        ]
+      },
+      "impact": "A ligação por clube e camisola/nome torna-se ambígua.",
+      "fix": "Confirmar e corrigir o registo oficial.",
+      "confidence": "high"
+    },
+    {
+      "severity": "high",
+      "kind": "duplicate_nickname_team_Nº camisola",
+      "evidence": {
+        "teamId": "dago",
+        "value": 3,
+        "rows": [
+          64,
+          65
+        ],
+        "names": [
+          "Mabelé",
+          "Simao Dianzenza"
+        ]
+      },
+      "impact": "A correspondência dentro do clube fica ambígua.",
+      "fix": "Rever duplicados e jogadores antigos.",
+      "confidence": "high"
+    },
+    {
+      "severity": "medium",
+      "kind": "duplicate_nickname_team_Nome completo atual",
+      "evidence": {
+        "teamId": "dago",
+        "value": "Calebi Yanda",
+        "rows": [
+          71,
+          87
+        ],
+        "names": [
+          "Calebi Yanda",
+          "Calebi Yanda"
+        ]
+      },
+      "impact": "A correspondência dentro do clube fica ambígua.",
+      "fix": "Rever duplicados e jogadores antigos.",
+      "confidence": "high"
+    },
+    {
+      "severity": "medium",
+      "kind": "duplicate_nickname_team_Nome completo atual",
+      "evidence": {
+        "teamId": "fcluanda",
+        "value": "Pedro",
+        "rows": [
+          291,
+          306
+        ],
+        "names": [
+          "Pedro",
+          "Pedro"
+        ]
+      },
+      "impact": "A correspondência dentro do clube fica ambígua.",
+      "fix": "Rever duplicados e jogadores antigos.",
+      "confidence": "high"
+    },
+    {
+      "severity": "medium",
+      "kind": "duplicate_nickname_team_Nome completo atual",
+      "evidence": {
+        "teamId": "fcluanda",
+        "value": "Domingos",
+        "rows": [
+          296,
+          303
+        ],
+        "names": [
+          "Domingos",
+          "Domingos"
+        ]
+      },
+      "impact": "A correspondência dentro do clube fica ambígua.",
+      "fix": "Rever duplicados e jogadores antigos.",
+      "confidence": "high"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "officialFullName": "Luís Liberal Lemos Casimiro Casimiro",
+        "maId": "004713M06",
+        "bestWorkbookMatch": {
+          "row": 277,
+          "name": "Luís Liberal Lemos Casimiro",
+          "similarity": 0.857
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "officialFullName": "Pedro da Silva Da Silva",
+        "maId": "005642M05",
+        "bestWorkbookMatch": {
+          "row": 279,
+          "name": "Pedro da Silva",
+          "similarity": 0.757
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "officialFullName": "Mário Chiwale Caluaco da Silva Mário",
+        "maId": "002177M01",
+        "bestWorkbookMatch": {
+          "row": 274,
+          "name": "Mário Chiwale Caluaco da Silva",
+          "similarity": 0.909
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "officialFullName": "LUYEYE TOMÁS TOMÁS",
+        "maId": "002228M92",
+        "bestWorkbookMatch": {
+          "row": 264,
+          "name": "Luyeye Tomás",
+          "similarity": 0.8
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "dago",
+        "officialFullName": "Axel Gaudêncio Mabaqui de Sousa Axel",
+        "maId": "002187M03",
+        "bestWorkbookMatch": {
+          "row": 69,
+          "name": "Axel Gaudêncio Mabaqui de Sousa",
+          "similarity": 0.925
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "dago",
+        "officialFullName": "Obed Mayamb Mukokiani Obed",
+        "maId": "003026M94",
+        "bestWorkbookMatch": {
+          "row": 73,
+          "name": "Obed Mayamb Mukokiani",
+          "similarity": 0.894
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "dago",
+        "officialFullName": "CALEBI YANDA",
+        "maId": "000327M99",
+        "bestWorkbookMatch": {
+          "row": 71,
+          "name": "Calebi Yanda",
+          "similarity": 1.0
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "desphuila",
+        "officialFullName": "Jorge Ismael Jose Jose",
+        "maId": "002350M04",
+        "bestWorkbookMatch": {
+          "row": 142,
+          "name": "Jorge Ismael Jose",
+          "similarity": 0.872
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "officialFullName": "DOMINGOS",
+        "maId": "002901M07",
+        "bestWorkbookMatch": {
+          "row": 296,
+          "name": "Domingos",
+          "similarity": 1.0
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "officialFullName": "DOMINGOS",
+        "maId": "001336M04",
+        "bestWorkbookMatch": {
+          "row": 296,
+          "name": "Domingos",
+          "similarity": 1.0
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "officialFullName": "BATISTA JÁO KACHAMA KACHAMA",
+        "maId": "008947M05",
+        "bestWorkbookMatch": {
+          "row": 305,
+          "name": "Batista Jáo Kachama",
+          "similarity": 0.826
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "officialFullName": "Jonilson José Manuel Manuel",
+        "maId": "002208M01",
+        "bestWorkbookMatch": {
+          "row": 290,
+          "name": "Jonilson José Manuel",
+          "similarity": 0.851
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "officialFullName": "PEDRO",
+        "maId": "002014M04",
+        "bestWorkbookMatch": {
+          "row": 291,
+          "name": "Pedro",
+          "similarity": 1.0
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "officialFullName": "Gelson Dos Santos André Gelson",
+        "maId": "002190M99",
+        "bestWorkbookMatch": {
+          "row": 292,
+          "name": "Gelson dos Santos André",
+          "similarity": 0.868
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "officialFullName": "PEDRO",
+        "maId": "002894M04",
+        "bestWorkbookMatch": {
+          "row": 291,
+          "name": "Pedro",
+          "similarity": 1.0
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "interclube",
+        "officialFullName": "WALTER EMANUEL DE SÁ CARVALHO CARVALHO",
+        "maId": "008919M01",
+        "bestWorkbookMatch": {
+          "row": 319,
+          "name": "Walter Emanuel de Sá Carvalho",
+          "similarity": 0.866
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "petro",
+        "officialFullName": "DEYBI ALDAIR FLORES FLORES",
+        "maId": "008900M96",
+        "bestWorkbookMatch": {
+          "row": 376,
+          "name": "Deybi Aldair Flores",
+          "similarity": 0.844
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "primeiromaio",
+        "officialFullName": "Fernando Mateus Duarte Duarte",
+        "maId": "002162M00",
+        "bestWorkbookMatch": {
+          "row": 239,
+          "name": "Fernando Mateus Duarte",
+          "similarity": 0.863
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "saosalvador",
+        "officialFullName": "Fernando Lizandro Firmino Camuege Fernando",
+        "maId": "001899M99",
+        "bestWorkbookMatch": {
+          "row": 477,
+          "name": "Fernando Lizandro Firmino Camuege",
+          "similarity": 0.88
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "saosalvador",
+        "officialFullName": "Lucas Filemon Cassule Lucas",
+        "maId": "001892M01",
+        "bestWorkbookMatch": {
+          "row": 488,
+          "name": "Lucas Filemon Cassule",
+          "similarity": 0.875
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "official_player_without_exact_nickname_match",
+      "evidence": {
+        "teamId": "saosalvador",
+        "officialFullName": "Rafael Sete Ucuahamba Ucuahamba",
+        "maId": "001901M03",
+        "bestWorkbookMatch": {
+          "row": 484,
+          "name": "Rafael Sete Ucuahamba",
+          "similarity": 0.808
+        }
+      },
+      "impact": "A alcunha ou o nome de exibição pode ficar ligado ao jogador errado ou ausente.",
+      "fix": "Confirmar pelo ID MA ou FIFA e corrigir o nome.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "bravos",
+        "row": 58,
+        "name": "Bruno",
+        "playerId": "bruno-bravos"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "bravos",
+        "row": 60,
+        "name": "Saidi",
+        "playerId": "saidi-bravos"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "bravos",
+        "row": 61,
+        "name": "Tony",
+        "playerId": "tony-bravos"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "caala",
+        "row": 116,
+        "name": "Valegol",
+        "playerId": "valegol-caala"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "row": 264,
+        "name": "Luyeye Tomás",
+        "playerId": "luyeye-cabinda"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "row": 274,
+        "name": "Mário Chiwale Caluaco da Silva",
+        "playerId": "fifa-1ljjyh4"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "row": 277,
+        "name": "Luís Liberal Lemos Casimiro",
+        "playerId": "fifa-1pnmr23"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "row": 279,
+        "name": "Pedro da Silva",
+        "playerId": "pedro-da-silva-cabinda"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "row": 281,
+        "name": "Brás",
+        "playerId": "bras-cabinda"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "row": 282,
+        "name": "Cipriano Cumba Rafael",
+        "playerId": "cipriano-cumba-cabinda"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "row": 283,
+        "name": "Cornélio",
+        "playerId": "cornelio-cabinda"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "row": 284,
+        "name": "Costa",
+        "playerId": "costa-cabinda"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "cabinda",
+        "row": 285,
+        "name": "Luciano Capoco",
+        "playerId": "luciano-capoco-cabinda"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "dago",
+        "row": 64,
+        "name": "Mabelé",
+        "playerId": "mabele-dago"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "dago",
+        "row": 69,
+        "name": "Axel Gaudêncio Mabaqui de Sousa",
+        "playerId": "axel-dago"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "dago",
+        "row": 71,
+        "name": "Calebi Yanda",
+        "playerId": "calebi-dago"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "dago",
+        "row": 73,
+        "name": "Obed Mayamb Mukokiani",
+        "playerId": "obed-dago"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "dago",
+        "row": 87,
+        "name": "Calebi Yanda",
+        "playerId": "fifa-1jm8058"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "desphuila",
+        "row": 142,
+        "name": "Jorge Ismael Jose",
+        "playerId": "fifa-1lniyj8"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "row": 290,
+        "name": "Jonilson José Manuel",
+        "playerId": "fifa-1ljvmr0"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "row": 291,
+        "name": "Pedro",
+        "playerId": "fifa-1liwnq8"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "row": 292,
+        "name": "Gelson dos Santos André",
+        "playerId": "fifa-1ljudk2"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "row": 296,
+        "name": "Domingos",
+        "playerId": "fifa-1mall47"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "row": 303,
+        "name": "Domingos",
+        "playerId": "fifa-1l08hy2"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "row": 305,
+        "name": "Batista Jáo Kachama",
+        "playerId": "fifa-1v0ca42"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "row": 306,
+        "name": "Pedro",
+        "playerId": "fifa-1maldr2"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "fcluanda",
+        "row": 309,
+        "name": "Ricardo Batista",
+        "playerId": "ricardo-batista-fcluanda"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "interclube",
+        "row": 319,
+        "name": "Walter Emanuel de Sá Carvalho",
+        "playerId": "fifa-1uz41e0"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "interclube",
+        "row": 337,
+        "name": "Alberto Alves",
+        "playerId": "alberto-alves-interclube"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "interclube",
+        "row": 338,
+        "name": "Além",
+        "playerId": "alem-interclube"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "interclube",
+        "row": 339,
+        "name": "Alexandre Fernando",
+        "playerId": "alexandre-fernando-interclube"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "interclube",
+        "row": 340,
+        "name": "Silvano da Cruz",
+        "playerId": "silvano-da-cruz-interclube"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "petro",
+        "row": 376,
+        "name": "Deybi Aldair Flores",
+        "playerId": "deybi-flores"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "primeiromaio",
+        "row": 239,
+        "name": "Fernando Mateus Duarte",
+        "playerId": "fifa-1ljh1x4"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "primeiromaio",
+        "row": 252,
+        "name": "Luís Profi",
+        "playerId": "luis-profi-primeiromaio"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "sagrada",
+        "row": 460,
+        "name": "M. Dala",
+        "playerId": "m-dala-sagrada"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "sagrada",
+        "row": 461,
+        "name": "Mafuta",
+        "playerId": "mafuta-sagrada"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "saosalvador",
+        "row": 477,
+        "name": "Fernando Lizandro Firmino Camuege",
+        "playerId": "fifa-1lih506"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "saosalvador",
+        "row": 484,
+        "name": "Rafael Sete Ucuahamba",
+        "playerId": "fifa-1lih5k4"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "saosalvador",
+        "row": 488,
+        "name": "Lucas Filemon Cassule",
+        "playerId": "fifa-1lih3r9"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "saosalvador",
+        "row": 506,
+        "name": "Anderson Mputa",
+        "playerId": "anderson-mputa-saosalvador"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "wiliete",
+        "row": 539,
+        "name": "Kabelo Dlamini",
+        "playerId": "kabelo-dlamini"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    },
+    {
+      "severity": "medium",
+      "kind": "nickname_row_without_exact_official_match",
+      "evidence": {
+        "teamId": "wiliete",
+        "row": 540,
+        "name": "Ning",
+        "playerId": "ning-wiliete"
+      },
+      "impact": "A linha pode ser antiga, duplicada ou ter grafia incompatível com o plantel atual.",
+      "fix": "Confirmar se o jogador continua inscrito e ligar pelo ID MA/FIFA.",
+      "confidence": "medium"
+    }
+  ]
+}
