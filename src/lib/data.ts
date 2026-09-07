@@ -4457,7 +4457,7 @@ export interface MatchOfficials {
   referee: string;
   assistants: [string, string];
   fourth: string;
-  /** Comissário de jogo, quando consta da ficha oficial. */
+  /** Delegado de jogo (comissário na ficha FCMS). Nas páginas públicas o rótulo é sempre "Delegado". */
   commissioner?: string;
 }
 

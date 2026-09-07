@@ -131,7 +131,9 @@ for (const official of [
   assert.match(data, new RegExp(official));
 }
 assert.match(data, /commissioner\?: string/);
-assert.match(matchDetailClient, /Comiss[aá]rio: \{officials\.commissioner\}/);
+// Nas fichas públicas o cargo é sempre "Delegado", nunca "Comissário".
+assert.match(matchDetailClient, /Delegado: \{officials\.commissioner\}/);
+assert.doesNotMatch(matchDetailClient, /Comiss[aá]rio/i);
 
 // A classificação pública só pode usar resultados finais, e estatísticas
 // individuais não podem recorrer a eventos gerados ou valores estimados.

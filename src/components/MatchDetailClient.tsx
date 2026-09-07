@@ -269,7 +269,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
               Assistentes: {officials.assistants[0]} · {officials.assistants[1]}
               <span className="block">4.º Árbitro: {officials.fourth}</span>
               {officials.commissioner && (
-                <span className="block">Comissário: {officials.commissioner}</span>
+                <span className="block">Delegado: {officials.commissioner}</span>
               )}
             </span>
           </div>
