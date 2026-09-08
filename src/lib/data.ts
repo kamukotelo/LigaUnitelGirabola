@@ -576,7 +576,7 @@ export interface NewsArticle {
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Preto', coach: 'João Pedro Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#000000'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B', '#000000'] }, { label: 'Secundário', colors: ['#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
-  { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beta Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beto Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: "D' Agosto", colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Paulo Torres', president: 'Lucas Francisco Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Lourenço Nelito', president: 'Agrione Manuel', nickname: 'Maquisardes', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
@@ -3623,6 +3623,106 @@ function getPublishedCabindaLiboloLineups(match: Match): { home: LineupPlayer[];
   };
 }
 
+/** Onze inicial e banco do Estrela 1.º de Maio frente ao Kabuscorp (1.ª jornada). */
+function getPublishedMaioKabuscorpLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-1-6') return undefined;
+
+  const player = (
+    name: string,
+    playerId: string | undefined,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+  ): LineupPlayer => ({ name, playerId, number, position, isStarter, rating: 0 });
+
+  // O banco do Kabuscorp ainda não foi recebido; fica vazio até o clube enviar.
+  return {
+    home: [
+      player('Super', undefined, 1, 'GK', true),
+      player('Márcio', undefined, 7, 'DEF', true),
+      player('Moisés', 'moises-primeiromaio', 5, 'DEF', true),
+      player('Issamá', undefined, 15, 'DEF', true),
+      player('Balaka', undefined, 24, 'DEF', true),
+      player('Bicho', undefined, 6, 'MID', true),
+      player('Deninho', 'deninho-maio', 14, 'MID', true),
+      player('Muila', undefined, 16, 'MID', true),
+      player('Luís Profi', 'luis-profi-primeiromaio', 19, 'MID', true),
+      player('Tchutchu', undefined, 22, 'MID', true),
+      player('Deco', undefined, 9, 'FWD', true),
+      player('Kanhi', undefined, 56, 'GK', false),
+      player('Messito', undefined, 34, 'MID', false),
+      player('Ngala', undefined, 33, 'DEF', false),
+      player('Rabby', undefined, 31, 'FWD', false),
+      player('Chansard', undefined, 25, 'MID', false),
+      player('Loyde', undefined, 20, 'FWD', false),
+      player('Geúda', undefined, 18, 'MID', false),
+      player('Malamba', undefined, 8, 'MID', false),
+      player('Show Dey', undefined, 2, 'DEF', false),
+    ],
+    away: [],
+  };
+}
+
+/** Onze inicial e suplentes de Desportivo da Huíla–Wiliete (3.ª jornada). */
+function getPublishedHuilaWilieteLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-3-2') return undefined;
+
+  const player = (
+    name: string,
+    playerId: string | undefined,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+  ): LineupPlayer => ({ name, playerId, number, position, isStarter, rating: 0 });
+
+  return {
+    home: [
+      player('Ndulo', 'ndulo-huila', 1, 'GK', true),
+      player('Ludy', 'lucas-elias-huila', 13, 'DEF', true),
+      player('Dos Santos', 'dos-santos-huila', 4, 'DEF', true),
+      player('Katendi', 'katendi-huila', 2, 'DEF', true),
+      player('Jeremias', 'jeremias-huila', 26, 'DEF', true),
+      player('Elias', 'elias-huila', 15, 'MID', true),
+      player('Cagodo', 'pequenino-castro-huila', 29, 'MID', true),
+      player('Constantino', 'tchicundico-huila', 32, 'MID', true),
+      player('Milton', 'milton-suca-huila', 18, 'FWD', true),
+      player('Milagre', 'milagre-simba-huila', 25, 'FWD', true),
+      player('Mendes', 'mendes-huila', 10, 'FWD', true),
+      player('Passy', 'passy-huila', 12, 'GK', false),
+      player('Jo', 'joao-milagre-huila', 6, 'DEF', false),
+      player('Cabibi', 'leonardo-isola-huila', 7, 'FWD', false),
+      player('Angelo', 'angelo-cangu-huila', 21, 'MID', false),
+      player('Toyzinho', 'toyzinho-huila', 20, 'MID', false),
+      player('António', 'antonio-huila', 27, 'MID', false),
+      player('Jony', 'joao-samazanga-huila', 34, 'FWD', false),
+      player('Florentino', undefined, 23, 'DEF', false),
+      player('Camati', undefined, 28, 'FWD', false),
+    ],
+    away: [
+      player('Nayan', undefined, 1, 'GK', true),
+      player('Giovani', undefined, 17, 'DEF', true),
+      player('Júnior Goiano', undefined, 27, 'DEF', true),
+      player('Wiwi', undefined, 5, 'DEF', true),
+      player('Karanga', undefined, 7, 'MID', true),
+      player('Célio Zua', undefined, 32, 'MID', true),
+      player('Mindinho', undefined, 10, 'MID', true),
+      player('Sidibé', undefined, 30, 'MID', true),
+      player('Gibelé', undefined, 11, 'FWD', true),
+      player('Bito', undefined, 28, 'MID', true),
+      player('Bello', 'bello-lukman-wiliete', 18, 'FWD', true),
+      player('Elber', undefined, 31, 'GK', false),
+      player('Silva', undefined, 3, 'DEF', false),
+      player('Guilherme', undefined, 4, 'DEF', false),
+      player('Mule', undefined, 8, 'MID', false),
+      player('Mabululu', undefined, 9, 'FWD', false),
+      player('Filó', undefined, 21, 'FWD', false),
+      player('Ning', undefined, 25, 'FWD', false),
+      player('César Cangue', undefined, 34, 'FWD', false),
+      player('Quare', undefined, 33, 'FWD', false),
+    ],
+  };
+}
+
 /** Onze inicial e suplentes de FC Luanda–FC Cabinda (3.ª jornada). */
 function getPublishedLuandaCabindaLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
   if (match.id !== 'm27-3-4') return undefined;
@@ -4404,6 +4504,7 @@ export function getCurrentSeasonMinutesPlayed(): MinutesPlayedRecord[] {
 /** Treinadores confirmados nas fichas de jogo. */
 const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: string }>> = {
   'm27-1-2': { home: 'Sandro Mendes', away: 'Francisco Moniz' },
+  'm27-3-2': { home: 'Paulo Torres', away: 'Beto Bianchi' },
   'm27-1-3': { home: 'Filipe Nzanza' },
   'm27-2-8': { home: 'Silvestre Pelé', away: 'João Pedro Sousa' },
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
@@ -4415,6 +4516,8 @@ export function getMatchDetail(match: Match): MatchDetail {
   const dbLineup = RUNTIME_DATA.lineups?.[match.id];
   const publishedLineups = dbLineup ?? getPublishedBravosSagradaLineups(match)
     ?? getPublishedCabindaLiboloLineups(match)
+    ?? getPublishedHuilaWilieteLineups(match)
+    ?? getPublishedMaioKabuscorpLineups(match)
     ?? getPublishedLuandaCabindaLineups(match)
     ?? getPublishedAgostoHuilaLineups(match)
     ?? getPublishedLundaSulPetroLineups(match)
