@@ -98,7 +98,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 3, homeTeamId: 'lobito', awayTeamId: 'primeiromaio', date: '2026-09-05T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'caala', awayTeamId: 'desphuila', date: '2026-09-13T15:00:00+01:00' },
   { round: 4, homeTeamId: 'lundasul', awayTeamId: 'sagrada', date: '2026-09-13T15:00:00+01:00' },
-  { round: 4, homeTeamId: 'wiliete', awayTeamId: 'fcluanda', date: '2026-09-13T15:00:00+01:00' },
+  { round: 4, homeTeamId: 'wiliete', awayTeamId: 'fcluanda', date: '2026-09-13T16:00:00+01:00' },
   { round: 4, homeTeamId: 'bravos', awayTeamId: 'kabuscorp', date: '2026-09-16T15:00:00+01:00' },
   { round: 4, homeTeamId: 'cabinda', awayTeamId: 'dago', date: '2026-09-09T15:00:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'saosalvador', awayTeamId: 'petro', date: '2026-09-16T15:30:00+01:00', broadcaster: 'Zsports' },
