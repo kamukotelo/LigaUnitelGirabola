@@ -9,7 +9,7 @@ import {
   LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
   Fingerprint, FileText, Plane, HeartPulse, Loader2, CheckCircle2,
   AlertTriangle, BadgeCheck, Search, Download, Home,
-  Plus, Trash2, Pencil, Shirt, Flag, ImagePlus, Palette, Undo2, BarChart3, Sparkles, ExternalLink, UploadCloud,
+  Plus, Trash2, Pencil, Shirt, Flag, ImagePlus, Palette, Undo2, BarChart3, Sparkles, ExternalLink, UploadCloud, Lock,
 } from 'lucide-react';
 import {
   MATCHES, TEAMS, PLAYERS, newsMock, getStandings, getNewsArticles,
@@ -20,10 +20,11 @@ import {
   type TrophyEntry, type KitEntry, type BoardMember, type SiteSettings,
 } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { getTeamCrest } from '@/lib/team-crests';
 import FichaSection from '@/components/admin/FichaSection';
 import JornadaSection from '@/components/admin/JornadaSection';
 import LivePreviewPanel from '@/components/admin/LivePreviewPanel';
-import { readTeamOverrides, writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
+import { writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
 import { publishOverride, type OverrideSection } from '@/lib/portal-overrides';
 import { supabase } from '@/lib/supabase';
 
@@ -1607,10 +1608,6 @@ function TeamsSection() {
   const overrides = store.overrides;
   const [openId, setOpenId] = useState<string | null>(null);
 
-  const [logoError, setLogoError] = useState<string | null>(null);
-  const [logoSaving, setLogoSaving] = useState<string | null>(null);
-  const [logoSavedId, setLogoSavedId] = useState<string | null>(null);
-
   // Espelha o rascunho no registo local que alimenta os emblemas em tempo real
   // (TeamCrest), para que a pré-visualização acompanhe a edição.
   useEffect(() => {
@@ -1659,32 +1656,6 @@ function TeamsSection() {
       ctl.setDraft({ ...store, overrides: nextOverrides, removed: [...new Set([...store.removed, id])] });
     }
     setOpenId(null);
-  };
-
-  // Persiste o logótipo GLOBALMENTE (Supabase). O upload devolve um URL público
-  // que substitui o override local (mais leve que o data URL e canónico).
-  const persistLogoToServer = async (teamId: string, logoUrl: string | null) => {
-    setLogoSaving(teamId);
-    setLogoError(null);
-    try {
-      const res = await fetch('/api/teams/logo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        // Autorização via cookie de sessão (enviado automaticamente); a senha
-        // já não vive no código do cliente.
-        body: JSON.stringify({ teamId, logoUrl }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.message || 'Falha ao guardar no servidor.');
-      // Alinha o override local com o que ficou no servidor.
-      update(teamId, { logoUrl: data.logoUrl ?? undefined });
-      setLogoSavedId(teamId);
-      setTimeout(() => setLogoSavedId((cur) => (cur === teamId ? null : cur)), 2500);
-    } catch (e) {
-      setLogoError(e instanceof Error ? e.message : 'Falha ao guardar o logótipo no servidor.');
-    } finally {
-      setLogoSaving((cur) => (cur === teamId ? null : cur));
-    }
   };
 
   return (
@@ -1769,67 +1740,26 @@ function TeamsSection() {
               {isOpen && (
                 <div className="mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60">
                   <span className="text-[10px] font-mono text-accent uppercase tracking-widest flex items-center gap-1.5 mb-3">
-                    <ImagePlus size={12} /> Emblema / Logótipo
+                    <Lock size={12} /> Emblema / Logótipo — bloqueado
                   </span>
                   <div className="flex flex-wrap items-center gap-4">
                     <div className="flex-shrink-0 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-black/40 p-2">
                       <TeamCrest teamId={base.id} size={56} />
                     </div>
-                    <div className="flex-1 min-w-[220px] space-y-2">
-                      <label className={`inline-flex w-fit items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest transition-colors ${logoSaving === base.id ? 'opacity-60 cursor-wait' : 'hover:bg-accent/20 cursor-pointer'}`}>
-                        <ImagePlus size={12} /> Carregar imagem
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          disabled={logoSaving === base.id}
-                          onChange={async (e) => {
-                            const file = e.target.files?.[0];
-                            if (!file) return;
-                            try {
-                              const url = await fileToLogoDataUrl(file);
-                              update(base.id, { logoUrl: url });    // pré-visualização instantânea
-                              await persistLogoToServer(base.id, url); // persiste globalmente
-                            } catch {
-                              setLogoError('Não foi possível processar a imagem.');
-                            }
-                            e.target.value = '';
-                          }}
-                        />
-                      </label>
-                      <input
-                        className="admin-input"
-                        placeholder="ou colar URL do logótipo (https://…)"
-                        defaultValue={t.logoUrl && !t.logoUrl.startsWith('data:') ? t.logoUrl : ''}
-                        onBlur={(e) => {
-                          const val = e.target.value.trim();
-                          const current = t.logoUrl && !t.logoUrl.startsWith('data:') ? t.logoUrl : '';
-                          if (val === current) return;
-                          update(base.id, { logoUrl: val || undefined }); // pré-visualização
-                          persistLogoToServer(base.id, val || null);      // persiste globalmente
-                        }}
-                      />
-                      <p className="text-[9px] font-mono text-zinc-500">
-                        PNG/JPG/SVG · redimensionado automaticamente. Guardado no servidor — aplica-se a todos os visitantes.
+                    <div className="flex-1 min-w-[220px] space-y-1.5">
+                      <p className="text-[10px] font-mono text-zinc-500 leading-relaxed">
+                        Os emblemas passaram a ser fixos: são servidos de{' '}
+                        <code className="text-foreground">public/crests/</code> e já não podem ser
+                        trocados a partir da consola, para não voltarem a mudar sozinhos.
                       </p>
-                      {logoSaving === base.id && (
-                        <p className="text-[10px] font-mono text-accent flex items-center gap-1.5"><Loader2 size={11} className="animate-spin" /> A guardar no servidor…</p>
-                      )}
-                      {logoSavedId === base.id && logoSaving !== base.id && (
-                        <p className="text-[10px] font-mono text-green-400 flex items-center gap-1.5"><CheckCircle2 size={11} /> Emblema publicado globalmente.</p>
-                      )}
+                      <p className="text-[9px] font-mono text-zinc-500">
+                        Para alterar um emblema é preciso substituir o ficheiro em{' '}
+                        <code className="text-foreground">public/crests/</code> (ou a linha em{' '}
+                        <code className="text-foreground">src/lib/team-crests.ts</code>) e publicar
+                        uma nova versão do site.
+                      </p>
                     </div>
-                    {overrides[base.id]?.logoUrl && (
-                      <button
-                        onClick={() => { update(base.id, { logoUrl: undefined }); persistLogoToServer(base.id, null); }}
-                        disabled={logoSaving === base.id}
-                        className="self-start inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-[10px] uppercase tracking-widest hover:bg-red-500/20 transition-colors disabled:opacity-50"
-                      >
-                        <RefreshCw size={12} /> Repor emblema
-                      </button>
-                    )}
                   </div>
-                  {logoError && <p className="text-[10px] font-mono text-red-400 mt-2">{logoError}</p>}
                 </div>
               )}
 
@@ -2542,19 +2472,6 @@ function LogosSection() {
   const [brandSavedId, setBrandSavedId] = useState<string | null>(null);
   const [brandError, setBrandError] = useState<string | null>(null);
 
-  // Estados dos Clubes. Arranca do registo local existente para não apagar as
-  // edições em curso na secção «Equipas» ao gravar um emblema.
-  const [overrides, setOverrides] = useState<Record<string, Partial<Team>>>({});
-  useEffect(() => {
-    /* eslint-disable react-hooks/set-state-in-effect */
-    setOverrides(readTeamOverrides());
-    /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
-  const [teamData, setTeamData] = useState<Record<string, { logoUrl?: string; updated_at?: string }>>({});
-  const [logoSaving, setLogoSaving] = useState<string | null>(null);
-  const [logoSavedId, setLogoSavedId] = useState<string | null>(null);
-  const [logoError, setLogoError] = useState<string | null>(null);
-
   // Formata a data/hora para exibição legível
   const formatDateTime = (isoString?: string) => {
     if (!isoString) return 'Padrão do sistema';
@@ -2584,21 +2501,9 @@ function LogosSection() {
       }
     };
 
-    const loadTeamsData = async () => {
-      const { data } = await supabase
-        .from('ancaf_teams')
-        .select('id, logo_url, updated_at');
-      if (data) {
-        const map: Record<string, { logoUrl?: string; updated_at?: string }> = {};
-        for (const row of data) {
-          map[row.id] = { logoUrl: row.logo_url || undefined, updated_at: row.updated_at };
-        }
-        setTeamData(map);
-      }
-    };
-
+    // Os emblemas de clube já não são lidos da base de dados: estão fixados em
+    // `src/lib/team-crests.ts` e servidos de `public/crests/`.
     loadConfigs();
-    loadTeamsData();
   }, []);
 
   const persistBrandLogo = async (key: string, logoUrl: string | null) => {
@@ -2628,40 +2533,6 @@ function LogosSection() {
       setBrandError(e instanceof Error ? e.message : 'Falha ao guardar o logótipo no servidor.');
     } finally {
       setBrandSaving(null);
-    }
-  };
-
-  const persistTeamLogo = (next: Record<string, Partial<Team>>) => {
-    writeTeamOverrides(next);
-    setOverrides(next);
-  };
-
-  const updateTeamLogo = (id: string, patch: Partial<Team>) => {
-    persistTeamLogo({ ...overrides, [id]: { ...overrides[id], ...patch } });
-  };
-
-  const persistLogoToServer = async (teamId: string, logoUrl: string | null) => {
-    setLogoSaving(teamId);
-    setLogoError(null);
-    try {
-      const res = await fetch('/api/teams/logo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ teamId, logoUrl }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.message || 'Falha ao guardar no servidor.');
-      updateTeamLogo(teamId, { logoUrl: data.logoUrl ?? undefined });
-      setTeamData(prev => ({
-        ...prev,
-        [teamId]: { logoUrl: data.logoUrl || undefined, updated_at: new Date().toISOString() }
-      }));
-      setLogoSavedId(teamId);
-      setTimeout(() => setLogoSavedId(cur => cur === teamId ? null : cur), 2500);
-    } catch (e) {
-      setLogoError(e instanceof Error ? e.message : 'Falha ao guardar o emblema no servidor.');
-    } finally {
-      setLogoSaving(null);
     }
   };
 
@@ -2776,99 +2647,41 @@ function LogosSection() {
         {brandError && <p className="text-xs font-mono text-red-400">{brandError}</p>}
       </div>
 
-      {/* ── SECÇÃO 2: EMBLEMAS DE CLUBES ── */}
+      {/* ── SECÇÃO 2: EMBLEMAS DE CLUBES (BLOQUEADOS) ── */}
       <div className="space-y-4">
-        <h3 className="text-xs font-mono text-zinc-500 uppercase tracking-widest border-b border-zinc-200/50 dark:border-zinc-800/50 pb-2">Emblemas das Equipas (Atualização Rápida)</h3>
-        
+        <h3 className="text-xs font-mono text-zinc-500 uppercase tracking-widest border-b border-zinc-200/50 dark:border-zinc-800/50 pb-2">Emblemas das Equipas (bloqueados)</h3>
+
+        <Panel className="flex items-start gap-3">
+          <Lock size={14} className="mt-0.5 flex-shrink-0 text-accent" />
+          <div className="space-y-1">
+            <p className="text-[11px] font-mono text-foreground uppercase tracking-widest">Emblemas fixados em código</p>
+            <p className="text-[11px] text-zinc-500 leading-relaxed">
+              Os emblemas deixaram de ser lidos do Supabase e de overrides da consola: são
+              servidos de <code className="text-foreground">public/crests/</code>, ficheiros
+              versionados no repositório. Assim não voltam a mudar sozinhos quando a base de
+              dados fica indisponível — e o portal deixa de gastar quota a servir imagens.
+            </p>
+            <p className="text-[11px] text-zinc-500 leading-relaxed">
+              Para trocar um emblema: substituir o ficheiro em{' '}
+              <code className="text-foreground">public/crests/</code> (ou a linha correspondente em{' '}
+              <code className="text-foreground">src/lib/team-crests.ts</code>) e publicar uma nova
+              versão do site.
+            </p>
+          </div>
+        </Panel>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {TEAMS.map((base) => {
-            const overrideEntry = overrides[base.id];
-            const isEdited = !!overrideEntry?.logoUrl;
-            const isSaving = logoSaving === base.id;
-            const isSaved = logoSavedId === base.id;
-
-            return (
-              <Panel key={base.id} className="flex flex-col justify-between gap-3 text-center">
-                <div className="flex flex-col items-center gap-2">
-                  <div className="relative">
-                    <TeamCrest teamId={base.id} size={56} className="bg-white/40 dark:bg-zinc-900/30 p-1.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80" />
-                    {isEdited && (
-                      <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-[8px] font-mono font-bold px-1 rounded uppercase">
-                        editado
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-semibold text-foreground truncate max-w-[150px]">{base.name}</h4>
-                    <p className="text-[10px] font-mono text-zinc-500">{base.shortName}</p>
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-accent/5 border border-accent/25 text-accent font-mono text-[9px] uppercase tracking-wider transition-colors ${isSaving ? 'opacity-60 cursor-wait' : 'hover:bg-accent/10 cursor-pointer'}`}>
-                    <ImagePlus size={10} /> Enviar Ficheiro
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      disabled={isSaving}
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
-                        try {
-                          const url = await fileToLogoDataUrl(file);
-                          updateTeamLogo(base.id, { logoUrl: url });
-                          await persistLogoToServer(base.id, url);
-                        } catch {
-                          setLogoError('Erro ao ler imagem.');
-                        }
-                        e.target.value = '';
-                      }}
-                    />
-                  </label>
-
-                  <input
-                    className="admin-input text-center text-[10px]"
-                    placeholder="ou URL externa"
-                    defaultValue={overrideEntry?.logoUrl && !overrideEntry.logoUrl.startsWith('data:') ? overrideEntry.logoUrl : ''}
-                    onBlur={(e) => {
-                      const val = e.target.value.trim();
-                      const current = overrideEntry?.logoUrl && !overrideEntry.logoUrl.startsWith('data:') ? overrideEntry.logoUrl : '';
-                      if (val === current) return;
-                      updateTeamLogo(base.id, { logoUrl: val || undefined });
-                      persistLogoToServer(base.id, val || null);
-                    }}
-                  />
-
-                  <div className="text-[8px] font-mono text-zinc-400 mt-1 min-h-[12px] truncate">
-                    {formatDateTime(teamData[base.id]?.updated_at)}
-                  </div>
-
-                  <div className="flex items-center justify-center gap-2 min-h-[14px]">
-                    {isSaving && (
-                      <span className="text-[8px] font-mono text-accent flex items-center gap-0.5"><Loader2 size={8} className="animate-spin" /> A guardar...</span>
-                    )}
-                    {isSaved && !isSaving && (
-                      <span className="text-[8px] font-mono text-green-400 flex items-center gap-0.5"><CheckCircle2 size={8} /> Guardado</span>
-                    )}
-                    {isEdited && !isSaving && (
-                      <button
-                        onClick={() => {
-                          updateTeamLogo(base.id, { logoUrl: undefined });
-                          persistLogoToServer(base.id, null);
-                        }}
-                        className="text-[8px] font-mono text-red-400 hover:underline uppercase"
-                      >
-                        Repor Original
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </Panel>
-            );
-          })}
+          {TEAMS.map((base) => (
+            <Panel key={base.id} className="flex flex-col items-center gap-2 text-center">
+              <TeamCrest teamId={base.id} size={56} className="bg-white/40 dark:bg-zinc-900/30 p-1.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80" />
+              <div>
+                <h4 className="text-xs font-semibold text-foreground truncate max-w-[150px]">{base.name}</h4>
+                <p className="text-[10px] font-mono text-zinc-500">{base.shortName}</p>
+              </div>
+              <code className="text-[9px] font-mono text-zinc-400 truncate max-w-full">{getTeamCrest(base.id) ?? '—'}</code>
+            </Panel>
+          ))}
         </div>
-        {logoError && <p className="text-xs font-mono text-red-400 mt-2 text-center">{logoError}</p>}
       </div>
     </div>
   );

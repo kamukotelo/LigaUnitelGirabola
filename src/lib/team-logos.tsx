@@ -1,21 +1,22 @@
 'use client';
 
 // ════════════════════════════════════════════════════════════════════════
-// Logótipos de clube e de marca persistidos (Supabase) — fontes globais
+// Logótipos de marca persistidos (Supabase) — fonte global
 // ────────────────────────────────────────────────────────────────────────
-// A consola administrativa guarda o emblema de cada clube em
-// `ancaf_teams.logo_url` e os logótipos gerais de marca em `ancaf_configs`.
-// Este provider lê essas informações e disponibiliza-as para todo o portal,
+// A consola administrativa guarda os logótipos gerais de marca em
+// `ancaf_configs`. Este provider lê-os e disponibiliza-os para todo o portal,
 // reagindo em tempo real a qualquer alteração.
+//
+// Os EMBLEMAS DE CLUBE não passam por aqui: estão fixados em
+// `src/lib/team-crests.ts` e servidos de `public/crests/`, para não mudarem
+// sozinhos quando a base de dados fica indisponível.
 // ════════════════════════════════════════════════════════════════════════
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from './supabase';
 
-type TeamLogoMap = Record<string, string>;
 type BrandLogoMap = Record<string, string>;
 
-const TeamLogosContext = createContext<TeamLogoMap>({});
 const BrandLogosContext = createContext<BrandLogoMap>({});
 
 function isConfigured(): boolean {
@@ -24,7 +25,6 @@ function isConfigured(): boolean {
 }
 
 export function TeamLogosProvider({ children }: { children: React.ReactNode }) {
-  const [logos, setLogos] = useState<TeamLogoMap>({});
   const [brandLogos, setBrandLogos] = useState<BrandLogoMap>({});
 
   useEffect(() => {
@@ -32,18 +32,7 @@ export function TeamLogosProvider({ children }: { children: React.ReactNode }) {
 
     let cancelled = false;
 
-    // 1. Carrega os emblemas das equipas
-    const loadTeams = async () => {
-      const { data, error } = await supabase.from('ancaf_teams').select('id, logo_url');
-      if (cancelled || error || !data) return;
-      const map: TeamLogoMap = {};
-      for (const row of data as { id: string; logo_url: string | null }[]) {
-        if (row.logo_url) map[row.id] = row.logo_url;
-      }
-      setLogos(map);
-    };
-
-    // 2. Carrega as configurações dos logótipos de marca
+    // Carrega as configurações dos logótipos de marca
     const loadConfigs = async () => {
       const { data, error } = await supabase
         .from('ancaf_configs')
@@ -57,14 +46,7 @@ export function TeamLogosProvider({ children }: { children: React.ReactNode }) {
       setBrandLogos(map);
     };
 
-    loadTeams();
     loadConfigs();
-
-    // Atualização ao vivo dos emblemas das equipas
-    const teamChannel = supabase
-      .channel('ancaf-team-logos')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_teams' }, () => loadTeams())
-      .subscribe();
 
     // Atualização ao vivo dos logótipos gerais de marca
     const configChannel = supabase
@@ -74,24 +56,11 @@ export function TeamLogosProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       cancelled = true;
-      supabase.removeChannel(teamChannel);
       supabase.removeChannel(configChannel);
     };
   }, []);
 
-  return (
-    <TeamLogosContext.Provider value={logos}>
-      <BrandLogosContext.Provider value={brandLogos}>
-        {children}
-      </BrandLogosContext.Provider>
-    </TeamLogosContext.Provider>
-  );
-}
-
-/** Logótipo persistido (global) de um clube, ou undefined se não houver. */
-export function useTeamLogo(teamId: string): string | undefined {
-  const map = useContext(TeamLogosContext);
-  return map[teamId.toLowerCase()];
+  return <BrandLogosContext.Provider value={brandLogos}>{children}</BrandLogosContext.Provider>;
 }
 
 /**
