@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flame, Award, Shield, AlertTriangle, CheckCircle2, Clock3 } from 'lucide-react';
-import { CURRENT_SEASON_SCORERS, PLATFORM_MATCH_UPDATED_AT, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonGoalReconciliation, getCurrentSeasonDiscipline, getCurrentSeasonAssists, getCurrentSeasonCleanSheets, getCurrentSeasonMinutesPlayed, getMatchesForSeason } from '@/lib/data';
+import { CURRENT_SEASON_SCORERS, getSeasonResultsUpdatedAt, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonGoalReconciliation, getCurrentSeasonDiscipline, getCurrentSeasonAssists, getCurrentSeasonCleanSheets, getCurrentSeasonMinutesPlayed, getCurrentSeasonMinutesCoverage, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import AdvancedStatistics from './AdvancedStatistics';
@@ -181,6 +181,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
     }
   }
 
+  const minutesCoverage = getCurrentSeasonMinutesCoverage();
   const cardReconciliation = getCurrentSeasonCardReconciliation();
   const goalReconciliation = getCurrentSeasonGoalReconciliation();
 
@@ -203,7 +204,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       {isUpcoming && seasonHasStarted && (
         <div className="mb-6 max-w-4xl rounded-2xl border border-zinc-200 bg-white/40 p-4 dark:border-zinc-800 dark:bg-zinc-950/30">
           <p className="mb-3 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
-            Estatísticas atualizadas em {new Date(PLATFORM_MATCH_UPDATED_AT).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })}
+            Estatísticas atualizadas em {new Date(getSeasonResultsUpdatedAt(seasonId)).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })}
           </p>
           <div className="flex flex-wrap gap-2" aria-label="Disponibilidade das estatísticas oficiais">
             {currentSeasonAvailability.map((metric) => (
@@ -289,6 +290,21 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             Fichas oficiais: {cardsLabel(cardReconciliation.yellowInSheets, cardReconciliation.redInSheets)} ·
             {' '}Atribuídos a jogador: {cardsLabel(cardReconciliation.yellowAttributed, cardReconciliation.redAttributed)} ·
             {' '}Por identificar: {cardsLabel(cardReconciliation.yellowUnattributed, cardReconciliation.redUnattributed)}.
+          </p>
+        </div>
+      )}
+
+      {isUpcoming && seasonHasStarted && activeTab === 'minutes' && displayPlayers.length > 0 && (
+        <div className="mb-8 p-4 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl max-w-4xl">
+          <p className="text-xs text-zinc-500">
+            Minutos calculados a partir do onze inicial e da cronologia de substituições e expulsões de cada ficha oficial,
+            sobre os 90 minutos regulamentares. Uma equipa só entra quando a ficha publica os titulares <strong>e</strong> as
+            substituições — sem elas não é possível saber quem saiu de campo, e nenhum valor é estimado.
+          </p>
+          <p className="text-xs text-zinc-500 mt-2 font-mono">
+            Fichas reconstruídas: {minutesCoverage.sidesCounted} de {minutesCoverage.sidesPossible} equipas-jogo ·
+            {' '}{minutesCoverage.matchesFinished} jogos terminados ·
+            {' '}Ranking: {MINUTES_RANKING_SIZE} primeiros.
           </p>
         </div>
       )}

@@ -421,7 +421,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Sagrada Esperança",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-09-13T15:00:00+01:00",
+    "date": "2026-09-12T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
     "status": "scheduled"
   },

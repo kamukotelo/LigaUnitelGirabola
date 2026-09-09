@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Info, Award } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { PLATFORM_MATCH_UPDATED_AT, SEASONS, UPCOMING_SEASON_ID, computeStandings, getStandingsForSeason, getTeamFullName, type StandingsVenue } from '@/lib/data';
+import { getSeasonResultsUpdatedAt, SEASONS, UPCOMING_SEASON_ID, computeStandings, getStandingsForSeason, getTeamFullName, type StandingsVenue } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -28,7 +28,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
     <div className="space-y-8">
       {isUpcoming && (
         <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
-          Classificação atualizada em {new Date(PLATFORM_MATCH_UPDATED_AT).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })} · jogos em direto não contabilizados
+          Classificação atualizada em {new Date(getSeasonResultsUpdatedAt(seasonId)).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })} · jogos em direto não contabilizados
         </p>
       )}
 

@@ -98,7 +98,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 3, homeTeamId: 'petro', awayTeamId: 'libolo', date: '2026-08-26T16:30:00+01:00', broadcaster: 'Zsports' },
   { round: 3, homeTeamId: 'lobito', awayTeamId: 'primeiromaio', date: '2026-09-05T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'caala', awayTeamId: 'desphuila', date: '2026-09-13T15:00:00+01:00' },
-  { round: 4, homeTeamId: 'lundasul', awayTeamId: 'sagrada', date: '2026-09-13T15:00:00+01:00' },
+  { round: 4, homeTeamId: 'lundasul', awayTeamId: 'sagrada', date: '2026-09-12T15:00:00+01:00' },
   { round: 4, homeTeamId: 'wiliete', awayTeamId: 'fcluanda', date: '2026-09-13T16:00:00+01:00' },
   { round: 4, homeTeamId: 'bravos', awayTeamId: 'kabuscorp', date: '2026-09-16T15:00:00+01:00' },
   { round: 4, homeTeamId: 'cabinda', awayTeamId: 'dago', date: '2026-09-09T15:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
@@ -4804,6 +4804,28 @@ export function getCurrentSeasonMinutesPlayed(): MinutesPlayedRecord[] {
 
   return [...totals.values()].sort((a, b) =>
     b.minutesPlayed - a.minutesPlayed || b.appearances - a.appearances || a.name.localeCompare(b.name));
+}
+
+export interface MinutesCoverage {
+  /** Equipas-jogo cuja cronologia foi reconstruída (escalação + substituições). */
+  sidesCounted: number;
+  /** Equipas-jogo possíveis: duas por cada jogo já terminado. */
+  sidesPossible: number;
+  matchesFinished: number;
+}
+
+/**
+ * Cobertura do cálculo de minutos. Serve para a página dizer abertamente
+ * quantas fichas já permitem reconstruir o tempo em campo, em vez de deixar o
+ * leitor supor que a lista cobre a competição toda.
+ */
+export function getCurrentSeasonMinutesCoverage(): MinutesCoverage {
+  const finished = getMatchesForSeason(UPCOMING_SEASON_ID).filter((match) => match.status === 'finished');
+  return {
+    sidesCounted: getEligibleMatchSides().length,
+    sidesPossible: finished.length * 2,
+    matchesFinished: finished.length,
+  };
 }
 
 export interface Per90Record {

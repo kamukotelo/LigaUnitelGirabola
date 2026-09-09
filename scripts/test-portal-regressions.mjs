@@ -14,9 +14,11 @@ const files = {
   advancedStatistics: new URL('../src/components/competition/AdvancedStatistics.tsx', import.meta.url),
   playerDetail: new URL('../src/components/PlayerDetailClient.tsx', import.meta.url),
   matchDetailClient: new URL('../src/components/MatchDetailClient.tsx', import.meta.url),
+  estatisticasTab: new URL('../src/components/competition/EstatisticasTab.tsx', import.meta.url),
+  classificacaoTab: new URL('../src/components/competition/ClassificacaoTab.tsx', import.meta.url),
 };
 
-const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage, advancedStatistics, playerDetail, matchDetailClient] = await Promise.all(
+const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage, advancedStatistics, playerDetail, matchDetailClient, estatisticasTab, classificacaoTab] = await Promise.all(
   Object.values(files).map((file) => readFile(file, 'utf8')),
 );
 
@@ -136,6 +138,12 @@ for (const scorer of ['Mariano da Costa Vidal', 'Benvindo Miguel André Afonso',
 }
 assert.match(data, /'m27-3-8': \{ home: \{ corners: 1, yellowCards: 6 \}, away: \{ corners: 0, yellowCards: 3 \}/);
 
+// 4.ª jornada · FC Cabinda 1-1 CD 1.º de Agosto (09/09/2026, Estádio França Ndalu).
+assert.match(data, /'m27-4-5': \{[\s\S]*?score: '1-1'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/);
+assert.match(data, /if \(match\.id === 'm27-4-5'\) return \[[\s\S]*?playerId: 'luyeye-cabinda'[\s\S]*?playerId: 'axel-dago'/);
+assert.match(data, /id: 'luyeye-cabinda'[\s\S]*?goals: 2, appearances: 2/);
+assert.match(data, /id: 'axel-dago', name: 'Axel Gaudêncio'[\s\S]*?goals: 2, appearances: 2/);
+
 // A ficha FC Luanda–FC Cabinda deve manter as convocatórias e a arbitragem
 // oficiais recebidas para a 3.ª jornada.
 assert.match(data, /getPublishedLuandaCabindaLineups/);
@@ -194,6 +202,14 @@ assert.match(data, /function buildLineupNameIndex/);
 // avançado com golos em jornadas sem ficha não pode dividi-los pelos minutos
 // de um único jogo com escalação publicada.
 assert.match(data, /export function getCurrentSeasonPer90/);
+// Uma ficha com escalação mas sem substituições não permite reconstruir quem
+// saiu de campo: dar 90 minutos aos onze titulares seria inventar a cronologia.
+assert.match(data, /if \(teamSubs\.length === 0\) continue;/);
+// As etiquetas de "atualizado em" seguem o jogo confirmado mais recente, para
+// não voltarem a ficar presas a uma data escrita à mão.
+assert.match(data, /export function getSeasonResultsUpdatedAt/);
+assert.match(estatisticasTab, /getSeasonResultsUpdatedAt\(seasonId\)/);
+assert.match(classificacaoTab, /getSeasonResultsUpdatedAt\(seasonId\)/);
 assert.match(data, /function collectEligibleMatchSides/);
 assert.match(advancedStatistics, /getCurrentSeasonPer90\(\) : \[\]/);
 assert.doesNotMatch(advancedStatistics, /getCurrentSeasonMinutesPlayed/);
