@@ -317,6 +317,15 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     attendance: 3000,
     updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
+  // 4.ª jornada · 09/09/2026 · Estádio França Ndalu
+  'm27-4-5': {
+    homeScore: 1,
+    awayScore: 1,
+    score: '1-1',
+    halfTimeScore: '1-0',
+    status: 'finished',
+    updatedAt: '2026-09-09T17:15:00+01:00',
+  },
 };
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
@@ -406,7 +415,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'depu', name: 'Depú', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'deybi-flores', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'milagre-simba-huila', name: 'Milagre Carlos Simba', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
-  { id: 'luyeye-cabinda', name: 'Luyeye Tomás', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'luyeye-cabinda', name: 'Luyeye Tomás', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 2, appearances: 2 },
   { id: 'leonardo-isola-huila', name: 'Leonardo Manuel Isola Ramos', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'cuxixima-libolo', name: 'Cuxixima', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'pedro-libolo', name: 'Pedro', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
@@ -414,11 +423,11 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'ju-cabral-bravos', name: 'Ju Cabral', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'lito-bravos', name: 'Lito', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'gladilson-bravos', name: 'Gladilson', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
-  { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 3, appearances: 3 },
+  { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 3, appearances: 4 },
   { id: 'kabelo-dlamini', name: 'Kabelo Dlamini', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'valter-monteiro', name: 'Valter Monteiro', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'alem-interclube', name: 'Além', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
-  { id: 'axel-dago', name: 'Axel', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'axel-dago', name: 'Axel Gaudêncio', club: '1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 2, appearances: 2 },
   { id: 'luis-profi-primeiromaio', name: 'Luís Profi', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'mafuta-sagrada', name: 'Mafuta', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'anderson-mputa-saosalvador', name: 'Anderson Mputa', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
@@ -3433,7 +3442,7 @@ function getPublishedLobitoPetroLineups(match: Match): { home: LineupPlayer[]; a
     // Onze inicial e suplentes conforme a ficha do clube (jornada 2, frente
     // ao Petro). Sem posições no boletim, pelo que ficam por confirmar.
     home: [
-      player('Guilherme', 12, true, 'guilherme-lobito'),
+      player('Guilherme', 12, true, 'guilherme-lobito', 'GK'),
       player('Joel', 2, true, 'joel-lobito'),
       player('Rosário', 4, true, 'rosario-lobito'),
       player('Jorge', 28, true, 'jorge-28-lobito'),
@@ -3743,7 +3752,27 @@ function getPublishedMaioKabuscorpLineups(match: Match): { home: LineupPlayer[];
       player('Malamba', undefined, 8, 'MID', false),
       player('Show Dey', undefined, 2, 'DEF', false),
     ],
-    away: [],
+    away: [
+      player('Augusto Mualucano', 'fifa-1jrtva7', 22, 'GK', true),
+      player('Henock Mangindula', 'fifa-1mppsb5', 16, 'DEF', true),
+      player('Zamorano Lopes', 'fifa-1k4a836', 2, 'DEF', true),
+      player('Eliseu Cabanga', 'fifa-1jyp8v8', 3, 'DEF', true),
+      player('Adair Domingos', 'fifa-1lgpgy7', 4, 'DEF', true),
+      player('Saombe Jorge', 'fifa-1snb179', 5, 'MID', true),
+      player('Bayala Nsimba', 'fifa-1n3uhm6', 7, 'MID', true),
+      player('José Semedo', 'fifa-1k2pk58', 10, 'MID', true),
+      player('Daniel Kilola', 'fifa-1jm7zr2', 15, 'MID', true),
+      player('Mankoka Afonso', 'fifa-1jrku39', 18, 'FWD', true),
+      player('Alberto Xavier', 'fifa-1js6m05', 29, 'FWD', true),
+      player('Teodoro Correia', 'fifa-1lgpb81', 11, 'DEF', false),
+      player('João de Nascimento', 'fifa-1jriue5', 12, 'GK', false),
+      player('Artur Malungo', 'fifa-1k1sen7', 14, 'DEF', false),
+      player('Celestino Maleco', 'fifa-1jxicb5', 17, 'FWD', false),
+      player('Joaquim Paciência', 'fifa-1jm8hd7', 19, 'FWD', false),
+      player('Aluízio Cacharamba', 'fifa-1pnr1r0', 27, 'MID', false),
+      player('Mvemba Kuanzambi', 'fifa-1qxnl72', 28, 'DEF', false),
+      player('Diógenes João', 'fifa-1jrtxh4', 32, 'MID', false),
+    ],
   };
 }
 
@@ -3930,6 +3959,12 @@ function getPublishedCabindaAgostoLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  // 4.ª jornada · 09/09/2026 · FC Cabinda 1-1 CD 1.º de Agosto
+  if (match.id === 'm27-4-5') return [
+    { minute: 25, type: 'goal', team: 'home', player: 'Luyeye', playerId: 'luyeye-cabinda', detail: 'Grande penalidade · 25\' (1-0)' },
+    { minute: 47, type: 'goal', team: 'away', player: 'Axel Gaudêncio', playerId: 'axel-dago', detail: '47\' (1-1)' },
+  ];
+
   // Ficha oficial de arbitragem (Match No. 18 · 31/08/2026 · Estádio da Tundavala, Huíla).
   if (match.id === 'm27-3-2') return [
     { minute: 42, type: 'yellow', team: 'home', player: 'Elias Daniel' },
@@ -4430,6 +4465,18 @@ export function getCurrentSeasonCleanSheets(): CleanSheetRecord[] {
   return [...totals.values()].sort((a, b) => b.cleanSheets - a.cleanSheets || b.appearances - a.appearances);
 }
 
+/**
+ * Instante da última confirmação editorial visível no portal: o `updatedAt`
+ * mais recente entre os jogos já terminados da época. As etiquetas de
+ * "atualizado em" passam assim a acompanhar cada novo resultado publicado, em
+ * vez de ficarem presas à data em que a constante foi escrita à mão.
+ */
+export function getSeasonResultsUpdatedAt(seasonId: string = UPCOMING_SEASON_ID): string {
+  return getMatchesForSeason(seasonId)
+    .filter((match) => match.status === 'finished' && match.updatedAt)
+    .reduce((latest, match) => (match.updatedAt! > latest ? match.updatedAt! : latest), PLATFORM_MATCH_UPDATED_AT);
+}
+
 export interface MinutesPlayedRecord {
   id: string;
   name: string;
@@ -4645,6 +4692,13 @@ function collectEligibleMatchSides(): EligibleMatchSide[] {
       const starters = lineup.filter((player) => player.isStarter);
       if (starters.length < 11) continue; // escalação oficial incompleta
 
+      // Sem substituições na ficha não há cronologia: dar 90 minutos aos onze
+      // titulares seria assumir que ninguém saiu do campo, o que num jogo com
+      // cinco substituições permitidas é quase sempre falso. Fica de fora até
+      // a ficha publicar as trocas.
+      const teamSubs = detail.events.filter((event) => event.team === side && event.type === 'sub');
+      if (teamSubs.length === 0) continue;
+
       const spans: PitchSpan[] = starters.map((starter) => ({
         playerId: starter.playerId,
         name: starter.name,
@@ -4837,11 +4891,21 @@ export function getPlayerSeasonMinutes(playerId: string): MinutesPlayedRecord | 
 /** Treinadores confirmados nas fichas de jogo. */
 const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: string }>> = {
   'm27-1-2': { home: 'Sandro Mendes', away: 'Francisco Moniz' },
-  'm27-3-2': { home: 'Paulo Torres', away: 'Beto Bianchi' },
-  'm27-1-3': { home: 'Filipe Nzanza' },
+  'm27-1-3': { home: 'Filipe Nzanza', away: 'Paulo Torres' },
+  'm27-1-4': { home: 'Pedro Barros', away: 'João Pedro Sousa' },
+  'm27-1-5': { home: 'Beto Bianchi', away: 'Silvestre Pelé' },
+  'm27-1-6': { home: 'Águas da Silva', away: 'Léo Neiva' },
+  'm27-1-7': { home: 'Luciano Capoco', away: 'Osvaldo Roque' },
+  'm27-1-8': { home: 'Domingos Cussanda', away: 'Divaldo Alves' },
+  'm27-2-1': { home: 'Divaldo Alves', away: 'Beto Bianchi' },
+  'm27-2-2': { home: 'Léo Neiva', away: 'Pedro Barros' },
+  'm27-2-4': { home: 'Francisco Moniz', away: 'Domingos Cussanda' },
+  'm27-2-6': { home: 'Osvaldo Roque', away: 'Sandro Mendes' },
+  'm27-2-7': { home: 'Águas da Silva', away: 'Filipe Nzanza' },
   'm27-2-8': { home: 'Silvestre Pelé', away: 'João Pedro Sousa' },
-  'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
+  'm27-3-2': { home: 'Paulo Torres', away: 'Beto Bianchi' },
   'm27-3-6': { home: 'Filipe Nzanza', away: 'Divaldo Alves' },
+  'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
   'm27-4-5': { home: 'Luciano Capoco', away: 'Filipe Nzanza' },
 };
 
@@ -5002,6 +5066,42 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       assistants: ['Estanislau Guedes Tavares Muluta Prata', 'João Manuel Fula António'],
       fourth: 'Nelson Joaquim Camunga',
       commissioner: 'Manuel Pires Nunda',
+    },
+    'm27-1-5': {
+      referee: 'Sabino Garcez de Sousa de Carvalho',
+      assistants: ['Evandro Henrique Freitas da Rocha', 'Flávio Luís Cadete Dias'],
+      fourth: 'Pedro Filomeno Jacinto Katchisosa',
+      commissioner: 'Romualdo do Rosário Baltazar',
+    },
+    'm27-1-8': {
+      referee: 'Donaciano Mulumba',
+      assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'],
+      fourth: 'Bernardo Kenge Mário',
+      commissioner: 'Henrique Domingos Bernardo da Rocha',
+    },
+    'm27-2-6': {
+      referee: 'António Caluassi Dungula',
+      assistants: ['Zacarias Chivanja Calembe', 'Victorino Nangolo Dungula'],
+      fourth: 'Jacinto Isidro Lucas',
+      commissioner: 'Rodrigues Aleixo César',
+    },
+    'm27-2-7': {
+      referee: 'Chitano Domingos Francisco',
+      assistants: ['Wilson Valdmiro Ntyamba', 'Andália Bimbi Francisco Jeremias'],
+      fourth: 'Flamel Victorino Matos',
+      commissioner: 'José Leopoldo Braga Mavunza',
+    },
+    'm27-3-2': {
+      referee: 'Chitano Domingos Francisco',
+      assistants: ['Wilson Valdmiro Ntyamba', 'Andália Bimbi Francisco Jeremias'],
+      fourth: 'José Álvaro Clemente Chitumba',
+      commissioner: 'Figueiredo da Costa Francisco',
+    },
+    'm27-3-6': {
+      referee: 'Edson António Esoko',
+      assistants: ['Jerson Emiliano dos Santos', 'Estanislau Guedes Tavares Muluta Prata'],
+      fourth: 'Sanda Mateus Miguel Kitu',
+      commissioner: 'Venâncio Matos',
     },
     'm27-4-5': {
       referee: 'António Dungula',

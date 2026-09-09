@@ -362,11 +362,14 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "dago",
     "homeTeam": "FC Cabinda",
     "awayTeam": "CD 1.º de Agosto",
-    "homeScore": 0,
-    "awayScore": 0,
+    "homeScore": 1,
+    "awayScore": 1,
     "date": "2026-09-09T15:00:00+01:00",
     "stadium": "Estádio França Ndalu",
-    "status": "scheduled",
+    "status": "finished",
+    "score": "1-1",
+    "halfTimeScore": "1-0",
+    "updatedAt": "2026-09-09T17:15:00+01:00",
     "broadcaster": "Zsports"
   },
   {
