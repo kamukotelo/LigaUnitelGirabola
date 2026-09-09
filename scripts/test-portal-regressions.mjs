@@ -112,7 +112,7 @@ assert.match(publishedCalendar, /"homeTeamId": "interclube"[\s\S]*?"date": "2026
 assert.match(publishedCalendar, /"homeTeamId": "kabuscorp"[\s\S]*?"date": "2026-08-29T15:30:00\+01:00"/);
 assert.match(publishedCalendar, /"id": "m27-4-5"[\s\S]*?"date": "2026-09-09T15:00:00\+01:00"/);
 assert.match(publishedCalendar, /"id": "m27-5-1"[\s\S]*?"date": "2026-09-20T15:00:00\+01:00"/);
-assert.match(publishedCalendar, /"id": "m27-5-7"[\s\S]*?"date": "2026-09-19T15:30:00\+01:00"[\s\S]*?"stadium": "Estádio França N’dalu"/);
+assert.match(publishedCalendar, /"id": "m27-5-7"[\s\S]*?"date": "2026-09-20T15:00:00\+01:00"[\s\S]*?"stadium": "Estádio França Ndalu"/);
 assert.match(publishedCalendar, /"id": "m27-2-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"date": "2026-08-27T16:00:00\+01:00"[\s\S]*?"status": "finished"/);
 assert.match(publishedCalendar, /"id": "m27-2-7"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"status": "finished"/);
 assert.match(publishedCalendar, /"id": "m27-2-5"[\s\S]*?"homeScore": 2[\s\S]*?"awayScore": 1[\s\S]*?"date": "2026-08-28T15:30:00\+01:00"[\s\S]*?"status": "finished"[\s\S]*?"halfTimeScore": "0-0"/);
@@ -179,7 +179,25 @@ assert.doesNotMatch(data, /export const MATCHES: Match\[\] = generateAllMatches\
 assert.match(data, /publishedLineups\?\.home \?\? \[\]/);
 assert.match(data, /publishedLineups\?\.away \?\? \[\]/);
 assert.match(data, /goals: CURRENT_SEASON_PLAYER_TOTALS\.get\(player\.id\)\?\.goals \?\? 0/);
-assert.match(data, /hasOfficialPlayerMinuteTotals = false/);
+// Os minutos em campo são derivados das escalações e substituições oficiais,
+// nunca estimados a partir do número de jogos (ex.: `appearances * 90`).
+assert.match(data, /export function getCurrentSeasonMinutesPlayed/);
+assert.match(data, /export function getPlayerSeasonMinutes/);
+assert.match(data, /starters\.length < 11/);
+assert.match(data, /if \(!leaving\) \{ timelineIsConsistent = false; break; \}/);
+assert.match(data, /if \(timelineIsConsistent\) eligible\.push\(/);
+assert.match(data, /if \(match\.status !== 'finished' \|\| !hasPublishedMatchEvents\(match\)\) continue;/);
+// A conciliação de nomes tem de cobrir também o atleta substituído, senão as
+// substituições publicadas com o nome civil deixam 12 jogadores em campo.
+assert.match(data, /function buildLineupNameIndex/);
+// Golos, assistências e minutos do rácio por 90' saem dos mesmos jogos: um
+// avançado com golos em jornadas sem ficha não pode dividi-los pelos minutos
+// de um único jogo com escalação publicada.
+assert.match(data, /export function getCurrentSeasonPer90/);
+assert.match(data, /function collectEligibleMatchSides/);
+assert.match(advancedStatistics, /getCurrentSeasonPer90\(\) : \[\]/);
+assert.doesNotMatch(advancedStatistics, /getCurrentSeasonMinutesPlayed/);
+assert.match(data, /const leaving = event\.playerOut \? lookupLineupName\(index, event\.playerOut\) : undefined;/);
 assert.doesNotMatch(data, /publishedLineups\?\.home \?\? buildLineup/);
 assert.doesNotMatch(data, /homeScorers = pickScorers/);
 assert.match(advancedStatistics, /referee === 'A definir'/);

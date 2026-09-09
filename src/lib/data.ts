@@ -111,7 +111,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 5, homeTeamId: 'desphuila', awayTeamId: 'lobito', date: '2026-09-19T15:00:00+01:00' },
   { round: 5, homeTeamId: 'primeiromaio', awayTeamId: 'lundasul', date: '2026-09-20T15:00:00+01:00' },
   { round: 5, homeTeamId: 'wiliete', awayTeamId: 'libolo', date: '2026-09-20T16:00:00+01:00' },
-  { round: 5, homeTeamId: 'kabuscorp', awayTeamId: 'interclube', date: '2026-09-19T15:30:00+01:00', stadium: 'Estádio França N’dalu', broadcaster: 'Zsports' },
+  { round: 5, homeTeamId: 'kabuscorp', awayTeamId: 'interclube', date: '2026-09-20T15:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
   { round: 5, homeTeamId: 'saosalvador', awayTeamId: 'cabinda', date: '2026-09-20T15:00:00+01:00' },
 ] as const;
 
@@ -2726,6 +2726,7 @@ let RUNTIME_OVERRIDES: PortalOverrides = {};
 
 export function setPortalOverrides(next: PortalOverrides): void {
   RUNTIME_OVERRIDES = next ?? {};
+  invalidateDerivedStatsCache();
 }
 export function getPortalOverrides(): PortalOverrides {
   return RUNTIME_OVERRIDES;
@@ -2754,6 +2755,7 @@ let RUNTIME_DATA: PortalData = {};
 
 export function setPortalData(next: PortalData | null | undefined): void {
   RUNTIME_DATA = next ?? {};
+  invalidateDerivedStatsCache();
 }
 export function getPortalData(): PortalData {
   return RUNTIME_DATA;
@@ -3275,16 +3277,76 @@ function reconcileLineupPlayers(teamId: string, lineup: LineupPlayer[]): LineupP
   });
 }
 
-function reconcileMatchEvents(events: MatchEventDetail[], home: LineupPlayer[], away: LineupPlayer[]): MatchEventDetail[] {
+/** Formas alternativas do mesmo nome: "Angelo Cangu (Tchutchu)" → nome e alcunha. */
+function nameVariants(value: string | undefined): string[] {
+  const raw = value?.trim();
+  if (!raw) return [];
+  const variants = [raw];
+  const paren = raw.match(/^(.*?)\s*\(([^)]+)\)\s*$/);
+  if (paren) variants.push(paren[1], paren[2]);
+  return variants.map(foldName).filter(Boolean);
+}
+
+/**
+ * Índice de nomes de uma escalação. As fichas oficiais alternam entre alcunha
+ * ("Januário") e nome civil ("Januário da Cruz Sesa") para o mesmo atleta, por
+ * isso cada entrada é registada sob todas as formas conhecidas: o nome que saiu
+ * na ficha, o nome de plantel, a alcunha e o nome completo.
+ */
+type LineupNameIndex = Map<string, LineupPlayer>;
+
+function buildLineupNameIndex(published: LineupPlayer[], reconciled: LineupPlayer[]): LineupNameIndex {
+  const index: LineupNameIndex = new Map();
+  const add = (value: string | undefined, slot: LineupPlayer) => {
+    for (const key of nameVariants(value)) if (!index.has(key)) index.set(key, slot);
+  };
+  reconciled.forEach((slot, position) => {
+    add(slot.name, slot);
+    add(published[position]?.name, slot);
+    const player = slot.playerId ? getPlayerById(slot.playerId) : undefined;
+    add(player?.name, slot);
+    add(player?.nickname, slot);
+    add(player?.fullName, slot);
+  });
+  return index;
+}
+
+/**
+ * Procura um nome publicado na ficha dentro da escalação. Quando não há
+ * correspondência exata aceita-se a parcial ("Amado" ≈ "Amado Haidara"), mas
+ * apenas se for inequívoca — dois "Pedro" no plantel ficam por resolver em vez
+ * de creditarem minutos ao atleta errado.
+ */
+function lookupLineupName(index: LineupNameIndex, value: string | undefined): LineupPlayer | undefined {
+  for (const key of nameVariants(value)) {
+    const exact = index.get(key);
+    if (exact) return exact;
+    const partial = [...index.entries()]
+      .filter(([name]) => name.startsWith(`${key} `) || key.startsWith(`${name} `))
+      .map(([, slot]) => slot);
+    const distinct = new Set(partial.map((slot) => slot.playerId ?? slot.name));
+    if (distinct.size === 1) return partial[0];
+  }
+  return undefined;
+}
+
+function reconcileMatchEvents(events: MatchEventDetail[], home: LineupNameIndex, away: LineupNameIndex): MatchEventDetail[] {
   return events.map((event) => {
-    const lineup = event.team === 'home' ? home : away;
-    const byId = event.playerId ? lineup.find((slot) => slot.playerId === event.playerId) : undefined;
-    const byShirt = event.number && event.number > 0
-      ? lineup.find((slot) => slot.number === event.number)
+    const index = event.team === 'home' ? home : away;
+    const byId = event.playerId
+      ? [...index.values()].find((slot) => slot.playerId === event.playerId)
       : undefined;
-    const byName = lineup.find((slot) => foldName(slot.name) === foldName(event.player));
-    const player = byShirt ?? byId ?? byName;
-    return player ? { ...event, player: player.name, playerId: player.playerId, number: player.number } : event;
+    const byShirt = event.number && event.number > 0
+      ? [...index.values()].find((slot) => slot.number === event.number)
+      : undefined;
+    const player = byShirt ?? byId ?? lookupLineupName(index, event.player);
+    // O atleta substituído também é conciliado, para a ficha e os minutos em
+    // campo usarem sempre o mesmo nome da escalação.
+    const leaving = event.playerOut ? lookupLineupName(index, event.playerOut) : undefined;
+    const withOut = leaving ? { ...event, playerOut: leaving.name } : event;
+    return player
+      ? { ...withOut, player: player.name, playerId: player.playerId, number: player.number }
+      : withOut;
   });
 }
 
@@ -4425,7 +4487,7 @@ export function getCurrentSeasonGoalHauls(): GoalHaulRecord[] {
     || a.name.localeCompare(b.name));
 }
 
-const NOMINAL_MATCH_LENGTH = 90;
+const REGULATION_MATCH_LENGTH = 90;
 
 const PITCH_POSITION_LABEL: Record<NonNullable<LineupPlayer['position']>, string> = {
   GK: 'Guarda-redes',
@@ -4434,88 +4496,258 @@ const PITCH_POSITION_LABEL: Record<NonNullable<LineupPlayer['position']>, string
   FWD: 'Avançado',
 };
 
+/** Permanência de um atleta em campo dentro de um jogo (minuto de entrada/saída). */
+interface PitchSpan {
+  playerId?: string;
+  name: string;
+  position?: LineupPlayer['position'];
+  start: number;
+  end: number;
+  onPitch: boolean;
+}
+
 /**
- * Minutos em campo: calculados automaticamente a partir da escalação oficial
- * (titulares/suplentes) e da cronologia de substituições/expulsões de cada
- * jogo terminado — nunca um valor estimado ou introduzido à mão. Só entram
- * jogos com escalação confirmada, porque só aí sabemos quem começou a jogar.
- * Assume-se um jogo nominal de 90 minutos (o tempo útil publicado, quando
- * existe, é uma métrica à parte — ver getMatchTempoUtil).
+ * Localiza o atleta que está em campo neste momento. A camisola/ID tem
+ * prioridade sobre o nome, para não atribuir a saída ao homónimo errado.
  */
-export function getCurrentSeasonMinutesPlayed(): MinutesPlayedRecord[] {
-  // A ficha atual não publica a duração oficial em campo de cada atleta.
-  // Não expor minutos regulamentares presumidos como se fossem oficiais.
-  const hasOfficialPlayerMinuteTotals = false;
-  if (!hasOfficialPlayerMinuteTotals) return [];
+function findSpanOnPitch(spans: PitchSpan[], playerId?: string, name?: string): PitchSpan | undefined {
+  const byId = playerId ? spans.find((span) => span.onPitch && span.playerId === playerId) : undefined;
+  if (byId) return byId;
+  if (!name?.trim()) return undefined;
+  const wanted = foldName(name);
+  return spans.find((span) => span.onPitch && foldName(span.name) === wanted);
+}
 
-  const totals = new Map<string, MinutesPlayedRecord>();
+/**
+ * Uma equipa num jogo elegível, com o tempo em campo de cada atleta já
+ * calculado. É a base partilhada dos minutos jogados e dos rácios por 90
+ * minutos, para que numerador e denominador cubram sempre os mesmos jogos.
+ */
+interface EligibleMatchSide {
+  match: Match;
+  detail: MatchDetail;
+  side: 'home' | 'away';
+  teamId: string;
+  spans: PitchSpan[];
+}
 
-  const addMinutes = (playerId: string, name: string, teamId: string, position: LineupPlayer['position'], minutes: number) => {
-    if (minutes <= 0) return;
-    const team = TEAMS.find((t) => t.id === teamId);
-    const entry = totals.get(playerId) ?? {
-      id: playerId,
-      name,
-      club: team?.name ?? teamId,
-      teamId,
-      position: position ? PITCH_POSITION_LABEL[position] : 'Posição por confirmar',
-      minutesPlayed: 0,
-      appearances: 0,
-    };
-    entry.minutesPlayed += minutes;
-    entry.appearances += 1;
-    totals.set(playerId, entry);
-  };
+/**
+ * Percorre a época e devolve, jogo a jogo, os lados cuja ficha permite
+ * reconstruir com rigor quem esteve em campo e durante quanto tempo.
+ *
+ * Regras de elegibilidade, para nunca inventar presenças:
+ *  - o jogo tem de estar terminado e ter eventos oficiais publicados (sem eles
+ *    não sabemos quem saiu nem quem entrou);
+ *  - cada equipa só entra se tiver os 11 titulares confirmados na ficha; uma
+ *    ficha publicada só de um dos lados contabiliza apenas esse lado;
+ *  - uma substituição cujo atleta substituído não seja identificável deixaria
+ *    12 jogadores em campo, por isso descarta esse lado por inteiro.
+ *
+ * Assume-se a duração regulamentar de 90 minutos: os descontos não são
+ * publicados por atleta e o tempo útil do jogo é uma métrica à parte
+ * (ver getMatchTempoUtil).
+ */
+function collectEligibleMatchSides(): EligibleMatchSide[] {
+  const eligible: EligibleMatchSide[] = [];
 
   for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
-    if (match.status !== 'finished') continue;
+    if (match.status !== 'finished' || !hasPublishedMatchEvents(match)) continue;
     const detail = getMatchDetail(match);
-    const isPublishedLineup = [...detail.homeLineup, ...detail.awayLineup].some((p) => p.rating === 0);
-    if (!isPublishedLineup) continue;
 
-    for (const [lineup, teamId] of [
-      [detail.homeLineup, match.homeTeamId],
-      [detail.awayLineup, match.awayTeamId],
+    for (const [side, lineup, teamId] of [
+      ['home', detail.homeLineup, match.homeTeamId],
+      ['away', detail.awayLineup, match.awayTeamId],
     ] as const) {
-      const team = teamId === match.homeTeamId ? 'home' : 'away';
-      // Intervalo [entrada, saída] por jogador, iniciado pelos titulares.
-      const spans = new Map<string, { start: number; end: number; name: string; position?: LineupPlayer['position'] }>();
-      for (const starter of lineup.filter((p) => p.isStarter && p.playerId)) {
-        spans.set(starter.playerId!, { start: 0, end: NOMINAL_MATCH_LENGTH, name: starter.name, position: starter.position });
-      }
+      const starters = lineup.filter((player) => player.isStarter);
+      if (starters.length < 11) continue; // escalação oficial incompleta
 
-      const teamEvents = detail.events.filter((e) => e.team === team).sort((a, b) => (a.minute ?? 0) - (b.minute ?? 0));
+      const spans: PitchSpan[] = starters.map((starter) => ({
+        playerId: starter.playerId,
+        name: starter.name,
+        position: starter.position,
+        start: 0,
+        end: REGULATION_MATCH_LENGTH,
+        onPitch: true,
+      }));
+
+      const teamEvents = detail.events
+        .filter((event) => event.team === side && event.minute !== undefined)
+        .sort((a, b) => a.minute! - b.minute!);
+
+      let timelineIsConsistent = true;
+
       for (const event of teamEvents) {
-        if (event.minute === undefined) continue;
+        const minute = Math.min(Math.max(event.minute!, 0), REGULATION_MATCH_LENGTH);
+
         if (event.type === 'sub') {
-          // Quem sai: procura o titular ainda em campo com nome equivalente.
-          if (event.playerOut) {
-            const outFolded = foldName(event.playerOut);
-            const outEntry = [...spans.values()].find((s) => foldName(s.name) === outFolded && s.end === NOMINAL_MATCH_LENGTH);
-            if (outEntry) outEntry.end = Math.min(outEntry.end, event.minute);
+          const leaving = event.playerOut ? findSpanOnPitch(spans, undefined, event.playerOut) : undefined;
+          if (!leaving) { timelineIsConsistent = false; break; }
+          leaving.end = minute;
+          leaving.onPitch = false;
+
+          // Quem entra fica em campo até ao fim, salvo saída ou expulsão depois.
+          if (findSpanOnPitch(spans, event.playerId, event.player)) continue;
+          const slot = lineup.find((player) => (event.playerId && player.playerId === event.playerId)
+            || foldName(player.name) === foldName(event.player));
+          spans.push({
+            playerId: event.playerId ?? slot?.playerId,
+            name: slot?.name ?? event.player,
+            position: slot?.position,
+            start: minute,
+            end: REGULATION_MATCH_LENGTH,
+            onPitch: true,
+          });
+        } else if (event.type === 'red') {
+          const expelled = findSpanOnPitch(spans, event.playerId, event.player);
+          if (expelled) {
+            expelled.end = minute;
+            expelled.onPitch = false;
           }
-          // Quem entra: fica em campo até ao fim, salvo cartão vermelho depois.
-          if (event.playerId) {
-            spans.set(event.playerId, {
-              start: event.minute,
-              end: NOMINAL_MATCH_LENGTH,
-              name: event.player,
-              position: lineup.find((p) => p.playerId === event.playerId)?.position,
-            });
-          }
-        } else if (event.type === 'red' && event.playerId) {
-          const entry = spans.get(event.playerId);
-          if (entry) entry.end = Math.min(entry.end, event.minute);
         }
       }
 
-      for (const [playerId, span] of spans) {
-        addMinutes(playerId, span.name, teamId, span.position, Math.max(0, span.end - span.start));
-      }
+      if (timelineIsConsistent) eligible.push({ match, detail, side, teamId, spans });
     }
   }
 
-  return [...totals.values()].sort((a, b) => b.minutesPlayed - a.minutesPlayed || b.appearances - a.appearances);
+  return eligible;
+}
+
+/**
+ * O mesmo cálculo é pedido pela aba de estatísticas, pela análise avançada e
+ * por cada uma das centenas de páginas de jogador. Guardar o resultado evita
+ * repetir a leitura de todas as fichas a cada chamada; a cache é limpa sempre
+ * que chegam dados novos da BD ou do admin.
+ */
+let eligibleMatchSidesCache: EligibleMatchSide[] | null = null;
+
+function invalidateDerivedStatsCache(): void {
+  eligibleMatchSidesCache = null;
+}
+
+function getEligibleMatchSides(): EligibleMatchSide[] {
+  eligibleMatchSidesCache ??= collectEligibleMatchSides();
+  return eligibleMatchSidesCache;
+}
+
+/** Minutos de uma permanência em campo. Quem entra ao 90' fica com 1 minuto,
+ * para a presença não desaparecer do somatório. */
+function spanMinutes(span: PitchSpan): number {
+  return Math.max(1, Math.round(span.end - span.start));
+}
+
+/**
+ * Minutos em campo da época em curso, calculados a partir da escalação oficial
+ * (titulares/suplentes) e da cronologia de substituições e expulsões de cada
+ * jogo terminado — nunca um valor estimado ou introduzido à mão.
+ * Ver collectEligibleMatchSides para as regras de elegibilidade.
+ */
+export function getCurrentSeasonMinutesPlayed(): MinutesPlayedRecord[] {
+  const totals = new Map<string, MinutesPlayedRecord>();
+
+  for (const { teamId, spans } of getEligibleMatchSides()) {
+    for (const span of spans) {
+      if (!span.playerId) continue; // sem atleta identificado não há perfil a creditar
+      const team = TEAMS.find((t) => t.id === teamId);
+      const entry = totals.get(span.playerId) ?? {
+        id: span.playerId,
+        name: span.name,
+        club: team?.name ?? teamId,
+        teamId,
+        position: span.position ? PITCH_POSITION_LABEL[span.position] : 'Posição por confirmar',
+        minutesPlayed: 0,
+        appearances: 0,
+      };
+      entry.minutesPlayed += spanMinutes(span);
+      entry.appearances += 1;
+      totals.set(span.playerId, entry);
+    }
+  }
+
+  return [...totals.values()].sort((a, b) =>
+    b.minutesPlayed - a.minutesPlayed || b.appearances - a.appearances || a.name.localeCompare(b.name));
+}
+
+export interface Per90Record {
+  id: string;
+  name: string;
+  club: string;
+  teamId: string;
+  minutesPlayed: number;
+  goals: number;
+  assists: number;
+  contributions: number;
+  goalsPer90: number;
+  assistsPer90: number;
+}
+
+/**
+ * Golos e assistências por 90 minutos. Golos, assistências e minutos são
+ * contados exatamente nos mesmos jogos — os que têm escalação e cronologia
+ * oficiais —, senão um avançado com três golos em jornadas sem ficha publicada
+ * apareceria com um rácio absurdo sobre os 90 minutos de um único jogo.
+ * Autogolos não contam para quem os marcou, tal como na lista de goleadores.
+ */
+export function getCurrentSeasonPer90(): Per90Record[] {
+  const players = getPlayers();
+  const totals = new Map<string, Per90Record>();
+
+  const entryFor = (playerId: string, fallbackName: string, teamId: string): Per90Record => {
+    const existing = totals.get(playerId);
+    if (existing) return existing;
+    const profile = players.find((candidate) => candidate.id === playerId);
+    const created: Per90Record = {
+      id: playerId,
+      name: profile?.name ?? fallbackName,
+      club: profile?.club ?? TEAMS.find((t) => t.id === teamId)?.name ?? teamId,
+      teamId,
+      minutesPlayed: 0,
+      goals: 0,
+      assists: 0,
+      contributions: 0,
+      goalsPer90: 0,
+      assistsPer90: 0,
+    };
+    totals.set(playerId, created);
+    return created;
+  };
+
+  for (const { detail, side, teamId, spans } of getEligibleMatchSides()) {
+    for (const span of spans) {
+      if (!span.playerId) continue;
+      entryFor(span.playerId, span.name, teamId).minutesPlayed += spanMinutes(span);
+    }
+
+    for (const event of detail.events) {
+      if (event.team !== side || event.type !== 'goal') continue;
+      if (event.detail?.toLowerCase().includes('autogolo')) continue;
+      if (event.playerId) entryFor(event.playerId, event.player, teamId).goals += 1;
+
+      const assist = event.assist?.trim();
+      if (!assist) continue;
+      const provider = spans.find((span) => span.playerId && foldName(span.name) === foldName(assist));
+      if (provider?.playerId) entryFor(provider.playerId, provider.name, teamId).assists += 1;
+    }
+  }
+
+  return [...totals.values()]
+    .map((row) => ({
+      ...row,
+      contributions: row.goals + row.assists,
+      goalsPer90: row.minutesPlayed > 0 ? (row.goals * 90) / row.minutesPlayed : 0,
+      assistsPer90: row.minutesPlayed > 0 ? (row.assists * 90) / row.minutesPlayed : 0,
+    }))
+    .filter((row) => row.contributions > 0)
+    .sort((a, b) => b.contributions - a.contributions || b.goals - a.goals || a.name.localeCompare(b.name));
+}
+
+/**
+ * Minutos em campo de um atleta na época em curso. Devolve `undefined` quando
+ * o jogador ainda não entrou em nenhum jogo com escalação e eventos oficiais —
+ * a página do atleta mostra então "Por publicar" em vez de um zero enganador.
+ */
+export function getPlayerSeasonMinutes(playerId: string): MinutesPlayedRecord | undefined {
+  return getCurrentSeasonMinutesPlayed().find((row) => row.id === playerId);
 }
 
 /** Treinadores confirmados nas fichas de jogo. */
@@ -4542,6 +4774,8 @@ export function getMatchDetail(match: Match): MatchDetail {
     ?? getPublishedPetroLiboloLineups(match);
   const homeLineup = reconcileLineupPlayers(match.homeTeamId, publishedLineups?.home ?? []);
   const awayLineup = reconcileLineupPlayers(match.awayTeamId, publishedLineups?.away ?? []);
+  const homeNames = buildLineupNameIndex(publishedLineups?.home ?? [], homeLineup);
+  const awayNames = buildLineupNameIndex(publishedLineups?.away ?? [], awayLineup);
 
   const publishedStats = RUNTIME_DATA.matchStats?.[match.id] ?? PUBLISHED_MATCH_STATS[match.id];
   const homeStats = { ...EMPTY_MATCH_STATS, ...publishedStats?.home };
@@ -4551,7 +4785,7 @@ export function getMatchDetail(match: Match): MatchDetail {
   const publishedEvents = RUNTIME_DATA.events?.[match.id] ?? getPublishedMatchEvents(match);
 
   if ((match.status === 'finished' || match.status === 'live') && publishedEvents) {
-    events.push(...reconcileMatchEvents(publishedEvents, homeLineup, awayLineup));
+    events.push(...reconcileMatchEvents(publishedEvents, homeNames, awayNames));
   }
 
   // Eventos cujo minuto ainda não foi confirmado aparecem primeiro, com

@@ -87,13 +87,13 @@ let skipped = 0;
   const cols = [
     'id', 'name', 'official_name', 'short_name', 'city', 'stadium', 'stadium_capacity', 'founded',
     'colors', 'coach', 'president', 'nickname', 'website', 'colors_hex', 'kits', 'data_status',
-    'data_updated_at', 'is_historical',
+    'data_updated_at', 'is_historical', 'logo_url',
   ];
   const mk = (t: Record<string, unknown>, historical: boolean) => [
     s(t.id), s(t.name), s(t.officialName ?? t.name), s(t.shortName), s(t.city), s(t.stadium),
     n(t.stadiumCapacity ?? 0), n(t.founded), s(t.colors), s(t.coach), s(t.president), s(t.nickname),
     s(t.website), textArray((t.colorsHex as unknown[]) ?? []), jsonb(t.kits ?? []), s(t.dataStatus),
-    t.dataUpdatedAt ? s(t.dataUpdatedAt) : 'null', b(historical),
+    t.dataUpdatedAt ? s(t.dataUpdatedAt) : 'null', b(historical), s(t.logoUrl ?? null),
   ];
   const rows = [
     ...(d.getAllTeams() as unknown as Array<Record<string, unknown>>).map((t) => mk(t, false)),
