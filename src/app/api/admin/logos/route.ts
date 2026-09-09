@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { ADMIN_COOKIE, isAdminSession, verifyPasscode } from '@/lib/admin-auth';
 import { isSameOriginRequest } from '@/lib/request-security';
+import { revalidatePortalData } from '@/lib/portal-cache';
 
 // ── ENDPOINT · POST /api/admin/logos ──────────────────────────────────────
 // Persiste (globalmente) os logótipos gerais do portal (marcas, federação).
@@ -82,6 +83,7 @@ export async function POST(request: Request) {
       );
       const { error } = await client.from('ancaf_configs').delete().eq('key', key);
       if (error) throw new Error(error.message);
+      revalidatePortalData();
       return NextResponse.json({ ok: true, logoUrl: null });
     }
 
@@ -127,6 +129,7 @@ export async function POST(request: Request) {
     const { error } = await client.from('ancaf_configs').upsert({ key, value: finalUrl }, { onConflict: 'key' });
     if (error) throw new Error(error.message);
 
+    revalidatePortalData();
     return NextResponse.json({ ok: true, logoUrl: finalUrl });
   } catch (err) {
     console.error('Erro ao guardar logótipo de marca:', err);

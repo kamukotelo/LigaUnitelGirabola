@@ -4,8 +4,11 @@
 // Logótipos de marca persistidos (Supabase) — fonte global
 // ────────────────────────────────────────────────────────────────────────
 // A consola administrativa guarda os logótipos gerais de marca em
-// `ancaf_configs`. Este provider lê-os e disponibiliza-os para todo o portal,
-// reagindo em tempo real a qualquer alteração.
+// `ancaf_configs`. Este provider lê-os de /api/brand-logos, que vive em cache
+// no servidor e é invalidada quando o admin troca um logótipo. O browser já não
+// fala diretamente com a base de dados, nem abre canal Realtime: um logótipo de
+// marca muda uma ou duas vezes por ano, e era o padrão contrário — websocket
+// permanente mais leituras sem cache — que esgotava a quota.
 //
 // Os EMBLEMAS DE CLUBE não passam por aqui: estão fixados em
 // `src/lib/team-crests.ts` e servidos de `public/crests/`, para não mudarem
@@ -13,10 +16,11 @@
 // ════════════════════════════════════════════════════════════════════════
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from './supabase';
 
 type BrandLogoMap = Record<string, string>;
+type TeamLogoMap = Record<string, string>;
 
+const TeamLogosContext = createContext<TeamLogoMap>({});
 const BrandLogosContext = createContext<BrandLogoMap>({});
 
 function isConfigured(): boolean {
@@ -25,6 +29,7 @@ function isConfigured(): boolean {
 }
 
 export function TeamLogosProvider({ children }: { children: React.ReactNode }) {
+  const [teamLogos, setTeamLogos] = useState<TeamLogoMap>({});
   const [brandLogos, setBrandLogos] = useState<BrandLogoMap>({});
 
   useEffect(() => {
@@ -32,35 +37,45 @@ export function TeamLogosProvider({ children }: { children: React.ReactNode }) {
 
     let cancelled = false;
 
-    // Carrega as configurações dos logótipos de marca
-    const loadConfigs = async () => {
-      const { data, error } = await supabase
-        .from('ancaf_configs')
-        .select('key, value')
-        .in('key', ['logo_vertical', 'logo_horizontal', 'logo_horizontal_white', 'logo_ancaf']);
-      if (cancelled || error || !data) return;
-      const map: BrandLogoMap = {};
-      for (const row of data as { key: string; value: string }[]) {
-        map[row.key] = row.value;
+    (async () => {
+      try {
+        const [brandRes, teamRes] = await Promise.all([
+          fetch('/api/brand-logos').catch(() => null),
+          fetch('/api/teams/logo').catch(() => null),
+        ]);
+        if (cancelled) return;
+        if (brandRes?.ok) {
+          const { logos } = (await brandRes.json().catch(() => ({}))) as { logos?: BrandLogoMap };
+          if (!cancelled && logos) setBrandLogos(logos);
+        }
+        if (teamRes?.ok) {
+          const { logos } = (await teamRes.json().catch(() => ({}))) as { logos?: TeamLogoMap };
+          if (!cancelled && logos) setTeamLogos(logos);
+        }
+      } catch {
+        // Sem resposta: os componentes recorrem aos logótipos estáticos e à pasta /crests/
       }
-      setBrandLogos(map);
-    };
-
-    loadConfigs();
-
-    // Atualização ao vivo dos logótipos gerais de marca
-    const configChannel = supabase
-      .channel('ancaf-configs-logos')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_configs' }, () => loadConfigs())
-      .subscribe();
+    })();
 
     return () => {
       cancelled = true;
-      supabase.removeChannel(configChannel);
     };
   }, []);
 
-  return <BrandLogosContext.Provider value={brandLogos}>{children}</BrandLogosContext.Provider>;
+  return (
+    <TeamLogosContext.Provider value={teamLogos}>
+      <BrandLogosContext.Provider value={brandLogos}>{children}</BrandLogosContext.Provider>
+    </TeamLogosContext.Provider>
+  );
+}
+
+/**
+ * Logótipo persistido (global) de um clube na base de dados, ou undefined se não houver.
+ * Quando undefined, o componente recorre a public/crests/ (getTeamCrest).
+ */
+export function useTeamLogo(teamId: string): string | undefined {
+  const map = useContext(TeamLogosContext);
+  return map[teamId.toLowerCase()];
 }
 
 /**

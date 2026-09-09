@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
+import { join } from 'node:path';
 
 const files = {
   calendar: new URL('../src/lib/use-official-calendar.ts', import.meta.url),
@@ -23,32 +24,60 @@ function occurrences(source, expression) {
   return [...source.matchAll(expression)].length;
 }
 
-// Regressão de 27/08/2026: vários componentes montados ao mesmo tempo não
-// podem chamar supabase.channel() separadamente com o mesmo tópico.
-assert.equal(
-  occurrences(calendar, /\.channel\(/g),
-  1,
-  'O calendário deve ter um único ponto de criação do canal Supabase.',
+// Regressão de 09/09/2026: o portal esgotou a quota de egress do Supabase e
+// ficou sem base de dados. A causa foi o padrão de leitura — rotas públicas
+// `force-dynamic` consumidas com `no-store`, mais canais Realtime permanentes
+// no browser (um deles subscrito a 12 tabelas). As asserções que aqui estavam
+// protegiam a arquitetura antiga (um único canal por tópico); agora protegem a
+// ausência dela. Ver src/lib/portal-cache.ts.
+const srcFiles = await readdir(new URL('../src', import.meta.url), { recursive: true, withFileTypes: true });
+const sourcePaths = srcFiles
+  .filter((entry) => entry.isFile() && /\.tsx?$/.test(entry.name))
+  .map((entry) => join(entry.parentPath ?? entry.path, entry.name));
+const sources = await Promise.all(
+  sourcePaths.map(async (file) => [file, await readFile(file, 'utf8')]),
 );
+
+const withRealtime = sources.filter(([, body]) => /\.channel\(|postgres_changes/.test(body));
+assert.deepEqual(
+  withRealtime.map(([file]) => file),
+  [],
+  'Nenhum ficheiro do portal pode abrir canais Realtime do Supabase — foi esse padrão que esgotou a quota.',
+);
+
+// Casa o `no-store` com a rota no MESMO fetch, para não disparar com
+// comentários que mencionem as rotas nem com fetches de outros endpoints.
+const NO_STORE_ON_CACHED_ROUTE =
+  /fetch\(\s*['"`]\/api\/(?:portal-data|brand-logos|ancaf|admin\/overrides)[^)]*no-store/;
+// A consola de administração é a exceção deliberada: está a editar, e tem de
+// ler sempre o estado corrente para não gravar por cima de dados obsoletos.
+// O custo é irrelevante — são meia dúzia de sessões, não o público do portal.
+const isAdminConsole = (file) => /AdminClient|[/\\]admin[/\\]/.test(file);
+const withNoStore = sources.filter(
+  ([file, body]) => !isAdminConsole(file) && NO_STORE_ON_CACHED_ROUTE.test(body),
+);
+assert.deepEqual(
+  withNoStore.map(([file]) => file),
+  [],
+  'As rotas públicas do portal vivem em cache; não voltar a consumi-las com no-store.',
+);
+
+for (const route of ['portal-data', 'brand-logos']) {
+  const body = await readFile(new URL(`../src/app/api/${route}/route.ts`, import.meta.url), 'utf8');
+  assert.match(body, /unstable_cache/, `A rota ${route} tem de servir de cache.`);
+  assert.match(body, /PORTAL_DATA_TAG/, `A rota ${route} tem de usar a etiqueta partilhada de invalidação.`);
+  // Só o export conta — os comentários explicam justamente porque foi removido.
+  assert.doesNotMatch(
+    body,
+    /export\s+const\s+dynamic\s*=\s*['"`]force-dynamic/,
+    `A rota ${route} não pode voltar a ser force-dynamic.`,
+  );
+}
+
 assert.match(
-  calendar,
-  /calendarRefreshListeners\s*=\s*new Set/,
-  'Os consumidores do calendário devem partilhar uma lista única de listeners.',
-);
-assert.match(
-  calendar,
-  /official-calendar-public-\$\{calendarChannelSequence\}/,
-  'Cada nova instância do canal deve usar uma identidade única.',
-);
-assert.doesNotMatch(
-  calendar,
-  /\.channel\(['"]official-calendar-public['"]\)/,
-  'Não reutilizar o tópico fixo que provocou callbacks adicionados após subscribe().',
-);
-assert.match(
-  calendar,
-  /calendarRefreshListeners\.size\s*>\s*0/,
-  'O canal só pode ser removido depois do último consumidor.',
+  await readFile(new URL('../src/lib/portal-cache.ts', import.meta.url), 'utf8'),
+  /revalidateTag\(PORTAL_DATA_TAG,\s*\{\s*expire:\s*0\s*\}\)/,
+  'A invalidação tem de ser imediata (expire: 0), para o admin ver já o que publicou.',
 );
 
 // A CSP deve autorizar apenas workers do próprio portal e URLs blob.

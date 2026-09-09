@@ -1607,6 +1607,31 @@ function TeamsSection() {
   const store = { ...EMPTY_TEAMS_STORE, ...ctl.draft };
   const overrides = store.overrides;
   const [openId, setOpenId] = useState<string | null>(null);
+  const [logoError, setLogoError] = useState<string | null>(null);
+  const [logoSaving, setLogoSaving] = useState<string | null>(null);
+  const [logoSavedId, setLogoSavedId] = useState<string | null>(null);
+
+  // Persiste o logótipo GLOBALMENTE (Supabase). Se for null, limpa na BD e cai para public/crests/.
+  const persistLogoToServer = async (teamId: string, logoUrl: string | null) => {
+    setLogoSaving(teamId);
+    setLogoError(null);
+    try {
+      const res = await fetch('/api/teams/logo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId, logoUrl }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || 'Falha ao guardar no servidor.');
+      update(teamId, { logoUrl: data.logoUrl ?? undefined });
+      setLogoSavedId(teamId);
+      setTimeout(() => setLogoSavedId((cur) => (cur === teamId ? null : cur)), 2500);
+    } catch (e) {
+      setLogoError(e instanceof Error ? e.message : 'Falha ao guardar o logótipo no servidor.');
+    } finally {
+      setLogoSaving((cur) => (cur === teamId ? null : cur));
+    }
+  };
 
   // Espelha o rascunho no registo local que alimenta os emblemas em tempo real
   // (TeamCrest), para que a pré-visualização acompanhe a edição.
@@ -1740,23 +1765,62 @@ function TeamsSection() {
               {isOpen && (
                 <div className="mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60">
                   <span className="text-[10px] font-mono text-accent uppercase tracking-widest flex items-center gap-1.5 mb-3">
-                    <Lock size={12} /> Emblema / Logótipo — bloqueado
+                    <ImagePlus size={12} /> Emblema / Logótipo
                   </span>
                   <div className="flex flex-wrap items-center gap-4">
                     <div className="flex-shrink-0 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-black/40 p-2">
                       <TeamCrest teamId={base.id} size={56} />
                     </div>
-                    <div className="flex-1 min-w-[220px] space-y-1.5">
-                      <p className="text-[10px] font-mono text-zinc-500 leading-relaxed">
-                        Os emblemas passaram a ser fixos: são servidos de{' '}
-                        <code className="text-foreground">public/crests/</code> e já não podem ser
-                        trocados a partir da consola, para não voltarem a mudar sozinhos.
-                      </p>
+                    <div className="flex-1 min-w-[220px] space-y-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <label className={`inline-flex w-fit items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest transition-colors ${logoSaving === base.id ? 'opacity-60 cursor-wait' : 'hover:bg-accent/20 cursor-pointer'}`}>
+                          <ImagePlus size={12} /> Carregar imagem
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            disabled={logoSaving === base.id}
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+                              try {
+                                const url = await fileToLogoDataUrl(file);
+                                update(base.id, { logoUrl: url });
+                                await persistLogoToServer(base.id, url);
+                              } catch {
+                                setLogoError('Não foi possível processar a imagem.');
+                              }
+                              e.target.value = '';
+                            }}
+                          />
+                        </label>
+                        {t.logoUrl && t.logoUrl !== getTeamCrest(base.id) && (
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              update(base.id, { logoUrl: undefined });
+                              await persistLogoToServer(base.id, null);
+                            }}
+                            className="text-[9px] font-mono text-zinc-500 hover:text-red-400 transition-colors uppercase tracking-widest"
+                          >
+                            Repor padrão ({getTeamCrest(base.id)})
+                          </button>
+                        )}
+                      </div>
+                      <input
+                        className="admin-input"
+                        placeholder={`ou URL externa (padrão: ${getTeamCrest(base.id) ?? 'public/crests/'})`}
+                        value={t.logoUrl && !t.logoUrl.startsWith('data:') && t.logoUrl !== getTeamCrest(base.id) ? t.logoUrl : ''}
+                        onChange={(e) => update(base.id, { logoUrl: e.target.value || undefined })}
+                        onBlur={(e) => {
+                          const val = e.target.value.trim();
+                          persistLogoToServer(base.id, val || null);
+                        }}
+                      />
+                      {logoError && <p className="text-[10px] font-mono text-red-400">{logoError}</p>}
+                      {logoSavedId === base.id && <p className="text-[10px] font-mono text-green-400">Emblema guardado com sucesso!</p>}
                       <p className="text-[9px] font-mono text-zinc-500">
-                        Para alterar um emblema é preciso substituir o ficheiro em{' '}
-                        <code className="text-foreground">public/crests/</code> (ou a linha em{' '}
-                        <code className="text-foreground">src/lib/team-crests.ts</code>) e publicar
-                        uma nova versão do site.
+                        Quando não definido na BD ou indisponível, o portal lê automaticamente de <code className="text-foreground">{getTeamCrest(base.id)}</code>.
                       </p>
                     </div>
                   </div>
@@ -2472,6 +2536,11 @@ function LogosSection() {
   const [brandSavedId, setBrandSavedId] = useState<string | null>(null);
   const [brandError, setBrandError] = useState<string | null>(null);
 
+  const [teamData, setTeamData] = useState<Record<string, { logoUrl?: string; updated_at?: string }>>({});
+  const [teamSaving, setTeamSaving] = useState<string | null>(null);
+  const [teamSavedId, setTeamSavedId] = useState<string | null>(null);
+  const [teamError, setTeamError] = useState<string | null>(null);
+
   // Formata a data/hora para exibição legível
   const formatDateTime = (isoString?: string) => {
     if (!isoString) return 'Padrão do sistema';
@@ -2501,10 +2570,46 @@ function LogosSection() {
       }
     };
 
-    // Os emblemas de clube já não são lidos da base de dados: estão fixados em
-    // `src/lib/team-crests.ts` e servidos de `public/crests/`.
+    const loadTeams = async () => {
+      const { data } = await supabase
+        .from('ancaf_teams')
+        .select('id, logo_url, updated_at');
+      if (data) {
+        const map: Record<string, { logoUrl?: string; updated_at?: string }> = {};
+        for (const row of data) {
+          map[row.id] = { logoUrl: row.logo_url || undefined, updated_at: row.updated_at };
+        }
+        setTeamData(map);
+      }
+    };
+
     loadConfigs();
+    loadTeams();
   }, []);
+
+  const persistTeamLogo = async (teamId: string, logoUrl: string | null) => {
+    setTeamSaving(teamId);
+    setTeamError(null);
+    try {
+      const res = await fetch('/api/teams/logo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teamId, logoUrl }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || 'Falha ao guardar no servidor.');
+      setTeamData((prev) => ({
+        ...prev,
+        [teamId]: { logoUrl: data.logoUrl || undefined, updated_at: new Date().toISOString() },
+      }));
+      setTeamSavedId(teamId);
+      setTimeout(() => setTeamSavedId((cur) => (cur === teamId ? null : cur)), 2500);
+    } catch (e) {
+      setTeamError(e instanceof Error ? e.message : 'Falha ao guardar o emblema no servidor.');
+    } finally {
+      setTeamSaving(null);
+    }
+  };
 
   const persistBrandLogo = async (key: string, logoUrl: string | null) => {
     setBrandSaving(key);
@@ -2647,41 +2752,101 @@ function LogosSection() {
         {brandError && <p className="text-xs font-mono text-red-400">{brandError}</p>}
       </div>
 
-      {/* ── SECÇÃO 2: EMBLEMAS DE CLUBES (BLOQUEADOS) ── */}
+      {/* ── SECÇÃO 2: EMBLEMAS DE CLUBES ── */}
       <div className="space-y-4">
-        <h3 className="text-xs font-mono text-zinc-500 uppercase tracking-widest border-b border-zinc-200/50 dark:border-zinc-800/50 pb-2">Emblemas das Equipas (bloqueados)</h3>
-
-        <Panel className="flex items-start gap-3">
-          <Lock size={14} className="mt-0.5 flex-shrink-0 text-accent" />
-          <div className="space-y-1">
-            <p className="text-[11px] font-mono text-foreground uppercase tracking-widest">Emblemas fixados em código</p>
-            <p className="text-[11px] text-zinc-500 leading-relaxed">
-              Os emblemas deixaram de ser lidos do Supabase e de overrides da consola: são
-              servidos de <code className="text-foreground">public/crests/</code>, ficheiros
-              versionados no repositório. Assim não voltam a mudar sozinhos quando a base de
-              dados fica indisponível — e o portal deixa de gastar quota a servir imagens.
-            </p>
-            <p className="text-[11px] text-zinc-500 leading-relaxed">
-              Para trocar um emblema: substituir o ficheiro em{' '}
-              <code className="text-foreground">public/crests/</code> (ou a linha correspondente em{' '}
-              <code className="text-foreground">src/lib/team-crests.ts</code>) e publicar uma nova
-              versão do site.
-            </p>
-          </div>
-        </Panel>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-zinc-200/50 dark:border-zinc-800/50 pb-2 gap-2">
+          <h3 className="text-xs font-mono text-zinc-500 uppercase tracking-widest">Emblemas das Equipas (BD com Fallback para public/crests/)</h3>
+          <span className="text-[10px] font-mono text-zinc-400">Quando a BD não tiver logo ou estiver indisponível, lê de public/crests/</span>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {TEAMS.map((base) => (
-            <Panel key={base.id} className="flex flex-col items-center gap-2 text-center">
-              <TeamCrest teamId={base.id} size={56} className="bg-white/40 dark:bg-zinc-900/30 p-1.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80" />
-              <div>
-                <h4 className="text-xs font-semibold text-foreground truncate max-w-[150px]">{base.name}</h4>
-                <p className="text-[10px] font-mono text-zinc-500">{base.shortName}</p>
-              </div>
-              <code className="text-[9px] font-mono text-zinc-400 truncate max-w-full">{getTeamCrest(base.id) ?? '—'}</code>
-            </Panel>
-          ))}
+          {TEAMS.map((base) => {
+            const currentDb = teamData[base.id]?.logoUrl;
+            const isSaving = teamSaving === base.id;
+            const isSaved = teamSavedId === base.id;
+            const fallbackPath = getTeamCrest(base.id);
+
+            return (
+              <Panel key={base.id} className="flex flex-col justify-between gap-3 text-center">
+                <div className="flex flex-col items-center gap-2">
+                  <div className="relative">
+                    <TeamCrest teamId={base.id} size={56} className="bg-white/40 dark:bg-zinc-900/30 p-1.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80" />
+                    {currentDb && (
+                      <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-[8px] font-mono font-bold px-1 rounded uppercase">
+                        BD
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-foreground truncate max-w-[150px]">{base.name}</h4>
+                    <p className="text-[10px] font-mono text-zinc-500">{base.shortName}</p>
+                  </div>
+                  <code className="text-[9px] font-mono text-zinc-400 truncate max-w-full" title={`Padrão: ${fallbackPath}`}>
+                    Padrão: {fallbackPath ?? '—'}
+                  </code>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-accent/5 border border-accent/25 text-accent font-mono text-[9px] uppercase tracking-wider transition-colors ${isSaving ? 'opacity-60 cursor-wait' : 'hover:bg-accent/10 cursor-pointer'}`}>
+                    <ImagePlus size={10} /> Enviar Ficheiro
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      disabled={isSaving}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        try {
+                          const url = await fileToLogoDataUrl(file);
+                          await persistTeamLogo(base.id, url);
+                        } catch {
+                          setTeamError('Erro ao ler imagem.');
+                        }
+                        e.target.value = '';
+                      }}
+                    />
+                  </label>
+
+                  <input
+                    className="admin-input text-center text-[10px]"
+                    placeholder="ou URL externo"
+                    defaultValue={currentDb && !currentDb.startsWith('data:') ? currentDb : ''}
+                    onBlur={(e) => {
+                      const val = e.target.value.trim();
+                      const cur = currentDb && !currentDb.startsWith('data:') ? currentDb : '';
+                      if (val === cur) return;
+                      persistTeamLogo(base.id, val || null);
+                    }}
+                  />
+
+                  <div className="text-[8px] font-mono text-zinc-400 mt-1 min-h-[12px] truncate">
+                    {teamData[base.id]?.updated_at ? formatDateTime(teamData[base.id]?.updated_at) : 'Padrão local (public/crests)'}
+                  </div>
+
+                  <div className="flex items-center justify-center gap-2 min-h-[14px]">
+                    {isSaving && (
+                      <span className="text-[8px] font-mono text-accent flex items-center gap-0.5"><Loader2 size={8} className="animate-spin" /> A guardar...</span>
+                    )}
+                    {isSaved && !isSaving && (
+                      <span className="text-[8px] font-mono text-green-400 flex items-center gap-0.5"><CheckCircle2 size={8} /> Guardado</span>
+                    )}
+                    {currentDb && !isSaving && (
+                      <button
+                        onClick={() => persistTeamLogo(base.id, null)}
+                        className="text-[8px] font-mono text-red-400 hover:underline uppercase"
+                        title="Remove da BD e volta a ler de public/crests/"
+                      >
+                        Repor Padrão
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </Panel>
+            );
+          })}
         </div>
+        {teamError && <p className="text-xs font-mono text-red-400 mt-2 text-center">{teamError}</p>}
       </div>
     </div>
   );

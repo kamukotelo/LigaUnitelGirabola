@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { TEAMS } from '@/lib/data';
 import { checkRateLimit, safeSecretEqual } from '@/lib/request-security';
+import { revalidatePortalData } from '@/lib/portal-cache';
 
 const SYNC_TOKEN = process.env.ANCAF_SYNC_TOKEN;
 const CLOSED_SEASON_ID = '2026-27';
@@ -321,6 +322,8 @@ export async function POST(request: Request) {
       );
     }
     await client.from('liga_configs').upsert(configRows, { onConflict: 'key' });
+
+    revalidatePortalData();
 
     return NextResponse.json({
       status: 'ok',

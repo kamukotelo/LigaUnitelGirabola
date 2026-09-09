@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createHash } from 'node:crypto';
+import { unstable_cache } from 'next/cache';
 import { supabase } from '@/lib/supabase';
+import { PORTAL_DATA_TAG, PORTAL_DATA_MAX_AGE_SECONDS } from '@/lib/portal-cache';
 import {
   ANCAF_CALENDAR_SOURCE,
   CURRENT_SEASON_ID,
@@ -23,7 +25,8 @@ import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/li
 // Serve o calendário ANCAF 2026/2027 persistido exatamente como foi recebido
 // do FAF Calendar. O gerador local existe apenas como fallback de arranque.
 
-export const dynamic = 'force-dynamic';
+// Sem `force-dynamic`: a leitura da base de dados vive em cache (ver
+// loadCalendarFromDb abaixo) e só é recalculada quando o admin publica.
 
 const DEFAULT_CAF_TEAM_IDS = ['petro', 'wiliete'];
 const PLATFORM_CALENDAR_BASE_UPDATED_AT = PLATFORM_MATCH_UPDATED_AT;
@@ -110,13 +113,12 @@ function resolveFixture(match: Match) {
   };
 }
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const format = searchParams.get('format') ?? 'calendar';
-  const roundParam = searchParams.get('round');
-  const matchIdParam = searchParams.get('id');
-
-  // 1. Obter metadados e jogos persistidos do Supabase (com fallback).
+// ── Calendário lido da base de dados (em cache) ───────────────────────
+// Este bloco só depende do estado da base de dados, nunca dos parâmetros do
+// pedido — por isso é calculado uma vez e partilhado por todos os formatos
+// desta rota, em vez de correr duas queries por cada visita ao portal.
+// Invalidado por revalidatePortalData() quando o admin publica.
+async function loadCalendarFromDb() {
   let activeSeedStr = ANCAF_CALENDAR_SOURCE.accessCode;
   let dynamicSource = {
     ...ANCAF_CALENDAR_SOURCE,
@@ -207,6 +209,23 @@ export async function GET(request: Request) {
       console.error('Erro ao ler calendário do Supabase, usando fallback:', err);
     }
   }
+
+  return { activeSeedStr, dynamicSource, persistedMatches, calendarOverrides, platformUpdatedAt };
+}
+
+const getCalendarSource = unstable_cache(loadCalendarFromDb, ['ancaf-calendar-source'], {
+  tags: [PORTAL_DATA_TAG],
+  revalidate: PORTAL_DATA_MAX_AGE_SECONDS,
+});
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const format = searchParams.get('format') ?? 'calendar';
+  const roundParam = searchParams.get('round');
+  const matchIdParam = searchParams.get('id');
+
+  const { activeSeedStr, dynamicSource, persistedMatches, calendarOverrides, platformUpdatedAt } =
+    await getCalendarSource();
 
   void activeSeedStr;
 

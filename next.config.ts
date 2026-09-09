@@ -12,7 +12,10 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
   "worker-src 'self' blob:",
-  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://va.vercel-scripts.com https://vitals.vercel-insights.com",
+  // Sem `wss://*.supabase.co`: o portal já não abre canais Realtime — as
+  // leituras vivem em cache no servidor (ver src/lib/portal-cache.ts). O https
+  // fica porque o login/reposição de senha ainda falam com o Supabase Auth.
+  "connect-src 'self' https://*.supabase.co https://va.vercel-scripts.com https://vitals.vercel-insights.com",
   "frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com",
   "media-src 'self' https:",
   "object-src 'none'",

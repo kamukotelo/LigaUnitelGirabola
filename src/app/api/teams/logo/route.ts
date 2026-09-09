@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { getTeamById } from '@/lib/data';
 import { ADMIN_COOKIE, isAdminSession, verifyPasscode } from '@/lib/admin-auth';
 import { isSameOriginRequest } from '@/lib/request-security';
+import { revalidatePortalData } from '@/lib/portal-cache';
 
 // ── ENDPOINT · POST /api/teams/logo ──────────────────────────────────────
 // Persiste (globalmente) o emblema/logótipo de um clube. Recebe da consola de
@@ -84,6 +85,7 @@ export async function POST(request: Request) {
       );
       const { error } = await client.from('ancaf_teams').update({ logo_url: null }).eq('id', teamId);
       if (error) throw new Error(error.message);
+      revalidatePortalData();
       return NextResponse.json({ ok: true, logoUrl: null });
     }
 
@@ -130,6 +132,7 @@ export async function POST(request: Request) {
     const { error } = await client.from('ancaf_teams').update({ logo_url: finalUrl }).eq('id', teamId);
     if (error) throw new Error(error.message);
 
+    revalidatePortalData();
     return NextResponse.json({ ok: true, logoUrl: finalUrl });
   } catch (err) {
     console.error('Erro ao guardar logótipo do clube:', err);
@@ -137,5 +140,32 @@ export async function POST(request: Request) {
       { error: 'server_error', message: err instanceof Error ? err.message : 'Erro interno.' },
       { status: 500 },
     );
+  }
+}
+
+// ── ENDPOINT · GET /api/teams/logo ───────────────────────────────────────
+// Devolve o mapa de logótipos das equipas persistidos na BD.
+export async function GET() {
+  try {
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !serviceKey || serviceKey === 'your-supabase-service-role-key') {
+      return NextResponse.json({ logos: {} });
+    }
+    const client = getSupabaseAdmin();
+    const { data, error } = await client
+      .from('ancaf_teams')
+      .select('id, logo_url')
+      .not('logo_url', 'is', null);
+
+    if (error || !data) return NextResponse.json({ logos: {} });
+    const logos: Record<string, string> = {};
+    for (const row of data as { id: string; logo_url: string | null }[]) {
+      if (row.id && row.logo_url) {
+        logos[row.id.toLowerCase()] = row.logo_url;
+      }
+    }
+    return NextResponse.json({ logos });
+  } catch {
+    return NextResponse.json({ logos: {} });
   }
 }

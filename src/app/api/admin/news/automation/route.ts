@@ -5,6 +5,7 @@ import { ADMIN_COOKIE, isAdminSession } from '@/lib/admin-auth';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import type { NewsArticle } from '@/lib/data';
 import { isSameOriginRequest, safeSecretEqual } from '@/lib/request-security';
+import { revalidatePortalData } from '@/lib/portal-cache';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -120,6 +121,7 @@ export async function GET(request: Request) {
   try {
     const articles = await collectArticles();
     const published = await persistArticles(articles);
+    if (published) revalidatePortalData();
     return NextResponse.json({ ok: true, found: articles.length, published });
   } catch (error) {
     return NextResponse.json({ message: error instanceof Error ? error.message : 'Falha na automação.' }, { status: 502 });

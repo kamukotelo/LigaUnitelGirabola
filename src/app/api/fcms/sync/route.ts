@@ -4,6 +4,7 @@ import { ADMIN_COOKIE, getAdminSession } from '@/lib/admin-auth';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { checkRateLimit, isSameOriginRequest, safeSecretEqual } from '@/lib/request-security';
 import { fcmsPayloadFingerprint, normaliseFcmsMatches, parseFcmsSyncPayload } from '@/lib/fcms-sync';
+import { revalidatePortalData } from '@/lib/portal-cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -149,6 +150,7 @@ export async function POST(request: Request) {
       completed_at: new Date().toISOString(),
     }).eq('id', runId);
 
+    revalidatePortalData();
     return NextResponse.json({ status: 'ok', dryRun: false, runId, fingerprint, matchesWritten: resolvedMatches.length, eventsWritten });
   } catch (error) {
     if (runId) {

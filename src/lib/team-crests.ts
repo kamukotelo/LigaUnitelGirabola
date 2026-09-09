@@ -1,21 +1,9 @@
 // ════════════════════════════════════════════════════════════════════════
-// EMBLEMAS DOS CLUBES — REGISTO CANÓNICO E BLOQUEADO
+// EMBLEMAS DOS CLUBES — REGISTO CANÓNICO E FALLBACK OFICIAL
 // ────────────────────────────────────────────────────────────────────────
-// Esta é a ÚNICA fonte de emblemas de clube do portal. Os ficheiros vivem em
-// `public/crests/` e são servidos pelo próprio site — nunca a partir do
-// Supabase Storage nem de qualquer URL externo.
-//
-// PORQUÊ BLOQUEADO
-// Até 2026-09-09 o emblema era resolvido por uma cadeia de prioridades
-// (override local do admin → `ancaf_teams.logo_url` no Supabase → `logoUrl`
-// dos dados → ficheiro estático). Bastava o Supabase ficar indisponível — foi
-// o que aconteceu quando o projeto excedeu a quota de egress — para os
-// emblemas mudarem sozinhos aos olhos dos visitantes. Além disso, servir os
-// emblemas do Storage a cada visita era precisamente o que consumia a quota.
-//
-// A partir daqui o emblema é imutável em runtime: só muda com uma alteração
-// de código (trocar o ficheiro em `public/crests/` ou a linha respetiva
-// abaixo) seguida de novo deploy.
+// Ficheiros locais versionados em `public/crests/`.
+// Quando a base de dados (Supabase ancaf_teams.logo_url) não tiver imagem,
+// falhar ou estiver indisponível, o portal lê automaticamente deste registo.
 // ════════════════════════════════════════════════════════════════════════
 
 /**
@@ -50,7 +38,7 @@ export function getTeamCrest(teamId: string): string | undefined {
 }
 
 /**
- * Sinaliza a toda a aplicação (incluindo a consola administrativa) que os
- * emblemas estão fixados em código e que uploads já não afetam o portal.
+ * Indica se os emblemas estão bloqueados estritamente ou se permitem leitura da BD.
+ * Quando false, a base de dados é lida com fallback automático para public/crests/.
  */
-export const TEAM_CRESTS_LOCKED = true;
+export const TEAM_CRESTS_LOCKED = false;

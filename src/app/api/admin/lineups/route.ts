@@ -6,6 +6,7 @@ import { getMatchById, getPlayersByTeam, getPlayerMatchName, getTeamById, getTea
 import {
   getMatchLineups, saveMatchLineup, sanitizeLineupPlayers, toSlotPosition, type LineupSlot,
 } from '@/lib/match-lineups';
+import { revalidatePortalData } from '@/lib/portal-cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -121,5 +122,6 @@ export async function POST(request: Request) {
   if (!result.ok) {
     return NextResponse.json({ error: 'write_failed', message: result.error }, { status: 500 });
   }
+  revalidatePortalData();
   return NextResponse.json({ ok: true });
 }

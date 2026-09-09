@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
+import { unstable_cache } from 'next/cache';
 import { supabase } from '@/lib/supabase';
+import { PORTAL_DATA_TAG, PORTAL_DATA_MAX_AGE_SECONDS } from '@/lib/portal-cache';
 import type { PortalData } from '@/lib/data';
 
 // GET /api/portal-data — instantâneo do conteúdo migrado para a BD (tabelas
 // ancaf_*), consumido no browser por PortalDataProvider. Cresce por vagas;
 // um domínio ausente continua a ser servido pela constante em código.
-export const dynamic = 'force-dynamic';
+// Sem `force-dynamic`: o instantâneo é calculado uma vez e servido de cache
+// até alguém publicar na consola (ver src/lib/portal-cache.ts). É esta rota que
+// antes disparava mais de uma dúzia de queries por cada visita ao portal.
 
 function isConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -18,8 +22,10 @@ const num = (v: unknown): number => (Number.isFinite(Number(v)) ? Number(v) : 0)
 const arr = <T,>(v: unknown): T[] => (Array.isArray(v) ? (v as T[]) : []);
 const obj = (v: unknown): Record<string, unknown> => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : {});
 
-export async function GET() {
-  if (!isConfigured()) return NextResponse.json({ data: {}, updatedAt: null });
+type Snapshot = { data: PortalData; updatedAt: string | null };
+
+async function buildSnapshot(): Promise<Snapshot> {
+  if (!isConfigured()) return { data: {}, updatedAt: null };
 
   const data: PortalData = {};
   let updatedAt: string | null = null;
@@ -33,7 +39,7 @@ export async function GET() {
       supabase.from('ancaf_team_staff').select('team_id, name, role, nationality, ma_id, fifa_id, sort_rank, updated_at'),
       supabase.from('ancaf_team_profiles').select('team_id, official_name, president, website, socials, palmares, kits, board, updated_at'),
       supabase.from('ancaf_standings').select('*'),
-      supabase.from('ancaf_teams').select('id, name'),
+      supabase.from('ancaf_teams').select('id, name, logo_url, updated_at'),
       supabase.from('ancaf_players').select('*'),
       supabase.from('ancaf_referee_nominations').select('*'),
       supabase.from('ancaf_videos').select('*').order('sort'),
@@ -43,8 +49,22 @@ export async function GET() {
       supabase.from('ancaf_match_stats').select('*'),
     ]);
 
-    // Nota: ancaf_teams fica na Vaga 3 (a tabela de produção ainda está parcial).
-    // teamRes serve apenas para o teamName das classificações.
+    // ── emblemas de clubes lidos da BD ──────────────────────────────
+    const teamRows = arr<Row>(teamRes.data);
+    if (teamRows.length) {
+      const logos: Record<string, string> = {};
+      for (const r of teamRows) {
+        bump(r.updated_at);
+        const id = str(r.id).toLowerCase();
+        const logoUrl = str(r.logo_url);
+        if (id && logoUrl) {
+          logos[id] = logoUrl;
+        }
+      }
+      if (Object.keys(logos).length > 0) {
+        data.teamLogos = logos;
+      }
+    }
 
     // ── jogadores ────────────────────────────────────────────────────
     // Idem: só substitui a constante com um plantel realista (>= 200 atletas
@@ -248,9 +268,30 @@ export async function GET() {
         ]),
       ) as PortalData['matchStats'];
     }
-  } catch {
-    return NextResponse.json({ data: {}, updatedAt: null });
+  } catch (error) {
+    // Propaga em vez de devolver um instantâneo vazio: um vazio ficaria
+    // guardado em cache e o portal perdia os dados durante
+    // PORTAL_DATA_MAX_AGE_SECONDS por causa de uma falha momentânea da base de
+    // dados. Quem apanha é o GET, fora da cache.
+    throw error;
   }
 
-  return NextResponse.json({ data, updatedAt });
+  return { data, updatedAt };
+}
+
+const getSnapshot = unstable_cache(buildSnapshot, ['portal-data-snapshot'], {
+  tags: [PORTAL_DATA_TAG],
+  revalidate: PORTAL_DATA_MAX_AGE_SECONDS,
+});
+
+// GET /api/portal-data — instantâneo em cache; recalculado quando o admin
+// publica (revalidatePortalData) ou ao fim de PORTAL_DATA_MAX_AGE_SECONDS.
+export async function GET() {
+  try {
+    return NextResponse.json(await getSnapshot());
+  } catch {
+    // Base de dados indisponível: o portal continua a funcionar com os dados
+    // base de src/lib/data.ts. A falha não é guardada em cache.
+    return NextResponse.json({ data: {}, updatedAt: null });
+  }
 }

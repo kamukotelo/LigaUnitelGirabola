@@ -4,27 +4,23 @@
 // Overrides de conteúdo do portal (publicados no admin) — leitura global
 // ────────────────────────────────────────────────────────────────────────
 // Lê os blocos de override publicados (/api/admin/overrides) e injeta-os nos
-// getters de data.ts via setPortalOverrides(). Reage em tempo real a novas
-// publicações (canal Supabase em `ancaf_configs`) e força a re-renderização da
+// getters de data.ts via setPortalOverrides(), forçando a re-renderização da
 // árvore para que os getters síncronos devolvam já os dados atualizados — sem
 // obrigar cada consumidor a mudar.
+//
+// Já NÃO abre canal Realtime do Supabase. As duas rotas que alimenta vivem em
+// cache no servidor e são invalidadas quando o admin publica (ver
+// src/lib/portal-cache.ts); aqui basta recarregar quando o separador volta a
+// ficar visível. Era a combinação websocket permanente + rotas `no-store` que
+// esgotava a quota da base de dados.
 // ════════════════════════════════════════════════════════════════════════
 
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { supabase } from './supabase';
 import {
   DEFAULT_SITE_SETTINGS, setPortalOverrides, setPortalData,
   type PortalOverrides, type PortalData, type SiteSettings,
 } from './data';
-
-// Tabelas ancaf_* já migradas do código — Realtime alargado (Supabase exige
-// subscrição por tabela em RLS). Cresce a cada vaga da migração.
-const PORTAL_DATA_TABLES = [
-  'ancaf_teams', 'ancaf_players', 'ancaf_team_staff', 'ancaf_team_profiles',
-  'ancaf_standings', 'ancaf_videos', 'ancaf_news', 'ancaf_referee_nominations',
-  'ancaf_match_lineups', 'ancaf_match_events', 'ancaf_match_stats',
-];
 
 function isConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -85,8 +81,8 @@ export function PortalDataProvider({ children }: { children: React.ReactNode }) 
     const load = async () => {
       try {
         const [ovRes, dataRes] = await Promise.all([
-          fetch('/api/admin/overrides', { cache: 'no-store' }),
-          fetch('/api/portal-data', { cache: 'no-store' }),
+          fetch('/api/admin/overrides'),
+          fetch('/api/portal-data'),
         ]);
         if (cancelled) return;
         const overrides = (ovRes.ok ? ((await ovRes.json())?.overrides ?? {}) : {}) as PortalOverrides;
@@ -107,16 +103,18 @@ export function PortalDataProvider({ children }: { children: React.ReactNode }) 
 
     load();
 
-    const channel = supabase.channel('portal-data');
-    channel.on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_configs' }, () => load());
-    for (const table of PORTAL_DATA_TABLES) {
-      channel.on('postgres_changes', { event: '*', schema: 'public', table }, () => load());
-    }
-    channel.subscribe();
+    // Recarrega quando o utilizador volta ao separador. O pedido bate na rota
+    // em cache, por isso é barato mesmo em visitas longas.
+    const reloadWhenVisible = () => {
+      if (document.visibilityState === 'visible') load();
+    };
+    window.addEventListener('focus', load);
+    document.addEventListener('visibilitychange', reloadWhenVisible);
 
     return () => {
       cancelled = true;
-      supabase.removeChannel(channel);
+      window.removeEventListener('focus', load);
+      document.removeEventListener('visibilitychange', reloadWhenVisible);
     };
   }, []);
 

@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { applyRuntimeMatchOverrides, getMatchesForSeason, Match, UPCOMING_SEASON_ID } from '@/lib/data';
-import { supabase } from '@/lib/supabase';
 
 const CALENDAR_CACHE_TTL_MS = 60_000;
 
@@ -14,43 +13,14 @@ type CalendarPayload = {
 let cachedCalendar: CalendarPayload | null = null;
 let cachedAt = 0;
 let pendingCalendarRequest: Promise<CalendarPayload> | null = null;
-let calendarChannel: ReturnType<typeof supabase.channel> | null = null;
-let calendarChannelSequence = 0;
-const calendarRefreshListeners = new Set<() => void>();
-
-/**
- * Mantém uma única subscrição Realtime, mesmo quando página inicial,
- * classificação e calendário usam o hook simultaneamente.
- */
-function subscribeToCalendarRefresh(listener: () => void): () => void {
-  calendarRefreshListeners.add(listener);
-
-  if (!calendarChannel) {
-    calendarChannelSequence += 1;
-    calendarChannel = supabase
-      .channel(`official-calendar-public-${calendarChannelSequence}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'ancaf_configs' }, () => {
-        for (const refresh of calendarRefreshListeners) refresh();
-      })
-      .subscribe();
-  }
-
-  return () => {
-    calendarRefreshListeners.delete(listener);
-    if (calendarRefreshListeners.size > 0 || !calendarChannel) return;
-
-    const channelToRemove = calendarChannel;
-    calendarChannel = null;
-    void supabase.removeChannel(channelToRemove);
-  };
-}
 
 async function fetchOfficialCalendar(force = false): Promise<CalendarPayload> {
   const cacheIsFresh = cachedCalendar && Date.now() - cachedAt < CALENDAR_CACHE_TTL_MS;
   if (!force && cacheIsFresh) return cachedCalendar!;
   if (!force && pendingCalendarRequest) return pendingCalendarRequest;
 
-  pendingCalendarRequest = fetch('/api/ancaf?format=matches', { cache: 'no-store' })
+  // A rota vive em cache no servidor e é invalidada quando o admin publica.
+  pendingCalendarRequest = fetch('/api/ancaf?format=matches')
     .then(async (response) => {
       if (!response.ok) throw new Error(`API ANCAF respondeu ${response.status}`);
       const data = await response.json() as CalendarPayload;
@@ -100,7 +70,8 @@ export function useOfficialCalendar(seasonId: string) {
 
           // Esta é a coleção canónica usada por calendário, página inicial,
           // clubes, competição e tempo útil. O endpoint já inclui a publicação
-          // do administrador; a camada local cobre a atualização em tempo real.
+          // do administrador; recarrega-se quando o separador volta a ficar
+          // visível (ver os listeners no fim deste efeito).
           setOfficialMatches(applyRuntimeMatchOverrides(data.matches));
           // A data mostrada ao público é a última publicação editorial feita
           // na plataforma, não a data histórica da importação ANCAF.
@@ -118,10 +89,6 @@ export function useOfficialCalendar(seasonId: string) {
 
     loadCalendar();
 
-    // Uma publicação no ANCAF Calendar ou uma edição administrativa passa a
-    // refletir-se simultaneamente em todos os componentes que usam este hook.
-    const unsubscribeFromCalendar = subscribeToCalendarRefresh(() => loadCalendar(true));
-
     const refreshWhenVisible = () => {
       if (document.visibilityState === 'visible') loadCalendar();
     };
@@ -133,7 +100,6 @@ export function useOfficialCalendar(seasonId: string) {
       cancelled = true;
       window.removeEventListener('focus', refreshOnFocus);
       document.removeEventListener('visibilitychange', refreshWhenVisible);
-      unsubscribeFromCalendar();
     };
   }, [seasonId]);
 

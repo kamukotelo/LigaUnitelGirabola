@@ -1,24 +1,26 @@
 import { after, NextResponse } from 'next/server';
+import { unstable_cache } from 'next/cache';
 import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { ADMIN_COOKIE, getAdminSession } from '@/lib/admin-auth';
 import { processCalendarUpdate } from '@/lib/match-update-automation';
 import { isSameOriginRequest } from '@/lib/request-security';
+import { PORTAL_DATA_TAG, PORTAL_DATA_MAX_AGE_SECONDS, revalidatePortalData } from '@/lib/portal-cache';
 
 // ── Overrides de conteúdo publicados pela consola de administração ────────
 // Guardados em `ancaf_configs` (chave/valor JSON) sob as chaves `override_*`.
 // GET é público (o portal lê os overrides publicados); POST exige sessão de
 // administração válida e escreve com o service_role.
 
-export const dynamic = 'force-dynamic';
+// O GET é público e vive em cache (invalidado pelo POST); o POST continua a
+// exigir sessão de administração e escreve com o service_role.
 export const maxDuration = 60;
 
 const SECTIONS = ['news', 'calendar', 'players', 'nominations', 'teams', 'site'] as const;
 type Section = (typeof SECTIONS)[number];
 const keyFor = (section: Section) => `override_${section}`;
 
-// GET /api/admin/overrides — devolve os overrides publicados (leitura pública).
-export async function GET() {
+async function loadOverrides(): Promise<Record<string, unknown>> {
   const overrides: Record<string, unknown> = {};
   try {
     const admin = getSupabaseAdmin();
@@ -37,7 +39,18 @@ export async function GET() {
   } catch {
     // Supabase não configurado: devolve overrides vazios (o portal usa os dados base).
   }
-  return NextResponse.json({ overrides });
+  return overrides;
+}
+
+const getOverrides = unstable_cache(loadOverrides, ['portal-overrides'], {
+  tags: [PORTAL_DATA_TAG],
+  revalidate: PORTAL_DATA_MAX_AGE_SECONDS,
+});
+
+// GET /api/admin/overrides — devolve os overrides publicados (leitura pública,
+// servida de cache e invalidada assim que o POST publica).
+export async function GET() {
+  return NextResponse.json({ overrides: await getOverrides() });
 }
 
 // POST /api/admin/overrides — publica o bloco de uma secção (exige sessão admin).
@@ -142,6 +155,11 @@ export async function POST(request: Request) {
   if (error) {
     return NextResponse.json({ error: 'write_failed', message: error.message }, { status: 500 });
   }
+
+  // A publicação acabou de mudar o que o portal mostra: expira o instantâneo em
+  // cache para que a próxima visita já veja o conteúdo novo.
+  revalidatePortalData();
+
   if (section === 'calendar') {
     const previousValue = previous?.data?.value as string | null | undefined;
     after(async () => {
