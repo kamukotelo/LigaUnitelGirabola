@@ -266,14 +266,15 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         </div>
       )}
 
-      {isUpcoming && seasonHasStarted && activeTab === 'scorers' && displayPlayers.length > 0 && goalReconciliation.goalsUnattributed > 0 && (
+      {isUpcoming && seasonHasStarted && activeTab === 'scorers' && displayPlayers.length > 0 && (
         <div className="mb-8 p-4 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl max-w-4xl">
           <p className="text-xs text-zinc-500">
-            Lista individual baseada apenas nos golos cujo autor foi identificado nas fichas recebidas. Golos ainda sem nome confirmado permanecem apenas no resultado do respetivo jogo.
+            Lista individual baseada apenas nos golos cujo autor foi identificado nas fichas recebidas. Golos ainda sem nome confirmado ou autogolos permanecem apenas no resultado do respetivo jogo.
           </p>
           <p className="text-xs text-zinc-500 mt-2 font-mono">
             Golos nos resultados: {goalReconciliation.goalsInResults} ·
             {' '}Atribuídos a jogador: {goalReconciliation.goalsAttributed} ·
+            {goalReconciliation.ownGoals ? ` Autogolos: ${goalReconciliation.ownGoals} ·` : ''}
             {' '}Por identificar: {goalReconciliation.goalsUnattributed}.
           </p>
         </div>

@@ -307,15 +307,15 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: '2026-09-06T17:50:00+01:00',
   },
-  // Resultado sincronizado a partir do calendário publicado pela ANCAF. A
-  // ficha de arbitragem ainda não chegou, por isso não há marcadores, cartões
-  // nem resultado ao intervalo.
+  // Ficha oficial de arbitragem (Match No. 18 · 31/08/2026 · Estádio da Tundavala, Huíla).
   'm27-3-2': {
     homeScore: 0,
     awayScore: 1,
     score: '0-1',
+    halfTimeScore: '0-0',
     status: 'finished',
-    updatedAt: '2026-09-09T12:00:00+01:00',
+    attendance: 3000,
+    updatedAt: PLATFORM_MATCH_UPDATED_AT,
   },
 };
 
@@ -433,6 +433,11 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'fifa-1jz4pi8', name: 'Benvindo Miguel André Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'fifa-1uy6ar6', name: 'Tiago Jamba Adelino', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'beni-papel-saosalvador', name: 'Beni Papel', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'fifa-1mqvbd5', name: 'Odenir Jorge', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Médio', goals: 1, appearances: 1 },
+  { id: 'fifa-1jrku39', name: 'Mankoka Afonso', club: 'Kabuscorp SC', teamId: 'kabuscorp', position: 'Avançado', goals: 1, appearances: 2 },
+  { id: 'fifa-1mppsb5', name: 'Henock Mangindula', club: 'Kabuscorp SC', teamId: 'kabuscorp', position: 'Defesa', goals: 1, appearances: 2 },
+  { id: 'dieu', name: 'Dieu David', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Defesa', goals: 1, appearances: 2 },
+  { id: 'fifa-1jwu0l8', name: 'Rodino Dumbo José', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 1, appearances: 2 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -3925,6 +3930,23 @@ function getPublishedCabindaAgostoLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  // Ficha oficial de arbitragem (Match No. 18 · 31/08/2026 · Estádio da Tundavala, Huíla).
+  if (match.id === 'm27-3-2') return [
+    { minute: 42, type: 'yellow', team: 'home', player: 'Elias Daniel' },
+    { minute: 57, type: 'sub', team: 'home', player: 'João Milagre', playerOut: 'Elias Daniel' },
+    { minute: 60, type: 'sub', team: 'away', player: 'Cristóvão Paciência', playerOut: 'Lukman Idowu Bello' },
+    { minute: 60, type: 'sub', team: 'away', player: 'Zeferino Venâncio', playerOut: 'Camilo Mbule Ngongue' },
+    { minute: 68, type: 'sub', team: 'away', player: 'Rodino Dumbo José', playerOut: 'Célio Alberto Junqueira Zua' },
+    { minute: 70, type: 'sub', team: 'home', player: 'Leonardo Ramos', playerOut: 'Milagre Simba' },
+    { minute: 75, type: 'goal', team: 'away', player: 'Rodino Dumbo José', playerId: 'fifa-1jwu0l8', detail: '0-1' },
+    { minute: 77, type: 'sub', team: 'away', player: 'António Mule Chitongo', playerOut: 'Bocar Sidibé' },
+    { minute: 77, type: 'sub', team: 'away', player: 'César Jeremias', playerOut: 'Deivi Miguel Vieira' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Ângelo Cangu', playerOut: 'Pequenino Castro' },
+    { minute: 80, type: 'sub', team: 'home', player: 'António Pena', playerOut: 'Constantino Tchicundico' },
+    { minute: 80, type: 'sub', team: 'home', player: 'José Augusto Camati', playerOut: 'José Mendes' },
+    { minute: 84, type: 'yellow', team: 'away', player: 'António Mule Chitongo' },
+  ];
+
   if (match.id === 'm27-3-5') return [
     { minute: 27, type: 'goal', team: 'away', player: 'Beni Papel', playerId: 'beni-papel-saosalvador', detail: '0-1' },
   ];
@@ -4037,16 +4059,15 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 91, type: 'sub', team: 'home', player: 'Hahilo Sapalo Alberto', playerOut: 'Jorge Txando Francisco Lucussa' },
   ];
 
-  // Marcadores identificados pelo Resumo Oficial da Rodada 2. Sem playerId
-  // enquanto não houver plantel oficial publicado — não alimentam goleadores.
+  // Ficha oficial de arbitragem (Match No. 14 · 29/08/2026 · Estádio 22 de Junho, Luanda).
   if (match.id === 'm27-2-2') return [
     { minute: 11, type: 'sub', team: 'away', player: 'Domingos Ximba', playerId: 'ximba', playerOut: 'Felix Honjo' },
     { minute: 21, type: 'yellow', team: 'away', player: 'Joaquim Teixeira' },
-    { minute: 26, type: 'goal', team: 'home', player: 'Henock Mangindula', detail: '1-0' },
+    { minute: 26, type: 'goal', team: 'home', player: 'Henock Mangindula', playerId: 'fifa-1mppsb5', detail: '1-0' },
     { minute: 45, type: 'sub', team: 'home', player: 'Mbali Mongbongo Sem', playerOut: 'Joaquim Paciência' },
     { minute: 45, type: 'sub', team: 'away', player: 'António Ngola Ngulu', playerOut: 'Osvaldo Miguel' },
     { minute: 46, type: 'yellow', team: 'home', player: 'Adair Garcia Domingos' },
-    { minute: 57, type: 'goal', team: 'away', player: 'Dieu Maquissossila David', detail: '1-1' },
+    { minute: 57, type: 'goal', team: 'away', player: 'Dieu Maquissossila David', playerId: 'dieu', detail: '1-1' },
     { minute: 60, type: 'sub', team: 'home', player: 'Alberto Elizeu Xavier', playerOut: 'Celestino Luís Maleco' },
     { minute: 72, type: 'sub', team: 'home', player: 'Tresor Kuyu Nona', playerOut: 'Bayala Nsimba' },
     { minute: 84, type: 'yellow', team: 'home', player: 'Mbali Mongbongo Sem' },
@@ -4194,7 +4215,7 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-1-6') return [
-    { minute: 21, type: 'goal', team: 'home', player: 'Deninho', playerId: 'deninho-maio', detail: '1-0' },
+    { minute: 21, type: 'goal', team: 'home', player: 'Odenir Jorge', playerId: 'fifa-1mqvbd5', detail: '1-0' },
     { minute: 45, type: 'yellow', team: 'away', player: 'Daniel Kilola' },
     { minute: 45, type: 'yellow', team: 'away', player: 'Saombe Sukuakueche Ángelo Jorge' },
     { minute: 45, type: 'yellow', team: 'away', player: 'Zamorano Lopes' },
@@ -4202,9 +4223,9 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 46, type: 'sub', team: 'away', player: 'Celestino Luís Maleco', playerOut: 'Eliseu Cabanga' },
     { minute: 59, type: 'sub', team: 'away', player: 'Joaquim Paciência', playerOut: 'Alberto Elizeu Xavier' },
     { minute: 59, type: 'sub', team: 'away', player: 'Diógenes Capemba João', playerOut: 'Daniel Kilola' },
-    { minute: 65, type: 'goal', team: 'away', player: 'Benarfa', playerId: 'benarfa-kabuscorp', detail: '1-1' },
+    { minute: 65, type: 'goal', team: 'away', player: 'Mankoka Afonso', playerId: 'fifa-1jrku39', detail: '1-1' },
     { minute: 69, type: 'sub', team: 'home', player: 'Fernando Mateus Duarte', playerOut: 'Luís Simões Escovalo' },
-    { minute: 69, type: 'sub', team: 'home', player: 'Rodrigues Muehombo', playerOut: 'Deninho' },
+    { minute: 69, type: 'sub', team: 'home', player: 'Rodrigues Muehombo', playerOut: 'Odenir Jorge' },
     { minute: 69, type: 'sub', team: 'home', player: 'Vicente Domingos', playerOut: 'Muila Lengo Congolo' },
     { minute: 70, type: 'yellow', team: 'home', player: 'Simão Culeca Gonga' },
     { minute: 73, type: 'yellow', team: 'away', player: 'Diógenes Capemba João' },
@@ -4335,20 +4356,23 @@ export function getCurrentSeasonCardReconciliation() {
 
 /**
  * Compara os golos dos resultados oficiais da época em curso com os golos já
- * atribuídos nominalmente em CURRENT_SEASON_SCORERS. Os golos ainda sem marcador
- * identificado permanecem apenas no resultado do jogo — nunca são inventados.
+ * atribuídos nominalmente em CURRENT_SEASON_SCORERS e os autogolos oficiais.
+ * Os golos ainda sem marcador identificado permanecem apenas no resultado do jogo — nunca são inventados.
  */
 export function getCurrentSeasonGoalReconciliation() {
   const goalsInResults = getMatchesForSeason(UPCOMING_SEASON_ID)
     .filter((match) => match.status === 'finished')
     .reduce((total, match) => total + (match.homeScore ?? 0) + (match.awayScore ?? 0), 0);
 
+  // Autogolos confirmados nas fichas oficiais de arbitragem (Augusto Fecayamale e Mariano Vidal)
+  const ownGoals = 2;
   const goalsAttributed = CURRENT_SEASON_SCORERS.reduce((total, scorer) => total + scorer.goals, 0);
 
   return {
     goalsInResults,
     goalsAttributed,
-    goalsUnattributed: Math.max(0, goalsInResults - goalsAttributed),
+    ownGoals,
+    goalsUnattributed: Math.max(0, goalsInResults - goalsAttributed - ownGoals),
   };
 }
 
