@@ -109,7 +109,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 5, homeTeamId: 'sagrada', awayTeamId: 'petro', date: '2026-09-20T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 5, homeTeamId: 'desphuila', awayTeamId: 'lobito', date: '2026-09-19T15:00:00+01:00' },
   { round: 5, homeTeamId: 'primeiromaio', awayTeamId: 'lundasul', date: '2026-09-20T15:00:00+01:00' },
-  { round: 5, homeTeamId: 'wiliete', awayTeamId: 'libolo', date: '2026-09-20T15:00:00+01:00' },
+  { round: 5, homeTeamId: 'wiliete', awayTeamId: 'libolo', date: '2026-09-20T16:00:00+01:00' },
   { round: 5, homeTeamId: 'kabuscorp', awayTeamId: 'interclube', date: '2026-09-19T15:30:00+01:00', stadium: 'Estádio França N’dalu', broadcaster: 'Zsports' },
   { round: 5, homeTeamId: 'saosalvador', awayTeamId: 'cabinda', date: '2026-09-20T15:00:00+01:00' },
 ] as const;
@@ -305,6 +305,16 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     halfTimeScore: '0-1',
     status: 'finished',
     updatedAt: '2026-09-06T17:50:00+01:00',
+  },
+  // Resultado sincronizado a partir do calendário publicado pela ANCAF. A
+  // ficha de arbitragem ainda não chegou, por isso não há marcadores, cartões
+  // nem resultado ao intervalo.
+  'm27-3-2': {
+    homeScore: 0,
+    awayScore: 1,
+    score: '0-1',
+    status: 'finished',
+    updatedAt: '2026-09-09T12:00:00+01:00',
   },
 };
 
