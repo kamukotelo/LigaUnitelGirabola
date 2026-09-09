@@ -365,7 +365,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "homeScore": 0,
     "awayScore": 0,
     "date": "2026-09-09T15:00:00+01:00",
-    "stadium": "Estádio Nacional do Chiazi",
+    "stadium": "Estádio França Ndalu",
     "status": "scheduled",
     "broadcaster": "Zsports"
   },

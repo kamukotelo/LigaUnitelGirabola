@@ -101,7 +101,7 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 4, homeTeamId: 'lundasul', awayTeamId: 'sagrada', date: '2026-09-13T15:00:00+01:00' },
   { round: 4, homeTeamId: 'wiliete', awayTeamId: 'fcluanda', date: '2026-09-13T16:00:00+01:00' },
   { round: 4, homeTeamId: 'bravos', awayTeamId: 'kabuscorp', date: '2026-09-16T15:00:00+01:00' },
-  { round: 4, homeTeamId: 'cabinda', awayTeamId: 'dago', date: '2026-09-09T15:00:00+01:00', broadcaster: 'Zsports' },
+  { round: 4, homeTeamId: 'cabinda', awayTeamId: 'dago', date: '2026-09-09T15:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'saosalvador', awayTeamId: 'petro', date: '2026-09-16T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'interclube', awayTeamId: 'lobito', date: '2026-09-10T15:30:00+01:00', broadcaster: 'Zsports' },
   { round: 4, homeTeamId: 'libolo', awayTeamId: 'primeiromaio', date: '2026-09-12T15:00:00+01:00' },
@@ -3863,6 +3863,66 @@ function getPublishedLuandaCabindaLineups(match: Match): { home: LineupPlayer[];
   };
 }
 
+/** Onze inicial e suplentes oficiais de FC Cabinda–CD 1.º de Agosto (4.ª jornada). */
+function getPublishedCabindaAgostoLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-4-5') return undefined;
+
+  const player = (
+    name: string,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+    playerId?: string,
+  ): LineupPlayer => ({ name, number, position, isStarter, playerId, rating: 0 });
+
+  return {
+    home: [
+      player('João Eduardo', 1, 'GK', true, 'cabinda-player-1'),
+      player('Lax', 2, 'DEF', true, 'rodrigo-cabinda'),
+      player('F. Luemba', 4, 'DEF', true, 'fifa-1qtzy92'),
+      player('Lando Piqué', 5, 'DEF', true, 'marcos-cabinda'),
+      player('Luyeye', 13, 'MID', true, 'luyeye-cabinda'),
+      player('Cornélio', 15, 'MID', true, 'fifa-1tc8vr0'),
+      player('Júlio', 17, 'DEF', true, 'julio-cabinda'),
+      player('Bazinga Ronaldo', 21, 'MID', true, 'fernando-cabinda'),
+      player('Mário Chiwale', 24, 'MID', true, 'fifa-1ljjyh4'),
+      player('Ary Lede', 29, 'FWD', true, 'ariclenis-cabinda'),
+      player('Pedro Silva', 30, 'FWD', true, 'pedro-da-silva-cabinda'),
+      player('Oblack', 12, 'GK', false, 'francisco-cabinda'),
+      player('Kazadi', 3, 'DEF', false, 'gedeon-cabinda'),
+      player('Mário Bumba', 6, 'DEF', false, 'fifa-1lk64f5'),
+      player('Cristiano', 8, 'MID', false, 'cristiano-cabinda'),
+      player('Simão Gomes', 14, 'FWD', false, 'simao-gomes-cabinda'),
+      player('Domingos', 19, 'MID', false, 'domingos-paixao-cabinda'),
+      player('Tchingani', 20, 'DEF', false, 'frederico-cabinda'),
+      player('Jaime Bunge', 26, 'MID', false, 'jaime-cabinda'),
+      player('Crichano', 28, 'FWD', false),
+    ],
+    away: [
+      player('Nuno', 1, 'GK', true, 'nuno-dago'),
+      player('Bruno', 6, 'FWD', true, 'bruno-dago'),
+      player('Axel', 8, 'FWD', true, 'axel-dago'),
+      player('Rupson', 9, 'FWD', true, 'rupson-dago'),
+      player('Venâncio', 15, 'MID', true, 'venancio-dago'),
+      player('Paxe', 19, 'MID', true),
+      player('Paulo Costa', 21, 'MID', true),
+      player('Erique', 24, 'DEF', true),
+      player('Luciano Santos', 25, 'DEF', true),
+      player('Castro', 27, 'MID', true, 'castro-dago'),
+      player('Benção', 36, 'DEF', true, 'bencao-dago'),
+      player('Julião', 31, 'GK', false),
+      player('Milton', 2, 'DEF', false, 'milton-dago'),
+      player('Obed', 14, 'FWD', false, 'obed-dago'),
+      player('Macaia', 16, 'DEF', false, 'macaia-dago'),
+      player('Dagó', 17, 'FWD', false, 'dago-tshibamba'),
+      player('Cliver André', 18, 'MID', false, 'cliver-dago'),
+      player('Tombé', 20, 'MID', false, 'tombe-dago'),
+      player('Enoque Kabesa', 23, 'MID', false),
+      player('Bulaya', 28, 'DEF', false, 'bulaya-dago'),
+    ],
+  };
+}
+
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   if (match.id === 'm27-3-5') return [
@@ -4758,12 +4818,14 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
   'm27-2-8': { home: 'Silvestre Pelé', away: 'João Pedro Sousa' },
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
   'm27-3-6': { home: 'Filipe Nzanza', away: 'Divaldo Alves' },
+  'm27-4-5': { home: 'Luciano Capoco', away: 'Filipe Nzanza' },
 };
 
 export function getMatchDetail(match: Match): MatchDetail {
   // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código.
   const dbLineup = RUNTIME_DATA.lineups?.[match.id];
-  const publishedLineups = dbLineup ?? getPublishedBravosSagradaLineups(match)
+  const publishedLineups = dbLineup ?? getPublishedCabindaAgostoLineups(match)
+    ?? getPublishedBravosSagradaLineups(match)
     ?? getPublishedCabindaLiboloLineups(match)
     ?? getPublishedHuilaWilieteLineups(match)
     ?? getPublishedMaioKabuscorpLineups(match)
@@ -4916,6 +4978,11 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       assistants: ['Estanislau Guedes Tavares Muluta Prata', 'João Manuel Fula António'],
       fourth: 'Nelson Joaquim Camunga',
       commissioner: 'Manuel Pires Nunda',
+    },
+    'm27-4-5': {
+      referee: 'António Dungula',
+      assistants: ['Victorino Dungula', 'Zacarias Calembe'],
+      fourth: 'Aldair Carmelino',
     },
   };
   // Prioridade: override publicado no admin → BD (ancaf_referee_nominations)
