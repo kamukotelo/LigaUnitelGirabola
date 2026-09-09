@@ -11,6 +11,9 @@ import AdvancedStatistics from './AdvancedStatistics';
 
 type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'yellowcards' | 'redcards' | 'minutes';
 
+/** Lugares apresentados no ranking de minutos em campo. */
+const MINUTES_RANKING_SIZE = 30;
+
 interface DisplayPlayer {
   id: string;
   name: string;
@@ -96,7 +99,10 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       secondaryValue: gk.appearances, hasProfile: true,
     }));
   } else if (isUpcoming && seasonHasStarted && activeTab === 'minutes') {
-    displayPlayers = getCurrentSeasonMinutesPlayed().map((p) => ({
+    // Praticamente todo o plantel escalado entra nesta lista; o ranking mostra
+    // os 30 primeiros, como nas outras tabelas. O total de cada atleta continua
+    // disponível na respetiva página de jogador.
+    displayPlayers = getCurrentSeasonMinutesPlayed().slice(0, MINUTES_RANKING_SIZE).map((p) => ({
       id: p.id, name: p.name, club: p.club, teamId: p.teamId,
       position: p.position, value: p.minutesPlayed, secondaryLabel: 'Jogos',
       secondaryValue: p.appearances, hasProfile: true,

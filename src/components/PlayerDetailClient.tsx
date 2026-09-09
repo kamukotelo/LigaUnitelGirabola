@@ -15,7 +15,7 @@ import {
   Player, Team, getPlayers, getMatches, getPlayerById, getTeamById,
   getPlayerRatings, getRecentRatings, getDetailedMetrics,
   getFifaConnectStatus, FIFA_CHECK_META, FifaCheckKey,
-  getPlayerFicha, getNationalityFlag
+  getPlayerFicha, getNationalityFlag, getPlayerSeasonMinutes
 } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import { ROUTES } from '@/lib/routes';
@@ -289,8 +289,11 @@ function StatsTab({ player }: { player: Player }) {
   if (!hasOfficialAdvancedPlayerMetrics || !player.statsVerified) {
     const yellowCards = player.detailedStats?.yellowCards ?? 0;
     const redCards = player.detailedStats?.redCards ?? 0;
+    // Minutos em campo derivados das escalações e substituições oficiais.
+    const seasonMinutes = getPlayerSeasonMinutes(player.id);
     const confirmedStats = [
       { label: 'Jogos', value: player.appearances },
+      { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
       { label: 'Golos', value: player.goals },
       { label: 'Assistências', value: player.assists },
       { label: 'Cartões amarelos', value: yellowCards },
@@ -299,7 +302,7 @@ function StatsTab({ player }: { player: Player }) {
 
     return (
       <div className="space-y-6">
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {confirmedStats.map((stat) => (
             <div key={stat.label} className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-5 rounded-2xl text-center">
               <span className="font-display text-3xl font-black text-foreground">{stat.value}</span>
@@ -310,7 +313,8 @@ function StatsTab({ player }: { player: Player }) {
         <div className="p-6 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start">
           <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={18} />
           <p className="text-xs text-zinc-500">
-            Ratings, posse, precisão de passe, duelos, remates e minutos serão apresentados apenas quando forem publicados em fichas oficiais.
+            Os minutos em campo são calculados a partir das escalações e das substituições das fichas oficiais.
+            Ratings, posse, precisão de passe, duelos e remates serão apresentados apenas quando forem publicados nessas fichas.
           </p>
         </div>
       </div>
@@ -655,9 +659,11 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
     ? allPlayers.filter((p) => p.goals > player.goals).length + 1
     : null;
   const maxGoals = allGoals[0]?.goals || 1;
-  // Minutos só são apresentados quando vêm de fichas oficiais; nunca estimados
-  // a partir do número de jogos.
-  const minutesPlayed = player.statsVerified ? (player.detailedStats?.minutesPlayed ?? null) : null;
+  // Minutos em campo desta época, calculados a partir das escalações oficiais e
+  // da cronologia de substituições; nunca estimados a partir do número de jogos.
+  const seasonMinutes = getPlayerSeasonMinutes(player.id);
+  const minutesPlayed = seasonMinutes?.minutesPlayed
+    ?? (player.statsVerified ? player.detailedStats?.minutesPlayed ?? null : null);
 
   // Filter recent finished matches of the player's club
   const allMatches = getMatches();
@@ -1026,10 +1032,16 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
                 <span className="text-zinc-500">Golos por Jogo</span>
                 <span className="font-bold text-foreground">{(player.goals / (player.appearances || 1)).toFixed(2)}</span>
               </div>
-              <div className="flex justify-between pb-1">
+              <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
                 <span className="text-zinc-500">Minutos Jogados</span>
                 <span className="font-bold text-foreground">
                   {minutesPlayed !== null ? `${minutesPlayed}'` : 'Por publicar'}
+                </span>
+              </div>
+              <div className="flex justify-between pb-1">
+                <span className="text-zinc-500">Média por Jogo</span>
+                <span className="font-bold text-foreground">
+                  {seasonMinutes ? `${Math.round(seasonMinutes.minutesPlayed / seasonMinutes.appearances)}'` : '—'}
                 </span>
               </div>
             </div>

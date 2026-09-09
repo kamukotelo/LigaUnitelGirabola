@@ -5,15 +5,12 @@ import { Activity, BarChart3, Clock3, ShieldCheck, TrendingUp, Users } from 'luc
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import {
   computeStandings,
-  CURRENT_SEASON_SCORERS,
-  getCurrentSeasonAssists,
   getCurrentSeasonCleanSheets,
   getCurrentSeasonGoalHauls,
-  getCurrentSeasonMinutesPlayed,
+  getCurrentSeasonPer90,
   getMatchDetail,
   getMatchOfficials,
   getMatchesForSeason,
-  getPlayers,
   getTeamFullName,
   hasPublishedMatchEvents,
   UPCOMING_SEASON_ID,
@@ -110,28 +107,9 @@ export default function AdvancedStatistics({ seasonId }: { seasonId: string }) {
       }
     }
 
-    const players = getPlayers();
-    const minutes = seasonId === UPCOMING_SEASON_ID ? getCurrentSeasonMinutesPlayed() : [];
-    const assists = seasonId === UPCOMING_SEASON_ID ? getCurrentSeasonAssists() : [];
-    const minuteMap = new Map(minutes.map((row) => [row.id, row.minutesPlayed]));
-    const assistMap = new Map(assists.map((row) => [row.id, row.assists]));
-    const playerMap = new Map(players.map((player) => [player.id, player]));
-    const scorerMap = new Map<string, (typeof CURRENT_SEASON_SCORERS)[number]>(CURRENT_SEASON_SCORERS.map((player) => [player.id, player]));
-    const playerIds = new Set([...scorerMap.keys(), ...assistMap.keys()]);
-    const playerRates = [...playerIds].map((playerId) => {
-      const player = playerMap.get(playerId);
-      const scorer = scorerMap.get(playerId);
-      const playedMinutes = minuteMap.get(playerId);
-      const playerGoals = scorer?.goals ?? 0;
-      const playerAssists = assistMap.get(playerId) ?? 0;
-      return {
-        id: playerId, name: player?.name ?? scorer?.name ?? playerId, club: player?.club ?? scorer?.club ?? 'Clube por confirmar', goals: playerGoals,
-        assists: playerAssists, contributions: playerGoals + playerAssists,
-        goalsPer90: playedMinutes ? (playerGoals * 90) / playedMinutes : null,
-        assistsPer90: playedMinutes ? (playerAssists * 90) / playedMinutes : null,
-      };
-    }).filter((row) => row.contributions > 0);
-    playerRates.sort((a, b) => b.contributions - a.contributions || b.goals - a.goals);
+    // Golos, assistências e minutos contados nos mesmos jogos, para o rácio por
+    // 90 minutos não misturar jornadas com e sem escalação oficial publicada.
+    const playerRates = seasonId === UPCOMING_SEASON_ID ? getCurrentSeasonPer90() : [];
 
     const cleanSheets = seasonId === UPCOMING_SEASON_ID
       ? getCurrentSeasonCleanSheets().map((row) => ({ ...row, percentage: row.appearances ? (row.cleanSheets / row.appearances) * 100 : 0 }))
@@ -169,7 +147,11 @@ export default function AdvancedStatistics({ seasonId }: { seasonId: string }) {
 
       <div className="grid gap-6 xl:grid-cols-2">
         <Panel title="Rendimento individual por 90'" icon={<TrendingUp size={16} />}>
-          <Table headers={['Jogador', 'G+A', 'G/90', 'A/90']} rows={analytics.playerRates.slice(0, 8).map((row) => [row.name, String(row.contributions), row.goalsPer90?.toFixed(2) ?? '—', row.assistsPer90?.toFixed(2) ?? '—'])} />
+          <Table
+            headers={['Jogador', 'G+A', 'Minutos', 'G/90', 'A/90']}
+            rows={analytics.playerRates.slice(0, 8).map((row) => [row.name, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)])}
+            empty="Aguardam-se fichas com escalação e substituições oficiais."
+          />
         </Panel>
         <Panel title="Balizas limpas" icon={<ShieldCheck size={16} />}>
           <Table headers={['Guarda-redes', 'Jogos', 'Sem sofrer', '%']} rows={analytics.cleanSheets.slice(0, 8).map((row) => [row.name, String(row.appearances), String(row.cleanSheets), `${row.percentage.toFixed(1)}%`])} empty="Aguardam-se escalações oficiais suficientes." />
