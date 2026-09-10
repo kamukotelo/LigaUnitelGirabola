@@ -478,7 +478,7 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'antonio-cabinda': { yellow: 1, red: 0 },
   'dago-tshibamba': { yellow: 1, red: 0 },
   'simao-dianzenza': { yellow: 1, red: 0 },
-  'venancio-dago': { yellow: 1, red: 0 },
+  'venancio-dago': { yellow: 2, red: 0 },
   'lisneu-caala': { yellow: 1, red: 0 },
   // 3.ª jornada — ficha oficial de arbitragem (jogos 20 e 22).
   'fifa-1jz48i2': { yellow: 1, red: 0 },   // Cachindele (Lunda Sul)
@@ -490,6 +490,40 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'fifa-1qw9vb1': { yellow: 1, red: 0 },   // Jaime Caetano (FC Luanda)
   'fifa-1qtzy92': { yellow: 1, red: 0 },   // Francisco Luemba (FC Cabinda)
   'rodrigo-cabinda': { yellow: 1, red: 0 }, // Rodrigo dos Santos Ngimbi (FC Cabinda)
+  // Fichas oficiais de arbitragem adicionais — Grupo A e Grupo B reconciliados
+  'manuel-lobito': { yellow: 1, red: 0 },   // Manuel Pereira Londaka (Académica do Lobito · Relatório 8 / m27-1-5)
+  'fifa-1jm7zr2': { yellow: 1, red: 0 },   // Daniel Kilola (Kabuscorp · Relatório 6 / m27-1-6)
+  'fifa-1snb179': { yellow: 1, red: 0 },   // Saombe Jorge (Kabuscorp · Relatório 6 / m27-1-6)
+  'fifa-1k4a836': { yellow: 1, red: 0 },   // Zamorano Lopes (Kabuscorp · Relatório 6 / m27-1-6)
+  'fifa-1jrtxh4': { yellow: 1, red: 0 },   // Diógenes João (Kabuscorp · Relatório 6 / m27-1-6)
+  'fifa-1jsrcp9': { yellow: 1, red: 0 },   // Deco / Moisés Calepi (Estrela 1.º de Maio · Relatório 6 / m27-1-6)
+  'fifa-1nb4bp9': { yellow: 1, red: 0 },   // Simão Gonga (Estrela 1.º de Maio · Relatório 6 / m27-1-6)
+  'fifa-1lgpgy7': { yellow: 1, red: 0 },   // Adair Garcia Domingos (Kabuscorp · Relatório 14 / m27-2-2)
+  'fifa-1v363a9': { yellow: 1, red: 0 },   // Mbali Sem (Kabuscorp · Relatório 14 / m27-2-2)
+  'mussa-lunda-sul': { yellow: 1, red: 0 }, // Joaquim Teixeira (Desportivo da Lunda Sul · Relatório 14 / m27-2-2)
+  'fred': { yellow: 1, red: 0 },            // Frederico Singongo (Desportivo da Lunda Sul · Relatório 14 / m27-2-2)
+  'cacusso': { yellow: 1, red: 0 },         // Adalberto Wacamba (Desportivo da Lunda Sul · Relatório 14 / m27-2-2)
+  'dieu': { yellow: 1, red: 0 },            // Dieu David (Desportivo da Lunda Sul · Relatório 14 / m27-2-2)
+  'fifa-1v1a1u9': { yellow: 1, red: 0 },   // Alexandre Abel Fernando (Sagrada Esperança · Relatório 13 / m27-2-4)
+  'fifa-1jzirz7': { yellow: 1, red: 0 },   // Manuel de Matos (São Salvador · Relatório 13 / m27-2-4)
+  'fifa-1ljudk2': { yellow: 1, red: 0 },   // Gelson André (FC Luanda · m27-2-5)
+  'ricardo-batista-fcluanda': { yellow: 1, red: 0 }, // Ricardo Batista (FC Luanda · m27-2-5)
+  'fifa-1m92d85': { yellow: 1, red: 0 },   // Paulo Gaspar (GD Interclube · m27-2-5)
+  'sebastiao-palavra': { yellow: 1, red: 0 }, // Sebastião Palavra Ngola (FC Luanda · m27-2-5)
+  'adriano-pedro': { yellow: 1, red: 0 },   // Adriano Manuel Pedro (FC Luanda · m27-2-5)
+  'fifa-1jz4j23': { yellow: 1, red: 0 },   // Paulo Mutossi (Estrela 1.º de Maio · Relatório 10 / m27-2-7)
+  'fifa-1k1hkv2': { yellow: 1, red: 0 },   // Moises Domingos (Estrela 1.º de Maio · Relatório 10 / m27-2-7)
+  'axel-dago': { yellow: 1, red: 0 },       // Axel (CD 1.º de Agosto · Relatório 10 / m27-2-7)
+  'milton-dago': { yellow: 1, red: 0 },     // Milton (CD 1.º de Agosto · Relatório 10 / m27-2-7)
+  'kinito': { yellow: 1, red: 0 },         // Kinito / Joaquim Balanga (Petro de Luanda · Relatório 16 / m27-2-8)
+  'januario-lobito': { yellow: 1, red: 0 }, // Januário da Cruz Sesa (Académica do Lobito · Relatório 16 / m27-2-8)
+  'elias-huila': { yellow: 1, red: 0 },     // Elias Daniel (Desportivo da Huíla · Relatório 18 / m27-3-2)
+  'fifa-1k39nk6': { yellow: 1, red: 0 },   // António Mule Chitongo (Wiliete · Relatório 18 / m27-3-2)
+  'bulaya-dago': { yellow: 1, red: 0 },     // Felix Bulaya (CD 1.º de Agosto · Relatório 19 / m27-3-6)
+  'fifa-1jtuys4': { yellow: 1, red: 0 },   // Edivaldo Quinanga (GD Interclube · Relatório 19 / m27-3-6)
+  'nurio-fortuna': { yellow: 1, red: 0 },   // Núrio Fortuna (Petro de Luanda · Relatório 17 / m27-3-7)
+  'marcos-libolo': { yellow: 1, red: 0 },   // Marcos Benua (CRD Libolo · Relatório 17 / m27-3-7)
+  'andeloy-libolo': { yellow: 1, red: 0 },  // Andeloy (CRD Libolo · Relatório 17 / m27-3-7)
 };
 
 export interface Player extends PlayerStats {
@@ -2095,6 +2129,8 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['venancio-dago', 'Venancio Landu Kukula', 'CD 1.º de Agosto', 'dago', 'Médio', 15, 0],
   ['lucas-elias-huila', 'Lucas Elias Antonio Paulo', 'Desportivo da Huíla', 'desphuila', 'Defesa', 13, 0],
   ['lisneu-caala', 'Lisneu Emanuel Neto Simao', 'CR Caála', 'caala', 'Posição por confirmar', 23, 0],
+  ['sebastiao-palavra', 'Sebastião Palavra Ngola', 'FC Luanda', 'fcluanda', 'Equipa Técnica', 0, 0],
+  ['adriano-pedro', 'Adriano Manuel Pedro', 'FC Luanda', 'fcluanda', 'Equipa Técnica', 0, 0],
 ].map(([id, name, club, teamId, position, jerseyNumber, goals]) => ({
   id: String(id), name: String(name), club: String(club), teamId: String(teamId), position: String(position), goals: Number(goals), assists: 0,
   appearances: 1, jerseyNumber: Number(jerseyNumber), age: 0, nationality: 'Angola', height: 'A confirmar',
@@ -4041,13 +4077,13 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-2-8') return [
-    { minute: 29, type: 'yellow', team: 'away', player: 'Joaquim Marcos Cunga Balanga', detail: 'Rasteirar o adversário' },
+    { minute: 29, type: 'yellow', team: 'away', player: 'Joaquim Marcos Cunga Balanga', playerId: 'kinito', detail: 'Rasteirar o adversário' },
     { minute: 47, type: 'goal', team: 'away', player: 'Tiago Azulão', playerId: 'tiago-azulao', detail: '0-1' },
     { minute: 59, type: 'sub', team: 'away', player: 'Depú', playerId: 'depu', playerOut: 'Tiago Azulão' },
     { minute: 59, type: 'sub', team: 'away', player: 'Ivan Cavaleiro', playerOut: 'Ilídio Panda' },
     { minute: 70, type: 'sub', team: 'home', player: 'Valério Magrinho Troco Zaire', playerOut: 'Joaquim Francisco Cambanda' },
     { minute: 74, type: 'sub', team: 'away', player: 'Jorge Javier Moreira Pereira', playerOut: 'Jonathan Toro' },
-    { minute: 77, type: 'yellow', team: 'home', player: 'Januário da Cruz Sesa', detail: 'Agarrou o adversário' },
+    { minute: 77, type: 'yellow', team: 'home', player: 'Januário da Cruz Sesa', playerId: 'januario-lobito', detail: 'Agarrou o adversário' },
     { minute: 80, type: 'sub', team: 'home', player: 'Miguel dos Santos', playerOut: 'Januário da Cruz Sesa' },
     { minute: 87, type: 'sub', team: 'away', player: 'Eddie Afonso', playerOut: 'António Hossi' },
     { minute: 87, type: 'sub', team: 'away', player: 'Vanilson Tita Zéu', playerOut: 'Hélder Costa' },
@@ -4057,15 +4093,15 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-2-5') return [
-    { minute: 10, type: 'yellow', team: 'away', player: 'Gelson dos Santos André', detail: 'Rasteirou o adversário' },
-    { minute: 36, type: 'yellow', team: 'home', player: 'Paulo Gaspar' },
+    { minute: 10, type: 'yellow', team: 'away', player: 'Gelson dos Santos André', playerId: 'fifa-1ljudk2', detail: 'Rasteirou o adversário' },
+    { minute: 36, type: 'yellow', team: 'home', player: 'Paulo Gaspar', playerId: 'fifa-1m92d85' },
     { minute: 45, type: 'sub', team: 'away', player: 'Francisco Chiquinho', playerOut: 'Domingos Bangula' },
     { minute: 45, type: 'sub', team: 'away', player: 'Pedro Paulo', playerOut: 'Miguel Nzau Manuel Matos' },
     { minute: 49, type: 'goal', team: 'home', player: 'Silvano da Cruz', playerId: 'silvano-da-cruz-interclube', detail: '1-0' },
     { minute: 52, type: 'goal', team: 'home', player: 'Alberto Alves', playerId: 'alberto-alves-interclube', detail: '2-0' },
     { minute: 58, type: 'sub', team: 'home', player: 'Afonso Baptista', playerOut: 'Edivaldo Quinanga' },
-    { minute: 72, type: 'yellow', team: 'away', player: 'Sebastião Palavra Ngola', detail: 'Protestar as decisões do árbitro' },
-    { minute: 72, type: 'yellow', team: 'away', player: 'Adriano Manuel Pedro', detail: 'Protestar as decisões do árbitro' },
+    { minute: 72, type: 'yellow', team: 'away', player: 'Sebastião Palavra Ngola', playerId: 'sebastiao-palavra', detail: 'Protestar as decisões do árbitro' },
+    { minute: 72, type: 'yellow', team: 'away', player: 'Adriano Manuel Pedro', playerId: 'adriano-pedro', detail: 'Protestar as decisões do árbitro' },
     { minute: 79, type: 'sub', team: 'away', player: 'Ricardo Batista', playerId: 'ricardo-batista-fcluanda', playerOut: 'Gelson dos Santos André' },
     { minute: 79, type: 'sub', team: 'away', player: 'Domingos André', playerOut: 'Denilson Makokisa' },
     { minute: 80, type: 'sub', team: 'home', player: 'Alexandre Domingos Ngunza Caculo', playerOut: 'Pedro Ganga' },
@@ -4083,11 +4119,11 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 64, type: 'goal', team: 'home', player: 'Augusto Fecayamale', detail: 'A confirmar · 2-1' },
     { minute: 92, type: 'goal', team: 'home', player: 'M. Dala', playerId: 'm-dala-sagrada', detail: "90'+2 · 3-1" },
     { minute: 25, type: 'sub', team: 'away', player: 'Anderson de Jesus Luís Mputa', playerOut: 'Samuel Chissapa Cachimbombo' },
-    { minute: 36, type: 'yellow', team: 'home', player: 'Alexandre Abel Fernando', detail: 'Segurar a bola com as mãos, simulando falta' },
+    { minute: 36, type: 'yellow', team: 'home', player: 'Alexandre Abel Fernando', playerId: 'fifa-1v1a1u9', detail: 'Segurar a bola com as mãos, simulando falta' },
     { minute: 46, type: 'sub', team: 'home', player: 'Felisberto Dala Sebastião', playerOut: 'Barreira Paulo' },
     { minute: 46, type: 'sub', team: 'away', player: 'Justino Tchitepa César', playerOut: 'Lucas Filemon Cassule' },
     { minute: 60, type: 'sub', team: 'home', player: 'Guilherme Francisco Saiendo Cabuço', playerOut: 'Afonso Marques' },
-    { minute: 71, type: 'yellow', team: 'away', player: 'Manuel de Matos', detail: 'Protestar constantemente as decisões do árbitro' },
+    { minute: 71, type: 'yellow', team: 'away', player: 'Manuel de Matos', playerId: 'fifa-1jzirz7', detail: 'Protestar constantemente as decisões do árbitro' },
     { minute: 81, type: 'sub', team: 'away', player: 'Afonso Lukombo António', playerOut: 'Caetano Gomes' },
     { minute: 81, type: 'sub', team: 'away', player: 'João André Vemba', playerOut: 'Fernando Lizandro Firmino Camuege' },
     { minute: 89, type: 'sub', team: 'away', player: 'Wilson Gonçalves Tenete', playerOut: 'Batomene de Sousa' },
@@ -4097,16 +4133,19 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   // Ficha oficial de arbitragem (Match No. 14 · 29/08/2026 · Estádio 22 de Junho, Luanda).
   if (match.id === 'm27-2-2') return [
     { minute: 11, type: 'sub', team: 'away', player: 'Domingos Ximba', playerId: 'ximba', playerOut: 'Felix Honjo' },
-    { minute: 21, type: 'yellow', team: 'away', player: 'Joaquim Teixeira' },
+    { minute: 21, type: 'yellow', team: 'away', player: 'Joaquim Teixeira', playerId: 'mussa-lunda-sul' },
     { minute: 26, type: 'goal', team: 'home', player: 'Henock Mangindula', playerId: 'fifa-1mppsb5', detail: '1-0' },
     { minute: 45, type: 'sub', team: 'home', player: 'Mbali Mongbongo Sem', playerOut: 'Joaquim Paciência' },
     { minute: 45, type: 'sub', team: 'away', player: 'António Ngola Ngulu', playerOut: 'Osvaldo Miguel' },
-    { minute: 46, type: 'yellow', team: 'home', player: 'Adair Garcia Domingos' },
+    { minute: 46, type: 'yellow', team: 'home', player: 'Adair Garcia Domingos', playerId: 'fifa-1lgpgy7' },
+    { minute: 46, type: 'yellow', team: 'away', player: 'Frederico Singongo', playerId: 'fred' },
     { minute: 57, type: 'goal', team: 'away', player: 'Dieu Maquissossila David', playerId: 'dieu', detail: '1-1' },
     { minute: 60, type: 'sub', team: 'home', player: 'Alberto Elizeu Xavier', playerOut: 'Celestino Luís Maleco' },
     { minute: 72, type: 'sub', team: 'home', player: 'Tresor Kuyu Nona', playerOut: 'Bayala Nsimba' },
-    { minute: 84, type: 'yellow', team: 'home', player: 'Mbali Mongbongo Sem' },
+    { minute: 74, type: 'yellow', team: 'away', player: 'Adalberto Wacamba', playerId: 'cacusso' },
+    { minute: 84, type: 'yellow', team: 'home', player: 'Mbali Mongbongo Sem', playerId: 'fifa-1v363a9' },
     { minute: 86, type: 'sub', team: 'away', player: 'Mário Bernardo Keta', playerOut: 'João Baptista Cassicote' },
+    { minute: 90, type: 'yellow', team: 'away', player: 'Dieu David', playerId: 'dieu' },
     { minute: 90, type: 'sub', team: 'home', player: 'Artur Malungo', playerOut: 'Zamorano Lopes' },
     { minute: 90, type: 'sub', team: 'home', player: 'Aluízio Joel André Cacharamba', playerOut: 'Mankoka Hegene Afonso' },
     { minute: 90, type: 'sub', team: 'away', player: 'João Bivoba Zau', playerOut: 'Joaquim Teixeira' },
@@ -4114,8 +4153,12 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
 
   if (match.id === 'm27-2-7') return [
     { minute: 24, type: 'goal', team: 'away', player: 'Axel', playerId: 'axel-dago', detail: '0-1' },
+    { minute: 43, type: 'yellow', team: 'away', player: 'Axel', playerId: 'axel-dago', detail: 'Agarrou o adversário' },
+    { minute: 44, type: 'yellow', team: 'home', player: 'Paulo Mutossi', playerId: 'fifa-1jz4j23' },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Milton', playerId: 'milton-dago', detail: 'Rasteirou o adversário' },
     { minute: 72, type: 'goal', team: 'home', player: 'Luís Profi', playerId: 'luis-profi-primeiromaio', detail: '1-1' },
     { minute: 75, type: 'goal', team: 'away', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: '1-2' },
+    { minute: 81, type: 'yellow', team: 'home', player: 'Moisés Domingos', playerId: 'fifa-1k1hkv2', detail: 'Agarrar o adversário' },
   ];
 
   if (match.id === 'm27-2-1') return [
@@ -4151,7 +4194,10 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-3-6') return [
+    { minute: 34, type: 'yellow', team: 'home', player: 'Venâncio', playerId: 'venancio-dago', detail: 'Rasteirar o adversário' },
     { minute: 45, type: 'goal', team: 'away', player: 'Alexandre Fernando', playerId: 'alexandre-fernando-interclube', detail: "Grande penalidade · 45'+5 (0-1)" },
+    { minute: 56, type: 'yellow', team: 'away', player: 'Edivaldo Quinanga', playerId: 'fifa-1jtuys4', detail: 'Rasteirar o adversário' },
+    { minute: 77, type: 'yellow', team: 'home', player: 'Felix Bulaya', playerId: 'bulaya-dago', detail: 'Rasteirar o adversário' },
     { minute: 79, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: '1-1' },
     { minute: 90, type: 'goal', team: 'home', player: 'Calebi Yanda', playerId: 'fifa-1jm8058', detail: '2-1' },
   ];
@@ -4246,15 +4292,16 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
 
   if (match.id === 'm27-1-5') return [
     { minute: 11, type: 'goal', team: 'home', player: 'Kabelo Dlamini', playerId: 'kabelo-dlamini', detail: '1-0' },
+    { minute: 16, type: 'yellow', team: 'away', player: 'Manuel Pereira Londaka', playerId: 'manuel-lobito', detail: 'Comportamento antidesportivo' },
     { minute: 47, type: 'goal', team: 'home', player: 'Valter Monteiro', playerId: 'valter-monteiro', detail: "45'+2 (2-0)" },
   ];
 
   if (match.id === 'm27-1-6') return [
     { minute: 21, type: 'goal', team: 'home', player: 'Odenir Jorge', playerId: 'fifa-1mqvbd5', detail: '1-0' },
-    { minute: 45, type: 'yellow', team: 'away', player: 'Daniel Kilola' },
-    { minute: 45, type: 'yellow', team: 'away', player: 'Saombe Sukuakueche Ángelo Jorge' },
-    { minute: 45, type: 'yellow', team: 'away', player: 'Zamorano Lopes' },
-    { minute: 46, type: 'yellow', team: 'home', player: 'Moisés Alberto Calepi', detail: 'Falta táctica' },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Daniel Kilola', playerId: 'fifa-1jm7zr2' },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Saombe Sukuakueche Ángelo Jorge', playerId: 'fifa-1snb179' },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Zamorano Lopes', playerId: 'fifa-1k4a836' },
+    { minute: 46, type: 'yellow', team: 'home', player: 'Moisés Alberto Calepi', playerId: 'fifa-1jsrcp9', detail: 'Falta táctica' },
     { minute: 46, type: 'sub', team: 'away', player: 'Celestino Luís Maleco', playerOut: 'Eliseu Cabanga' },
     { minute: 59, type: 'sub', team: 'away', player: 'Joaquim Paciência', playerOut: 'Alberto Elizeu Xavier' },
     { minute: 59, type: 'sub', team: 'away', player: 'Diógenes Capemba João', playerOut: 'Daniel Kilola' },
@@ -4262,8 +4309,8 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 69, type: 'sub', team: 'home', player: 'Fernando Mateus Duarte', playerOut: 'Luís Simões Escovalo' },
     { minute: 69, type: 'sub', team: 'home', player: 'Rodrigues Muehombo', playerOut: 'Odenir Jorge' },
     { minute: 69, type: 'sub', team: 'home', player: 'Vicente Domingos', playerOut: 'Muila Lengo Congolo' },
-    { minute: 70, type: 'yellow', team: 'home', player: 'Simão Culeca Gonga' },
-    { minute: 73, type: 'yellow', team: 'away', player: 'Diógenes Capemba João' },
+    { minute: 70, type: 'yellow', team: 'home', player: 'Simão Culeca Gonga', playerId: 'fifa-1nb4bp9' },
+    { minute: 73, type: 'yellow', team: 'away', player: 'Diógenes Capemba João', playerId: 'fifa-1jrtxh4' },
     { minute: 73, type: 'sub', team: 'away', player: 'Teodoro Fernandes Correia', playerOut: 'Bayala Nsimba' },
     { minute: 80, type: 'sub', team: 'away', player: 'Aluízio Joel André Cacharamba', playerOut: 'José Semedo Vunge' },
     { minute: 86, type: 'sub', team: 'home', player: 'Kijungu Kitumba Francisco', playerOut: 'Simão Culeca Gonga' },
