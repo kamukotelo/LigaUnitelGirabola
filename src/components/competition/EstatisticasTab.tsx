@@ -13,6 +13,7 @@ import {
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import AdvancedStatistics from './AdvancedStatistics';
+import SeasonComparisonMatrix from './SeasonComparisonMatrix';
 
 type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'yellowcards' | 'redcards' | 'minutes';
 
@@ -300,6 +301,10 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
           </div>
         </div>
       )}
+
+      {/* Módulo Comparador Geral de Temporadas */}
+      <SeasonComparisonMatrix />
+
       {/* Sub-abas de métricas */}
       <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 max-w-3xl overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {STAT_TABS.map((t) => (

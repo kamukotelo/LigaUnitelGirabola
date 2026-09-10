@@ -194,37 +194,7 @@ export function getSeasonBenchmarkComparison(
       ' g/j',
       2,
       true,
-      'Eficácia ofensiva geral comparada com os 515 golos de 2025/26'
-    ),
-    makeItem(
-      'usefulTime',
-      'Tempo Efetivo de Jogo',
-      SEASON_2025_26_BASELINE.averageUsefulTime,
-      usefulTimeAvg,
-      '′',
-      1,
-      true,
-      'Minutos de bola corrida por partida (meta FAF/ANCAF: > 52′)'
-    ),
-    makeItem(
-      'yellowCards',
-      'Cartões Amarelos / Jogo',
-      SEASON_2025_26_BASELINE.yellowCardsPerMatch,
-      yellowPerMatch,
-      ' /j',
-      2,
-      false,
-      'Índice de advertências disciplinares por partida'
-    ),
-    makeItem(
-      'redCards',
-      'Cartões Vermelhos / Jogo',
-      SEASON_2025_26_BASELINE.redCardsPerMatch,
-      redPerMatch,
-      ' /j',
-      2,
-      false,
-      'Expulsões por jogo em relação à média de 0.25 da época passada'
+      'Eficácia ofensiva apurada face aos 515 golos das 30 jornadas de 2025/26'
     ),
     makeItem(
       'homeWins',
@@ -234,17 +204,27 @@ export function getSeasonBenchmarkComparison(
       '%',
       1,
       true,
-      'Fator casa face aos 45.4% registados na época 2025/26'
+      'Fator casa face aos 45.4% de vitórias caseiras registadas em 2025/26'
     ),
     makeItem(
-      'attendance',
-      'Assistência Média por Jogo',
-      SEASON_2025_26_BASELINE.averageAttendance,
-      avgAttendance,
-      ' esp.',
-      0,
+      'draws',
+      'Percentual de Empates',
+      SEASON_2025_26_BASELINE.drawPct,
+      drawPct,
+      '%',
+      1,
+      false,
+      'Equilíbrio e divisão de pontos face aos 28.3% de empates em 2025/26'
+    ),
+    makeItem(
+      'awayWins',
+      'Vitórias Fora de Casa',
+      SEASON_2025_26_BASELINE.awayWinPct,
+      awayWinPct,
+      '%',
+      1,
       true,
-      'Média de público presente nos estádios nacionais'
+      'Rendimento dos visitantes face aos 26.3% de vitórias fora em 2025/26'
     ),
   ];
 

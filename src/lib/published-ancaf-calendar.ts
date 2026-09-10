@@ -379,11 +379,15 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "lobito",
     "homeTeam": "GD Interclube",
     "awayTeam": "Académica do Lobito",
-    "homeScore": 0,
+    "homeScore": 2,
     "awayScore": 0,
+    "score": "2-0",
+    "halfTimeScore": "2-0",
     "date": "2026-09-10T15:30:00+01:00",
     "stadium": "Estádio 22 de Junho",
-    "status": "scheduled",
+    "status": "live",
+    "liveMinute": 77,
+    "updatedAt": "2026-09-10T17:10:00+01:00",
     "broadcaster": "Zsports"
   },
   {

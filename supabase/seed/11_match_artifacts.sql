@@ -81,7 +81,7 @@ insert into public.ancaf_match_lineups (match_id, team_id, side, players, coach,
   ('m27-4-7', 'lobito', 'away', '[{"playerId":"guilherme-lobito","name":"Muhango","number":12,"position":"GK","isStarter":true,"isCaptain":false},{"playerId":"januario-lobito","name":"Januário","number":7,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"rosario-lobito","name":"Rosário","number":4,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"lourenco-lobito","name":"Lourenço","number":5,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"quiteque-lobito","name":"Quiteque","number":8,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"ezequiel-lobito","name":"Ezequiel","number":10,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"fifa-1jrj1l5","name":"Calela","number":13,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"pinto-lobito","name":"Pinto","number":14,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"fifa-1m79nl1","name":"Leonel","number":22,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"jorge-28-lobito","name":"Jorge","number":28,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"valerio-lobito","name":"Valério","number":29,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"marcos-lobito","name":"Marcos","number":40,"position":"GK","isStarter":false,"isCaptain":false},{"playerId":"kaporal","name":"Florentino","number":11,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"fifa-1l13q80","name":"Serafim","number":15,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":"joaquim-lobito","name":"Joaquim","number":16,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":"sabones-lobito","name":"Sabones","number":17,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"antonio-lobito","name":"António","number":19,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"miguel-lobito","name":"Miguel","number":24,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":"wilson-david-lobito","name":"Wilson","number":25,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":"fifa-1nyjxj8","name":"Fernando","number":36,"position":"DEF","isStarter":false,"isCaptain":false}]'::jsonb, 'Silvestre Pelé', 'seed')
 on conflict (match_id,team_id) do update set side = excluded.side, players = excluded.players, coach = excluded.coach, confirmed_by = excluded.confirmed_by;
 
-delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-2', 'm27-3-6', 'm27-3-1', 'm27-3-4', 'm27-3-8', 'm27-3-5', 'm27-4-5');
+delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-2', 'm27-3-6', 'm27-3-1', 'm27-3-4', 'm27-3-8', 'm27-3-5', 'm27-4-5', 'm27-4-7');
 insert into public.ancaf_match_events (match_id, minute, type, team_side, player, player_id, assist, player_out, detail, sort) values
   ('m27-1-4', 28, 'yellow', 'home', 'Sicuba Vunge', 'maranata', null, null, 'Rasteirou o adversário', 0),
   ('m27-1-4', 37, 'yellow', 'home', 'Paulino', 'platini', null, null, 'Rasteirou o adversário', 1),
@@ -359,7 +359,9 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-4-5', 75, 'yellow', 'home', 'Marcos', 'marcos-cabinda', null, null, 'Falta tática', 13),
   ('m27-4-5', 79, 'yellow', 'away', 'Bruno', 'bruno-dago', null, null, 'Falta tática', 14),
   ('m27-4-5', 86, 'yellow', 'home', 'João Eduardo', 'cabinda-player-1', null, null, 'Simulou lesão para retardar o jogo.', 15),
-  ('m27-4-5', 93, 'yellow', 'home', 'Cristiano Malonda', 'cristiano-cabinda', null, null, 'Falta temerária', 16);
+  ('m27-4-5', 93, 'yellow', 'home', 'Cristiano Malonda', 'cristiano-cabinda', null, null, 'Falta temerária', 16),
+  ('m27-4-7', 26, 'goal', 'home', 'Patrick Banza', 'patrick-banza-interclube', null, null, '26'' (1-0)', 0),
+  ('m27-4-7', 39, 'goal', 'home', 'Pedro Manuel', null, null, null, '39'' (2-0)', 1);
 
 insert into public.ancaf_match_stats (match_id, side, stat_key, value, published) values
   ('m27-1-4', 'home', 'yellowCards', 4, true),
@@ -455,5 +457,11 @@ insert into public.ancaf_match_stats (match_id, side, stat_key, value, published
   ('m27-4-5', 'home', 'yellowCards', 4, true),
   ('m27-4-5', 'away', 'yellowCards', 1, true),
   ('m27-4-5', 'home', 'redCards', 0, true),
-  ('m27-4-5', 'away', 'redCards', 0, true)
+  ('m27-4-5', 'away', 'redCards', 0, true),
+  ('m27-4-7', 'home', 'corners', 4, true),
+  ('m27-4-7', 'away', 'corners', 4, true),
+  ('m27-4-7', 'home', 'yellowCards', 2, true),
+  ('m27-4-7', 'away', 'yellowCards', 1, true),
+  ('m27-4-7', 'home', 'redCards', 0, true),
+  ('m27-4-7', 'away', 'redCards', 0, true)
 on conflict (match_id,side,stat_key) do update set value = excluded.value, published = excluded.published;

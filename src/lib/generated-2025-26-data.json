@@ -9,8 +9,8 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 3371,
-      "usefulTimeMinutes": 54.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -23,8 +23,8 @@
       "homeScore": 5,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 4318,
-      "usefulTimeMinutes": 57.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "Zsports"
     },
@@ -37,9 +37,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "2-0",
-      "attendance": 1906,
-      "usefulTimeMinutes": 54.3,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "Zsports"
     },
     {
@@ -51,9 +51,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 2578,
-      "usefulTimeMinutes": 49.2,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Zsports"
     },
     {
@@ -65,8 +65,8 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1966,
-      "usefulTimeMinutes": 49.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
       "broadcaster": "Zsports"
     },
@@ -79,9 +79,9 @@
       "homeScore": 3,
       "awayScore": 2,
       "halfTimeScore": "1-1",
-      "attendance": 6486,
-      "usefulTimeMinutes": 55.2,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -93,9 +93,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 13512,
-      "usefulTimeMinutes": 52.8,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "Zsports"
     },
     {
@@ -107,9 +107,9 @@
       "homeScore": 0,
       "awayScore": 3,
       "halfTimeScore": "0-1",
-      "attendance": 4588,
-      "usefulTimeMinutes": 51.0,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "Zsports"
     },
     {
@@ -121,9 +121,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 12372,
-      "usefulTimeMinutes": 51.6,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Zsports"
     },
     {
@@ -135,10 +135,10 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2099,
-      "usefulTimeMinutes": 51.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j2-3",
@@ -149,8 +149,8 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1216,
-      "usefulTimeMinutes": 53.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -163,9 +163,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 4606,
-      "usefulTimeMinutes": 49.6,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -177,8 +177,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2057,
-      "usefulTimeMinutes": 54.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -191,9 +191,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1967,
-      "usefulTimeMinutes": 53.2,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -205,10 +205,10 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 5261,
-      "usefulTimeMinutes": 50.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j2-8",
@@ -219,8 +219,8 @@
       "homeScore": 2,
       "awayScore": 3,
       "halfTimeScore": "2-1",
-      "attendance": 1603,
-      "usefulTimeMinutes": 54.6,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -233,8 +233,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 4797,
-      "usefulTimeMinutes": 50.8,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -247,9 +247,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2825,
-      "usefulTimeMinutes": 52.8,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -261,9 +261,9 @@
       "homeScore": 3,
       "awayScore": 1,
       "halfTimeScore": "3-1",
-      "attendance": 1707,
-      "usefulTimeMinutes": 52.6,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -275,10 +275,10 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 4212,
-      "usefulTimeMinutes": 51.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j3-5",
@@ -289,9 +289,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1371,
-      "usefulTimeMinutes": 51.4,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -303,9 +303,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 9181,
-      "usefulTimeMinutes": 49.4,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "Zsports"
     },
     {
@@ -317,9 +317,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 3110,
-      "usefulTimeMinutes": 46.0,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -331,9 +331,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2598,
-      "usefulTimeMinutes": 51.2,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -345,10 +345,10 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 2332,
-      "usefulTimeMinutes": 49.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j4-2",
@@ -359,8 +359,8 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1516,
-      "usefulTimeMinutes": 54.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -373,9 +373,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 1791,
-      "usefulTimeMinutes": 51.5,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -387,8 +387,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 4993,
-      "usefulTimeMinutes": 50.6,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -401,9 +401,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 4092,
-      "usefulTimeMinutes": 49.3,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -415,10 +415,10 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 1018,
-      "usefulTimeMinutes": 52.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j4-7",
@@ -429,8 +429,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 2499,
-      "usefulTimeMinutes": 55.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -443,8 +443,8 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 27080,
-      "usefulTimeMinutes": 49.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "Zsports"
     },
@@ -457,9 +457,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 6288,
-      "usefulTimeMinutes": 50.9,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -471,9 +471,9 @@
       "homeScore": 2,
       "awayScore": 2,
       "halfTimeScore": "1-0",
-      "attendance": 8080,
-      "usefulTimeMinutes": 48.1,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Zsports"
     },
     {
@@ -485,10 +485,10 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2802,
-      "usefulTimeMinutes": 49.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j5-4",
@@ -499,9 +499,9 @@
       "homeScore": 3,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 2867,
-      "usefulTimeMinutes": 50.5,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -513,9 +513,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1378,
-      "usefulTimeMinutes": 50.9,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -527,9 +527,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1838,
-      "usefulTimeMinutes": 49.7,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -541,9 +541,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1737,
-      "usefulTimeMinutes": 49.7,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -555,10 +555,10 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1642,
-      "usefulTimeMinutes": 49.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j6-1",
@@ -569,8 +569,8 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2175,
-      "usefulTimeMinutes": 52.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -583,9 +583,9 @@
       "homeScore": 4,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 14609,
-      "usefulTimeMinutes": 55.0,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "Zsports"
     },
     {
@@ -597,8 +597,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1306,
-      "usefulTimeMinutes": 51.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -611,9 +611,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 5236,
-      "usefulTimeMinutes": 47.9,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -625,10 +625,10 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3093,
-      "usefulTimeMinutes": 52.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j6-6",
@@ -639,8 +639,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 2431,
-      "usefulTimeMinutes": 49.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -653,8 +653,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2165,
-      "usefulTimeMinutes": 55.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -667,9 +667,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 6798,
-      "usefulTimeMinutes": 49.0,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -681,9 +681,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 10651,
-      "usefulTimeMinutes": 51.5,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Zsports"
     },
     {
@@ -695,8 +695,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 12747,
-      "usefulTimeMinutes": 49.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
       "broadcaster": "Zsports"
     },
@@ -709,9 +709,9 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "1-1",
-      "attendance": 2368,
-      "usefulTimeMinutes": 52.6,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -723,9 +723,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 5114,
-      "usefulTimeMinutes": 53.5,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -737,9 +737,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2161,
-      "usefulTimeMinutes": 49.7,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -751,9 +751,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 1853,
-      "usefulTimeMinutes": 53.1,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -765,10 +765,10 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1267,
-      "usefulTimeMinutes": 51.8,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j7-8",
@@ -779,8 +779,8 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2551,
-      "usefulTimeMinutes": 52.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -793,9 +793,9 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "1-0",
-      "attendance": 2355,
-      "usefulTimeMinutes": 48.7,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -807,8 +807,8 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 5384,
-      "usefulTimeMinutes": 55.6,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -821,9 +821,9 @@
       "homeScore": 5,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 5090,
-      "usefulTimeMinutes": 51.9,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -835,10 +835,10 @@
       "homeScore": 2,
       "awayScore": 2,
       "halfTimeScore": "1-0",
-      "attendance": 4788,
-      "usefulTimeMinutes": 51.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j8-5",
@@ -849,8 +849,8 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 3529,
-      "usefulTimeMinutes": 51.6,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -863,8 +863,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1843,
-      "usefulTimeMinutes": 52.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -877,9 +877,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2493,
-      "usefulTimeMinutes": 54.8,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -891,9 +891,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 7950,
-      "usefulTimeMinutes": 52.6,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Zsports"
     },
     {
@@ -905,10 +905,10 @@
       "homeScore": 1,
       "awayScore": 5,
       "halfTimeScore": "0-0",
-      "attendance": 2101,
-      "usefulTimeMinutes": 54.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j9-2",
@@ -919,9 +919,9 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 3765,
-      "usefulTimeMinutes": 47.6,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -933,9 +933,9 @@
       "homeScore": 4,
       "awayScore": 1,
       "halfTimeScore": "2-0",
-      "attendance": 4358,
-      "usefulTimeMinutes": 52.9,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -947,9 +947,9 @@
       "homeScore": 2,
       "awayScore": 3,
       "halfTimeScore": "0-0",
-      "attendance": 2368,
-      "usefulTimeMinutes": 52.4,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -961,9 +961,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1974,
-      "usefulTimeMinutes": 48.0,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -975,10 +975,10 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 1019,
-      "usefulTimeMinutes": 49.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j9-7",
@@ -989,8 +989,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2409,
-      "usefulTimeMinutes": 49.8,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -1003,9 +1003,9 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 1730,
-      "usefulTimeMinutes": 51.6,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -1017,8 +1017,8 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 1251,
-      "usefulTimeMinutes": 52.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -1031,9 +1031,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 10787,
-      "usefulTimeMinutes": 51.2,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Zsports"
     },
     {
@@ -1045,10 +1045,10 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 3878,
-      "usefulTimeMinutes": 52.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j10-4",
@@ -1059,8 +1059,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 3365,
-      "usefulTimeMinutes": 47.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -1073,8 +1073,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 5769,
-      "usefulTimeMinutes": 53.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -1087,9 +1087,9 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 4811,
-      "usefulTimeMinutes": 53.1,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -1101,9 +1101,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 9183,
-      "usefulTimeMinutes": 52.8,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Zsports"
     },
     {
@@ -1115,10 +1115,10 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1766,
-      "usefulTimeMinutes": 54.9,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j11-1",
@@ -1129,9 +1129,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 1536,
-      "usefulTimeMinutes": 54.0,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -1143,9 +1143,9 @@
       "homeScore": 1,
       "awayScore": 3,
       "halfTimeScore": "1-0",
-      "attendance": 2169,
-      "usefulTimeMinutes": 50.3,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -1157,9 +1157,9 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "1-1",
-      "attendance": 4834,
-      "usefulTimeMinutes": 49.8,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -1171,9 +1171,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1668,
-      "usefulTimeMinutes": 55.0,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -1185,10 +1185,10 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 1902,
-      "usefulTimeMinutes": 54.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j11-6",
@@ -1199,8 +1199,8 @@
       "homeScore": 0,
       "awayScore": 3,
       "halfTimeScore": "0-0",
-      "attendance": 2090,
-      "usefulTimeMinutes": 51.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -1213,9 +1213,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 1783,
-      "usefulTimeMinutes": 52.0,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -1227,8 +1227,8 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3093,
-      "usefulTimeMinutes": 50.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -1241,9 +1241,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 8613,
-      "usefulTimeMinutes": 52.0,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Zsports"
     },
     {
@@ -1255,8 +1255,8 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 14944,
-      "usefulTimeMinutes": 53.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
       "broadcaster": "Zsports"
     },
@@ -1269,8 +1269,8 @@
       "homeScore": 1,
       "awayScore": 3,
       "halfTimeScore": "1-0",
-      "attendance": 4050,
-      "usefulTimeMinutes": 48.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -1283,8 +1283,8 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "2-0",
-      "attendance": 3732,
-      "usefulTimeMinutes": 52.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -1297,9 +1297,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1716,
-      "usefulTimeMinutes": 53.1,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -1311,9 +1311,9 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 3351,
-      "usefulTimeMinutes": 47.1,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -1325,10 +1325,10 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 3300,
-      "usefulTimeMinutes": 49.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j12-8",
@@ -1339,9 +1339,9 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 2428,
-      "usefulTimeMinutes": 50.7,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -1353,9 +1353,9 @@
       "homeScore": 0,
       "awayScore": 3,
       "halfTimeScore": "0-0",
-      "attendance": 1237,
-      "usefulTimeMinutes": 49.3,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -1367,9 +1367,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 3849,
-      "usefulTimeMinutes": 51.3,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -1381,9 +1381,9 @@
       "homeScore": 0,
       "awayScore": 3,
       "halfTimeScore": "0-1",
-      "attendance": 1960,
-      "usefulTimeMinutes": 49.1,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -1395,10 +1395,10 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 1897,
-      "usefulTimeMinutes": 47.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j13-5",
@@ -1409,8 +1409,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1523,
-      "usefulTimeMinutes": 51.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -1423,9 +1423,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 3593,
-      "usefulTimeMinutes": 49.5,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -1437,8 +1437,8 @@
       "homeScore": 0,
       "awayScore": 5,
       "halfTimeScore": "0-1",
-      "attendance": 2167,
-      "usefulTimeMinutes": 51.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -1451,9 +1451,9 @@
       "homeScore": 2,
       "awayScore": 3,
       "halfTimeScore": "0-0",
-      "attendance": 1440,
-      "usefulTimeMinutes": 53.5,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -1465,8 +1465,8 @@
       "homeScore": 6,
       "awayScore": 0,
       "halfTimeScore": "5-0",
-      "attendance": 15548,
-      "usefulTimeMinutes": 47.6,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
       "broadcaster": "Zsports"
     },
@@ -1479,8 +1479,8 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 1351,
-      "usefulTimeMinutes": 50.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -1493,8 +1493,8 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 6420,
-      "usefulTimeMinutes": 49.8,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -1507,9 +1507,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1924,
-      "usefulTimeMinutes": 50.7,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -1521,9 +1521,9 @@
       "homeScore": 3,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 6127,
-      "usefulTimeMinutes": 57.5,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -1535,10 +1535,10 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 5093,
-      "usefulTimeMinutes": 50.9,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j14-7",
@@ -1549,9 +1549,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "2-0",
-      "attendance": 7745,
-      "usefulTimeMinutes": 47.5,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -1563,9 +1563,9 @@
       "homeScore": 3,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2808,
-      "usefulTimeMinutes": 51.0,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -1577,9 +1577,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 5525,
-      "usefulTimeMinutes": 50.7,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "Zsports"
     },
     {
@@ -1591,9 +1591,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 6450,
-      "usefulTimeMinutes": 54.8,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Zsports"
     },
     {
@@ -1605,8 +1605,8 @@
       "homeScore": 0,
       "awayScore": 4,
       "halfTimeScore": "0-0",
-      "attendance": 2095,
-      "usefulTimeMinutes": 46.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
       "broadcaster": "Zsports"
     },
@@ -1619,8 +1619,8 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1802,
-      "usefulTimeMinutes": 54.9,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -1633,9 +1633,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2437,
-      "usefulTimeMinutes": 52.9,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "Zsports"
     },
     {
@@ -1647,8 +1647,8 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 1752,
-      "usefulTimeMinutes": 48.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "Zsports"
     },
@@ -1661,9 +1661,9 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "1-2",
-      "attendance": 1343,
-      "usefulTimeMinutes": 51.0,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Zsports"
     },
     {
@@ -1675,8 +1675,8 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 14823,
-      "usefulTimeMinutes": 50.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
       "broadcaster": "Zsports"
     },
@@ -1689,8 +1689,8 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "1-0",
-      "attendance": 2131,
-      "usefulTimeMinutes": 48.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -1703,8 +1703,8 @@
       "homeScore": 4,
       "awayScore": 1,
       "halfTimeScore": "3-0",
-      "attendance": 10821,
-      "usefulTimeMinutes": 52.9,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "Zsports"
     },
@@ -1717,9 +1717,9 @@
       "homeScore": 1,
       "awayScore": 3,
       "halfTimeScore": "0-0",
-      "attendance": 1449,
-      "usefulTimeMinutes": 46.5,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -1731,9 +1731,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2377,
-      "usefulTimeMinutes": 53.6,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -1745,10 +1745,10 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 6435,
-      "usefulTimeMinutes": 47.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j16-6",
@@ -1759,9 +1759,9 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-2",
-      "attendance": 3852,
-      "usefulTimeMinutes": 51.9,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -1773,9 +1773,9 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 932,
-      "usefulTimeMinutes": 51.2,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -1787,9 +1787,9 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 2239,
-      "usefulTimeMinutes": 52.8,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -1801,9 +1801,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 4570,
-      "usefulTimeMinutes": 47.2,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -1815,10 +1815,10 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 1774,
-      "usefulTimeMinutes": 55.8,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j17-3",
@@ -1829,8 +1829,8 @@
       "homeScore": 0,
       "awayScore": 3,
       "halfTimeScore": "0-0",
-      "attendance": 5505,
-      "usefulTimeMinutes": 53.6,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -1843,9 +1843,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2417,
-      "usefulTimeMinutes": 53.6,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -1857,8 +1857,8 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3929,
-      "usefulTimeMinutes": 51.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -1871,9 +1871,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 6297,
-      "usefulTimeMinutes": 48.0,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -1885,8 +1885,8 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "2-0",
-      "attendance": 13299,
-      "usefulTimeMinutes": 47.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
       "broadcaster": "Zsports"
     },
@@ -1899,8 +1899,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1665,
-      "usefulTimeMinutes": 54.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -1913,8 +1913,8 @@
       "homeScore": 3,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2254,
-      "usefulTimeMinutes": 51.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -1927,9 +1927,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 9172,
-      "usefulTimeMinutes": 53.2,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "Zsports"
     },
     {
@@ -1941,9 +1941,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1659,
-      "usefulTimeMinutes": 54.7,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -1955,10 +1955,10 @@
       "homeScore": 3,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 3025,
-      "usefulTimeMinutes": 51.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j18-5",
@@ -1969,9 +1969,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 1720,
-      "usefulTimeMinutes": 54.7,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -1983,9 +1983,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 1584,
-      "usefulTimeMinutes": 52.2,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -1997,9 +1997,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 6459,
-      "usefulTimeMinutes": 51.6,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -2011,9 +2011,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1037,
-      "usefulTimeMinutes": 52.0,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2025,10 +2025,10 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 5548,
-      "usefulTimeMinutes": 52.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j19-2",
@@ -2039,8 +2039,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 4466,
-      "usefulTimeMinutes": 52.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -2053,9 +2053,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 6731,
-      "usefulTimeMinutes": 50.0,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -2067,8 +2067,8 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-2",
-      "attendance": 2300,
-      "usefulTimeMinutes": 49.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -2081,9 +2081,9 @@
       "homeScore": 3,
       "awayScore": 2,
       "halfTimeScore": "0-1",
-      "attendance": 2086,
-      "usefulTimeMinutes": 50.4,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2095,8 +2095,8 @@
       "homeScore": 0,
       "awayScore": 3,
       "halfTimeScore": "0-0",
-      "attendance": 28767,
-      "usefulTimeMinutes": 48.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
       "broadcaster": "Zsports"
     },
@@ -2109,8 +2109,8 @@
       "homeScore": 3,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3137,
-      "usefulTimeMinutes": 54.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -2123,8 +2123,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 2450,
-      "usefulTimeMinutes": 56.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -2137,9 +2137,9 @@
       "homeScore": 2,
       "awayScore": 4,
       "halfTimeScore": "0-0",
-      "attendance": 1870,
-      "usefulTimeMinutes": 54.0,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -2151,9 +2151,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 9433,
-      "usefulTimeMinutes": 52.7,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Zsports"
     },
     {
@@ -2165,10 +2165,10 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 3263,
-      "usefulTimeMinutes": 51.8,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j20-4",
@@ -2179,9 +2179,9 @@
       "homeScore": 2,
       "awayScore": 2,
       "halfTimeScore": "0-2",
-      "attendance": 5126,
-      "usefulTimeMinutes": 52.9,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -2193,9 +2193,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 1749,
-      "usefulTimeMinutes": 53.0,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -2207,9 +2207,9 @@
       "homeScore": 2,
       "awayScore": 2,
       "halfTimeScore": "1-1",
-      "attendance": 2875,
-      "usefulTimeMinutes": 51.8,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -2221,9 +2221,9 @@
       "homeScore": 0,
       "awayScore": 3,
       "halfTimeScore": "0-1",
-      "attendance": 1568,
-      "usefulTimeMinutes": 50.8,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2235,10 +2235,10 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 1215,
-      "usefulTimeMinutes": 47.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j21-1",
@@ -2249,8 +2249,8 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 4789,
-      "usefulTimeMinutes": 54.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -2263,9 +2263,9 @@
       "homeScore": 3,
       "awayScore": 1,
       "halfTimeScore": "2-0",
-      "attendance": 4005,
-      "usefulTimeMinutes": 52.1,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -2277,8 +2277,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 6382,
-      "usefulTimeMinutes": 56.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -2291,9 +2291,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 9681,
-      "usefulTimeMinutes": 52.2,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Zsports"
     },
     {
@@ -2305,10 +2305,10 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-2",
-      "attendance": 1304,
-      "usefulTimeMinutes": 52.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j21-6",
@@ -2319,8 +2319,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 1144,
-      "usefulTimeMinutes": 54.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -2333,8 +2333,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 2029,
-      "usefulTimeMinutes": 49.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -2347,9 +2347,9 @@
       "homeScore": 4,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2521,
-      "usefulTimeMinutes": 49.3,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -2361,9 +2361,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 5845,
-      "usefulTimeMinutes": 48.7,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2375,10 +2375,10 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 5660,
-      "usefulTimeMinutes": 51.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j22-3",
@@ -2389,9 +2389,9 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "1-1",
-      "attendance": 1725,
-      "usefulTimeMinutes": 50.9,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -2403,9 +2403,9 @@
       "homeScore": 2,
       "awayScore": 3,
       "halfTimeScore": "0-0",
-      "attendance": 5141,
-      "usefulTimeMinutes": 54.3,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -2417,9 +2417,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 6099,
-      "usefulTimeMinutes": 54.4,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -2431,9 +2431,9 @@
       "homeScore": 3,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2528,
-      "usefulTimeMinutes": 52.7,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2445,10 +2445,10 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-1",
-      "attendance": 3649,
-      "usefulTimeMinutes": 47.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j22-8",
@@ -2459,8 +2459,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 934,
-      "usefulTimeMinutes": 53.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -2473,9 +2473,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2227,
-      "usefulTimeMinutes": 47.9,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -2487,8 +2487,8 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3709,
-      "usefulTimeMinutes": 48.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -2501,9 +2501,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1515,
-      "usefulTimeMinutes": 51.0,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2515,10 +2515,10 @@
       "homeScore": 3,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2130,
-      "usefulTimeMinutes": 52.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j23-5",
@@ -2529,8 +2529,8 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 5900,
-      "usefulTimeMinutes": 49.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -2543,8 +2543,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 8153,
-      "usefulTimeMinutes": 49.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "Zsports"
     },
@@ -2557,9 +2557,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 1531,
-      "usefulTimeMinutes": 55.6,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -2571,9 +2571,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1869,
-      "usefulTimeMinutes": 50.0,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2585,8 +2585,8 @@
       "homeScore": 6,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 14138,
-      "usefulTimeMinutes": 49.6,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
       "broadcaster": "Zsports"
     },
@@ -2599,9 +2599,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 4360,
-      "usefulTimeMinutes": 55.3,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -2613,9 +2613,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 6487,
-      "usefulTimeMinutes": 51.2,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -2627,9 +2627,9 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 2114,
-      "usefulTimeMinutes": 48.5,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -2641,9 +2641,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 4515,
-      "usefulTimeMinutes": 48.8,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2655,10 +2655,10 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 5469,
-      "usefulTimeMinutes": 53.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j24-7",
@@ -2669,8 +2669,8 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 11366,
-      "usefulTimeMinutes": 54.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -2683,9 +2683,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "2-0",
-      "attendance": 1364,
-      "usefulTimeMinutes": 49.9,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -2697,8 +2697,8 @@
       "homeScore": 3,
       "awayScore": 1,
       "halfTimeScore": "2-0",
-      "attendance": 3521,
-      "usefulTimeMinutes": 50.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -2711,9 +2711,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1616,
-      "usefulTimeMinutes": 50.6,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2725,10 +2725,10 @@
       "homeScore": 2,
       "awayScore": 5,
       "halfTimeScore": "2-3",
-      "attendance": 2093,
-      "usefulTimeMinutes": 52.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j25-4",
@@ -2739,8 +2739,8 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 925,
-      "usefulTimeMinutes": 49.1,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -2753,8 +2753,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2380,
-      "usefulTimeMinutes": 51.5,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -2767,9 +2767,9 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "0-2",
-      "attendance": 1565,
-      "usefulTimeMinutes": 50.7,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -2781,9 +2781,9 @@
       "homeScore": 4,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3920,
-      "usefulTimeMinutes": 51.2,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2795,10 +2795,10 @@
       "homeScore": 0,
       "awayScore": 3,
       "halfTimeScore": "0-1",
-      "attendance": 2389,
-      "usefulTimeMinutes": 52.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j26-1",
@@ -2809,9 +2809,9 @@
       "homeScore": 3,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 10889,
-      "usefulTimeMinutes": 53.5,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -2823,9 +2823,9 @@
       "homeScore": 2,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 4379,
-      "usefulTimeMinutes": 52.3,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -2837,9 +2837,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "2-0",
-      "attendance": 3813,
-      "usefulTimeMinutes": 48.6,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "TPA"
     },
     {
@@ -2851,9 +2851,9 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 12096,
-      "usefulTimeMinutes": 54.5,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Zsports"
     },
     {
@@ -2865,10 +2865,10 @@
       "homeScore": 4,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1142,
-      "usefulTimeMinutes": 50.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j26-6",
@@ -2879,8 +2879,8 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3691,
-      "usefulTimeMinutes": 55.2,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -2893,9 +2893,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3290,
-      "usefulTimeMinutes": 47.8,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -2907,8 +2907,8 @@
       "homeScore": 2,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1005,
-      "usefulTimeMinutes": 50.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -2921,9 +2921,9 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-1",
-      "attendance": 1908,
-      "usefulTimeMinutes": 50.8,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -2935,10 +2935,10 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3468,
-      "usefulTimeMinutes": 48.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j27-3",
@@ -2949,8 +2949,8 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1649,
-      "usefulTimeMinutes": 48.6,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -2963,8 +2963,8 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 2173,
-      "usefulTimeMinutes": 50.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -2977,9 +2977,9 @@
       "homeScore": 1,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 4637,
-      "usefulTimeMinutes": 50.4,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -2991,9 +2991,9 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-1",
-      "attendance": 1133,
-      "usefulTimeMinutes": 53.4,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -3005,10 +3005,10 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 2175,
-      "usefulTimeMinutes": 47.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j27-8",
@@ -3019,9 +3019,9 @@
       "homeScore": 3,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 1113,
-      "usefulTimeMinutes": 52.5,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -3033,9 +3033,9 @@
       "homeScore": 4,
       "awayScore": 0,
       "halfTimeScore": "1-0",
-      "attendance": 4351,
-      "usefulTimeMinutes": 54.6,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -3047,9 +3047,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 11438,
-      "usefulTimeMinutes": 48.5,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "Zsports"
     },
     {
@@ -3061,9 +3061,9 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 10422,
-      "usefulTimeMinutes": 50.3,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Zsports"
     },
     {
@@ -3075,10 +3075,10 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3398,
-      "usefulTimeMinutes": 46.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j28-5",
@@ -3089,8 +3089,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 4597,
-      "usefulTimeMinutes": 51.3,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -3103,9 +3103,9 @@
       "homeScore": 3,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1514,
-      "usefulTimeMinutes": 51.9,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -3117,8 +3117,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 2899,
-      "usefulTimeMinutes": 53.8,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "TPA"
     },
@@ -3131,9 +3131,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 1788,
-      "usefulTimeMinutes": 51.2,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Girabola TV"
     },
     {
@@ -3145,10 +3145,10 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 1482,
-      "usefulTimeMinutes": 51.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j29-2",
@@ -3159,8 +3159,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2062,
-      "usefulTimeMinutes": 48.9,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Gilberto Bernardino Kativa",
       "broadcaster": "Zsports"
     },
@@ -3173,8 +3173,8 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 2043,
-      "usefulTimeMinutes": 53.4,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sanda Mateus Miguel Kitu",
       "broadcaster": "ZAP Viva"
     },
@@ -3187,9 +3187,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 4927,
-      "usefulTimeMinutes": 49.4,
-      "referee": "Edilson Roberto Gomes André",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edilson Roberto Gomes Andr\u00e9",
       "broadcaster": "TPA"
     },
     {
@@ -3201,9 +3201,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 5410,
-      "usefulTimeMinutes": 54.5,
-      "referee": "Miguel Tchissingu Augusto Américo",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Tchissingu Augusto Am\u00e9rico",
       "broadcaster": "Girabola TV"
     },
     {
@@ -3215,10 +3215,10 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 1711,
-      "usefulTimeMinutes": 50.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Bernardo Hossi Nangolo",
-      "broadcaster": "Rádio 5"
+      "broadcaster": "R\u00e1dio 5"
     },
     {
       "id": "hist-2025-26-j29-7",
@@ -3229,9 +3229,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1130,
-      "usefulTimeMinutes": 52.2,
-      "referee": "Nelson João Milagre",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Nelson Jo\u00e3o Milagre",
       "broadcaster": "Zsports"
     },
     {
@@ -3243,9 +3243,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 2517,
-      "usefulTimeMinutes": 51.5,
-      "referee": "Paulo Sérgio Moreira",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Paulo S\u00e9rgio Moreira",
       "broadcaster": "ZAP Viva"
     },
     {
@@ -3257,9 +3257,9 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1784,
-      "usefulTimeMinutes": 47.6,
-      "referee": "Miguel Julião Mateus",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Miguel Juli\u00e3o Mateus",
       "broadcaster": "Zsports"
     },
     {
@@ -3271,9 +3271,9 @@
       "homeScore": 0,
       "awayScore": 2,
       "halfTimeScore": "0-0",
-      "attendance": 5712,
-      "usefulTimeMinutes": 53.2,
-      "referee": "Bernardo Mário",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Bernardo M\u00e1rio",
       "broadcaster": "Zsports"
     },
     {
@@ -3285,8 +3285,8 @@
       "homeScore": 0,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 3700,
-      "usefulTimeMinutes": 48.8,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Aldair Quissanga Rodrigues Carmelino",
       "broadcaster": "Zsports"
     },
@@ -3299,8 +3299,8 @@
       "homeScore": 0,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 2579,
-      "usefulTimeMinutes": 51.0,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Sabino Garcez de Sousa de Carvalho",
       "broadcaster": "Zsports"
     },
@@ -3313,9 +3313,9 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-1",
-      "attendance": 10159,
-      "usefulTimeMinutes": 49.2,
-      "referee": "Edson António Esoko",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Edson Ant\u00f3nio Esoko",
       "broadcaster": "Zsports"
     },
     {
@@ -3327,8 +3327,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "1-0",
-      "attendance": 3209,
-      "usefulTimeMinutes": 48.8,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Donaciano Mulumba",
       "broadcaster": "Zsports"
     },
@@ -3341,9 +3341,9 @@
       "homeScore": 1,
       "awayScore": 0,
       "halfTimeScore": "0-0",
-      "attendance": 1786,
-      "usefulTimeMinutes": 52.5,
-      "referee": "António Caluassi Dungula",
+      "attendance": null,
+      "usefulTimeMinutes": null,
+      "referee": "Ant\u00f3nio Caluassi Dungula",
       "broadcaster": "Zsports"
     },
     {
@@ -3355,8 +3355,8 @@
       "homeScore": 1,
       "awayScore": 1,
       "halfTimeScore": "0-0",
-      "attendance": 6597,
-      "usefulTimeMinutes": 54.7,
+      "attendance": null,
+      "usefulTimeMinutes": null,
       "referee": "Chitano Domingos Francisco",
       "broadcaster": "Zsports"
     }
@@ -13219,7 +13219,7 @@
         "minute": 30,
         "type": "goal",
         "team": "away",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": "Odenir Jorge",
         "detail": "0-1"
       },
@@ -13252,7 +13252,7 @@
         "type": "goal",
         "team": "home",
         "player": "Lito",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "1-0"
       },
       {
@@ -13288,7 +13288,7 @@
         "type": "goal",
         "team": "home",
         "player": "Chico Papel",
-        "assist": "Januário",
+        "assist": "Janu\u00e1rio",
         "detail": "1-0"
       },
       {
@@ -13357,7 +13357,7 @@
         "type": "goal",
         "team": "home",
         "player": "Rupson",
-        "assist": "Simão Dianzenza",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "1-0"
       }
     ],
@@ -13366,7 +13366,7 @@
         "minute": 32,
         "type": "goal",
         "team": "away",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": null,
         "detail": "0-1"
       },
@@ -13375,7 +13375,7 @@
         "type": "goal",
         "team": "away",
         "player": "Ivan Cavaleiro",
-        "assist": "Mário Balbúrdia",
+        "assist": "M\u00e1rio Balb\u00fardia",
         "detail": "0-3"
       },
       {
@@ -13392,7 +13392,7 @@
         "minute": 6,
         "type": "goal",
         "team": "home",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": null,
         "detail": "1-0"
       },
@@ -13457,14 +13457,14 @@
         "type": "goal",
         "team": "home",
         "player": "Jaime Caetano",
-        "assist": "Gelson André",
+        "assist": "Gelson Andr\u00e9",
         "detail": "1-0"
       },
       {
         "minute": 60,
         "type": "goal",
         "team": "away",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": null,
         "detail": "0-1"
       }
@@ -13501,7 +13501,7 @@
         "minute": 42,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": "Mabilson",
         "detail": "0-1"
       },
@@ -13580,7 +13580,7 @@
         "minute": 90,
         "type": "goal",
         "team": "away",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": null,
         "detail": "0-1"
       }
@@ -13591,8 +13591,8 @@
         "minute": 66,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
-        "assist": "Simão Dianzenza",
+        "player": "Dag\u00f3 Tshibamba",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "1-0"
       }
     ],
@@ -13602,7 +13602,7 @@
         "type": "goal",
         "team": "home",
         "player": "Lito",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "1-0"
       },
       {
@@ -13666,7 +13666,7 @@
         "type": "goal",
         "team": "away",
         "player": "Chico Papel",
-        "assist": "Januário",
+        "assist": "Janu\u00e1rio",
         "detail": "0-1"
       },
       {
@@ -13691,7 +13691,7 @@
         "minute": 78,
         "type": "goal",
         "team": "home",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": null,
         "detail": "1-0"
       }
@@ -13727,7 +13727,7 @@
         "minute": 87,
         "type": "goal",
         "team": "away",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": null,
         "detail": "0-1"
       }
@@ -13737,7 +13737,7 @@
         "minute": 25,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": null,
         "detail": "1-0"
       }
@@ -13747,7 +13747,7 @@
         "minute": 69,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": "Calebi",
         "detail": "0-1"
       }
@@ -13766,7 +13766,7 @@
         "type": "goal",
         "team": "home",
         "player": "Benarfa",
-        "assist": "José Vunge",
+        "assist": "Jos\u00e9 Vunge",
         "detail": "1-0"
       }
     ],
@@ -13775,7 +13775,7 @@
         "minute": 40,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": "Mabilson",
         "detail": "1-0"
       },
@@ -13800,7 +13800,7 @@
         "type": "goal",
         "team": "home",
         "player": "Samu Tshibamba",
-        "assist": "Venâncio",
+        "assist": "Ven\u00e2ncio",
         "detail": "2-1"
       }
     ],
@@ -13809,7 +13809,7 @@
         "minute": 51,
         "type": "goal",
         "team": "home",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": "Mano Calesso",
         "detail": "1-0"
       },
@@ -13835,7 +13835,7 @@
         "minute": 18,
         "type": "goal",
         "team": "away",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": "Afonso",
         "detail": "0-1"
       },
@@ -13852,14 +13852,14 @@
         "type": "goal",
         "team": "home",
         "player": "Kabelo Dlamini",
-        "assist": "Bocar Sidibé",
+        "assist": "Bocar Sidib\u00e9",
         "detail": "2-1"
       },
       {
         "minute": 49,
         "type": "goal",
         "team": "home",
-        "player": "Bocar Sidibé",
+        "player": "Bocar Sidib\u00e9",
         "assist": null,
         "detail": "3-1"
       }
@@ -13870,7 +13870,7 @@
         "type": "goal",
         "team": "home",
         "player": "Chico Papel",
-        "assist": "Lourenço",
+        "assist": "Louren\u00e7o",
         "detail": "1-0"
       }
     ],
@@ -13907,7 +13907,7 @@
         "minute": 57,
         "type": "goal",
         "team": "away",
-        "player": "Pedro Aparício",
+        "player": "Pedro Apar\u00edcio",
         "assist": "Eddie Afonso",
         "detail": "0-1"
       },
@@ -13943,8 +13943,8 @@
         "minute": 60,
         "type": "goal",
         "team": "home",
-        "player": "Tiago Azulão",
-        "assist": "Pedro Aparício",
+        "player": "Tiago Azul\u00e3o",
+        "assist": "Pedro Apar\u00edcio",
         "detail": "1-0"
       },
       {
@@ -13960,7 +13960,7 @@
         "type": "goal",
         "team": "home",
         "player": "Jonathan Toro",
-        "assist": "Hélder Costa",
+        "assist": "H\u00e9lder Costa",
         "detail": "4-1"
       },
       {
@@ -13968,7 +13968,7 @@
         "type": "goal",
         "team": "home",
         "player": "Ivan Cavaleiro",
-        "assist": "Mário Balbúrdia",
+        "assist": "M\u00e1rio Balb\u00fardia",
         "detail": "3-1"
       },
       {
@@ -13996,7 +13996,7 @@
         "type": "goal",
         "team": "home",
         "player": "Jorginho",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "2-0"
       },
       {
@@ -14014,7 +14014,7 @@
         "minute": 12,
         "type": "goal",
         "team": "away",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": "Mano Calesso",
         "detail": "0-1"
       },
@@ -14022,7 +14022,7 @@
         "minute": 39,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": null,
         "detail": "1-0"
       }
@@ -14060,8 +14060,8 @@
         "minute": 49,
         "type": "goal",
         "team": "home",
-        "player": "Tiago Azulão",
-        "assist": "Mário Balbúrdia",
+        "player": "Tiago Azul\u00e3o",
+        "assist": "M\u00e1rio Balb\u00fardia",
         "detail": "1-0"
       }
     ],
@@ -14070,7 +14070,7 @@
         "minute": 53,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": null,
         "detail": "1-0"
       }
@@ -14088,7 +14088,7 @@
         "minute": 43,
         "type": "goal",
         "team": "away",
-        "player": "Bocar Sidibé",
+        "player": "Bocar Sidib\u00e9",
         "assist": null,
         "detail": "0-1"
       },
@@ -14116,7 +14116,7 @@
         "type": "goal",
         "team": "home",
         "player": "Benvindo",
-        "assist": "Kadú",
+        "assist": "Kad\u00fa",
         "detail": "1-0"
       },
       {
@@ -14141,7 +14141,7 @@
         "minute": 53,
         "type": "goal",
         "team": "home",
-        "player": "Tubarão",
+        "player": "Tubar\u00e3o",
         "assist": "Andeloy",
         "detail": "2-1"
       },
@@ -14159,7 +14159,7 @@
         "minute": 67,
         "type": "goal",
         "team": "away",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": "Afonso",
         "detail": "0-1"
       }
@@ -14170,7 +14170,7 @@
         "type": "goal",
         "team": "home",
         "player": "Pedro",
-        "assist": "Gelson André",
+        "assist": "Gelson Andr\u00e9",
         "detail": "2-0"
       },
       {
@@ -14195,7 +14195,7 @@
         "minute": 63,
         "type": "goal",
         "team": "away",
-        "player": "Kadú",
+        "player": "Kad\u00fa",
         "assist": "Afonso",
         "detail": "0-1"
       },
@@ -14204,7 +14204,7 @@
         "type": "goal",
         "team": "away",
         "player": "Afonso",
-        "assist": "Kadú",
+        "assist": "Kad\u00fa",
         "detail": "1-2"
       }
     ],
@@ -14230,7 +14230,7 @@
         "type": "goal",
         "team": "home",
         "player": "Jorginho",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "2-1"
       }
     ],
@@ -14239,7 +14239,7 @@
         "minute": 9,
         "type": "goal",
         "team": "home",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": "Afonso",
         "detail": "1-0"
       },
@@ -14298,7 +14298,7 @@
         "type": "goal",
         "team": "home",
         "player": "Kabelo Dlamini",
-        "assist": "Bocar Sidibé",
+        "assist": "Bocar Sidib\u00e9",
         "detail": "2-1"
       },
       {
@@ -14306,7 +14306,7 @@
         "type": "goal",
         "team": "away",
         "player": "Mabilson",
-        "assist": "Simão Dianzenza",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "0-1"
       },
       {
@@ -14349,7 +14349,7 @@
         "minute": 56,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": "Odenir Jorge",
         "detail": "1-0"
       }
@@ -14385,8 +14385,8 @@
         "minute": 43,
         "type": "goal",
         "team": "home",
-        "player": "Depú",
-        "assist": "Pedro Aparício",
+        "player": "Dep\u00fa",
+        "assist": "Pedro Apar\u00edcio",
         "detail": "1-0"
       },
       {
@@ -14403,7 +14403,7 @@
         "minute": 49,
         "type": "goal",
         "team": "away",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": "Eddie Afonso",
         "detail": "0-1"
       },
@@ -14435,7 +14435,7 @@
         "minute": 71,
         "type": "goal",
         "team": "away",
-        "player": "Hélder Costa",
+        "player": "H\u00e9lder Costa",
         "assist": "Eddie Afonso",
         "detail": "1-5"
       },
@@ -14443,7 +14443,7 @@
         "minute": 87,
         "type": "goal",
         "team": "away",
-        "player": "Pedro Aparício",
+        "player": "Pedro Apar\u00edcio",
         "assist": "Eddie Afonso",
         "detail": "1-3"
       }
@@ -14479,7 +14479,7 @@
         "minute": 21,
         "type": "goal",
         "team": "home",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": "Mano Calesso",
         "detail": "1-0"
       },
@@ -14495,7 +14495,7 @@
         "minute": 57,
         "type": "goal",
         "team": "away",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": "Afonso",
         "detail": "0-1"
       },
@@ -14521,7 +14521,7 @@
         "minute": 64,
         "type": "goal",
         "team": "away",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": "Odenir Jorge",
         "detail": "0-1"
       },
@@ -14572,7 +14572,7 @@
         "minute": 78,
         "type": "goal",
         "team": "home",
-        "player": "Tubarão",
+        "player": "Tubar\u00e3o",
         "assist": "Andeloy",
         "detail": "2-1"
       }
@@ -14582,7 +14582,7 @@
         "minute": 57,
         "type": "goal",
         "team": "home",
-        "player": "Januário",
+        "player": "Janu\u00e1rio",
         "assist": null,
         "detail": "1-0"
       },
@@ -14590,8 +14590,8 @@
         "minute": 59,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
-        "assist": "Simão Dianzenza",
+        "player": "Dag\u00f3 Tshibamba",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "0-1"
       }
     ],
@@ -14616,7 +14616,7 @@
         "minute": 88,
         "type": "goal",
         "team": "away",
-        "player": "Bocar Sidibé",
+        "player": "Bocar Sidib\u00e9",
         "assist": "Jorge Carneiro",
         "detail": "1-2"
       }
@@ -14636,8 +14636,8 @@
         "minute": 7,
         "type": "goal",
         "team": "home",
-        "player": "Hélder Costa",
-        "assist": "Pedro Aparício",
+        "player": "H\u00e9lder Costa",
+        "assist": "Pedro Apar\u00edcio",
         "detail": "1-0"
       }
     ],
@@ -14646,7 +14646,7 @@
         "minute": 17,
         "type": "goal",
         "team": "away",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": "Mano Calesso",
         "detail": "0-1"
       },
@@ -14655,7 +14655,7 @@
         "type": "goal",
         "team": "home",
         "player": "Lito",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "1-0"
       },
       {
@@ -14690,7 +14690,7 @@
         "minute": 16,
         "type": "goal",
         "team": "home",
-        "player": "Bocar Sidibé",
+        "player": "Bocar Sidib\u00e9",
         "assist": null,
         "detail": "1-0"
       }
@@ -14718,7 +14718,7 @@
         "minute": 90,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": null,
         "detail": "1-0"
       }
@@ -14728,7 +14728,7 @@
         "minute": 57,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": null,
         "detail": "1-0"
       }
@@ -14749,14 +14749,14 @@
         "type": "goal",
         "team": "home",
         "player": "Jaime Caetano",
-        "assist": "Gelson André",
+        "assist": "Gelson Andr\u00e9",
         "detail": "1-0"
       },
       {
         "minute": 61,
         "type": "goal",
         "team": "away",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": null,
         "detail": "0-1"
       },
@@ -14790,7 +14790,7 @@
         "minute": 28,
         "type": "goal",
         "team": "home",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": null,
         "detail": "1-0"
       },
@@ -14826,7 +14826,7 @@
         "minute": 68,
         "type": "goal",
         "team": "away",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": null,
         "detail": "0-1"
       }
@@ -14837,7 +14837,7 @@
         "type": "goal",
         "team": "away",
         "player": "Rupson",
-        "assist": "Simão Dianzenza",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "0-3"
       },
       {
@@ -14845,14 +14845,14 @@
         "type": "goal",
         "team": "away",
         "player": "Samu Tshibamba",
-        "assist": "Simão Dianzenza",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "0-2"
       },
       {
         "minute": 59,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": "Calebi",
         "detail": "0-1"
       }
@@ -14882,14 +14882,14 @@
         "type": "goal",
         "team": "home",
         "player": "Jonathan Toro",
-        "assist": "Pedro Aparício",
+        "assist": "Pedro Apar\u00edcio",
         "detail": "2-1"
       },
       {
         "minute": 68,
         "type": "goal",
         "team": "home",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": null,
         "detail": "1-0"
       }
@@ -14899,15 +14899,15 @@
         "minute": 16,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
-        "assist": "Simão Dianzenza",
+        "player": "Dag\u00f3 Tshibamba",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "1-0"
       },
       {
         "minute": 36,
         "type": "goal",
         "team": "away",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": "Paty",
         "detail": "0-1"
       },
@@ -14925,7 +14925,7 @@
         "minute": 33,
         "type": "goal",
         "team": "home",
-        "player": "Abrão",
+        "player": "Abr\u00e3o",
         "assist": null,
         "detail": "1-0"
       },
@@ -14967,7 +14967,7 @@
         "minute": 23,
         "type": "goal",
         "team": "home",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": null,
         "detail": "1-0"
       },
@@ -15012,7 +15012,7 @@
         "type": "goal",
         "team": "away",
         "player": "Alberto Xavier",
-        "assist": "José Vunge",
+        "assist": "Jos\u00e9 Vunge",
         "detail": "0-2"
       },
       {
@@ -15020,7 +15020,7 @@
         "type": "goal",
         "team": "away",
         "player": "Benarfa",
-        "assist": "José Vunge",
+        "assist": "Jos\u00e9 Vunge",
         "detail": "0-1"
       }
     ],
@@ -15075,8 +15075,8 @@
         "minute": 70,
         "type": "goal",
         "team": "home",
-        "player": "Além",
-        "assist": "Além",
+        "player": "Al\u00e9m",
+        "assist": "Al\u00e9m",
         "detail": "1-0"
       },
       {
@@ -15163,7 +15163,7 @@
         "minute": 80,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": null,
         "detail": "0-1"
       }
@@ -15215,7 +15215,7 @@
         "minute": 53,
         "type": "goal",
         "team": "away",
-        "player": "Depú",
+        "player": "Dep\u00fa",
         "assist": null,
         "detail": "2-3"
       },
@@ -15239,7 +15239,7 @@
         "minute": 81,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": "Luis Escovalo",
         "detail": "1-0"
       },
@@ -15247,7 +15247,7 @@
         "minute": 85,
         "type": "goal",
         "team": "away",
-        "player": "Rúben Adérito",
+        "player": "R\u00faben Ad\u00e9rito",
         "assist": "Jonathan Toro",
         "detail": "0-1"
       }
@@ -15257,8 +15257,8 @@
         "minute": 5,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
-        "assist": "Venâncio",
+        "player": "Dag\u00f3 Tshibamba",
+        "assist": "Ven\u00e2ncio",
         "detail": "1-0"
       },
       {
@@ -15266,22 +15266,22 @@
         "type": "goal",
         "team": "home",
         "player": "Samu Tshibamba",
-        "assist": "Venâncio",
+        "assist": "Ven\u00e2ncio",
         "detail": "2-0"
       },
       {
         "minute": 19,
         "type": "goal",
         "team": "home",
-        "player": "Venâncio",
-        "assist": "Simão Dianzenza",
+        "player": "Ven\u00e2ncio",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "4-0"
       },
       {
         "minute": 30,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": "Mabilson",
         "detail": "5-0"
       },
@@ -15290,14 +15290,14 @@
         "type": "goal",
         "team": "home",
         "player": "Rupson",
-        "assist": "Venâncio",
+        "assist": "Ven\u00e2ncio",
         "detail": "3-0"
       },
       {
         "minute": 92,
         "type": "goal",
         "team": "home",
-        "player": "Venâncio",
+        "player": "Ven\u00e2ncio",
         "assist": null,
         "detail": "6-0"
       }
@@ -15315,7 +15315,7 @@
         "minute": 86,
         "type": "goal",
         "team": "away",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": null,
         "detail": "0-1"
       },
@@ -15333,7 +15333,7 @@
         "minute": 35,
         "type": "goal",
         "team": "home",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": "Afonso",
         "detail": "1-0"
       },
@@ -15415,7 +15415,7 @@
         "type": "goal",
         "team": "home",
         "player": "Lito",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "1-0"
       },
       {
@@ -15423,7 +15423,7 @@
         "type": "goal",
         "team": "home",
         "player": "Bani",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "2-1"
       },
       {
@@ -15458,7 +15458,7 @@
         "minute": 62,
         "type": "goal",
         "team": "home",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": null,
         "detail": "1-0"
       }
@@ -15502,7 +15502,7 @@
         "minute": 67,
         "type": "goal",
         "team": "away",
-        "player": "Abrão",
+        "player": "Abr\u00e3o",
         "assist": null,
         "detail": "0-1"
       }
@@ -15513,7 +15513,7 @@
         "minute": 42,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": "Luis Escovalo",
         "detail": "1-0"
       },
@@ -15566,14 +15566,14 @@
         "type": "goal",
         "team": "home",
         "player": "Jonathan Toro",
-        "assist": "Pedro Aparício",
+        "assist": "Pedro Apar\u00edcio",
         "detail": "2-0"
       },
       {
         "minute": 89,
         "type": "goal",
         "team": "home",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": null,
         "detail": "1-0"
       }
@@ -15600,7 +15600,7 @@
         "type": "goal",
         "team": "away",
         "player": "Kabelo Dlamini",
-        "assist": "Bocar Sidibé",
+        "assist": "Bocar Sidib\u00e9",
         "detail": "1-2"
       }
     ],
@@ -15609,7 +15609,7 @@
         "minute": 14,
         "type": "goal",
         "team": "home",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": "Eddie Afonso",
         "detail": "1-0"
       },
@@ -15626,7 +15626,7 @@
         "type": "goal",
         "team": "home",
         "player": "Ivan Cavaleiro",
-        "assist": "Hélder Costa",
+        "assist": "H\u00e9lder Costa",
         "detail": "3-1"
       },
       {
@@ -15634,7 +15634,7 @@
         "type": "goal",
         "team": "home",
         "player": "Ivan Cavaleiro",
-        "assist": "Mário Balbúrdia",
+        "assist": "M\u00e1rio Balb\u00fardia",
         "detail": "4-1"
       },
       {
@@ -15686,7 +15686,7 @@
         "type": "goal",
         "team": "home",
         "player": "Jaime Caetano",
-        "assist": "Gelson André",
+        "assist": "Gelson Andr\u00e9",
         "detail": "1-0"
       }
     ],
@@ -15712,7 +15712,7 @@
         "type": "goal",
         "team": "away",
         "player": "Chico Papel",
-        "assist": "Januário",
+        "assist": "Janu\u00e1rio",
         "detail": "0-1"
       }
     ],
@@ -15729,7 +15729,7 @@
         "minute": 40,
         "type": "goal",
         "team": "away",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": null,
         "detail": "0-1"
       }
@@ -15740,7 +15740,7 @@
         "type": "goal",
         "team": "away",
         "player": "Lito",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "0-1"
       }
     ],
@@ -15749,7 +15749,7 @@
         "minute": 33,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": null,
         "detail": "0-1"
       }
@@ -15759,8 +15759,8 @@
         "minute": 10,
         "type": "goal",
         "team": "home",
-        "player": "Além",
-        "assist": "Além",
+        "player": "Al\u00e9m",
+        "assist": "Al\u00e9m",
         "detail": "1-0"
       },
       {
@@ -15768,7 +15768,7 @@
         "type": "goal",
         "team": "away",
         "player": "Jaime Caetano",
-        "assist": "Gelson André",
+        "assist": "Gelson Andr\u00e9",
         "detail": "0-1"
       }
     ],
@@ -15778,7 +15778,7 @@
         "type": "goal",
         "team": "away",
         "player": "Benarfa",
-        "assist": "José Vunge",
+        "assist": "Jos\u00e9 Vunge",
         "detail": "0-1"
       },
       {
@@ -15795,7 +15795,7 @@
         "minute": 58,
         "type": "goal",
         "team": "away",
-        "player": "Depú",
+        "player": "Dep\u00fa",
         "assist": null,
         "detail": "0-3"
       },
@@ -15811,7 +15811,7 @@
         "minute": 87,
         "type": "goal",
         "team": "away",
-        "player": "Rúben Adérito",
+        "player": "R\u00faben Ad\u00e9rito",
         "assist": null,
         "detail": "0-1"
       }
@@ -15829,7 +15829,7 @@
         "minute": 72,
         "type": "goal",
         "team": "home",
-        "player": "Tubarão",
+        "player": "Tubar\u00e3o",
         "assist": "Tchube",
         "detail": "2-0"
       }
@@ -15858,8 +15858,8 @@
         "minute": 43,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
-        "assist": "Simão Dianzenza",
+        "player": "Dag\u00f3 Tshibamba",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "1-0"
       }
     ],
@@ -15920,7 +15920,7 @@
         "minute": 40,
         "type": "goal",
         "team": "away",
-        "player": "Bocar Sidibé",
+        "player": "Bocar Sidib\u00e9",
         "assist": "Jorge Carneiro",
         "detail": "0-1"
       },
@@ -15928,7 +15928,7 @@
         "minute": 62,
         "type": "goal",
         "team": "home",
-        "player": "Rúben Adérito",
+        "player": "R\u00faben Ad\u00e9rito",
         "assist": null,
         "detail": "1-0"
       }
@@ -15939,7 +15939,7 @@
         "minute": 50,
         "type": "goal",
         "team": "home",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": null,
         "detail": "1-0"
       },
@@ -15982,7 +15982,7 @@
         "type": "goal",
         "team": "home",
         "player": "Jonilson",
-        "assist": "Gelson André",
+        "assist": "Gelson Andr\u00e9",
         "detail": "2-1"
       },
       {
@@ -16007,7 +16007,7 @@
         "minute": 82,
         "type": "goal",
         "team": "home",
-        "player": "Mussá",
+        "player": "Muss\u00e1",
         "assist": "Sicuba Vunge",
         "detail": "2-0"
       }
@@ -16027,7 +16027,7 @@
         "minute": 80,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": "Calebi",
         "detail": "0-1"
       },
@@ -16035,7 +16035,7 @@
         "minute": 93,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": null,
         "detail": "1-0"
       }
@@ -16071,7 +16071,7 @@
         "minute": 84,
         "type": "goal",
         "team": "home",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": "Mano Calesso",
         "detail": "1-0"
       }
@@ -16081,15 +16081,15 @@
         "minute": 51,
         "type": "goal",
         "team": "home",
-        "player": "Abrão",
-        "assist": "Abrão",
+        "player": "Abr\u00e3o",
+        "assist": "Abr\u00e3o",
         "detail": "1-0"
       },
       {
         "minute": 90,
         "type": "goal",
         "team": "away",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": null,
         "detail": "0-1"
       }
@@ -16117,7 +16117,7 @@
         "minute": 38,
         "type": "goal",
         "team": "away",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": null,
         "detail": "0-1"
       },
@@ -16159,8 +16159,8 @@
         "minute": 72,
         "type": "goal",
         "team": "away",
-        "player": "Depú",
-        "assist": "Hélder Costa",
+        "player": "Dep\u00fa",
+        "assist": "H\u00e9lder Costa",
         "detail": "0-3"
       },
       {
@@ -16175,7 +16175,7 @@
         "minute": 85,
         "type": "goal",
         "team": "away",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": "Jonathan Toro",
         "detail": "0-1"
       }
@@ -16237,8 +16237,8 @@
         "minute": 55,
         "type": "goal",
         "team": "away",
-        "player": "Além",
-        "assist": "Além",
+        "player": "Al\u00e9m",
+        "assist": "Al\u00e9m",
         "detail": "0-1"
       },
       {
@@ -16254,7 +16254,7 @@
         "type": "goal",
         "team": "away",
         "player": "Beni",
-        "assist": "Além",
+        "assist": "Al\u00e9m",
         "detail": "1-2"
       },
       {
@@ -16279,8 +16279,8 @@
         "minute": 93,
         "type": "goal",
         "team": "home",
-        "player": "Tiago Azulão",
-        "assist": "Mário Balbúrdia",
+        "player": "Tiago Azul\u00e3o",
+        "assist": "M\u00e1rio Balb\u00fardia",
         "detail": "1-0"
       }
     ],
@@ -16300,15 +16300,15 @@
         "type": "goal",
         "team": "away",
         "player": "Mabilson",
-        "assist": "Venâncio",
+        "assist": "Ven\u00e2ncio",
         "detail": "1-2"
       },
       {
         "minute": 37,
         "type": "goal",
         "team": "away",
-        "player": "Venâncio",
-        "assist": "Simão Dianzenza",
+        "player": "Ven\u00e2ncio",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "0-1"
       },
       {
@@ -16343,7 +16343,7 @@
         "minute": 35,
         "type": "goal",
         "team": "home",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": "Miranda",
         "detail": "1-0"
       },
@@ -16386,7 +16386,7 @@
         "type": "goal",
         "team": "away",
         "player": "Alberto Xavier",
-        "assist": "José Vunge",
+        "assist": "Jos\u00e9 Vunge",
         "detail": "0-2"
       },
       {
@@ -16394,7 +16394,7 @@
         "type": "goal",
         "team": "away",
         "player": "Daniel Kilola",
-        "assist": "José Vunge",
+        "assist": "Jos\u00e9 Vunge",
         "detail": "0-3"
       }
     ],
@@ -16411,7 +16411,7 @@
         "minute": 52,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": "Odenir Jorge",
         "detail": "1-0"
       }
@@ -16422,8 +16422,8 @@
         "minute": 7,
         "type": "goal",
         "team": "home",
-        "player": "Além",
-        "assist": "Além",
+        "player": "Al\u00e9m",
+        "assist": "Al\u00e9m",
         "detail": "1-0"
       },
       {
@@ -16466,7 +16466,7 @@
         "minute": 21,
         "type": "goal",
         "team": "away",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": "Miranda",
         "detail": "0-1"
       },
@@ -16474,8 +16474,8 @@
         "minute": 37,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
-        "assist": "Venâncio",
+        "player": "Dag\u00f3 Tshibamba",
+        "assist": "Ven\u00e2ncio",
         "detail": "1-0"
       },
       {
@@ -16500,8 +16500,8 @@
         "minute": 24,
         "type": "goal",
         "team": "away",
-        "player": "Rúben Adérito",
-        "assist": "Pedro Aparício",
+        "player": "R\u00faben Ad\u00e9rito",
+        "assist": "Pedro Apar\u00edcio",
         "detail": "0-2"
       }
     ],
@@ -16529,7 +16529,7 @@
         "type": "goal",
         "team": "home",
         "player": "Jaime Caetano",
-        "assist": "Gelson André",
+        "assist": "Gelson Andr\u00e9",
         "detail": "1-0"
       }
     ],
@@ -16547,14 +16547,14 @@
         "type": "goal",
         "team": "home",
         "player": "Chico Papel",
-        "assist": "Lourenço",
+        "assist": "Louren\u00e7o",
         "detail": "1-0"
       },
       {
         "minute": 87,
         "type": "goal",
         "team": "home",
-        "player": "Januário",
+        "player": "Janu\u00e1rio",
         "assist": "Ezequiel",
         "detail": "4-0"
       },
@@ -16563,7 +16563,7 @@
         "type": "goal",
         "team": "home",
         "player": "Ezequiel",
-        "assist": "Januário",
+        "assist": "Janu\u00e1rio",
         "detail": "3-0"
       }
     ],
@@ -16584,7 +16584,7 @@
         "type": "goal",
         "team": "away",
         "player": "Jaime Caetano",
-        "assist": "Gelson André",
+        "assist": "Gelson Andr\u00e9",
         "detail": "0-1"
       },
       {
@@ -16618,14 +16618,14 @@
         "type": "goal",
         "team": "away",
         "player": "Chico Papel",
-        "assist": "Januário",
+        "assist": "Janu\u00e1rio",
         "detail": "2-3"
       },
       {
         "minute": 78,
         "type": "goal",
         "team": "away",
-        "player": "Januário",
+        "player": "Janu\u00e1rio",
         "assist": null,
         "detail": "1-2"
       },
@@ -16634,7 +16634,7 @@
         "type": "goal",
         "team": "home",
         "player": "Kabelo Dlamini",
-        "assist": "Bocar Sidibé",
+        "assist": "Bocar Sidib\u00e9",
         "detail": "1-0"
       },
       {
@@ -16642,7 +16642,7 @@
         "type": "goal",
         "team": "away",
         "player": "Chico Papel",
-        "assist": "Januário",
+        "assist": "Janu\u00e1rio",
         "detail": "0-1"
       }
     ],
@@ -16661,7 +16661,7 @@
         "minute": 49,
         "type": "goal",
         "team": "home",
-        "player": "Simão Gonga",
+        "player": "Sim\u00e3o Gonga",
         "assist": "Odenir Jorge",
         "detail": "3-1"
       },
@@ -16669,7 +16669,7 @@
         "minute": 51,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": "Deco",
         "detail": "1-0"
       },
@@ -16686,7 +16686,7 @@
         "type": "goal",
         "team": "away",
         "player": "Benarfa",
-        "assist": "José Vunge",
+        "assist": "Jos\u00e9 Vunge",
         "detail": "0-1"
       }
     ],
@@ -16696,14 +16696,14 @@
         "type": "goal",
         "team": "home",
         "player": "Lito",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "1-0"
       },
       {
         "minute": 28,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": null,
         "detail": "0-1"
       }
@@ -16724,7 +16724,7 @@
         "type": "goal",
         "team": "home",
         "player": "Arnaldo Dielo",
-        "assist": "Gelson André",
+        "assist": "Gelson Andr\u00e9",
         "detail": "1-0"
       }
     ],
@@ -16735,7 +16735,7 @@
         "minute": 50,
         "type": "goal",
         "team": "home",
-        "player": "Tubarão",
+        "player": "Tubar\u00e3o",
         "assist": null,
         "detail": "2-1"
       },
@@ -16778,7 +16778,7 @@
         "minute": 93,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": "Calebi",
         "detail": "1-0"
       }
@@ -16789,7 +16789,7 @@
         "type": "goal",
         "team": "away",
         "player": "Lito",
-        "assist": "Abrão",
+        "assist": "Abr\u00e3o",
         "detail": "0-1"
       },
       {
@@ -16823,7 +16823,7 @@
         "type": "goal",
         "team": "home",
         "player": "Chico Papel",
-        "assist": "Lourenço",
+        "assist": "Louren\u00e7o",
         "detail": "1-0"
       }
     ],
@@ -16833,14 +16833,14 @@
         "type": "goal",
         "team": "home",
         "player": "Ivan Cavaleiro",
-        "assist": "Hélder Costa",
+        "assist": "H\u00e9lder Costa",
         "detail": "4-0"
       },
       {
         "minute": 62,
         "type": "goal",
         "team": "home",
-        "player": "Hélder Costa",
+        "player": "H\u00e9lder Costa",
         "assist": null,
         "detail": "5-0"
       },
@@ -16848,7 +16848,7 @@
         "minute": 73,
         "type": "goal",
         "team": "home",
-        "player": "Rúben Adérito",
+        "player": "R\u00faben Ad\u00e9rito",
         "assist": null,
         "detail": "6-0"
       },
@@ -16856,7 +16856,7 @@
         "minute": 81,
         "type": "goal",
         "team": "home",
-        "player": "Hélder Costa",
+        "player": "H\u00e9lder Costa",
         "assist": "Eddie Afonso",
         "detail": "3-0"
       },
@@ -16865,14 +16865,14 @@
         "type": "goal",
         "team": "home",
         "player": "Jonathan Toro",
-        "assist": "Mário Balbúrdia",
+        "assist": "M\u00e1rio Balb\u00fardia",
         "detail": "2-0"
       },
       {
         "minute": 84,
         "type": "goal",
         "team": "home",
-        "player": "Depú",
+        "player": "Dep\u00fa",
         "assist": null,
         "detail": "1-0"
       }
@@ -16883,7 +16883,7 @@
         "minute": 36,
         "type": "goal",
         "team": "home",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": null,
         "detail": "1-0"
       }
@@ -16901,7 +16901,7 @@
         "minute": 89,
         "type": "goal",
         "team": "away",
-        "player": "Mussá",
+        "player": "Muss\u00e1",
         "assist": "Vado",
         "detail": "0-2"
       }
@@ -16949,7 +16949,7 @@
         "minute": 23,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": null,
         "detail": "1-0"
       },
@@ -16967,7 +16967,7 @@
         "minute": 8,
         "type": "goal",
         "team": "home",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": "Paty",
         "detail": "1-0"
       },
@@ -17010,7 +17010,7 @@
         "type": "goal",
         "team": "home",
         "player": "Cavalo",
-        "assist": "Januário",
+        "assist": "Janu\u00e1rio",
         "detail": "2-0"
       }
     ],
@@ -17028,7 +17028,7 @@
         "type": "goal",
         "team": "home",
         "player": "Afonso",
-        "assist": "Kadú",
+        "assist": "Kad\u00fa",
         "detail": "2-1"
       },
       {
@@ -17043,7 +17043,7 @@
         "minute": 24,
         "type": "goal",
         "team": "away",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": null,
         "detail": "0-1"
       },
@@ -17051,16 +17051,16 @@
         "minute": 30,
         "type": "goal",
         "team": "away",
-        "player": "Depú",
-        "assist": "Hélder Costa",
+        "player": "Dep\u00fa",
+        "assist": "H\u00e9lder Costa",
         "detail": "2-3"
       },
       {
         "minute": 69,
         "type": "goal",
         "team": "away",
-        "player": "Hélder Costa",
-        "assist": "Hélder Costa",
+        "player": "H\u00e9lder Costa",
+        "assist": "H\u00e9lder Costa",
         "detail": "2-5"
       },
       {
@@ -17077,7 +17077,7 @@
         "minute": 79,
         "type": "goal",
         "team": "away",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": null,
         "detail": "0-1"
       }
@@ -17096,7 +17096,7 @@
         "type": "goal",
         "team": "away",
         "player": "Kaporal",
-        "assist": "Bocar Sidibé",
+        "assist": "Bocar Sidib\u00e9",
         "detail": "0-1"
       }
     ],
@@ -17132,7 +17132,7 @@
         "type": "goal",
         "team": "home",
         "player": "Alberto Xavier",
-        "assist": "José Vunge",
+        "assist": "Jos\u00e9 Vunge",
         "detail": "2-0"
       },
       {
@@ -17148,14 +17148,14 @@
         "type": "goal",
         "team": "home",
         "player": "Mankoka Afonso",
-        "assist": "José Vunge",
+        "assist": "Jos\u00e9 Vunge",
         "detail": "4-0"
       },
       {
         "minute": 80,
         "type": "goal",
         "team": "home",
-        "player": "José Vunge",
+        "player": "Jos\u00e9 Vunge",
         "assist": "Saombe Jorge",
         "detail": "3-0"
       }
@@ -17165,7 +17165,7 @@
         "minute": 22,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": "Calebi",
         "detail": "0-1"
       },
@@ -17182,7 +17182,7 @@
         "type": "goal",
         "team": "away",
         "player": "Rupson",
-        "assist": "Venâncio",
+        "assist": "Ven\u00e2ncio",
         "detail": "0-3"
       }
     ],
@@ -17199,16 +17199,16 @@
         "minute": 74,
         "type": "goal",
         "team": "home",
-        "player": "Depú",
-        "assist": "Pedro Aparício",
+        "player": "Dep\u00fa",
+        "assist": "Pedro Apar\u00edcio",
         "detail": "3-0"
       },
       {
         "minute": 93,
         "type": "goal",
         "team": "home",
-        "player": "Tiago Azulão",
-        "assist": "Pedro Aparício",
+        "player": "Tiago Azul\u00e3o",
+        "assist": "Pedro Apar\u00edcio",
         "detail": "1-0"
       }
     ],
@@ -17217,7 +17217,7 @@
         "minute": 25,
         "type": "goal",
         "team": "away",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": "Paty",
         "detail": "0-1"
       },
@@ -17225,8 +17225,8 @@
         "minute": 62,
         "type": "goal",
         "team": "home",
-        "player": "Bocar Sidibé",
-        "assist": "Bocar Sidibé",
+        "player": "Bocar Sidib\u00e9",
+        "assist": "Bocar Sidib\u00e9",
         "detail": "2-1"
       },
       {
@@ -17261,7 +17261,7 @@
         "minute": 58,
         "type": "goal",
         "team": "home",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": null,
         "detail": "1-0"
       },
@@ -17311,7 +17311,7 @@
         "minute": 68,
         "type": "goal",
         "team": "home",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": null,
         "detail": "1-0"
       }
@@ -17341,7 +17341,7 @@
         "minute": 26,
         "type": "goal",
         "team": "away",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": null,
         "detail": "0-1"
       },
@@ -17349,8 +17349,8 @@
         "minute": 53,
         "type": "goal",
         "team": "away",
-        "player": "Pedro Aparício",
-        "assist": "Mário Balbúrdia",
+        "player": "Pedro Apar\u00edcio",
+        "assist": "M\u00e1rio Balb\u00fardia",
         "detail": "0-2"
       }
     ],
@@ -17361,7 +17361,7 @@
         "minute": 50,
         "type": "goal",
         "team": "away",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": null,
         "detail": "0-1"
       },
@@ -17380,7 +17380,7 @@
         "type": "goal",
         "team": "away",
         "player": "Bello Lukman",
-        "assist": "Bocar Sidibé",
+        "assist": "Bocar Sidib\u00e9",
         "detail": "1-2"
       },
       {
@@ -17396,7 +17396,7 @@
         "type": "goal",
         "team": "away",
         "player": "Kaporal",
-        "assist": "Bocar Sidibé",
+        "assist": "Bocar Sidib\u00e9",
         "detail": "0-1"
       }
     ],
@@ -17423,7 +17423,7 @@
         "minute": 25,
         "type": "goal",
         "team": "away",
-        "player": "Moisés",
+        "player": "Mois\u00e9s",
         "assist": null,
         "detail": "0-1"
       }
@@ -17441,7 +17441,7 @@
         "minute": 65,
         "type": "goal",
         "team": "home",
-        "player": "Mussá",
+        "player": "Muss\u00e1",
         "assist": "Platini",
         "detail": "2-0"
       },
@@ -17515,7 +17515,7 @@
         "type": "goal",
         "team": "home",
         "player": "Kaporal",
-        "assist": "Bocar Sidibé",
+        "assist": "Bocar Sidib\u00e9",
         "detail": "1-0"
       }
     ],
@@ -17540,7 +17540,7 @@
         "minute": 88,
         "type": "goal",
         "team": "home",
-        "player": "Tubarão",
+        "player": "Tubar\u00e3o",
         "assist": null,
         "detail": "2-0"
       }
@@ -17568,7 +17568,7 @@
         "minute": 30,
         "type": "goal",
         "team": "away",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": null,
         "detail": "0-1"
       },
@@ -17587,14 +17587,14 @@
         "type": "goal",
         "team": "home",
         "player": "Chico Papel",
-        "assist": "Januário",
+        "assist": "Janu\u00e1rio",
         "detail": "1-0"
       },
       {
         "minute": 52,
         "type": "goal",
         "team": "away",
-        "player": "Tiago Azulão",
+        "player": "Tiago Azul\u00e3o",
         "assist": "Jonathan Toro",
         "detail": "0-1"
       }
@@ -17624,7 +17624,7 @@
         "minute": 71,
         "type": "goal",
         "team": "home",
-        "player": "Além",
+        "player": "Al\u00e9m",
         "assist": "Mano Calesso",
         "detail": "1-0"
       },
@@ -17660,7 +17660,7 @@
         "minute": 87,
         "type": "goal",
         "team": "away",
-        "player": "Dagó Tshibamba",
+        "player": "Dag\u00f3 Tshibamba",
         "assist": "Calebi",
         "detail": "0-1"
       }
@@ -17728,7 +17728,7 @@
         "type": "goal",
         "team": "home",
         "player": "Fernando",
-        "assist": "Simão Dianzenza",
+        "assist": "Sim\u00e3o Dianzenza",
         "detail": "1-0"
       }
     ],
@@ -17737,7 +17737,7 @@
         "minute": 8,
         "type": "goal",
         "team": "home",
-        "player": "Pimpão",
+        "player": "Pimp\u00e3o",
         "assist": "Cahilo",
         "detail": "1-0"
       },
@@ -17804,12 +17804,12 @@
       "teamId": "wiliete"
     },
     {
-      "name": "Dagó Tshibamba",
+      "name": "Dag\u00f3 Tshibamba",
       "goals": 21,
       "teamId": "dago"
     },
     {
-      "name": "Além",
+      "name": "Al\u00e9m",
       "goals": 20,
       "teamId": "interclube"
     },
@@ -17834,7 +17834,7 @@
       "teamId": "kabuscorp"
     },
     {
-      "name": "Moisés",
+      "name": "Mois\u00e9s",
       "goals": 16,
       "teamId": "primeiromaio"
     },
@@ -17844,7 +17844,7 @@
       "teamId": "desphuila"
     },
     {
-      "name": "Tiago Azulão",
+      "name": "Tiago Azul\u00e3o",
       "goals": 16,
       "teamId": "petro"
     },
@@ -17854,7 +17854,7 @@
       "teamId": "saosalvador"
     },
     {
-      "name": "Pimpão",
+      "name": "Pimp\u00e3o",
       "goals": 15,
       "teamId": "sagrada"
     },
@@ -17914,7 +17914,7 @@
       "teamId": "interclube"
     },
     {
-      "name": "Depú",
+      "name": "Dep\u00fa",
       "goals": 7,
       "teamId": "petro"
     },
@@ -17929,7 +17929,7 @@
       "teamId": "guelson"
     },
     {
-      "name": "Bocar Sidibé",
+      "name": "Bocar Sidib\u00e9",
       "goals": 6,
       "teamId": "wiliete"
     },
@@ -17969,17 +17969,17 @@
       "teamId": "saosalvador"
     },
     {
-      "name": "Tubarão",
+      "name": "Tubar\u00e3o",
       "goals": 5,
       "teamId": "libolo"
     },
     {
-      "name": "Hélder Costa",
+      "name": "H\u00e9lder Costa",
       "goals": 5,
       "teamId": "petro"
     },
     {
-      "name": "Rúben Adérito",
+      "name": "R\u00faben Ad\u00e9rito",
       "goals": 5,
       "teamId": "petro"
     },
@@ -18029,7 +18029,7 @@
       "teamId": "desphuila"
     },
     {
-      "name": "Pedro Aparício",
+      "name": "Pedro Apar\u00edcio",
       "goals": 3,
       "teamId": "petro"
     },
@@ -18044,17 +18044,17 @@
       "teamId": "primeiromaio"
     },
     {
-      "name": "Januário",
+      "name": "Janu\u00e1rio",
       "goals": 3,
       "teamId": "lobito"
     },
     {
-      "name": "Abrão",
+      "name": "Abr\u00e3o",
       "goals": 3,
       "teamId": "bravos"
     },
     {
-      "name": "Venâncio",
+      "name": "Ven\u00e2ncio",
       "goals": 3,
       "teamId": "dago"
     },
@@ -18064,7 +18064,7 @@
       "teamId": "sagrada"
     },
     {
-      "name": "Mussá",
+      "name": "Muss\u00e1",
       "goals": 3,
       "teamId": "lundasul"
     },
@@ -18184,7 +18184,7 @@
       "teamId": "lundasul"
     },
     {
-      "name": "Kadú",
+      "name": "Kad\u00fa",
       "goals": 1,
       "teamId": "redonda"
     },
@@ -18219,12 +18219,12 @@
       "teamId": "saosalvador"
     },
     {
-      "name": "Simão Gonga",
+      "name": "Sim\u00e3o Gonga",
       "goals": 1,
       "teamId": "primeiromaio"
     },
     {
-      "name": "José Vunge",
+      "name": "Jos\u00e9 Vunge",
       "goals": 1,
       "teamId": "kabuscorp"
     },
@@ -18251,7 +18251,7 @@
       "teamId": "interclube"
     },
     {
-      "name": "Abrão",
+      "name": "Abr\u00e3o",
       "assists": 11,
       "teamId": "bravos"
     },
@@ -18261,7 +18261,7 @@
       "teamId": "bravos"
     },
     {
-      "name": "Simão Dianzenza",
+      "name": "Sim\u00e3o Dianzenza",
       "assists": 11,
       "teamId": "dago"
     },
@@ -18286,7 +18286,7 @@
       "teamId": "wiliete"
     },
     {
-      "name": "Gelson André",
+      "name": "Gelson Andr\u00e9",
       "assists": 9,
       "teamId": "luanda-city"
     },
@@ -18296,17 +18296,17 @@
       "teamId": "dago"
     },
     {
-      "name": "José Vunge",
+      "name": "Jos\u00e9 Vunge",
       "assists": 9,
       "teamId": "kabuscorp"
     },
     {
-      "name": "Bocar Sidibé",
+      "name": "Bocar Sidib\u00e9",
       "assists": 9,
       "teamId": "wiliete"
     },
     {
-      "name": "Januário",
+      "name": "Janu\u00e1rio",
       "assists": 8,
       "teamId": "lobito"
     },
@@ -18331,7 +18331,7 @@
       "teamId": "dago"
     },
     {
-      "name": "Pedro Aparício",
+      "name": "Pedro Apar\u00edcio",
       "assists": 8,
       "teamId": "petro"
     },
@@ -18341,7 +18341,7 @@
       "teamId": "wiliete"
     },
     {
-      "name": "Mário Balbúrdia",
+      "name": "M\u00e1rio Balb\u00fardia",
       "assists": 7,
       "teamId": "petro"
     },
@@ -18356,7 +18356,7 @@
       "teamId": "saosalvador"
     },
     {
-      "name": "Venâncio",
+      "name": "Ven\u00e2ncio",
       "assists": 7,
       "teamId": "dago"
     },
@@ -18381,7 +18381,7 @@
       "teamId": "luanda-city"
     },
     {
-      "name": "Hélder Costa",
+      "name": "H\u00e9lder Costa",
       "assists": 6,
       "teamId": "petro"
     },
@@ -18406,7 +18406,7 @@
       "teamId": "lobito"
     },
     {
-      "name": "Além",
+      "name": "Al\u00e9m",
       "assists": 5,
       "teamId": "interclube"
     },
@@ -18441,12 +18441,12 @@
       "teamId": "lundasul"
     },
     {
-      "name": "Lourenço",
+      "name": "Louren\u00e7o",
       "assists": 3,
       "teamId": "lobito"
     },
     {
-      "name": "Kadú",
+      "name": "Kad\u00fa",
       "assists": 3,
       "teamId": "redonda"
     },

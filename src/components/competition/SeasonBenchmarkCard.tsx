@@ -129,7 +129,7 @@ export default function SeasonBenchmarkCard({ currentMatches }: SeasonBenchmarkC
       <div className="mt-5 pt-3 border-t border-zinc-200/60 dark:border-zinc-800/60 flex items-center gap-2 text-[11px] text-zinc-500 font-mono">
         <Info size={13} className="text-primary flex-shrink-0" />
         <span>
-          A época 2025/2026 consolidou 515 golos, 51.4′ de tempo útil médio e 45.4% de vitórias caseiras, constituindo o padrão oficial da ANCAF para aferição de progresso no Girabola.
+          A época 2025/2026 consolidou 515 golos oficiais (2.15 g/j), 109 vitórias caseiras (45.4%) e 68 empates em 240 partidas homologadas, constituindo o padrão oficial apurado para aferição de progresso desportivo no Girabola.
         </span>
       </div>
     </AnimatedCard>

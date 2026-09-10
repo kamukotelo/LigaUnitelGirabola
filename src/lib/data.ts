@@ -333,6 +333,16 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: '2026-09-10T12:08:00+01:00',
   },
+  // 4.ª jornada · 10/09/2026 · Estádio 22 de Junho (em direto / temporário)
+  'm27-4-7': {
+    homeScore: 2,
+    awayScore: 0,
+    score: '2-0',
+    halfTimeScore: '2-0',
+    status: 'live',
+    liveMinute: 77,
+    updatedAt: '2026-09-10T17:10:00+01:00',
+  },
 };
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
@@ -4094,6 +4104,12 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 93, type: 'yellow', team: 'home', player: 'Cristiano Malonda', number: 8, playerId: 'cristiano-cabinda', detail: 'Falta temerária' },
   ];
 
+  // 4.ª jornada · 10/09/2026 · GD Interclube 2-0 Académica do Lobito (em direto / temporário)
+  if (match.id === 'm27-4-7') return [
+    { minute: 26, type: 'goal', team: 'home', player: 'Patrick Banza', number: 7, playerId: 'patrick-banza-interclube', detail: "26' (1-0)" },
+    { minute: 39, type: 'goal', team: 'home', player: 'Pedro Manuel', detail: "39' (2-0)" },
+  ];
+
   // Ficha oficial de arbitragem (Match No. 18 · 31/08/2026 · Estádio da Tundavala, Huíla).
   if (match.id === 'm27-3-2') return [
     { minute: 42, type: 'yellow', team: 'home', player: 'Elias Daniel' },
@@ -4483,6 +4499,7 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-3-1': { home: { yellowCards: 3, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-3-4': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-4-5': { home: { yellowCards: 4, redCards: 0 }, away: { yellowCards: 1, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-4-7': { home: { corners: 4, yellowCards: 2, redCards: 0 }, away: { corners: 4, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
 };
 
 /**

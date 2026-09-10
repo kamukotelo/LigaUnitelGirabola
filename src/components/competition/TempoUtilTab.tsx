@@ -77,13 +77,13 @@ export default function TempoUtilTab({ seasonId }: { seasonId: string }) {
           <div>
             <h4 className="font-display text-sm uppercase tracking-wider text-foreground font-bold">
               {isBaselineSeason
-                ? 'Consolidado Oficial de Tempo Útil — Girabola 2025/2026'
-                : 'Aferição de Tempo Útil vs Métrica Base'}
+                ? 'Tempo Útil de Jogo — Girabola 2025/2026'
+                : 'Aferição de Tempo Efetivo de Jogo (2026/2027)'}
             </h4>
             <p className="text-xs text-zinc-500 font-mono">
               {isBaselineSeason
-                ? 'Média consolidada da época anterior (51.4′ em 240 jogos) — Padrão oficial ANCAF.'
-                : `Comparativo com a métrica base de 2025/26 (${SEASON_2025_26_BASELINE.averageUsefulTime}′). Meta ANCAF: tempo útil superior a 52 minutos.`}
+                ? 'Medições apuradas a partir das fichas oficiais da época transata.'
+                : 'Medições cronometradas e apuradas estritamente a partir das fichas oficiais homologadas.'}
             </p>
           </div>
         </div>
