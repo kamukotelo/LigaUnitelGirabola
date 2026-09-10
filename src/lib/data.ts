@@ -896,9 +896,86 @@ const STANDINGS_ORDER_INDEX = new Map<string, number>(
   STANDINGS_ORDER_2026_27.map((teamId, index) => [teamId, index]),
 );
 
-export type StandingsVenue = 'all' | 'home' | 'away';
+export type StandingsVenue = 'all' | 'home' | 'away' | 'form5';
+
+export function computeFormStandings(matches: Match[], lastN = 5): StandingEntry[] {
+  const participants = new Map<string, string>();
+  for (const match of matches) {
+    participants.set(match.homeTeamId, getTeamFullName(match.homeTeamId, match.homeTeam));
+    participants.set(match.awayTeamId, getTeamFullName(match.awayTeamId, match.awayTeam));
+  }
+
+  const finished = matches
+    .filter((m) => m.status === 'finished')
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  const entries: StandingEntry[] = [];
+
+  for (const [teamId, teamName] of participants) {
+    const teamMatches = finished.filter((m) => m.homeTeamId === teamId || m.awayTeamId === teamId);
+    const recent = teamMatches.slice(-lastN);
+
+    let won = 0;
+    let drawn = 0;
+    let lost = 0;
+    let goalsFor = 0;
+    let goalsAgainst = 0;
+    let points = 0;
+    const form: ('W' | 'D' | 'L')[] = [];
+
+    for (const m of recent) {
+      const isHome = m.homeTeamId === teamId;
+      const gf = isHome ? m.homeScore : m.awayScore;
+      const ga = isHome ? m.awayScore : m.homeScore;
+      goalsFor += gf;
+      goalsAgainst += ga;
+
+      if (gf > ga) {
+        won++;
+        points += 3;
+        form.push('W');
+      } else if (gf < ga) {
+        lost++;
+        form.push('L');
+      } else {
+        drawn++;
+        points += 1;
+        form.push('D');
+      }
+    }
+
+    entries.push({
+      position: 0,
+      teamId,
+      teamName,
+      played: recent.length,
+      won,
+      drawn,
+      lost,
+      goalsFor,
+      goalsAgainst,
+      goalDifference: goalsFor - goalsAgainst,
+      points,
+      form,
+    });
+  }
+
+  return entries
+    .sort((a, b) =>
+      b.points - a.points ||
+      b.goalDifference - a.goalDifference ||
+      b.goalsFor - a.goalsFor ||
+      (STANDINGS_ORDER_INDEX.get(a.teamId) ?? Number.MAX_SAFE_INTEGER) -
+        (STANDINGS_ORDER_INDEX.get(b.teamId) ?? Number.MAX_SAFE_INTEGER) ||
+      a.teamName.localeCompare(b.teamName))
+    .map((e, i) => ({ ...e, position: i + 1 }));
+}
 
 export function computeStandings(matches: Match[], venue: StandingsVenue = 'all'): StandingEntry[] {
+  if (venue === 'form5') {
+    return computeFormStandings(matches, 5);
+  }
+
   const acc = new Map<string, Omit<StandingEntry, 'position' | 'goalDifference' | 'form'> & { _matches: Match[] }>();
   const participants = new Map<string, string>();
   for (const match of matches) {

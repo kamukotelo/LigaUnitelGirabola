@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Flame, Award, Shield, AlertTriangle, CheckCircle2, Clock3 } from 'lucide-react';
-import { CURRENT_SEASON_SCORERS, getSeasonResultsUpdatedAt, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonGoalReconciliation, getCurrentSeasonDiscipline, getCurrentSeasonAssists, getCurrentSeasonCleanSheets, getCurrentSeasonMinutesPlayed, getCurrentSeasonMinutesCoverage, getMatchesForSeason, getTeamFullName } from '@/lib/data';
+import { Flame, Award, Shield, AlertTriangle, CheckCircle2, Clock3, Filter } from 'lucide-react';
+import { CURRENT_SEASON_SCORERS, getSeasonResultsUpdatedAt, UPCOMING_SEASON_ID, getPlayers, getCurrentSeasonCardReconciliation, getCurrentSeasonGoalReconciliation, getCurrentSeasonDiscipline, getCurrentSeasonAssists, getCurrentSeasonCleanSheets, getCurrentSeasonMinutesPlayed, getCurrentSeasonMinutesCoverage, getMatchesForSeason, getTeamFullName, getAllTeams } from '@/lib/data';
 import {
   HISTORICAL_SCORERS_2025_26,
   HISTORICAL_ASSISTS_2025_26,
@@ -59,9 +59,12 @@ const VALUE_LABELS: Record<StatTab, string> = {
 
 export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   const [activeTab, setActiveTab] = useState<StatTab>('scorers');
+  const [filterTeam, setFilterTeam] = useState<string>('all');
+  const [filterPosition, setFilterPosition] = useState<string>('all');
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const allPlayers = getPlayers();
+  const allTeams = getAllTeams();
   const currentSeasonAssists = getCurrentSeasonAssists();
   const seasonHasStarted = getMatchesForSeason(seasonId).some((match) => match.status === 'finished' || match.status === 'live');
 
@@ -251,9 +254,23 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   const cardReconciliation = getCurrentSeasonCardReconciliation();
   const goalReconciliation = getCurrentSeasonGoalReconciliation();
 
-  const maxStatValue = displayPlayers.length > 0 ? Math.max(...displayPlayers.map((p) => p.value)) : 1;
+  const filteredPlayers = useMemo(() => {
+    return displayPlayers.filter((player) => {
+      const matchTeam = filterTeam === 'all' || player.teamId === filterTeam;
+      if (!matchTeam) return false;
+      if (filterPosition === 'all') return true;
+      const pos = (player.position || '').toLowerCase();
+      if (filterPosition === 'GR') return pos.includes('guarda') || pos.includes('gr');
+      if (filterPosition === 'DEF') return pos.includes('def');
+      if (filterPosition === 'MED') return pos.includes('médio') || pos.includes('medio');
+      if (filterPosition === 'AVA') return pos.includes('avan');
+      return true;
+    });
+  }, [displayPlayers, filterTeam, filterPosition]);
 
-  const leaderPlayer = displayPlayers[0];
+  const maxStatValue = filteredPlayers.length > 0 ? Math.max(...filteredPlayers.map((p) => p.value)) : 1;
+
+  const leaderPlayer = filteredPlayers[0];
   const leaderPlayerDetails = leaderPlayer ? allPlayers.find((p) => p.id === leaderPlayer.id) : null;
 
   const currentSeasonAvailability = [
@@ -306,7 +323,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       <SeasonComparisonMatrix />
 
       {/* Sub-abas de métricas */}
-      <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 max-w-3xl overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-6 max-w-3xl overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {STAT_TABS.map((t) => (
           <button
             key={t.key}
@@ -320,6 +337,51 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             {t.label}
           </button>
         ))}
+      </div>
+
+      {/* Filtros de Clube e Posição */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 max-w-4xl">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase text-zinc-500 font-bold">
+            <Filter size={14} className="text-accent" />
+            <span>Filtrar:</span>
+          </div>
+
+          <select
+            value={filterTeam}
+            onChange={(e) => setFilterTeam(e.target.value)}
+            className="rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-800 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-accent"
+          >
+            <option value="all">Todos os Clubes ({allTeams.length})</option>
+            {allTeams.map((team) => (
+              <option key={team.id} value={team.id}>
+                {team.shortName || team.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-1.5">
+          {[
+            { key: 'all', label: 'Todas Posições' },
+            { key: 'GR', label: 'Guarda-Redes' },
+            { key: 'DEF', label: 'Defesas' },
+            { key: 'MED', label: 'Médios' },
+            { key: 'AVA', label: 'Avançados' },
+          ].map((pos) => (
+            <button
+              key={pos.key}
+              onClick={() => setFilterPosition(pos.key)}
+              className={`px-3 py-1 rounded-lg text-xs font-mono uppercase transition-colors ${
+                filterPosition === pos.key
+                  ? 'bg-accent text-zinc-950 font-bold shadow-sm'
+                  : 'bg-zinc-200/60 dark:bg-zinc-800/60 text-zinc-600 dark:text-zinc-400 hover:text-foreground'
+              }`}
+            >
+              {pos.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Season Preparation Banner */}
@@ -398,91 +460,103 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         <div className="lg:col-span-2 space-y-4">
           <AnimatePresence mode="wait">
             <motion.div
-              key={`${seasonId}-${activeTab}`}
+              key={`${seasonId}-${activeTab}-${filterTeam}-${filterPosition}`}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
               className="space-y-4"
             >
-              {displayPlayers.map((player, idx) => {
-                const rank = displayPlayers.filter((candidate) => candidate.value > player.value).length + 1;
-                const isLeader = rank === 1 && player.value > 0 && seasonHasStarted;
-                const percent = maxStatValue > 0 ? Math.round((player.value / maxStatValue) * 100) : 0;
-
-                return (
-                  <AnimatedCard
-                    key={player.id}
-                    variant={isLeader ? 'holographic' : 'hud'}
-                    className="bg-zinc-100/30 dark:bg-zinc-950/30 border-zinc-200/60 dark:border-zinc-900/60 p-6 flex flex-col md:flex-row md:items-center justify-between gap-6"
+              {filteredPlayers.length === 0 ? (
+                <div className="p-8 text-center rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-800 text-zinc-500 font-mono text-xs">
+                  Nenhum jogador encontrado com os filtros selecionados.
+                  <button
+                    onClick={() => { setFilterTeam('all'); setFilterPosition('all'); }}
+                    className="mt-3 block mx-auto text-accent underline hover:opacity-80"
                   >
+                    Limpar filtros
+                  </button>
+                </div>
+              ) : (
+                filteredPlayers.map((player, idx) => {
+                  const rank = filteredPlayers.filter((candidate) => candidate.value > player.value).length + 1;
+                  const isLeader = rank === 1 && player.value > 0 && seasonHasStarted;
+                  const percent = maxStatValue > 0 ? Math.round((player.value / maxStatValue) * 100) : 0;
 
-                    {/* Rank, Name, Logo & Club */}
-                    <div className="flex items-center gap-4 min-w-0 md:min-w-[250px] w-full md:w-auto">
-                      <span className={`text-2xl font-display font-black w-8 text-center flex-shrink-0 ${
-                        isLeader ? 'text-accent animate-pulse' : 'text-zinc-600'
-                      }`}>
-                        {rank}
-                      </span>
-                      <TeamCrest teamId={player.teamId} size={48} className="filter drop-shadow-[0_0_6px_rgba(255,255,255,0.08)]" />
-                      <div className="min-w-0">
-                        <h3 className="text-foreground font-bold uppercase text-sm flex items-center gap-2 truncate">
-                          {player.hasProfile === false ? player.name : (
-                            <Link href={`/players/${player.id}`} className="hover:text-primary transition-colors truncate">{player.name}</Link>
-                          )}
-                          {isLeader && (
-                            <span className="text-[9px] font-mono bg-accent/20 text-accent border border-accent/40 px-2 py-0.5 rounded-full uppercase flex-shrink-0">
-                              {displayPlayers.filter((candidate) => candidate.value === player.value).length > 1 ? 'Liderança partilhada' : 'Líder'}
-                            </span>
-                          )}
-                        </h3>
-                        <p className="text-xs text-zinc-500 font-mono flex items-center gap-1.5 mt-0.5 truncate">
-                          <Shield size={10} className="text-zinc-600 flex-shrink-0" />
-                          {player.club} · {player.position}
+                  return (
+                    <AnimatedCard
+                      key={player.id}
+                      variant={isLeader ? 'holographic' : 'hud'}
+                      className="bg-zinc-100/30 dark:bg-zinc-950/30 border-zinc-200/60 dark:border-zinc-900/60 p-6 flex flex-col md:flex-row md:items-center justify-between gap-6"
+                    >
+
+                      {/* Rank, Name, Logo & Club */}
+                      <div className="flex items-center gap-4 min-w-0 md:min-w-[250px] w-full md:w-auto">
+                        <span className={`text-2xl font-display font-black w-8 text-center flex-shrink-0 ${
+                          isLeader ? 'text-accent animate-pulse' : 'text-zinc-600'
+                        }`}>
+                          {rank}
+                        </span>
+                        <TeamCrest teamId={player.teamId} size={48} className="filter drop-shadow-[0_0_6px_rgba(255,255,255,0.08)]" />
+                        <div className="min-w-0">
+                          <h3 className="text-foreground font-bold uppercase text-sm flex items-center gap-2 truncate">
+                            {player.hasProfile === false ? player.name : (
+                              <Link href={`/players/${player.id}`} className="hover:text-primary transition-colors truncate">{player.name}</Link>
+                            )}
+                            {isLeader && (
+                              <span className="text-[9px] font-mono bg-accent/20 text-accent border border-accent/40 px-2 py-0.5 rounded-full uppercase flex-shrink-0">
+                                {filteredPlayers.filter((candidate) => candidate.value === player.value).length > 1 ? 'Liderança partilhada' : 'Líder'}
+                              </span>
+                            )}
+                          </h3>
+                          <p className="text-xs text-zinc-500 font-mono flex items-center gap-1.5 mt-0.5 truncate">
+                            <Shield size={10} className="text-zinc-600 flex-shrink-0" />
+                            {player.club} · {player.position}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Progress Bar Meter */}
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center text-[10px] font-mono text-zinc-500 mb-1.5 uppercase">
+                          <span>{seasonHasStarted ? 'Percentual sobre líder' : 'Inicializado'}</span>
+                          <span>{seasonHasStarted ? `${percent}%` : '0%'}</span>
+                        </div>
+                        <div className="w-full h-2 bg-white/80 dark:bg-zinc-900/80 rounded-full border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden relative">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: seasonHasStarted ? `${percent}%` : '0%' }}
+                            transition={{ duration: 0.8, ease: 'easeOut', delay: idx * 0.05 }}
+                            className={`h-full rounded-full ${
+                              isLeader
+                                ? 'bg-gradient-to-r from-primary to-accent'
+                                : 'bg-primary'
+                            }`}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Score Value Display */}
+                      <div className="text-center md:text-right pl-4 min-w-[80px]">
+                        <span className={`${activeTab === 'minutes' ? 'text-3xl' : 'text-4xl'} font-display font-black tracking-tighter ${
+                          isLeader ? 'text-accent' : 'text-foreground'
+                        }`}>
+                          {activeTab === 'minutes' ? player.value.toLocaleString('pt-AO') : player.value}
+                        </span>
+                        <p className="text-[9px] font-mono text-zinc-500 uppercase mt-0.5">
+                          {VALUE_LABELS[activeTab]}
                         </p>
+                        {player.secondaryValue !== undefined && (
+                          <p className="text-[8px] font-mono text-zinc-400 mt-0.5">
+                            {player.secondaryLabel}: {player.secondaryValue}
+                          </p>
+                        )}
                       </div>
-                    </div>
 
-                    {/* Progress Bar Meter */}
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center text-[10px] font-mono text-zinc-500 mb-1.5 uppercase">
-                        <span>{seasonHasStarted ? 'Percentual sobre líder' : 'Inicializado'}</span>
-                        <span>{seasonHasStarted ? `${percent}%` : '0%'}</span>
-                      </div>
-                      <div className="w-full h-2 bg-white/80 dark:bg-zinc-900/80 rounded-full border border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden relative">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: seasonHasStarted ? `${percent}%` : '0%' }}
-                          transition={{ duration: 0.8, ease: 'easeOut', delay: idx * 0.05 }}
-                          className={`h-full rounded-full ${
-                            isLeader
-                              ? 'bg-gradient-to-r from-primary to-accent'
-                              : 'bg-primary'
-                          }`}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Score Value Display */}
-                    <div className="text-center md:text-right pl-4 min-w-[80px]">
-                      <span className={`${activeTab === 'minutes' ? 'text-3xl' : 'text-4xl'} font-display font-black tracking-tighter ${
-                        isLeader ? 'text-accent' : 'text-foreground'
-                      }`}>
-                        {activeTab === 'minutes' ? player.value.toLocaleString('pt-AO') : player.value}
-                      </span>
-                      <p className="text-[9px] font-mono text-zinc-500 uppercase mt-0.5">
-                        {VALUE_LABELS[activeTab]}
-                      </p>
-                      {player.secondaryValue !== undefined && (
-                        <p className="text-[8px] font-mono text-zinc-400 mt-0.5">
-                          {player.secondaryLabel}: {player.secondaryValue}
-                        </p>
-                      )}
-                    </div>
-
-                  </AnimatedCard>
-                );
-              })}
+                    </AnimatedCard>
+                  );
+                })
+              )}
             </motion.div>
           </AnimatePresence>
         </div>

@@ -1,23 +1,79 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Trophy, Target, CalendarDays, Flag, Tv, X } from 'lucide-react';
+import { Trophy, Target, CalendarDays, Flag, Tv, X, Filter, Sparkles, MapPin } from 'lucide-react';
 import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
 type StatusFilter = 'all' | 'finished' | 'live' | 'scheduled';
+export type MatchTypeFilter = 'all' | 'classicos' | 'derbis_luanda' | 'derbis_benguela' | 'derbi_leste';
+
 type CalendarFilters = {
   seasonId: string;
   selectedRound: number | 'all';
   filterStatus: StatusFilter;
   filterTeam: string;
   filterMonth: string;
+  filterHighlight: MatchTypeFilter;
+  filterProvince: string;
 };
+
+export const TEAM_PROVINCES: Record<string, string> = {
+  petro: 'Luanda',
+  dago: 'Luanda',
+  interclube: 'Luanda',
+  kabuscorp: 'Luanda',
+  fcluanda: 'Luanda',
+  'luanda-city': 'Luanda',
+  guelson: 'Luanda',
+  redonda: 'Luanda',
+  wiliete: 'Benguela',
+  lobito: 'Benguela',
+  primeiromaio: 'Benguela',
+  'isaac-benguela': 'Benguela',
+  'sporting-benguela': 'Benguela',
+  desphuila: 'Huíla',
+  caala: 'Huambo',
+  sagrada: 'Lunda-Norte',
+  lundasul: 'Lunda-Sul',
+  bravos: 'Moxico',
+  saosalvador: 'Zaire',
+  cabinda: 'Cabinda',
+  'sporting-cabinda': 'Cabinda',
+  libolo: 'Cuanza-Sul',
+  'santa-rita': 'Uíge',
+  carmona: 'Uíge',
+  'ask-dragao': 'Uíge',
+  'uniao-malanje': 'Malanje',
+};
+
+export function isClassicMatch(m: Match): boolean {
+  const t = [m.homeTeamId, m.awayTeamId];
+  // O Grande Clássico dos Clássicos
+  if (t.includes('petro') && t.includes('dago')) return true;
+  // Grandes confrontos históricos da I Divisão
+  if (t.includes('petro') && (t.includes('sagrada') || t.includes('interclube') || t.includes('kabuscorp'))) return true;
+  if (t.includes('dago') && (t.includes('sagrada') || t.includes('interclube') || t.includes('kabuscorp'))) return true;
+  return false;
+}
+
+export function isDerbiLuanda(m: Match): boolean {
+  return TEAM_PROVINCES[m.homeTeamId] === 'Luanda' && TEAM_PROVINCES[m.awayTeamId] === 'Luanda';
+}
+
+export function isDerbiBenguela(m: Match): boolean {
+  return TEAM_PROVINCES[m.homeTeamId] === 'Benguela' && TEAM_PROVINCES[m.awayTeamId] === 'Benguela';
+}
+
+export function isDerbiLeste(m: Match): boolean {
+  const lesteTeams = ['sagrada', 'lundasul', 'bravos'];
+  return lesteTeams.includes(m.homeTeamId) && lesteTeams.includes(m.awayTeamId);
+}
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
@@ -39,6 +95,8 @@ function getDefaultFilters(seasonId: string): CalendarFilters {
     filterStatus: 'all',
     filterTeam: 'all',
     filterMonth: 'all',
+    filterHighlight: 'all',
+    filterProvince: 'all',
   };
 }
 
@@ -97,6 +155,26 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
 
       <div className="flex flex-wrap items-center justify-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
         <span className={isLive ? 'text-red-600' : undefined}>{isLive ? `● ${match.liveMinute ?? ''}' · Em direto` : `${formattedDay} · ${formattedTime}`}</span>
+        {isClassicMatch(match) && (
+          <span className="rounded bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.5 text-[8px] font-extrabold text-amber-700 dark:text-amber-400">
+            👑 Clássico
+          </span>
+        )}
+        {isDerbiBenguela(match) && (
+          <span className="rounded bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.5 text-[8px] font-extrabold text-emerald-700 dark:text-emerald-400">
+            🌊 Dérbi Benguela
+          </span>
+        )}
+        {isDerbiLeste(match) && (
+          <span className="rounded bg-purple-500/15 border border-purple-500/30 px-1.5 py-0.5 text-[8px] font-extrabold text-purple-700 dark:text-purple-400">
+            💎 Dérbi do Leste
+          </span>
+        )}
+        {isDerbiLuanda(match) && !isClassicMatch(match) && (
+          <span className="rounded bg-blue-500/15 border border-blue-500/30 px-1.5 py-0.5 text-[8px] font-extrabold text-blue-700 dark:text-blue-400">
+            ⚔️ Dérbi Luanda
+          </span>
+        )}
         {broadcast !== 'Por confirmar' && (
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 shadow-sm ring-1 ${match.broadcaster ? 'bg-[#5C0F8B] text-white ring-white/40' : 'bg-amber-100 text-amber-900 ring-amber-300'}`}>
             <Tv size={10} aria-hidden="true" /> {match.broadcaster && !isDeferredBroadcast ? `${isFinished ? 'Transmitido' : 'Em direto'} · ${broadcast}` : broadcast}
@@ -114,7 +192,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const filters = filterState.seasonId === seasonId ? filterState : getDefaultFilters(seasonId);
-  const { selectedRound, filterStatus, filterTeam, filterMonth } = filters;
+  const { selectedRound, filterStatus, filterTeam, filterMonth, filterHighlight, filterProvince } = filters;
 
   const updateFilters = (patch: Partial<Omit<CalendarFilters, 'seasonId'>>) => {
     setFilterState((current) => ({
@@ -126,6 +204,15 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
   const participantIds = new Set(MATCHES.flatMap((match) => [match.homeTeamId, match.awayTeamId]));
   const seasonTeams = getAllTeams().filter((team) => participantIds.has(team.id));
+
+  const availableProvinces = useMemo(() => {
+    const set = new Set<string>();
+    seasonTeams.forEach((t) => {
+      const prov = TEAM_PROVINCES[t.id];
+      if (prov) set.add(prov);
+    });
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [seasonTeams]);
 
   const rounds = Array.from(new Set(MATCHES.map((m) => m.round))).sort((a, b) => a - b);
 
@@ -160,10 +247,24 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
     { key: 'scheduled', label: 'Agendados' },
   ];
 
-  const matchesFilter = (m: Match) =>
-    (filterStatus === 'all' || m.status === filterStatus) &&
-    (filterMonth === 'all' || m.date.startsWith(filterMonth)) &&
-    (filterTeam === 'all' || m.homeTeamId === filterTeam || m.awayTeamId === filterTeam);
+  const matchesFilter = (m: Match) => {
+    if (filterStatus !== 'all' && m.status !== filterStatus) return false;
+    if (filterMonth !== 'all' && !m.date.startsWith(filterMonth)) return false;
+    if (filterTeam !== 'all' && m.homeTeamId !== filterTeam && m.awayTeamId !== filterTeam) return false;
+
+    if (filterHighlight === 'classicos' && !isClassicMatch(m)) return false;
+    if (filterHighlight === 'derbis_luanda' && !isDerbiLuanda(m)) return false;
+    if (filterHighlight === 'derbis_benguela' && !isDerbiBenguela(m)) return false;
+    if (filterHighlight === 'derbi_leste' && !isDerbiLeste(m)) return false;
+
+    if (filterProvince !== 'all') {
+      const pHome = TEAM_PROVINCES[m.homeTeamId];
+      const pAway = TEAM_PROVINCES[m.awayTeamId];
+      if (pHome !== filterProvince && pAway !== filterProvince) return false;
+    }
+
+    return true;
+  };
 
   const selectedTeam = filterTeam === 'all' ? null : seasonTeams.find((team) => team.id === filterTeam) ?? null;
 
@@ -317,37 +418,90 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
       {/* Barra de filtros */}
       <div className="bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm mb-8 space-y-4">
-        {/* Estado */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Estado</span>
-          <div className="flex gap-1.5 bg-zinc-100/60 dark:bg-zinc-950/60 p-1 rounded-xl border border-zinc-200 dark:border-zinc-800 w-full sm:w-auto">
-            {statusOptions.map((opt) => (
+        {/* Linha 1: Estado, Mês e Província */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Estado */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-16 flex-shrink-0">Estado</span>
+            <div className="flex gap-1.5 bg-zinc-100/60 dark:bg-zinc-950/60 p-1 rounded-xl border border-zinc-200 dark:border-zinc-800 w-full sm:w-auto">
+              {statusOptions.map((opt) => (
+                <button
+                  key={opt.key}
+                  onClick={() => updateFilters({ filterStatus: opt.key })}
+                  className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
+                    filterStatus === opt.key ? 'bg-primary text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Mês */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-12 flex-shrink-0">Mês</span>
+            <select aria-label="Filtrar calendário por mês" value={filterMonth} onChange={(e) => updateFilters({ filterMonth: e.target.value })} className={selectClass}>
+              <option value="all">Todos os meses</option>
+              {months.map(([key, label]) => (
+                <option key={key} value={key}>{label}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Província */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-16 flex-shrink-0 flex items-center gap-1">
+              <MapPin size={11} className="text-accent" /> Província
+            </span>
+            <select
+              aria-label="Filtrar calendário por província"
+              value={filterProvince}
+              onChange={(e) => updateFilters({ filterProvince: e.target.value })}
+              className={selectClass}
+            >
+              <option value="all">Todas as províncias</option>
+              {availableProvinces.map((prov) => (
+                <option key={prov} value={prov}>{prov}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Linha 2: Destaques & Confrontos / Clássicos */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 pt-2 border-t border-zinc-200/50 dark:border-zinc-800/50">
+          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0 flex items-center gap-1">
+            <Sparkles size={11} className="text-accent" /> Destaque
+          </span>
+          <div className="flex flex-wrap gap-1.5 bg-zinc-100/60 dark:bg-zinc-950/60 p-1 rounded-xl border border-zinc-200 dark:border-zinc-800">
+            {[
+              { key: 'all', label: 'Todos os Jogos' },
+              { key: 'classicos', label: '👑 Grandes Clássicos' },
+              { key: 'derbis_luanda', label: '⚔️ Dérbis de Luanda' },
+              { key: 'derbis_benguela', label: '🌊 Dérbi de Benguela' },
+              { key: 'derbi_leste', label: '💎 Dérbi do Leste' },
+            ].map((item) => (
               <button
-                key={opt.key}
-                onClick={() => updateFilters({ filterStatus: opt.key })}
-                className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
-                  filterStatus === opt.key ? 'bg-primary text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
+                key={item.key}
+                type="button"
+                onClick={() => updateFilters({
+                  filterHighlight: item.key as MatchTypeFilter,
+                  selectedRound: item.key !== 'all' ? 'all' : selectedRound,
+                })}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
+                  filterHighlight === item.key
+                    ? 'bg-accent text-zinc-950 font-bold shadow-sm'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
                 }`}
               >
-                {opt.label}
+                {item.label}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Mês — a equipa é escolhida visualmente pelos emblemas acima */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-          <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Mês</span>
-          <select aria-label="Filtrar calendário por mês" value={filterMonth} onChange={(e) => updateFilters({ filterMonth: e.target.value })} className={selectClass}>
-            <option value="all">Todos os meses</option>
-            {months.map(([key, label]) => (
-              <option key={key} value={key}>{label}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Jornadas (scroll horizontal) */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+        {/* Linha 3: Jornadas (scroll horizontal) */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 pt-2 border-t border-zinc-200/50 dark:border-zinc-800/50">
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0">Jornada</span>
           <div className="flex gap-2 overflow-x-auto pb-1 -mb-1 snap-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <button
@@ -375,6 +529,26 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
             ))}
           </div>
         </div>
+
+        {/* Botão de limpeza de filtros se algum estiver ativo */}
+        {(filterStatus !== 'all' || filterMonth !== 'all' || filterTeam !== 'all' || filterHighlight !== 'all' || filterProvince !== 'all' || selectedRound !== 'all') && (
+          <div className="flex justify-end pt-1">
+            <button
+              type="button"
+              onClick={() => updateFilters({
+                filterStatus: 'all',
+                filterMonth: 'all',
+                filterTeam: 'all',
+                filterHighlight: 'all',
+                filterProvince: 'all',
+                selectedRound: getDefaultRound(seasonId),
+              })}
+              className="inline-flex items-center gap-1 text-[11px] font-mono text-zinc-400 hover:text-accent transition-colors"
+            >
+              <X size={12} /> Limpar todos os filtros ativos
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Paginação de Jornada (Navegador Rápido) */}

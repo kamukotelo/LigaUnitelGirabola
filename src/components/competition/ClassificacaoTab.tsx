@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Info, Award } from 'lucide-react';
+import { Info, Award, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { getSeasonResultsUpdatedAt, SEASONS, UPCOMING_SEASON_ID, computeStandings, getStandingsForSeason, getTeamFullName, type StandingsVenue } from '@/lib/data';
@@ -35,9 +35,10 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
       <div className="flex justify-center">
         <div className="inline-flex rounded-xl border border-zinc-200 bg-zinc-100/70 p-1 dark:border-zinc-800 dark:bg-zinc-950/70" aria-label="Âmbito da classificação">
           {([
-            ['all', 'Todos'],
+            ['all', 'Geral'],
             ['home', 'Casa'],
             ['away', 'Fora'],
+            ['form5', 'Últimos 5 Jogos'],
           ] as const).map(([key, label]) => (
             <button
               key={key}
@@ -55,6 +56,18 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
           ))}
         </div>
       </div>
+
+      {venue === 'form5' && (
+        <div className="rounded-2xl border border-accent/30 bg-accent/5 p-4 text-xs font-mono text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto text-center">
+          <p className="font-bold text-foreground uppercase tracking-wider flex items-center justify-center gap-2">
+            <TrendingUp size={16} className="text-accent" />
+            Classificação por Momento de Forma (Últimos 5 Jogos)
+          </p>
+          <p className="mt-1 text-[11px] text-zinc-500">
+            A tabela reflete exclusivamente os pontos e o saldo de golos conquistados nas últimas 5 partidas oficiais disputadas por cada clube.
+          </p>
+        </div>
+      )}
 
       {/* Table Container */}
       <div className="overflow-hidden">
@@ -77,16 +90,17 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
             <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
               {standingsList.map((row, i) => {
                 const fullTeamName = getTeamFullName(row.teamId, row.teamName);
-                const isChampion = row.position === 1 && !isUpcoming;
-                const isCafChampions = row.position <= 2;
-                const isCafConfederation = row.position === 3;
-                const isRelegated = row.position >= 14;
+                const isChampion = row.position === 1 && !isUpcoming && venue === 'all';
+                const isCafChampions = row.position <= 2 && venue === 'all';
+                const isCafConfederation = row.position === 3 && venue === 'all';
+                const isRelegated = row.position >= 14 && venue === 'all';
+                const isFormLeader = row.position === 1 && venue === 'form5';
 
                 let rowBg = 'hover:bg-zinc-100 dark:hover:bg-zinc-900/20';
                 let posColor = 'text-zinc-600 dark:text-zinc-400';
                 let borderIndicator = 'border-l-2 border-transparent';
 
-                if (isChampion) {
+                if (isChampion || isFormLeader) {
                   rowBg = 'bg-primary/5 hover:bg-primary/10';
                   posColor = 'text-accent font-extrabold';
                   borderIndicator = 'border-l-4 border-accent';
@@ -197,39 +211,69 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
             <Info size={16} className="text-accent" /> Legenda
           </h3>
 
-          <div className="grid gap-4 text-xs sm:grid-cols-2 xl:grid-cols-4">
-            <div className="flex items-start gap-3">
-              <span className="w-1.5 h-6 bg-accent rounded-full block flex-shrink-0" />
-              <div>
-                <h4 className="font-semibold text-foreground font-mono uppercase">1º Lugar (Campeão)</h4>
-                <p className="text-zinc-600 dark:text-zinc-400">Qualificação para a Liga dos Campeões da CAF.</p>
+          {venue === 'all' ? (
+            <div className="grid gap-4 text-xs sm:grid-cols-2 xl:grid-cols-4">
+              <div className="flex items-start gap-3">
+                <span className="w-1.5 h-6 bg-accent rounded-full block flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">1º Lugar (Campeão)</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Qualificação para a Liga dos Campeões da CAF.</p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-start gap-3">
-              <span className="w-1.5 h-6 bg-amber-500 rounded-full block flex-shrink-0" />
-              <div>
-                <h4 className="font-semibold text-foreground font-mono uppercase">2º Lugar</h4>
-                <p className="text-zinc-600 dark:text-zinc-400">Qualificação para a Liga dos Campeões da CAF.</p>
+              <div className="flex items-start gap-3">
+                <span className="w-1.5 h-6 bg-amber-500 rounded-full block flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">2º Lugar</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Qualificação para a Liga dos Campeões da CAF.</p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-start gap-3">
-              <span className="w-1.5 h-6 bg-blue-500 rounded-full block flex-shrink-0" />
-              <div>
-                <h4 className="font-semibold text-foreground font-mono uppercase">3º Lugar</h4>
-                <p className="text-zinc-600 dark:text-zinc-400">Qualificação para a Taça das Confederações da CAF.</p>
+              <div className="flex items-start gap-3">
+                <span className="w-1.5 h-6 bg-blue-500 rounded-full block flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">3º Lugar</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Qualificação para a Taça das Confederações da CAF.</p>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-start gap-3">
-              <span className="w-1.5 h-6 bg-red-600 rounded-full block flex-shrink-0" />
-              <div>
-                <h4 className="font-semibold text-foreground font-mono uppercase">14º, 15º e 16º Lugar</h4>
-                <p className="text-zinc-600 dark:text-zinc-400">Despromoção direta à Gira Bola B.</p>
+              <div className="flex items-start gap-3">
+                <span className="w-1.5 h-6 bg-red-600 rounded-full block flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">14º, 15º e 16º Lugar</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Despromoção direta à Gira Bola B.</p>
+                </div>
               </div>
             </div>
-          </div>
+          ) : venue === 'form5' ? (
+            <div className="grid gap-4 text-xs sm:grid-cols-3">
+              <div className="flex items-start gap-3">
+                <span className="w-1.5 h-6 bg-accent rounded-full block flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">Líder de Forma (5 Jogos)</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Equipa com mais pontos somados nos últimos 5 jogos disputados.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="w-1.5 h-6 bg-emerald-500 rounded-full block flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">Pontuação Recente</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Vitória = 3 pts, Empate = 1 pt, Derrota = 0 pts no período recente.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="w-1.5 h-6 bg-zinc-500 rounded-full block flex-shrink-0" />
+                <div>
+                  <h4 className="font-semibold text-foreground font-mono uppercase">Desempate Oficial</h4>
+                  <p className="text-zinc-600 dark:text-zinc-400">Pontos, Diferença de Golos e Golos Marcados nas últimas 5 partidas.</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-xs text-zinc-600 dark:text-zinc-400 font-mono">
+              Classificação parcial calculada exclusivamente para partidas como {venue === 'home' ? 'mandante (Casa)' : 'visitante (Fora)'}. O apuramento para as competições da CAF e as despromoções são definidos pela tabela Geral.
+            </div>
+          )}
         </AnimatedCard>
 
         {/* Curiosidades — derivadas da tabela, apenas para épocas já disputadas */}
