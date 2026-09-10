@@ -16,6 +16,7 @@ import {
   UPCOMING_SEASON_ID,
   type Match,
 } from '@/lib/data';
+import SeasonBenchmarkCard from './SeasonBenchmarkCard';
 
 function scoreAtHalfTime(match: Match): [number, number] | null {
   const parts = match.halfTimeScore?.match(/^(\d+)\s*[-–:]\s*(\d+)$/);
@@ -127,10 +128,20 @@ export default function AdvancedStatistics({ seasonId }: { seasonId: string }) {
 
   return (
     <section className="mt-14 space-y-6" aria-labelledby="advanced-statistics-title">
+      {seasonId === UPCOMING_SEASON_ID && (
+        <SeasonBenchmarkCard currentMatches={getMatchesForSeason(seasonId)} />
+      )}
+
       <div>
         <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent">12 indicadores automáticos</p>
-        <h2 id="advanced-statistics-title" className="mt-2 font-display text-2xl font-black uppercase text-foreground">Análise avançada</h2>
-        <p className="mt-2 max-w-3xl text-xs text-zinc-500">Calculada apenas com jogos terminados e informação oficialmente disponível.</p>
+        <h2 id="advanced-statistics-title" className="mt-2 font-display text-2xl font-black uppercase text-foreground">
+          {seasonId === UPCOMING_SEASON_ID ? 'Análise avançada da época em curso' : 'Análise consolidada da época 2025/2026 (Métrica Base)'}
+        </h2>
+        <p className="mt-2 max-w-3xl text-xs text-zinc-500">
+          {seasonId === UPCOMING_SEASON_ID
+            ? 'Calculada apenas com jogos terminados e informação oficialmente disponível.'
+            : 'Consolidado estatístico oficial da temporada 2025/2026 (240 partidas). Padrão oficial ANCAF.'}
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

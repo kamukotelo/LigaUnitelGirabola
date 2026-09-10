@@ -276,6 +276,12 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
           <div className="flex items-center gap-3">
             <Tv size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">Transmissão: {broadcaster}</span>
           </div>
+          {match.usefulTimeMinutes && (
+            <div className="flex items-center gap-3">
+              <Clock size={14} className="text-zinc-600" />
+              <span className="text-zinc-700 dark:text-zinc-300">Tempo útil efetivo: {match.usefulTimeMinutes}′</span>
+            </div>
+          )}
           <div className="flex items-center gap-3">
             <Calendar size={14} className="text-zinc-600" />
             <span className="text-zinc-700 dark:text-zinc-300">

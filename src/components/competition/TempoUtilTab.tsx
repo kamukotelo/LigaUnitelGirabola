@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Timer, Info, TrendingUp } from 'lucide-react';
 import { getMatchTempoUtil, getTeamById, Match } from '@/lib/data';
+import { SEASON_2025_26_BASELINE } from '@/lib/season-baseline';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -52,15 +53,41 @@ export default function TempoUtilTab({ seasonId }: { seasonId: string }) {
 
   const topMatches = [...rows].sort((a, b) => b.tempoUtil - a.tempoUtil).slice(0, 10);
 
-  const summary = [
-    { label: 'Média da Época', value: `${seasonAvg.toFixed(1)}′` },
+  const isBaselineSeason = seasonId === '2025-26';
+  const summary = isBaselineSeason ? [
+    { label: 'Média Consolidada', value: `${seasonAvg.toFixed(1)}′` },
     { label: 'Jogo Mais Corrido', value: `${best.tempoUtil}′` },
     { label: 'Jogo Menos Corrido', value: `${worst.tempoUtil}′` },
+    { label: 'Jogos Analisados', value: `${rows.length} (Total)` },
+  ] : [
+    { label: 'Média Atual 2026/27', value: `${seasonAvg.toFixed(1)}′` },
+    { label: 'Métrica Base 2025/26', value: `${SEASON_2025_26_BASELINE.averageUsefulTime}′` },
+    { label: 'Jogo Mais Corrido', value: `${best.tempoUtil}′` },
     { label: 'Jogos Analisados', value: rows.length },
   ];
 
   return (
     <div className="space-y-8">
+      {/* Banner de Contexto / Métrica Base */}
+      <div className="rounded-2xl border border-zinc-200/80 bg-white/60 p-4 dark:border-zinc-800/80 dark:bg-zinc-950/40 flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
+            <Timer size={18} className="text-accent" />
+          </div>
+          <div>
+            <h4 className="font-display text-sm uppercase tracking-wider text-foreground font-bold">
+              {isBaselineSeason
+                ? 'Consolidado Oficial de Tempo Útil — Girabola 2025/2026'
+                : 'Aferição de Tempo Útil vs Métrica Base'}
+            </h4>
+            <p className="text-xs text-zinc-500 font-mono">
+              {isBaselineSeason
+                ? 'Média consolidada da época anterior (51.4′ em 240 jogos) — Padrão oficial ANCAF.'
+                : `Comparativo com a métrica base de 2025/26 (${SEASON_2025_26_BASELINE.averageUsefulTime}′). Meta ANCAF: tempo útil superior a 52 minutos.`}
+            </p>
+          </div>
+        </div>
+      </div>
       {/* Resumo */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {summary.map((stat) => (

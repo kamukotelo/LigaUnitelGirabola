@@ -2,6 +2,13 @@
 import { PROMOTED_2026_27_TEAMS } from './ancaf-engine';
 import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from './published-ancaf-calendar';
 import { HISTORICAL_MATCHES } from './historical-results';
+import {
+  HISTORICAL_MATCH_STATS_2025_26,
+  HISTORICAL_MATCH_EVENTS_2025_26,
+  HISTORICAL_SCORERS_2025_26,
+  HISTORICAL_ASSISTS_2025_26,
+  HISTORICAL_CLEAN_SHEETS_2025_26,
+} from './historical-results-2025-26';
 import { OFFICIAL_SQUADS_2026_27 } from './official-squads-2026-27';
 import { getTeamCrest, TEAM_CRESTS } from './team-crests';
 
@@ -581,6 +588,7 @@ export interface Player extends PlayerStats {
     minutesPlayed: number;
     yellowCards: number;
     redCards: number;
+    cleanSheets?: number;
     shotsOnTargetPerMatch?: number;
     successfulDribbles?: number;
     ratingTrend: number[];
@@ -3267,7 +3275,7 @@ export interface MatchEventDetail {
   player: string;
   playerId?: string;
   number?: number;          // camisola publicada na ficha, usada para conciliar a identidade
-  assist?: string;
+  assist?: string | null;
   playerOut?: string;       // para substituições
   detail?: string;          // ex.: 'Grande penalidade'
 }
@@ -4336,6 +4344,10 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 70, type: 'goal', team: 'away', player: 'Além', playerId: 'alem-interclube', detail: '0-1' },
   ];
 
+  if (HISTORICAL_MATCH_EVENTS_2025_26[match.id]) {
+    return HISTORICAL_MATCH_EVENTS_2025_26[match.id];
+  }
+
   return undefined;
 }
 
@@ -4358,7 +4370,7 @@ const EMPTY_MATCH_STATS: MatchTeamStats = {
   saves: 0,
 };
 
-type PublishedMatchStats = {
+export type PublishedMatchStats = {
   home: Partial<MatchTeamStats>;
   away: Partial<MatchTeamStats>;
   keys: (keyof MatchTeamStats)[];
@@ -4976,6 +4988,7 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
   'm27-3-6': { home: 'Filipe Nzanza', away: 'Divaldo Alves' },
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
   'm27-4-5': { home: 'Luciano Capoco', away: 'Filipe Nzanza' },
+  'm27-4-7': { home: 'Divaldo Alves', away: 'Silvestre Pelé' },
 };
 
 export function getMatchDetail(match: Match): MatchDetail {
@@ -4996,7 +5009,9 @@ export function getMatchDetail(match: Match): MatchDetail {
   const homeNames = buildLineupNameIndex(publishedLineups?.home ?? [], homeLineup);
   const awayNames = buildLineupNameIndex(publishedLineups?.away ?? [], awayLineup);
 
-  const publishedStats = RUNTIME_DATA.matchStats?.[match.id] ?? PUBLISHED_MATCH_STATS[match.id];
+  const publishedStats = RUNTIME_DATA.matchStats?.[match.id]
+    ?? PUBLISHED_MATCH_STATS[match.id]
+    ?? HISTORICAL_MATCH_STATS_2025_26[match.id];
   const homeStats = { ...EMPTY_MATCH_STATS, ...publishedStats?.home };
   const awayStats = { ...EMPTY_MATCH_STATS, ...publishedStats?.away };
 
@@ -5176,6 +5191,12 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       referee: 'António Dungula',
       assistants: ['Victorino Dungula', 'Zacarias Calembe'],
       fourth: 'Aldair Carmelino',
+    },
+    'm27-4-7': {
+      referee: 'Bernardo Kenge Mário',
+      assistants: ['Nery Domingos Pereira Amador da Silva', 'Josemar Ageu Domingos Francisco'],
+      fourth: 'Sabino Garcez de Sousa de Carvalho',
+      commissioner: 'Alberto Bumba Senda',
     },
   };
   // Prioridade: override publicado no admin → BD (ancaf_referee_nominations)
