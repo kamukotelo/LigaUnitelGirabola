@@ -331,7 +331,7 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     score: '1-1',
     halfTimeScore: '1-0',
     status: 'finished',
-    updatedAt: '2026-09-09T17:15:00+01:00',
+    updatedAt: '2026-09-10T12:08:00+01:00',
   },
 };
 
@@ -465,7 +465,7 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'luciano-capoco-cabinda': { yellow: 1, red: 0 },
   'ariclenis-cabinda': { yellow: 1, red: 0 },
   'simao-gomes-cabinda': { yellow: 1, red: 0 },
-  'cristiano-cabinda': { yellow: 1, red: 0 },
+  'cristiano-cabinda': { yellow: 2, red: 0 },
   'lucas-elias-huila': { yellow: 2, red: 0 },
   'joao-milagre-huila': { yellow: 1, red: 0 },
   'angelo-cangu-huila': { yellow: 1, red: 0 },
@@ -481,7 +481,7 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'cahilo-sagrada': { yellow: 1, red: 0 },
   'miguel-sagrada': { yellow: 1, red: 0 },
   'pimpao-sagrada': { yellow: 1, red: 0 },
-  'marcos-cabinda': { yellow: 1, red: 0 },
+  'marcos-cabinda': { yellow: 2, red: 0 },
   'antonio-cabinda': { yellow: 1, red: 0 },
   'dago-tshibamba': { yellow: 1, red: 0 },
   'simao-dianzenza': { yellow: 1, red: 0 },
@@ -531,6 +531,10 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'nurio-fortuna': { yellow: 1, red: 0 },   // Núrio Fortuna (Petro de Luanda · Relatório 17 / m27-3-7)
   'marcos-libolo': { yellow: 1, red: 0 },   // Marcos Benua (CRD Libolo · Relatório 17 / m27-3-7)
   'andeloy-libolo': { yellow: 1, red: 0 },  // Andeloy (CRD Libolo · Relatório 17 / m27-3-7)
+  // 4.ª jornada — ficha oficial de arbitragem (Match No. 25 · FC Cabinda vs CD 1.º de Agosto).
+  'fifa-1ljjyh4': { yellow: 1, red: 0 },   // Mário Chiwale Caluaco da Silva Mário (FC Cabinda · 66')
+  'cabinda-player-1': { yellow: 1, red: 0 }, // João Eduardo (FC Cabinda · 86')
+  'bruno-dago': { yellow: 1, red: 0 },     // Bruno de Jesus Manuel (CD 1.º de Agosto · 79')
 };
 
 export interface Player extends PlayerStats {
@@ -1524,7 +1528,7 @@ const PLAYERS_RAW: Player[] = [
     bio: 'Extremo ágil de drible imprevisível no um contra um.'
   },
   {
-    id: 'cabinda-player-1', name: 'Carlos Manuel', club: 'FC Cabinda', teamId: 'cabinda', position: 'Guarda-redes',
+    id: 'cabinda-player-1', name: 'João Eduardo', club: 'FC Cabinda', teamId: 'cabinda', position: 'Guarda-redes',
     goals: 0, assists: 0, appearances: 30, jerseyNumber: 1, age: 31, nationality: 'Angola', height: '1.90m', weight: '85kg',
     attributes: { pace: 50, shooting: 40, passing: 60, dribbling: 45, defending: 82, physical: 80 },
     bio: 'Guarda-redes experiente que tem salvo o FC Cabinda em vários jogos.'
@@ -3951,52 +3955,53 @@ function getPublishedCabindaAgostoLineups(match: Match): { home: LineupPlayer[];
     position: PitchPosition,
     isStarter: boolean,
     playerId?: string,
-  ): LineupPlayer => ({ name, number, position, isStarter, playerId, rating: 0 });
+    isCaptain: boolean = false,
+  ): LineupPlayer => ({ name, number, position, isStarter, isCaptain, playerId, rating: 0 });
 
   return {
     home: [
       player('João Eduardo', 1, 'GK', true, 'cabinda-player-1'),
-      player('Lax', 2, 'DEF', true, 'rodrigo-cabinda'),
-      player('F. Luemba', 4, 'DEF', true, 'fifa-1qtzy92'),
-      player('Lando Piqué', 5, 'DEF', true, 'marcos-cabinda'),
-      player('Luyeye', 13, 'MID', true, 'luyeye-cabinda'),
-      player('Cornélio', 15, 'MID', true, 'fifa-1tc8vr0'),
-      player('Júlio', 17, 'DEF', true, 'julio-cabinda'),
-      player('Bazinga Ronaldo', 21, 'MID', true, 'fernando-cabinda'),
-      player('Mário Chiwale', 24, 'MID', true, 'fifa-1ljjyh4'),
-      player('Ary Lede', 29, 'FWD', true, 'ariclenis-cabinda'),
-      player('Pedro Silva', 30, 'FWD', true, 'pedro-da-silva-cabinda'),
-      player('Oblack', 12, 'GK', false, 'francisco-cabinda'),
-      player('Kazadi', 3, 'DEF', false, 'gedeon-cabinda'),
-      player('Mário Bumba', 6, 'DEF', false, 'fifa-1lk64f5'),
-      player('Cristiano', 8, 'MID', false, 'cristiano-cabinda'),
+      player('Rodrigo dos Santos Ngimbi', 2, 'DEF', true, 'rodrigo-cabinda', true),
+      player('Francisco Luemba', 4, 'DEF', true, 'fifa-1qtzy92'),
+      player('Marcos Lando', 5, 'DEF', true, 'marcos-cabinda'),
+      player('Luyeye Tomás Tomás', 13, 'MID', true, 'luyeye-cabinda'),
+      player('Cornelio Queba Lelo Baptista', 15, 'MID', true, 'fifa-1tc8vr0'),
+      player('Júlio Mavungo André', 17, 'DEF', true, 'julio-cabinda'),
+      player('Fernando Matombe Bazonga', 21, 'MID', true, 'fernando-cabinda'),
+      player('Mário Chiwale Caluaco da Silva Mário', 24, 'MID', true, 'fifa-1ljjyh4'),
+      player('Ariclenis Afonso Araújo Lede', 29, 'FWD', true, 'ariclenis-cabinda'),
+      player('Pedro da Silva Da Silva', 30, 'FWD', true, 'pedro-da-silva-cabinda'),
+      player('Francisco Domingas Chicapa', 12, 'GK', false, 'francisco-cabinda'),
+      player('Gedeon Macosso Mananga', 3, 'DEF', false, 'gedeon-cabinda'),
+      player('Mario Antonio Bumba', 6, 'DEF', false, 'fifa-1lk64f5'),
+      player('Cristiano Malonda', 8, 'MID', false, 'cristiano-cabinda'),
       player('Simão Gomes', 14, 'FWD', false, 'simao-gomes-cabinda'),
-      player('Domingos', 19, 'MID', false, 'domingos-paixao-cabinda'),
-      player('Tchingani', 20, 'DEF', false, 'frederico-cabinda'),
-      player('Jaime Bunge', 26, 'MID', false, 'jaime-cabinda'),
-      player('Crichano', 28, 'FWD', false),
+      player('Domingos Paixão Paulino Lourenço', 19, 'MID', false, 'domingos-paixao-cabinda'),
+      player('Frederico Zau', 20, 'DEF', false, 'frederico-cabinda'),
+      player('Jaime da Graca Malonda Buange', 26, 'MID', false, 'jaime-cabinda'),
+      player('Crichano Diacango', 28, 'FWD', false),
     ],
     away: [
-      player('Nuno', 1, 'GK', true, 'nuno-dago'),
-      player('Bruno', 6, 'FWD', true, 'bruno-dago'),
-      player('Axel', 8, 'FWD', true, 'axel-dago'),
-      player('Rupson', 9, 'FWD', true, 'rupson-dago'),
-      player('Venâncio', 15, 'MID', true, 'venancio-dago'),
-      player('Paxe', 19, 'MID', true),
-      player('Paulo Costa', 21, 'MID', true),
-      player('Erique', 24, 'DEF', true),
-      player('Luciano Santos', 25, 'DEF', true),
-      player('Castro', 27, 'MID', true, 'castro-dago'),
-      player('Benção', 36, 'DEF', true, 'bencao-dago'),
-      player('Julião', 31, 'GK', false),
-      player('Milton', 2, 'DEF', false, 'milton-dago'),
-      player('Obed', 14, 'FWD', false, 'obed-dago'),
-      player('Macaia', 16, 'DEF', false, 'macaia-dago'),
-      player('Dagó', 17, 'FWD', false, 'dago-tshibamba'),
-      player('Cliver André', 18, 'MID', false, 'cliver-dago'),
-      player('Tombé', 20, 'MID', false, 'tombe-dago'),
-      player('Enoque Kabesa', 23, 'MID', false),
-      player('Bulaya', 28, 'DEF', false, 'bulaya-dago'),
+      player('Fernando Lopes de Almeida', 1, 'GK', true, 'nuno-dago'),
+      player('Bruno de Jesus Manuel', 6, 'FWD', true, 'bruno-dago', true),
+      player('Axel Gaudêncio Mabaqui de Sousa Axel', 8, 'FWD', true, 'axel-dago'),
+      player('Florindo Machado', 9, 'FWD', true, 'rupson-dago'),
+      player('Venancio Landu kukula', 15, 'MID', true, 'venancio-dago'),
+      player('Afonso dos Santos Paxe', 19, 'MID', true, 'fifa-1pxu511'),
+      player('Paulo de Sousa Lopes Da Costa', 21, 'MID', true),
+      player('Erique Joaquim Manuel de Jesus', 24, 'DEF', true, 'fifa-1pxwmn6'),
+      player('Luciano Manuel dos Santos', 25, 'DEF', true, 'fifa-1v12ek6'),
+      player('Carvalho dos Santos', 27, 'MID', true, 'castro-dago'),
+      player('Benção Nbongo Evaristo Nzinga', 36, 'DEF', true, 'bencao-dago'),
+      player('Milton Antonio Candido', 2, 'DEF', false, 'milton-dago'),
+      player('Obed Mayamb Mukokiani Obed', 14, 'FWD', false, 'obed-dago'),
+      player('Jose Macaia ganga', 16, 'DEF', false, 'macaia-dago'),
+      player('Samu Tshibamba Dago', 17, 'FWD', false, 'dago-tshibamba'),
+      player('Cliver Camango Andre', 18, 'MID', false, 'cliver-dago'),
+      player('Francisco Carlos Chilumbo', 20, 'MID', false, 'tombe-dago'),
+      player('Enoque José Kabesa', 23, 'MID', false, 'fifa-1pwaay2'),
+      player('Felix Bulaya', 28, 'DEF', false, 'bulaya-dago'),
+      player('Justo Pucusso', 31, 'GK', false),
     ],
   };
 }
@@ -4005,8 +4010,23 @@ function getPublishedCabindaAgostoLineups(match: Match): { home: LineupPlayer[];
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   // 4.ª jornada · 09/09/2026 · FC Cabinda 1-1 CD 1.º de Agosto
   if (match.id === 'm27-4-5') return [
-    { minute: 25, type: 'goal', team: 'home', player: 'Luyeye', playerId: 'luyeye-cabinda', detail: 'Grande penalidade · 25\' (1-0)' },
-    { minute: 47, type: 'goal', team: 'away', player: 'Axel Gaudêncio', playerId: 'axel-dago', detail: '47\' (1-1)' },
+    { minute: 25, type: 'goal', team: 'home', player: 'Luyeye Tomás Tomás', number: 13, playerId: 'luyeye-cabinda', detail: "25' (1-0)" },
+    { minute: 45, type: 'sub', team: 'away', player: 'Samu Tshibamba Dago', number: 17, playerId: 'dago-tshibamba', playerOut: 'Carvalho dos Santos' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Felix Bulaya', number: 28, playerId: 'bulaya-dago', playerOut: 'Erique Joaquim Manuel de Jesus' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Jose Macaia ganga', number: 16, playerId: 'macaia-dago', playerOut: 'Benção Nbongo Evaristo Nzinga' },
+    { minute: 46, type: 'goal', team: 'away', player: 'Axel Gaudêncio', number: 8, playerId: 'axel-dago', detail: "46' (1-1)" },
+    { minute: 57, type: 'sub', team: 'home', player: 'Crichano Diacango', number: 28, playerOut: 'Ariclenis Afonso Araújo Lede' },
+    { minute: 57, type: 'sub', team: 'home', player: 'Domingos Paixão Paulino Lourenço', number: 19, playerId: 'domingos-paixao-cabinda', playerOut: 'Fernando Matombe Bazonga' },
+    { minute: 57, type: 'sub', team: 'home', player: 'Gedeon Macosso Mananga', number: 3, playerId: 'gedeon-cabinda', playerOut: 'Cornelio Queba Lelo Baptista' },
+    { minute: 64, type: 'sub', team: 'away', player: 'Cliver Camango Andre', number: 18, playerId: 'cliver-dago', playerOut: 'Luciano Manuel dos Santos' },
+    { minute: 66, type: 'sub', team: 'home', player: 'Cristiano Malonda', number: 8, playerId: 'cristiano-cabinda', playerOut: 'Mário Chiwale Caluaco da Silva Mário' },
+    { minute: 66, type: 'yellow', team: 'home', player: 'Mário Chiwale Caluaco da Silva Mário', number: 24, playerId: 'fifa-1ljjyh4', detail: 'Jogo perigoso' },
+    { minute: 71, type: 'sub', team: 'away', player: 'Francisco Carlos Chilumbo', number: 20, playerId: 'tombe-dago', playerOut: 'Florindo Machado' },
+    { minute: 75, type: 'sub', team: 'home', player: 'Simão Gomes', number: 14, playerId: 'simao-gomes-cabinda', playerOut: 'Crichano Diacango' },
+    { minute: 75, type: 'yellow', team: 'home', player: 'Marcos Lando', number: 5, playerId: 'marcos-cabinda', detail: 'Falta tática' },
+    { minute: 79, type: 'yellow', team: 'away', player: 'Bruno de Jesus Manuel', number: 6, playerId: 'bruno-dago', detail: 'Falta tática' },
+    { minute: 86, type: 'yellow', team: 'home', player: 'João Eduardo', number: 1, playerId: 'cabinda-player-1', detail: 'Simulou lesão para retardar o jogo.' },
+    { minute: 93, type: 'yellow', team: 'home', player: 'Cristiano Malonda', number: 8, playerId: 'cristiano-cabinda', detail: 'Falta temerária' },
   ];
 
   // Ficha oficial de arbitragem (Match No. 18 · 31/08/2026 · Estádio da Tundavala, Huíla).
@@ -4397,6 +4417,7 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-3-6': { home: { corners: 4, yellowCards: 2, redCards: 0 }, away: { corners: 4, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-3-1': { home: { yellowCards: 3, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-3-4': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-4-5': { home: { yellowCards: 4, redCards: 0 }, away: { yellowCards: 1, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
 };
 
 /**
@@ -4987,7 +5008,7 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
   'm27-3-2': { home: 'Paulo Torres', away: 'Beto Bianchi' },
   'm27-3-6': { home: 'Filipe Nzanza', away: 'Divaldo Alves' },
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
-  'm27-4-5': { home: 'Luciano Capoco', away: 'Filipe Nzanza' },
+  'm27-4-5': { home: 'Luciano Capoco', away: 'Filipe Nanza' },
   'm27-4-7': { home: 'Divaldo Alves', away: 'Silvestre Pelé' },
 };
 
@@ -5188,9 +5209,10 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       commissioner: 'Venâncio Matos',
     },
     'm27-4-5': {
-      referee: 'António Dungula',
-      assistants: ['Victorino Dungula', 'Zacarias Calembe'],
-      fourth: 'Aldair Carmelino',
+      referee: 'António Caluassi Dungula',
+      assistants: ['Victorino Nangolo Dungula', 'Zacarias Chivanja Calembe'],
+      fourth: 'Aldair Quissanga Rodrigues Carmelino',
+      commissioner: 'Alfredo João',
     },
     'm27-4-7': {
       referee: 'Bernardo Kenge Mário',
