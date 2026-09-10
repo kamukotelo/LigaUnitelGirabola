@@ -87,7 +87,7 @@ on conflict (id) do update set team_id = excluded.team_id, club = excluded.club,
 -- 3. Atualização dos jogos das 4.ª e 5.ª jornadas
 insert into public.ancaf_matches (id, season_id, round, home_team_id, away_team_id, home_team_name, away_team_name, home_score, away_score, score, half_time_score, kickoff_time, stadium, status, match_type, referee, broadcaster, attendance, possession_home) values
   ('m27-4-5', '2026-27', 4, 'cabinda', 'dago', 'FC Cabinda', 'CD 1.º de Agosto', 1, 1, '1-1', '1-0', '2026-09-09T14:00:00.000Z', 'Estádio França Ndalu', 'finished', 'official', 'António Caluassi Dungula', 'Zsports', null, null),
-  ('m27-4-7', '2026-27', 4, 'interclube', 'lobito', 'GD Interclube', 'Académica do Lobito', 2, 0, '2-0', '2-0', '2026-09-10T14:30:00.000Z', 'Estádio 22 de Junho', 'live', 'official', 'Bernardo Kenge Mário', 'Zsports', null, null),
+  ('m27-4-7', '2026-27', 4, 'interclube', 'lobito', 'GD Interclube', 'Académica do Lobito', 2, 0, '2-0', '2-0', '2026-09-10T14:30:00.000Z', 'Estádio 22 de Junho', 'finished', 'official', 'Bernardo Kenge Mário', 'Zsports', null, null),
   ('m27-4-2', '2026-27', 4, 'lundasul', 'sagrada', 'Desportivo da Lunda Sul', 'Sagrada Esperança', 0, 0, null, null, '2026-09-12T14:00:00.000Z', 'Estádio do Sagrada Esperança', 'scheduled', 'official', null, null, null, null),
   ('m27-5-7', '2026-27', 5, 'kabuscorp', 'interclube', 'Kabuscorp SC', 'GD Interclube', 0, 0, null, null, '2026-09-20T14:00:00.000Z', 'Estádio França Ndalu', 'scheduled', 'official', null, 'Zsports', null, null)
 on conflict (id) do update set

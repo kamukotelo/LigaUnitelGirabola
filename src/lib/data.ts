@@ -333,15 +333,14 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: '2026-09-10T12:08:00+01:00',
   },
-  // 4.ª jornada · 10/09/2026 · Estádio 22 de Junho (em direto / temporário)
+  // 4.ª jornada · 10/09/2026 · Estádio 22 de Junho
   'm27-4-7': {
     homeScore: 2,
     awayScore: 0,
     score: '2-0',
     halfTimeScore: '2-0',
-    status: 'live',
-    liveMinute: 77,
-    updatedAt: '2026-09-10T17:10:00+01:00',
+    status: 'finished',
+    updatedAt: '2026-09-10T17:30:00+01:00',
   },
 };
 
@@ -464,6 +463,8 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'fifa-1mppsb5', name: 'Henock Mangindula', club: 'Kabuscorp SC', teamId: 'kabuscorp', position: 'Defesa', goals: 1, appearances: 2 },
   { id: 'dieu', name: 'Dieu David', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Defesa', goals: 1, appearances: 2 },
   { id: 'fifa-1jwu0l8', name: 'Rodino Dumbo José', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 1, appearances: 2 },
+  { id: 'patrick-banza-interclube', name: 'Patrick Banza', club: 'GD Interclube', teamId: 'interclube', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'pedro-manuel-interclube', name: 'Pedro Manuel', club: 'GD Interclube', teamId: 'interclube', position: 'Avançado', goals: 1, appearances: 1 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {

@@ -47,6 +47,8 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'fifa-1mppsb5', 1, 0, 2, 0, 0),
   ('2026-27', 'dieu', 1, 0, 2, 1, 0),
   ('2026-27', 'fifa-1jwu0l8', 1, 0, 2, 0, 0),
+  ('2026-27', 'patrick-banza-interclube', 1, 0, 1, 0, 0),
+  ('2026-27', 'pedro-manuel-interclube', 1, 0, 1, 0, 0),
   ('2026-27', 'cristiano-cabinda', 0, 0, 1, 2, 0),
   ('2026-27', 'lucas-elias-huila', 0, 0, 1, 2, 0),
   ('2026-27', 'marcos-cabinda', 0, 0, 1, 2, 0),
