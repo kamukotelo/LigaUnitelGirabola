@@ -417,10 +417,13 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             Lista individual baseada apenas nos golos cujo autor foi identificado nas fichas recebidas. Golos ainda sem nome confirmado ou autogolos permanecem apenas no resultado do respetivo jogo.
           </p>
           <p className="text-xs text-zinc-500 mt-2 font-mono">
-            Golos nos resultados: {goalReconciliation.goalsInResults} ·
-            {' '}Atribuídos a jogador: {goalReconciliation.goalsAttributed} ·
-            {goalReconciliation.ownGoals ? ` Autogolos: ${goalReconciliation.ownGoals} ·` : ''}
-            {' '}Por identificar: {goalReconciliation.goalsUnattributed}.
+            {'Golos nos resultados: '}
+            {goalReconciliation.goalsInResults}
+            {' · Atribuídos a jogador: '}
+            {goalReconciliation.goalsAttributed}
+            {goalReconciliation.ownGoals > 0 && ` · Autogolos: ${goalReconciliation.ownGoals}`}
+            {' · Por identificar: '}
+            {goalReconciliation.goalsUnattributed}.
           </p>
         </div>
       )}
