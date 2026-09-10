@@ -3,6 +3,26 @@
 -- Gerado por scripts/generate-db-seed.ts — não editar à mão.
 -- ═════════════════════════════════════════════════════════════════════
 
+-- Tabela ancaf_referee_nominations (idempotente)
+create table if not exists public.ancaf_referee_nominations (
+    id              uuid primary key default gen_random_uuid(),
+    season_id       text references public.ancaf_seasons(id) on delete cascade,
+    round           integer not null,
+    match_id        text references public.ancaf_matches(id) on delete cascade,
+    referee         text not null,
+    assistants      jsonb default '[]'::jsonb,
+    fourth_official text,
+    published_at    timestamptz not null default timezone('utc', now()),
+    created_at      timestamptz not null default timezone('utc', now()),
+    updated_at      timestamptz not null default timezone('utc', now()),
+    unique (match_id)
+);
+create index if not exists ancaf_nominations_season_round_idx
+    on public.ancaf_referee_nominations(season_id, round);
+alter table public.ancaf_referee_nominations enable row level security;
+drop policy if exists "ancaf public read nominations" on public.ancaf_referee_nominations;
+create policy "ancaf public read nominations" on public.ancaf_referee_nominations for select using (true);
+
 insert into public.ancaf_referee_nominations (season_id, round, match_id, referee, assistants, fourth_official) values
   ('2026-27', 1, 'm27-1-4', 'Miguel Tchissingu Augusto Américo', '["João Manuel Fula António","Nery Domingos Pereira Amador da Silva"]'::jsonb, 'Isaías Justino Camaxi'),
   ('2026-27', 1, 'm27-1-2', 'Sanda Mateus Miguel Kitu', '["Natarino António Soares","Nelson Lutumba Quiala"]'::jsonb, 'Custódio Roque Lote'),

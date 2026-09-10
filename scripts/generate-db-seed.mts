@@ -316,6 +316,57 @@ let skipped = 0;
   }
 
   let sql = header('ESCALAÇÕES, EVENTOS E ESTATÍSTICAS DE JOGO PUBLICADAS');
+  sql += `-- Tabelas necessárias (idempotentes)\n` +
+    `create table if not exists public.ancaf_match_lineups (\n` +
+    `    id           uuid primary key default gen_random_uuid(),\n` +
+    `    match_id     text references public.ancaf_matches(id) on delete cascade,\n` +
+    `    team_id      text references public.ancaf_teams(id) on delete cascade,\n` +
+    `    side         text check (side in ('home', 'away')),\n` +
+    `    players      jsonb not null default '[]'::jsonb,\n` +
+    `    coach        text,\n` +
+    `    confirmed_by text default 'admin',\n` +
+    `    confirmed_at timestamptz not null default timezone('utc', now()),\n` +
+    `    created_at   timestamptz not null default timezone('utc', now()),\n` +
+    `    updated_at   timestamptz not null default timezone('utc', now()),\n` +
+    `    unique (match_id, team_id)\n` +
+    `);\n` +
+    `create index if not exists ancaf_lineups_match_idx on public.ancaf_match_lineups(match_id);\n` +
+    `alter table public.ancaf_match_lineups enable row level security;\n` +
+    `drop policy if exists "ancaf public read lineups" on public.ancaf_match_lineups;\n` +
+    `create policy "ancaf public read lineups" on public.ancaf_match_lineups for select using (true);\n\n` +
+    `create table if not exists public.ancaf_match_events (\n` +
+    `    id           uuid primary key default gen_random_uuid(),\n` +
+    `    match_id     text references public.ancaf_matches(id) on delete cascade,\n` +
+    `    minute       integer not null,\n` +
+    `    type         text not null,\n` +
+    `    team         text not null,\n` +
+    `    player       text not null,\n` +
+    `    player_id    text,\n` +
+    `    assist       text,\n` +
+    `    player_out   text,\n` +
+    `    detail       text,\n` +
+    `    sort_order   integer not null default 0,\n` +
+    `    created_at   timestamptz not null default timezone('utc', now())\n` +
+    `);\n` +
+    `create index if not exists ancaf_events_match_idx on public.ancaf_match_events(match_id);\n` +
+    `alter table public.ancaf_match_events enable row level security;\n` +
+    `drop policy if exists "ancaf public read events" on public.ancaf_match_events;\n` +
+    `create policy "ancaf public read events" on public.ancaf_match_events for select using (true);\n\n` +
+    `create table if not exists public.ancaf_match_stats (\n` +
+    `    id         uuid primary key default gen_random_uuid(),\n` +
+    `    match_id   text references public.ancaf_matches(id) on delete cascade,\n` +
+    `    side       text check (side in ('home', 'away')),\n` +
+    `    stat_key   text not null,\n` +
+    `    value      numeric not null,\n` +
+    `    official   boolean default false,\n` +
+    `    updated_at timestamptz not null default timezone('utc', now()),\n` +
+    `    unique (match_id, side, stat_key)\n` +
+    `);\n` +
+    `create index if not exists ancaf_stats_match_idx on public.ancaf_match_stats(match_id);\n` +
+    `alter table public.ancaf_match_stats enable row level security;\n` +
+    `drop policy if exists "ancaf public read stats" on public.ancaf_match_stats;\n` +
+    `create policy "ancaf public read stats" on public.ancaf_match_stats for select using (true);\n\n`;
+
   if (lineupRows.length) {
     sql += upsert('ancaf_match_lineups', lineupRows, lineupCols, 'match_id,team_id') + '\n';
   }
@@ -345,8 +396,27 @@ let skipped = 0;
       jsonb(assistants), s(clean(o.fourth)),
     ]);
   }
-  const sql = header('NOMEAÇÕES DE ARBITRAGEM PUBLICADAS') +
-    upsert('ancaf_referee_nominations', rows, cols, 'match_id');
+  let sql = header('NOMEAÇÕES DE ARBITRAGEM PUBLICADAS');
+  sql += `-- Tabela ancaf_referee_nominations (idempotente)\n` +
+    `create table if not exists public.ancaf_referee_nominations (\n` +
+    `    id              uuid primary key default gen_random_uuid(),\n` +
+    `    season_id       text references public.ancaf_seasons(id) on delete cascade,\n` +
+    `    round           integer not null,\n` +
+    `    match_id        text references public.ancaf_matches(id) on delete cascade,\n` +
+    `    referee         text not null,\n` +
+    `    assistants      jsonb default '[]'::jsonb,\n` +
+    `    fourth_official text,\n` +
+    `    published_at    timestamptz not null default timezone('utc', now()),\n` +
+    `    created_at      timestamptz not null default timezone('utc', now()),\n` +
+    `    updated_at      timestamptz not null default timezone('utc', now()),\n` +
+    `    unique (match_id)\n` +
+    `);\n` +
+    `create index if not exists ancaf_nominations_season_round_idx\n` +
+    `    on public.ancaf_referee_nominations(season_id, round);\n` +
+    `alter table public.ancaf_referee_nominations enable row level security;\n` +
+    `drop policy if exists "ancaf public read nominations" on public.ancaf_referee_nominations;\n` +
+    `create policy "ancaf public read nominations" on public.ancaf_referee_nominations for select using (true);\n\n`;
+  sql += upsert('ancaf_referee_nominations', rows, cols, 'match_id');
   files.push(['12_referee_nominations.sql', sql]);
 }
 

@@ -2513,7 +2513,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "LOURENÇO CAMBIOMBO SAPALO ADRIANO",
         "fullName": "LOURENÇO CAMBIOMBO SAPALO ADRIANO",
-        "popularName": "",
+        "popularName": "Lourenço",
         "maId": "000542M92",
         "fifaId": "1JWU4V8",
         "gender": "MALE",
@@ -2525,7 +2525,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "JORGE UMBA BAIÃO",
         "fullName": "JORGE UMBA BAIÃO",
-        "popularName": "",
+        "popularName": "Jorge",
         "maId": "008954M04",
         "fifaId": "1V0Q4P5",
         "gender": "MALE",
@@ -2537,7 +2537,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "GERVÁSIO DOMINGOS CALELA",
         "fullName": "GERVÁSIO DOMINGOS CALELA",
-        "popularName": "",
+        "popularName": "Calela",
         "maId": "000358M94",
         "fifaId": "1JRJ1L5",
         "gender": "MALE",
@@ -2549,7 +2549,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "CHICO PAPEL",
         "fullName": "Joaquim Francisco Cambanda",
-        "popularName": "CHICO PAPEL",
+        "popularName": "Joaquim",
         "maId": "001187M03",
         "fifaId": "1KF4IS2",
         "gender": "MALE",
@@ -2561,7 +2561,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Rósario Adao Da Costa Cavanda",
         "fullName": "Rósario Adao Da Costa Cavanda",
-        "popularName": "",
+        "popularName": "Rosário",
         "maId": "000723M00",
         "fifaId": "1K00768",
         "gender": "MALE",
@@ -2573,7 +2573,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "PANZO",
         "fullName": "Miguel Dos Santos",
-        "popularName": "PANZO",
+        "popularName": "Miguel",
         "maId": "005406M06",
         "fifaId": "1PWCQF0",
         "gender": "MALE",
@@ -2585,7 +2585,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "FERNANDO ELIAS KACHIKAPA",
         "fullName": "FERNANDO ELIAS KACHIKAPA",
-        "popularName": "",
+        "popularName": "Fernando",
         "maId": "002001M05",
         "fifaId": "1NYJXJ8",
         "gender": "MALE",
@@ -2609,7 +2609,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "FLORENTINO VASCO GOMES MATEMBA",
         "fullName": "FLORENTINO VASCO GOMES MATEMBA",
-        "popularName": "",
+        "popularName": "Florentino",
         "maId": "003145M06",
         "fifaId": "1MU1RP4",
         "gender": "MALE",
@@ -2621,19 +2621,19 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "JOSÉ KETA GONGA",
         "fullName": "JOSÉ KETA GONGA",
-        "popularName": "",
+        "popularName": "José Gonga",
         "maId": "005404M04",
         "fifaId": "1PWB407",
         "gender": "MALE",
         "birthDate": "09/04/2004",
         "nationality": "Angola",
         "position": "DF",
-        "jerseyNumber": "22"
+        "jerseyNumber": "38"
       },
       {
         "name": "MARCOS YANIKI CANDUCO HOLIVIO",
         "fullName": "MARCOS YANIKI CANDUCO HOLIVIO",
-        "popularName": "",
+        "popularName": "Marcos",
         "maId": "000585M05",
         "fifaId": "1JXIDN6",
         "gender": "MALE",
@@ -2645,7 +2645,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "JOEL MANZAMBI KIBANGO JORGE",
         "fullName": "JOEL MANZAMBI KIBANGO JORGE",
-        "popularName": "",
+        "popularName": "Joel",
         "maId": "008955M05",
         "fifaId": "1V0Q4R8",
         "gender": "MALE",
@@ -2657,7 +2657,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Ezequiel Paulo Julião",
         "fullName": "Ezequiel Paulo Julião",
-        "popularName": "",
+        "popularName": "Ezequiel",
         "maId": "005408M94",
         "fifaId": "1PWDZW1",
         "gender": "MALE",
@@ -2669,7 +2669,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "AURÉLIO NIVETE LOPAI KAPUCA ( HELI)",
         "fullName": "AURÉLIO NIVETE LOPAI KAPUCA ( HELI)",
-        "popularName": "",
+        "popularName": "Aurélio",
         "maId": "002807M05",
         "fifaId": "1M9SUA5",
         "gender": "MALE",
@@ -2681,19 +2681,19 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "LEONEL AUGUSTO MATEUS LEMOS",
         "fullName": "LEONEL AUGUSTO MATEUS LEMOS",
-        "popularName": "",
+        "popularName": "Leonel",
         "maId": "002563M07",
         "fifaId": "1M79NL1",
         "gender": "MALE",
         "birthDate": "03/04/2007",
         "nationality": "Angola",
         "position": "DF",
-        "jerseyNumber": "38"
+        "jerseyNumber": "22"
       },
       {
         "name": "Manuel Pereira Londaka",
         "fullName": "Manuel Pereira Londaka",
-        "popularName": "",
+        "popularName": "Manuel",
         "maId": "000422M02",
         "fifaId": "1JRYAL7",
         "gender": "MALE",
@@ -2717,7 +2717,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "NANGA JOÃO MANUEL",
         "fullName": "NANGA JOÃO MANUEL",
-        "popularName": "",
+        "popularName": "Nanga",
         "maId": "001057M97",
         "fifaId": "1K2M005",
         "gender": "MALE",
@@ -2729,7 +2729,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "JOJO",
         "fullName": "Serafim Paulina Mapussa",
-        "popularName": "JOJO",
+        "popularName": "Serafim",
         "maId": "001383M96",
         "fifaId": "1L13Q80",
         "gender": "MALE",
@@ -2741,7 +2741,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "LUÍS NFUMAIASOKA MIGUEL PANDA",
         "fullName": "LUÍS NFUMAIASOKA MIGUEL PANDA",
-        "popularName": "",
+        "popularName": "Luís Panda",
         "maId": "001495M05",
         "fifaId": "1L60XH8",
         "gender": "MALE",
@@ -2753,7 +2753,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "CAVALO",
         "fullName": "ANTONIO SILVIO MORAIS",
-        "popularName": "CAVALO",
+        "popularName": "António",
         "maId": "000530M00",
         "fifaId": "1JWT9F1",
         "gender": "MALE",
@@ -2765,13 +2765,13 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "GUILHERME ALBERTO MUHANGO",
         "fullName": "GUILHERME ALBERTO MUHANGO",
-        "popularName": "",
+        "popularName": "Muhango",
         "maId": "000543M98",
         "fifaId": "1JWU6G0",
         "gender": "MALE",
         "birthDate": "22/06/1998",
         "nationality": "Angola",
-        "position": "DF",
+        "position": "GK",
         "jerseyNumber": "12"
       },
       {
@@ -2789,7 +2789,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "JANUÁRIO DA CRUZ SESA",
         "fullName": "JANUÁRIO DA CRUZ SESA",
-        "popularName": "",
+        "popularName": "Januário",
         "maId": "000356M91",
         "fifaId": "1JRIVB7",
         "gender": "MALE",
@@ -2801,7 +2801,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "VALÉRIO MAGRINHO TROCO ZAIRE",
         "fullName": "VALÉRIO MAGRINHO TROCO ZAIRE",
-        "popularName": "",
+        "popularName": "Valério",
         "maId": "000583M05",
         "fifaId": "1JXIDJ3",
         "gender": "MALE",
@@ -2813,7 +2813,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "CARLOS ANTÓNIO CORREIA",
         "fullName": "CARLOS ANTÓNIO CORREIA",
-        "popularName": "",
+        "popularName": "Carlos",
         "maId": "005187M07",
         "fifaId": "1PPGLQ5",
         "gender": "MALE",
@@ -2825,7 +2825,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "JORGE ENIO ANTONIO DA COSTA",
         "fullName": "JORGE ENIO ANTONIO DA COSTA",
-        "popularName": "",
+        "popularName": "Jorge Enio",
         "maId": "005764M01",
         "fifaId": "1QHQT19",
         "gender": "MALE",
@@ -2837,7 +2837,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "WILSON DAVID",
         "fullName": "WILSON DAVID",
-        "popularName": "",
+        "popularName": "Wilson",
         "maId": "002021M01",
         "fifaId": "1LIWQN1",
         "gender": "MALE",
@@ -2845,6 +2845,42 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "nationality": "Angola",
         "position": "DF",
         "jerseyNumber": "25"
+      },
+      {
+        "name": "Quiteque",
+        "fullName": "Quiteque",
+        "popularName": "Quiteque",
+        "maId": "",
+        "fifaId": "",
+        "gender": "MALE",
+        "birthDate": "",
+        "nationality": "Angola",
+        "position": "MF",
+        "jerseyNumber": "8"
+      },
+      {
+        "name": "Pinto",
+        "fullName": "Pinto",
+        "popularName": "Pinto",
+        "maId": "",
+        "fifaId": "",
+        "gender": "MALE",
+        "birthDate": "",
+        "nationality": "Angola",
+        "position": "FWD",
+        "jerseyNumber": "14"
+      },
+      {
+        "name": "Sabones",
+        "fullName": "Sabones",
+        "popularName": "Sabones",
+        "maId": "",
+        "fifaId": "",
+        "gender": "MALE",
+        "birthDate": "",
+        "nationality": "Angola",
+        "position": "FWD",
+        "jerseyNumber": "17"
       }
     ],
     "staff": [
@@ -4221,7 +4257,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Osvaldo Augusto Francisco",
         "fullName": "Osvaldo Augusto Francisco",
-        "popularName": "",
+        "popularName": "Bey",
         "maId": "000898M99",
         "fifaId": "1K1KET3",
         "gender": "MALE",
@@ -4233,7 +4269,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Afonso Baptista",
         "fullName": "Afonso Baptista",
-        "popularName": "",
+        "popularName": "Afonso",
         "maId": "003648M03",
         "fifaId": "1NI2DP9",
         "gender": "MALE",
@@ -4245,7 +4281,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "DOMINGOS MIGUEL BRAVO",
         "fullName": "DOMINGOS MIGUEL BRAVO",
-        "popularName": "",
+        "popularName": "Toy",
         "maId": "007554M05",
         "fifaId": "1T9MIP7",
         "gender": "MALE",
@@ -4257,7 +4293,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "SALOMÃO",
         "fullName": "SALOMÃO",
-        "popularName": "",
+        "popularName": "Salomão",
         "maId": "000483M03",
         "fifaId": "1JTV4K9",
         "gender": "MALE",
@@ -4269,7 +4305,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "ALEXANDRE DOMINGOS NGUNZA CACULO",
         "fullName": "ALEXANDRE DOMINGOS NGUNZA CACULO",
-        "popularName": "",
+        "popularName": "Sandro",
         "maId": "000368M04",
         "fifaId": "1JRKQX3",
         "gender": "MALE",
@@ -4293,7 +4329,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "WALTER EMANUEL DE SÁ CARVALHO CARVALHO",
         "fullName": "WALTER EMANUEL DE SÁ CARVALHO CARVALHO",
-        "popularName": "",
+        "popularName": "Walter",
         "maId": "008919M01",
         "fifaId": "1UZ41E0",
         "gender": "MALE",
@@ -4329,7 +4365,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "MOISÉS",
         "fullName": "MOISÉS",
-        "popularName": "",
+        "popularName": "Moisés",
         "maId": "002451M04",
         "fifaId": "1LZLZP0",
         "gender": "MALE",
@@ -4341,7 +4377,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Pedro Ganga",
         "fullName": "Pedro Ganga",
-        "popularName": "",
+        "popularName": "Caneta",
         "maId": "000983M00",
         "fifaId": "1K26VW6",
         "gender": "MALE",
@@ -4353,7 +4389,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "PAULO",
         "fullName": "PAULO",
-        "popularName": "",
+        "popularName": "Paulo Gaspar",
         "maId": "002748M06",
         "fifaId": "1M92D85",
         "gender": "MALE",
@@ -4389,7 +4425,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "ALBERTO",
         "fullName": "ALBERTO",
-        "popularName": "",
+        "popularName": "Além",
         "maId": "000482M97",
         "fifaId": "1JTV3G3",
         "gender": "MALE",
@@ -4401,7 +4437,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "JORGE",
         "fullName": "JORGE",
-        "popularName": "",
+        "popularName": "Ru",
         "maId": "000490M95",
         "fifaId": "1JTVF71",
         "gender": "MALE",
@@ -4413,7 +4449,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "PEDRO GABRIEL MALANDA MIGUEL",
         "fullName": "PEDRO GABRIEL MALANDA MIGUEL",
-        "popularName": "",
+        "popularName": "Gaby",
         "maId": "005667M05",
         "fifaId": "1QFXVU3",
         "gender": "MALE",
@@ -4425,7 +4461,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "SILVANO MONTEIRO",
         "fullName": "SILVANO MONTEIRO",
-        "popularName": "",
+        "popularName": "Boiado",
         "maId": "000699M04",
         "fifaId": "1JZYK44",
         "gender": "MALE",
@@ -4449,7 +4485,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Alcides Patrício",
         "fullName": "Alcides Patrício",
-        "popularName": "",
+        "popularName": "Alcides",
         "maId": "001214M04",
         "fifaId": "1KZ4CQ5",
         "gender": "MALE",
@@ -4461,7 +4497,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "GABRIEL SAMUEL PANZO",
         "fullName": "GABRIEL SAMUEL PANZO",
-        "popularName": "",
+        "popularName": "Panzo",
         "maId": "000649M01",
         "fifaId": "1JZ6PV1",
         "gender": "MALE",
@@ -4473,7 +4509,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Pascoal Paulino",
         "fullName": "Pascoal Paulino",
-        "popularName": "",
+        "popularName": "Altura",
         "maId": "002576M04",
         "fifaId": "1M7HYZ3",
         "gender": "MALE",
@@ -4485,7 +4521,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "EDIVALDO",
         "fullName": "EDIVALDO",
-        "popularName": "",
+        "popularName": "Jamanta",
         "maId": "000481M99",
         "fifaId": "1JTUYS4",
         "gender": "MALE",
@@ -4497,7 +4533,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "FERNANDO JACINTO QUISSANGA",
         "fullName": "FERNANDO JACINTO QUISSANGA",
-        "popularName": "",
+        "popularName": "Nandinho",
         "maId": "000463M98",
         "fifaId": "1JSRQX5",
         "gender": "MALE",
@@ -4521,7 +4557,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "FELISBERTO",
         "fullName": "FELISBERTO",
-        "popularName": "",
+        "popularName": "Betinho",
         "maId": "000793M98",
         "fifaId": "1K0SA99",
         "gender": "MALE",
@@ -4529,6 +4565,18 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "nationality": "Angola",
         "position": "FWD",
         "jerseyNumber": "29"
+      },
+      {
+        "name": "Patrick Banza",
+        "fullName": "Patrick Banza",
+        "popularName": "Patrick Banza",
+        "maId": "",
+        "fifaId": "",
+        "gender": "MALE",
+        "birthDate": "",
+        "nationality": "Angola",
+        "position": "FWD",
+        "jerseyNumber": "7"
       }
     ],
     "staff": [

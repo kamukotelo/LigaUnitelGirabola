@@ -2143,6 +2143,10 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['lisneu-caala', 'Lisneu Emanuel Neto Simao', 'CR Caála', 'caala', 'Posição por confirmar', 23, 0],
   ['sebastiao-palavra', 'Sebastião Palavra Ngola', 'FC Luanda', 'fcluanda', 'Equipa Técnica', 0, 0],
   ['adriano-pedro', 'Adriano Manuel Pedro', 'FC Luanda', 'fcluanda', 'Equipa Técnica', 0, 0],
+  ['patrick-banza-interclube', 'Patrick Banza', 'GD Interclube', 'interclube', 'Avançado', 7, 0],
+  ['quiteque-lobito', 'Quiteque', 'Académica do Lobito', 'lobito', 'Médio', 8, 0],
+  ['pinto-lobito', 'Pinto', 'Académica do Lobito', 'lobito', 'Avançado', 14, 0],
+  ['sabones-lobito', 'Sabones', 'Académica do Lobito', 'lobito', 'Avançado', 17, 0],
 ].map(([id, name, club, teamId, position, jerseyNumber, goals]) => ({
   id: String(id), name: String(name), club: String(club), teamId: String(teamId), position: String(position), goals: Number(goals), assists: 0,
   appearances: 1, jerseyNumber: Number(jerseyNumber), age: 0, nationality: 'Angola', height: 'A confirmar',
@@ -4006,6 +4010,67 @@ function getPublishedCabindaAgostoLineups(match: Match): { home: LineupPlayer[];
   };
 }
 
+/** Onze inicial e suplentes oficiais de GD Interclube–Académica do Lobito (4.ª jornada). */
+function getPublishedInterclubeLobitoLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-4-7') return undefined;
+
+  const player = (
+    name: string,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+    playerId?: string,
+    isCaptain: boolean = false,
+  ): LineupPlayer => ({ name, number, position, isStarter, isCaptain, playerId, rating: 0 });
+
+  return {
+    home: [
+      player('Ru', 22, 'GK', true, 'fifa-1jtvf71'),
+      player('Salomão', 5, 'DEF', true, 'fifa-1jtv4k9'),
+      player('Além', 6, 'MID', true, 'fifa-1jtv3g3'),
+      player('Patrick Banza', 7, 'FWD', true, 'patrick-banza-interclube'),
+      player('Alcides', 14, 'MID', true, 'fifa-1kz4cq5'),
+      player('Jamanta', 18, 'DEF', true, 'fifa-1jtuys4'),
+      player('Nandinho', 25, 'DEF', true, 'fifa-1jsrqx5'),
+      player('Moisés', 28, 'DEF', true, 'fifa-1lzlzp0'),
+      player('Betinho', 29, 'FWD', true, 'fifa-1k0sa99'),
+      player('Caneta', 32, 'MID', true, 'fifa-1k26vw6'),
+      player('Paulo Gaspar', 33, 'DEF', true, 'fifa-1m92d85'),
+      player('Panzo', 12, 'GK', false, 'fifa-1jz6pv1'),
+      player('Gaby', 8, 'MID', false, 'fifa-1qfxvu3'),
+      player('Walter', 20, 'FWD', false, 'fifa-1uz41e0'),
+      player('Altura', 23, 'DEF', false, 'fifa-1m7hyz3'),
+      player('Toy', 26, 'DEF', false, 'fifa-1t9mip7'),
+      player('Bey', 27, 'DEF', false, 'fifa-1k1ket3'),
+      player('Boiado', 30, 'FWD', false, 'fifa-1jzyk44'),
+      player('Afonso', 36, 'FWD', false, 'fifa-1ni2dp9'),
+      player('Sandro', 37, 'MID', false, 'fifa-1jrkqx3'),
+    ],
+    away: [
+      player('Muhango', 12, 'GK', true, 'guilherme-lobito'),
+      player('Januário', 7, 'MID', true, 'januario-lobito'),
+      player('Rosário', 4, 'DEF', true, 'rosario-lobito'),
+      player('Lourenço', 5, 'DEF', true, 'lourenco-lobito'),
+      player('Quiteque', 8, 'MID', true, 'quiteque-lobito'),
+      player('Ezequiel', 10, 'MID', true, 'ezequiel-lobito'),
+      player('Calela', 13, 'DEF', true, 'fifa-1jrj1l5'),
+      player('Pinto', 14, 'FWD', true, 'pinto-lobito'),
+      player('Leonel', 22, 'DEF', true, 'leonel-lobito'),
+      player('Jorge', 28, 'DEF', true, 'jorge-28-lobito'),
+      player('Valério', 29, 'MID', true, 'valerio-lobito'),
+      player('Marcos', 40, 'GK', false, 'marcos-lobito'),
+      player('Florentino', 11, 'FWD', false, 'kaporal'),
+      player('Serafim', 15, 'MID', false, 'fifa-1l13q80'),
+      player('Joaquim', 16, 'MID', false, 'joaquim-lobito'),
+      player('Sabones', 17, 'FWD', false, 'sabones-lobito'),
+      player('António', 19, 'FWD', false, 'antonio-lobito'),
+      player('Miguel', 24, 'MID', false, 'miguel-lobito'),
+      player('Wilson', 25, 'DEF', false, 'wilson-david-lobito'),
+      player('Fernando', 36, 'DEF', false, 'fifa-1nyjxj8'),
+    ],
+  };
+}
+
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   // 4.ª jornada · 09/09/2026 · FC Cabinda 1-1 CD 1.º de Agosto
@@ -5015,7 +5080,8 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
 export function getMatchDetail(match: Match): MatchDetail {
   // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código.
   const dbLineup = RUNTIME_DATA.lineups?.[match.id];
-  const publishedLineups = dbLineup ?? getPublishedCabindaAgostoLineups(match)
+  const publishedLineups = dbLineup ?? getPublishedInterclubeLobitoLineups(match)
+    ?? getPublishedCabindaAgostoLineups(match)
     ?? getPublishedBravosSagradaLineups(match)
     ?? getPublishedCabindaLiboloLineups(match)
     ?? getPublishedHuilaWilieteLineups(match)
