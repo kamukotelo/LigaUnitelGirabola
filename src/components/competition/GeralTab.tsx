@@ -6,7 +6,6 @@ import { Video, Newspaper, Ticket, Tv } from 'lucide-react';
 import { getMatchBroadcast, getNewsArticles, isMatchDateOfficial, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
-import SeasonComparisonMatrix from './SeasonComparisonMatrix';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
@@ -107,9 +106,6 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
           Dados atualizados em {new Date(generatedAt).toLocaleString('pt-AO', { timeZone: ANGOLA_TIME_ZONE, dateStyle: 'medium', timeStyle: 'short' })}
         </p>
       )}
-
-      {/* Módulo Comparador entre Temporadas (Direto no ecrã Geral) */}
-      <SeasonComparisonMatrix />
 
       {/* Seletor de jornadas em pílulas */}
       <div className="flex gap-2 overflow-x-auto pb-1 -mb-1 snap-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
