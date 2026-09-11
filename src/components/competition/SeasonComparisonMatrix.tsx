@@ -10,13 +10,16 @@ import {
   CheckCircle2,
   Trophy,
   Filter,
-  Users
+  Users,
+  AlertTriangle
 } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { 
   CURRENT_SEASON_SCORERS, 
-  getCurrentSeasonCleanSheets, 
+  getCurrentSeasonCleanSheets,
+  getCurrentSeasonDiscipline,
+  getMatchDetail,
   getMatchesForSeason,
   getTeamFullName,
 } from '@/lib/data';
@@ -24,9 +27,10 @@ import {
   HISTORICAL_SCORERS_2025_26, 
   HISTORICAL_CLEAN_SHEETS_2025_26,
   HISTORICAL_MATCHES_2025_26,
+  HISTORICAL_MATCH_STATS_2025_26,
 } from '@/lib/historical-results-2025-26';
 
-export type ComparisonCategory = 'jogos' | 'marcadores' | 'guardaredes';
+export type ComparisonCategory = 'jogos' | 'marcadores' | 'guardaredes' | 'disciplina';
 
 export default function SeasonComparisonMatrix() {
   const [activeCategory, setActiveCategory] = useState<ComparisonCategory>('jogos');
@@ -113,10 +117,103 @@ export default function SeasonComparisonMatrix() {
     return list.slice(0, 5);
   }, [clubFilter]);
 
+  // Disciplina 2025/26
+  const histCards = useMemo(() => {
+    let yellow = 0;
+    let red = 0;
+    for (const m of historicalMatchesFiltered) {
+      const s = HISTORICAL_MATCH_STATS_2025_26[m.id];
+      if (!s) continue;
+      if (clubFilter === 'all') {
+        yellow += (s.home.yellowCards ?? 0) + (s.away.yellowCards ?? 0);
+        red += (s.home.redCards ?? 0) + (s.away.redCards ?? 0);
+      } else {
+        if (m.homeTeamId === clubFilter) {
+          yellow += s.home.yellowCards ?? 0;
+          red += s.home.redCards ?? 0;
+        }
+        if (m.awayTeamId === clubFilter) {
+          yellow += s.away.yellowCards ?? 0;
+          red += s.away.redCards ?? 0;
+        }
+      }
+    }
+    return {
+      yellow,
+      red,
+      total: yellow + red,
+      ypm: (yellow / nHist).toFixed(2),
+      rpm: (red / nHist).toFixed(2),
+    };
+  }, [historicalMatchesFiltered, clubFilter, nHist]);
+
+  // Disciplina 2026/27 (apurada através dos relatórios oficiais das partidas)
+  const currentCards = useMemo(() => {
+    let yellow = 0;
+    let red = 0;
+    for (const m of currentMatchesFiltered) {
+      const stats = getMatchDetail(m);
+      if (clubFilter === 'all') {
+        yellow += (stats.homeStats.yellowCards ?? 0) + (stats.awayStats.yellowCards ?? 0);
+        red += (stats.homeStats.redCards ?? 0) + (stats.awayStats.redCards ?? 0);
+      } else {
+        if (m.homeTeamId === clubFilter) {
+          yellow += stats.homeStats.yellowCards ?? 0;
+          red += stats.homeStats.redCards ?? 0;
+        }
+        if (m.awayTeamId === clubFilter) {
+          yellow += stats.awayStats.yellowCards ?? 0;
+          red += stats.awayStats.redCards ?? 0;
+        }
+      }
+    }
+    return {
+      yellow,
+      red,
+      total: yellow + red,
+      ypm: (yellow / nCurr).toFixed(2),
+      rpm: (red / nCurr).toFixed(2),
+    };
+  }, [currentMatchesFiltered, clubFilter, nCurr]);
+
+  const topHistoricalDiscipline = useMemo(() => {
+    const players = [
+      { id: 'yc-1', name: 'Moisés', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', yellow: 9, red: 2 },
+      { id: 'yc-2', name: 'Singongo', club: 'Desportivo da Lunda-Sul', teamId: 'lundasul', yellow: 8, red: 0 },
+      { id: 'yc-3', name: 'Ludy', club: 'Desportivo da Huíla', teamId: 'desphuila', yellow: 8, red: 0 },
+      { id: 'yc-4', name: 'Chimito', club: 'Recreativo do Libolo', teamId: 'libolo', yellow: 8, red: 1 },
+      { id: 'yc-5', name: 'Cahilo', club: 'Sagrada Esperança', teamId: 'sagrada', yellow: 7, red: 1 },
+      { id: 'yc-6', name: 'Marcos', club: 'FC de Cabinda', teamId: 'cabinda', yellow: 7, red: 0 },
+      { id: 'yc-7', name: 'Venâncio', club: 'CD 1.º de Agosto', teamId: 'dago', yellow: 7, red: 0 },
+      { id: 'yc-8', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', yellow: 6, red: 0 },
+    ];
+    let list = players;
+    if (clubFilter !== 'all') {
+      list = list.filter(p => p.teamId === clubFilter);
+    }
+    return list.slice(0, 5);
+  }, [clubFilter]);
+
+  const topCurrentDiscipline = useMemo(() => {
+    let list = getCurrentSeasonDiscipline().map(p => ({
+      id: p.id,
+      name: p.name,
+      club: p.club,
+      teamId: p.teamId,
+      yellow: p.yellowCards,
+      red: p.redCards,
+    }));
+    if (clubFilter !== 'all') {
+      list = list.filter(p => p.teamId === clubFilter);
+    }
+    return list.slice(0, 5);
+  }, [clubFilter]);
+
   const categories = [
     { key: 'jogos', label: '🏟️ Jogos & Resultados Oficiais', icon: Calendar },
     { key: 'marcadores', label: '⚽ Melhores Marcadores', icon: Flame },
     { key: 'guardaredes', label: '🧤 Guarda-Redes (Baliza a Zero)', icon: Shield },
+    { key: 'disciplina', label: '🟨 Cartões & Disciplina', icon: AlertTriangle },
   ];
 
   // Lista de clubes comuns
@@ -435,6 +532,148 @@ export default function SeasonComparisonMatrix() {
                 ) : (
                   <p className="text-xs text-zinc-500 font-mono py-4 text-center">Sem registos para este filtro.</p>
                 )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {activeCategory === 'disciplina' && (
+          <motion.div
+            key={`disciplina-${roundScope}-${clubFilter}`}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="space-y-4"
+          >
+            {/* Comparação Geral de Disciplina */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 2025/26 Cartões */}
+              <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400">
+                    2025/2026 {roundScope === 'homologous' ? `(Até J${maxCurrentRound})` : '(30J)'}
+                  </span>
+                  <span className="text-[10px] font-mono text-zinc-500">{historicalMatchesFiltered.length} jogos</span>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-black font-mono text-foreground">{histCards.total}</span>
+                  <span className="text-xs font-mono text-zinc-500">cartões totais</span>
+                </div>
+                <div className="space-y-1.5 pt-2 border-t border-zinc-200 dark:border-zinc-800 text-xs font-mono">
+                  <div className="flex justify-between items-center">
+                    <span className="text-zinc-500">🟨 Cartões Amarelos:</span>
+                    <span className="font-bold text-foreground">{histCards.yellow} <span className="text-zinc-400 font-normal">({histCards.ypm}/j)</span></span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-zinc-500">🟥 Cartões Vermelhos:</span>
+                    <span className="font-bold text-foreground">{histCards.red} <span className="text-zinc-400 font-normal">({histCards.rpm}/j)</span></span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 2026/27 Cartões */}
+              <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20 space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold uppercase font-mono text-primary">
+                    2026/2027 (Época Atual — Fichas Oficiais)
+                  </span>
+                  <span className="text-[10px] font-mono text-primary/70">{currentMatchesFiltered.length} jogos</span>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-black font-mono text-primary">{currentCards.total}</span>
+                  <span className="text-xs font-mono text-zinc-500">cartões totais</span>
+                </div>
+                <div className="space-y-1.5 pt-2 border-t border-primary/20 text-xs font-mono">
+                  <div className="flex justify-between items-center">
+                    <span className="text-zinc-500">🟨 Cartões Amarelos:</span>
+                    <span className="font-bold text-foreground">{currentCards.yellow} <span className="text-primary font-normal">({currentCards.ypm}/j)</span></span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-zinc-500">🟥 Cartões Vermelhos:</span>
+                    <span className="font-bold text-foreground">{currentCards.red} <span className="text-primary font-normal">({currentCards.rpm}/j)</span></span>
+                  </div>
+                  <div className="flex justify-between items-center pt-1">
+                    <span className="text-zinc-500">Variação de Amarelos/Jogo:</span>
+                    <span className={`font-bold ${Number(currentCards.ypm) <= Number(histCards.ypm) ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
+                      {Number(currentCards.ypm) <= Number(histCards.ypm)
+                        ? `▼ ${(Number(currentCards.ypm) - Number(histCards.ypm)).toFixed(2)} (mais disciplinado)`
+                        : `▲ +${(Number(currentCards.ypm) - Number(histCards.ypm)).toFixed(2)} (mais advertido)`}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Listas de Jogadores com Mais Cartões */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 2025/26 Jogadores */}
+              <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
+                <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400 block mb-3">
+                  Mais Advertidos (2025/2026) {clubFilter !== 'all' ? `— ${clubFilter.toUpperCase()}` : ''}
+                </span>
+                <div className="space-y-2">
+                  {topHistoricalDiscipline.length > 0 ? (
+                    topHistoricalDiscipline.map((p, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800">
+                        <div className="flex items-center gap-2.5">
+                          <span className="w-5 text-center font-bold text-xs text-zinc-400 font-mono">{idx + 1}</span>
+                          <TeamCrest teamId={p.teamId} size={24} />
+                          <div>
+                            <p className="text-xs font-bold text-foreground">{p.name}</p>
+                            <p className="text-[10px] text-zinc-500 font-mono">{p.club}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs font-mono font-bold">
+                          <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                            {p.yellow} 🟨
+                          </span>
+                          {p.red > 0 && (
+                            <span className="px-2 py-0.5 rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                              {p.red} 🟥
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-xs text-zinc-500 font-mono py-4 text-center">Sem registos para este filtro.</p>
+                  )}
+                </div>
+              </div>
+
+              {/* 2026/27 Jogadores */}
+              <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20">
+                <span className="text-xs font-bold uppercase font-mono text-primary block mb-3">
+                  Cartões Atribuídos nas Súmulas (2026/2027) {clubFilter !== 'all' ? `— ${clubFilter.toUpperCase()}` : ''}
+                </span>
+                <div className="space-y-2">
+                  {topCurrentDiscipline.length > 0 ? (
+                    topCurrentDiscipline.map((p, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800">
+                        <div className="flex items-center gap-2.5">
+                          <span className="w-5 text-center font-bold text-xs text-primary font-mono">{idx + 1}</span>
+                          <TeamCrest teamId={p.teamId} size={24} />
+                          <div>
+                            <p className="text-xs font-bold text-foreground">{p.name}</p>
+                            <p className="text-[10px] text-zinc-500 font-mono">{p.club}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs font-mono font-bold">
+                          <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                            {p.yellow} 🟨
+                          </span>
+                          {p.red > 0 && (
+                            <span className="px-2 py-0.5 rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                              {p.red} 🟥
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-xs text-zinc-500 font-mono py-4 text-center">Sem registos para este filtro.</p>
+                  )}
+                </div>
               </div>
             </div>
           </motion.div>

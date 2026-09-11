@@ -428,6 +428,14 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         </div>
       )}
 
+      {isUpcoming && seasonHasStarted && activeTab === 'cleansheets' && displayPlayers.length > 0 && (
+        <div className="mb-8 p-4 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl max-w-4xl">
+          <p className="text-xs text-zinc-500">
+            Balizas invioladas apuradas automaticamente a partir do guarda-redes titular oficial de cada jogo terminado sem sofrer golos. Apenas entram partidas com escalação homologada.
+          </p>
+        </div>
+      )}
+
       {isUpcoming && seasonHasStarted && (activeTab === 'yellowcards' || activeTab === 'redcards') && displayPlayers.length > 0 && (
         <div className="mb-8 p-4 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl max-w-4xl">
           <p className="text-xs text-zinc-500">
