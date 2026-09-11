@@ -583,9 +583,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "CR Caála",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-10T14:00:00+00:00",
+    "date": "2026-10-09T17:00:00+01:00",
     "stadium": "Estádio 11 de Novembro",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-6-2",
@@ -596,9 +597,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "CD 1.º de Agosto",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-10T14:00:00+00:00",
+    "date": "2026-10-11T15:00:00+01:00",
     "stadium": "Estádio do Buraco",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-6-3",
@@ -609,7 +611,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Bravos do Maquis",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-10T14:00:00+00:00",
+    "date": "2026-10-11T15:00:00+01:00",
     "stadium": "Estádio de São Filipe",
     "status": "scheduled"
   },
@@ -622,7 +624,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Recreativo do Libolo",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-10T14:00:00+00:00",
+    "date": "2026-10-11T15:00:00+01:00",
     "stadium": "Estádio França N’dalu",
     "status": "scheduled"
   },
@@ -635,9 +637,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Sagrada Esperança",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-10T14:00:00+00:00",
+    "date": "2026-10-10T16:00:00+01:00",
     "stadium": "Estádio 22 de Junho",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-6-6",
@@ -648,7 +651,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "São Salvador",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-10T14:00:00+00:00",
+    "date": "2026-10-10T15:00:00+01:00",
     "stadium": "Estádio da Tundavala",
     "status": "scheduled"
   },
@@ -661,7 +664,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "FC Cabinda",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-10T14:00:00+00:00",
+    "date": "2026-10-10T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
     "status": "scheduled"
   },
@@ -674,9 +677,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Wiliete de Benguela",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-11T14:00:00+00:00",
+    "date": "2026-10-09T15:00:00+01:00",
     "stadium": "Estádio dos Coqueiros",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-7-1",
@@ -687,7 +691,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "CR Caála",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-17T14:00:00+00:00",
+    "date": "2026-10-17T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
     "status": "scheduled"
   },
@@ -700,9 +704,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Desportivo da Huíla",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-17T14:00:00+00:00",
+    "date": "2026-10-18T15:30:00+01:00",
     "stadium": "Estádio França N’dalu",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-7-3",
@@ -713,7 +718,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Desportivo da Lunda Sul",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-17T14:00:00+00:00",
+    "date": "2026-10-17T15:00:00+01:00",
     "stadium": "Estádio Mundunduleno",
     "status": "scheduled"
   },
@@ -726,9 +731,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Wiliete de Benguela",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-17T14:00:00+00:00",
+    "date": "2026-10-14T15:30:00+01:00",
     "stadium": "Estádio França N’dalu",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-7-5",
@@ -739,9 +745,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Kabuscorp SC",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-17T14:00:00+00:00",
+    "date": "2026-10-13T17:00:00+01:00",
     "stadium": "Estádio 11 de Novembro",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-7-6",
@@ -752,7 +759,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Académica do Lobito",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-17T14:00:00+00:00",
+    "date": "2026-10-17T15:00:00+01:00",
     "stadium": "Estádio Nacional do Chiazi",
     "status": "scheduled"
   },
@@ -765,7 +772,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Estrela 1.º de Maio",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-17T14:00:00+00:00",
+    "date": "2026-10-18T15:00:00+01:00",
     "stadium": "Estádio Álvaro Buta",
     "status": "scheduled"
   },
@@ -778,9 +785,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "GD Interclube",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-17T14:00:00+00:00",
+    "date": "2026-10-17T15:30:00+01:00",
     "stadium": "Estádio Municipal de Calulo",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-8-1",
@@ -791,9 +799,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "CD 1.º de Agosto",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-24T14:00:00+00:00",
+    "date": "2026-10-27T15:30:00+01:00",
     "stadium": "Estádio dos Mártires da Canhala",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-8-2",
@@ -804,9 +813,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Petro de Luanda",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-24T14:00:00+00:00",
+    "date": "2026-10-28T15:00:00+01:00",
     "stadium": "Estádio Mundunduleno",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-8-3",
@@ -817,7 +827,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "FC Luanda",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-24T14:00:00+00:00",
+    "date": "2026-10-24T15:00:00+01:00",
     "stadium": "Estádio do Buraco",
     "status": "scheduled"
   },
@@ -830,9 +840,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Estrela 1.º de Maio",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-24T14:00:00+00:00",
+    "date": "2026-10-24T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-8-5",
@@ -843,7 +854,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Recreativo do Libolo",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-24T14:00:00+00:00",
+    "date": "2026-10-25T15:00:00+01:00",
     "stadium": "Estádio da Tundavala",
     "status": "scheduled"
   },
@@ -856,9 +867,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "GD Interclube",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-24T14:00:00+00:00",
+    "date": "2026-10-25T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-8-7",
@@ -869,7 +881,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "São Salvador",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-24T14:00:00+00:00",
+    "date": "2026-10-28T15:00:00+01:00",
     "stadium": "Estádio Nacional de Ombaka",
     "status": "scheduled"
   },
@@ -882,7 +894,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Kabuscorp SC",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-24T14:00:00+00:00",
+    "date": "2026-10-27T15:00:00+01:00",
     "stadium": "Estádio Nacional do Chiazi",
     "status": "scheduled"
   },
@@ -895,7 +907,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "CR Caála",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-31T14:00:00+00:00",
+    "date": "2026-11-01T15:30:00+01:00",
     "stadium": "Estádio dos Coqueiros",
     "status": "scheduled"
   },
@@ -908,9 +920,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "FC Cabinda",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-31T14:00:00+00:00",
+    "date": "2026-11-01T17:30:00+01:00",
     "stadium": "Estádio Nacional de Ombaka",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-9-3",
@@ -921,7 +934,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Desportivo da Lunda Sul",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-31T14:00:00+00:00",
+    "date": "2026-10-31T15:00:00+01:00",
     "stadium": "Estádio Álvaro Buta",
     "status": "scheduled"
   },
@@ -934,9 +947,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Desportivo da Huíla",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-31T14:00:00+00:00",
+    "date": "2026-10-30T15:30:00+01:00",
     "stadium": "Estádio 22 de Junho",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-9-5",
@@ -947,7 +961,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Sagrada Esperança",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-31T14:00:00+00:00",
+    "date": "2026-10-31T15:00:00+01:00",
     "stadium": "Estádio Municipal de Calulo",
     "status": "scheduled"
   },
@@ -960,9 +974,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "FC Luanda",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-31T14:00:00+00:00",
+    "date": "2026-11-01T15:30:00+01:00",
     "stadium": "Estádio de São Filipe",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-9-7",
@@ -973,7 +988,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Bravos do Maquis",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-31T14:00:00+00:00",
+    "date": "2026-10-31T15:00:00+01:00",
     "stadium": "Estádio do Buraco",
     "status": "scheduled"
   },
@@ -986,9 +1001,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Petro de Luanda",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-10-31T14:00:00+00:00",
+    "date": "2026-10-31T15:30:00+01:00",
     "stadium": "Estádio França N’dalu",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-10-1",
@@ -999,7 +1015,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Académica do Lobito",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-11-07T14:00:00+00:00",
+    "date": "2026-11-08T15:00:00+01:00",
     "stadium": "Estádio dos Mártires da Canhala",
     "status": "scheduled"
   },
@@ -1012,9 +1028,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Estrela 1.º de Maio",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-11-07T14:00:00+00:00",
+    "date": "2026-11-08T17:00:00+01:00",
     "stadium": "Estádio 11 de Novembro",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-10-3",
@@ -1025,9 +1042,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "CD 1.º de Agosto",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-11-07T14:00:00+00:00",
+    "date": "2026-11-07T15:00:00+01:00",
     "stadium": "Estádio Municipal de Calulo",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-10-4",
@@ -1038,7 +1056,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "GD Interclube",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-11-07T14:00:00+00:00",
+    "date": "2026-11-07T15:00:00+01:00",
     "stadium": "Estádio Mundunduleno",
     "status": "scheduled"
   },
@@ -1051,7 +1069,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "São Salvador",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-11-07T14:00:00+00:00",
+    "date": "2026-11-08T15:00:00+01:00",
     "stadium": "Estádio França N’dalu",
     "status": "scheduled"
   },
@@ -1064,7 +1082,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "FC Cabinda",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-11-07T14:00:00+00:00",
+    "date": "2026-11-07T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
     "status": "scheduled"
   },
@@ -1077,9 +1095,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Kabuscorp SC",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-11-07T14:00:00+00:00",
+    "date": "2026-11-06T15:30:00+01:00",
     "stadium": "Estádio da Tundavala",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-10-8",
@@ -1090,9 +1109,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Wiliete de Benguela",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-11-07T14:00:00+00:00",
+    "date": "2026-11-08T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-11-1",

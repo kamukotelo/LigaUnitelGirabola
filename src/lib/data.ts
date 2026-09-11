@@ -120,6 +120,56 @@ export const OFFICIAL_MATCH_SCHEDULE = [
   { round: 5, homeTeamId: 'wiliete', awayTeamId: 'libolo', date: '2026-09-20T16:00:00+01:00' },
   { round: 5, homeTeamId: 'kabuscorp', awayTeamId: 'interclube', date: '2026-09-20T15:00:00+01:00', stadium: 'Estádio França Ndalu', broadcaster: 'Zsports' },
   { round: 5, homeTeamId: 'saosalvador', awayTeamId: 'cabinda', date: '2026-09-20T15:00:00+01:00' },
+
+  // 6.ª Jornada (Comunicado Oficial n.º 006-DCE/ANCAF/2026)
+  { round: 6, homeTeamId: 'petro', awayTeamId: 'caala', date: '2026-10-09T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', broadcaster: 'Zsports' },
+  { round: 6, homeTeamId: 'kabuscorp', awayTeamId: 'wiliete', date: '2026-10-09T15:00:00+01:00', stadium: 'Estádio dos Coqueiros', broadcaster: 'Zsports' },
+  { round: 6, homeTeamId: 'interclube', awayTeamId: 'sagrada', date: '2026-10-10T16:00:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
+  { round: 6, homeTeamId: 'desphuila', awayTeamId: 'saosalvador', date: '2026-10-10T15:00:00+01:00', stadium: 'Estádio da Tundavala' },
+  { round: 6, homeTeamId: 'lundasul', awayTeamId: 'cabinda', date: '2026-10-10T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança' },
+  { round: 6, homeTeamId: 'lobito', awayTeamId: 'dago', date: '2026-10-11T15:00:00+01:00', stadium: 'Estádio do Buraco', broadcaster: 'Zsports' },
+  { round: 6, homeTeamId: 'primeiromaio', awayTeamId: 'bravos', date: '2026-10-11T15:00:00+01:00', stadium: 'Estádio de São Filipe' },
+  { round: 6, homeTeamId: 'fcluanda', awayTeamId: 'libolo', date: '2026-10-11T15:00:00+01:00', stadium: 'Estádio França N’dalu' },
+
+  // 7.ª Jornada (Comunicado Oficial n.º 006-DCE/ANCAF/2026)
+  { round: 7, homeTeamId: 'petro', awayTeamId: 'kabuscorp', date: '2026-10-13T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', broadcaster: 'Zsports' },
+  { round: 7, homeTeamId: 'dago', awayTeamId: 'wiliete', date: '2026-10-14T15:30:00+01:00', stadium: 'Estádio França N’dalu', broadcaster: 'Zsports' },
+  { round: 7, homeTeamId: 'sagrada', awayTeamId: 'caala', date: '2026-10-17T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança' },
+  { round: 7, homeTeamId: 'bravos', awayTeamId: 'lundasul', date: '2026-10-17T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
+  { round: 7, homeTeamId: 'cabinda', awayTeamId: 'lobito', date: '2026-10-17T15:00:00+01:00', stadium: 'Estádio Nacional do Chiazi' },
+  { round: 7, homeTeamId: 'libolo', awayTeamId: 'interclube', date: '2026-10-17T15:30:00+01:00', stadium: 'Estádio Municipal de Calulo', broadcaster: 'Zsports' },
+  { round: 7, homeTeamId: 'saosalvador', awayTeamId: 'primeiromaio', date: '2026-10-18T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
+  { round: 7, homeTeamId: 'fcluanda', awayTeamId: 'desphuila', date: '2026-10-18T15:30:00+01:00', stadium: 'Estádio França N’dalu', broadcaster: 'Zsports' },
+
+  // 8.ª Jornada (Comunicado Oficial n.º 006-DCE/ANCAF/2026)
+  { round: 8, homeTeamId: 'lobito', awayTeamId: 'fcluanda', date: '2026-10-24T15:00:00+01:00', stadium: 'Estádio do Buraco' },
+  { round: 8, homeTeamId: 'sagrada', awayTeamId: 'primeiromaio', date: '2026-10-24T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', broadcaster: 'Zsports' },
+  { round: 8, homeTeamId: 'desphuila', awayTeamId: 'libolo', date: '2026-10-25T15:00:00+01:00', stadium: 'Estádio da Tundavala' },
+  { round: 8, homeTeamId: 'lundasul', awayTeamId: 'interclube', date: '2026-10-25T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', broadcaster: 'Zsports' },
+  { round: 8, homeTeamId: 'cabinda', awayTeamId: 'kabuscorp', date: '2026-10-27T15:00:00+01:00', stadium: 'Estádio Nacional do Chiazi' },
+  { round: 8, homeTeamId: 'caala', awayTeamId: 'dago', date: '2026-10-27T15:30:00+01:00', stadium: 'Estádio dos Mártires da Canhala', broadcaster: 'Zsports' },
+  { round: 8, homeTeamId: 'bravos', awayTeamId: 'petro', date: '2026-10-28T15:00:00+01:00', stadium: 'Estádio Mundunduleno', broadcaster: 'Zsports' },
+  { round: 8, homeTeamId: 'wiliete', awayTeamId: 'saosalvador', date: '2026-10-28T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka' },
+
+  // 9.ª Jornada (Comunicado Oficial n.º 006-DCE/ANCAF/2026)
+  { round: 9, homeTeamId: 'interclube', awayTeamId: 'desphuila', date: '2026-10-30T15:30:00+01:00', stadium: 'Estádio 22 de Junho', broadcaster: 'Zsports' },
+  { round: 9, homeTeamId: 'saosalvador', awayTeamId: 'lundasul', date: '2026-10-31T15:00:00+01:00', stadium: 'Estádio Álvaro Buta' },
+  { round: 9, homeTeamId: 'libolo', awayTeamId: 'sagrada', date: '2026-10-31T15:00:00+01:00', stadium: 'Estádio Municipal de Calulo' },
+  { round: 9, homeTeamId: 'lobito', awayTeamId: 'bravos', date: '2026-10-31T15:00:00+01:00', stadium: 'Estádio do Buraco' },
+  { round: 9, homeTeamId: 'dago', awayTeamId: 'petro', date: '2026-10-31T15:30:00+01:00', stadium: 'Estádio França N’dalu', broadcaster: 'Zsports' },
+  { round: 9, homeTeamId: 'kabuscorp', awayTeamId: 'caala', date: '2026-11-01T15:30:00+01:00', stadium: 'Estádio dos Coqueiros' },
+  { round: 9, homeTeamId: 'primeiromaio', awayTeamId: 'fcluanda', date: '2026-11-01T15:30:00+01:00', stadium: 'Estádio de São Filipe', broadcaster: 'Zsports' },
+  { round: 9, homeTeamId: 'wiliete', awayTeamId: 'cabinda', date: '2026-11-01T17:30:00+01:00', stadium: 'Estádio Nacional de Ombaka', broadcaster: 'Zsports' },
+
+  // 10.ª Jornada (Comunicado Oficial n.º 006-DCE/ANCAF/2026)
+  { round: 10, homeTeamId: 'desphuila', awayTeamId: 'kabuscorp', date: '2026-11-06T15:30:00+01:00', stadium: 'Estádio da Tundavala', broadcaster: 'Zsports' },
+  { round: 10, homeTeamId: 'libolo', awayTeamId: 'dago', date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio Municipal de Calulo', broadcaster: 'Zsports' },
+  { round: 10, homeTeamId: 'bravos', awayTeamId: 'interclube', date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio Mundunduleno' },
+  { round: 10, homeTeamId: 'sagrada', awayTeamId: 'cabinda', date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança' },
+  { round: 10, homeTeamId: 'caala', awayTeamId: 'lobito', date: '2026-11-08T15:00:00+01:00', stadium: 'Estádio dos Mártires da Canhala' },
+  { round: 10, homeTeamId: 'fcluanda', awayTeamId: 'saosalvador', date: '2026-11-08T15:00:00+01:00', stadium: 'Estádio França N’dalu' },
+  { round: 10, homeTeamId: 'lundasul', awayTeamId: 'wiliete', date: '2026-11-08T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', broadcaster: 'Zsports' },
+  { round: 10, homeTeamId: 'petro', awayTeamId: 'primeiromaio', date: '2026-11-08T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', broadcaster: 'Zsports' },
 ] as const;
 
 // Resultados confirmados editorialmente pela plataforma. Esta camada é
@@ -2567,6 +2617,24 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
+  {
+    id: 'comunicado-oficial-006-dce-ancaf-2026',
+    title: 'Publicação da 6.ª à 10.ª jornada da Liga Unitel Girabola 2026/2027',
+    category: 'Comunicado Oficial',
+    date: '11 set. 2026',
+    isoDate: '2026-09-11',
+    summary: 'A ANCAF publica a programação oficial detalhada da 6.ª à 10.ª jornada da Liga Unitel Girabola época 2026/2027, com datas, horários, estádios e transmissões Zsports.',
+    content: 'O Comunicado Oficial n.º 006-DCE/ANCAF/2026 estabelece a calendarização e programação detalhada dos jogos da 6.ª à 10.ª jornada da Liga Unitel Girabola 2026/2027.\n\nA Direção de Competições da Associação Nacional dos Clubes Angolanos de Futebol (ANCAF) divulgou os horários, locais e a grelha de transmissões televisivas assegurada pelo canal Zsports para os 40 encontros deste período competitivo.\n\nO documento foi emitido em Luanda a 11 de Setembro de 2026, sendo homologado pelo Director de Competições, Valódia dos Santos, e pelo Presidente da ANCAF, João Lusevi Kueno.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-09-11T10:00:00+01:00',
+    documentImages: [
+      '/comunicados/comunicado-006-2026/pagina-1.png',
+    ],
+    documentUrl: '/comunicados/comunicado-006-2026/comunicado-006-dce-ancaf-2026.pdf',
+  },
   {
     id: 'comunicado-oficial-005-dce-ancaf-2026',
     title: 'Minuto de silêncio em homenagem a Eduardo Agostinho',
