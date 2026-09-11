@@ -3145,6 +3145,32 @@ export function getMatchesByTeam(teamId: string, seasonId = UPCOMING_SEASON_ID):
   return getMatchesForSeason(seasonId).filter(m => m.homeTeamId === teamId || m.awayTeamId === teamId);
 }
 
+/**
+ * Determina a jornada atualmente ativa / em curso de uma época.
+ * Considera a maior jornada que já arrancou (jogos realizados ou em direto).
+ * Se todos os jogos dessa jornada já terminaram, avança para a próxima jornada.
+ * Jogos isolados adiados de jornadas anteriores (acertos de calendário) não
+ * puxam o calendário para trás.
+ */
+export function getActiveSeasonRound(matches: Match[]): number {
+  const rounds = Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b);
+  if (rounds.length === 0) return 1;
+
+  const startedMatches = matches.filter((m) => m.status !== 'scheduled');
+  if (startedMatches.length === 0) return rounds[0];
+
+  const maxStartedRound = Math.max(...startedMatches.map((m) => m.round));
+  const maxStartedMatches = matches.filter((m) => m.round === maxStartedRound);
+  const hasPendingInMaxStarted = maxStartedMatches.some((m) => m.status !== 'finished');
+
+  if (hasPendingInMaxStarted) {
+    return maxStartedRound;
+  }
+
+  const nextRound = rounds.find((r) => r > maxStartedRound);
+  return nextRound ?? maxStartedRound;
+}
+
 // Aplica os overrides de jogador (admin) sobre os dados brutos e reenriquece,
 // para que golos/estatísticas editados sejam recalculados de forma coerente.
 function computePlayers(): Player[] {

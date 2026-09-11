@@ -19,6 +19,7 @@ import {
   getTeamFullName,
   getVideoHighlights,
   computeStandings,
+  getActiveSeasonRound,
 } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -34,15 +35,8 @@ const OFFICIAL_PARTNERS = [
 ] as const;
 
 function getDefaultRoundForSeason(seasonId: string) {
-  const finishedMatches = getMatchesForSeason(seasonId).filter((match) => match.status === 'finished');
-  if (finishedMatches.length === 0) return 1;
-
-  // Um jogo antecipado de uma jornada posterior não deve esconder a jornada
-  // que está efetivamente a ser disputada. Usamos o jogo terminado mais
-  // recente e só recorremos ao número da jornada como critério de desempate.
-  return [...finishedMatches].sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime() || b.round - a.round
-  )[0].round;
+  const matches = getMatchesForSeason(seasonId);
+  return getActiveSeasonRound(matches);
 }
 
 export default function LigaAngolaBlock() {

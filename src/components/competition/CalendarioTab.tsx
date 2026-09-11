@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Trophy, Target, CalendarDays, Flag, Tv, X, Filter, Sparkles, MapPin } from 'lucide-react';
-import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match } from '@/lib/data';
+import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match, getActiveSeasonRound } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -77,15 +77,12 @@ export function isDerbiLeste(m: Match): boolean {
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
-// Jornada mostrada por defeito: a próxima por disputar (ou, se a época estiver
-// concluída, a última). Evita renderizar as 240 partidas de uma só vez — o
-// utilizador pode sempre escolher "TODAS". Grande ganho de performance.
-function getDefaultRound(seasonId: string): number | 'all' {
-  const matches = getMatchesForSeason(seasonId);
-  const rounds = Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b);
-  if (rounds.length === 0) return 'all';
-  const nextRound = rounds.find((r) => matches.some((m) => m.round === r && m.status !== 'finished'));
-  return nextRound ?? rounds[rounds.length - 1];
+// Jornada mostrada por defeito: a jornada ativa em disputa (ou a última se a época
+// estiver concluída). Evita renderizar as 240 partidas de uma só vez — o utilizador
+// pode sempre escolher "TODAS". Grande ganho de performance.
+function getDefaultRound(seasonId: string, customMatches?: Match[]): number | 'all' {
+  const matches = customMatches ?? getMatchesForSeason(seasonId);
+  return getActiveSeasonRound(matches);
 }
 
 function getDefaultFilters(seasonId: string): CalendarFilters {
@@ -230,14 +227,23 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   // Resumo da época
   const finishedMatches = MATCHES.filter((m) => m.status === 'finished');
   const totalGoals = finishedMatches.reduce((s, m) => s + (m.homeScore ?? 0) + (m.awayScore ?? 0), 0);
-  const nextRound = rounds.find((r) => MATCHES.some((m) => m.round === r && m.status !== 'finished'));
-  const playedRounds = rounds.filter((r) => MATCHES.filter((m) => m.round === r).every((m) => m.status === 'finished')).length;
+  const activeSeasonRound = getActiveSeasonRound(MATCHES);
+  const isSeasonFinished = MATCHES.length > 0 && MATCHES.every((m) => m.status === 'finished');
+  const nextUpcomingRound = rounds.find((r) => r > activeSeasonRound && MATCHES.some((m) => m.round === r && m.status !== 'finished'));
 
   const seasonStats = [
-    { label: 'Jornadas', value: `${playedRounds}/${rounds.length}`, icon: CalendarDays },
+    {
+      label: isSeasonFinished ? 'Jornadas Concluídas' : 'Jornada Atual',
+      value: isSeasonFinished ? `${rounds.length}/${rounds.length}` : `J${activeSeasonRound}`,
+      icon: CalendarDays,
+    },
     { label: 'Jogos Disputados', value: finishedMatches.length, icon: Trophy },
     { label: 'Golos Marcados', value: totalGoals, icon: Target },
-    { label: 'Próxima Jornada', value: nextRound ? `J${nextRound}` : '—', icon: Flag },
+    {
+      label: 'Próxima Jornada',
+      value: nextUpcomingRound ? `J${nextUpcomingRound}` : '—',
+      icon: Flag,
+    },
   ];
 
   const statusOptions: { key: StatusFilter; label: string }[] = [

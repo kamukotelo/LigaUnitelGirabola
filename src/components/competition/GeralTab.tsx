@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Video, Newspaper, Ticket, Tv } from 'lucide-react';
-import { getMatchBroadcast, getNewsArticles, isMatchDateOfficial, Match } from '@/lib/data';
+import { getActiveSeasonRound, getMatchBroadcast, getNewsArticles, isMatchDateOfficial, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 
@@ -67,14 +67,13 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
   const { matches, loading: loadingCalendar, generatedAt } = useOfficialCalendar(seasonId);
   const rounds = useMemo(() => Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b), [matches]);
 
-  // Abre na próxima jornada por disputar; se todas terminadas, na última.
+  // Abre na jornada ativa da época (jornada em curso).
   const defaultRound = useMemo(() => {
-    const next = rounds.find((r) => matches.some((m) => m.round === r && m.status !== 'finished'));
-    return next ?? rounds[rounds.length - 1] ?? 1;
-  }, [rounds, matches]);
+    return getActiveSeasonRound(matches);
+  }, [matches]);
 
-  const [round, setRound] = useState<number>(defaultRound);
-  const activeRound = rounds.includes(round) ? round : defaultRound;
+  const [userRound, setUserRound] = useState<number | null>(null);
+  const activeRound = userRound !== null && rounds.includes(userRound) ? userRound : defaultRound;
   const roundMatches = matches.filter((m) => m.round === activeRound);
 
   // Agrupar por dia (rótulo estilo "DOM. 09 AGO")
@@ -112,7 +111,7 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
         {rounds.map((r) => (
           <button
             key={r}
-            onClick={() => setRound(r)}
+            onClick={() => setUserRound(r)}
             className={`snap-start px-4 py-2 rounded-full text-[11px] font-bold font-mono uppercase tracking-wider whitespace-nowrap transition-all flex-shrink-0 ${
               activeRound === r
                 ? 'bg-accent text-white shadow-sm'

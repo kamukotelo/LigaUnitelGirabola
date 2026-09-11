@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Flag, Info } from 'lucide-react';
-import { getRefereeNominations, getTeamById } from '@/lib/data';
+import { getRefereeNominations, getTeamById, getActiveSeasonRound, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 
@@ -15,9 +15,14 @@ export default function NomeacoesTab({ seasonId }: { seasonId: string }) {
     () => Array.from(new Set(nominations.map((n) => n.round))).sort((a, b) => a - b),
     [nominations],
   );
-  const [selectedRound, setSelectedRound] = useState<number>(rounds[0] ?? 1);
+  const defaultRound = useMemo(() => {
+    const active = getActiveSeasonRound(getMatchesForSeason(seasonId));
+    return rounds.includes(active) ? active : (rounds[0] ?? 1);
+  }, [seasonId, rounds]);
+  const [userRound, setUserRound] = useState<number | null>(null);
+  const selectedRound = userRound !== null && rounds.includes(userRound) ? userRound : defaultRound;
 
-  const roundNominations = nominations.filter((n) => n.round === (rounds.includes(selectedRound) ? selectedRound : rounds[0]));
+  const roundNominations = nominations.filter((n) => n.round === selectedRound);
 
   if (nominations.length === 0) {
     return (
@@ -37,7 +42,7 @@ export default function NomeacoesTab({ seasonId }: { seasonId: string }) {
             {rounds.map((round) => (
               <button
                 key={round}
-                onClick={() => setSelectedRound(round)}
+                onClick={() => setUserRound(round)}
                 className={`snap-start px-3 py-1.5 rounded-lg text-xs font-semibold font-mono whitespace-nowrap transition-all flex-shrink-0 ${
                   selectedRound === round
                     ? 'bg-accent text-black'
