@@ -392,6 +392,25 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: '2026-09-10T17:30:00+01:00',
   },
+  // 4.ª jornada · 12/09/2026 · Estádio Municipal de Calulo
+  'm27-4-8': {
+    homeScore: 2,
+    awayScore: 1,
+    score: '2-1',
+    halfTimeScore: '2-1',
+    status: 'finished',
+    updatedAt: '2026-09-12T17:00:00+01:00',
+  },
+  // 4.ª jornada · 12/09/2026 · Estádio Sagrada Esperança (Relatório Oficial nº 28)
+  'm27-4-2': {
+    homeScore: 2,
+    awayScore: 1,
+    score: '2-1',
+    halfTimeScore: '1-1',
+    status: 'finished',
+    updatedAt: '2026-09-12T17:00:00+01:00',
+    attendance: 4782,
+  },
 };
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
@@ -484,7 +503,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'luyeye-cabinda', name: 'Luyeye Tomás', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 2, appearances: 2 },
   { id: 'leonardo-isola-huila', name: 'Leonardo Manuel Isola Ramos', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'cuxixima-libolo', name: 'Cuxixima', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
-  { id: 'pedro-libolo', name: 'Pedro', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'pedro-libolo', name: 'Pedro Mendes', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 2, appearances: 2 },
   { id: 'andeloy-libolo', name: 'Andeloy', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'ju-cabral-bravos', name: 'Ju Cabral', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'lito-bravos', name: 'Lito', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
@@ -515,6 +534,11 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'fifa-1jwu0l8', name: 'Rodino Dumbo José', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 1, appearances: 2 },
   { id: 'patrick-banza-interclube', name: 'Patrick Banza', club: 'GD Interclube', teamId: 'interclube', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'pedro-manuel-interclube', name: 'Pedro Manuel', club: 'GD Interclube', teamId: 'interclube', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'mestre-gui-libolo', name: 'Mestre Gui', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
+  { id: 'fifa-1nb4bp9', name: 'Tchutchu', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Médio', goals: 1, appearances: 2 },
+  { id: 'fifa-1v1a1u9', name: 'Alexandre Abel Fernando', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Defesa', goals: 1, appearances: 2 },
+  { id: 'mussa-lunda-sul', name: 'Joaquim Teixeira (Mussá)', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Avançado', goals: 1, appearances: 2 },
+  { id: 'magrinho', name: 'Félix Honjo (Magrinho)', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Avançado', goals: 1, appearances: 2 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -531,16 +555,16 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'joao-milagre-huila': { yellow: 1, red: 0 },
   'angelo-cangu-huila': { yellow: 1, red: 0 },
   'maranata': { yellow: 1, red: 0 },
-  'platini': { yellow: 2, red: 0 },
+  'platini': { yellow: 3, red: 0 },
   'ximba': { yellow: 1, red: 0 },
-  'kibuata': { yellow: 1, red: 0 },
+  'kibuata': { yellow: 2, red: 0 },
   'deybi-flores': { yellow: 1, red: 0 },
   'antonio-hossi': { yellow: 1, red: 0 },
   'berna': { yellow: 1, red: 0 },
   'ju-cabral-bravos': { yellow: 1, red: 0 },
   'dabanda-bravos': { yellow: 1, red: 0 },
   'cahilo-sagrada': { yellow: 1, red: 0 },
-  'miguel-sagrada': { yellow: 1, red: 0 },
+  'miguel-sagrada': { yellow: 2, red: 0 },
   'pimpao-sagrada': { yellow: 1, red: 0 },
   'marcos-cabinda': { yellow: 2, red: 0 },
   'antonio-cabinda': { yellow: 1, red: 0 },
@@ -549,7 +573,7 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'venancio-dago': { yellow: 2, red: 0 },
   'lisneu-caala': { yellow: 1, red: 0 },
   // 3.ª jornada — ficha oficial de arbitragem (jogos 20 e 22).
-  'fifa-1jz48i2': { yellow: 1, red: 0 },   // Cachindele (Lunda Sul)
+  'fifa-1jz48i2': { yellow: 2, red: 0 },   // Cachindele (Lunda Sul)
   'fifa-1k2pgl3': { yellow: 1, red: 0 },   // Singongo (Lunda Sul)
   'fifa-1jwgzb2': { yellow: 1, red: 0 },   // Arilson de Ceita Pereira Jorge (Caála)
   'fifa-1qvfe29': { yellow: 1, red: 0 },   // Ernesto Vieira (Caála)
@@ -572,7 +596,7 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'fred': { yellow: 1, red: 0 },            // Frederico Singongo (Desportivo da Lunda Sul · Relatório 14 / m27-2-2)
   'cacusso': { yellow: 1, red: 0 },         // Adalberto Wacamba (Desportivo da Lunda Sul · Relatório 14 / m27-2-2)
   'dieu': { yellow: 1, red: 0 },            // Dieu David (Desportivo da Lunda Sul · Relatório 14 / m27-2-2)
-  'fifa-1v1a1u9': { yellow: 1, red: 0 },   // Alexandre Abel Fernando (Sagrada Esperança · Relatório 13 / m27-2-4)
+  'fifa-1v1a1u9': { yellow: 2, red: 0 },   // Alexandre Abel Fernando (Sagrada Esperança · Relatório 13 / m27-2-4)
   'fifa-1jzirz7': { yellow: 1, red: 0 },   // Manuel de Matos (São Salvador · Relatório 13 / m27-2-4)
   'fifa-1ljudk2': { yellow: 1, red: 0 },   // Gelson André (FC Luanda · m27-2-5)
   'ricardo-batista-fcluanda': { yellow: 1, red: 0 }, // Ricardo Batista (FC Luanda · m27-2-5)
@@ -596,6 +620,14 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'fifa-1ljjyh4': { yellow: 1, red: 0 },   // Mário Chiwale Caluaco da Silva Mário (FC Cabinda · 66')
   'cabinda-player-1': { yellow: 1, red: 0 }, // João Eduardo (FC Cabinda · 86')
   'bruno-dago': { yellow: 1, red: 0 },     // Bruno de Jesus Manuel (CD 1.º de Agosto · 79')
+  // 4.ª jornada — ficha oficial de arbitragem (Match No. 28 · Lunda Sul vs Sagrada Esperança).
+  'sozito': { yellow: 1, red: 0 },           // Mario Bernardo Keta (Lunda Sul · 44')
+  'joca-lunda-sul': { yellow: 1, red: 0 },   // João Baptista Cassicote (Lunda Sul · 63')
+  'nguala-lunda-sul': { yellow: 1, red: 0 }, // Hanilton Cassueca Nguala (Lunda Sul · 67')
+  'agostinho-lunda-sul': { yellow: 1, red: 0 }, // Pedro Domingos Agostinho (Lunda Sul · 71')
+  'nacavuza-lunda-sul': { yellow: 1, red: 0 }, // Bernardo Raimundo Nacavuza (Lunda Sul · 83')
+  'magrinho': { yellow: 1, red: 0 },         // Felix Honjo (Lunda Sul · 90'+3')
+  'melono-sagrada': { yellow: 1, red: 0 },   // Melone Moundo Dala (Sagrada Esperança · 51')
 };
 
 export interface Player extends PlayerStats {
@@ -2231,9 +2263,10 @@ const LIBOLO_SQUAD_2026_27: Player[] = [
   ['chimito-libolo', 'Chimito', 'Médio', 6, 1, 0],
   ['andeloy-libolo', 'Andeloy', 'Médio', 10, 1, 1],
   ['nelo-libolo', 'Nelo', 'Médio', 14, 1, 0],
-  ['pedro-libolo', 'Pedro', 'Avançado', 17, 1, 1],
+  ['pedro-libolo', 'Pedro', 'Avançado', 17, 2, 2],
   ['tubarao-libolo', 'Tubarão', 'Avançado', 30, 1, 0],
   ['cuxixima-libolo', 'Cuxixima', 'Avançado', 27, 1, 1],
+  ['mestre-gui-libolo', 'Mestre Gui', 'Avançado', 9, 1, 1],
   ['mario-libolo', 'Mário', 'Guarda-redes', 20, 0, 0],
   ['jamanta-libolo', 'Jamanta', 'Avançado', 19, 1, 0],
   ['jorgito-libolo', 'Jorgito', 'Médio', 15, 0, 0],
@@ -2623,8 +2656,8 @@ export const newsMock: NewsArticle[] = [
     category: 'Comunicado Oficial',
     date: '11 set. 2026',
     isoDate: '2026-09-11',
-    summary: 'A ANCAF publica a programação oficial detalhada da 6.ª à 10.ª jornada da Liga Unitel Girabola época 2026/2027, com datas, horários, estádios e transmissões Zsports.',
-    content: 'O Comunicado Oficial n.º 006-DCE/ANCAF/2026 estabelece a calendarização e programação detalhada dos jogos da 6.ª à 10.ª jornada da Liga Unitel Girabola 2026/2027.\n\nNa 6.ª jornada, o encontro entre o CD da Huíla e o São Salvador FC disputa-se no domingo, 11 de outubro de 2026, às 15:30, no Estádio da Tundavala.\n\nA Direção de Competições da Associação Nacional dos Clubes Angolanos de Futebol (ANCAF) divulgou os horários, locais e a grelha de transmissões televisivas assegurada pelo canal Zsports para os 40 encontros deste período competitivo.\n\nO documento foi emitido em Luanda a 11 de Setembro de 2026, sendo homologado pelo Director de Competições, Valódia dos Santos, e pelo Presidente da ANCAF, João Lusevi Kueno.',
+    summary: 'Programação corrigida: CD da Huíla x Académica do Lobito em 20/09 às 15:30 e CD da Huíla x São Salvador em 11/10 às 15:30.',
+    content: 'Atualização da programação da Liga Unitel Girabola 2026/2027: na 5.ª jornada, CD da Huíla x Académica do Lobito joga-se no domingo, 20 de setembro de 2026, às 15:30, no Estádio da Tundavala.\n\nNa 6.ª jornada, CD da Huíla x São Salvador joga-se no domingo, 11 de outubro de 2026, às 15:30, no mesmo estádio.\n\nO PDF disponibilizado nesta notícia contém a programação do Comunicado Oficial n.º 006-DCE/ANCAF/2026 com a linha da 6.ª jornada corrigida e uma página adicional que identifica as duas alterações. Os restantes jogos mantêm a programação apresentada.',
     status: 'published',
     author: 'Direção de Competições da ANCAF',
     sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
@@ -2632,6 +2665,7 @@ export const newsMock: NewsArticle[] = [
     publishedAt: '2026-09-11T10:00:00+01:00',
     documentImages: [
       '/comunicados/comunicado-006-2026/pagina-1.png',
+      '/comunicados/comunicado-006-2026/pagina-2.png',
     ],
     documentUrl: '/comunicados/comunicado-006-2026/comunicado-006-dce-ancaf-2026.pdf',
   },
@@ -3304,9 +3338,16 @@ export function getNewsArticles(): NewsArticle[] {
   const deleted = new Set(ov?.deleted ?? []);
   const databaseNews = RUNTIME_DATA.news ?? [];
   const databaseIds = new Set(databaseNews.map((article) => article.id));
+  const correctedCommunique = newsMock.find((article) => article.id === 'comunicado-oficial-006-dce-ancaf-2026');
   const merged = [...(ov?.added ?? []), ...databaseNews, ...newsMock.filter((article) => !databaseIds.has(article.id))]
     .filter((a) => !deleted.has(a.id))
     .map((a) => (ov?.overrides?.[a.id] ? { ...a, ...ov.overrides[a.id] } : a))
+    // O comunicado anterior pode permanecer na BD enquanto a cópia corrigida
+    // do portal é publicada. Os campos retificados acompanham o novo PDF.
+    .map((a) => a.id === correctedCommunique?.id
+      ? { ...a, summary: correctedCommunique.summary, content: correctedCommunique.content,
+          documentImages: correctedCommunique.documentImages, documentUrl: correctedCommunique.documentUrl }
+      : a)
     // Política editorial fail-closed: conteúdos antigos, rascunhos ou peças
     // ainda em validação nunca aparecem no portal público.
     .filter((a) => a.status === 'published');
@@ -4253,8 +4294,105 @@ function getPublishedInterclubeLobitoLineups(match: Match): { home: LineupPlayer
   };
 }
 
+/** Onze inicial e suplentes oficiais de Desportivo da Lunda Sul–GD Sagrada Esperança (4.ª jornada · Relatório nº 28). */
+function getPublishedLundaSulSagradaLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-4-2') return undefined;
+
+  const player = (
+    name: string,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+    playerId?: string,
+    isCaptain: boolean = false,
+  ): LineupPlayer => ({ name, number, position, isStarter, isCaptain, playerId, rating: 0 });
+
+  return {
+    home: [
+      player('Adalberto Wacamba', 12, 'GK', true, 'cacusso'),
+      player('Pedro Domingos Agostinho', 30, 'DEF', true, 'agostinho-lunda-sul', true),
+      player('Frederico Singongo', 5, 'DEF', true, 'fred'),
+      player('Elindo Wanga Paulino', 6, 'MID', true, 'platini'),
+      player('Osvaldo Miguel', 8, 'MID', true, 'vado-lunda-sul'),
+      player('Felix Honjo', 11, 'FWD', true, 'magrinho'),
+      player('Manuel Cachindele', 19, 'FWD', true, 'fifa-1jz48i2'),
+      player('Joaquim Teixeira', 20, 'FWD', true, 'mussa-lunda-sul'),
+      player('Dieu David', 25, 'DEF', true, 'dieu'),
+      player('Mario Bernardo Keta', 26, 'DEF', true, 'sozito'),
+      player('João Baptista Cassicote', 27, 'FWD', true, 'joca-lunda-sul'),
+      player('Ervinecio Daniel', 1, 'GK', false),
+      player('Hanilton Cassueca Nguala', 3, 'DEF', false, 'nguala-lunda-sul'),
+      player('Maranata Domingos Sicuba Vunge', 10, 'MID', false, 'maranata'),
+      player('Bernardo Raimundo Nacavuza', 14, 'FWD', false, 'nacavuza-lunda-sul'),
+      player('Domingos Ximba', 16, 'MID', false, 'ximba'),
+      player('Antonio Ngola Ngulu', 17, 'FWD', false, 'jepson'),
+      player('João Ambrosio', 28, 'DEF', false, 'kibuata'),
+      player('João Silvano Caluvili', 33, 'MID', false, 'zonzo'),
+      player('Joao Bivoba Zau', 35, 'FWD', false, 'fuca'),
+    ],
+    away: [
+      player('Nsesani Simão', 12, 'GK', true, 'nsesani-sagrada'),
+      player('Luis Bumba Tati', 20, 'DEF', true, 'luis-tati-sagrada', true),
+      player('Alexandre Abel Fernando', 2, 'DEF', true, 'fifa-1v1a1u9'),
+      player('Manuel Vunge', 3, 'DEF', true, 'manuel-sagrada'),
+      player('Miguel Anselmo Basilio Daniel', 5, 'DEF', true, 'miguel-sagrada'),
+      player('Jorge Txando Francisco Lucussa', 9, 'FWD', true, 'jorge-sagrada'),
+      player('Simone Eduardo Assa Miranda', 10, 'MID', true, 'lepua-sagrada'),
+      player('Melone Moundo Dala', 11, 'FWD', true, 'melono-sagrada'),
+      player('Messias Manuel Agostinho Neves', 21, 'MID', true),
+      player('Afonso Marques', 24, 'MID', true, 'afonso-sagrada'),
+      player('Barreira Paulo', 28, 'DEF', true, 'barreira-sagrada'),
+      player('Felisberto Dala Sebastiao', 7, 'FWD', false, 'dabanda-sagrada'),
+      player('Guilherme Francisco Saiendo Cabuço', 8, 'MID', false, 'guilherme-sagrada'),
+      player('Leonardo Mutunda', 13, 'GK', false, 'leonardo-sagrada'),
+      player('Bartolomeu Domingos', 14, 'DEF', false, 'tobias-sagrada'),
+      player('Filipe Pimpao', 16, 'FWD', false, 'pimpao-sagrada'),
+      player('Joao Ngunza Muanha', 17, 'DEF', false, 'gogoro-sagrada'),
+      player('Paulo Catumbila', 23, 'MID', false),
+      player('Manuel Cunha', 25, 'DEF', false),
+      player('Sapalo André', 31, 'MID', false, 'sapalo-sagrada'),
+    ],
+  };
+}
+
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  // 4.ª jornada · 12/09/2026 · Recreativo do Libolo 2-1 Estrela 1.º de Maio
+  if (match.id === 'm27-4-8') return [
+    { minute: 7, type: 'goal', team: 'away', player: 'Tchutchu', number: 22, playerId: 'fifa-1nb4bp9', detail: "7' (0-1)" },
+    { minute: 17, type: 'goal', team: 'home', player: 'Mestre Gui', playerId: 'mestre-gui-libolo', detail: "17' (1-1)" },
+    { minute: 38, type: 'goal', team: 'home', player: 'Pedro Mendes', number: 17, playerId: 'pedro-libolo', detail: "38' (2-1)" },
+  ];
+
+  // 4.ª jornada · 12/09/2026 · Desportivo da Lunda Sul 2-1 GD Sagrada Esperança (Relatório Oficial nº 28)
+  if (match.id === 'm27-4-2') return [
+    { minute: 21, type: 'goal', team: 'away', player: 'Alexandre Abel Fernando', number: 2, playerId: 'fifa-1v1a1u9', detail: "21' (0-1)" },
+    { minute: 29, type: 'yellow', team: 'home', player: 'Manuel Cachindele', number: 19, playerId: 'fifa-1jz48i2', detail: 'Falta táctica' },
+    { minute: 35, type: 'yellow', team: 'home', player: 'Cleverson Silva', detail: 'Treinador · Persistir em desobedecer às instruções do árbitro' },
+    { minute: 44, type: 'yellow', team: 'home', player: 'Mario Bernardo Keta', number: 26, playerId: 'sozito', detail: 'Prática de jogo perigoso' },
+    { minute: 45, type: 'goal', team: 'home', player: 'Joaquim Teixeira', number: 20, playerId: 'mussa-lunda-sul', detail: "45'+4' (1-1)" },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Alexandre Abel Fernando', number: 2, playerId: 'fifa-1v1a1u9', detail: "45'+3' · Agarrar adversário" },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Miguel Anselmo Basilio Daniel', number: 5, playerId: 'miguel-sagrada', detail: "45'+3' · Discordar da decisão do árbitro" },
+    { minute: 45, type: 'sub', team: 'home', player: 'Bernardo Raimundo Nacavuza', number: 14, playerId: 'nacavuza-lunda-sul', playerOut: 'Osvaldo Miguel' },
+    { minute: 51, type: 'yellow', team: 'away', player: 'Melone Moundo Dala', number: 11, playerId: 'melono-sagrada', detail: 'Empurrar adversário' },
+    { minute: 53, type: 'goal', team: 'home', player: 'Felix Honjo', number: 11, playerId: 'magrinho', detail: "53' (2-1)" },
+    { minute: 56, type: 'sub', team: 'away', player: 'Guilherme Francisco Saiendo Cabuço', number: 8, playerId: 'guilherme-sagrada', playerOut: 'Barreira Paulo' },
+    { minute: 56, type: 'sub', team: 'away', player: 'Felisberto Dala Sebastiao', number: 7, playerId: 'dabanda-sagrada', playerOut: 'Jorge Txando Francisco Lucussa' },
+    { minute: 60, type: 'sub', team: 'home', player: 'Antonio Ngola Ngulu', number: 17, playerId: 'jepson', playerOut: 'Joaquim Teixeira' },
+    { minute: 63, type: 'yellow', team: 'home', player: 'João Baptista Cassicote', number: 27, playerId: 'joca-lunda-sul', detail: 'Falta táctica' },
+    { minute: 67, type: 'yellow', team: 'home', player: 'Hanilton Cassueca Nguala', number: 3, playerId: 'nguala-lunda-sul', detail: 'Entrar para o terreno sem autorização' },
+    { minute: 67, type: 'sub', team: 'home', player: 'João Ambrosio', number: 28, playerId: 'kibuata', playerOut: 'Mario Bernardo Keta' },
+    { minute: 67, type: 'sub', team: 'home', player: 'Hanilton Cassueca Nguala', number: 3, playerId: 'nguala-lunda-sul', playerOut: 'João Baptista Cassicote' },
+    { minute: 70, type: 'yellow', team: 'home', player: 'João Ambrosio', number: 28, playerId: 'kibuata', detail: 'Rastrear adversário' },
+    { minute: 71, type: 'yellow', team: 'home', player: 'Pedro Domingos Agostinho', number: 30, playerId: 'agostinho-lunda-sul', detail: 'Falta táctica' },
+    { minute: 75, type: 'yellow', team: 'home', player: 'Elindo Wanga Paulino', number: 6, playerId: 'platini', detail: 'Falta tática' },
+    { minute: 76, type: 'sub', team: 'away', player: 'Joao Ngunza Muanha', number: 17, playerId: 'gogoro-sagrada', playerOut: 'Manuel Vunge' },
+    { minute: 76, type: 'sub', team: 'away', player: 'Filipe Pimpao', number: 16, playerId: 'pimpao-sagrada', playerOut: 'Afonso Marques' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Domingos Ximba', number: 16, playerId: 'ximba', playerOut: 'Pedro Domingos Agostinho' },
+    { minute: 83, type: 'yellow', team: 'home', player: 'Bernardo Raimundo Nacavuza', number: 14, playerId: 'nacavuza-lunda-sul', detail: 'Falta táctica' },
+    { minute: 92, type: 'sub', team: 'away', player: 'Bartolomeu Domingos', number: 14, playerId: 'tobias-sagrada', playerOut: 'Simone Eduardo Assa Miranda' },
+    { minute: 93, type: 'yellow', team: 'home', player: 'Felix Honjo', number: 11, playerId: 'magrinho', detail: 'Falta táctica' },
+  ];
   // 4.ª jornada · 09/09/2026 · FC Cabinda 1-1 CD 1.º de Agosto
   if (match.id === 'm27-4-5') return [
     { minute: 25, type: 'goal', team: 'home', player: 'Luyeye Tomás Tomás', number: 13, playerId: 'luyeye-cabinda', detail: "25' (1-0)" },
@@ -4672,6 +4810,7 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-3-4': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-4-5': { home: { yellowCards: 4, redCards: 0 }, away: { yellowCards: 1, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-4-7': { home: { corners: 4, yellowCards: 2, redCards: 0 }, away: { corners: 4, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
+  'm27-4-2': { home: { yellowCards: 10, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
 };
 
 /**
@@ -5264,12 +5403,15 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
   'm27-4-5': { home: 'Luciano Capoco', away: 'Filipe Nanza' },
   'm27-4-7': { home: 'Divaldo Alves', away: 'Silvestre Pelé' },
+  'm27-4-8': { home: 'Osvaldo Roque', away: 'Águas da Silva' },
+  'm27-4-2': { home: 'Cleverson Silva', away: 'Clemente Martins Mendonça' },
 };
 
 export function getMatchDetail(match: Match): MatchDetail {
   // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código.
   const dbLineup = RUNTIME_DATA.lineups?.[match.id];
-  const publishedLineups = dbLineup ?? getPublishedInterclubeLobitoLineups(match)
+  const publishedLineups = dbLineup ?? getPublishedLundaSulSagradaLineups(match)
+    ?? getPublishedInterclubeLobitoLineups(match)
     ?? getPublishedCabindaAgostoLineups(match)
     ?? getPublishedBravosSagradaLineups(match)
     ?? getPublishedCabindaLiboloLineups(match)
@@ -5473,6 +5615,12 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       referee: 'Bernardo Kenge Mário',
       assistants: ['Nery Domingos Pereira Amador da Silva', 'Josemar Ageu Domingos Francisco'],
       fourth: 'Sabino Garcez de Sousa de Carvalho',
+      commissioner: 'Alberto Bumba Senda',
+    },
+    'm27-4-2': {
+      referee: 'Miguel Julião Mateus',
+      assistants: ['Domingos Monteiro Francisco', 'Januário Simões Francisco'],
+      fourth: 'André Muamba Paulo',
       commissioner: 'Alberto Bumba Senda',
     },
   };

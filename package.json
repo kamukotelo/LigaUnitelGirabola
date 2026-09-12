@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run test:regressions && next build",
+    "build": "node scripts/write-platform-build-info.mjs && npm run test:regressions && next build",
     "start": "next start",
     "lint": "eslint",
     "test:ancaf-reception": "node scripts/test-ancaf-calendar-reception.mjs",

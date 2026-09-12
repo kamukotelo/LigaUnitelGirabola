@@ -396,11 +396,14 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "primeiromaio",
     "homeTeam": "Recreativo do Libolo",
     "awayTeam": "Estrela 1.º de Maio",
-    "homeScore": 0,
-    "awayScore": 0,
+    "homeScore": 2,
+    "awayScore": 1,
+    "score": "2-1",
+    "halfTimeScore": "2-1",
     "date": "2026-09-12T15:00:00+01:00",
     "stadium": "Estádio Municipal de Calulo",
-    "status": "scheduled"
+    "status": "finished",
+    "updatedAt": "2026-09-12T17:00:00+01:00"
   },
   {
     "id": "m27-4-1",
@@ -422,11 +425,15 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "sagrada",
     "homeTeam": "Desportivo da Lunda Sul",
     "awayTeam": "Sagrada Esperança",
-    "homeScore": 0,
-    "awayScore": 0,
+    "homeScore": 2,
+    "awayScore": 1,
+    "score": "2-1",
+    "halfTimeScore": "1-1",
     "date": "2026-09-12T15:00:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
-    "status": "scheduled"
+    "status": "finished",
+    "updatedAt": "2026-09-12T17:00:00+01:00",
+    "attendance": 4782
   },
   {
     "id": "m27-4-3",

@@ -2,6 +2,7 @@
 /outputs/
 /scripts/*
 !/scripts/test-portal-regressions.mjs
+!/scripts/write-platform-build-info.mjs
 /public/templates/ultima_rodada_importada.json
 /*.docx
 /*.pdf

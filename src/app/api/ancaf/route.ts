@@ -20,6 +20,7 @@ import {
   PLATFORM_MATCH_UPDATED_AT,
 } from '@/lib/data';
 import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/lib/published-ancaf-calendar';
+import { PLATFORM_BUILD_PUBLISHED_AT } from '@/lib/platform-build-info';
 
 // ── ENDPOINT ANCAF · GET /api/ancaf ──────────────────────────────────
 // Serve o calendário ANCAF 2026/2027 persistido exatamente como foi recebido
@@ -29,7 +30,17 @@ import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/li
 // loadCalendarFromDb abaixo) e só é recalculada quando o admin publica.
 
 const DEFAULT_CAF_TEAM_IDS = ['petro', 'wiliete'];
-const PLATFORM_CALENDAR_BASE_UPDATED_AT = PLATFORM_MATCH_UPDATED_AT;
+function mostRecentPublishedAt(...timestamps: (string | null | undefined)[]): string {
+  return timestamps.reduce<string>((latest, value) => {
+    if (!value || !Number.isFinite(Date.parse(value))) return latest;
+    return Date.parse(value) > Date.parse(latest) ? value : latest;
+  }, PLATFORM_MATCH_UPDATED_AT);
+}
+
+const PLATFORM_CALENDAR_BASE_UPDATED_AT = mostRecentPublishedAt(
+  PLATFORM_BUILD_PUBLISHED_AT,
+  ...PUBLISHED_MATCHES_2026_27.map((match) => match.updatedAt),
+);
 
 function getCafTeamIds(): string[] {
   const configured = process.env.ANCAF_CAF_TEAM_IDS
@@ -59,6 +70,7 @@ interface DbMatch {
   broadcaster: string | null;
   attendance: number | null;
   useful_time_minutes: number | null;
+  updated_at: string | null;
 }
 
 function fromDbMatch(match: DbMatch): Match {
@@ -83,6 +95,7 @@ function fromDbMatch(match: DbMatch): Match {
     broadcaster: match.broadcaster ?? undefined,
     attendance: match.attendance ?? undefined,
     usefulTimeMinutes: match.useful_time_minutes ?? undefined,
+    updatedAt: match.updated_at ?? undefined,
   };
 }
 
@@ -139,7 +152,7 @@ async function loadCalendarFromDb() {
         .in('key', ['active_calendar_index', 'active_calendar_seed', 'active_calendar_fingerprint', 'override_calendar']),
         supabase
           .from('ancaf_matches')
-          .select('id, round, home_team_id, away_team_id, home_team, away_team, home_score, away_score, score, half_time_score, date, stadium, status, schedule_status, referee, broadcaster, attendance, useful_time_minutes')
+          .select('id, round, home_team_id, away_team_id, home_team, away_team, home_score, away_score, score, half_time_score, date, stadium, status, schedule_status, referee, broadcaster, attendance, useful_time_minutes, updated_at')
           .eq('season_id', '2026-27')
           .order('round')
           .order('id'),
@@ -150,9 +163,7 @@ async function loadCalendarFromDb() {
         const seedConfig = configs.find((config) => config.key === 'active_calendar_seed');
         const fingerprintConfig = configs.find((config) => config.key === 'active_calendar_fingerprint');
         const overrideConfig = configs.find((config) => config.key === 'override_calendar');
-        if (overrideConfig?.updated_at && new Date(overrideConfig.updated_at).getTime() > new Date(platformUpdatedAt).getTime()) {
-          platformUpdatedAt = overrideConfig.updated_at;
-        }
+        platformUpdatedAt = mostRecentPublishedAt(platformUpdatedAt, overrideConfig?.updated_at);
         if (overrideConfig?.value) {
           try {
             calendarOverrides = JSON.parse(overrideConfig.value) as Record<string, Partial<Match>>;
@@ -204,6 +215,12 @@ async function loadCalendarFromDb() {
           };
           persistedMatches = candidateMatches;
         }
+        if (persistedMatches.length === 240) {
+          platformUpdatedAt = mostRecentPublishedAt(
+            platformUpdatedAt,
+            ...persistedMatches.map((match) => match.updatedAt),
+          );
+        }
       }
     } catch (err) {
       console.error('Erro ao ler calendário do Supabase, usando fallback:', err);
@@ -213,7 +230,7 @@ async function loadCalendarFromDb() {
   return { activeSeedStr, dynamicSource, persistedMatches, calendarOverrides, platformUpdatedAt };
 }
 
-const getCalendarSource = unstable_cache(loadCalendarFromDb, ['ancaf-calendar-source'], {
+const getCalendarSource = unstable_cache(loadCalendarFromDb, ['ancaf-calendar-source', PLATFORM_BUILD_PUBLISHED_AT], {
   tags: [PORTAL_DATA_TAG],
   revalidate: PORTAL_DATA_MAX_AGE_SECONDS,
 });
@@ -224,8 +241,9 @@ export async function GET(request: Request) {
   const roundParam = searchParams.get('round');
   const matchIdParam = searchParams.get('id');
 
-  const { activeSeedStr, dynamicSource, persistedMatches, calendarOverrides, platformUpdatedAt } =
+  const { activeSeedStr, dynamicSource, persistedMatches, calendarOverrides, platformUpdatedAt: dataUpdatedAt } =
     await getCalendarSource();
+  const platformUpdatedAt = mostRecentPublishedAt(dataUpdatedAt, PLATFORM_BUILD_PUBLISHED_AT);
 
   void activeSeedStr;
 
