@@ -116,10 +116,12 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
   const broadcast = getMatchBroadcast(match);
   const isDeferredBroadcast = broadcast.toLowerCase().includes('diferido');
 
-  const teamNameClass = (isSelected: boolean) =>
-    `min-w-0 whitespace-normal break-words font-condensed text-[12px] font-bold leading-tight sm:text-[13px] ${
-      isSelected ? 'font-extrabold text-red-700' : 'text-zinc-950'
-    }`;
+  // Alinhamento padronizado: casa sempre à direita, fora sempre à esquerda,
+  // com quebra de linha equilibrada (text-balance) para evitar linhas soltas.
+  const teamNameClass = (isSelected: boolean, align: 'right' | 'left') =>
+    `min-w-0 text-balance break-words font-condensed text-[12px] font-bold leading-tight sm:text-[13px] ${
+      align === 'right' ? 'text-right' : 'text-left'
+    } ${isSelected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`;
 
   return (
     <Link
@@ -129,25 +131,24 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
       }`}
       title={`${match.homeTeam} — ${match.awayTeam} · ${formattedDay} · ${formattedTime}`}
     >
-      <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2">
+      {/* Colunas fixas para emblemas e resultado: garantem que todas as linhas
+          partilham exatamente as mesmas guias verticais, independentemente do
+          comprimento do nome ou de o resultado ser numérico ou um traço. */}
+      <div className="grid min-h-8 grid-cols-[minmax(0,1fr)_1.75rem_3.25rem_1.75rem_minmax(0,1fr)] items-center gap-x-1.5 sm:grid-cols-[minmax(0,1fr)_1.75rem_4rem_1.75rem_minmax(0,1fr)] sm:gap-x-2">
         {/* Casa */}
-        <div className="flex min-w-0 items-center justify-end gap-2 text-right">
-          <span className={teamNameClass(selected)}>{match.homeTeam}</span>
-          <TeamCrest teamId={match.homeTeamId} size={28} className="shrink-0" />
-        </div>
+        <span className={teamNameClass(selected, 'right')}>{match.homeTeam}</span>
+        <TeamCrest teamId={match.homeTeamId} size={28} className="shrink-0 justify-self-center" />
 
         {/* Resultado */}
-        <div className="flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 py-1 font-mono text-sm font-black tabular-nums text-zinc-900 shadow-sm">
+        <div className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-1.5 py-1 font-mono text-sm font-black tabular-nums text-zinc-900 shadow-sm">
           <span className={isLive ? 'text-red-600' : undefined}>{homeScore}</span>
           <span className="text-zinc-300">–</span>
           <span className={isLive ? 'text-red-600' : undefined}>{awayScore}</span>
         </div>
 
         {/* Fora */}
-        <div className="flex min-w-0 items-center justify-start gap-2 text-left">
-          <TeamCrest teamId={match.awayTeamId} size={28} className="shrink-0" />
-          <span className={teamNameClass(selected)}>{match.awayTeam}</span>
-        </div>
+        <TeamCrest teamId={match.awayTeamId} size={28} className="shrink-0 justify-self-center" />
+        <span className={teamNameClass(selected, 'left')}>{match.awayTeam}</span>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
