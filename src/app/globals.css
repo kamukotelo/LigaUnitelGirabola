@@ -619,7 +619,9 @@ html {
 .app-splash {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  /* Acima do cabeçalho, que também é fixed com z-index 9999: em empate ganhava
+     ele por vir depois no DOM e cortava o splash no topo. */
+  z-index: 10000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -688,9 +690,23 @@ html {
 }
 
 @media (max-width: 639px) {
+  /* Splash em mobile: fundo preto sólido e nada por cima do logótipo. As
+     decorações (grelha em perspetiva, anéis e linha de scan) atravessavam o
+     emblema a meio e faziam-no parecer cortado. */
+  .app-splash {
+    background: #000;
+  }
+
+  .app-splash__grid,
+  .app-splash__halo,
+  .app-splash__line {
+    display: none;
+  }
+
   .app-splash__logo {
-    width: min(68vw, 270px);
-    height: min(77vw, 306px);
+    width: min(82vw, 340px);
+    height: min(93vw, 386px);
+    filter: none;
   }
 
   .app-splash__logo-mobile {
@@ -703,6 +719,11 @@ html {
 
   .app-splash__logo-desktop {
     display: none;
+  }
+
+  .app-splash p {
+    margin-top: clamp(2rem, 8vw, 3rem);
+    color: rgba(255, 255, 255, 0.55);
   }
 }
 
