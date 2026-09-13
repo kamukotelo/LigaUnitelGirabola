@@ -314,6 +314,14 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: '2026-09-13T17:15:00+01:00',
   },
+  'm27-4-3': {
+    homeScore: 2,
+    awayScore: 0,
+    score: '2-0',
+    halfTimeScore: '2-0',
+    status: 'finished',
+    updatedAt: '2026-09-13T18:05:00+01:00',
+  },
 };
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
@@ -432,6 +440,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'beni-papel-saosalvador', name: 'Beni Papel', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'cuxixima-caala', name: 'Lourenço Francisco Cuxixima', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 2 },
   { id: 'ado-pena-huila', name: 'Ado Pena', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Médio', goals: 1, appearances: 2 },
+  { id: 'mabululu-wiliete', name: 'Mabululu', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 2, appearances: 2 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -2082,6 +2091,7 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['lisneu-caala', 'Lisneu Emanuel Neto Simao', 'CR Caála', 'caala', 'Posição por confirmar', 23, 0],
   ['cuxixima-caala', 'Lourenço Francisco Cuxixima', 'CR Caála', 'caala', 'Avançado', 7, 1],
   ['ado-pena-huila', 'Ado Pena', 'Desportivo da Huíla', 'desphuila', 'Médio', 27, 1],
+  ['mabululu-wiliete', 'Mabululu', 'Wiliete de Benguela', 'wiliete', 'Avançado', 9, 2],
 ].map(([id, name, club, teamId, position, jerseyNumber, goals]) => ({
   id: String(id), name: String(name), club: String(club), teamId: String(teamId), position: String(position), goals: Number(goals), assists: 0,
   appearances: 1, jerseyNumber: Number(jerseyNumber), age: 0, nationality: 'Angola', height: 'A confirmar',
@@ -2091,6 +2101,7 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
 
 const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
   '1SN8AC3': 'bello-lukman-wiliete',
+  '1UXFL56': 'mabululu-wiliete',
   '1JRV1H9': 'valter-monteiro',
   '1LJU8Q3': 'axel-dago',
   '1JSJ4J2': 'dago-tshibamba',
@@ -3807,6 +3818,12 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 90, type: 'goal', team: 'away', player: 'Ado Pena', playerId: 'ado-pena-huila', detail: "90'+5 · 1-2" },
   ];
 
+  // 4.ª jornada (13/09/2026 · Estádio Nacional de Ombaka, Benguela).
+  if (match.id === 'm27-4-3') return [
+    { minute: 31, type: 'goal', team: 'home', player: 'Mabululu', playerId: 'mabululu-wiliete', detail: '1-0' },
+    { minute: 45, type: 'goal', team: 'home', player: 'Mabululu', playerId: 'mabululu-wiliete', detail: "45'+6 · 2-0" },
+  ];
+
   if (match.id === 'm27-3-5') return [
     { minute: 27, type: 'goal', team: 'away', player: 'Beni Papel', playerId: 'beni-papel-saosalvador', detail: '0-1' },
   ];
@@ -4531,6 +4548,7 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
   'm27-3-6': { home: 'Filipe Nzanza', away: 'Divaldo Alves' },
   'm27-4-1': { home: 'Artur Benjamim Correia', away: 'Paulo Torres' },
+  'm27-4-3': { home: 'Beto Bianchi', away: 'Rui Santos' },
 };
 
 export function getMatchDetail(match: Match): MatchDetail {

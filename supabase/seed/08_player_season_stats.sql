@@ -17,6 +17,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'milagre-simba-huila', 2, 0, 2, 0, 0),
   ('2026-27', 'cuxixima-caala', 1, 0, 2, 0, 0),
   ('2026-27', 'ado-pena-huila', 1, 0, 2, 0, 0),
+  ('2026-27', 'mabululu-wiliete', 2, 0, 2, 0, 0),
   ('2026-27', 'luyeye-cabinda', 1, 0, 1, 1, 0),
   ('2026-27', 'leonardo-isola-huila', 1, 0, 1, 0, 0),
   ('2026-27', 'cuxixima-libolo', 1, 0, 1, 0, 0),

@@ -759,7 +759,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Cristovão Paciência",
         "fullName": "Cristovão Paciência",
-        "popularName": "",
+        "popularName": "Mabululu",
         "maId": "008897M92",
         "fifaId": "1UXFL56",
         "gender": "MALE",
