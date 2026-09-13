@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { ADMIN_COOKIE, isAdminSession, verifyPasscode } from '@/lib/admin-auth';
 import { isSameOriginRequest } from '@/lib/request-security';
 import { revalidatePortalData } from '@/lib/portal-cache';
+import { BRAND_LOGOS_LOCKED } from '@/lib/team-crests';
 
 // ── ENDPOINT · POST /api/admin/logos ──────────────────────────────────────
 // Persiste (globalmente) os logótipos gerais do portal (marcas, federação).
@@ -63,6 +64,14 @@ export async function POST(request: Request) {
   // 2. Validação da chave
   if (typeof key !== 'string' || !VALID_KEYS.includes(key)) {
     return NextResponse.json({ error: 'bad_request', message: 'Chave de logótipo inválida.' }, { status: 400 });
+  }
+
+  // Logótipos da marca fixados em `public/` (ver src/lib/team-crests.ts).
+  if (BRAND_LOGOS_LOCKED) {
+    return NextResponse.json(
+      { error: 'brand_logos_locked', message: 'Logótipos oficiais fixados no código. A troca exige alterar o ficheiro e publicar.' },
+      { status: 409 },
+    );
   }
 
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;

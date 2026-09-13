@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/write-platform-build-info.mjs && npm run test:regressions && next build",
+    "build": "node scripts/verify-brand-assets.mjs && node scripts/write-platform-build-info.mjs && npm run test:regressions && next build",
     "start": "next start",
     "lint": "eslint",
     "test:ancaf-reception": "node scripts/test-ancaf-calendar-reception.mjs",
     "supabase:verify": "node scripts/verify-supabase.mjs",
     "db:seed:generate": "tsx scripts/generate-db-seed.mts",
     "test:regressions": "node scripts/test-portal-regressions.mjs && tsx scripts/test-team-crests.mts",
-    "test:fcms": "tsx scripts/test-fcms-sync.ts"
+    "test:fcms": "tsx scripts/test-fcms-sync.ts",
+    "verify:brand-assets": "node scripts/verify-brand-assets.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",

@@ -3,6 +3,7 @@
 /scripts/*
 !/scripts/test-portal-regressions.mjs
 !/scripts/test-team-crests.mts
+!/scripts/verify-brand-assets.mjs
 !/scripts/write-platform-build-info.mjs
 /public/templates/ultima_rodada_importada.json
 /*.docx

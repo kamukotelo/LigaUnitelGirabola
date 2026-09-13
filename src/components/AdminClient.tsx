@@ -20,7 +20,7 @@ import {
   type TrophyEntry, type KitEntry, type BoardMember, type SiteSettings,
 } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
-import { getTeamCrest, isTeamCrestProtected } from '@/lib/team-crests';
+import { BRAND_LOGOS_LOCKED, getTeamCrest, isTeamCrestProtected } from '@/lib/team-crests';
 import FichaSection from '@/components/admin/FichaSection';
 import JornadaSection from '@/components/admin/JornadaSection';
 import LivePreviewPanel from '@/components/admin/LivePreviewPanel';
@@ -2642,7 +2642,7 @@ function LogosSection() {
   };
 
   const getBrandLogoUrl = (key: 'logo_vertical' | 'logo_horizontal' | 'logo_horizontal_white' | 'logo_ancaf') => {
-    return brandLogos[key]?.value || (
+    return (BRAND_LOGOS_LOCKED ? undefined : brandLogos[key]?.value) || (
       key === 'logo_vertical' ? '/logo-girabola.png' :
       key === 'logo_horizontal' ? '/logo-girabola-horizontal.png' :
       key === 'logo_horizontal_white' ? '/logo-girabola-horizontal-white.png' :
@@ -2665,6 +2665,10 @@ function LogosSection() {
       <div className="space-y-4">
         <h3 className="text-xs font-mono text-zinc-500 uppercase tracking-widest border-b border-zinc-200/50 dark:border-zinc-800/50 pb-2">Logótipos do Portal (Identidade Visual)</h3>
         
+        {BRAND_LOGOS_LOCKED && (
+          <p className="text-[11px] font-mono text-zinc-500">Logótipos oficiais fixados no código (public/). Para trocar: substituir o ficheiro, atualizar o SHA-256 em scripts/verify-brand-assets.mjs e publicar.</p>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {brandItems.map((item) => {
             const currentUrl = getBrandLogoUrl(item.key);
@@ -2696,7 +2700,7 @@ function LogosSection() {
                         type="file"
                         accept="image/*"
                         className="hidden"
-                        disabled={isSaving}
+                        disabled={isSaving || BRAND_LOGOS_LOCKED}
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (!file) return;
@@ -2713,6 +2717,7 @@ function LogosSection() {
 
                     <input
                       className="admin-input"
+                      disabled={BRAND_LOGOS_LOCKED}
                       placeholder="ou colar URL externa (https://…)"
                       defaultValue={brandLogos[item.key]?.value || ''}
                       onBlur={(e) => {
@@ -2734,7 +2739,7 @@ function LogosSection() {
                     )}
                   </div>
 
-                  {isEdited && (
+                  {isEdited && !BRAND_LOGOS_LOCKED && (
                     <button
                       onClick={() => persistBrandLogo(item.key, null)}
                       disabled={isSaving}

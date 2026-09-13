@@ -3100,15 +3100,15 @@ export function applyRuntimeMatchOverrides(list: Match[]): Match[] {
 }
 
 function applyTeamLogo(t: Team): Team {
-  const dbLogo = RUNTIME_DATA.teamLogos?.[t.id.toLowerCase()];
-  const overrideLogo = RUNTIME_OVERRIDES.teams?.overrides?.[t.id]?.logoUrl;
-  const logoUrl = overrideLogo || dbLogo || t.logoUrl || getTeamCrest(t.id);
+  // Emblema fixo em código (ver src/lib/team-crests.ts): a BD, os overrides da
+  // consola e logótipos antigos nunca o substituem.
+  const logoUrl = getTeamCrest(t.id) ?? t.logoUrl;
   return logoUrl ? { ...t, logoUrl } : t;
 }
 
 // ── 7. FUNÇÕES AUXILIARES DE BUSCA ─────────────────────────────────
-// Devolve a lista dinâmica de equipas respeitando os overrides do admin
-// e resolvendo os logótipos da base de dados com fallback para public/crests/.
+// Devolve a lista dinâmica de equipas respeitando os overrides do admin,
+// com o emblema sempre fixo em public/crests/ (ver team-crests.ts).
 export function getTeams(): Team[] {
   const ov = RUNTIME_OVERRIDES.teams;
   if (!ov) return TEAMS.map(applyTeamLogo);
