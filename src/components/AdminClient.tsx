@@ -20,7 +20,7 @@ import {
   type TrophyEntry, type KitEntry, type BoardMember, type SiteSettings,
 } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
-import { getTeamCrest } from '@/lib/team-crests';
+import { getTeamCrest, isTeamCrestProtected } from '@/lib/team-crests';
 import FichaSection from '@/components/admin/FichaSection';
 import JornadaSection from '@/components/admin/JornadaSection';
 import LivePreviewPanel from '@/components/admin/LivePreviewPanel';
@@ -1771,7 +1771,7 @@ function TeamsSection() {
                     <div className="flex-shrink-0 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-black/40 p-2">
                       <TeamCrest teamId={base.id} size={56} />
                     </div>
-                    <div className="flex-1 min-w-[220px] space-y-2">
+                    <fieldset disabled={isTeamCrestProtected(base.id)} className="flex-1 min-w-[220px] space-y-2 disabled:opacity-60">
                       <div className="flex flex-wrap items-center gap-2">
                         <label className={`inline-flex w-fit items-center gap-1.5 px-3 py-2 rounded-xl bg-accent/10 border border-accent/40 text-accent font-mono text-[10px] uppercase tracking-widest transition-colors ${logoSaving === base.id ? 'opacity-60 cursor-wait' : 'hover:bg-accent/20 cursor-pointer'}`}>
                           <ImagePlus size={12} /> Carregar imagem
@@ -1820,9 +1820,9 @@ function TeamsSection() {
                       {logoError && <p className="text-[10px] font-mono text-red-400">{logoError}</p>}
                       {logoSavedId === base.id && <p className="text-[10px] font-mono text-green-400">Emblema guardado com sucesso!</p>}
                       <p className="text-[9px] font-mono text-zinc-500">
-                        Quando não definido na BD ou indisponível, o portal lê automaticamente de <code className="text-foreground">{getTeamCrest(base.id)}</code>.
+                        {isTeamCrestProtected(base.id) ? 'Emblema oficial protegido contra substituições acidentais.' : 'Na ausência de imagem na BD, será usado o emblema local.'}
                       </p>
-                    </div>
+                    </fieldset>
                   </div>
                 </div>
               )}
@@ -2761,7 +2761,8 @@ function LogosSection() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {TEAMS.map((base) => {
-            const currentDb = teamData[base.id]?.logoUrl;
+            const protectedCrest = isTeamCrestProtected(base.id);
+            const currentDb = protectedCrest ? undefined : teamData[base.id]?.logoUrl;
             const isSaving = teamSaving === base.id;
             const isSaved = teamSavedId === base.id;
             const fallbackPath = getTeamCrest(base.id);
@@ -2786,7 +2787,8 @@ function LogosSection() {
                   </code>
                 </div>
 
-                <div className="space-y-1.5">
+                <fieldset disabled={protectedCrest} className="space-y-1.5 disabled:opacity-60">
+                  {protectedCrest && <p className="text-xs">Emblema oficial protegido</p>}
                   <label className={`inline-flex w-full items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-accent/5 border border-accent/25 text-accent font-mono text-[9px] uppercase tracking-wider transition-colors ${isSaving ? 'opacity-60 cursor-wait' : 'hover:bg-accent/10 cursor-pointer'}`}>
                     <ImagePlus size={10} /> Enviar Ficheiro
                     <input
@@ -2841,7 +2843,7 @@ function LogosSection() {
                       </button>
                     )}
                   </div>
-                </div>
+                </fieldset>
               </Panel>
             );
           })}

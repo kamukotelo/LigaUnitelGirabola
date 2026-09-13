@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { getTeamById, getPortalData } from '@/lib/data';
-import { getTeamCrest } from '@/lib/team-crests';
+import { resolveTeamCrest } from '@/lib/team-crests';
 import { useTeamLogoOverride } from '@/lib/team-overrides';
 import { useTeamLogo } from '@/lib/team-logos';
 
@@ -24,25 +24,8 @@ export default function TeamCrest({ teamId, size = 40, className = '' }: TeamCre
   const dbLogo = useTeamLogo(cleanId) || getPortalData().teamLogos?.[cleanId];
   // 3. logoUrl dos dados do clube
   const dataLogo = getTeamById(cleanId)?.logoUrl;
-  // 4. Registo canónico estático: pasta public/crests/
-  const staticCrest = getTeamCrest(cleanId);
-
-  // Cadeia de prioridades:
-  // Se houver override local válido (sem erro), usa esse.
-  // Senão, se houver imagem da BD válida (sem erro), usa essa.
-  // Senão, se o logoUrl dos dados for diferente de staticCrest e válido, tenta.
-  // Senão, cai no staticCrest da pasta public/crests/!
-  let crestPath: string | undefined;
-
-  if (overrideLogo && !failedSources[overrideLogo]) {
-    crestPath = overrideLogo;
-  } else if (dbLogo && !failedSources[dbLogo]) {
-    crestPath = dbLogo;
-  } else if (dataLogo && !failedSources[dataLogo] && dataLogo !== staticCrest) {
-    crestPath = dataLogo;
-  } else if (staticCrest && !failedSources[staticCrest]) {
-    crestPath = staticCrest;
-  }
+  // Os emblemas protegidos nunca alternam com a BD ou overrides antigos.
+  const crestPath = resolveTeamCrest(cleanId, [overrideLogo, dbLogo, dataLogo], failedSources);
 
   const markError = (src: string) => {
     setFailedSources((prev) => (prev[src] ? prev : { ...prev, [src]: true }));

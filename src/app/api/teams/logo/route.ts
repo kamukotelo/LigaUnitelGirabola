@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import { isTeamCrestProtected } from '@/lib/team-crests';
 import { getTeamById } from '@/lib/data';
 import { ADMIN_COOKIE, isAdminSession, verifyPasscode } from '@/lib/admin-auth';
 import { isSameOriginRequest } from '@/lib/request-security';
@@ -65,6 +66,13 @@ export async function POST(request: Request) {
   // 2. Validação do clube.
   if (typeof teamId !== 'string' || !getTeamById(teamId)) {
     return NextResponse.json({ error: 'bad_request', message: 'Clube desconhecido.' }, { status: 400 });
+  }
+
+  if (isTeamCrestProtected(teamId)) {
+    return NextResponse.json(
+      { error: 'crest_protected', message: 'Emblema oficial protegido. A alteração exige rever o ficheiro oficial do clube.' },
+      { status: 409 },
+    );
   }
 
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
