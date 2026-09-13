@@ -306,6 +306,14 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     status: 'finished',
     updatedAt: '2026-09-06T17:50:00+01:00',
   },
+  'm27-4-1': {
+    homeScore: 1,
+    awayScore: 2,
+    score: '1-2',
+    halfTimeScore: '1-0',
+    status: 'finished',
+    updatedAt: '2026-09-13T17:15:00+01:00',
+  },
 };
 
 /** Recintos oficiais usados como casa durante toda a época 2026/2027. */
@@ -394,7 +402,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'tiago-azulao', name: 'Tiago Azulão', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 2, appearances: 2 },
   { id: 'depu', name: 'Depú', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'deybi-flores', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 1 },
-  { id: 'milagre-simba-huila', name: 'Milagre Carlos Simba', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'milagre-simba-huila', name: 'Milagre Carlos Simba', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Avançado', goals: 2, appearances: 2 },
   { id: 'luyeye-cabinda', name: 'Luyeye Tomás', club: 'FC Cabinda', teamId: 'cabinda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'leonardo-isola-huila', name: 'Leonardo Manuel Isola Ramos', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'cuxixima-libolo', name: 'Cuxixima', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 1 },
@@ -422,6 +430,8 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'fifa-1jz4pi8', name: 'Benvindo Miguel André Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'fifa-1uy6ar6', name: 'Tiago Jamba Adelino', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'beni-papel-saosalvador', name: 'Beni Papel', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'cuxixima-caala', name: 'Lourenço Francisco Cuxixima', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 2 },
+  { id: 'ado-pena-huila', name: 'Ado Pena', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Médio', goals: 1, appearances: 2 },
 ] as const;
 
 const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: number }>> = {
@@ -2046,7 +2056,7 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['valegol-caala', 'Valegol', 'CR Caála', 'caala', 'Posição por confirmar', 0, 1],
   ['bello-lukman-wiliete', 'Bello Lukman', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['ning-wiliete', 'Ning', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
-  ['milagre-simba-huila', 'Milagre Carlos Simba', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 25, 1],
+  ['milagre-simba-huila', 'Milagre Carlos Simba', 'Desportivo da Huíla', 'desphuila', 'Avançado', 25, 2],
   ['leonardo-isola-huila', 'Leonardo Manuel Isola Ramos', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 7, 1],
   ['luyeye-cabinda', 'Luyeye Tomás', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 13, 1],
   ['domingos-paixao-cabinda', 'Domingos Paixão Paulino Lourenço', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 19, 0],
@@ -2070,6 +2080,8 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['venancio-dago', 'Venancio Landu Kukula', 'CD 1.º de Agosto', 'dago', 'Médio', 15, 0],
   ['lucas-elias-huila', 'Lucas Elias Antonio Paulo', 'Desportivo da Huíla', 'desphuila', 'Defesa', 13, 0],
   ['lisneu-caala', 'Lisneu Emanuel Neto Simao', 'CR Caála', 'caala', 'Posição por confirmar', 23, 0],
+  ['cuxixima-caala', 'Lourenço Francisco Cuxixima', 'CR Caála', 'caala', 'Avançado', 7, 1],
+  ['ado-pena-huila', 'Ado Pena', 'Desportivo da Huíla', 'desphuila', 'Médio', 27, 1],
 ].map(([id, name, club, teamId, position, jerseyNumber, goals]) => ({
   id: String(id), name: String(name), club: String(club), teamId: String(teamId), position: String(position), goals: Number(goals), assists: 0,
   appearances: 1, jerseyNumber: Number(jerseyNumber), age: 0, nationality: 'Angola', height: 'A confirmar',
@@ -2099,6 +2111,8 @@ const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
   '1N6N208': 'cuxixima-libolo',
   '1UZYXC4': 'pedro-libolo',
   '1JZKSC2': 'lisneu-caala',
+  '1JS6NR7': 'cuxixima-caala',
+  '1K1TSN8': 'ado-pena-huila',
   '1K2PZX2': 'ju-cabral-bravos',
   '1K2PC87': 'maranata',
   '1L963X5': 'ximba',
@@ -3786,6 +3800,13 @@ function getPublishedLuandaCabindaLineups(match: Match): { home: LineupPlayer[];
 
 /** Ocorrências confirmadas do jogo inaugural e da 1.ª jornada oficial. */
 function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
+  // 4.ª jornada (13/09/2026 · Estádio dos Mártires da Canhala, Huambo).
+  if (match.id === 'm27-4-1') return [
+    { minute: 13, type: 'goal', team: 'home', player: 'Lourenço Francisco Cuxixima', playerId: 'cuxixima-caala', detail: '1-0' },
+    { minute: 55, type: 'goal', team: 'away', player: 'Milagre Simba', playerId: 'milagre-simba-huila', detail: '1-1' },
+    { minute: 90, type: 'goal', team: 'away', player: 'Ado Pena', playerId: 'ado-pena-huila', detail: "90'+5 · 1-2" },
+  ];
+
   if (match.id === 'm27-3-5') return [
     { minute: 27, type: 'goal', team: 'away', player: 'Beni Papel', playerId: 'beni-papel-saosalvador', detail: '0-1' },
   ];
@@ -4509,6 +4530,7 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
   'm27-2-8': { home: 'Silvestre Pelé', away: 'João Pedro Sousa' },
   'm27-3-7': { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },
   'm27-3-6': { home: 'Filipe Nzanza', away: 'Divaldo Alves' },
+  'm27-4-1': { home: 'Artur Benjamim Correia', away: 'Paulo Torres' },
 };
 
 export function getMatchDetail(match: Match): MatchDetail {

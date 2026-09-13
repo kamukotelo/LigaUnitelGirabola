@@ -403,11 +403,13 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeamId": "desphuila",
     "homeTeam": "CR Caála",
     "awayTeam": "Desportivo da Huíla",
-    "homeScore": 0,
-    "awayScore": 0,
+    "homeScore": 1,
+    "awayScore": 2,
+    "score": "1-2",
+    "halfTimeScore": "1-0",
     "date": "2026-09-13T15:00:00+01:00",
     "stadium": "Estádio dos Mártires da Canhala",
-    "status": "scheduled"
+    "status": "finished"
   },
   {
     "id": "m27-4-2",
