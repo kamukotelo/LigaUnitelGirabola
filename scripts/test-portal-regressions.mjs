@@ -123,19 +123,23 @@ for (const scorer of ['Silvano da Cruz', 'Alberto Alves', 'Ricardo Batista']) {
   assert.match(data, new RegExp(scorer));
 }
 
-// Resultados publicados em 05/09/2026: placares, intervalos e marcadores
+// Resultados publicados em 05/09/2026 e 13/09/2026: placares, intervalos e marcadores
 // devem permanecer ligados às fichas reais recebidas.
 for (const resultPattern of [
   /'m27-3-1'[\s\S]*?score: '1-2'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/,
   /'m27-3-4'[\s\S]*?score: '2-1'[\s\S]*?halfTimeScore: '1-1'[\s\S]*?status: 'finished'/,
   /'m27-3-8'[\s\S]*?score: '0-2'[\s\S]*?halfTimeScore: '0-1'[\s\S]*?status: 'finished'/,
   /'m27-3-5'[\s\S]*?score: '0-1'[\s\S]*?halfTimeScore: '0-1'[\s\S]*?status: 'finished'/,
+  /'m27-4-1'[\s\S]*?score: '1-2'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/,
+  /'m27-4-3'[\s\S]*?score: '2-0'[\s\S]*?halfTimeScore: '2-0'[\s\S]*?status: 'finished'/,
 ]) {
   assert.match(data, resultPattern);
 }
-for (const scorer of ['Mariano da Costa Vidal', 'Benvindo Miguel André Afonso', 'Tiago Jamba Adelino', 'Jaime Caetano', 'Ariclenis Afonso Araújo Lede', 'Moisés', 'Kessie Messi', 'Beni Papel']) {
+for (const scorer of ['Mariano da Costa Vidal', 'Benvindo Miguel André Afonso', 'Tiago Jamba Adelino', 'Jaime Caetano', 'Ariclenis Afonso Araújo Lede', 'Moisés', 'Kessie Messi', 'Beni Papel', 'Lourenço Francisco Cuxixima', 'Ado Pena', 'Mabululu']) {
   assert.match(data, new RegExp(scorer));
 }
+assert.match(publishedCalendar, /"id": "m27-4-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"halfTimeScore": "1-0"[\s\S]*?"status": "finished"/);
+assert.match(publishedCalendar, /"id": "m27-4-3"[\s\S]*?"homeScore": 2[\s\S]*?"awayScore": 0[\s\S]*?"halfTimeScore": "2-0"[\s\S]*?"status": "finished"/);
 assert.match(data, /'m27-3-8': \{ home: \{ corners: 1, yellowCards: 6 \}, away: \{ corners: 0, yellowCards: 3 \}/);
 
 // 4.ª jornada · FC Cabinda 1-1 CD 1.º de Agosto (09/09/2026, Estádio França Ndalu).

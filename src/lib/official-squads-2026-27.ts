@@ -759,7 +759,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Cristovão Paciência",
         "fullName": "Cristovão Paciência",
-        "popularName": "",
+        "popularName": "Mabululu",
         "maId": "008897M92",
         "fifaId": "1UXFL56",
         "gender": "MALE",
@@ -1388,7 +1388,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "António Pena",
         "fullName": "António Pena",
-        "popularName": "",
+        "popularName": "Ado Pena",
         "maId": "000959M96",
         "fifaId": "1K1TSN8",
         "gender": "MALE",
@@ -3864,7 +3864,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
       {
         "name": "Domingos Lourenço Cuxixima",
         "fullName": "Domingos Lourenço Cuxixima",
-        "popularName": "",
+        "popularName": "Cuxixima",
         "maId": "000428M96",
         "fifaId": "1JS6NR7",
         "gender": "MALE",
