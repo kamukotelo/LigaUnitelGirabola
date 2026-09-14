@@ -116,12 +116,13 @@ assert.match(publishedCalendar, /"id": "m27-4-5"[\s\S]*?"date": "2026-09-09T15:0
 assert.match(publishedCalendar, /"id": "m27-5-1"[\s\S]*?"date": "2026-09-20T15:00:00\+01:00"/);
 assert.match(publishedCalendar, /"id": "m27-5-7"[\s\S]*?"date": "2026-09-20T15:00:00\+01:00"[\s\S]*?"stadium": "Estádio França Ndalu"/);
 // 5.ª jornada · alterações de 14/09/2026: Wiliete–Libolo passa para as 17h15 com ZSports,
-// 1.º de Agosto–FC Luanda passa a ZSports e Sagrada–Petro passa a Rádio 5.
+// 1.º de Agosto–FC Luanda passa a ZSports e Sagrada–Petro passa a Rádio 5. A Rádio 5 é a
+// transmissão por omissão e não pode ter broadcaster, senão o cartão mostra "Em direto · Rádio 5".
 assert.match(data, /homeTeamId: 'dago', awayTeamId: 'fcluanda', date: '2026-09-19T15:30:00\+01:00', broadcaster: 'Zsports'/);
-assert.match(data, /homeTeamId: 'sagrada', awayTeamId: 'petro', date: '2026-09-20T15:30:00\+01:00', broadcaster: 'Rádio 5'/);
+assert.match(data, /homeTeamId: 'sagrada', awayTeamId: 'petro', date: '2026-09-20T15:30:00\+01:00' \},/);
 assert.match(data, /homeTeamId: 'wiliete', awayTeamId: 'libolo', date: '2026-09-20T17:15:00\+01:00', broadcaster: 'Zsports'/);
 assert.match(publishedCalendar, /"id": "m27-5-2"[^}]*"broadcaster": "Zsports"\n  \}/);
-assert.match(publishedCalendar, /"id": "m27-5-3"[^}]*"broadcaster": "Rádio 5"\n  \}/);
+assert.doesNotMatch(publishedCalendar, /"id": "m27-5-3"[^}]*"broadcaster"/);
 assert.match(publishedCalendar, /"id": "m27-5-6"[^}]*"date": "2026-09-20T17:15:00\+01:00"[^}]*"broadcaster": "Zsports"\n  \}/);
 assert.match(publishedCalendar, /"id": "m27-2-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"date": "2026-08-27T16:00:00\+01:00"[\s\S]*?"status": "finished"/);
 assert.match(publishedCalendar, /"id": "m27-2-7"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"status": "finished"/);

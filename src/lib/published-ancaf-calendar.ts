@@ -584,8 +584,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayScore": 0,
     "date": "2026-09-20T15:30:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
-    "status": "scheduled",
-    "broadcaster": "Rádio 5"
+    "status": "scheduled"
   },
   {
     "id": "m27-6-1",
