@@ -144,10 +144,22 @@ for (const resultPattern of [
 ]) {
   assert.match(data, resultPattern);
 }
-for (const scorer of ['Mariano da Costa Vidal', 'Benvindo Miguel André Afonso', 'Tiago Jamba Adelino', 'Jaime Caetano', 'Ariclenis Afonso Araújo Lede', 'Moisés', 'Kessie Messi', 'Beni Papel', 'Lourenço Francisco Cuxixima', 'Ado Pena', 'Mabululu']) {
+for (const scorer of ['Mariano da Costa Vidal', 'Benvindo Miguel André Afonso', 'Tiago Jamba Adelino', 'Jaime Caetano', 'Ariclenis Afonso Araújo Lede', 'Moisés', 'Kessie Messi', 'Beni Papel', 'António Pena', 'Ado Pena', 'Mabululu']) {
   assert.match(data, new RegExp(scorer));
 }
 assert.match(publishedCalendar, /"id": "m27-4-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"halfTimeScore": "1-0"[\s\S]*?"status": "finished"/);
+
+// 4.ª jornada · CR Caála 1-2 Desportivo da Huíla — Relatório do Árbitro FCMS n.º 29.
+// O golo dos 12' é de Benvindo (#4); Cuxixima não marcou (atribuição errada corrigida a 14/09).
+assert.match(data, /'m27-4-1': \{[\s\S]*?stadium: 'Estádio Daniel Lutucuta'[\s\S]*?attendance: 1200/);
+assert.match(
+  data,
+  /if \(match\.id === 'm27-4-1'\) return \[[\s\S]*?minute: 12, type: 'goal'[^\n]*playerId: 'fifa-1jz4pi8'[\s\S]*?minute: 52, type: 'goal'[^\n]*playerId: 'milagre-simba-huila'[\s\S]*?minute: 94, type: 'goal'[^\n]*playerId: 'ado-pena-huila'/,
+  'Os golos do m27-4-1 têm de seguir o Relatório 29.',
+);
+assert.doesNotMatch(data, /id: 'cuxixima-caala'[^\n]*goals: [1-9]/, 'Cuxixima não marcou no Relatório 29.');
+assert.match(data, /id: 'fifa-1jz4pi8'[^\n]*goals: 2, appearances: 2/);
+assert.match(data, /'m27-4-1': \{\s*referee: 'Paulo Sérgio Moreira'[\s\S]*?commissioner: 'Manuel André António'/);
 assert.match(publishedCalendar, /"id": "m27-4-3"[\s\S]*?"homeScore": 2[\s\S]*?"awayScore": 0[\s\S]*?"halfTimeScore": "2-0"[\s\S]*?"status": "finished"/);
 assert.match(data, /'m27-3-8': \{ home: \{ corners: 1, yellowCards: 6 \}, away: \{ corners: 0, yellowCards: 3 \}/);
 

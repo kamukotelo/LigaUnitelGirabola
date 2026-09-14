@@ -411,14 +411,16 @@ export const PLATFORM_CONFIRMED_RESULTS: Readonly<Record<string, Partial<Match>>
     updatedAt: '2026-09-12T17:00:00+01:00',
     attendance: 4782,
   },
-  // 4.ª jornada · 13/09/2026 · Estádio dos Mártires da Canhala
+  // Relatório do Árbitro FCMS n.º 29 · 4.ª jornada · 13/09/2026 · Estádio Daniel Lutucuta, Huambo.
   'm27-4-1': {
     homeScore: 1,
     awayScore: 2,
     score: '1-2',
     halfTimeScore: '1-0',
     status: 'finished',
-    updatedAt: '2026-09-13T17:15:00+01:00',
+    stadium: 'Estádio Daniel Lutucuta',
+    attendance: 1200,
+    updatedAt: '2026-09-14T05:50:00+01:00',
   },
   // 4.ª jornada · 13/09/2026 · Estádio Nacional de Ombaka
   'm27-4-3': {
@@ -542,7 +544,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'ariclenis-cabinda', name: 'Ariclenis Afonso Araújo Lede', club: 'FC Cabinda', teamId: 'cabinda', position: 'Avançado', goals: 1, appearances: 2 },
   { id: 'moises-primeiromaio', name: 'Moisés', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'kessie-messi-primeiromaio', name: 'Kessie Messi', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
-  { id: 'fifa-1jz4pi8', name: 'Benvindo Miguel André Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 1, appearances: 1 },
+  { id: 'fifa-1jz4pi8', name: 'Benvindo Miguel André Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 2, appearances: 2 },
   { id: 'fifa-1uy6ar6', name: 'Tiago Jamba Adelino', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'beni-papel-saosalvador', name: 'Beni Papel', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'fifa-1mqvbd5', name: 'Odenir Jorge', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Médio', goals: 1, appearances: 1 },
@@ -557,7 +559,6 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'fifa-1v1a1u9', name: 'Alexandre Abel Fernando', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Defesa', goals: 1, appearances: 2 },
   { id: 'mussa-lunda-sul', name: 'Joaquim Teixeira (Mussá)', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Avançado', goals: 1, appearances: 2 },
   { id: 'magrinho', name: 'Félix Honjo (Magrinho)', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Avançado', goals: 1, appearances: 2 },
-  { id: 'cuxixima-caala', name: 'Lourenço Francisco Cuxixima', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 2 },
   { id: 'ado-pena-huila', name: 'Ado Pena', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Médio', goals: 1, appearances: 2 },
   { id: 'mabululu-wiliete', name: 'Mabululu', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 2, appearances: 2 },
 ] as const;
@@ -649,6 +650,10 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'nacavuza-lunda-sul': { yellow: 1, red: 0 }, // Bernardo Raimundo Nacavuza (Lunda Sul · 83')
   'magrinho': { yellow: 1, red: 0 },         // Felix Honjo (Lunda Sul · 90'+3')
   'melono-sagrada': { yellow: 1, red: 0 },   // Melone Moundo Dala (Sagrada Esperança · 51')
+  // 4.ª jornada · Relatório 29 · CR Caála 1-2 Desportivo da Huíla
+  'fifa-1t647t5': { yellow: 1, red: 0 },     // Valentim Sacuvale (CR Caála · 84')
+  'fifa-1k0r4w6': { yellow: 1, red: 0 },     // Hermenegildo Sandumbo "Valente" (CR Caála · 90'+2')
+  'tchicundico-huila': { yellow: 1, red: 0 }, // Constantino Tchicundico (Desportivo da Huíla · 61')
 };
 
 export interface Player extends PlayerStats {
@@ -2339,7 +2344,7 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['quiteque-lobito', 'Quiteque', 'Académica do Lobito', 'lobito', 'Médio', 8, 0],
   ['pinto-lobito', 'Pinto', 'Académica do Lobito', 'lobito', 'Avançado', 14, 0],
   ['sabones-lobito', 'Sabones', 'Académica do Lobito', 'lobito', 'Avançado', 17, 0],
-  ['cuxixima-caala', 'Lourenço Francisco Cuxixima', 'CR Caála', 'caala', 'Avançado', 7, 1],
+  ['cuxixima-caala', 'Domingos Lourenço Cuxixima', 'CR Caála', 'caala', 'Avançado', 7, 0],
   ['ado-pena-huila', 'Ado Pena', 'Desportivo da Huíla', 'desphuila', 'Médio', 27, 1],
   ['mabululu-wiliete', 'Mabululu', 'Wiliete de Benguela', 'wiliete', 'Avançado', 9, 2],
 ].map(([id, name, club, teamId, position, jerseyNumber, goals]) => ({
@@ -4260,6 +4265,67 @@ function getPublishedCabindaAgostoLineups(match: Match): { home: LineupPlayer[];
   };
 }
 
+/** Onze inicial e suplentes oficiais de CR Caála–Desportivo da Huíla (4.ª jornada, Relatório 29). */
+function getPublishedCaalaHuilaLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-4-1') return undefined;
+
+  const player = (
+    name: string,
+    number: number,
+    position: PitchPosition | undefined,
+    isStarter: boolean,
+    playerId?: string,
+  ): LineupPlayer => ({ name, number, position, isStarter, playerId, rating: 0 });
+
+  return {
+    home: [
+      player('Landu Mavanga', 22, 'GK', true, 'fifa-1k002p8'),
+      player('Valentim Sacuvale', 2, 'DEF', true, 'fifa-1t647t5'),
+      player('Albano Kupenala', 3, 'DEF', true, 'fifa-1lb66s2'),
+      player('Benvindo Miguel André Afonso', 4, 'MID', true, 'fifa-1jz4pi8'),
+      player('Domingos Lourenço Cuxixima', 7, 'FWD', true, 'cuxixima-caala'),
+      player('Arilson de Ceita Pereira Jorge', 10, 'MID', true, 'fifa-1jwgzb2'),
+      player('Mariano da Costa Vidal', 15, 'DEF', true, 'fifa-1jsrqb0'),
+      player('Lisneu Emanuel Neto Simão', 23, 'MID', true, 'lisneu-caala'),
+      player('Timoteo Sambissa', 24, 'FWD', true, 'fifa-1k2qwk8'),
+      player('Abel Silas Sequesseque', 25, 'DEF', true, 'fifa-1jxikq1'),
+      player('Ernesto Vieira', 34, 'FWD', true, 'fifa-1qvfe29'),
+      player('Osvaldo José', 6, 'MID', false, 'fifa-1kz4es4'),
+      player('Claúdio Sozinho', 8, 'MID', false, 'fifa-1k0rem6'),
+      player('Hermenegildo Sandumbo', 9, 'FWD', false, 'fifa-1k0r4w6'),
+      player('Benedito Antunes', 19, 'MID', false, 'fifa-1lda172'),
+      player('Gonçalves Zinho Manico', 21, 'DEF', false, 'fifa-1jzhzh1'),
+      player('José Manuel Raul', 27, 'FWD', false, 'fifa-1r8lp51'),
+      player('José Afonso dos Santos Fernando', 30, 'GK', false, 'fifa-1k0ag17'),
+      player('Tiago Jamba Adelino', 33, 'FWD', false, 'fifa-1uy6ar6'),
+      // Não consta do plantel inscrito: sem id nem posição atribuída.
+      player('Adriano Belmiro Duarte Nicolau', 38, undefined, false),
+    ],
+    away: [
+      player('Cristóvão Simão', 1, 'GK', true, 'ndulo-huila'),
+      player('Nsambo Katendi', 2, 'DEF', true, 'katendi-huila'),
+      player('António dos Santos Futila Kinanga', 4, 'DEF', true, 'dos-santos-huila'),
+      player('Leonardo Manuel Isola Ramos', 7, 'FWD', true, 'leonardo-isola-huila'),
+      player('Mauricio Pedro', 8, 'MID', true, 'mauricio-pedro-huila'),
+      player('José Mendes', 10, 'FWD', true, 'mendes-huila'),
+      player('Lucas Elias António Paulo', 13, 'DEF', true, 'lucas-elias-huila'),
+      player('Elias Daniel', 15, 'MID', true, 'elias-huila'),
+      player('Milton Alberto de Oliveira Suca', 18, 'FWD', true, 'milton-suca-huila'),
+      player('Jeremias Pedro', 26, 'DEF', true, 'jeremias-huila'),
+      player('Pequenino Castro', 29, 'MID', true, 'pequenino-castro-huila'),
+      player('Adilson Manuel', 3, 'DEF', false),
+      player('João Milagre Chiva Simões', 6, 'DEF', false, 'joao-milagre-huila'),
+      player('Emanuel Laurindo', 12, 'GK', false, 'passy-huila'),
+      player('Angelo Cangu', 21, 'MID', false, 'angelo-cangu-huila'),
+      player('Florentino António', 23, 'DEF', false, 'fifa-1k176v9'),
+      player('Milagre Carlos Simba', 25, 'FWD', false, 'milagre-simba-huila'),
+      player('António Pena', 27, 'MID', false, 'ado-pena-huila'),
+      player('Constantino Tchicundico Cassoma Tchitunda', 32, 'MID', false, 'tchicundico-huila'),
+      player('João Baptista Ferraz Samazanga Juny', 34, 'FWD', false, 'joao-samazanga-huila'),
+    ],
+  };
+}
+
 /** Onze inicial e suplentes oficiais de GD Interclube–Académica do Lobito (4.ª jornada). */
 function getPublishedInterclubeLobitoLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
   if (match.id !== 'm27-4-7') return undefined;
@@ -4464,11 +4530,24 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
     { minute: 84, type: 'yellow', team: 'away', player: 'António Mule Chitongo' },
   ];
 
-  // 4.ª jornada (13/09/2026 · Estádio dos Mártires da Canhala, Huambo).
+  // 4.ª jornada · Relatório do Árbitro FCMS n.º 29 (13/09/2026 · Estádio Daniel Lutucuta, Huambo).
   if (match.id === 'm27-4-1') return [
-    { minute: 13, type: 'goal', team: 'home', player: 'Lourenço Francisco Cuxixima', playerId: 'cuxixima-caala', detail: '1-0' },
-    { minute: 55, type: 'goal', team: 'away', player: 'Milagre Simba', playerId: 'milagre-simba-huila', detail: '1-1' },
-    { minute: 90, type: 'goal', team: 'away', player: 'Ado Pena', playerId: 'ado-pena-huila', detail: "90'+5 · 1-2" },
+    { minute: 12, type: 'goal', team: 'home', player: 'Benvindo Miguel André Afonso', number: 4, playerId: 'fifa-1jz4pi8', detail: "12' (1-0)" },
+    { minute: 46, type: 'sub', team: 'home', player: 'Hermenegildo Sandumbo', number: 9, playerId: 'fifa-1k0r4w6', playerOut: 'Ernesto Vieira' },
+    { minute: 46, type: 'sub', team: 'away', player: 'Milagre Carlos Simba', number: 25, playerId: 'milagre-simba-huila', playerOut: 'Milton Alberto de Oliveira Suca' },
+    { minute: 46, type: 'sub', team: 'away', player: 'Constantino Tchicundico Cassoma Tchitunda', number: 32, playerId: 'tchicundico-huila', playerOut: 'Mauricio Pedro' },
+    { minute: 52, type: 'goal', team: 'away', player: 'Milagre Carlos Simba', number: 25, playerId: 'milagre-simba-huila', detail: "52' (1-1)" },
+    { minute: 53, type: 'sub', team: 'home', player: 'Benedito Antunes', number: 19, playerId: 'fifa-1lda172', playerOut: 'Benvindo Miguel André Afonso' },
+    { minute: 53, type: 'sub', team: 'home', player: 'José Manuel Raul', number: 27, playerId: 'fifa-1r8lp51', playerOut: 'Timoteo Sambissa' },
+    { minute: 61, type: 'yellow', team: 'away', player: 'Constantino Tchicundico Cassoma Tchitunda', number: 32, playerId: 'tchicundico-huila', detail: 'Comportamento antidesportivo' },
+    { minute: 67, type: 'sub', team: 'away', player: 'João Baptista Ferraz Samazanga Juny', number: 34, playerId: 'joao-samazanga-huila', playerOut: 'Leonardo Manuel Isola Ramos' },
+    { minute: 67, type: 'sub', team: 'away', player: 'Angelo Cangu', number: 21, playerId: 'angelo-cangu-huila', playerOut: 'Pequenino Castro' },
+    { minute: 74, type: 'sub', team: 'home', player: 'Adriano Belmiro Duarte Nicolau', number: 38, playerOut: 'Arilson de Ceita Pereira Jorge' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Osvaldo José', number: 6, playerId: 'fifa-1kz4es4', playerOut: 'Domingos Lourenço Cuxixima' },
+    { minute: 84, type: 'yellow', team: 'home', player: 'Valentim Sacuvale', number: 2, playerId: 'fifa-1t647t5', detail: 'Comportamento antidesportivo' },
+    { minute: 92, type: 'yellow', team: 'home', player: 'Hermenegildo Sandumbo', number: 9, playerId: 'fifa-1k0r4w6', detail: "90'+2' · Comportamento antidesportivo" },
+    { minute: 92, type: 'sub', team: 'away', player: 'António Pena', number: 27, playerId: 'ado-pena-huila', playerOut: 'José Mendes' },
+    { minute: 94, type: 'goal', team: 'away', player: 'António Pena', number: 27, playerId: 'ado-pena-huila', detail: "90'+4' (1-2)" },
   ];
 
   // 4.ª jornada (13/09/2026 · Estádio Nacional de Ombaka, Benguela).
@@ -4851,6 +4930,7 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-4-5': { home: { yellowCards: 4, redCards: 0 }, away: { yellowCards: 1, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-4-7': { home: { corners: 4, yellowCards: 2, redCards: 0 }, away: { corners: 4, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-4-2': { home: { yellowCards: 10, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-4-1': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 1, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
 };
 
 /**
@@ -5452,7 +5532,8 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
 export function getMatchDetail(match: Match): MatchDetail {
   // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código.
   const dbLineup = RUNTIME_DATA.lineups?.[match.id];
-  const publishedLineups = dbLineup ?? getPublishedLundaSulSagradaLineups(match)
+  const publishedLineups = dbLineup ?? getPublishedCaalaHuilaLineups(match)
+    ?? getPublishedLundaSulSagradaLineups(match)
     ?? getPublishedInterclubeLobitoLineups(match)
     ?? getPublishedCabindaAgostoLineups(match)
     ?? getPublishedBravosSagradaLineups(match)
@@ -5664,6 +5745,18 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       assistants: ['Domingos Monteiro Francisco', 'Januário Simões Francisco'],
       fourth: 'André Muamba Paulo',
       commissioner: 'Alberto Bumba Senda',
+    },
+    'm27-4-3': {
+      referee: 'Gilberto Bernardino Kativa',
+      assistants: ['António Emiliano Livongue', 'Carlos Pereira Gabriel'],
+      fourth: 'Nuno Eduardo Sumbo',
+    },
+    // Relatório do Árbitro FCMS n.º 29.
+    'm27-4-1': {
+      referee: 'Paulo Sérgio Moreira',
+      assistants: ['Lídio Chicomo Cuimbra', 'Segunda Chisseque Francisco'],
+      fourth: 'Bento João Muachissengue',
+      commissioner: 'Manuel André António',
     },
   };
   // Prioridade: override publicado no admin → BD (ancaf_referee_nominations)
