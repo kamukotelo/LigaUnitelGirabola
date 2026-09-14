@@ -516,7 +516,8 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayScore": 0,
     "date": "2026-09-19T15:30:00+01:00",
     "stadium": "Estádio França N’dalu",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-5-7",
@@ -554,9 +555,10 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "awayTeam": "Recreativo do Libolo",
     "homeScore": 0,
     "awayScore": 0,
-    "date": "2026-09-20T15:00:00+01:00",
+    "date": "2026-09-20T17:15:00+01:00",
     "stadium": "Estádio Nacional de Ombaka",
-    "status": "scheduled"
+    "status": "scheduled",
+    "broadcaster": "Zsports"
   },
   {
     "id": "m27-5-8",
@@ -583,7 +585,7 @@ export const PUBLISHED_MATCHES_2026_27: Match[] = [
     "date": "2026-09-20T15:30:00+01:00",
     "stadium": "Estádio do Sagrada Esperança",
     "status": "scheduled",
-    "broadcaster": "Zsports"
+    "broadcaster": "Rádio 5"
   },
   {
     "id": "m27-6-1",
