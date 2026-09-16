@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   Shield, 
   Calendar, 
@@ -26,16 +26,23 @@ import {
 import { 
   HISTORICAL_SCORERS_2025_26, 
   HISTORICAL_CLEAN_SHEETS_2025_26,
+  HISTORICAL_DISCIPLINE_2025_26,
   HISTORICAL_MATCHES_2025_26,
   HISTORICAL_MATCH_STATS_2025_26,
 } from '@/lib/historical-results-2025-26';
 
 export type ComparisonCategory = 'jogos' | 'marcadores' | 'guardaredes' | 'disciplina';
 
-export default function SeasonComparisonMatrix() {
+/**
+ * O clube é escolhido uma única vez, no filtro-mestre da aba de estatísticas,
+ * e entra aqui como propriedade. O comparador tinha antes um seletor próprio,
+ * com uma lista de clubes escrita à mão que já não incluía o CR Caála nem o FC
+ * Luanda — duas equipas do plantel de 2026/2027.
+ */
+export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFilter?: string }) {
   const [activeCategory, setActiveCategory] = useState<ComparisonCategory>('jogos');
   const [roundScope, setRoundScope] = useState<'all' | 'homologous'>('all');
-  const [clubFilter, setClubFilter] = useState<string>('all');
+  const clubLabel = clubFilter === 'all' ? '' : getTeamFullName(clubFilter, clubFilter);
 
   // Dados reais 2026/27 (atual apurado)
   const currentMatches = getMatchesForSeason('2026-27');
@@ -117,13 +124,22 @@ export default function SeasonComparisonMatrix() {
     return list.slice(0, 5);
   }, [clubFilter]);
 
-  // Disciplina 2025/26
+  // Disciplina 2025/26. A média por jogo divide pelos jogos cuja ficha publica
+  // efetivamente os cartões — dividir pelo total de partidas diluía o valor com
+  // jogos que não têm súmula disciplinar no arquivo.
   const histCards = useMemo(() => {
     let yellow = 0;
     let red = 0;
+    let yellowMatches = 0;
+    let redMatches = 0;
     for (const m of historicalMatchesFiltered) {
       const s = HISTORICAL_MATCH_STATS_2025_26[m.id];
       if (!s) continue;
+      const hasYellow = s.keys.includes('yellowCards');
+      const hasRed = s.keys.includes('redCards');
+      if (!hasYellow && !hasRed) continue;
+      if (hasYellow) yellowMatches += 1;
+      if (hasRed) redMatches += 1;
       if (clubFilter === 'all') {
         yellow += (s.home.yellowCards ?? 0) + (s.away.yellowCards ?? 0);
         red += (s.home.redCards ?? 0) + (s.away.redCards ?? 0);
@@ -141,18 +157,28 @@ export default function SeasonComparisonMatrix() {
     return {
       yellow,
       red,
+      counted: Math.max(yellowMatches, redMatches),
       total: yellow + red,
-      ypm: (yellow / nHist).toFixed(2),
-      rpm: (red / nHist).toFixed(2),
+      ypm: (yellow / (yellowMatches || 1)).toFixed(2),
+      rpm: (red / (redMatches || 1)).toFixed(2),
     };
-  }, [historicalMatchesFiltered, clubFilter, nHist]);
+  }, [historicalMatchesFiltered, clubFilter]);
 
   // Disciplina 2026/27 (apurada através dos relatórios oficiais das partidas)
   const currentCards = useMemo(() => {
     let yellow = 0;
     let red = 0;
+    let yellowMatches = 0;
+    let redMatches = 0;
     for (const m of currentMatchesFiltered) {
       const stats = getMatchDetail(m);
+      // Uma ficha pode publicar só os vermelhos (ou só os amarelos); cada
+      // média tem por isso o seu próprio denominador.
+      const hasYellow = stats.officialStatKeys.includes('yellowCards');
+      const hasRed = stats.officialStatKeys.includes('redCards');
+      if (!hasYellow && !hasRed) continue;
+      if (hasYellow) yellowMatches += 1;
+      if (hasRed) redMatches += 1;
       if (clubFilter === 'all') {
         yellow += (stats.homeStats.yellowCards ?? 0) + (stats.awayStats.yellowCards ?? 0);
         red += (stats.homeStats.redCards ?? 0) + (stats.awayStats.redCards ?? 0);
@@ -170,32 +196,28 @@ export default function SeasonComparisonMatrix() {
     return {
       yellow,
       red,
+      counted: Math.max(yellowMatches, redMatches),
       total: yellow + red,
-      ypm: (yellow / nCurr).toFixed(2),
-      rpm: (red / nCurr).toFixed(2),
+      ypm: (yellow / (yellowMatches || 1)).toFixed(2),
+      rpm: (red / (redMatches || 1)).toFixed(2),
     };
-  }, [currentMatchesFiltered, clubFilter, nCurr]);
+  }, [currentMatchesFiltered, clubFilter]);
 
   const topHistoricalDiscipline = useMemo(() => {
-    const players = [
-      { id: 'yc-1', name: 'Moisés', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', yellow: 9, red: 2 },
-      { id: 'yc-2', name: 'Singongo', club: 'Desportivo da Lunda-Sul', teamId: 'lundasul', yellow: 8, red: 0 },
-      { id: 'yc-3', name: 'Ludy', club: 'Desportivo da Huíla', teamId: 'desphuila', yellow: 8, red: 0 },
-      { id: 'yc-4', name: 'Chimito', club: 'Recreativo do Libolo', teamId: 'libolo', yellow: 8, red: 1 },
-      { id: 'yc-5', name: 'Cahilo', club: 'Sagrada Esperança', teamId: 'sagrada', yellow: 7, red: 1 },
-      { id: 'yc-6', name: 'Marcos', club: 'FC de Cabinda', teamId: 'cabinda', yellow: 7, red: 0 },
-      { id: 'yc-7', name: 'Venâncio', club: 'CD 1.º de Agosto', teamId: 'dago', yellow: 7, red: 0 },
-      { id: 'yc-8', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', yellow: 6, red: 0 },
-    ];
-    let list = players;
-    if (clubFilter !== 'all') {
-      list = list.filter(p => p.teamId === clubFilter);
-    }
+    const list = clubFilter === 'all'
+      ? HISTORICAL_DISCIPLINE_2025_26
+      : HISTORICAL_DISCIPLINE_2025_26.filter((p) => p.teamId === clubFilter);
     return list.slice(0, 5);
   }, [clubFilter]);
 
+  // A coluna de 2025/2026 lista os mais advertidos (amarelos primeiro); a de
+  // 2026/2027 vinha ordenada por vermelhos, o que colocava lado a lado dois
+  // critérios diferentes — e um atleta com 0 amarelos no topo dos "advertidos".
   const topCurrentDiscipline = useMemo(() => {
-    let list = getCurrentSeasonDiscipline().map(p => ({
+    let list = getCurrentSeasonDiscipline()
+      .slice()
+      .sort((a, b) => b.yellowCards - a.yellowCards || b.redCards - a.redCards || a.name.localeCompare(b.name))
+      .map(p => ({
       id: p.id,
       name: p.name,
       club: p.club,
@@ -216,23 +238,6 @@ export default function SeasonComparisonMatrix() {
     { key: 'disciplina', label: '🟨 Cartões & Disciplina', icon: AlertTriangle },
   ];
 
-  // Lista de clubes comuns
-  const commonClubs = [
-    { id: 'all', name: 'Todos os Clubes' },
-    { id: 'petro', name: 'Petro de Luanda' },
-    { id: 'dago', name: '1.º de Agosto' },
-    { id: 'wiliete', name: 'Wiliete de Benguela' },
-    { id: 'sagrada', name: 'Sagrada Esperança' },
-    { id: 'desphuila', name: 'Desportivo da Huíla' },
-    { id: 'interclube', name: 'GD Interclube' },
-    { id: 'kabuscorp', name: 'Kabuscorp SC' },
-    { id: 'bravos', name: 'Bravos do Maquis' },
-    { id: 'lundasul', name: 'Desportivo da Lunda-Sul' },
-    { id: 'lobito', name: 'Académica do Lobito' },
-    { id: 'libolo', name: 'Recreativo do Libolo' },
-    { id: 'saosalvador', name: 'São Salvador' },
-    { id: 'primeiromaio', name: '1.º de Maio' },
-  ];
 
   return (
     <AnimatedCard
@@ -292,19 +297,11 @@ export default function SeasonComparisonMatrix() {
           </div>
         </div>
 
-        {/* Filtro por Clube */}
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono uppercase text-zinc-500 font-bold">Clube:</span>
-          <select
-            value={clubFilter}
-            onChange={(e) => setClubFilter(e.target.value)}
-            className="bg-white dark:bg-zinc-950 text-foreground border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs font-mono focus:outline-none focus:border-accent"
-          >
-            {commonClubs.map(c => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
-        </div>
+        {clubLabel && (
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/10 px-2.5 py-1 text-[11px] font-mono font-bold text-accent">
+            <Users size={11} /> {clubLabel}
+          </span>
+        )}
       </div>
 
       {/* Tabs das Categorias */}
@@ -329,14 +326,16 @@ export default function SeasonComparisonMatrix() {
         })}
       </div>
 
-      {/* Conteúdo Dinâmico por Categoria */}
-      <AnimatePresence mode="wait">
+      {/* Conteúdo Dinâmico por Categoria. Sem AnimatePresence: com `mode="wait"`
+          o bloco novo só era montado depois de o anterior terminar a animação de
+          saída, pelo que mudar de categoria — ou de clube no filtro do topo —
+          deixava em ecrã os números da seleção anterior. */}
+      <>
         {activeCategory === 'jogos' && (
           <motion.div
             key={`jogos-${roundScope}-${clubFilter}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
             className="space-y-4"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -418,13 +417,12 @@ export default function SeasonComparisonMatrix() {
             key={`marcadores-${clubFilter}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             {/* 2025/26 Marcadores */}
             <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
               <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400 block mb-3">
-                Top Goleadores Oficiais (2025/2026) {clubFilter !== 'all' ? `— ${clubFilter.toUpperCase()}` : ''}
+                Top Goleadores Oficiais (2025/2026) {clubLabel ? `— ${clubLabel}` : ''}
               </span>
               <div className="space-y-2">
                 {topHistoricalScorers.length > 0 ? (
@@ -450,7 +448,7 @@ export default function SeasonComparisonMatrix() {
             {/* 2026/27 Marcadores */}
             <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20">
               <span className="text-xs font-bold uppercase font-mono text-primary block mb-3">
-                Top Goleadores Fichas Recebidas (2026/2027) {clubFilter !== 'all' ? `— ${clubFilter.toUpperCase()}` : ''}
+                Top Goleadores Fichas Recebidas (2026/2027) {clubLabel ? `— ${clubLabel}` : ''}
               </span>
               <div className="space-y-2">
                 {topCurrentScorers.length > 0 ? (
@@ -480,13 +478,12 @@ export default function SeasonComparisonMatrix() {
             key={`guardaredes-${clubFilter}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             {/* 2025/26 Clean Sheets */}
             <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
               <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400 block mb-3">
-                Top Guarda-Redes Sem Sofrer Golos (2025/2026) {clubFilter !== 'all' ? `— ${clubFilter.toUpperCase()}` : ''}
+                Top Guarda-Redes Sem Sofrer Golos (2025/2026) {clubLabel ? `— ${clubLabel}` : ''}
               </span>
               <div className="space-y-2">
                 {historicalCleanSheets.length > 0 ? (
@@ -512,7 +509,7 @@ export default function SeasonComparisonMatrix() {
             {/* 2026/27 Clean Sheets */}
             <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20">
               <span className="text-xs font-bold uppercase font-mono text-primary block mb-3">
-                Guarda-Redes Sem Sofrer Golos (2026/2027) {clubFilter !== 'all' ? `— ${clubFilter.toUpperCase()}` : ''}
+                Guarda-Redes Sem Sofrer Golos (2026/2027) {clubLabel ? `— ${clubLabel}` : ''}
               </span>
               <div className="space-y-2">
                 {currentCleanSheets.length > 0 ? (
@@ -542,7 +539,6 @@ export default function SeasonComparisonMatrix() {
             key={`disciplina-${roundScope}-${clubFilter}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
             className="space-y-4"
           >
             {/* Comparação Geral de Disciplina */}
@@ -553,7 +549,7 @@ export default function SeasonComparisonMatrix() {
                   <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400">
                     2025/2026 {roundScope === 'homologous' ? `(Até J${maxCurrentRound})` : '(30J)'}
                   </span>
-                  <span className="text-[10px] font-mono text-zinc-500">{historicalMatchesFiltered.length} jogos</span>
+                  <span className="text-[10px] font-mono text-zinc-500">{histCards.counted} jogos com súmula</span>
                 </div>
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl font-black font-mono text-foreground">{histCards.total}</span>
@@ -577,7 +573,7 @@ export default function SeasonComparisonMatrix() {
                   <span className="text-xs font-bold uppercase font-mono text-primary">
                     2026/2027 (Época Atual — Fichas Oficiais)
                   </span>
-                  <span className="text-[10px] font-mono text-primary/70">{currentMatchesFiltered.length} jogos</span>
+                  <span className="text-[10px] font-mono text-primary/70">{currentCards.counted} de {currentMatchesFiltered.length} jogos com súmula</span>
                 </div>
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl font-black font-mono text-primary">{currentCards.total}</span>
@@ -609,7 +605,7 @@ export default function SeasonComparisonMatrix() {
               {/* 2025/26 Jogadores */}
               <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
                 <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400 block mb-3">
-                  Mais Advertidos (2025/2026) {clubFilter !== 'all' ? `— ${clubFilter.toUpperCase()}` : ''}
+                  Mais Advertidos (2025/2026) {clubLabel ? `— ${clubLabel}` : ''}
                 </span>
                 <div className="space-y-2">
                   {topHistoricalDiscipline.length > 0 ? (
@@ -644,7 +640,7 @@ export default function SeasonComparisonMatrix() {
               {/* 2026/27 Jogadores */}
               <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20">
                 <span className="text-xs font-bold uppercase font-mono text-primary block mb-3">
-                  Cartões Atribuídos nas Súmulas (2026/2027) {clubFilter !== 'all' ? `— ${clubFilter.toUpperCase()}` : ''}
+                  Cartões Atribuídos nas Súmulas (2026/2027) {clubLabel ? `— ${clubLabel}` : ''}
                 </span>
                 <div className="space-y-2">
                   {topCurrentDiscipline.length > 0 ? (
@@ -678,7 +674,7 @@ export default function SeasonComparisonMatrix() {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </>
     </AnimatedCard>
   );
 }

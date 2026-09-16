@@ -1,0 +1,41 @@
+// 2.ª jornada · FC Cabinda–Desportivo da Huíla
+import { defineMatch } from '../tipos';
+
+export default defineMatch({
+  id: 'm27-2-3',
+  round: 2,
+  homeTeamId: 'cabinda',
+  awayTeamId: 'desphuila',
+  schedule: { date: '2026-08-26T15:30:00+01:00', stadium: 'Estádio Vici António', scheduleStatus: 'official' },
+  result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '1-1', updatedAt: '2026-09-06T17:50:00+01:00' },
+  officials: { referee: 'Sanda Mateus Miguel Kitu', assistants: ['Natarino António Soares', 'Nelson Lutumba Quiala'], fourth: 'Regina Vita Ngola Catati Bernardo', commissioner: 'Júlio Gonçalves da Silva Lemos' },
+  events: [
+    { minute: 5, type: 'yellow', team: 'home', player: 'Pedro da Silva', playerId: 'pedro-da-silva-cabinda' },
+    { minute: 20, type: 'yellow', team: 'home', player: 'João Cambo', playerId: 'joao-cambo-cabinda' },
+    { minute: 24, type: 'goal', team: 'away', player: 'Milagre Carlos Simba', playerId: 'milagre-simba-huila', detail: '0-1' },
+    { minute: 45, type: 'sub', team: 'away', player: 'João Milagre Chiva Simões', playerId: 'joao-milagre-huila', playerOut: 'Lucas Elias Antonio Paulo' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Angelo Cangu', playerId: 'angelo-cangu-huila', playerOut: 'Tchicundico Cassoma Tchitunda' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Leonardo Manuel Isola Ramos', playerId: 'leonardo-isola-huila', playerOut: 'Milagre Carlos Simba' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Pequenino Castro', playerId: 'pequenino-castro-huila', playerOut: 'Mauricio Pedro' },
+    { minute: 47, type: 'yellow', team: 'away', player: 'Lucas Elias Antonio Paulo', playerId: 'lucas-elias-huila' },
+    { minute: 49, type: 'goal', team: 'home', player: 'Luyeye Tomás', playerId: 'luyeye-cabinda', detail: "Grande penalidade · 45'+4 (1-1)" },
+    { minute: 60, type: 'yellow', team: 'home', player: 'Luyeye Tomás', playerId: 'luyeye-cabinda' },
+    { minute: 62, type: 'yellow', team: 'away', player: 'João Milagre Chiva Simões', playerId: 'joao-milagre-huila' },
+    { minute: 67, type: 'yellow', team: 'home', player: 'Cipriano Cumba Rafael', playerId: 'cipriano-cumba-cabinda' },
+    { minute: 67, type: 'sub', team: 'home', player: 'Júlio Mavungo André', playerId: 'julio-cabinda', playerOut: 'Domingos Paixão Paulino Lourenço' },
+    { minute: 67, type: 'sub', team: 'away', player: 'João Baptista Ferraz Samazanga Juny', playerId: 'joao-samazanga-huila', playerOut: 'Milton Alberto de Oliveira Suca' },
+    { minute: 69, type: 'yellow', team: 'home', player: 'Luciano Capoco', playerId: 'luciano-capoco-cabinda' },
+    { minute: 71, type: 'yellow', team: 'home', player: 'Ariclenis Afonso Araújo Lede', playerId: 'ariclenis-cabinda' },
+    { minute: 74, type: 'sub', team: 'home', player: 'Simão Gomes', playerId: 'simao-gomes-cabinda', playerOut: 'Ariclenis Afonso Araújo Lede' },
+    { minute: 75, type: 'yellow', team: 'away', player: 'Angelo Cangu', playerId: 'angelo-cangu-huila' },
+    { minute: 76, type: 'yellow', team: 'home', player: 'Simão Gomes', playerId: 'simao-gomes-cabinda' },
+    { minute: 79, type: 'yellow', team: 'home', player: 'Cristiano Malonda', playerId: 'cristiano-cabinda' },
+    { minute: 80, type: 'goal', team: 'away', player: 'Leonardo Manuel Isola Ramos', playerId: 'leonardo-isola-huila', detail: '1-2' },
+    { minute: 82, type: 'sub', team: 'home', player: 'António Kapata', playerId: 'antonio-kapata-cabinda', playerOut: 'Frederico Zau' },
+  ],
+  stats: {
+    home: { fouls: 8, yellowCards: 8, redCards: 0 },
+    away: { fouls: 3, yellowCards: 3, redCards: 0 },
+    keys: ['fouls', 'yellowCards', 'redCards'],
+  },
+});

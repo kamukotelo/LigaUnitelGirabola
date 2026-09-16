@@ -16,11 +16,26 @@ const files = {
   matchDetailClient: new URL('../src/components/MatchDetailClient.tsx', import.meta.url),
   estatisticasTab: new URL('../src/components/competition/EstatisticasTab.tsx', import.meta.url),
   classificacaoTab: new URL('../src/components/competition/ClassificacaoTab.tsx', import.meta.url),
+  seasonComparisonMatrix: new URL('../src/components/competition/SeasonComparisonMatrix.tsx', import.meta.url),
 };
 
-const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage, advancedStatistics, playerDetail, matchDetailClient, estatisticasTab, classificacaoTab] = await Promise.all(
+const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage, advancedStatistics, playerDetail, matchDetailClient, estatisticasTab, classificacaoTab, seasonComparisonMatrix] = await Promise.all(
   Object.values(files).map((file) => readFile(file, 'utf8')),
 );
+
+// Dados de jogos: um registo por jogo em src/data/jogos/2026-27 e os totais
+// gerados a partir deles (ver src/data/jogos/LEIA-ME.md).
+const recordsDir = new URL('../src/data/jogos/2026-27/', import.meta.url);
+const recordById = Object.fromEntries(await Promise.all(
+  (await readdir(recordsDir))
+    .filter((file) => /^m27-\d+-\d+\.ts$/.test(file))
+    .map(async (file) => [file.slice(0, -3), await readFile(new URL(file, recordsDir), 'utf8')]),
+));
+const records = Object.values(recordById).join('\n');
+const derived = await readFile(new URL('derivados.ts', recordsDir), 'utf8');
+const record = (id) => recordById[id] ?? assert.fail(`Falta o registo de jogo ${id}.`);
+// Nomes de atletas podem estar no plantel (alcunha), na ficha ou nos totais.
+const matchData = [data, records, derived].join('\n');
 
 function occurrences(source, expression) {
   return [...source.matchAll(expression)].length;
@@ -96,7 +111,7 @@ assert.match(favicon, /logo-girabola\.png/);
 // A agenda aplicada pela plataforma e o calendário servido pela API devem
 // manter a mesma hora confirmada para o jogo de 31/08/2026.
 const huilaWilieteDate = '2026-08-31T15:30:00+01:00';
-assert.match(data, new RegExp(huilaWilieteDate.replace(/[+]/g, '\\+')));
+assert.match(records, new RegExp(huilaWilieteDate.replace(/[+]/g, '\\+')));
 assert.match(publishedCalendar, new RegExp(huilaWilieteDate.replace(/[+]/g, '\\+')));
 assert.match(data, /PLATFORM_MATCH_UPDATED_AT = '2026-09-06T17:50:00\+01:00'/);
 
@@ -107,7 +122,7 @@ for (const confirmedDate of [
   '2026-08-29T15:30:00+01:00',
 ]) {
   const datePattern = new RegExp(confirmedDate.replace(/[+]/g, '\\+'));
-  assert.match(data, datePattern);
+  assert.match(records, datePattern);
   assert.match(publishedCalendar, datePattern);
 }
 assert.match(publishedCalendar, /"homeTeamId": "interclube"[\s\S]*?"date": "2026-08-28T15:30:00\+01:00"/);
@@ -118,60 +133,58 @@ assert.match(publishedCalendar, /"id": "m27-5-7"[\s\S]*?"date": "2026-09-20T15:0
 // 5.ª jornada · alterações de 14/09/2026: Wiliete–Libolo passa para as 17h15 com ZSports,
 // 1.º de Agosto–FC Luanda passa a ZSports e Sagrada–Petro passa a Rádio 5. A Rádio 5 é a
 // transmissão por omissão e não pode ter broadcaster, senão o cartão mostra "Em direto · Rádio 5".
-assert.match(data, /homeTeamId: 'dago', awayTeamId: 'fcluanda', date: '2026-09-19T15:30:00\+01:00', broadcaster: 'Zsports'/);
-assert.match(data, /homeTeamId: 'sagrada', awayTeamId: 'petro', date: '2026-09-20T15:30:00\+01:00' \},/);
-assert.match(data, /homeTeamId: 'wiliete', awayTeamId: 'libolo', date: '2026-09-20T17:15:00\+01:00', broadcaster: 'Zsports'/);
-assert.match(publishedCalendar, /"id": "m27-5-2"[^}]*"broadcaster": "Zsports"\n  \}/);
-assert.doesNotMatch(publishedCalendar, /"id": "m27-5-3"[^}]*"broadcaster"/);
-assert.match(publishedCalendar, /"id": "m27-5-6"[^}]*"date": "2026-09-20T17:15:00\+01:00"[^}]*"broadcaster": "Zsports"\n  \}/);
+assert.match(record('m27-5-2'), /date: '2026-09-19T15:30:00\+01:00'[^\n]*broadcaster: 'Zsports'/);
+assert.match(record('m27-5-3'), /date: '2026-09-20T15:30:00\+01:00'/);
+assert.doesNotMatch(record('m27-5-3'), /broadcaster/);
+assert.match(record('m27-5-6'), /date: '2026-09-20T17:15:00\+01:00'[^\n]*broadcaster: 'Zsports'/);
 assert.match(publishedCalendar, /"id": "m27-2-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"date": "2026-08-27T16:00:00\+01:00"[\s\S]*?"status": "finished"/);
 assert.match(publishedCalendar, /"id": "m27-2-7"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"status": "finished"/);
 assert.match(publishedCalendar, /"id": "m27-2-5"[\s\S]*?"homeScore": 2[\s\S]*?"awayScore": 1[\s\S]*?"date": "2026-08-28T15:30:00\+01:00"[\s\S]*?"status": "finished"[\s\S]*?"halfTimeScore": "0-0"/);
-assert.match(data, /'m27-2-5'[\s\S]*?score: '2-1'[\s\S]*?halfTimeScore: '0-0'[\s\S]*?status: 'finished'/);
+assert.match(record('m27-2-5'), /result: \{ status: 'finished', homeScore: 2, awayScore: 1, halfTimeScore: '0-0'/);
 for (const scorer of ['Silvano da Cruz', 'Alberto Alves', 'Ricardo Batista']) {
-  assert.match(data, new RegExp(scorer));
+  assert.match(matchData, new RegExp(scorer));
 }
 
 // Resultados publicados em 05/09/2026 e 13/09/2026: placares, intervalos e marcadores
 // devem permanecer ligados às fichas reais recebidas.
-for (const resultPattern of [
-  /'m27-3-1'[\s\S]*?score: '1-2'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/,
-  /'m27-3-4'[\s\S]*?score: '2-1'[\s\S]*?halfTimeScore: '1-1'[\s\S]*?status: 'finished'/,
-  /'m27-3-8'[\s\S]*?score: '0-2'[\s\S]*?halfTimeScore: '0-1'[\s\S]*?status: 'finished'/,
-  /'m27-3-5'[\s\S]*?score: '0-1'[\s\S]*?halfTimeScore: '0-1'[\s\S]*?status: 'finished'/,
-  /'m27-4-1'[\s\S]*?score: '1-2'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/,
-  /'m27-4-3'[\s\S]*?score: '2-0'[\s\S]*?halfTimeScore: '2-0'[\s\S]*?status: 'finished'/,
+for (const [id, home, away, halfTime] of [
+  ['m27-3-1', 1, 2, '1-0'],
+  ['m27-3-4', 2, 1, '1-1'],
+  ['m27-3-8', 0, 2, '0-1'],
+  ['m27-3-5', 0, 1, '0-1'],
+  ['m27-4-1', 1, 2, '1-0'],
+  ['m27-4-3', 2, 0, '2-0'],
 ]) {
-  assert.match(data, resultPattern);
+  assert.match(record(id), new RegExp(`result: \\{ status: 'finished', homeScore: ${home}, awayScore: ${away}, halfTimeScore: '${halfTime}'`));
 }
 for (const scorer of ['Mariano da Costa Vidal', 'Benvindo Miguel André Afonso', 'Tiago Jamba Adelino', 'Jaime Caetano', 'Ariclenis Afonso Araújo Lede', 'Moisés', 'Kessie Messi', 'Beni Papel', 'António Pena', 'Ado Pena', 'Mabululu']) {
-  assert.match(data, new RegExp(scorer));
+  assert.match(matchData, new RegExp(scorer));
 }
 assert.match(publishedCalendar, /"id": "m27-4-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"halfTimeScore": "1-0"[\s\S]*?"status": "finished"/);
 
 // 4.ª jornada · CR Caála 1-2 Desportivo da Huíla — Relatório do Árbitro FCMS n.º 29.
 // O golo dos 12' é de Benvindo (#4); Cuxixima não marcou (atribuição errada corrigida a 14/09).
-assert.match(data, /'m27-4-1': \{[\s\S]*?stadium: 'Estádio Daniel Lutucuta'[\s\S]*?attendance: 1200/);
+assert.match(record('m27-4-1'), /stadium: 'Estádio Daniel Lutucuta'[\s\S]*?attendance: 1200/);
 assert.match(
-  data,
-  /if \(match\.id === 'm27-4-1'\) return \[[\s\S]*?minute: 12, type: 'goal'[^\n]*playerId: 'fifa-1jz4pi8'[\s\S]*?minute: 52, type: 'goal'[^\n]*playerId: 'milagre-simba-huila'[\s\S]*?minute: 94, type: 'goal'[^\n]*playerId: 'ado-pena-huila'/,
+  record('m27-4-1'),
+  /events: \[[\s\S]*?minute: 12, type: 'goal'[^\n]*playerId: 'fifa-1jz4pi8'[\s\S]*?minute: 52, type: 'goal'[^\n]*playerId: 'milagre-simba-huila'[\s\S]*?minute: 94, type: 'goal'[^\n]*playerId: 'ado-pena-huila'/,
   'Os golos do m27-4-1 têm de seguir o Relatório 29.',
 );
-assert.doesNotMatch(data, /id: 'cuxixima-caala'[^\n]*goals: [1-9]/, 'Cuxixima não marcou no Relatório 29.');
-assert.match(data, /id: 'fifa-1jz4pi8'[^\n]*goals: 2, appearances: 2/);
-assert.match(data, /'m27-4-1': \{\s*referee: 'Paulo Sérgio Moreira'[\s\S]*?commissioner: 'Manuel André António'/);
+assert.doesNotMatch(derived, /id: 'cuxixima-caala'/, 'Cuxixima não marcou no Relatório 29.');
+assert.match(derived, /id: 'fifa-1jz4pi8'[^\n]*goals: 2,/);
+assert.match(record('m27-4-1'), /officials: \{ referee: 'Paulo Sérgio Moreira'[^\n]*commissioner: 'Manuel André António'/);
 assert.match(publishedCalendar, /"id": "m27-4-3"[\s\S]*?"homeScore": 2[\s\S]*?"awayScore": 0[\s\S]*?"halfTimeScore": "2-0"[\s\S]*?"status": "finished"/);
-assert.match(data, /'m27-3-8': \{ home: \{ corners: 1, yellowCards: 6 \}, away: \{ corners: 0, yellowCards: 3 \}/);
+assert.match(record('m27-3-8'), /home: \{ corners: 1, yellowCards: 6 \},\s*away: \{ corners: 0, yellowCards: 3 \}/);
 
 // 4.ª jornada · FC Cabinda 1-1 CD 1.º de Agosto (09/09/2026, Estádio França Ndalu).
-assert.match(data, /'m27-4-5': \{[\s\S]*?score: '1-1'[\s\S]*?halfTimeScore: '1-0'[\s\S]*?status: 'finished'/);
-assert.match(data, /if \(match\.id === 'm27-4-5'\) return \[[\s\S]*?playerId: 'luyeye-cabinda'[\s\S]*?playerId: 'axel-dago'/);
-assert.match(data, /id: 'luyeye-cabinda'[\s\S]*?goals: 2, appearances: 2/);
-assert.match(data, /id: 'axel-dago', name: 'Axel Gaudêncio'[\s\S]*?goals: 2, appearances: 2/);
+assert.match(record('m27-4-5'), /result: \{ status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-0'/);
+assert.match(record('m27-4-5'), /events: \[[\s\S]*?playerId: 'luyeye-cabinda'[\s\S]*?playerId: 'axel-dago'/);
+assert.match(derived, /id: 'luyeye-cabinda'[^\n]*goals: 2,/);
+assert.match(derived, /id: 'axel-dago'[^\n]*goals: 2,/);
 
 // A ficha FC Luanda–FC Cabinda deve manter as convocatórias e a arbitragem
 // oficiais recebidas para a 3.ª jornada.
-assert.match(data, /getPublishedLuandaCabindaLineups/);
+assert.match(record('m27-3-4'), /lineups: \{/);
 for (const officialEntry of [
   'Ludiakueno Afonso',
   'Filipe Malanda',
@@ -180,7 +193,7 @@ for (const officialEntry of [
   'Evanildo Gaspar dos Santos Martins',
   'Nelson Agostinho da Silva',
 ]) {
-  assert.match(data, new RegExp(officialEntry));
+  assert.match(records, new RegExp(officialEntry));
 }
 
 // Arbitragem e comissário da 3.ª jornada devem ficar registados em código.
@@ -190,7 +203,7 @@ for (const official of [
   'Edson António Esoko', 'Manuel Pires Nunda',
   'José Mateus de Carvalho Félix',
 ]) {
-  assert.match(data, new RegExp(official));
+  assert.match(records, new RegExp(official));
 }
 assert.match(data, /commissioner\?: string/);
 // Nas fichas públicas o cargo é sempre "Delegado", nunca "Comissário".
@@ -236,7 +249,38 @@ assert.match(data, /export function getSeasonResultsUpdatedAt/);
 assert.match(estatisticasTab, /getSeasonResultsUpdatedAt\(seasonId\)/);
 assert.match(classificacaoTab, /getSeasonResultsUpdatedAt\(seasonId\)/);
 assert.match(data, /function collectEligibleMatchSides/);
-assert.match(advancedStatistics, /getCurrentSeasonPer90\(\) : \[\]/);
+assert.match(advancedStatistics, /playerRates = isCurrent[\s\S]{0,160}getCurrentSeasonPer90\(\)/);
+// O rácio por 90' exige um mínimo de minutos: sem ele, um suplente com um golo
+// em 45 minutos liderava a tabela à frente de quem marca todas as jornadas.
+assert.match(advancedStatistics, /const PER90_MIN_MINUTES = \d+;/);
+assert.match(advancedStatistics, /minutesPlayed >= PER90_MIN_MINUTES/);
+// As fichas publicam o mesmo árbitro abreviado ou com outra grafia; a tabela de
+// arbitragem tem de o juntar numa linha só.
+assert.match(advancedStatistics, /buildOfficialNameCanonicalizer/);
+assert.match(data, /export function buildOfficialNameCanonicalizer/);
+// O filtro de clube escolhido no topo governa também a análise avançada e o
+// comparador entre temporadas — não apenas os rankings individuais.
+assert.match(advancedStatistics, /teamId\?: string/);
+assert.match(estatisticasTab, /<AdvancedStatistics seasonId=\{seasonId\} teamId=/);
+assert.match(estatisticasTab, /<SeasonComparisonMatrix clubFilter=\{activeTeam\} \/>/);
+assert.match(seasonComparisonMatrix, /clubFilter = 'all' \}: \{ clubFilter\?: string \}/);
+assert.doesNotMatch(seasonComparisonMatrix, /setClubFilter/);
+// O seletor de clubes lista apenas quem disputa a época escolhida: getAllTeams()
+// devolve também promovidos e emblemas históricos de outras edições.
+assert.match(data, /export function getSeasonTeams/);
+assert.match(estatisticasTab, /getSeasonTeams\(seasonId\)/);
+assert.doesNotMatch(estatisticasTab, /getAllTeams\(\)\./);
+// Liderança é sempre medida contra a prova inteira: com um clube filtrado, o
+// melhor do plantel é "Melhor do clube", nunca "Líder" com um golo.
+assert.match(estatisticasTab, /leagueRankById/);
+assert.match(estatisticasTab, /Melhor do clube/);
+// Um guarda-redes sem qualquer baliza a zero não pertence ao ranking de balizas
+// limpas — aparecia com "0" só por ter fichas publicadas.
+assert.match(estatisticasTab, /filter\(\(gk\) => gk\.cleanSheets > 0\)/);
+// Listas de disciplina de 2025/2026 numa fonte única: as cópias duplicadas
+// incluíam o FC de Cabinda, que não disputou essa época.
+assert.match(estatisticasTab, /HISTORICAL_DISCIPLINE_2025_26/);
+assert.match(seasonComparisonMatrix, /HISTORICAL_DISCIPLINE_2025_26/);
 assert.doesNotMatch(advancedStatistics, /getCurrentSeasonMinutesPlayed/);
 assert.match(data, /const leaving = event\.playerOut \? lookupLineupName\(index, event\.playerOut\) : undefined;/);
 assert.doesNotMatch(data, /publishedLineups\?\.home \?\? buildLineup/);

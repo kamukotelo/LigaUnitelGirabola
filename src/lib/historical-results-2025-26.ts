@@ -5214,3 +5214,36 @@ export const HISTORICAL_CLEAN_SHEETS_2025_26: CleanSheetRecord[] = [
   }
 ];
 
+
+export interface HistoricalDisciplineRecord {
+  id: string;
+  name: string;
+  club: string;
+  teamId: string;
+  position: string;
+  yellow: number;
+  red: number;
+}
+
+/**
+ * Atletas mais advertidos em 2025/2026 segundo o apuramento editorial da época.
+ * O arquivo guarda os totais de cartões **por jogo** (HISTORICAL_MATCH_STATS),
+ * mas não a súmula nominal de cada partida — por isso esta lista é consolidado
+ * editorial e não ficha individual, e assim é rotulada no portal.
+ *
+ * A entrada "Marcos / FC de Cabinda" que existia nas cópias duplicadas desta
+ * lista foi removida: o FC de Cabinda não disputou o Girabola 2025/2026 (só
+ * entra em 2026/2027), pelo que não podia ter cartões nessa época.
+ */
+export const HISTORICAL_DISCIPLINE_2025_26: HistoricalDisciplineRecord[] = [
+  { id: 'moises-primeiromaio', name: 'Moisés', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Defesa', yellow: 9, red: 2 },
+  { id: 'singongo-lundasul', name: 'Singongo', club: 'Desportivo da Lunda-Sul', teamId: 'lundasul', position: 'Defesa', yellow: 8, red: 0 },
+  { id: 'ludy-desphuila', name: 'Ludy', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Defesa', yellow: 8, red: 0 },
+  { id: 'chimito-libolo', name: 'Chimito', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Médio', yellow: 8, red: 1 },
+  { id: 'cahilo-sagrada', name: 'Cahilo', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Médio', yellow: 7, red: 1 },
+  { id: 'venancio-dago', name: 'Venâncio', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Médio', yellow: 7, red: 0 },
+  { id: 'deybi-flores-petro', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', yellow: 6, red: 0 },
+  { id: 'kibeixa-guelson', name: 'Kibeixa', club: 'Guelson FC', teamId: 'guelson', position: 'Médio', yellow: 6, red: 1 },
+  { id: 'manico-bravos', name: 'Manico', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Defesa', yellow: 5, red: 1 },
+  { id: 'benvindo-redonda', name: 'Benvindo', club: 'Redonda FC', teamId: 'redonda', position: 'Avançado', yellow: 4, red: 1 },
+];

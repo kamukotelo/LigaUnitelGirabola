@@ -1,0 +1,71 @@
+// 4.ª jornada · GD Interclube–Académica do Lobito
+// 4.ª jornada · 10/09/2026 · Estádio 22 de Junho
+// Onze inicial e suplentes oficiais de GD Interclube–Académica do Lobito (4.ª jornada).
+// 4.ª jornada · 10/09/2026 · GD Interclube 2-0 Académica do Lobito (em direto / temporário)
+import { defineMatch } from '../tipos';
+
+export default defineMatch({
+  id: 'm27-4-7',
+  round: 4,
+  homeTeamId: 'interclube',
+  awayTeamId: 'lobito',
+  schedule: { date: '2026-09-10T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  result: { status: 'finished', homeScore: 2, awayScore: 0, halfTimeScore: '2-0', updatedAt: '2026-09-10T17:30:00+01:00' },
+  officials: { referee: 'Bernardo Kenge Mário', assistants: ['Nery Domingos Pereira Amador da Silva', 'Josemar Ageu Domingos Francisco'], fourth: 'Sabino Garcez de Sousa de Carvalho', commissioner: 'Alberto Bumba Senda' },
+  coaches: { home: 'Divaldo Alves', away: 'Silvestre Pelé' },
+  lineups: {
+    home: [
+      { name: 'Ru', number: 22, position: 'GK', isStarter: true, isCaptain: false, playerId: 'fifa-1jtvf71' },
+      { name: 'Salomão', number: 5, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'fifa-1jtv4k9' },
+      { name: 'Além', number: 6, position: 'MID', isStarter: true, isCaptain: false, playerId: 'fifa-1jtv3g3' },
+      { name: 'Patrick Banza', number: 7, position: 'FWD', isStarter: true, isCaptain: false, playerId: 'patrick-banza-interclube' },
+      { name: 'Alcides', number: 14, position: 'MID', isStarter: true, isCaptain: false, playerId: 'fifa-1kz4cq5' },
+      { name: 'Jamanta', number: 18, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'fifa-1jtuys4' },
+      { name: 'Nandinho', number: 25, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'fifa-1jsrqx5' },
+      { name: 'Moisés', number: 28, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'fifa-1lzlzp0' },
+      { name: 'Betinho', number: 29, position: 'FWD', isStarter: true, isCaptain: false, playerId: 'fifa-1k0sa99' },
+      { name: 'Caneta', number: 32, position: 'MID', isStarter: true, isCaptain: false, playerId: 'fifa-1k26vw6' },
+      { name: 'Paulo Gaspar', number: 33, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'fifa-1m92d85' },
+      { name: 'Panzo', number: 12, position: 'GK', isStarter: false, isCaptain: false, playerId: 'fifa-1jz6pv1' },
+      { name: 'Gaby', number: 8, position: 'MID', isStarter: false, isCaptain: false, playerId: 'fifa-1qfxvu3' },
+      { name: 'Walter', number: 20, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'fifa-1uz41e0' },
+      { name: 'Altura', number: 23, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'fifa-1m7hyz3' },
+      { name: 'Toy', number: 26, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'fifa-1t9mip7' },
+      { name: 'Bey', number: 27, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'fifa-1k1ket3' },
+      { name: 'Boiado', number: 30, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'fifa-1jzyk44' },
+      { name: 'Afonso', number: 36, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'fifa-1ni2dp9' },
+      { name: 'Sandro', number: 37, position: 'MID', isStarter: false, isCaptain: false, playerId: 'fifa-1jrkqx3' },
+    ],
+    away: [
+      { name: 'Muhango', number: 12, position: 'GK', isStarter: true, isCaptain: false, playerId: 'guilherme-lobito' },
+      { name: 'Januário', number: 7, position: 'MID', isStarter: true, isCaptain: false, playerId: 'januario-lobito' },
+      { name: 'Rosário', number: 4, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'rosario-lobito' },
+      { name: 'Lourenço', number: 5, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'lourenco-lobito' },
+      { name: 'Quiteque', number: 8, position: 'MID', isStarter: true, isCaptain: false, playerId: 'quiteque-lobito' },
+      { name: 'Ezequiel', number: 10, position: 'MID', isStarter: true, isCaptain: false, playerId: 'ezequiel-lobito' },
+      { name: 'Calela', number: 13, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'fifa-1jrj1l5' },
+      { name: 'Pinto', number: 14, position: 'FWD', isStarter: true, isCaptain: false, playerId: 'pinto-lobito' },
+      { name: 'Leonel', number: 22, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'leonel-lobito' },
+      { name: 'Jorge', number: 28, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'jorge-28-lobito' },
+      { name: 'Valério', number: 29, position: 'MID', isStarter: true, isCaptain: false, playerId: 'valerio-lobito' },
+      { name: 'Marcos', number: 40, position: 'GK', isStarter: false, isCaptain: false, playerId: 'marcos-lobito' },
+      { name: 'Florentino', number: 11, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'kaporal' },
+      { name: 'Serafim', number: 15, position: 'MID', isStarter: false, isCaptain: false, playerId: 'fifa-1l13q80' },
+      { name: 'Joaquim', number: 16, position: 'MID', isStarter: false, isCaptain: false, playerId: 'joaquim-lobito' },
+      { name: 'Sabones', number: 17, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'sabones-lobito' },
+      { name: 'António', number: 19, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'antonio-lobito' },
+      { name: 'Miguel', number: 24, position: 'MID', isStarter: false, isCaptain: false, playerId: 'miguel-lobito' },
+      { name: 'Wilson', number: 25, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'wilson-david-lobito' },
+      { name: 'Fernando', number: 36, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'fifa-1nyjxj8' },
+    ],
+  },
+  events: [
+    { minute: 26, type: 'goal', team: 'home', player: 'Patrick Banza', number: 7, playerId: 'patrick-banza-interclube', detail: "26' (1-0)" },
+    { minute: 39, type: 'goal', team: 'home', player: 'Pedro Manuel', playerId: 'pedro-manuel-interclube', detail: "39' (2-0)" },
+  ],
+  stats: {
+    home: { corners: 4, yellowCards: 2, redCards: 0 },
+    away: { corners: 4, yellowCards: 1, redCards: 0 },
+    keys: ['corners', 'yellowCards', 'redCards'],
+  },
+});
