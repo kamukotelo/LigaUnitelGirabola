@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Play, CalendarDays, ExternalLink, Tv, FileText, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Play, CalendarDays, ExternalLink, Tv, FileText, ShieldCheck, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import TeamCrest from '@/components/ui/TeamCrest';
@@ -77,6 +77,8 @@ export default function LigaAngolaBlock() {
   const [activeVideoCategory, setActiveVideoCategory] = useState<string>('TODOS');
   const allVideos = getVideoHighlights();
   const [activeVideoId, setActiveVideoId] = useState<string | null>(allVideos[0]?.id ?? null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState<boolean>(false);
+
   const filteredVideos = useMemo(() => {
     if (activeVideoCategory === 'TODOS') {
       return allVideos;
@@ -85,6 +87,11 @@ export default function LigaAngolaBlock() {
     return allVideos.filter((video) => video.category.toUpperCase() === activeVideoCategory.toUpperCase());
   }, [activeVideoCategory, allVideos]);
   const activeVideo = filteredVideos.find((video) => video.id === activeVideoId) ?? filteredVideos[0] ?? allVideos[0];
+
+  const handleSelectVideo = (videoId: string) => {
+    setActiveVideoId(videoId);
+    setIsVideoPlaying(true);
+  };
 
   // ─── HELPER FOR TIME DIFFERENCE (e.g., "há 3 horas") ───
   const getTimeLabel = (dateStr: string) => dateStr;
@@ -511,10 +518,19 @@ export default function LigaAngolaBlock() {
                 
                 {/* Video Category Filter Pill Row */}
                 <div className="flex gap-2 overflow-x-auto pb-4 mb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                  {['TODOS', 'RESUMOS', 'ENTREVISTAS', 'COMPILAÇÕES', 'TRANSMISSÃO OFICIAL'].map((cat) => (
+                  {['TODOS', 'GALA OFICIAL', 'RESUMOS', 'ENTREVISTAS', 'COMPILAÇÕES', 'ARQUIVO'].map((cat) => (
                     <button
                       key={cat}
-                      onClick={() => setActiveVideoCategory(cat)}
+                      onClick={() => {
+                        setActiveVideoCategory(cat);
+                        const matches = cat === 'TODOS'
+                          ? allVideos
+                          : allVideos.filter((v) => v.category.toUpperCase() === cat.toUpperCase());
+                        if (matches.length && !matches.some((v) => v.id === activeVideoId)) {
+                          setActiveVideoId(matches[0].id);
+                          setIsVideoPlaying(false);
+                        }
+                      }}
                       className={`px-4 py-1.5 rounded-full font-mono text-[9px] uppercase font-bold tracking-wider border transition-all flex-shrink-0 ${
                         activeVideoCategory === cat
                           ? 'bg-[#0B1E43] dark:bg-primary border-transparent text-white shadow-xs'
@@ -530,65 +546,157 @@ export default function LigaAngolaBlock() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   
                   {/* Big Video Card on Left (2/3 width) */}
-                  <div className="md:col-span-2 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-md transition-all group flex flex-col justify-between">
-                    <div className="relative aspect-video w-full bg-zinc-900 overflow-hidden flex items-center justify-center">
-                      <iframe
-                        src={activeVideo.videoUrl}
-                        title={activeVideo.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="absolute inset-0 w-full h-full border-0 z-10"
-                      />
-                      {/* Play/Loading Placeholder overlay that hides when playing is triggered (handled natively by iframe load, but showing visual outline) */}
-                      <div className="absolute top-4 left-4 z-20">
-                        <span className="text-[9px] font-mono uppercase font-bold bg-[#E6540F] text-white px-2 py-0.5 rounded shadow-sm">
-                          {activeVideo.category}
-                        </span>
-                      </div>
+                  <div className="md:col-span-2 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div className="relative aspect-video w-full bg-zinc-950 overflow-hidden flex items-center justify-center group">
+                      {isVideoPlaying ? (
+                        <iframe
+                          src={activeVideo.videoUrl}
+                          title={activeVideo.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0 w-full h-full border-0 z-10"
+                        />
+                      ) : (
+                        <div
+                          onClick={() => setIsVideoPlaying(true)}
+                          className="absolute inset-0 cursor-pointer overflow-hidden group/canvas flex items-center justify-center select-none"
+                        >
+                          {/* Background thumbnail */}
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={activeVideo.thumbnail}
+                            alt={activeVideo.title}
+                            className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover/canvas:opacity-95 group-hover/canvas:scale-105 transition-all duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/30" />
+
+                          {/* Cyber grid overlay */}
+                          <div className="absolute inset-0 cyber-grid-bg opacity-15 pointer-events-none" />
+
+                          {/* Featured Ribbon Badge */}
+                          <div className="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-black uppercase tracking-wider bg-gradient-to-r from-amber-500 to-primary text-white shadow-md">
+                              <Sparkles size={11} className="animate-spin" style={{ animationDuration: '4s' }} /> VÍDEO EM DESTAQUE
+                            </span>
+                            <span className="text-[9px] font-mono uppercase font-bold bg-black/75 backdrop-blur-md text-zinc-200 px-2.5 py-1 rounded-full border border-white/10">
+                              {activeVideo.category}
+                            </span>
+                          </div>
+
+                          {/* Duration tag */}
+                          <div className="absolute bottom-4 right-4 z-20">
+                            <span className="text-[10px] font-mono font-bold bg-black/80 backdrop-blur-md text-white px-2.5 py-1 rounded-md border border-white/10 shadow-lg">
+                              {activeVideo.duration}
+                            </span>
+                          </div>
+
+                          {/* Glowing Play Button */}
+                          <div className="relative z-20 flex flex-col items-center justify-center p-4">
+                            <div className="relative">
+                              <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-amber-400 via-primary to-accent opacity-75 blur-md group-hover/canvas:opacity-100 group-hover/canvas:scale-110 transition-all duration-300" />
+                              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-amber-500 to-accent flex items-center justify-center shadow-2xl group-hover/canvas:scale-110 transition-transform duration-300">
+                                <Play size={28} className="fill-black text-black ml-1" />
+                              </div>
+                            </div>
+                            <span className="mt-3 text-[11px] font-mono font-black text-white uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                              Reproduzir Vídeo Oficial
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <div className="p-5">
-                      <span className="text-[9px] font-mono text-zinc-400 dark:text-zinc-500 block mb-1">
-                        {activeVideo.views} · {activeVideo.duration}
-                      </span>
-                      <h3 className="text-base md:text-lg font-display font-black uppercase text-foreground leading-snug">
-                        {activeVideo.title}
-                      </h3>
+
+                    {/* Metadata bar below player */}
+                    <div className="p-5 sm:p-6 bg-white dark:bg-zinc-950 flex flex-col justify-between gap-4">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                          <span className="text-[10px] font-mono font-black px-2.5 py-0.5 rounded-full bg-[#0B1E43] dark:bg-primary text-white">
+                            {activeVideo.category}
+                          </span>
+                          <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500">
+                            {activeVideo.views} · {activeVideo.duration}
+                          </span>
+                          {activeVideo.id === 'sorteio-girabola-gala-2026' && (
+                            <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-500/10 dark:bg-amber-400/10 px-2 py-0.5 rounded">
+                              Temporada 2026/27
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="text-base sm:text-xl font-display font-black uppercase text-foreground leading-snug">
+                          {activeVideo.title}
+                        </h3>
+                        {activeVideo.description && (
+                          <p className="mt-2 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
+                            {activeVideo.description}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="pt-3 border-t border-zinc-100 dark:border-zinc-900 flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 text-[11px] font-mono text-zinc-500">
+                          <Tv size={14} className="text-accent flex-shrink-0" />
+                          <span>Liga Unitel Girabola · Transmissão Oficial</span>
+                        </div>
+                        <Link
+                          href="/ligatv"
+                          className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold uppercase text-primary hover:text-accent transition-colors"
+                        >
+                          Abrir na Liga TV <ArrowRight size={12} />
+                        </Link>
+                      </div>
                     </div>
                   </div>
 
                   {/* Secondary Video Sidebar Column (1/3 width) */}
-                  <div className="flex flex-col gap-4">
-                    {filteredVideos.slice(0, 3).map((video) => (
-                      <div 
-                        key={video.id} 
-                        onClick={() => setActiveVideoId(video.id)}
-                        className={`bg-white dark:bg-zinc-950 border rounded-2xl p-3 shadow-2xs hover:shadow-xs transition-all cursor-pointer group flex gap-3 items-center h-[90px] ${
-                          activeVideo.id === video.id 
-                            ? 'border-primary dark:border-primary bg-primary/[0.02] dark:bg-primary/[0.02]' 
-                            : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700'
-                        }`}
-                      >
-                        {/* Compact Video Thumbnail */}
-                        <div className="relative w-20 aspect-video rounded-lg overflow-hidden bg-zinc-950 flex-shrink-0">
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
-                            <Play size={14} className="text-white fill-white group-hover:scale-110 transition-transform duration-250" />
-                          </div>
-                          <div className="text-[7px] font-mono absolute bottom-1 right-1 bg-black/70 text-white px-1 rounded z-20">
-                            {video.duration}
-                          </div>
-                        </div>
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center justify-between pb-1">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+                        Playlist Recomendada
+                      </span>
+                      <span className="text-[9px] font-mono text-zinc-400">
+                        {filteredVideos.length} vídeos
+                      </span>
+                    </div>
 
-                        {/* Title & Info */}
-                        <div className="flex-1 min-w-0">
-                          <span className="text-[8px] font-mono text-zinc-400 dark:text-zinc-500 uppercase block leading-none mb-1">
-                            {video.category}
-                          </span>
-                          <h4 className="text-[11px] font-display font-bold uppercase text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-2">
-                            {video.title}
-                          </h4>
+                    {filteredVideos
+                      .filter((video) => video.id !== activeVideo.id)
+                      .slice(0, 4)
+                      .map((video) => (
+                        <div 
+                          key={video.id} 
+                          onClick={() => handleSelectVideo(video.id)}
+                          className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:border-primary dark:hover:border-primary rounded-xl p-2.5 shadow-2xs hover:shadow-xs transition-all cursor-pointer group flex gap-3 items-center"
+                        >
+                          {/* Compact Video Thumbnail */}
+                          <div className="relative w-24 aspect-video rounded-lg overflow-hidden bg-zinc-950 flex-shrink-0">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={video.thumbnail}
+                              alt={video.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/35 group-hover:bg-black/20 transition-colors z-10">
+                              <Play size={14} className="text-white fill-white group-hover:scale-115 transition-transform duration-200" />
+                            </div>
+                            <div className="text-[8px] font-mono absolute bottom-1 right-1 bg-black/80 text-white px-1 rounded z-20">
+                              {video.duration}
+                            </div>
+                          </div>
+
+                          {/* Title & Info */}
+                          <div className="flex-1 min-w-0">
+                            <span className="text-[8px] font-mono text-primary uppercase block leading-none mb-1 font-bold">
+                              {video.category}
+                            </span>
+                            <h4 className="text-[11px] font-display font-bold uppercase text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                              {video.title}
+                            </h4>
+                            <span className="text-[8px] font-mono text-zinc-400 dark:text-zinc-500 mt-1 block">
+                              {video.views}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
                   </div>
 
                 </div>

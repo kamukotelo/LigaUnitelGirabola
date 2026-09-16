@@ -65,12 +65,19 @@ export default function LigaTv() {
             ) : (
               <div 
                 onClick={handlePlay}
-                className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-100/90 dark:bg-zinc-950/90 text-center cursor-pointer group hover:bg-zinc-100/80 dark:hover:bg-zinc-950/80 transition-all duration-300"
+                className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-950 text-center cursor-pointer group select-none overflow-hidden"
               >
-                <div className="p-6 bg-accent/20 border-2 border-accent rounded-full animate-pulse group-hover:scale-110 transition-transform">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={activeVideo.thumbnail}
+                  alt={activeVideo.title}
+                  className="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/30" />
+                <div className="relative z-10 p-6 bg-accent/20 border-2 border-accent rounded-full animate-pulse group-hover:scale-110 transition-transform">
                   <Play size={40} className="text-foreground fill-white ml-1" />
                 </div>
-                <p className="font-mono text-xs text-zinc-500 mt-6 tracking-widest uppercase font-bold">
+                <p className="relative z-10 font-mono text-xs text-zinc-300 mt-6 tracking-widest uppercase font-bold drop-shadow">
                   {activeVideo.isLive ? 'Sinal de Satélite Conectado' : 'Reproduzir Vídeo Principal'}
                 </p>
               </div>
@@ -104,12 +111,20 @@ export default function LigaTv() {
           <div className="space-y-4">
             {playlist.map((video) => (
               <div 
-                key={video.id}
+                key={video.id} 
                 onClick={() => handleSelectVideo(video)}
                 className="flex gap-4 p-3 bg-white/30 dark:bg-zinc-900/30 hover:bg-white/60 dark:hover:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-900 rounded-xl cursor-pointer transition-all duration-300 group"
               >
-                <div className="w-28 h-20 bg-zinc-100 dark:bg-zinc-950 rounded-lg relative overflow-hidden flex-shrink-0 flex items-center justify-center text-zinc-600 group-hover:text-primary transition-colors border border-zinc-200 dark:border-zinc-900">
-                  <Play size={16} className="group-hover:text-primary transition-colors fill-current" />
+                <div className="w-28 h-20 bg-zinc-950 rounded-lg relative overflow-hidden flex-shrink-0 flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={video.thumbnail}
+                    alt={video.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/35 group-hover:bg-black/20 transition-colors">
+                    <Play size={16} className="text-white fill-white group-hover:scale-110 transition-transform" />
+                  </div>
                 </div>
                 <div className="flex flex-col justify-between py-1">
                   <h4 className="text-xs font-bold text-zinc-700 dark:text-zinc-300 group-hover:text-foreground line-clamp-2 uppercase">

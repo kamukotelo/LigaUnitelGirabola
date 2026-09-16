@@ -4401,9 +4401,33 @@ export interface VideoHighlight {
   thumbnail: string;
   videoUrl: string;
   isLive?: boolean;
+  description?: string;
+  featured?: boolean;
 }
 
 export const videoHighlightsMock: VideoHighlight[] = [
+  {
+    id: 'sorteio-girabola-gala-2026',
+    title: 'Sorteio Oficial do Calendário & 1.ª Gala de Premiação — Liga Unitel Girabola',
+    duration: 'Especial Gala',
+    views: '24.8K visualizações',
+    category: 'Gala Oficial',
+    thumbnail: 'https://i.ytimg.com/vi/y2HGmRN0AIs/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/y2HGmRN0AIs?autoplay=1',
+    description: 'Cerimónia oficial nos ZAP Estúdios em Luanda com a revelação dos premiados da época anterior e o emparceiramento oficial de todas as jornadas da Liga Unitel Girabola.',
+    featured: true,
+  },
+  {
+    id: 'gala-melhores-zap',
+    title: 'Gala Girabola: Os Melhores do Futebol Angolano',
+    duration: '02:45',
+    views: '16.2K visualizações',
+    category: 'Gala Oficial',
+    thumbnail: 'https://i.ytimg.com/vi/2ANl6JA2PVs/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/2ANl6JA2PVs?autoplay=1',
+    description: 'Resumo dos melhores momentos da grande gala do futebol nacional, homenageando os craques, técnicos e clubes do campeonato.',
+    featured: false,
+  },
   {
     id: 'live-1',
     title: 'Arquivo: Petro de Luanda vs 1.º de Agosto — Girabola 2025/26',
@@ -4443,5 +4467,13 @@ export const videoHighlightsMock: VideoHighlight[] = [
 ];
 
 export function getVideoHighlights(): VideoHighlight[] {
-  return RUNTIME_DATA.videos ?? videoHighlightsMock;
+  const dbVideos = RUNTIME_DATA.videos;
+  if (!dbVideos || dbVideos.length === 0) {
+    return videoHighlightsMock;
+  }
+  const galaVideos = videoHighlightsMock.filter((v) => v.id.startsWith('sorteio-') || v.id.startsWith('gala-'));
+  const remainingDbVideos = dbVideos.filter(
+    (v) => !galaVideos.some((gv) => gv.id === v.id) && v.id !== 'live-1',
+  );
+  return [...galaVideos, ...remainingDbVideos];
 }
