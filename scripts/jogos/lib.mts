@@ -164,7 +164,7 @@ export async function validateRecords(): Promise<ValidationReport> {
     }
 
     if (!result) {
-      if (events.length || lineups || stats) errors.push(`${at}: tem eventos, escalações ou estatísticas mas não tem resultado.`);
+      if (events.length || stats) errors.push(`${at}: tem eventos ou estatísticas mas não tem resultado.`);
     } else {
       for (const side of ['homeScore', 'awayScore'] as const) {
         if (!Number.isInteger(result[side]) || result[side] < 0) errors.push(`${at}: ${side} tem de ser um inteiro ≥ 0.`);
