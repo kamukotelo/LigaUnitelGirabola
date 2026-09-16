@@ -546,7 +546,7 @@ export const CURRENT_SEASON_SCORERS = [
   { id: 'kessie-messi-primeiromaio', name: 'Kessie Messi', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 1 },
   { id: 'fifa-1jz4pi8', name: 'Benvindo Miguel André Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 2, appearances: 2 },
   { id: 'fifa-1uy6ar6', name: 'Tiago Jamba Adelino', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 1 },
-  { id: 'beni-papel-saosalvador', name: 'Beni Papel', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
+  { id: 'beni-papel-saosalvador', name: 'Batomene de Sousa (Beni Papel)', club: 'São Salvador', teamId: 'saosalvador', position: 'Avançado', goals: 1, appearances: 1 },
   { id: 'fifa-1mqvbd5', name: 'Odenir Jorge', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Médio', goals: 1, appearances: 1 },
   { id: 'fifa-1jrku39', name: 'Mankoka Afonso', club: 'Kabuscorp SC', teamId: 'kabuscorp', position: 'Avançado', goals: 1, appearances: 2 },
   { id: 'fifa-1mppsb5', name: 'Henock Mangindula', club: 'Kabuscorp SC', teamId: 'kabuscorp', position: 'Defesa', goals: 1, appearances: 2 },
@@ -2384,6 +2384,8 @@ const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
   '1K2PC87': 'maranata',
   '1L963X5': 'ximba',
   '1K3IYT0': 'kibuata',
+  // Beni Papel é o nome de guerra do nº 7 inscrito como Batomene de Sousa.
+  '1K1SEV5': 'beni-papel-saosalvador',
 };
 
 const OFFICIAL_POSITION_LABELS: Readonly<Record<string, string>> = {
@@ -4323,7 +4325,7 @@ function getPublishedSaoSalvadorInterclubeLineups(match: Match): { home: LineupP
       player('Eduardo Moyo', 22, 'MID', true, 'fifa-1k1sm82'),
       player('Ary', 10, 'MID', true, 'fifa-1jrutw6'),
       player('Bigó', 6, 'MID', true, 'fifa-1lih506'),
-      player('Beni Papel', 7, 'FWD', true, 'fifa-1k1sev5'),
+      player('Beni Papel', 7, 'FWD', true, 'beni-papel-saosalvador'),
       player('Luquinha', 17, 'FWD', true, 'fifa-1lih3r9'),
       player('Samuel', 21, 'FWD', true, 'fifa-1k2pdb8'),
       player('Caetano', 30, 'FWD', true, 'fifa-1swd8d7'),
