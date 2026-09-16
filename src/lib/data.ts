@@ -654,6 +654,7 @@ const CURRENT_CONFIRMED_CARDS: Readonly<Record<string, { yellow: number; red: nu
   'fifa-1t647t5': { yellow: 1, red: 0 },     // Valentim Sacuvale (CR Caála · 84')
   'fifa-1k0r4w6': { yellow: 1, red: 0 },     // Hermenegildo Sandumbo "Valente" (CR Caála · 90'+2')
   'tchicundico-huila': { yellow: 1, red: 0 }, // Constantino Tchicundico (Desportivo da Huíla · 61')
+  'fifa-1lih506': { yellow: 1, red: 0 },     // Bigó (São Salvador · 33' · m27-1-8)
 };
 
 export interface Player extends PlayerStats {
@@ -4967,7 +4968,17 @@ function getPublishedMatchEvents(match: Match): MatchEventDetail[] | undefined {
   ];
 
   if (match.id === 'm27-1-8') return [
-    { minute: 70, type: 'goal', team: 'away', player: 'Além', playerId: 'alem-interclube', detail: '0-1' },
+    { minute: 33, type: 'yellow', team: 'home', player: 'Bigó', number: 6, playerId: 'fifa-1lih506' },
+    { minute: 46, type: 'sub', team: 'home', player: 'Manuel', number: 4, playerId: 'fifa-1jzirz7', playerOut: 'Eduardo Moyo' },
+    { minute: 46, type: 'sub', team: 'away', player: 'Bey', number: 27, playerId: 'fifa-1k1ket3', playerOut: 'Salomão' },
+    { minute: 57, type: 'sub', team: 'away', player: 'Sandro', number: 37, playerId: 'fifa-1jrkqx3', playerOut: 'Caneta' },
+    { minute: 64, type: 'sub', team: 'away', player: 'Boiado', number: 30, playerId: 'fifa-1jzyk44', playerOut: 'Afonso' },
+    { minute: 66, type: 'goal', team: 'away', player: 'Além', number: 6, playerId: 'alem-interclube', detail: "66' (0-1)" },
+    { minute: 67, type: 'sub', team: 'home', player: 'Lando', number: 14, playerId: 'fifa-1ng0f78', playerOut: 'Luquinha' },
+    { minute: 67, type: 'sub', team: 'home', player: 'João Vala', number: 8, playerId: 'fifa-1k39my6', playerOut: 'Bigó' },
+    { minute: 75, type: 'sub', team: 'home', player: 'Adriano', number: 3, playerId: 'fifa-1t64mh7', playerOut: 'Caetano' },
+    { minute: 84, type: 'sub', team: 'home', player: 'Afonso', number: 9, playerId: 'fifa-1pny3g2', playerOut: 'Samuel' },
+    { minute: 90, type: 'sub', team: 'away', player: 'Toy', number: 26, playerId: 'fifa-1t9mip7', playerOut: 'Jamanta' },
   ];
 
   if (HISTORICAL_MATCH_EVENTS_2025_26[match.id]) {
@@ -5027,6 +5038,7 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = {
   'm27-4-7': { home: { corners: 4, yellowCards: 2, redCards: 0 }, away: { corners: 4, yellowCards: 1, redCards: 0 }, keys: ['corners', 'yellowCards', 'redCards'] },
   'm27-4-2': { home: { yellowCards: 10, redCards: 0 }, away: { yellowCards: 3, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
   'm27-4-1': { home: { yellowCards: 2, redCards: 0 }, away: { yellowCards: 1, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
+  'm27-1-8': { home: { yellowCards: 1, redCards: 0 }, away: { yellowCards: 0, redCards: 0 }, keys: ['yellowCards', 'redCards'] },
 };
 
 /**
