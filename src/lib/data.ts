@@ -4301,6 +4301,66 @@ function getPublishedCabindaAgostoLineups(match: Match): { home: LineupPlayer[];
   };
 }
 
+/** Onze inicial e suplentes oficiais de São Salvador–GD Interclube (1.ª jornada). */
+function getPublishedSaoSalvadorInterclubeLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (match.id !== 'm27-1-8') return undefined;
+
+  const player = (
+    name: string,
+    number: number,
+    position: PitchPosition,
+    isStarter: boolean,
+    playerId?: string,
+  ): LineupPlayer => ({ name, number, position, isStarter, playerId, rating: 0 });
+
+  return {
+    home: [
+      player('Gelson', 12, 'GK', true, 'fifa-1jtv5a6'),
+      player('Kimuanga', 20, 'DEF', true, 'fifa-1ljvxk1'),
+      player('Feca', 5, 'DEF', true, 'fifa-1lih9v9'),
+      player('Sete', 13, 'DEF', true, 'fifa-1lih5k4'),
+      player('Eduardo Moyo', 22, 'MID', true, 'fifa-1k1sm82'),
+      player('Ary', 10, 'MID', true, 'fifa-1jrutw6'),
+      player('Bigó', 6, 'MID', true, 'fifa-1lih506'),
+      player('Beni Papel', 7, 'FWD', true, 'fifa-1k1sev5'),
+      player('Luquinha', 17, 'FWD', true, 'fifa-1lih3r9'),
+      player('Samuel', 21, 'FWD', true, 'fifa-1k2pdb8'),
+      player('Caetano', 30, 'FWD', true, 'fifa-1swd8d7'),
+      player('Pedro Moyo', 35, 'GK', false, 'fifa-1k2wue9'),
+      player('Artur Firmino', 34, 'DEF', false, 'fifa-1liwqf9'),
+      player('MC', 33, 'FWD', false, 'fifa-1lj6z32'),
+      player('Lando', 14, 'FWD', false, 'fifa-1ng0f78'),
+      player('António Xavier', 11, 'DEF', false, 'fifa-1ljwbm7'),
+      player('Afonso', 9, 'FWD', false, 'fifa-1pny3g2'),
+      player('João Vala', 8, 'MID', false, 'fifa-1k39my6'),
+      player('Manuel', 4, 'MID', false, 'fifa-1jzirz7'),
+      player('Adriano', 3, 'FWD', false, 'fifa-1t64mh7'),
+    ],
+    away: [
+      player('Rui', 22, 'GK', true, 'fifa-1jtvf71'),
+      player('Moisés', 28, 'DEF', true, 'fifa-1lzlzp0'),
+      player('Nandinho', 25, 'DEF', true, 'fifa-1jsrqx5'),
+      player('Salomão', 5, 'DEF', true, 'fifa-1jtv4k9'),
+      player('Jamanta', 18, 'DEF', true, 'fifa-1jtuys4'),
+      player('Paulo Gaspar', 33, 'DEF', true, 'fifa-1m92d85'),
+      player('Alcides', 14, 'MID', true, 'fifa-1kz4cq5'),
+      player('Além', 6, 'MID', true, 'fifa-1jtv3g3'),
+      player('Caneta', 32, 'MID', true, 'fifa-1k26vw6'),
+      player('Afonso', 36, 'FWD', true, 'fifa-1ni2dp9'),
+      player('Betinho', 29, 'FWD', true, 'fifa-1k0sa99'),
+      player('Panzo', 12, 'GK', false, 'fifa-1jz6pv1'),
+      player('Pitroipa', 38, 'FWD', false, 'fifa-1scciv4'),
+      player('Sandro', 37, 'MID', false, 'fifa-1jrkqx3'),
+      player('Vata', 35, 'FWD', false, 'fifa-1nw4p04'),
+      player('Boiado', 30, 'FWD', false, 'fifa-1jzyk44'),
+      player('Bey', 27, 'DEF', false, 'fifa-1k1ket3'),
+      player('Toy', 26, 'DEF', false, 'fifa-1t9mip7'),
+      player('Altura', 23, 'DEF', false, 'fifa-1m7hyz3'),
+      player('Gaby', 8, 'MID', false, 'fifa-1qfxvu3'),
+    ],
+  };
+}
+
 /** Onze inicial e suplentes oficiais de CR Caála–Desportivo da Huíla (4.ª jornada, Relatório 29). */
 function getPublishedCaalaHuilaLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
   if (match.id !== 'm27-4-1') return undefined;
@@ -5547,7 +5607,7 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
   'm27-1-5': { home: 'Beto Bianchi', away: 'Silvestre Pelé' },
   'm27-1-6': { home: 'Águas da Silva', away: 'Léo Neiva' },
   'm27-1-7': { home: 'Luciano Capoco', away: 'Osvaldo Roque' },
-  'm27-1-8': { home: 'Domingos Cussanda', away: 'Divaldo Alves' },
+  'm27-1-8': { home: 'Silva Cussanda', away: 'Divaldo Alves' },
   'm27-2-1': { home: 'Divaldo Alves', away: 'Beto Bianchi' },
   'm27-2-2': { home: 'Léo Neiva', away: 'Pedro Barros' },
   'm27-2-4': { home: 'Francisco Moniz', away: 'Domingos Cussanda' },
@@ -5568,7 +5628,8 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
 export function getMatchDetail(match: Match): MatchDetail {
   // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código.
   const dbLineup = RUNTIME_DATA.lineups?.[match.id];
-  const publishedLineups = dbLineup ?? getPublishedCaalaHuilaLineups(match)
+  const publishedLineups = dbLineup ?? getPublishedSaoSalvadorInterclubeLineups(match)
+    ?? getPublishedCaalaHuilaLineups(match)
     ?? getPublishedLundaSulSagradaLineups(match)
     ?? getPublishedInterclubeLobitoLineups(match)
     ?? getPublishedCabindaAgostoLineups(match)
