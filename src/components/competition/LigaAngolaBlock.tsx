@@ -549,13 +549,23 @@ export default function LigaAngolaBlock() {
                   <div className="md:col-span-2 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
                     <div className="relative aspect-video w-full bg-zinc-950 overflow-hidden flex items-center justify-center group">
                       {isVideoPlaying ? (
-                        <iframe
-                          src={activeVideo.videoUrl}
-                          title={activeVideo.title}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                          className="absolute inset-0 w-full h-full border-0 z-10"
-                        />
+                        activeVideo.videoUrl.endsWith('.mp4') || activeVideo.videoUrl.startsWith('/Videos') ? (
+                          <video
+                            src={activeVideo.videoUrl}
+                            controls
+                            autoPlay
+                            playsInline
+                            className="absolute inset-0 w-full h-full object-contain bg-black z-10"
+                          />
+                        ) : (
+                          <iframe
+                            src={activeVideo.videoUrl}
+                            title={activeVideo.title}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="absolute inset-0 w-full h-full border-0 z-10"
+                          />
+                        )
                       ) : (
                         <div
                           onClick={() => setIsVideoPlaying(true)}

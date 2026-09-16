@@ -55,13 +55,23 @@ export default function LigaTv() {
 
             {/* Video Canvas Placeholder or Iframe */}
             {isPlaying ? (
-              <iframe
-                src={activeVideo.videoUrl}
-                title={activeVideo.title}
-                className="absolute inset-0 w-full h-full border-none z-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
+              activeVideo.videoUrl.endsWith('.mp4') || activeVideo.videoUrl.startsWith('/Videos') ? (
+                <video
+                  src={activeVideo.videoUrl}
+                  controls
+                  autoPlay
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-contain bg-black z-0"
+                />
+              ) : (
+                <iframe
+                  src={activeVideo.videoUrl}
+                  title={activeVideo.title}
+                  className="absolute inset-0 w-full h-full border-none z-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              )
             ) : (
               <div 
                 onClick={handlePlay}
