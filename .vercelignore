@@ -3,6 +3,10 @@
 /scripts/*
 !/scripts/test-portal-regressions.mjs
 !/scripts/test-team-crests.mts
+!/scripts/test-match-records.mts
+!/scripts/jogos.mts
+!/scripts/jogos
+!/scripts/jogos/*
 !/scripts/verify-brand-assets.mjs
 !/scripts/write-platform-build-info.mjs
 /public/templates/ultima_rodada_importada.json
