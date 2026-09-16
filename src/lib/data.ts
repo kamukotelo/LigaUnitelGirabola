@@ -295,6 +295,10 @@ export interface NewsArticle {
   documentImages?: string[];
   /** Ficheiro PDF original disponibilizado para consulta e descarga. */
   documentUrl?: string;
+  /** Documento anexo ao comunicado (ex.: relatório que fundamenta a decisão). */
+  annexTitle?: string;
+  annexImages?: string[];
+  annexUrl?: string;
 }
 
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
@@ -2216,6 +2220,25 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
+  {
+    id: 'comunicado-oficial-007-dce-ancaf-2026',
+    title: 'Adiamento do São Salvador do Kongo–Petro de Luanda',
+    category: 'Comunicado Oficial',
+    date: '16 set. 2026',
+    isoDate: '2026-09-16',
+    summary: 'A ANCAF adiou o jogo da 4.ª jornada por motivo de força maior: as condições meteorológicas impediram a aeronave do Petro de Luanda de aterrar em segurança. O jogo foi remarcado para o dia seguinte, no mesmo estádio e à mesma hora, e os bilhetes mantêm-se válidos.',
+    content: 'A Direção de Competições da ANCAF informou que a partida entre o São Salvador do Kongo e o Petro de Luanda, agendada para 16 de setembro de 2026 às 15h30, foi adiada por motivo de força maior. Condições meteorológicas adversas impediram a aterragem em segurança da aeronave que transportava a comitiva do Petro de Luanda, tendo a tripulação abortado a manobra por razões de segurança. Ouvidas as direções dos dois clubes e a equipa de arbitragem, a ANCAF deliberou a suspensão imediata do jogo e, ao abrigo do n.º 1 do artigo 37.º do Regulamento de Competições, remarcou-o para o dia seguinte, no mesmo estádio e no mesmo horário. Todos os bilhetes adquiridos mantêm-se válidos para a nova data. Em anexo segue o relatório operacional da Bestfly, que descreve a descontinuação da aproximação ao aeródromo de Mbanza Congo por o teto de nuvens se encontrar abaixo dos mínimos exigidos.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-09-16T18:00:00+01:00',
+    documentImages: ['/comunicados/comunicado-007-2026/pagina-1.jpg'],
+    documentUrl: '/comunicados/comunicado-007-2026/comunicado-007-dce-ancaf-2026.pdf',
+    annexTitle: 'Anexo · Relatório operacional da Bestfly',
+    annexImages: ['/comunicados/comunicado-007-2026/anexo-pagina-1.jpg', '/comunicados/comunicado-007-2026/anexo-pagina-2.jpg'],
+    annexUrl: '/comunicados/comunicado-007-2026/anexo-relatorio-operacional-bestfly.pdf',
+  },
   {
     id: 'contrato-cedencia-gestao-girabola-faf-ancaf-2026',
     title: 'Contrato de cedência da gestão do Girabola entre a FAF e a ANCAF',
