@@ -10,6 +10,7 @@
 !/scripts/verify-brand-assets.mjs
 !/scripts/write-platform-build-info.mjs
 /public/templates/ultima_rodada_importada.json
+/public/Videos/
 /*.docx
 /*.pdf
 /*.pptx
