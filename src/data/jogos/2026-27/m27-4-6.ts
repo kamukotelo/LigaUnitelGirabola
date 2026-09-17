@@ -10,9 +10,9 @@ export default defineMatch({
   // mesmo estádio e horário (Comunicado Oficial 007-DCE/ANCAF/2026).
   schedule: { date: '2026-09-17T15:30:00+01:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'official', broadcaster: 'Zsports' },
   officials: {
-    referee: 'Nelson Milagre',
-    assistants: ['Manuel Coelho', 'Hélder Milagre'],
-    fourth: 'Garcia Remos',
+    referee: 'Nelson João Milagre',
+    assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'],
+    fourth: 'Garcia Luhamo Remos',
   },
   coaches: { home: 'Domingos Cussanda', away: 'João Pedro Sousa' },
   lineups: {
