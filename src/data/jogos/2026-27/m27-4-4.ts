@@ -8,6 +8,11 @@ export default defineMatch({
   awayTeamId: 'kabuscorp',
   schedule: { date: '2026-09-16T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 1, awayScore: 0, updatedAt: '2026-09-16T17:30:00+01:00' },
+  officials: {
+    referee: 'Donaciano Mulumba',
+    assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'],
+    fourth: 'Custódio Roque Lote',
+  },
   events: [
     { minute: 30, type: 'goal', team: 'home', player: 'Lito', number: 23, playerId: 'lito-bravos', detail: "30' (1-0)" },
   ],
