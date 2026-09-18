@@ -31,7 +31,9 @@ assert.equal(d.getMatchBroadcast(match('m27-5-3')), 'Rádio 5');
 const caalaHuila = match('m27-4-1');
 assert.equal(caalaHuila.stadium, 'Estádio Daniel Lutucuta');
 assert.equal(caalaHuila.attendance, 1200);
-assert.equal(d.getMatchOfficials(caalaHuila).commissioner, 'Manuel André António');
+// O commissioner existe nos registos internos (ficheiros de jogo / FCMS),
+// mas getMatchOfficials() não o expõe publicamente por design — ver data.ts.
+assert.equal(d.getMatchRecord('m27-4-1')?.officials?.commissioner, 'Manuel André António');
 const scorers = new Map<string, { goals: number }>(d.CURRENT_SEASON_SCORERS.map((scorer: { id: string; goals: number }) => [scorer.id, scorer]));
 assert.equal(scorers.get('fifa-1jz4pi8')?.goals, 2, 'Benvindo marcou aos 12\' no Relatório 29.');
 assert.equal(scorers.has('cuxixima-caala'), false, 'Cuxixima não marcou no Relatório 29.');
