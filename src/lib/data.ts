@@ -4054,24 +4054,31 @@ export function getMatchDetail(match: Match): MatchDetail {
 // competição, para que os mesmos dados apareçam de forma consistente em todo
 // o site. Valores da BD (Match.referee/broadcaster) têm sempre prioridade.
 
+/**
+ * Delegado / Comissário de jogo.
+ * BLOQUEIO PERMANENTE: O campo commissioner é SEMPRE omitido nas páginas
+ * públicas do site, independentemente da fonte (FCMS, BD, ficheiros de jogo,
+ * overrides de admin). Qualquer dado recebido é descartado em getMatchOfficials().
+ */
 export interface MatchOfficials {
   referee: string;
   assistants: [string, string];
   fourth: string;
-  /** Delegado de jogo (comissário na ficha FCMS). Nas páginas públicas o rótulo é sempre "Delegado". */
-  commissioner?: string;
+  // commissioner foi deliberadamente removido desta interface pública.
+  // O dado existe internamente mas nunca deve ser exposto ao utilizador final.
 }
 
 export function getMatchOfficials(match: Match): MatchOfficials {
   const ov = RUNTIME_OVERRIDES.nominations?.[match.id];
   const defined = (value?: string) => value?.trim() || 'A definir';
   const recordOfficials = MATCH_RECORD_BY_ID.get(match.id)?.officials;
-  const publishedByMatch: Readonly<Record<string, MatchOfficials>> = recordOfficials
+  const publishedByMatch: Readonly<Record<string, Omit<MatchOfficials, 'commissioner'> & { commissioner?: string }>> = recordOfficials
     ? {
       [match.id]: {
         referee: recordOfficials.referee ?? '',
         assistants: recordOfficials.assistants ?? ['', ''],
         fourth: recordOfficials.fourth ?? '',
+        // commissioner lido internamente mas descartado no return abaixo
         commissioner: recordOfficials.commissioner,
       },
     }
@@ -4080,9 +4087,6 @@ export function getMatchOfficials(match: Match): MatchOfficials {
   // → tabela publicada em código → campo Match.referee.
   const db = RUNTIME_DATA.nominations?.[match.id];
   const published = db ?? publishedByMatch[match.id];
-  // O comissário só vive na tabela publicada em código (a BD ainda não o guarda),
-  // por isso completa-o mesmo quando a nomeação vem da BD.
-  const commissioner = ov?.commissioner ?? published?.commissioner ?? publishedByMatch[match.id]?.commissioner;
 
   return {
     referee: defined(ov?.referee ?? match.referee ?? published?.referee),
@@ -4091,7 +4095,8 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       defined(ov?.assistants?.[1] ?? published?.assistants[1]),
     ],
     fourth: defined(ov?.fourth ?? published?.fourth),
-    commissioner: commissioner?.trim() || undefined,
+    // commissioner é SEMPRE omitido do retorno público — bloqueio na camada de dados.
+    // Não adicionar aqui independentemente do que vier do FCMS, BD ou ficheiros.
   };
 }
 

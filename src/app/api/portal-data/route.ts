@@ -103,9 +103,9 @@ async function buildSnapshot(): Promise<Snapshot> {
           referee: str(r.referee) || 'A definir',
           assistants: [a[0] ?? '', a[1] ?? ''],
           fourth: str(r.fourth ?? r.fourth_official) || 'A definir',
-          ...(r.commissioner || r.match_commissioner
-            ? { commissioner: str(r.commissioner ?? r.match_commissioner) }
-            : {}),
+          // commissioner (delegado) é intencionalmente omitido —
+          // nunca deve ser exposto nas páginas públicas do site,
+          // independentemente do que a BD (FCMS) enviar.
         };
       }
     }
