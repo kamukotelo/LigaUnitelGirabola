@@ -205,10 +205,12 @@ for (const official of [
 ]) {
   assert.match(records, new RegExp(official));
 }
-assert.match(data, /commissioner\?: string/);
-// Nas fichas públicas o cargo é sempre "Delegado", nunca "Comissário".
-assert.match(matchDetailClient, /Delegado: \{officials\.commissioner\}/);
-assert.doesNotMatch(matchDetailClient, /Comiss[aá]rio/i);
+// O commissioner existe nos ficheiros internos de jogo (fonte FCMS) — isso é correcto.
+// Mas a interface pública MatchOfficials nunca deve expor o campo.
+assert.doesNotMatch(data, /export interface MatchOfficials[\s\S]{0,300}commissioner\?: string/, 'MatchOfficials não deve expor commissioner publicamente.');
+// Nas páginas públicas o Delegado/Comissário nunca pode aparecer.
+assert.doesNotMatch(matchDetailClient, /Delegado:.*commissioner/, 'Delegado não deve ser renderizado no MatchDetailClient.');
+assert.doesNotMatch(matchDetailClient, /Comiss[aá]rio/i, 'Comissário não deve aparecer no MatchDetailClient.');
 
 // A classificação pública só pode usar resultados finais, e estatísticas
 // individuais não podem recorrer a eventos gerados ou valores estimados.
