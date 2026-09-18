@@ -35,7 +35,7 @@ insert into public.ancaf_matches (id, season_id, round, home_team_id, away_team_
   ('m27-4-1', '2026-27', 4, 'caala', 'desphuila', 'CR Caála', 'Desportivo da Huíla', 1, 2, '1-2', '1-0', '2026-09-13T14:00:00.000Z', 'Estádio Daniel Lutucuta', 'finished', 'official', null, null, 1200, null),
   ('m27-4-3', '2026-27', 4, 'wiliete', 'fcluanda', 'Wiliete de Benguela', 'FC Luanda', 2, 0, '2-0', '2-0', '2026-09-13T15:00:00.000Z', 'Estádio Nacional de Ombaka', 'finished', 'official', null, null, null, null),
   ('m27-4-4', '2026-27', 4, 'bravos', 'kabuscorp', 'Bravos do Maquis', 'Kabuscorp SC', 1, 0, '1-0', null, '2026-09-16T14:00:00.000Z', 'Estádio Mundunduleno', 'finished', 'official', null, null, null, null),
-  ('m27-4-6', '2026-27', 4, 'saosalvador', 'petro', 'São Salvador', 'Petro de Luanda', 0, 0, null, null, '2026-09-17T14:30:00.000Z', 'Estádio Álvaro Buta', 'scheduled', 'official', null, 'Zsports', null, null),
+  ('m27-4-6', '2026-27', 4, 'saosalvador', 'petro', 'São Salvador', 'Petro de Luanda', 0, 1, '0-1', '0-1', '2026-09-17T14:30:00.000Z', 'Estádio Álvaro Buta', 'finished', 'official', null, 'Zsports', null, null),
   ('m27-5-2', '2026-27', 5, 'dago', 'fcluanda', 'CD 1.º de Agosto', 'FC Luanda', 0, 0, null, null, '2026-09-19T14:30:00.000Z', 'Estádio França N’dalu', 'scheduled', 'official', null, 'Zsports', null, null),
   ('m27-5-1', '2026-27', 5, 'caala', 'bravos', 'CR Caála', 'Bravos do Maquis', 0, 0, null, null, '2026-09-20T14:00:00.000Z', 'Estádio dos Mártires da Canhala', 'scheduled', 'official', null, null, null, null),
   ('m27-5-7', '2026-27', 5, 'kabuscorp', 'interclube', 'Kabuscorp SC', 'GD Interclube', 0, 0, null, null, '2026-09-20T14:00:00.000Z', 'Estádio França Ndalu', 'scheduled', 'official', null, 'Zsports', null, null),
