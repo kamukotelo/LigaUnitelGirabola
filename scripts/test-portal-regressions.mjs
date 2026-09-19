@@ -134,7 +134,8 @@ assert.match(publishedCalendar, /"id": "m27-5-7"[\s\S]*?"date": "2026-09-20T15:0
 // 1.º de Agosto–FC Luanda passa a ZSports e Sagrada–Petro passa a Rádio 5. A Rádio 5 é a
 // transmissão por omissão e não pode ter broadcaster, senão o cartão mostra "Em direto · Rádio 5".
 assert.match(record('m27-5-2'), /date: '2026-09-19T15:30:00\+01:00'[^\n]*broadcaster: 'Zsports'/);
-assert.match(record('m27-5-3'), /date: '2026-09-20T15:30:00\+01:00'/);
+// Comunicado 010-DCE/ANCAF/2026: Sagrada–Petro remarcado para 4 de novembro.
+assert.match(record('m27-5-3'), /date: '2026-11-04T15:30:00\+01:00'/);
 assert.doesNotMatch(record('m27-5-3'), /broadcaster/);
 assert.match(record('m27-5-6'), /date: '2026-09-20T17:15:00\+01:00'[^\n]*broadcaster: 'Zsports'/);
 assert.match(publishedCalendar, /"id": "m27-2-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"date": "2026-08-27T16:00:00\+01:00"[\s\S]*?"status": "finished"/);
