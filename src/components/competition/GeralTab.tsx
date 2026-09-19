@@ -178,6 +178,7 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
                   <FixtureRow key={m.id} match={m} highlight={m.id === highlightId} />
                 ))}
               </div>
+            </div>
           ))}
           {byDay.length === 0 && (
             <p className="text-center py-10 text-zinc-500 font-mono text-sm">Sem jogos nesta jornada.</p>
