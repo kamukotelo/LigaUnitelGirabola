@@ -4072,20 +4072,24 @@ export function getMatchOfficials(match: Match): MatchOfficials {
   const ov = RUNTIME_OVERRIDES.nominations?.[match.id];
   const defined = (value?: string) => value?.trim() || 'A definir';
   const recordOfficials = MATCH_RECORD_BY_ID.get(match.id)?.officials;
-  const publishedByMatch: Readonly<Record<string, Omit<MatchOfficials, 'commissioner'> & { commissioner?: string }>> = recordOfficials
+
+  // Tipo interno — inclui commissioner para leitura dos ficheiros de jogo,
+  // mas o campo é descartado antes de ser retornado publicamente.
+  type InternalOfficials = { referee: string; assistants: [string, string]; fourth: string; commissioner?: string };
+
+  const publishedByMatch: Readonly<Record<string, InternalOfficials>> = recordOfficials
     ? {
       [match.id]: {
         referee: recordOfficials.referee ?? '',
         assistants: recordOfficials.assistants ?? ['', ''],
         fourth: recordOfficials.fourth ?? '',
-        // commissioner lido internamente mas descartado no return abaixo
-        commissioner: recordOfficials.commissioner,
+        commissioner: recordOfficials.commissioner, // lido internamente, descartado no return
       },
     }
     : {};
   // Prioridade: override publicado no admin → BD (ancaf_referee_nominations)
   // → tabela publicada em código → campo Match.referee.
-  const db = RUNTIME_DATA.nominations?.[match.id];
+  const db = RUNTIME_DATA.nominations?.[match.id] as InternalOfficials | undefined;
   const published = db ?? publishedByMatch[match.id];
 
   return {
