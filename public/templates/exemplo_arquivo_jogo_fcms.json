@@ -1,0 +1,576 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "versao": "1.0",
+  "tipo": "arquivo_de_jogo_girabola",
+  "detalhes": {
+    "numeroPartida": 32,
+    "jornada": 4,
+    "diaDeJogo": 17,
+    "epoca": "2026/2027",
+    "competicao": "LIGA UNITEL GIRABOLA - 2026/2027",
+    "duracao": "1 h 52 min",
+    "dataRelatorio": "2026-09-18T10:05:00+01:00"
+  },
+  "kickoff": {
+    "data": "2026-09-17",
+    "hora": "15:30",
+    "fusoHorario": "(UTC+1) Africa/Luanda",
+    "dataHoraIso": "2026-09-17T15:30:00+01:00"
+  },
+  "localizacao": {
+    "estadio": "Estádio Álvaro Buta",
+    "cidade": "Mbanza Kongo"
+  },
+  "equipas": {
+    "casa": {
+      "id": "saosalvador",
+      "nome": "Clube Desportivo São Salvador do Kongo",
+      "nomeCurto": "São Salvador",
+      "numeroEquipa": 13
+    },
+    "fora": {
+      "id": "petro",
+      "nome": "Petro Atlético Futebol SAD",
+      "nomeCurto": "Petro de Luanda",
+      "numeroEquipa": 1
+    }
+  },
+  "resultado": {
+    "estado": "finished",
+    "casa": 0,
+    "fora": 1,
+    "periodos": {
+      "primeiroPeriodo": {
+        "casa": 0,
+        "fora": 1
+      },
+      "segundoPeriodo": {
+        "casa": 0,
+        "fora": 0
+      },
+      "prolongamento": {
+        "casa": 0,
+        "fora": 0
+      }
+    },
+    "tempoUtilMinutos": 54,
+    "espectadores": 4500
+  },
+  "oficiais": {
+    "arbitro": "Nelson João Milagre",
+    "categoriaArbitro": "Árbitro da 1ª Categoria Nacional (003908M87)",
+    "assistente1": "Manuel Daniel Coelho",
+    "assistente2": "Hélder João Milagre",
+    "quartoArbitro": "Garcia Luhamo Remos",
+    "comissario": "Ernesto Tati"
+  },
+  "tempos": {
+    "periodo1": {
+      "inicio": "15:30",
+      "fim": "16:17",
+      "compensacaoMinutos": 2
+    },
+    "periodo2": {
+      "inicio": "16:32",
+      "fim": "17:22",
+      "compensacaoMinutos": 5
+    }
+  },
+  "equipaTecnica": {
+    "casa": [
+      {
+        "cargo": "Head Coach",
+        "nome": "Domingos Silvano Cussanda",
+        "maId": "002256M84"
+      },
+      {
+        "cargo": "Treinador adjunto",
+        "nome": "Eduardo Mendes Marciano",
+        "maId": "003126M87"
+      },
+      {
+        "cargo": "Treinador adjunto",
+        "nome": "Salvador Cassambi Coxe Cardoso",
+        "maId": "003178M94"
+      },
+      {
+        "cargo": "Team Manager",
+        "nome": "Joaquim Matondo Antonio",
+        "maId": "002327M88"
+      },
+      {
+        "cargo": "Preparador Físico",
+        "nome": "Manuel Sousa",
+        "maId": "002279M84"
+      },
+      {
+        "cargo": "Secretário Técnico",
+        "nome": "Cardoso Nunes Ferreira Ferreira",
+        "maId": "001327M98"
+      },
+      {
+        "cargo": "Treinador de Guarda-Redes",
+        "nome": "Mota Sumbo",
+        "maId": "000559M96"
+      },
+      {
+        "cargo": "Médico",
+        "nome": "Antonio Morgado Tulomba",
+        "maId": "002326M90"
+      },
+      {
+        "cargo": "Fisioterapeuta",
+        "nome": "Matondo Nsamu",
+        "maId": "007268F83"
+      }
+    ],
+    "fora": [
+      {
+        "cargo": "Oficial de equipa",
+        "nome": "João Pedro Ramos Borges Sousa",
+        "maId": "008885M71"
+      },
+      {
+        "cargo": "Oficial de equipa",
+        "nome": "João Cláudio da Costa e Silva",
+        "maId": "000378M87"
+      },
+      {
+        "cargo": "Treinador adjunto",
+        "nome": "Leandro Filipe Vieira e Silva",
+        "maId": "005330M94"
+      },
+      {
+        "cargo": "Médico",
+        "nome": "Edson de Matos Canda",
+        "maId": "008902M92"
+      },
+      {
+        "cargo": "Fisioterapeuta",
+        "nome": "Timóteo Paulo Maria Vemba",
+        "maId": "000379M87"
+      }
+    ]
+  },
+  "escalacoes": {
+    "casa": {
+      "titulares": [
+        {
+          "numero": 35,
+          "nome": "Pedro Moyo",
+          "maId": "001102M92",
+          "posicao": "GK",
+          "isGuardaRedes": true,
+          "isCapitao": false
+        },
+        {
+          "numero": 20,
+          "nome": "Nginakanda António Vicente",
+          "maId": "002223M91",
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": true
+        },
+        {
+          "numero": 5,
+          "nome": "Augusto Fecayamale",
+          "maId": "001937M02",
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 6,
+          "nome": "Fernando Lizandro Firmino Camuege Fernando",
+          "maId": "001899M99",
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 7,
+          "nome": "Batomene de Sousa",
+          "maId": "000937M02",
+          "posicao": "MID",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 10,
+          "nome": "Ariclenes Carlos Lopes António",
+          "maId": "000403M05",
+          "posicao": "MID",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 11,
+          "nome": "António José Xavier Junior",
+          "maId": "002242M91",
+          "posicao": "MID",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 13,
+          "nome": "Rafael Sete Ucuahamba Ucuahamba",
+          "maId": "001901M03",
+          "posicao": "MID",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 17,
+          "nome": "Lucas Filemon Cassule Lucas",
+          "maId": "001892M01",
+          "posicao": "FWD",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 21,
+          "nome": "Samuel Chissapa Cachimbombo",
+          "maId": "001065M99",
+          "posicao": "FWD",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 22,
+          "nome": "Eduardo Moyo",
+          "maId": "000946M04",
+          "posicao": "FWD",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        }
+      ],
+      "suplentes": [
+        {
+          "numero": 4,
+          "nome": "Manuel de Matos",
+          "maId": "000665M93",
+          "posicao": "DEF"
+        },
+        {
+          "numero": 8,
+          "nome": "João André Vemba",
+          "maId": "001121M96",
+          "posicao": "MID"
+        },
+        {
+          "numero": 23,
+          "nome": "Jonas Rodrigues",
+          "maId": "003658M06",
+          "posicao": "MID"
+        },
+        {
+          "numero": 24,
+          "nome": "Germano Fumela",
+          "maId": "000767M97",
+          "posicao": "MID"
+        },
+        {
+          "numero": 25,
+          "nome": "Wilson Gonçalves Tenete",
+          "maId": "007271M04",
+          "posicao": "FWD"
+        },
+        {
+          "numero": 26,
+          "nome": "Anderson de Jesus Luís Mputa",
+          "maId": "001076M02",
+          "posicao": "FWD"
+        },
+        {
+          "numero": 31,
+          "nome": "António Joaquim Mateus",
+          "maId": "001011M98",
+          "posicao": "GK"
+        },
+        {
+          "numero": 34,
+          "nome": "Artur Firmino",
+          "maId": "002020M02",
+          "posicao": "DEF"
+        },
+        {
+          "numero": 36,
+          "nome": "Octavio Leite Fernandes Cruz",
+          "maId": "005393M06",
+          "posicao": "FWD"
+        }
+      ]
+    },
+    "fora": {
+      "titulares": [
+        {
+          "numero": 22,
+          "nome": "Adilson Cipriano da Cruz",
+          "maId": "000430M93",
+          "posicao": "GK",
+          "isGuardaRedes": true,
+          "isCapitao": false
+        },
+        {
+          "numero": 25,
+          "nome": "Eddie Marcos Melo Afonso",
+          "maId": "000398M94",
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": true
+        },
+        {
+          "numero": 2,
+          "nome": "Núrio Domingos Matias Fortuna",
+          "maId": "008892M95",
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 4,
+          "nome": "Ruben Constantino Adérito",
+          "maId": "000725M03",
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 6,
+          "nome": "Mário César Azevedo Alves Balbúrdia",
+          "maId": "008903M97",
+          "posicao": "MID",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 10,
+          "nome": "Pedro Miguel Santos Aparício",
+          "maId": "005283M95",
+          "posicao": "MID",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 12,
+          "nome": "Deybi Aldair Flores Flores",
+          "maId": "008900M96",
+          "posicao": "MID",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 17,
+          "nome": "Vanilson Tita Zéu",
+          "maId": "002955M99",
+          "posicao": "FWD",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 20,
+          "nome": "Jorge Javier Moreira Pereira",
+          "maId": "007211M98",
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 24,
+          "nome": "Joaquim Marcos Cunga Balanga",
+          "maId": "000400M98",
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        },
+        {
+          "numero": 29,
+          "nome": "Laurindo Dilson Maria Aurélio",
+          "maId": "000454M00",
+          "posicao": "FWD",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        }
+      ],
+      "suplentes": [
+        {
+          "numero": 1,
+          "nome": "Hugo Miguel Barreto Henriques Marques",
+          "maId": "000376M86",
+          "posicao": "GK"
+        },
+        {
+          "numero": 5,
+          "nome": "Leonardo da Costa Bolgado",
+          "maId": "008899M98",
+          "posicao": "DEF"
+        },
+        {
+          "numero": 7,
+          "nome": "Ivan Ricardo Neves Abreu Cavaleiro",
+          "maId": "008901M93",
+          "posicao": "FWD"
+        },
+        {
+          "numero": 8,
+          "nome": "Jonathan Josue Rubio Toro",
+          "maId": "002920M96",
+          "posicao": "MID"
+        },
+        {
+          "numero": 11,
+          "nome": "Hélder Wander Sousa de Azevedo Costa",
+          "maId": "008891M94",
+          "posicao": "FWD"
+        },
+        {
+          "numero": 23,
+          "nome": "Tiago Rodrigues dos Reis",
+          "maId": "007212M99",
+          "posicao": "FWD"
+        },
+        {
+          "numero": 26,
+          "nome": "Tiago Lima Leal",
+          "maId": "000384M88",
+          "posicao": "MID"
+        },
+        {
+          "numero": 27,
+          "nome": "Antonio da Silva Chitanga Hossi",
+          "maId": "000427M01",
+          "posicao": "DEF"
+        },
+        {
+          "numero": 33,
+          "nome": "Ilídio Augusto Bunga Panda",
+          "maId": "002657M08",
+          "posicao": "MID"
+        }
+      ]
+    }
+  },
+  "eventos": [
+    {
+      "tipo": "amarelo",
+      "equipa": "casa",
+      "minuto": 14,
+      "jogador": "Eduardo Moyo",
+      "numero": 22,
+      "codigo": "C",
+      "motivo": "Agarrar o adversário. Falta tática."
+    },
+    {
+      "tipo": "golo",
+      "equipa": "fora",
+      "minuto": 45,
+      "acrescimo": 1,
+      "jogador": "Vanilson Tita Zéu",
+      "numero": 17,
+      "subtipo": "normal",
+      "placar": "0-1"
+    },
+    {
+      "tipo": "substituicao",
+      "equipa": "fora",
+      "minuto": 45,
+      "jogadorEntra": "Antonio da Silva Chitanga Hossi",
+      "numeroEntra": 27,
+      "jogadorSai": "Núrio Domingos Matias Fortuna",
+      "numeroSai": 2
+    },
+    {
+      "tipo": "substituicao",
+      "equipa": "fora",
+      "minuto": 66,
+      "jogadorEntra": "Ivan Ricardo Neves Abreu Cavaleiro",
+      "numeroEntra": 7,
+      "jogadorSai": "Vanilson Tita Zéu",
+      "numeroSai": 17
+    },
+    {
+      "tipo": "substituicao",
+      "equipa": "fora",
+      "minuto": 66,
+      "jogadorEntra": "Jonathan Josue Rubio Toro",
+      "numeroEntra": 8,
+      "jogadorSai": "Pedro Miguel Santos Aparício",
+      "numeroSai": 10
+    },
+    {
+      "tipo": "substituicao",
+      "equipa": "casa",
+      "minuto": 67,
+      "jogadorEntra": "Octavio Leite Fernandes Cruz",
+      "numeroEntra": 36,
+      "jogadorSai": "Lucas Filemon Cassule Lucas",
+      "numeroSai": 17
+    },
+    {
+      "tipo": "substituicao",
+      "equipa": "casa",
+      "minuto": 72,
+      "jogadorEntra": "João André Vemba",
+      "numeroEntra": 8,
+      "jogadorSai": "Fernando Lizandro Firmino Camuege Fernando",
+      "numeroSai": 6
+    },
+    {
+      "tipo": "substituicao",
+      "equipa": "casa",
+      "minuto": 72,
+      "jogadorEntra": "Anderson de Jesus Luís Mputa",
+      "numeroEntra": 26,
+      "jogadorSai": "Samuel Chissapa Cachimbombo",
+      "numeroSai": 21
+    },
+    {
+      "tipo": "substituicao",
+      "equipa": "fora",
+      "minuto": 79,
+      "jogadorEntra": "Tiago Rodrigues dos Reis",
+      "numeroEntra": 23,
+      "jogadorSai": "Laurindo Dilson Maria Aurélio",
+      "numeroSai": 29
+    },
+    {
+      "tipo": "amarelo",
+      "equipa": "casa",
+      "minuto": 80,
+      "jogador": "Cardoso Nunes Ferreira Ferreira",
+      "numero": null,
+      "codigo": "D",
+      "motivo": "Desobedecer as orientações do 4º Árbitro (Oficial de equipa)."
+    },
+    {
+      "tipo": "substituicao",
+      "equipa": "fora",
+      "minuto": 84,
+      "jogadorEntra": "Hélder Wander Sousa de Azevedo Costa",
+      "numeroEntra": 11,
+      "jogadorSai": "Mário César Azevedo Alves Balbúrdia",
+      "numeroSai": 6
+    },
+    {
+      "tipo": "amarelo",
+      "equipa": "fora",
+      "minuto": 90,
+      "acrescimo": 3,
+      "jogador": "Ruben Constantino Adérito",
+      "numero": 4,
+      "codigo": "I",
+      "motivo": "Atrasar o reinício do jogo de forma excessiva."
+    },
+    {
+      "tipo": "amarelo",
+      "equipa": "casa",
+      "minuto": 90,
+      "acrescimo": 5,
+      "jogador": "Anderson de Jesus Luís Mputa",
+      "numero": 26,
+      "codigo": "C",
+      "motivo": "Protestas a decisão do Árbitro."
+    }
+  ],
+  "notas": "Incidentes provocados por jogadores ou oficiais de equipa: Nada Consta. Incidentes provocados por espetadores: Nada Consta. Outros incidentes antes e depois da partida: Nada consta."
+}

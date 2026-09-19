@@ -23,6 +23,7 @@ import TeamCrest from '@/components/ui/TeamCrest';
 import { BRAND_LOGOS_LOCKED, getTeamCrest, isTeamCrestProtected } from '@/lib/team-crests';
 import FichaSection from '@/components/admin/FichaSection';
 import JornadaSection from '@/components/admin/JornadaSection';
+import MatchFileLoaderSection from '@/components/admin/MatchFileLoaderSection';
 import LivePreviewPanel from '@/components/admin/LivePreviewPanel';
 import { writeTeamOverrides, fileToLogoDataUrl } from '@/lib/team-overrides';
 import { publishOverride, type OverrideSection } from '@/lib/portal-overrides';
@@ -41,7 +42,7 @@ const NOMINATION_KEY = 'faf_nomination_overrides';
 const TEAM_KEY = 'faf_team_store';
 const SITE_KEY = 'faf_site_settings';
 
-type Section = 'dashboard' | 'site' | 'calendar' | 'competition' | 'jornada' | 'ficha' | 'fcms' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
+type Section = 'dashboard' | 'site' | 'calendar' | 'competition' | 'jornada' | 'ficha' | 'arquivo' | 'fcms' | 'fifa' | 'teams' | 'players' | 'news' | 'nominations' | 'logos';
 
 // ════════════════════════════════════════════════════════════════════════
 // RASCUNHO EDITÁVEL + GRAVAÇÃO EXPLÍCITA
@@ -351,6 +352,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
         { key: 'competition', label: 'Jogos e Classificação', icon: BarChart3 },
         { key: 'nominations', label: 'Nomeações', icon: Flag },
         { key: 'ficha', label: 'Ficha de Jogo', icon: FileText },
+        { key: 'arquivo', label: 'Arquivo de Jogo', icon: UploadCloud },
         { key: 'fcms', label: 'Importar FCMS', icon: UploadCloud },
       ],
     },
@@ -466,6 +468,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
                 {!canAccessFifaConnect && section === 'competition' && <CompetitionSection />}
                 {!canAccessFifaConnect && section === 'jornada' && <JornadaSection onGo={goToSection} />}
                 {!canAccessFifaConnect && section === 'ficha' && <FichaSection />}
+                {!canAccessFifaConnect && section === 'arquivo' && <MatchFileLoaderSection />}
                 {!canAccessFifaConnect && section === 'fcms' && <FcmsImportSection />}
                 {canAccessFifaConnect && section === 'fifa' && <FifaSection />}
                 {!canAccessFifaConnect && section === 'teams' && <TeamsSection />}
