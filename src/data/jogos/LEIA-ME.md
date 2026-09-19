@@ -25,6 +25,7 @@ teu computador fica de fora.
 |---|---|
 | `schedule.date` | Sempre, com fuso: `'2026-09-20T17:15:00+01:00'` (hora de Luanda). |
 | `schedule.stadium` | Sempre. |
+| `schedule.postponed` | `true` quando o jogo foi oficialmente adiado e ainda não existe nova data confirmada. |
 | `schedule.scheduleStatus` | `'official'` depois de sair em comunicado/mapa oficial; senão `'provisional'`. |
 | `schedule.broadcaster` | **Só transmissões televisivas** (ex.: `'Zsports'`). Sem este campo o jogo aparece como Rádio 5 — nunca escrever `'Rádio 5'`, senão aparece "Em direto · Rádio 5". |
 | `result` | Quando o jogo começa. `status: 'live'` durante o jogo, `'finished'` no fim. `updatedAt` é o instante da confirmação e alimenta "atualizado em". |

@@ -89,7 +89,7 @@ insert into public.ancaf_match_lineups (match_id, team_id, side, players, coach,
   ('m27-4-6', 'petro', 'away', '[{"playerId":"neblu","name":"Neblú","number":22,"position":"GK","isStarter":true,"isCaptain":false},{"playerId":"eddie-afonso","name":"Eddie Afonso","number":25,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"ruben-aderito","name":"Rúben Adérito","number":4,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"kinito","name":"Kinito","number":24,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"nurio-fortuna","name":"Núrio Fortuna","number":2,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"mario-balburdia","name":"Mário Balbúrdia","number":6,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"deybi-flores","name":"Deybi Flores","number":12,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"jorge-pereira","name":"Jorge Pereira","number":20,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"pedro-aparicio","name":"Pedro Aparício","number":10,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"vanilson","name":"Vanilson","number":17,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"depu","name":"Depú","number":29,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"hugo-marques","name":"Hugo Marques","number":1,"position":"GK","isStarter":false,"isCaptain":false},{"playerId":"leo-bolgado","name":"Léo Bolgado","number":5,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":"ivan-cavaleiro","name":"Ivan Cavaleiro","number":7,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"jonathan-toro","name":"Jonathan Toro","number":8,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":"helder-costa","name":"Hélder Costa","number":11,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"tiago-reis","name":"Tiago Reis","number":23,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"tiago-azulao","name":"Tiago Azulão","number":26,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"antonio-hossi","name":"António Hossi","number":27,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":"ilidio-panda","name":"Ilídio Panda","number":33,"position":"FWD","isStarter":false,"isCaptain":false}]'::jsonb, 'João Pedro Sousa', 'seed')
 on conflict (match_id,team_id) do update set side = excluded.side, players = excluded.players, coach = excluded.coach, confirmed_by = excluded.confirmed_by;
 
-delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-2', 'm27-3-6', 'm27-3-1', 'm27-3-4', 'm27-3-8', 'm27-3-5', 'm27-4-5', 'm27-4-7', 'm27-4-2', 'm27-4-8', 'm27-4-1', 'm27-4-3', 'm27-4-4', 'm27-4-6');
+delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-2', 'm27-3-6', 'm27-3-1', 'm27-3-4', 'm27-3-8', 'm27-3-5', 'm27-4-5', 'm27-4-7', 'm27-4-2', 'm27-4-8', 'm27-4-1', 'm27-4-3', 'm27-4-4', 'm27-4-6', 'm27-5-2');
 insert into public.ancaf_match_events (match_id, minute, type, team_side, player, player_id, assist, player_out, detail, sort) values
   ('m27-1-4', 28, 'yellow', 'home', 'Sicuba Vunge', 'maranata', null, null, 'Rasteirou o adversário', 0),
   ('m27-1-4', 37, 'yellow', 'home', 'Paulino', 'platini', null, null, 'Rasteirou o adversário', 1),
@@ -440,7 +440,12 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-4-6', 80, 'yellow', 'home', 'Cardoso Nunes Ferreira Ferreira', null, null, null, 'Secretário técnico · Desobedecer às orientações do 4.º árbitro', 9),
   ('m27-4-6', 84, 'sub', 'away', 'Hélder Costa', 'helder-costa', null, 'Mário Balbúrdia', null, 10),
   ('m27-4-6', 93, 'yellow', 'away', 'Rúben Adérito', 'ruben-aderito', null, null, '90''+3'' · Atrasar o reinício do jogo de forma excessiva', 11),
-  ('m27-4-6', 95, 'yellow', 'home', 'Anderson Mputa', 'fifa-1k2pyw6', null, null, '90''+5'' · Protestar a decisão do árbitro', 12);
+  ('m27-4-6', 95, 'yellow', 'home', 'Anderson Mputa', 'fifa-1k2pyw6', null, null, '90''+5'' · Protestar a decisão do árbitro', 12),
+  ('m27-5-2', 35, 'goal', 'away', 'Gelson Cabeto', 'fifa-1ljudk2', null, null, 'Grande penalidade · 0-1', 0),
+  ('m27-5-2', 52, 'goal', 'home', 'Dagó Tshibamba', 'dago-tshibamba', null, null, '1-1', 1),
+  ('m27-5-2', 59, 'goal', 'home', 'Euclides dos Santos Ronaldo', null, null, null, 'Autogolo · 2-1', 2),
+  ('m27-5-2', 89, 'goal', 'home', 'Autor por confirmar', 'm27-5-2-home-scorer-89', null, null, 'Grande penalidade · 3-1', 3),
+  ('m27-5-2', 95, 'goal', 'away', 'Autor por confirmar', 'm27-5-2-away-scorer-95', null, null, '90''+5 · 3-2', 4);
 
 insert into public.ancaf_match_stats (match_id, side, stat_key, value, published) values
   ('m27-1-4', 'home', 'yellowCards', 4, true),
@@ -558,5 +563,9 @@ insert into public.ancaf_match_stats (match_id, side, stat_key, value, published
   ('m27-4-6', 'home', 'yellowCards', 3, true),
   ('m27-4-6', 'away', 'yellowCards', 1, true),
   ('m27-4-6', 'home', 'redCards', 0, true),
-  ('m27-4-6', 'away', 'redCards', 0, true)
+  ('m27-4-6', 'away', 'redCards', 0, true),
+  ('m27-5-2', 'home', 'corners', 1, true),
+  ('m27-5-2', 'away', 'corners', 0, true),
+  ('m27-5-2', 'home', 'yellowCards', 1, true),
+  ('m27-5-2', 'away', 'yellowCards', 1, true)
 on conflict (match_id,side,stat_key) do update set value = excluded.value, published = excluded.published;
