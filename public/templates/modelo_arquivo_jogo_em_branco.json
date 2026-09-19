@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "versao": "1.0",
+  "tipo": "arquivo_de_jogo_girabola",
+  "detalhes": {
+    "numeroPartida": 34,
+    "jornada": 5,
+    "diaDeJogo": 19,
+    "epoca": "2026/2027",
+    "competicao": "LIGA UNITEL GIRABOLA - 2026/2027",
+    "duracao": "1 h 50 min"
+  },
+  "kickoff": {
+    "data": "2026-09-19",
+    "hora": "15:30",
+    "fusoHorario": "(UTC+1) Africa/Luanda",
+    "dataHoraIso": "2026-09-19T15:30:00+01:00"
+  },
+  "localizacao": {
+    "estadio": "Estádio França Ndalu",
+    "cidade": "Luanda"
+  },
+  "equipas": {
+    "casa": {
+      "id": "dago",
+      "nome": "Clube Desportivo 1º de Agosto",
+      "numeroEquipa": 7
+    },
+    "fora": {
+      "id": "fcluanda",
+      "nome": "Futebol Clube de Luanda",
+      "numeroEquipa": 15
+    }
+  },
+  "resultado": {
+    "estado": "finished",
+    "casa": 0,
+    "fora": 0,
+    "periodos": {
+      "primeiroPeriodo": {
+        "casa": 0,
+        "fora": 0
+      },
+      "segundoPeriodo": {
+        "casa": 0,
+        "fora": 0
+      },
+      "prolongamento": {
+        "casa": 0,
+        "fora": 0
+      }
+    },
+    "tempoUtilMinutos": null,
+    "espectadores": null
+  },
+  "oficiais": {
+    "arbitro": "Nome do Árbitro Principal",
+    "assistente1": "Nome do 1.º Árbitro Assistente",
+    "assistente2": "Nome do 2.º Árbitro Assistente",
+    "quartoArbitro": "Nome do Quarto Árbitro",
+    "comissario": "Nome do Comissário / Observador de Jogo"
+  },
+  "transmissao": {
+    "televisao": "ZSPORTS",
+    "radio": "RÁDIO 5",
+    "tagEspecial": "DÉRBI LUANDA"
+  },
+  "equipaTecnica": {
+    "casa": [
+      {
+        "cargo": "Head Coach",
+        "nome": "Treinador Principal Casa"
+      }
+    ],
+    "fora": [
+      {
+        "cargo": "Head Coach",
+        "nome": "Treinador Principal Fora"
+      }
+    ]
+  },
+  "escalacoes": {
+    "casa": {
+      "titulares": [
+        {
+          "numero": 1,
+          "nome": "Jogador Titular 1",
+          "maId": null,
+          "posicao": "GK",
+          "isGuardaRedes": true,
+          "isCapitao": false
+        },
+        {
+          "numero": 2,
+          "nome": "Jogador Titular 2",
+          "maId": null,
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": true
+        }
+      ],
+      "suplentes": [
+        {
+          "numero": 12,
+          "nome": "Jogador Suplente 1",
+          "maId": null,
+          "posicao": "GK"
+        }
+      ]
+    },
+    "fora": {
+      "titulares": [
+        {
+          "numero": 1,
+          "nome": "Jogador Titular 1",
+          "maId": null,
+          "posicao": "GK",
+          "isGuardaRedes": true,
+          "isCapitao": true
+        },
+        {
+          "numero": 2,
+          "nome": "Jogador Titular 2",
+          "maId": null,
+          "posicao": "DEF",
+          "isGuardaRedes": false,
+          "isCapitao": false
+        }
+      ],
+      "suplentes": [
+        {
+          "numero": 12,
+          "nome": "Jogador Suplente 1",
+          "maId": null,
+          "posicao": "GK"
+        }
+      ]
+    }
+  },
+  "eventos": [
+    {
+      "tipo": "golo",
+      "equipa": "casa",
+      "minuto": 45,
+      "acrescimo": 1,
+      "jogador": "Nome do Marcador",
+      "numero": 10,
+      "subtipo": "normal"
+    },
+    {
+      "tipo": "substituicao",
+      "equipa": "casa",
+      "minuto": 60,
+      "jogadorEntra": "Nome do que entra",
+      "numeroEntra": 18,
+      "jogadorSai": "Nome do que sai",
+      "numeroSai": 7
+    },
+    {
+      "tipo": "amarelo",
+      "equipa": "fora",
+      "minuto": 70,
+      "jogador": "Nome do Infrator",
+      "numero": 4,
+      "codigo": "C",
+      "motivo": "Comportamento anti-desportivo. Falta tática."
+    }
+  ],
+  "notas": "Incidentes: nada a registar."
+}
