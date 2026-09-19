@@ -74,6 +74,8 @@ export default function JornadaSection({ onGo }: { onGo: (s: AdminSection) => vo
             round: patch.round,
             homeTeamId: patch.homeTeamId,
             awayTeamId: patch.awayTeamId,
+            homeTeam: patch.homeTeam,
+            awayTeam: patch.awayTeam,
             scheduleStatus: patch.scheduleStatus || 'official',
           },
         },

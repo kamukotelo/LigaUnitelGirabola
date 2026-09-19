@@ -15,6 +15,7 @@ import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import AdvancedStatistics from './AdvancedStatistics';
 import SeasonComparisonMatrix from './SeasonComparisonMatrix';
+import { shown } from '@/lib/display';
 
 type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'yellowcards' | 'redcards' | 'minutes';
 
@@ -606,7 +607,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                         </h3>
                         <p className="text-xs text-zinc-500 font-mono flex items-center gap-1.5 mt-0.5 truncate">
                           <Shield size={10} className="text-zinc-600 flex-shrink-0" />
-                          {player.club} · {player.position}
+                          {player.club}{shown(player.position) && ` · ${shown(player.position)}`}
                         </p>
                       </div>
                     </div>

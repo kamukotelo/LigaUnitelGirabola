@@ -24,6 +24,7 @@ function BannerHeading({ icon: Icon, children }: { icon: typeof Video; children:
 function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) {
   const isFinished = match.status === 'finished';
   const isLive = match.status === 'live';
+  const isPostponed = match.postponed === true;
   const hasOfficialDate = isMatchDateOfficial(match);
   const home = match.score?.split('-')[0] ?? '--';
   const away = match.score?.split('-')[1] ?? '--';
@@ -57,8 +58,8 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
         <span className="hidden whitespace-normal break-words text-sm font-semibold leading-tight text-foreground sm:block">{match.awayTeam}</span>
       </div>
 
-      <span className={`hidden sm:block text-right text-[10px] font-mono uppercase tracking-wider ${isLive ? 'text-red-500 font-black' : 'text-zinc-500'}`}>
-        {isLive ? `● ${match.liveMinute ?? ''}' EM DIRETO` : `${new Date(match.date).toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}${hasOfficialDate ? '' : ' · Prov.'}`}
+      <span className={`hidden sm:block text-right text-[10px] font-mono uppercase tracking-wider ${isLive ? 'text-red-500 font-black' : isPostponed ? 'text-amber-600 font-black' : 'text-zinc-500'}`}>
+        {isLive ? `● ${match.liveMinute ?? ''}' EM DIRETO` : isPostponed ? 'ADIADO · SEM DATA' : `${new Date(match.date).toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}${hasOfficialDate ? '' : ' · Prov.'}`}
       </span>
     </Link>
   );

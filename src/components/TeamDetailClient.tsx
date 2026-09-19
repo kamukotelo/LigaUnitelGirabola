@@ -63,7 +63,7 @@ export default function TeamDetailClient({
     'Defesa': players.filter(isDefender).sort(byJersey),
     'Médio': players.filter(isMidfielder).sort(byJersey),
     'Avançado': players.filter(isForward).sort(byJersey),
-    'Posição por confirmar': players.filter((player) => !isGoalkeeper(player)
+    'Outros atletas': players.filter((player) => !isGoalkeeper(player)
       && !isDefender(player)
       && !isMidfielder(player)
       && !isForward(player)).sort(byJersey),
@@ -432,15 +432,15 @@ export default function TeamDetailClient({
             </p>
             <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
               {teamStaff.length > 0
-                ? `${players.length} atletas inscritos na base recebida em ${team.dataUpdatedAt
-                    ? new Date(`${team.dataUpdatedAt}T12:00:00`).toLocaleDateString('pt-AO', { timeZone: 'Africa/Luanda' })
-                    : 'data por confirmar'}.`
+                ? `${players.length} atletas inscritos na base recebida${team.dataUpdatedAt
+                    ? ` em ${new Date(`${team.dataUpdatedAt}T12:00:00`).toLocaleDateString('pt-AO', { timeZone: 'Africa/Luanda' })}`
+                    : ''}.`
                 : 'Os atletas desta equipa estão pendentes de credenciamento e validação pela FAF.'}
             </p>
           </div>
 
           <div className="space-y-6">
-            {Object.entries(playersByPosition).map(([position, list]) => (
+            {Object.entries(playersByPosition).filter(([position, list]) => position !== 'Outros atletas' || list.length > 0).map(([position, list]) => (
               <div key={position} className="space-y-3">
                 <h4 className="text-xs font-mono text-accent uppercase tracking-widest font-extrabold border-b border-zinc-200 dark:border-zinc-900 pb-1.5">
                   {position}

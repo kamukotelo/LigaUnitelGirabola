@@ -39,7 +39,16 @@ assert.equal(scorers.get('fifa-1jz4pi8')?.goals, 2, 'Benvindo marcou aos 12\' no
 assert.equal(scorers.has('cuxixima-caala'), false, 'Cuxixima não marcou no Relatório 29.');
 
 // Todos os golos dos resultados têm marcador ou são autogolos assinalados.
+// Exceção única: golos cujo autor a fonte oficial ainda não identificou ficam
+// em branco no site (nunca com "por confirmar") e têm de estar listados aqui.
+const PENDING_SCORERS = ["m27-5-2 95'"];
+const pending = d.getMatchesForSeason(d.UPCOMING_SEASON_ID)
+  .filter((m: { status: string }) => m.status === 'finished')
+  .flatMap((m: { id: string }) => d.getMatchDetail(m).events
+    .filter((e: { type: string; playerId?: string; ownGoal?: boolean; detail?: string }) => e.type === 'goal' && !e.playerId && !e.ownGoal && !/autogolo/i.test(e.detail ?? ''))
+    .map((e: { minute?: number }) => `${m.id} ${e.minute}'`));
+assert.deepEqual(pending.sort(), [...PENDING_SCORERS].sort(), 'Golos sem marcador fora da lista de pendentes.');
 const goals = d.getCurrentSeasonGoalReconciliation();
-assert.equal(goals.goalsUnattributed, 0, `Há ${goals.goalsUnattributed} golo(s) sem marcador nos registos.`);
+assert.equal(goals.goalsUnattributed, PENDING_SCORERS.length, `Há ${goals.goalsUnattributed} golo(s) sem marcador nos registos.`);
 
 console.log(`✓ Registos de jogo válidos e sincronizados (${warnings.length} avisos: \`npm run jogos -- validar\`).`);

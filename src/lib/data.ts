@@ -67,6 +67,8 @@ export interface Match {
   score?: string; // e.g. "2-1" or undefined if scheduled
   halfTimeScore?: string; // resultado oficial ao intervalo, quando recebido
   date: string;
+  /** Jogo oficialmente adiado, ainda sem nova data confirmada. */
+  postponed?: boolean;
   /** Só datas oficiais podem ser apresentadas ao público como confirmadas. */
   scheduleStatus?: 'official' | 'provisional';
   stadium: string;
@@ -143,6 +145,7 @@ export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
     return normalizeMatchOverride({
       ...match,
       date: schedule.date,
+      postponed: schedule.postponed,
       stadium: schedule.stadium,
       scheduleStatus: schedule.scheduleStatus,
       broadcaster: schedule.broadcaster,

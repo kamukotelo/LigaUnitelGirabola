@@ -6,6 +6,7 @@ import { Flag, Info } from 'lucide-react';
 import { getRefereeNominations, getTeamById, getActiveSeasonRound, getMatchesForSeason } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { shown } from '@/lib/display';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
@@ -91,16 +92,16 @@ export default function NomeacoesTab({ seasonId }: { seasonId: string }) {
                       <td className="py-4 px-3">
                         <span className="text-xs font-bold text-foreground flex items-center gap-1.5">
                           <Flag size={11} className="text-accent flex-shrink-0" />
-                          {n.officials.referee}
+                          {shown(n.officials.referee)}
                         </span>
                       </td>
                       <td className="py-4 px-3 hidden md:table-cell">
                         <span className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400">
-                          {n.officials.assistants[0]} · {n.officials.assistants[1]}
+                          {n.officials.assistants.map(shown).filter(Boolean).join(' · ')}
                         </span>
                       </td>
                       <td className="py-4 px-3 hidden sm:table-cell">
-                        <span className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400">{n.officials.fourth}</span>
+                        <span className="text-[11px] font-mono text-zinc-600 dark:text-zinc-400">{shown(n.officials.fourth)}</span>
                       </td>
                       <td className="py-4 px-3 text-right">
                         <span className="text-[11px] font-mono text-zinc-500 uppercase">{formattedDate}</span>

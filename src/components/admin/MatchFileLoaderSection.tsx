@@ -48,7 +48,7 @@ export default function MatchFileLoaderSection() {
         // Enviar para a rota do servidor para extração completa
         const formData = new FormData();
         formData.append('file', file);
-        const res = await fetch('/api/admin/match-file/load', {
+        const res = await fetch('/api/admin/match-file/load?preview=1', {
           method: 'POST',
           body: formData,
         });
@@ -56,11 +56,9 @@ export default function MatchFileLoaderSection() {
         if (!res.ok) {
           throw new Error(data.message || 'Erro ao processar o relatório PDF.');
         }
-        setFeedback({
-          ok: true,
-          message: data.message || 'Relatório PDF processado e jogo atualizado com sucesso!',
-          matchId: data.matchId,
-        });
+        setValidationResult(data.validation);
+        setSelectedMatchId(data.validation?.matchId || '');
+        setFeedback({ ok: true, message: 'PDF processado. Confirme cuidadosamente os dados antes de publicar.' });
       } else {
         throw new Error('Formato de ficheiro não suportado. Utilize .json ou .pdf.');
       }
@@ -425,7 +423,7 @@ export default function MatchFileLoaderSection() {
             </div>
             <button
               onClick={publishToSite}
-              disabled={publishing}
+              disabled={publishing || !validationResult.valido || !selectedMatchId}
               className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 flex-shrink-0"
             >
               {publishing ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}

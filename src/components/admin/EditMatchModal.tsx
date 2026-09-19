@@ -57,6 +57,9 @@ export default function EditMatchModal({
 
   useEffect(() => {
     if (match) {
+      // O formulário é um editor controlado e precisa de reinicializar quando
+      // o administrador escolhe outro jogo.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPartidaNum(matchNumber || 1);
       setJornadaNum(match.round);
       setDiaJogoNum(matchDay || match.round * 4);

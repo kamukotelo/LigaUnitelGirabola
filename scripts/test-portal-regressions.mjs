@@ -211,6 +211,20 @@ for (const official of [
 assert.doesNotMatch(data, /export interface MatchOfficials[\s\S]{0,300}commissioner\?: string/, 'MatchOfficials não deve expor commissioner publicamente.');
 // Nas páginas públicas o Delegado/Comissário nunca pode aparecer.
 assert.doesNotMatch(matchDetailClient, /Delegado:.*commissioner/, 'Delegado não deve ser renderizado no MatchDetailClient.');
+
+// Segurança do novo Arquivo de Jogo: nunca inventar dados desportivos quando
+// um PDF não é reconhecido, e a ação de pré-visualização não pode publicar.
+const matchFileParser = await readFile(new URL('../src/lib/match-file-parser.ts', import.meta.url), 'utf8');
+const matchFileLoader = await readFile(new URL('../src/components/admin/MatchFileLoaderSection.tsx', import.meta.url), 'utf8');
+const matchFileRoute = await readFile(new URL('../src/app/api/admin/match-file/load/route.ts', import.meta.url), 'utf8');
+assert.doesNotMatch(matchFileParser, /numeroPartida:\s*numeroPartida\s*\|\|\s*32/);
+assert.doesNotMatch(matchFileParser, /eventos\.length\s*>\s*0\s*\?\s*eventos\s*:\s*\[/);
+assert.match(matchFileLoader, /match-file\/load\?preview=1/);
+// A publicação atómica corre na função SQL, via Neon (SQL direto) ou Supabase (rpc).
+assert.match(matchFileRoute, /ancaf_publish_match_file\(|rpc\('ancaf_publish_match_file'/);
+assert.match(matchFileRoute, /fixture_mismatch/);
+assert.match(matchFileRoute, /MAX_FILE_BYTES\s*=\s*10\s*\*\s*1024\s*\*\s*1024/);
+assert.doesNotMatch(adminAuth, /jabulani2026/);
 assert.doesNotMatch(matchDetailClient, /Comiss[aá]rio/i, 'Comissário não deve aparecer no MatchDetailClient.');
 
 // A classificação pública só pode usar resultados finais, e estatísticas
@@ -293,8 +307,8 @@ assert.match(playerDetail, /hasOfficialAdvancedPlayerMetrics = false/);
 
 // O login administrativo deve identificar cada pessoa, validar o perfil no
 // servidor e emitir uma sessão assinada e limitada no tempo.
-assert.match(adminAuth, /signInWithPassword/);
-assert.match(adminAuth, /profile\?\.role !== 'admin'/);
+assert.match(adminAuth, /password_hash = crypt\(\$2, password_hash\)/);
+assert.match(adminAuth, /profile\.role !== 'admin'/);
 assert.match(adminAuth, /expiresAt/);
 assert.match(adminAuth, /faf-session-v3/);
 assert.match(adminLogin, /authenticateAdminUser\(body\.email, body\.password\)/);

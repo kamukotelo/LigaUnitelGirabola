@@ -8,6 +8,7 @@ import { getPlayers, getTeams } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import PageHeader from '@/components/ui/PageHeader';
 import EmptyState from '@/components/ui/EmptyState';
+import { shown } from '@/lib/display';
 
 export default function PlayersPage() {
   const allPlayers = getPlayers().filter((player) => player.registeredSquad !== false);
@@ -119,7 +120,7 @@ export default function PlayersPage() {
                               {player.jerseyNumber > 0 ? `#${player.jerseyNumber}` : '—'}
                             </span>
                             <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider mt-1">
-                              {player.position}
+                              {shown(player.position)}
                             </div>
                           </div>
                         </div>

@@ -226,7 +226,8 @@ export function resolveTeamId(input: string | undefined | null): string | null {
   const clean = input.trim().toLowerCase().replace(/[.,–—\-_]/g, ' ').replace(/\s+/g, ' ');
   if (TEAM_ALIASES[clean]) return TEAM_ALIASES[clean];
   for (const [key, val] of Object.entries(TEAM_ALIASES)) {
-    if (clean.includes(key) || key.includes(clean)) return val;
+    // Evita correspondências perigosas por fragmentos curtos (ex.: "1" ou "cd").
+    if (key.length >= 6 && (clean.includes(key) || key.includes(clean))) return val;
   }
   const byId = TEAMS.find((t) => t.id === input.trim().toLowerCase());
   return byId ? byId.id : null;
@@ -277,6 +278,27 @@ export function validateMatchFile(input: unknown): MatchFileValidationResult {
   const resultado = payload.resultado || { estado: 'finished', casa: 0, fora: 0 };
   const oficiais = payload.oficiais || { arbitro: '', assistente1: '', assistente2: '', quartoArbitro: '' };
   const eventos = Array.isArray(payload.eventos) ? payload.eventos : [];
+
+  if (!['scheduled', 'live', 'finished'].includes(String(resultado.estado))) {
+    problemas.push({ nivel: 'erro', campo: 'resultado.estado', mensagem: 'Estado do jogo inválido.' });
+  }
+  if (!Number.isInteger(resultado.casa) || resultado.casa < 0 || !Number.isInteger(resultado.fora) || resultado.fora < 0) {
+    problemas.push({ nivel: 'erro', campo: 'resultado', mensagem: 'O resultado deve conter números inteiros não negativos.' });
+  }
+  if (detalhes.jornada !== undefined && (!Number.isInteger(detalhes.jornada) || detalhes.jornada < 1 || detalhes.jornada > 30)) {
+    problemas.push({ nivel: 'erro', campo: 'detalhes.jornada', mensagem: 'A jornada deve estar entre 1 e 30.' });
+  }
+  if (kickoff.dataHoraIso && Number.isNaN(Date.parse(kickoff.dataHoraIso))) {
+    problemas.push({ nivel: 'erro', campo: 'kickoff.dataHoraIso', mensagem: 'Data e hora inválidas.' });
+  }
+  for (const [index, evento] of eventos.entries()) {
+    if (!['golo', 'substituicao', 'amarelo', 'vermelho'].includes(evento.tipo)) {
+      problemas.push({ nivel: 'erro', campo: `eventos[${index}].tipo`, mensagem: 'Tipo de evento inválido.' });
+    }
+    if (!['casa', 'fora'].includes(evento.equipa) || !Number.isInteger(evento.minuto) || evento.minuto < 0 || evento.minuto > 130) {
+      problemas.push({ nivel: 'erro', campo: `eventos[${index}]`, mensagem: 'Equipa ou minuto do evento inválido.' });
+    }
+  }
 
   const homeTeamId = resolveTeamId(equipas.casa?.id || equipas.casa?.nome);
   const awayTeamId = resolveTeamId(equipas.fora?.id || equipas.fora?.nome);
@@ -451,11 +473,11 @@ export async function parseFcmsPdfBytes(bytes: Uint8Array): Promise<MatchFilePay
   }
 
   const stadiumMatch = fullText.match(/Est[aá]dio\s+([^,\n·]+)/i);
-  const estadio = stadiumMatch ? stadiumMatch[1].trim() : 'Estádio Álvaro Buta';
+  const estadio = stadiumMatch ? stadiumMatch[1].trim() : '';
 
   // Extrair nomes das equipas
-  let homeName = 'Clube Desportivo São Salvador do Kongo';
-  let awayName = 'Petro Atlético Futebol SAD';
+  let homeName = '';
+  let awayName = '';
   const teamBlock = fullText.match(/EQUIPA LOCAL\s*[:\-]?\s*([^0-9\n]+?)\s*(\d+)\s*:\s*(\d+)\s*([^\n]+?)\s*EQUIPA VISITANTE/i);
   let homeScore = 0;
   let awayScore = 0;
@@ -501,23 +523,27 @@ export async function parseFcmsPdfBytes(bytes: Uint8Array): Promise<MatchFilePay
     });
   }
 
-  const homeId = resolveTeamId(homeName) || 'saosalvador';
-  const awayId = resolveTeamId(awayName) || 'petro';
+  const homeId = resolveTeamId(homeName) || '';
+  const awayId = resolveTeamId(awayName) || '';
+
+  if (!numeroPartida && !jornada && (!homeId || !awayId)) {
+    throw new Error('O PDF não corresponde a um Relatório do Árbitro FCMS reconhecido. Nenhum dado foi publicado.');
+  }
 
   return {
     versao: '1.0',
     tipo: 'arquivo_de_jogo_girabola',
     detalhes: {
-      numeroPartida: numeroPartida || 32,
-      jornada: jornada || 4,
+      numeroPartida,
+      jornada,
       epoca: '2026/2027',
       competicao: 'LIGA UNITEL GIRABOLA - 2026/2027',
     },
     kickoff: {
-      data: data || '2026-09-17',
-      hora: hora || '15:30',
+      data,
+      hora,
       fusoHorario: '(UTC+1) Africa/Luanda',
-      dataHoraIso: dataHoraIso || '2026-09-17T15:30:00+01:00',
+      dataHoraIso: dataHoraIso || undefined,
     },
     localizacao: { estadio },
     equipas: {
@@ -527,29 +553,19 @@ export async function parseFcmsPdfBytes(bytes: Uint8Array): Promise<MatchFilePay
     resultado: {
       estado: 'finished',
       casa: homeScore,
-      fora: awayScore || 1,
+      fora: awayScore,
       periodos: {
-        primeiroPeriodo: { casa: p1Match ? parseInt(p1Match[1], 10) : 0, fora: p1Match ? parseInt(p1Match[2], 10) : 1 },
+        primeiroPeriodo: { casa: p1Match ? parseInt(p1Match[1], 10) : 0, fora: p1Match ? parseInt(p1Match[2], 10) : 0 },
         segundoPeriodo: { casa: p2Match ? parseInt(p2Match[1], 10) : 0, fora: p2Match ? parseInt(p2Match[2], 10) : 0 },
       },
     },
     oficiais: {
-      arbitro: refMatch ? refMatch[1].trim() : 'Nelson João Milagre',
-      assistente1: ass1Match ? ass1Match[1].trim() : 'Manuel Daniel Coelho',
-      assistente2: ass2Match ? ass2Match[1].trim() : 'Hélder João Milagre',
-      quartoArbitro: fourthMatch ? fourthMatch[1].trim() : 'Garcia Luhamo Remos',
-      comissario: comMatch ? comMatch[1].trim() : 'Ernesto Tati',
+      arbitro: refMatch ? refMatch[1].trim() : '',
+      assistente1: ass1Match ? ass1Match[1].trim() : '',
+      assistente2: ass2Match ? ass2Match[1].trim() : '',
+      quartoArbitro: fourthMatch ? fourthMatch[1].trim() : '',
+      comissario: comMatch ? comMatch[1].trim() : undefined,
     },
-    eventos: eventos.length > 0 ? eventos : [
-      {
-        tipo: 'golo',
-        equipa: 'fora',
-        minuto: 45,
-        acrescimo: 1,
-        jogador: 'Vanilson Tita Zéu',
-        numero: 17,
-        subtipo: 'normal',
-      }
-    ],
+    eventos,
   };
 }

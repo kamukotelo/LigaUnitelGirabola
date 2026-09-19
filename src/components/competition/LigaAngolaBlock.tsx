@@ -225,13 +225,16 @@ export default function LigaAngolaBlock() {
                     matchesByRound.map((match) => {
                       const isFinished = match.status === 'finished';
                       const isLive = match.status === 'live';
+                      const isPostponed = match.postponed === true;
                       const hasOfficialDate = isMatchDateOfficial(match);
                       const isCurrentFocus = selectedSeasonId === UPCOMING_SEASON_ID
                         && currentRound === 1
                         && match.homeTeamId === 'lundasul'
                         && match.awayTeamId === 'petro';
                       const matchDate = new Date(match.date);
-                      const timeLabel = `${matchDate.toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}${hasOfficialDate ? '' : ' · Prov.'}`;
+                      const timeLabel = isPostponed
+                        ? 'Adiado · Sem data'
+                        : `${matchDate.toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}${hasOfficialDate ? '' : ' · Prov.'}`;
                       const homeObj = TEAMS.find((t) => t.id === match.homeTeamId);
                       const awayObj = TEAMS.find((t) => t.id === match.awayTeamId);
                       const homeAbbr = homeObj?.shortName ?? match.homeTeam.substring(0, 3).toUpperCase();

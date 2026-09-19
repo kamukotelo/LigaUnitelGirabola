@@ -78,6 +78,7 @@ export default function RoundScheduleCard({
           const { isLiveTv, hasRadio } = getBroadcasterBadges(match, idx);
           const isFinished = match.status === 'finished';
           const isLive = match.status === 'live';
+          const isPostponed = match.postponed === true;
 
           return (
             <Link
@@ -112,7 +113,7 @@ export default function RoundScheduleCard({
               {/* Sublinha: Data/Horário + Tags Especiais + Transmissão TV/Rádio */}
               <div className="flex flex-wrap items-center justify-center gap-2 mt-2 pt-1 font-mono text-[10px]">
                 <span className="text-zinc-500 font-semibold">
-                  {dayOfWeek}, {date} · {time}
+                  {isPostponed ? 'ADIADO · À ESPERA DE DATA' : `${dayOfWeek}, ${date} · ${time}`}
                 </span>
 
                 {/* Tag de Dérbi ou Clássico */}
