@@ -4,10 +4,10 @@ import type { SeasonDerivedStats } from '../tipos';
 
 export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
   scorers: [
-    { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 4, appearances: 5 },
-    { id: 'axel-dago', name: 'Axel', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 2, appearances: 3 },
+    { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 5, appearances: 5 },
+    { id: 'axel-dago', name: 'Axel', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 2, appearances: 4 },
     { id: 'fifa-1jz4pi8', name: 'Benvindo Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 2, appearances: 2 },
-    { id: 'fifa-1qw9vb1', name: 'Jaime', club: 'FC Luanda', teamId: 'fcluanda', position: 'Médio', goals: 2, appearances: 1 },
+    { id: 'fifa-1qw9vb1', name: 'Jaime', club: 'FC Luanda', teamId: 'fcluanda', position: 'Médio', goals: 2, appearances: 2 },
     { id: 'lito-bravos', name: 'Lito', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 2, appearances: 2 },
     { id: 'luyeye-cabinda', name: 'Luyeye Tomás', club: 'FC Cabinda', teamId: 'cabinda', position: 'Médio', goals: 2, appearances: 3 },
     { id: 'mabululu-wiliete', name: 'Mabululu', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 2, appearances: 2 },
@@ -22,8 +22,6 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     { id: 'andeloy-libolo', name: 'Andeloy', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Médio', goals: 1, appearances: 2 },
     { id: 'anderson-mputa-saosalvador', name: 'Anderson Mputa', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
     { id: 'ariclenis-cabinda', name: 'Ariclenis Afonso Araújo Lede', club: 'FC Cabinda', teamId: 'cabinda', position: 'Avançado', goals: 1, appearances: 4 },
-    { id: 'm27-5-2-home-scorer-89', name: 'Autor por confirmar', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Posição por confirmar', goals: 1, appearances: 1 },
-    { id: 'm27-5-2-away-scorer-95', name: 'Autor por confirmar', club: 'FC Luanda', teamId: 'fcluanda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
     { id: 'bello-lukman-wiliete', name: 'Bello Lukman', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 1, appearances: 2 },
     { id: 'beni-papel-saosalvador', name: 'Beni Papel', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
     { id: 'leonardo-isola-huila', name: 'Cabibi', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Avançado', goals: 1, appearances: 3 },

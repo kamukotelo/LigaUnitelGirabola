@@ -4,10 +4,10 @@
 -- ═════════════════════════════════════════════════════════════════════
 
 insert into public.ancaf_player_season_stats (season_id, player_id, goals, assists, appearances, yellow_cards, red_cards) values
-  ('2026-27', 'dago-tshibamba', 4, 0, 5, 1, 0),
-  ('2026-27', 'axel-dago', 2, 0, 3, 1, 0),
+  ('2026-27', 'dago-tshibamba', 5, 0, 5, 1, 0),
+  ('2026-27', 'axel-dago', 2, 0, 4, 1, 0),
   ('2026-27', 'fifa-1jz4pi8', 2, 0, 2, 0, 0),
-  ('2026-27', 'fifa-1qw9vb1', 2, 0, 1, 1, 0),
+  ('2026-27', 'fifa-1qw9vb1', 2, 0, 2, 1, 0),
   ('2026-27', 'lito-bravos', 2, 0, 2, 0, 0),
   ('2026-27', 'luyeye-cabinda', 2, 0, 3, 2, 0),
   ('2026-27', 'mabululu-wiliete', 2, 0, 2, 0, 0),
@@ -22,8 +22,6 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'andeloy-libolo', 1, 0, 2, 1, 0),
   ('2026-27', 'anderson-mputa-saosalvador', 1, 0, 1, 0, 0),
   ('2026-27', 'ariclenis-cabinda', 1, 0, 4, 1, 0),
-  ('2026-27', 'm27-5-2-home-scorer-89', 1, 0, 1, 0, 0),
-  ('2026-27', 'm27-5-2-away-scorer-95', 1, 0, 1, 0, 0),
   ('2026-27', 'bello-lukman-wiliete', 1, 0, 2, 0, 0),
   ('2026-27', 'beni-papel-saosalvador', 1, 0, 1, 0, 0),
   ('2026-27', 'leonardo-isola-huila', 1, 0, 3, 0, 0),
