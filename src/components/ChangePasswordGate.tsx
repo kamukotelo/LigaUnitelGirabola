@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { KeyRound, ShieldCheck, AlertCircle, Loader2, Eye, EyeOff } from 'lucide-react';
+import { KeyRound, ShieldCheck, AlertCircle, Loader2, Eye, EyeOff, MailQuestion, CheckCircle2 } from 'lucide-react';
 import FuturisticButton from './ui/FuturisticButton';
 import AnimatedCard from './ui/AnimatedCard';
-
-const MIN_LENGTH = 10;
+import { MIN_PASSWORD_LENGTH as MIN_LENGTH, validateNewPassword } from '@/lib/password-policy';
 
 export default function ChangePasswordGate({ email }: { email?: string }) {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -15,13 +14,16 @@ export default function ChangePasswordGate({ email }: { email?: string }) {
   const [show, setShow] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [recovering, setRecovering] = useState(false);
+  const [recoverySent, setRecoverySent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    if (newPassword.length < MIN_LENGTH) {
-      setError(`A nova palavra-passe tem de ter pelo menos ${MIN_LENGTH} caracteres.`);
+    const policyError = validateNewPassword(newPassword, currentPassword);
+    if (policyError) {
+      setError(policyError);
       return;
     }
     if (newPassword !== confirmPassword) {
@@ -47,6 +49,31 @@ export default function ChangePasswordGate({ email }: { email?: string }) {
       setError('Falha de ligação ao servidor.');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  // Saída de emergência para quem não consegue confirmar a senha provisória:
+  // pede um link de recuperação para o e-mail da própria sessão.
+  const handleRecovery = async () => {
+    if (!email) return;
+    setError('');
+    setRecovering(true);
+    try {
+      const res = await fetch('/api/admin/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        setError(data?.message ?? 'Não foi possível processar o pedido.');
+        return;
+      }
+      setRecoverySent(true);
+    } catch {
+      setError('Falha de ligação ao servidor.');
+    } finally {
+      setRecovering(false);
     }
   };
 
@@ -141,6 +168,23 @@ export default function ChangePasswordGate({ email }: { email?: string }) {
               {submitting ? 'A guardar...' : 'Guardar e entrar'}
             </span>
           </FuturisticButton>
+
+          {recoverySent ? (
+            <div className="flex items-start gap-2 p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-600 dark:text-emerald-400 font-mono text-[10px] uppercase font-bold">
+              <CheckCircle2 size={14} className="flex-shrink-0 mt-0.5" />
+              <span>Enviámos um link para {email}. Abra-o para definir a palavra-passe.</span>
+            </div>
+          ) : email ? (
+            <button
+              type="button"
+              onClick={handleRecovery}
+              disabled={recovering}
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-zinc-200 dark:border-zinc-800 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 hover:border-primary hover:text-primary disabled:opacity-50 transition-all cursor-pointer active:scale-[0.98]"
+            >
+              {recovering ? <Loader2 size={14} className="animate-spin" /> : <MailQuestion size={14} />}
+              {recovering ? 'A enviar...' : 'Não sei a palavra-passe provisória'}
+            </button>
+          ) : null}
         </form>
       </AnimatedCard>
     </div>

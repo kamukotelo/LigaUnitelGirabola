@@ -4,14 +4,12 @@ import {
   ADMIN_COOKIE, ADMIN_SESSION_MAX_AGE, changeAdminPassword, getAdminSession, sessionToken,
 } from '@/lib/admin-auth';
 import { checkRateLimit, isSameOriginRequest } from '@/lib/request-security';
+import { validateNewPassword } from '@/lib/password-policy';
 
 // POST /api/admin/change-password — define uma palavra-passe nova para o
 // administrador da sessão atual e limpa a obrigação de troca. Reemite o
 // cookie de sessão sem a marca `mustChangePassword`.
 export const dynamic = 'force-dynamic';
-
-const TEMP_PASSWORD = 'jabulani2026';
-const MIN_LENGTH = 10;
 
 export async function POST(request: Request) {
   if (!isSameOriginRequest(request)) {
@@ -45,23 +43,9 @@ export async function POST(request: Request) {
   const currentPassword = typeof body.currentPassword === 'string' ? body.currentPassword : '';
   const newPassword = typeof body.newPassword === 'string' ? body.newPassword : '';
 
-  if (newPassword.length < MIN_LENGTH) {
-    return NextResponse.json(
-      { error: 'weak_password', message: `A nova palavra-passe tem de ter pelo menos ${MIN_LENGTH} caracteres.` },
-      { status: 422 },
-    );
-  }
-  if (newPassword === TEMP_PASSWORD) {
-    return NextResponse.json(
-      { error: 'weak_password', message: 'Escolha uma palavra-passe diferente da provisória.' },
-      { status: 422 },
-    );
-  }
-  if (newPassword === currentPassword) {
-    return NextResponse.json(
-      { error: 'weak_password', message: 'A nova palavra-passe tem de ser diferente da atual.' },
-      { status: 422 },
-    );
+  const policyError = validateNewPassword(newPassword, currentPassword);
+  if (policyError) {
+    return NextResponse.json({ error: 'weak_password', message: policyError }, { status: 422 });
   }
 
   const result = await changeAdminPassword(session.email, currentPassword, newPassword);

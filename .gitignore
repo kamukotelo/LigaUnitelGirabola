@@ -42,4 +42,10 @@ supabase/.temp/
 # xlsx skill inspection dumps
 *.xlsx.inspect.ndjson
 
+# media files (too large for git/Vercel)
+*.mp4
+*.mov
+*.avi
+*.m4v
+
 .claude/

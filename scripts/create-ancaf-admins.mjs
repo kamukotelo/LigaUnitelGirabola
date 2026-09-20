@@ -1,11 +1,10 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ANCAF · Criação das contas de administração individuais
+// ANCAF · Criação / reposição das contas de administração
 // Liga Unitel Girabola — plataforma digital
 //
-// Cria (ou repõe) as contas de administrador no Supabase Authentication e
-// garante o registo correspondente em public.ancaf_profiles com
-// role = 'admin' e must_change_password = true (troca obrigatória no
-// primeiro acesso).
+// A autenticação da consola vive no PostgreSQL do Neon: a tabela
+// public.ancaf_profiles guarda o e-mail e o hash bcrypt da palavra-passe
+// (pgcrypto). Ver src/lib/admin-auth.ts.
 //
 // Uso:
 //   node --env-file=.env scripts/create-ancaf-admins.mjs
@@ -13,14 +12,13 @@
 //         senha provisória mesmo em contas que já existem)
 //
 // Requer no ambiente (ou no .env):
-//   NEXT_PUBLIC_SUPABASE_URL
-//   SUPABASE_SERVICE_ROLE_KEY
+//   DATABASE_URL_UNPOOLED  (recomendado)  ou  DATABASE_URL
 //
 // É idempotente: correr várias vezes não duplica contas.
 // ═══════════════════════════════════════════════════════════════════════
 
 import { readFileSync } from 'node:fs';
-import { createClient } from '@supabase/supabase-js';
+import { Pool } from '@neondatabase/serverless';
 
 const TEMP_PASSWORD = 'jabulani2026';
 
@@ -56,79 +54,63 @@ function loadEnvFallback() {
 }
 loadEnvFallback();
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!url || !serviceRoleKey || serviceRoleKey === 'your-supabase-service-role-key') {
-  console.error('✗ Faltam NEXT_PUBLIC_SUPABASE_URL e/ou SUPABASE_SERVICE_ROLE_KEY.');
+const connectionString = process.env.DATABASE_URL_UNPOOLED ?? process.env.DATABASE_URL;
+if (!connectionString) {
+  console.error('✗ Falta DATABASE_URL_UNPOOLED (recomendado) ou DATABASE_URL.');
   console.error('  Corra com: node --env-file=.env scripts/create-ancaf-admins.mjs');
   process.exit(1);
 }
 
-const admin = createClient(url, serviceRoleKey, {
-  auth: { autoRefreshToken: false, persistSession: false },
-});
-
-async function findUserByEmail(email) {
-  // O projeto tem poucos utilizadores; uma página basta.
-  const { data, error } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
-  if (error) throw error;
-  return data.users.find((u) => (u.email ?? '').toLowerCase() === email) ?? null;
-}
+const pool = new Pool({ connectionString, max: 1 });
+const client = await pool.connect();
 
 let created = 0;
 let updated = 0;
 let skipped = 0;
 
-for (const account of ACCOUNTS) {
-  const email = account.email.trim().toLowerCase();
-  try {
-    const existing = await findUserByEmail(email);
-    let userId;
+try {
+  await client.query('create extension if not exists pgcrypto');
 
-    if (!existing) {
-      const { data, error } = await admin.auth.admin.createUser({
-        email,
-        password: TEMP_PASSWORD,
-        email_confirm: true,
-        user_metadata: { full_name: account.name },
-      });
-      if (error) throw error;
-      userId = data.user.id;
-      created += 1;
-      console.log(`＋ ${email} — conta criada com a senha provisória`);
-    } else {
-      userId = existing.id;
-      if (RESET) {
-        const { error } = await admin.auth.admin.updateUserById(userId, {
-          password: TEMP_PASSWORD,
-          email_confirm: true,
-        });
-        if (error) throw error;
+  for (const account of ACCOUNTS) {
+    const email = account.email.trim().toLowerCase();
+    try {
+      // O hash é calculado pelo servidor (pgcrypto); a senha em claro nunca é
+      // guardada nem enviada para o cliente.
+      const { rows } = await client.query(
+        `insert into public.ancaf_profiles
+               (email, password_hash, full_name, role, must_change_password, password_changed_at)
+        values ($1, crypt($2, gen_salt('bf', 12)), $3, 'admin', true, timezone('utc', now()))
+        on conflict (email) do update
+           set full_name = excluded.full_name,
+               role = 'admin',
+               password_hash = case when $4 then excluded.password_hash
+                                    else public.ancaf_profiles.password_hash end,
+               must_change_password = case when $4 then true
+                                           else public.ancaf_profiles.must_change_password end,
+               password_changed_at = case when $4 then excluded.password_changed_at
+                                          else public.ancaf_profiles.password_changed_at end
+         returning (xmax = 0) as inserted`,
+        [email, TEMP_PASSWORD, account.name, RESET],
+      );
+
+      if (rows[0]?.inserted) {
+        created += 1;
+        console.log(`＋ ${email} — conta criada com a senha provisória`);
+      } else if (RESET) {
         updated += 1;
         console.log(`↻ ${email} — senha reposta para a provisória (--reset)`);
       } else {
         skipped += 1;
         console.log(`= ${email} — já existe; senha mantida (use --reset para repor)`);
       }
+    } catch (error) {
+      console.error(`✗ ${email} — ${error?.message ?? error}`);
+      process.exitCode = 1;
     }
-
-    const { error: profileError } = await admin
-      .from('ancaf_profiles')
-      .upsert(
-        {
-          id: userId,
-          full_name: account.name,
-          role: 'admin',
-          must_change_password: !existing || RESET,
-        },
-        { onConflict: 'id' },
-      );
-    if (profileError) throw profileError;
-  } catch (error) {
-    console.error(`✗ ${email} — ${error?.message ?? error}`);
-    process.exitCode = 1;
   }
+} finally {
+  client.release();
+  await pool.end();
 }
 
 console.log('');

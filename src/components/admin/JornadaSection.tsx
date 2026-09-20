@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  CalendarClock, Loader2, CheckCircle2, Circle, Flag, Users, FileDown, BarChart3, CalendarDays, ArrowRight,
+  CalendarClock, Loader2, CheckCircle2, Circle, Flag, Users, FileDown, BarChart3, CalendarDays, ArrowRight, Pencil,
 } from 'lucide-react';
-import { getMatchesForSeason, UPCOMING_SEASON_ID } from '@/lib/data';
+import { getMatchesForSeason, UPCOMING_SEASON_ID, type Match } from '@/lib/data';
+import EditMatchModal from '@/components/admin/EditMatchModal';
 
 type AdminSection = 'calendar' | 'nominations' | 'ficha' | 'competition';
 
@@ -46,6 +47,46 @@ export default function JornadaSection({ onGo }: { onGo: (s: AdminSection) => vo
   });
   const [matches, setMatches] = useState<RoundMatch[]>([]);
   const [loading, setLoading] = useState(false);
+  const [editMatch, setEditMatch] = useState<Match | null>(null);
+  const [editMatchNum, setEditMatchNum] = useState<number>(1);
+
+  const allSeasonMatches = useMemo(() => getMatchesForSeason(UPCOMING_SEASON_ID), []);
+
+  const handleOpenEdit = (m: RoundMatch) => {
+    const full = allSeasonMatches.find((match) => match.id === m.id);
+    if (full) {
+      const idx = allSeasonMatches.findIndex((match) => match.id === m.id);
+      setEditMatch(full);
+      setEditMatchNum(idx + 1);
+    }
+  };
+
+  const handleSaveMatch = async (matchId: string, patch: Partial<Match>) => {
+    const res = await fetch('/api/admin/overrides', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        section: 'calendar',
+        value: {
+          [matchId]: {
+            date: patch.date,
+            stadium: patch.stadium,
+            round: patch.round,
+            homeTeamId: patch.homeTeamId,
+            awayTeamId: patch.awayTeamId,
+            homeTeam: patch.homeTeam,
+            awayTeam: patch.awayTeam,
+            scheduleStatus: patch.scheduleStatus || 'official',
+          },
+        },
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => null);
+      throw new Error(err?.message || 'Não foi possível gravar a alteração.');
+    }
+    await load(round);
+  };
 
   const load = useCallback(async (r: number) => {
     setLoading(true);
@@ -124,9 +165,19 @@ export default function JornadaSection({ onGo }: { onGo: (s: AdminSection) => vo
                 <span className="font-display text-sm text-foreground uppercase">
                   {m.homeTeam} <span className="text-zinc-400">—</span> {m.awayTeam}
                 </span>
-                <span className="text-[11px] font-mono text-zinc-500">
-                  {m.score ? <b className="text-foreground">{m.score}</b> : new Date(m.date).toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit' })}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-mono text-zinc-500">
+                    {m.score ? <b className="text-foreground">{m.score}</b> : new Date(m.date).toLocaleDateString('pt-PT', { day: '2-digit', month: '2-digit' })}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenEdit(m)}
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-lg border border-zinc-200 dark:border-zinc-800 text-[10px] font-mono text-zinc-500 hover:text-foreground hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
+                    title="Editar partida"
+                  >
+                    <Pencil size={11} /> Editar
+                  </button>
+                </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                 {STEPS.map((s) => {
@@ -170,6 +221,14 @@ export default function JornadaSection({ onGo }: { onGo: (s: AdminSection) => vo
           </button>
         ))}
       </div>
+
+      <EditMatchModal
+        isOpen={Boolean(editMatch)}
+        match={editMatch}
+        matchNumber={editMatchNum}
+        onClose={() => setEditMatch(null)}
+        onSave={handleSaveMatch}
+      />
     </div>
   );
 }

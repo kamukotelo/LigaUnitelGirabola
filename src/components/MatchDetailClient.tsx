@@ -11,6 +11,7 @@ import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition, getMatc
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { ROUTES } from '@/lib/routes';
+import { shown } from '@/lib/display';
 
 interface MatchDetailClientProps {
   detail: MatchDetail;
@@ -107,11 +108,6 @@ function StatsTab({ home, away, isFinished, officialStatKeys }: { home: MatchTea
           ? <StatBar key={r.key} label={r.label} home={r.h} away={r.a} suffix={r.suffix} />
           : <UnpublishedStat key={r.key} label={r.label} />
       ))}
-      {published.size === 0 && (
-        <p className="pt-2 text-center text-[10px] font-mono uppercase tracking-wider text-zinc-500">
-          Valores oficiais ainda não publicados para este jogo.
-        </p>
-      )}
     </AnimatedCard>
   );
 }
@@ -149,26 +145,23 @@ function LineupColumn({ title, accent, lineup, isFinished, coach }: { title: str
         <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">Treinador: <span className="text-foreground">{coach}</span></p>
       )}
       <div>
-        {starters.length !== 11 && (
-          <p className="mb-3 rounded-lg border border-amber-300/40 bg-amber-100/60 px-3 py-2 font-mono text-[9px] uppercase tracking-wide text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
-            A lista recebida contém {starters.length} titulares; o nome em falta não foi inventado.
-          </p>
-        )}
         {groups.map((g) => {
           const players = starters.filter(p => p.position === g);
           if (!players.length) return null;
           return (
             <div key={g ?? 'unknown'} className="mb-3">
-              <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">{g ? POS_LABEL[g] : 'Posição não informada'}</p>
+              {g && <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">{POS_LABEL[g]}</p>}
               {players.map((p, i) => <Row key={i} p={p} />)}
             </div>
           );
         })}
       </div>
-      <div>
-        <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">Suplentes</p>
-        {subs.map((p, i) => <Row key={i} p={p} />)}
-      </div>
+      {subs.length > 0 && (
+        <div>
+          <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">Suplentes</p>
+          {subs.map((p, i) => <Row key={i} p={p} />)}
+        </div>
+      )}
     </div>
   );
 }
@@ -211,7 +204,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
                 <div className={`flex flex-col ${e.team === 'away' ? 'items-end' : ''}`}>
                   <span className="font-mono text-xs text-foreground">
                     {e.playerId ? <Link href={`/players/${e.playerId}`} className="hover:text-accent transition-colors">{e.player}</Link> : e.player}
-                    {e.detail && e.type !== 'yellow' && e.type !== 'red' && <span className="text-zinc-500"> · {e.detail}</span>}
+                    {e.detail && e.type !== 'yellow' && e.type !== 'red' && <span className="text-zinc-500">{e.player ? ' · ' : ''}{e.detail}</span>}
                   </span>
                   {e.type === 'sub' && e.playerOut && (
                     <span className="font-mono text-[10px] text-zinc-600">↓ {e.playerOut}</span>
@@ -257,20 +250,24 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
           <div className="flex items-center gap-3">
             <MapPin size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">{match.stadium}</span>
           </div>
-          <div className="flex items-center gap-3">
-            <Users size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">{attendance > 0 ? `${attendance.toLocaleString('pt-AO')} espetadores` : 'A definir'}</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Flag size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">Árbitro: {referee}</span>
-          </div>
+          {attendance > 0 && (
+            <div className="flex items-center gap-3">
+              <Users size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">{`${attendance.toLocaleString('pt-AO')} espetadores`}</span>
+            </div>
+          )}
+          {shown(referee) && (
+            <div className="flex items-center gap-3">
+              <Flag size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">Árbitro: {shown(referee)}</span>
+            </div>
+          )}
           <div className="flex items-start gap-3">
             <Flag size={14} className="text-zinc-600 mt-0.5" />
             <span className="text-zinc-600 dark:text-zinc-400">
-              Assistentes: {officials.assistants[0]} · {officials.assistants[1]}
-              <span className="block">4.º Árbitro: {officials.fourth}</span>
-              {officials.commissioner && (
-                <span className="block">Delegado: {officials.commissioner}</span>
+              {officials.assistants.map(shown).some(Boolean) && (
+                <span className="block">Assistentes: {officials.assistants.map(shown).filter(Boolean).join(' · ')}</span>
               )}
+              {shown(officials.fourth) && <span className="block">4.º Árbitro: {shown(officials.fourth)}</span>}
+              {/* Delegado (commissioner) intencionalmente ocultado — ver getMatchOfficials() em data.ts */}
             </span>
           </div>
           <div className="flex items-center gap-3">
@@ -285,7 +282,9 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
           <div className="flex items-center gap-3">
             <Calendar size={14} className="text-zinc-600" />
             <span className="text-zinc-700 dark:text-zinc-300">
-              {new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+              {match.postponed
+                ? 'Adiado · À espera de nova data'
+                : new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>
         </div>
@@ -341,7 +340,7 @@ export default function MatchDetailClient({
             Jornada {match.round} · {isFinished ? 'Terminado' : isLive ? `${match.liveMinute ?? ''}' · Em direto` : 'Agendado'}
           </span>
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider flex items-center gap-2 flex-wrap justify-center">
-            <span className="flex items-center gap-1"><Calendar size={10} /> {new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+            <span className="flex items-center gap-1"><Calendar size={10} /> {match.postponed ? 'Adiado · À espera de nova data' : new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
             <span className="flex items-center gap-1"><MapPin size={10} /> {match.stadium}</span>
             <span className="flex items-center gap-1 text-accent"><Tv size={10} /> {getMatchBroadcast(match)}</span>
           </span>

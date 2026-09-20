@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -20,6 +20,7 @@ import {
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import { ROUTES } from '@/lib/routes';
 import { useFifaConnectAccess } from '@/lib/use-fifa-connect-access';
+import { shown } from '@/lib/display';
 
 // Etiqueta de transparência: dados simulados, não oficiais.
 function DemoBadge() {
@@ -732,7 +733,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
           <div className="flex-1 space-y-6">
             <div>
               <span className="text-[10px] font-mono text-accent uppercase tracking-widest font-semibold block mb-1">
-                {player.position}
+                {shown(player.position)}
               </span>
               <h1 className="text-4xl md:text-5xl font-display text-foreground uppercase leading-none font-black">
                 {player.fullName ?? player.name}
@@ -745,12 +746,14 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
               <p className="text-zinc-600 dark:text-zinc-400 font-mono text-xs uppercase tracking-wider mt-1 flex flex-wrap items-center justify-center md:justify-start gap-x-2 gap-y-1">
                 <span className="text-base leading-none">{getNationalityFlag(player.nationality)}</span>
                 <span>{player.nationality}</span>
-                <span className="text-zinc-400">·</span>
-                <span>{player.age > 0 ? `${player.age} anos` : 'Idade por confirmar'}</span>
-                <span className="text-zinc-400">·</span>
-                <span>{player.height || 'Altura por confirmar'}</span>
-                <span className="text-zinc-400">·</span>
-                <span>{player.jerseyNumber > 0 ? `Nº ${player.jerseyNumber}` : 'Número por confirmar'}</span>
+                {[player.age > 0 ? `${player.age} anos` : '', shown(player.height), player.jerseyNumber > 0 ? `Nº ${player.jerseyNumber}` : '']
+                  .filter(Boolean)
+                  .map((part) => (
+                    <Fragment key={part}>
+                      <span className="text-zinc-400">·</span>
+                      <span>{part}</span>
+                    </Fragment>
+                  ))}
               </p>
             </div>
 
@@ -818,7 +821,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
               const rows: { label: string; value: React.ReactNode }[] = [
                 { label: 'Nome completo', value: ficha.fullName },
                 { label: 'Alcunha', value: player.nickname ?? (player.fullName && player.fullName !== player.name ? player.name : '—') },
-                { label: 'Posição', value: ficha.position },
+                { label: 'Posição', value: shown(ficha.position) || '—' },
                 {
                   label: 'Nacionalidade',
                   value: (
@@ -831,13 +834,13 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
                   label: 'Data de nascimento',
                   value: ficha.birthDate
                     ? `${ficha.birthDate}${ficha.age > 0 ? ` (${ficha.age} anos)` : ''}`
-                    : (ficha.age > 0 ? `${ficha.age} anos` : 'Por confirmar'),
+                    : (ficha.age > 0 ? `${ficha.age} anos` : '—'),
                 },
                 { label: 'Naturalidade', value: ficha.birthplace ?? '—' },
                 { label: 'Altura', value: ficha.height || '—' },
                 { label: 'Peso', value: ficha.weight ?? '—' },
                 { label: 'Pé preferido', value: ficha.preferredFoot ?? '—' },
-                { label: 'Nº de camisola', value: ficha.jerseyNumber > 0 ? ficha.jerseyNumber : 'Por confirmar' },
+                { label: 'Nº de camisola', value: ficha.jerseyNumber > 0 ? ficha.jerseyNumber : '—' },
                 {
                   label: 'Clube atual',
                   value: team ? (

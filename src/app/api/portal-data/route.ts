@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { unstable_cache } from 'next/cache';
-import { supabase } from '@/lib/supabase';
+import { getNeonSql, isNeonConfigured } from '@/lib/neon';
 import { PORTAL_DATA_TAG, PORTAL_DATA_MAX_AGE_SECONDS } from '@/lib/portal-cache';
 import type { PortalData } from '@/lib/data';
 
@@ -12,8 +12,7 @@ import type { PortalData } from '@/lib/data';
 // antes disparava mais de uma dúzia de queries por cada visita ao portal.
 
 function isConfigured(): boolean {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  return !!url && url !== 'https://placeholder.supabase.co';
+  return isNeonConfigured();
 }
 
 type Row = Record<string, unknown>;
@@ -35,18 +34,20 @@ async function buildSnapshot(): Promise<Snapshot> {
   };
 
   try {
+    const sql = getNeonSql();
+    const rows = async (query: string) => ({ data: await sql.query(query) });
     const [staffRes, profRes, standRes, teamRes, playerRes, nomRes, vidRes, newsRes, lineRes, evRes, statRes] = await Promise.all([
-      supabase.from('ancaf_team_staff').select('team_id, name, role, nationality, ma_id, fifa_id, sort_rank, updated_at'),
-      supabase.from('ancaf_team_profiles').select('team_id, official_name, president, website, socials, palmares, kits, board, updated_at'),
-      supabase.from('ancaf_standings').select('*'),
-      supabase.from('ancaf_teams').select('id, name, logo_url, updated_at'),
-      supabase.from('ancaf_players').select('*'),
-      supabase.from('ancaf_referee_nominations').select('*'),
-      supabase.from('ancaf_videos').select('*').order('sort'),
-      supabase.from('ancaf_news').select('id, title, category, date, iso_date, summary, content, status, author, source_name, source_url, published_at, ai_assisted, updated_at').order('date', { ascending: false }),
-      supabase.from('ancaf_match_lineups').select('match_id, team_id, side, players, coach, updated_at'),
-      supabase.from('ancaf_match_events').select('*').order('sort'),
-      supabase.from('ancaf_match_stats').select('*'),
+      rows('select team_id, name, role, nationality, ma_id, fifa_id, sort_rank, updated_at from public.ancaf_team_staff'),
+      rows('select team_id, official_name, president, website, socials, palmares, kits, board, updated_at from public.ancaf_team_profiles'),
+      rows('select * from public.ancaf_standings'),
+      rows('select id, name, logo_url, updated_at from public.ancaf_teams'),
+      rows('select * from public.ancaf_players'),
+      rows('select * from public.ancaf_referee_nominations'),
+      rows('select * from public.ancaf_videos order by sort'),
+      rows('select id, title, category, date, iso_date, summary, content, status, author, source_name, source_url, published_at, ai_assisted, updated_at from public.ancaf_news order by date desc'),
+      rows('select match_id, team_id, side, players, coach, updated_at from public.ancaf_match_lineups'),
+      rows('select * from public.ancaf_match_events order by sort'),
+      rows('select * from public.ancaf_match_stats'),
     ]);
 
     // ── emblemas de clubes lidos da BD ──────────────────────────────
@@ -103,9 +104,9 @@ async function buildSnapshot(): Promise<Snapshot> {
           referee: str(r.referee) || 'A definir',
           assistants: [a[0] ?? '', a[1] ?? ''],
           fourth: str(r.fourth ?? r.fourth_official) || 'A definir',
-          ...(r.commissioner || r.match_commissioner
-            ? { commissioner: str(r.commissioner ?? r.match_commissioner) }
-            : {}),
+          // commissioner (delegado) é intencionalmente omitido —
+          // nunca deve ser exposto nas páginas públicas do site,
+          // independentemente do que a BD (FCMS) enviar.
         };
       }
     }
@@ -119,7 +120,7 @@ async function buildSnapshot(): Promise<Snapshot> {
         (byTeam[str(r.team_id)] ??= []).push({
           member: {
             name: str(r.name),
-            role: str(r.role) || 'Função por confirmar',
+            role: str(r.role),
             nationality: str(r.nationality) || 'A confirmar',
             maId: r.ma_id ? str(r.ma_id) : undefined,
             fifaId: r.fifa_id ? str(r.fifa_id) : undefined,

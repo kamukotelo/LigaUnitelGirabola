@@ -1,7 +1,7 @@
 import { after, NextResponse } from 'next/server';
 import { unstable_cache } from 'next/cache';
 import { cookies } from 'next/headers';
-import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import { getNeonSql, isNeonConfigured } from '@/lib/neon';
 import { ADMIN_COOKIE, getAdminSession } from '@/lib/admin-auth';
 import { processCalendarUpdate } from '@/lib/match-update-automation';
 import { isSameOriginRequest } from '@/lib/request-security';
@@ -23,12 +23,11 @@ const keyFor = (section: Section) => `override_${section}`;
 async function loadOverrides(): Promise<Record<string, unknown>> {
   const overrides: Record<string, unknown> = {};
   try {
-    const admin = getSupabaseAdmin();
-    const { data } = await admin
-      .from('ancaf_configs')
-      .select('key, value')
-      .in('key', SECTIONS.map(keyFor));
-    for (const row of (data ?? []) as { key: string; value: string }[]) {
+    const data = await getNeonSql().query(
+      'select key, value from public.ancaf_configs where key = any($1::text[])',
+      [SECTIONS.map(keyFor)],
+    ) as { key: string; value: string }[];
+    for (const row of data) {
       const section = row.key.replace(/^override_/, '');
       try {
         overrides[section] = JSON.parse(row.value);
@@ -37,7 +36,7 @@ async function loadOverrides(): Promise<Record<string, unknown>> {
       }
     }
   } catch {
-    // Supabase não configurado: devolve overrides vazios (o portal usa os dados base).
+    // Neon não configurado: devolve overrides vazios (o portal usa os dados base).
   }
   return overrides;
 }
@@ -85,27 +84,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'payload_too_large', message: 'A secção excede o limite de 2 MB.' }, { status: 413 });
   }
 
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !serviceKey || serviceKey === 'your-supabase-service-role-key') {
+  if (!isNeonConfigured()) {
     return NextResponse.json(
-      { error: 'server_misconfigured', message: 'Chave de serviço do Supabase não configurada no servidor.' },
+      { error: 'server_misconfigured', message: 'Ligação ao Neon não configurada no servidor.' },
       { status: 503 },
     );
   }
 
-  let admin;
+  let sql;
   try {
-    admin = getSupabaseAdmin();
+    sql = getNeonSql();
   } catch {
     return NextResponse.json(
-      { error: 'server_misconfigured', message: 'Supabase não configurado no servidor.' },
+      { error: 'server_misconfigured', message: 'Neon não configurado no servidor.' },
       { status: 503 },
     );
   }
 
-  const previous = section === 'calendar'
-    ? await admin.from('ancaf_configs').select('value').eq('key', keyFor('calendar')).maybeSingle()
-    : null;
+  const previousRows = section === 'calendar'
+    ? await sql.query('select value from public.ancaf_configs where key = $1 limit 1', [keyFor('calendar')]) as { value: string }[]
+    : [];
 
   // O calendário público continua a usar o bloco de overrides para reagir em
   // tempo real, mas a fonte operacional tem de ficar igualmente atualizada:
@@ -119,6 +117,11 @@ export async function POST(request: Request) {
         const row: Record<string, unknown> = {};
         if (typeof patch.date === 'string') row.date = patch.date;
         if (typeof patch.stadium === 'string') row.stadium = patch.stadium;
+        if (Number.isInteger(patch.round) && Number(patch.round) >= 1 && Number(patch.round) <= 30) row.round = patch.round;
+        if (typeof patch.homeTeamId === 'string' && patch.homeTeamId) row.home_team_id = patch.homeTeamId;
+        if (typeof patch.awayTeamId === 'string' && patch.awayTeamId) row.away_team_id = patch.awayTeamId;
+        if (typeof patch.homeTeam === 'string' && patch.homeTeam) row.home_team = patch.homeTeam;
+        if (typeof patch.awayTeam === 'string' && patch.awayTeam) row.away_team = patch.awayTeam;
         if (patch.status === 'scheduled' || patch.status === 'live' || patch.status === 'finished') row.status = patch.status;
         if (Number.isInteger(patch.homeScore) && Number(patch.homeScore) >= 0) row.home_score = patch.homeScore;
         if (Number.isInteger(patch.awayScore) && Number(patch.awayScore) >= 0) row.away_score = patch.awayScore;
@@ -135,25 +138,33 @@ export async function POST(request: Request) {
       .filter(({ row }) => Object.keys(row).length > 0);
 
     for (const { matchId, row } of rows) {
-      const { data: before, error: readError } = await admin.from('ancaf_matches').select('*').eq('id', matchId).maybeSingle();
-      if (readError || !before) return NextResponse.json({ error: 'match_not_found', message: `Jogo ${matchId} não encontrado.` }, { status: 404 });
-      const { error: matchError } = await admin.from('ancaf_matches').update(row).eq('id', matchId);
-      if (matchError) {
-        return NextResponse.json({ error: 'match_write_failed', message: `Não foi possível gravar o jogo ${matchId}: ${matchError.message}` }, { status: 500 });
+      const beforeRows = await sql.query('select * from public.ancaf_matches where id = $1 limit 1', [matchId]) as Record<string, unknown>[];
+      const before = beforeRows[0];
+      if (!before) return NextResponse.json({ error: 'match_not_found', message: `Jogo ${matchId} não encontrado.` }, { status: 404 });
+      const columns = Object.keys(row);
+      const assignments = columns.map((name, index) => `${name} = $${index + 2}`).join(', ');
+      try {
+        await sql.query(`update public.ancaf_matches set ${assignments}, updated_at = timezone('utc', now()) where id = $1`, [matchId, ...columns.map((name) => row[name])]);
+        await sql.query(
+          `insert into public.ancaf_match_audit_log(match_id, actor_email, action, before_data, after_data)
+           values ($1, $2, 'publish', $3::jsonb, $4::jsonb)`,
+          [matchId, session.email, JSON.stringify(before), JSON.stringify({ ...before, ...row })],
+        );
+      } catch (matchError) {
+        const message = matchError instanceof Error ? matchError.message : 'erro desconhecido';
+        return NextResponse.json({ error: 'match_write_failed', message: `Não foi possível gravar o jogo ${matchId}: ${message}` }, { status: 500 });
       }
-      const { error: auditError } = await admin.from('ancaf_match_audit_log').insert({
-        match_id: matchId, actor_email: session.email, action: 'publish', before_data: before, after_data: { ...before, ...row },
-      });
-      if (auditError) console.error('Falha ao auditar atualização de jogo:', auditError.message);
     }
   }
 
-  const { error } = await admin
-    .from('ancaf_configs')
-    .upsert({ key: keyFor(section as Section), value: serialized }, { onConflict: 'key' });
-
-  if (error) {
-    return NextResponse.json({ error: 'write_failed', message: error.message }, { status: 500 });
+  try {
+    await sql.query(
+      `insert into public.ancaf_configs(key, value) values ($1, $2)
+       on conflict(key) do update set value = excluded.value, updated_at = timezone('utc', now())`,
+      [keyFor(section as Section), serialized],
+    );
+  } catch (error) {
+    return NextResponse.json({ error: 'write_failed', message: error instanceof Error ? error.message : 'Erro de gravação.' }, { status: 500 });
   }
 
   // A publicação acabou de mudar o que o portal mostra: expira o instantâneo em
@@ -161,7 +172,7 @@ export async function POST(request: Request) {
   revalidatePortalData();
 
   if (section === 'calendar') {
-    const previousValue = previous?.data?.value as string | null | undefined;
+    const previousValue = previousRows[0]?.value;
     after(async () => {
       await new Promise((resolve) => setTimeout(resolve, 15_000));
       try {

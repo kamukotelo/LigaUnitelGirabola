@@ -25,6 +25,8 @@ export interface MatchRecord {
   schedule: {
     date: string;
     stadium: string;
+    /** Jogo oficialmente adiado, ainda sem nova data confirmada. */
+    postponed?: boolean;
     /** `official` só depois de publicado em comunicado ou mapa oficial. */
     scheduleStatus: 'official' | 'provisional';
     /** Apenas transmissões televisivas (ex.: 'Zsports'). Nunca 'Rádio 5'. */

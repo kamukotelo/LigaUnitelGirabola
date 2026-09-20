@@ -8,11 +8,13 @@ const eslintConfig = defineConfig([
   globalIgnores([
     ".next/**",
     "**/.next/**",
+    ".claude/**",
     ".vercel/**",
     "futibool-blueprint/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "scripts/**",
   ]),
 ]);
 

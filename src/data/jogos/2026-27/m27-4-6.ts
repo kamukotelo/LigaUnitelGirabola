@@ -9,16 +9,18 @@ export default defineMatch({
   // Adiado por condições meteorológicas e remarcado para o dia seguinte, no
   // mesmo estádio e horário (Comunicado Oficial 007-DCE/ANCAF/2026).
   schedule: { date: '2026-09-17T15:30:00+01:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  result: { status: 'finished', homeScore: 0, awayScore: 1, halfTimeScore: '0-1', updatedAt: '2026-09-18T10:05:00+01:00' },
   officials: {
-    referee: 'Nelson Milagre',
-    assistants: ['Manuel Coelho', 'Hélder Milagre'],
-    fourth: 'Garcia Remos',
+    referee: 'Nelson João Milagre',
+    assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'],
+    fourth: 'Garcia Luhamo Remos',
+    commissioner: 'Ernesto Tati',
   },
   coaches: { home: 'Domingos Cussanda', away: 'João Pedro Sousa' },
   lineups: {
     home: [
-      { name: 'Pedro Moyo', number: 35, position: 'GK', isStarter: true, playerId: 'fifa-1k2wue9' },
-      { name: 'Kimuanga', number: 20, position: 'DEF', isStarter: true, playerId: 'fifa-1ljvxk1' },
+      { name: 'Pedro Moyo', number: 35, position: 'GK', isStarter: true, isCaptain: false, playerId: 'fifa-1k2wue9' },
+      { name: 'Kimuanga', number: 20, position: 'DEF', isStarter: true, isCaptain: true, playerId: 'fifa-1ljvxk1' },
       { name: 'Feca', number: 5, position: 'DEF', isStarter: true, playerId: 'fifa-1lih9v9' },
       { name: 'António Xavier', number: 11, position: 'DEF', isStarter: true, playerId: 'fifa-1ljwbm7' },
       { name: 'Sete', number: 13, position: 'DEF', isStarter: true, playerId: 'fifa-1lih5k4' },
@@ -39,8 +41,8 @@ export default defineMatch({
       { name: 'Octavio', number: 36, position: 'MID', isStarter: false },
     ],
     away: [
-      { name: 'Neblú', number: 22, position: 'GK', isStarter: true, playerId: 'neblu' },
-      { name: 'Eddie Afonso', number: 25, position: 'DEF', isStarter: true, playerId: 'eddie-afonso' },
+      { name: 'Neblú', number: 22, position: 'GK', isStarter: true, isCaptain: false, playerId: 'neblu' },
+      { name: 'Eddie Afonso', number: 25, position: 'DEF', isStarter: true, isCaptain: true, playerId: 'eddie-afonso' },
       { name: 'Rúben', number: 4, position: 'DEF', isStarter: true, playerId: 'ruben-aderito' },
       { name: 'Kinito', number: 24, position: 'DEF', isStarter: true, playerId: 'kinito' },
       { name: 'Nurio Fortuna', number: 2, position: 'DEF', isStarter: true, playerId: 'nurio-fortuna' },
@@ -60,5 +62,25 @@ export default defineMatch({
       { name: 'Hossi', number: 27, position: 'DEF', isStarter: false, playerId: 'antonio-hossi' },
       { name: 'Ilídio Panda', number: 33, position: 'FWD', isStarter: false, playerId: 'ilidio-panda' },
     ],
+  },
+  events: [
+    { minute: 14, type: 'yellow', team: 'home', player: 'Eduardo Moyo', number: 22, playerId: 'fifa-1k1sm82', detail: 'Agarrar o adversário · Falta táctica' },
+    { minute: 45, type: 'goal', team: 'away', player: 'Vanilson', number: 17, playerId: 'vanilson', detail: "45'+1' (0-1)" },
+    { minute: 45, type: 'sub', team: 'away', player: 'António Hossi', number: 27, playerId: 'antonio-hossi', playerOut: 'Núrio Fortuna' },
+    { minute: 66, type: 'sub', team: 'away', player: 'Ivan Cavaleiro', number: 7, playerId: 'ivan-cavaleiro', playerOut: 'Vanilson' },
+    { minute: 66, type: 'sub', team: 'away', player: 'Jonathan Toro', number: 8, playerId: 'jonathan-toro', playerOut: 'Aparício' },
+    { minute: 67, type: 'sub', team: 'home', player: 'Octavio', number: 36, playerOut: 'Luquinha' },
+    { minute: 72, type: 'sub', team: 'home', player: 'João Vala', number: 8, playerId: 'fifa-1k39my6', playerOut: 'Bigó' },
+    { minute: 72, type: 'sub', team: 'home', player: 'Anderson', number: 26, playerId: 'fifa-1k2pyw6', playerOut: 'Samuel' },
+    { minute: 79, type: 'sub', team: 'away', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis', playerOut: 'Depú' },
+    { minute: 80, type: 'yellow', team: 'home', player: 'Cardoso Nunes Ferreira Ferreira', detail: 'Secretário técnico · Desobedecer às orientações do 4.º árbitro' },
+    { minute: 84, type: 'sub', team: 'away', player: 'Hélder Costa', number: 11, playerId: 'helder-costa', playerOut: 'Mário Balbúrdia' },
+    { minute: 93, type: 'yellow', team: 'away', player: 'Rúben', number: 4, playerId: 'ruben-aderito', detail: "90'+3' · Atrasar o reinício do jogo de forma excessiva" },
+    { minute: 95, type: 'yellow', team: 'home', player: 'Anderson', number: 26, playerId: 'fifa-1k2pyw6', detail: "90'+5' · Protestar a decisão do árbitro" },
+  ],
+  stats: {
+    home: { yellowCards: 3, redCards: 0 },
+    away: { yellowCards: 1, redCards: 0 },
+    keys: ['yellowCards', 'redCards'],
   },
 });

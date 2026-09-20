@@ -2,10 +2,11 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Video, Newspaper, Ticket, Tv } from 'lucide-react';
+import { Video, Newspaper, Ticket, Tv, LayoutList, LayoutGrid } from 'lucide-react';
 import { getActiveSeasonRound, getMatchBroadcast, getNewsArticles, isMatchDateOfficial, Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
+import RoundScheduleCard from '@/components/competition/RoundScheduleCard';
 
 const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
@@ -23,6 +24,7 @@ function BannerHeading({ icon: Icon, children }: { icon: typeof Video; children:
 function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) {
   const isFinished = match.status === 'finished';
   const isLive = match.status === 'live';
+  const isPostponed = match.postponed === true;
   const hasOfficialDate = isMatchDateOfficial(match);
   const home = match.score?.split('-')[0] ?? '--';
   const away = match.score?.split('-')[1] ?? '--';
@@ -56,8 +58,8 @@ function FixtureRow({ match, highlight }: { match: Match; highlight: boolean }) 
         <span className="hidden whitespace-normal break-words text-sm font-semibold leading-tight text-foreground sm:block">{match.awayTeam}</span>
       </div>
 
-      <span className={`hidden sm:block text-right text-[10px] font-mono uppercase tracking-wider ${isLive ? 'text-red-500 font-black' : 'text-zinc-500'}`}>
-        {isLive ? `● ${match.liveMinute ?? ''}' EM DIRETO` : `${new Date(match.date).toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}${hasOfficialDate ? '' : ' · Prov.'}`}
+      <span className={`hidden sm:block text-right text-[10px] font-mono uppercase tracking-wider ${isLive ? 'text-red-500 font-black' : isPostponed ? 'text-amber-600 font-black' : 'text-zinc-500'}`}>
+        {isLive ? `● ${match.liveMinute ?? ''}' EM DIRETO` : isPostponed ? 'ADIADO · SEM DATA' : `${new Date(match.date).toLocaleTimeString('pt-AO', { hour: '2-digit', minute: '2-digit', timeZone: ANGOLA_TIME_ZONE })}${hasOfficialDate ? '' : ' · Prov.'}`}
       </span>
     </Link>
   );
@@ -95,6 +97,8 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
   const highlightId = roundMatches.find((m) => ['petro', 'dago'].includes(m.homeTeamId) && ['petro', 'dago'].includes(m.awayTeamId))?.id
     ?? roundMatches.find((m) => m.homeTeamId === 'petro' || m.awayTeamId === 'petro')?.id;
 
+  const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
+
   return (
     <div className="space-y-8">
       {loadingCalendar && (
@@ -107,20 +111,50 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
       )}
 
       {/* Seletor de jornadas em pílulas */}
-      <div className="flex gap-2 overflow-x-auto pb-1 -mb-1 snap-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-        {rounds.map((r) => (
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex gap-2 overflow-x-auto pb-1 -mb-1 snap-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex-1 min-w-0">
+          {rounds.map((r) => (
+            <button
+              key={r}
+              onClick={() => setUserRound(r)}
+              className={`snap-start px-4 py-2 rounded-full text-[11px] font-bold font-mono uppercase tracking-wider whitespace-nowrap transition-all flex-shrink-0 ${
+                activeRound === r
+                  ? 'bg-accent text-white shadow-sm'
+                  : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 hover:text-foreground border border-zinc-200 dark:border-zinc-800'
+              }`}
+            >
+              Jornada {r}
+            </button>
+          ))}
+        </div>
+
+        {/* Alternador de visualização (Cartão da Jornada vs Lista) */}
+        <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1 rounded-xl flex-shrink-0">
           <button
-            key={r}
-            onClick={() => setUserRound(r)}
-            className={`snap-start px-4 py-2 rounded-full text-[11px] font-bold font-mono uppercase tracking-wider whitespace-nowrap transition-all flex-shrink-0 ${
-              activeRound === r
-                ? 'bg-accent text-white shadow-sm'
-                : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 hover:text-foreground border border-zinc-200 dark:border-zinc-800'
+            onClick={() => setViewMode('card')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-colors ${
+              viewMode === 'card'
+                ? 'bg-white dark:bg-zinc-800 text-foreground shadow-xs'
+                : 'text-zinc-500 hover:text-foreground'
             }`}
+            title="Visualização oficial em cartão da jornada"
           >
-            Jornada {r}
+            <LayoutGrid size={13} />
+            <span className="hidden sm:inline">Cartão</span>
           </button>
-        ))}
+          <button
+            onClick={() => setViewMode('list')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-colors ${
+              viewMode === 'list'
+                ? 'bg-white dark:bg-zinc-800 text-foreground shadow-xs'
+                : 'text-zinc-500 hover:text-foreground'
+            }`}
+            title="Visualização em lista detalhada"
+          >
+            <LayoutList size={13} />
+            <span className="hidden sm:inline">Lista</span>
+          </button>
+        </div>
       </div>
 
       {/* Nota de bilhética */}
@@ -128,24 +162,30 @@ export default function GeralTab({ seasonId }: { seasonId: string }) {
         <Ticket size={13} className="text-accent" /> A gestão da bilhética é da responsabilidade de cada clube.
       </p>
 
-      {/* Jogos da jornada agrupados por dia */}
-      <div className="space-y-6">
-        {byDay.map(([day, dayMatches]) => (
-          <div key={day} className="bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl overflow-hidden backdrop-blur-sm">
-            <div className="px-5 py-2.5 bg-zinc-100/70 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800">
-              <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400">{dayLabel(day)}</span>
+      {/* Visualização da Jornada */}
+      {viewMode === 'card' ? (
+        <div className="py-2">
+          <RoundScheduleCard round={activeRound} matches={roundMatches} />
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {byDay.map(([day, dayMatches]) => (
+            <div key={day} className="bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl overflow-hidden backdrop-blur-sm">
+              <div className="px-5 py-2.5 bg-zinc-100/70 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800">
+                <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-zinc-600 dark:text-zinc-400">{dayLabel(day)}</span>
+              </div>
+              <div className="divide-y divide-zinc-200/70 dark:divide-zinc-900/70">
+                {dayMatches.map((m) => (
+                  <FixtureRow key={m.id} match={m} highlight={m.id === highlightId} />
+                ))}
+              </div>
             </div>
-            <div className="divide-y divide-zinc-200/70 dark:divide-zinc-900/70">
-              {dayMatches.map((m) => (
-                <FixtureRow key={m.id} match={m} highlight={m.id === highlightId} />
-              ))}
-            </div>
-          </div>
-        ))}
-        {byDay.length === 0 && (
-          <p className="text-center py-10 text-zinc-500 font-mono text-sm">Sem jogos nesta jornada.</p>
-        )}
-      </div>
+          ))}
+          {byDay.length === 0 && (
+            <p className="text-center py-10 text-zinc-500 font-mono text-sm">Sem jogos nesta jornada.</p>
+          )}
+        </div>
+      )}
 
       {/* Últimos vídeos */}
       <div>

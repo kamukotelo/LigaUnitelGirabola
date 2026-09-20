@@ -67,6 +67,8 @@ export interface Match {
   score?: string; // e.g. "2-1" or undefined if scheduled
   halfTimeScore?: string; // resultado oficial ao intervalo, quando recebido
   date: string;
+  /** Jogo oficialmente adiado, ainda sem nova data confirmada. */
+  postponed?: boolean;
   /** Só datas oficiais podem ser apresentadas ao público como confirmadas. */
   scheduleStatus?: 'official' | 'provisional';
   stadium: string;
@@ -143,6 +145,7 @@ export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
     return normalizeMatchOverride({
       ...match,
       date: schedule.date,
+      postponed: schedule.postponed,
       stadium: schedule.stadium,
       scheduleStatus: schedule.scheduleStatus,
       broadcaster: schedule.broadcaster,
@@ -2221,6 +2224,60 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'comunicado-oficial-010-dce-ancaf-2026',
+    title: 'Sagrada Esperança–Petro de Luanda adiado para 4 de novembro',
+    category: 'Comunicado Oficial',
+    date: '19 set. 2026',
+    isoDate: '2026-09-19',
+    summary: 'A ANCAF adiou o jogo entre o Sagrada Esperança e o Petro de Luanda, previsto para 20 de setembro, por sete jogadores do Petro estarem convocados para a Seleção Nacional. A partida foi remarcada para 4 de novembro, no mesmo estádio e à mesma hora, e os bilhetes mantêm-se válidos.',
+    content: 'A Direção de Competições da ANCAF informou que a partida entre o Sagrada Esperança e o Petro de Luanda, originalmente agendada para 20 de setembro de 2026, às 15h30, foi adiada. Em conformidade com o Comunicado Oficial n.º 008-DCE/ANCAF/2026 e com o artigo 38.º do Regulamento de Competições, a decisão atende à comunicação da Federação Angolana de Futebol segundo a qual sete jogadores do Petro de Luanda integram a convocatória da Seleção Nacional para os jogos frente ao Egito, a 25 de setembro, e ao Malawi, a 6 de outubro.\n\nEm coordenação com as direções dos dois clubes e com a equipa de arbitragem, a ANCAF suspendeu a partida e, após a apresentação dos documentos oficiais comprovativos, remarcou o jogo para 4 de novembro de 2026, no mesmo estádio e no mesmo horário.\n\nTodos os bilhetes adquiridos mantêm-se válidos para a nova data. A ANCAF lamentou os inconvenientes causados e reiterou que a segurança de todos os intervenientes no futebol nacional permanece uma prioridade absoluta. Em anexo segue a convocatória da FAF dirigida ao Petro de Luanda (ref.ª 1225/DSN-FAF/2026), que chama Hugo Marques, Adilson da Cruz, Joaquim Balanga, Núrio Fortuna, Eddie Afonso, Mário Balbúrdia e Laurindo Aurélio, com concentração marcada para 21 de setembro, em Casablanca.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-09-19T19:00:00+01:00',
+    documentImages: ['/comunicados/comunicado-010-2026/pagina-1.png'],
+    documentUrl: '/comunicados/comunicado-010-2026/comunicado-010-dce-ancaf-2026.pdf',
+    annexTitle: 'Anexo · Convocatória da FAF ao Petro de Luanda',
+    annexImages: ['/comunicados/comunicado-010-2026/anexo-pagina-1.jpg'],
+    annexUrl: '/comunicados/comunicado-010-2026/anexo-convocatoria-faf-petro-de-luanda.pdf',
+  },
+  {
+    id: 'comunicado-oficial-009-dce-ancaf-2026',
+    title: 'Estrela 1.º de Maio–CD Lunda Sul remarcado para 21 de setembro',
+    category: 'Comunicado Oficial',
+    date: '19 set. 2026',
+    isoDate: '2026-09-19',
+    summary: 'A ANCAF adiou por motivo de força maior o jogo entre o Estrela 1.º de Maio e o CD Lunda Sul. A partida foi remarcada para o dia seguinte, no mesmo estádio e à mesma hora, mantendo-se válidos todos os bilhetes adquiridos.',
+    content: 'A Direção de Competições da ANCAF informou que a partida entre o Estrela 1.º de Maio e o CD Lunda Sul, inicialmente agendada para 20 de setembro de 2026, às 15h30, foi adiada por motivo de força maior. Uma avaria mecânica imprevista na aeronave do patrocinador oficial CATOCA, atestada pela operadora de aviação AIRJET, inviabilizou o transporte aéreo da delegação do CD Lunda Sul para a Catumbela na data prevista. Por precaução, o clube decidiu realizar a deslocação por via terrestre.\n\nEm coordenação com as direções dos dois clubes e com a equipa de arbitragem, a ANCAF suspendeu a partida e, após a apresentação dos documentos oficiais comprovativos e ao abrigo do n.º 1 do artigo 37.º do Regulamento de Competições, remarcou o jogo para 21 de setembro de 2026, no mesmo estádio e no mesmo horário.\n\nTodos os bilhetes adquiridos mantêm-se válidos para a nova data. A ANCAF lamentou os inconvenientes causados e reiterou que a segurança de todos os intervenientes no futebol nacional permanece uma prioridade absoluta.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-09-19T13:03:00+01:00',
+    documentImages: ['/comunicados/comunicado-009-2026/pagina-1.png'],
+    documentUrl: '/comunicados/comunicado-009-2026/comunicado-009-dce-ancaf-2026.pdf',
+  },
+  {
+    id: 'comunicado-oficial-008-dce-ancaf-2026',
+    title: 'ANCAF define condições para o adiamento de jogos',
+    category: 'Comunicado Oficial',
+    date: '18 set. 2026',
+    isoDate: '2026-09-18',
+    summary: 'Os pedidos de adiamento previstos regulamentarmente, nomeadamente por datas FIFA e CAF, devem ser devidamente justificados e os jogos realizados dentro do mesmo período, respeitando o calendário anual da Liga Unitel Girabola.',
+    content: 'A Direção de Competições da ANCAF informou os clubes, adeptos, órgãos de comunicação social e demais interessados de que os jogos passíveis de adiamento, nos casos previstos regulamentarmente — incluindo datas FIFA e CAF — deverão ser devidamente justificados e realizados dentro do mesmo período. A medida deve respeitar o calendário anual da Liga Unitel Girabola e os períodos definidos após a 5.ª, 10.ª, 15.ª e 23.ª jornadas, permanecendo por decidir as datas da Taça de Angola, organizada pela Federação Angolana de Futebol.\n\nSegundo a ANCAF, a decisão procura salvaguardar os interesses do futebol angolano e reconhecer o contributo dos clubes que cedem atletas à Seleção Nacional. A associação assinala que algumas jornadas podem coincidir com a deslocação da seleção para estágios de preparação e compromissos internacionais.\n\nA ANCAF considera que o sucesso da Seleção Nacional é um objetivo coletivo e que esta medida permite aos jogadores convocados integrarem os trabalhos da equipa nacional em condições adequadas. O calendário anual da época 2026/2027, que enquadra os períodos referidos, acompanha o comunicado como documento anexo.',
+    status: 'published',
+    author: 'Direção de Competições da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-09-18T18:00:00+01:00',
+    documentImages: ['/comunicados/comunicado-008-2026/pagina-1.png'],
+    documentUrl: '/comunicados/comunicado-008-2026/comunicado-008-dce-ancaf-2026.pdf',
+    annexTitle: 'Anexo · Calendário da Liga Unitel Girabola 2026–2027',
+    annexImages: ['/comunicados/comunicado-008-2026/anexo-calendario-2026-2027.png'],
+    annexUrl: '/comunicados/comunicado-008-2026/anexo-calendario-liga-unitel-girabola-2026-2027.pdf',
+  },
+  {
     id: 'comunicado-oficial-007-dce-ancaf-2026',
     title: 'Adiamento do São Salvador do Kongo–Petro de Luanda',
     category: 'Comunicado Oficial',
@@ -4054,35 +4111,43 @@ export function getMatchDetail(match: Match): MatchDetail {
 // competição, para que os mesmos dados apareçam de forma consistente em todo
 // o site. Valores da BD (Match.referee/broadcaster) têm sempre prioridade.
 
+/**
+ * Delegado / Comissário de jogo.
+ * BLOQUEIO PERMANENTE: O campo commissioner é SEMPRE omitido nas páginas
+ * públicas do site, independentemente da fonte (FCMS, BD, ficheiros de jogo,
+ * overrides de admin). Qualquer dado recebido é descartado em getMatchOfficials().
+ */
 export interface MatchOfficials {
   referee: string;
   assistants: [string, string];
   fourth: string;
-  /** Delegado de jogo (comissário na ficha FCMS). Nas páginas públicas o rótulo é sempre "Delegado". */
-  commissioner?: string;
+  // commissioner foi deliberadamente removido desta interface pública.
+  // O dado existe internamente mas nunca deve ser exposto ao utilizador final.
 }
 
 export function getMatchOfficials(match: Match): MatchOfficials {
   const ov = RUNTIME_OVERRIDES.nominations?.[match.id];
   const defined = (value?: string) => value?.trim() || 'A definir';
   const recordOfficials = MATCH_RECORD_BY_ID.get(match.id)?.officials;
-  const publishedByMatch: Readonly<Record<string, MatchOfficials>> = recordOfficials
+
+  // Tipo interno — inclui commissioner para leitura dos ficheiros de jogo,
+  // mas o campo é descartado antes de ser retornado publicamente.
+  type InternalOfficials = { referee: string; assistants: [string, string]; fourth: string; commissioner?: string };
+
+  const publishedByMatch: Readonly<Record<string, InternalOfficials>> = recordOfficials
     ? {
       [match.id]: {
         referee: recordOfficials.referee ?? '',
         assistants: recordOfficials.assistants ?? ['', ''],
         fourth: recordOfficials.fourth ?? '',
-        commissioner: recordOfficials.commissioner,
+        commissioner: recordOfficials.commissioner, // lido internamente, descartado no return
       },
     }
     : {};
   // Prioridade: override publicado no admin → BD (ancaf_referee_nominations)
   // → tabela publicada em código → campo Match.referee.
-  const db = RUNTIME_DATA.nominations?.[match.id];
+  const db = RUNTIME_DATA.nominations?.[match.id] as InternalOfficials | undefined;
   const published = db ?? publishedByMatch[match.id];
-  // O comissário só vive na tabela publicada em código (a BD ainda não o guarda),
-  // por isso completa-o mesmo quando a nomeação vem da BD.
-  const commissioner = ov?.commissioner ?? published?.commissioner ?? publishedByMatch[match.id]?.commissioner;
 
   return {
     referee: defined(ov?.referee ?? match.referee ?? published?.referee),
@@ -4091,7 +4156,8 @@ export function getMatchOfficials(match: Match): MatchOfficials {
       defined(ov?.assistants?.[1] ?? published?.assistants[1]),
     ],
     fourth: defined(ov?.fourth ?? published?.fourth),
-    commissioner: commissioner?.trim() || undefined,
+    // commissioner é SEMPRE omitido do retorno público — bloqueio na camada de dados.
+    // Não adicionar aqui independentemente do que vier do FCMS, BD ou ficheiros.
   };
 }
 
@@ -4424,9 +4490,33 @@ export interface VideoHighlight {
   thumbnail: string;
   videoUrl: string;
   isLive?: boolean;
+  description?: string;
+  featured?: boolean;
 }
 
 export const videoHighlightsMock: VideoHighlight[] = [
+  {
+    id: 'sorteio-girabola-gala-2026',
+    title: 'Sorteio Oficial do Calendário & 1.ª Gala de Premiação — Liga Unitel Girabola',
+    duration: 'Especial Gala',
+    views: '24.8K visualizações',
+    category: 'Gala Oficial',
+    thumbnail: 'https://i.ytimg.com/vi/oUla8ksfQIg/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/oUla8ksfQIg?autoplay=1',
+    description: 'Cerimónia oficial nos ZAP Estúdios em Luanda com a revelação dos premiados da época anterior e o emparceiramento oficial de todas as jornadas da Liga Unitel Girabola.',
+    featured: true,
+  },
+  {
+    id: 'gala-melhores-zap',
+    title: 'Gala Girabola: Os Melhores do Futebol Angolano',
+    duration: '02:45',
+    views: '16.2K visualizações',
+    category: 'Gala Oficial',
+    thumbnail: 'https://i.ytimg.com/vi/2ANl6JA2PVs/hqdefault.jpg',
+    videoUrl: 'https://www.youtube.com/embed/2ANl6JA2PVs?autoplay=1',
+    description: 'Resumo dos melhores momentos da grande gala do futebol nacional, homenageando os craques, técnicos e clubes do campeonato.',
+    featured: false,
+  },
   {
     id: 'live-1',
     title: 'Arquivo: Petro de Luanda vs 1.º de Agosto — Girabola 2025/26',
@@ -4466,5 +4556,13 @@ export const videoHighlightsMock: VideoHighlight[] = [
 ];
 
 export function getVideoHighlights(): VideoHighlight[] {
-  return RUNTIME_DATA.videos ?? videoHighlightsMock;
+  const dbVideos = RUNTIME_DATA.videos;
+  if (!dbVideos || dbVideos.length === 0) {
+    return videoHighlightsMock;
+  }
+  const galaVideos = videoHighlightsMock.filter((v) => v.id.startsWith('sorteio-') || v.id.startsWith('gala-'));
+  const remainingDbVideos = dbVideos.filter(
+    (v) => !galaVideos.some((gv) => gv.id === v.id) && v.id !== 'live-1',
+  );
+  return [...galaVideos, ...remainingDbVideos];
 }

@@ -1,6 +1,4 @@
 // 5.ª jornada · CD 1.º de Agosto–FC Luanda
-// 5.ª jornada · 19/09/2026 · CD 1.º de Agosto 3-2 FC Luanda (resultado final; ficha oficial por confirmar)
-// «Gelson Cabeto» na fonte: único Gelson inscrito pelo FC Luanda (nº 8, Gelson dos Santos André).
 import { defineMatch } from '../tipos';
 
 export default defineMatch({
@@ -9,12 +7,69 @@ export default defineMatch({
   homeTeamId: 'dago',
   awayTeamId: 'fcluanda',
   schedule: { date: '2026-09-19T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports' },
-  result: { status: 'finished', homeScore: 3, awayScore: 2, halfTimeScore: '0-1', updatedAt: '2026-09-20T17:55:00+01:00' },
+  result: { status: 'finished', homeScore: 3, awayScore: 2, halfTimeScore: '0-1', updatedAt: '2026-09-19T18:47:00+01:00' },
+  officials: {
+    referee: 'Ailton Jeovane Quissanga Carmelino',
+    assistants: ['Evanildo Gaspar dos Santos Martins', 'Pedro Domingos de Andrade Micolo'],
+    fourth: 'Alberto Henrique F. Bartolomeu',
+  },
+  lineups: {
+    home: [
+      { name: 'Anselmo', number: 22, position: 'GK', isStarter: true, playerId: 'anselmo-dago' },
+      { name: 'Bonifácio', number: 5, position: 'DEF', isStarter: true, playerId: 'bonifacio-dago' },
+      { name: 'Milton', number: 2, position: 'DEF', isStarter: true, playerId: 'milton-dago' },
+      { name: 'Simao Dianzenza', number: 3, position: 'DEF', isStarter: true, playerId: 'simao-dianzenza' },
+      { name: 'Axel', number: 8, position: 'FWD', isStarter: true, playerId: 'axel-dago' },
+      { name: 'Calebi', number: 10, position: 'MID', isStarter: true, playerId: 'calebi-dago' },
+      { name: 'Fernando', number: 11, position: 'FWD', isStarter: true, playerId: 'fernando-dago' },
+      { name: 'Venâncio', number: 15, position: 'MID', isStarter: true, playerId: 'venancio-dago' },
+      { name: 'Macaia', number: 16, position: 'DEF', isStarter: true, playerId: 'macaia-dago' },
+      { name: 'Dagó Tshibamba', number: 17, position: 'FWD', isStarter: true, playerId: 'dago-tshibamba' },
+      { name: 'Bulaya', number: 28, position: 'DEF', isStarter: true, playerId: 'bulaya-dago' },
+      { name: 'Fernando Lopes de Almeida', number: 1, isStarter: false },
+      { name: 'Bruno', number: 6, position: 'FWD', isStarter: false, playerId: 'bruno-dago' },
+      { name: 'Florindo Machado', number: 9, isStarter: false },
+      { name: 'Clíver', number: 18, position: 'MID', isStarter: false, playerId: 'cliver-dago' },
+      { name: 'Afonso Paxe', number: 19, isStarter: false, playerId: 'fifa-1pxu511' },
+      { name: 'Francisco Carlos Chilumbo', number: 20, isStarter: false },
+      { name: 'Paulo de Sousa Lopes da Costa', number: 21, isStarter: false },
+      { name: 'Luciano dos Santos', number: 25, isStarter: false, playerId: 'fifa-1v12ek6' },
+      { name: 'Amilton Chinote Simba Vicente', number: 30, isStarter: false },
+    ],
+    away: [
+      { name: 'Ludiakueno', number: 12, position: 'GK', isStarter: true, playerId: 'fifa-1l7wk59' },
+      { name: 'Filipe Malanda', number: 17, position: 'DEF', isStarter: true, playerId: 'fifa-1k2wth5' },
+      { name: 'Euclides dos Santos', number: 5, position: 'MID', isStarter: true, playerId: 'fifa-1mtndt1' },
+      { name: 'Gelson André', number: 8, position: 'MID', isStarter: true, playerId: 'fifa-1ljudk2' },
+      { name: 'Francisco', number: 9, position: 'FWD', isStarter: true, playerId: 'fifa-1l11132' },
+      { name: 'Ruben Luwawa', number: 15, position: 'MID', isStarter: true, playerId: 'fifa-1t6b2z2' },
+      { name: 'Arnaldo Dielo', number: 16, position: 'MID', isStarter: true, playerId: 'fifa-1m8xdu3' },
+      { name: 'Miguel Matos', number: 23, position: 'MID', isStarter: true, playerId: 'fifa-1l064e1' },
+      { name: 'Domingos', number: 25, position: 'MID', isStarter: true, playerId: 'fifa-1l08hy2' },
+      { name: 'Celio Nimi', number: 26, position: 'MID', isStarter: true, playerId: 'fifa-1qw3z14' },
+      { name: 'Jaime', number: 30, position: 'MID', isStarter: true, playerId: 'fifa-1qw9vb1' },
+      { name: 'Hamilton', number: 2, position: 'MID', isStarter: false, playerId: 'fifa-1maldz0' },
+      { name: 'Joel Diaku', number: 4, position: 'DEF', isStarter: false, playerId: 'fifa-1qhqn96' },
+      { name: 'Pedro', number: 7, position: 'MID', isStarter: false, playerId: 'fifa-1liwnq8' },
+      { name: 'Denilson', number: 10, position: 'FWD', isStarter: false, playerId: 'fifa-1l7lph0' },
+      { name: 'Domingos', number: 14, position: 'MID', isStarter: false, playerId: 'fifa-1mall47' },
+      { name: 'Gabriel dos Santos Silva Cavalcante', number: 21, isStarter: false },
+      { name: 'Deo', number: 22, position: 'GK', isStarter: false, playerId: 'fifa-1l7w9k9' },
+      { name: 'Batista Kachama', number: 27, position: 'MID', isStarter: false, playerId: 'fifa-1v0ca42' },
+      { name: 'Pedro', number: 28, position: 'DEF', isStarter: false, playerId: 'fifa-1maldr2' },
+    ],
+  },
   events: [
-    { minute: 35, type: 'goal', team: 'away', player: 'Gelson André', number: 8, playerId: 'fifa-1ljudk2', detail: "35' · Grande penalidade (0-1)" },
-    { minute: 52, type: 'goal', team: 'home', player: 'Dagó Tshibamba', number: 17, playerId: 'dago-tshibamba', detail: "52' (1-1)" },
-    { minute: 59, type: 'goal', team: 'home', player: 'Euclides dos Santos', number: 5, playerId: 'fifa-1mtndt1', ownGoal: true, detail: "59' · Autogolo (2-1)" },
-    { minute: 89, type: 'goal', team: 'home', player: 'Dagó Tshibamba', number: 17, playerId: 'dago-tshibamba', detail: "89' · Grande penalidade (3-1)" },
-    { minute: 95, type: 'goal', team: 'away', player: 'Motivado', playerId: 'motivado-fcluanda', detail: "90'+5' (3-2)" },
+    { minute: 35, type: 'goal', team: 'away', player: 'Gelson Cabeto', playerId: 'fifa-1ljudk2', detail: 'Grande penalidade · 0-1' },
+    { minute: 52, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: '1-1' },
+    { minute: 59, type: 'goal', team: 'home', player: 'Euclides dos Santos Ronaldo', number: 5, playerId: 'fifa-1mtndt1', ownGoal: true, detail: 'Autogolo · 2-1' },
+    { minute: 89, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: 'Grande penalidade · 3-1' },
+    // «Motivado» é como a fonte de resultados identifica o autor; não consta da convocatória do relatório.
+    { minute: 95, type: 'goal', team: 'away', player: 'Motivado', detail: "90'+5 · 3-2" },
   ],
+  stats: {
+    home: { corners: 1, yellowCards: 1 },
+    away: { corners: 0, yellowCards: 1 },
+    keys: ['corners', 'yellowCards'],
+  },
 });

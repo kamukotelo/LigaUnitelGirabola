@@ -100,6 +100,7 @@ function getDefaultFilters(seasonId: string): CalendarFilters {
 function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTeamId: string | null }) {
   const isFinished = match.status === 'finished';
   const isLive = match.status === 'live';
+  const isPostponed = match.postponed === true;
   const matchDate = new Date(match.date);
   const formattedTime = matchDate.toLocaleTimeString('pt-AO', {
     hour: '2-digit', minute: '2-digit',
@@ -129,7 +130,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
       className={`group relative z-10 flex flex-col gap-1.5 border-b border-zinc-300/80 px-2.5 py-2.5 transition-all last:border-b-0 ${
         muted ? 'opacity-40 grayscale hover:opacity-80 hover:grayscale-0' : 'hover:bg-orange-50/90'
       }`}
-      title={`${match.homeTeam} — ${match.awayTeam} · ${formattedDay} · ${formattedTime}`}
+      title={`${match.homeTeam} — ${match.awayTeam} · ${isPostponed ? 'Adiado, à espera de data' : `${formattedDay} · ${formattedTime}`}`}
     >
       {/* Colunas fixas para emblemas e resultado: garantem que todas as linhas
           partilham exatamente as mesmas guias verticais, independentemente do
@@ -152,7 +153,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
-        <span className={isLive ? 'text-red-600' : undefined}>{isLive ? `● ${match.liveMinute ?? ''}' · Em direto` : `${formattedDay} · ${formattedTime}`}</span>
+        <span className={isLive ? 'text-red-600' : isPostponed ? 'text-amber-700' : undefined}>{isLive ? `● ${match.liveMinute ?? ''}' · Em direto` : isPostponed ? 'Adiado · À espera de data' : `${formattedDay} · ${formattedTime}`}</span>
         {isClassicMatch(match) && (
           <span className="rounded bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.5 text-[8px] font-extrabold text-amber-700 dark:text-amber-400">
             👑 Clássico

@@ -134,7 +134,8 @@ assert.match(publishedCalendar, /"id": "m27-5-7"[\s\S]*?"date": "2026-09-20T15:0
 // 1.º de Agosto–FC Luanda passa a ZSports e Sagrada–Petro passa a Rádio 5. A Rádio 5 é a
 // transmissão por omissão e não pode ter broadcaster, senão o cartão mostra "Em direto · Rádio 5".
 assert.match(record('m27-5-2'), /date: '2026-09-19T15:30:00\+01:00'[^\n]*broadcaster: 'Zsports'/);
-assert.match(record('m27-5-3'), /date: '2026-09-20T15:30:00\+01:00'/);
+// Comunicado 010-DCE/ANCAF/2026: Sagrada–Petro remarcado para 4 de novembro.
+assert.match(record('m27-5-3'), /date: '2026-11-04T15:30:00\+01:00'/);
 assert.doesNotMatch(record('m27-5-3'), /broadcaster/);
 assert.match(record('m27-5-6'), /date: '2026-09-20T17:15:00\+01:00'[^\n]*broadcaster: 'Zsports'/);
 assert.match(publishedCalendar, /"id": "m27-2-1"[\s\S]*?"homeScore": 1[\s\S]*?"awayScore": 2[\s\S]*?"date": "2026-08-27T16:00:00\+01:00"[\s\S]*?"status": "finished"/);
@@ -205,10 +206,26 @@ for (const official of [
 ]) {
   assert.match(records, new RegExp(official));
 }
-assert.match(data, /commissioner\?: string/);
-// Nas fichas públicas o cargo é sempre "Delegado", nunca "Comissário".
-assert.match(matchDetailClient, /Delegado: \{officials\.commissioner\}/);
-assert.doesNotMatch(matchDetailClient, /Comiss[aá]rio/i);
+// O commissioner existe nos ficheiros internos de jogo (fonte FCMS) — isso é correcto.
+// Mas a interface pública MatchOfficials nunca deve expor o campo.
+assert.doesNotMatch(data, /export interface MatchOfficials[\s\S]{0,300}commissioner\?: string/, 'MatchOfficials não deve expor commissioner publicamente.');
+// Nas páginas públicas o Delegado/Comissário nunca pode aparecer.
+assert.doesNotMatch(matchDetailClient, /Delegado:.*commissioner/, 'Delegado não deve ser renderizado no MatchDetailClient.');
+
+// Segurança do novo Arquivo de Jogo: nunca inventar dados desportivos quando
+// um PDF não é reconhecido, e a ação de pré-visualização não pode publicar.
+const matchFileParser = await readFile(new URL('../src/lib/match-file-parser.ts', import.meta.url), 'utf8');
+const matchFileLoader = await readFile(new URL('../src/components/admin/MatchFileLoaderSection.tsx', import.meta.url), 'utf8');
+const matchFileRoute = await readFile(new URL('../src/app/api/admin/match-file/load/route.ts', import.meta.url), 'utf8');
+assert.doesNotMatch(matchFileParser, /numeroPartida:\s*numeroPartida\s*\|\|\s*32/);
+assert.doesNotMatch(matchFileParser, /eventos\.length\s*>\s*0\s*\?\s*eventos\s*:\s*\[/);
+assert.match(matchFileLoader, /match-file\/load\?preview=1/);
+// A publicação atómica corre na função SQL, via Neon (SQL direto) ou Supabase (rpc).
+assert.match(matchFileRoute, /ancaf_publish_match_file\(|rpc\('ancaf_publish_match_file'/);
+assert.match(matchFileRoute, /fixture_mismatch/);
+assert.match(matchFileRoute, /MAX_FILE_BYTES\s*=\s*10\s*\*\s*1024\s*\*\s*1024/);
+assert.doesNotMatch(adminAuth, /jabulani2026/);
+assert.doesNotMatch(matchDetailClient, /Comiss[aá]rio/i, 'Comissário não deve aparecer no MatchDetailClient.');
 
 // A classificação pública só pode usar resultados finais, e estatísticas
 // individuais não podem recorrer a eventos gerados ou valores estimados.
@@ -290,8 +307,8 @@ assert.match(playerDetail, /hasOfficialAdvancedPlayerMetrics = false/);
 
 // O login administrativo deve identificar cada pessoa, validar o perfil no
 // servidor e emitir uma sessão assinada e limitada no tempo.
-assert.match(adminAuth, /signInWithPassword/);
-assert.match(adminAuth, /profile\?\.role !== 'admin'/);
+assert.match(adminAuth, /password_hash = crypt\(\$2, password_hash\)/);
+assert.match(adminAuth, /profile\.role !== 'admin'/);
 assert.match(adminAuth, /expiresAt/);
 assert.match(adminAuth, /faf-session-v3/);
 assert.match(adminLogin, /authenticateAdminUser\(body\.email, body\.password\)/);
