@@ -1,5 +1,5 @@
 // 5.ª jornada · Wiliete de Benguela–Recreativo do Libolo
-// 5.ª jornada · 20/09/2026 · Wiliete 5-0 Libolo aos 90'+6 (jogo a decorrer)
+// 5.ª jornada · 20/09/2026 · Wiliete de Benguela 5-0 Recreativo do Libolo (resultado final)
 import { defineMatch } from '../tipos';
 
 export default defineMatch({
@@ -8,7 +8,7 @@ export default defineMatch({
   homeTeamId: 'wiliete',
   awayTeamId: 'libolo',
   schedule: { date: '2026-09-20T17:15:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', broadcaster: 'Zsports' },
-  result: { status: 'live', homeScore: 5, awayScore: 0, halfTimeScore: '1-0', liveMinute: 96, updatedAt: '2026-09-20T18:25:00+01:00' },
+  result: { status: 'finished', homeScore: 5, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-09-20T19:16:00+01:00' },
   // Relatório do Árbitro n.º 38 (20/09/2026).
   officials: {
     referee: 'Paulo Sérgio Moreira',
