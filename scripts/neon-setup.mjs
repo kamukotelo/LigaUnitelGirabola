@@ -16,6 +16,7 @@ const files = [
   ['002_seed', resolve(root, 'db/002_seed.sql')],
   ['003_match_file_intervenients', resolve(root, 'supabase/migrations/20260919000000_match_file_intervenients.sql')],
   ['004_atomic_match_file_publish', resolve(root, 'supabase/migrations/20260919001000_atomic_match_file_publish.sql')],
+  ['005_admin_password_resets', resolve(root, 'supabase/migrations/20260920000000_admin_password_resets.sql')],
 ];
 
 const pool = new Pool({ connectionString, max: 1 });

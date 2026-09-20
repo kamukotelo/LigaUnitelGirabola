@@ -123,6 +123,115 @@ export async function changeAdminPassword(
   }
 }
 
+/** Validade de um link de recuperação enviado por e-mail. */
+export const PASSWORD_RESET_TTL_SECONDS = 60 * 60;
+
+function hashResetToken(token: string): string {
+  return crypto.createHash('sha256').update(token).digest('hex');
+}
+
+/**
+ * Emite um pedido de recuperação para um administrador. O token só é
+ * devolvido aqui (para seguir por e-mail); na base de dados fica apenas o
+ * SHA-256. Pedidos anteriores por usar são invalidados.
+ *
+ * Devolve `null` quando a conta não existe ou não é administrativa — quem
+ * chama deve responder de forma genérica, para não revelar se o e-mail está
+ * registado.
+ */
+export async function createPasswordReset(
+  email: string,
+): Promise<{ token: string; email: string; name: string } | null> {
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!normalizedEmail || !isNeonConfigured()) return null;
+
+  const token = crypto.randomBytes(32).toString('base64url');
+  try {
+    const rows = await getNeonSql().query(
+      `with alvo as (
+         select email, full_name from public.ancaf_profiles
+          where email = $1 and role = 'admin'
+       ), invalidados as (
+         update public.ancaf_password_resets r
+            set used_at = timezone('utc', now())
+           from alvo a
+          where r.email = a.email and r.used_at is null
+       ), novo as (
+         insert into public.ancaf_password_resets (email, token_hash, expires_at)
+         select a.email, $2, timezone('utc', now()) + make_interval(secs => $3::int)
+           from alvo a
+         returning email
+       )
+       select n.email, a.full_name
+         from novo n join alvo a on a.email = n.email`,
+      [normalizedEmail, hashResetToken(token), PASSWORD_RESET_TTL_SECONDS],
+    ) as Array<{ email: string; full_name: string | null }>;
+    const row = rows[0];
+    if (!row) return null;
+    return { token, email: row.email, name: row.full_name?.trim() || row.email };
+  } catch {
+    return null;
+  }
+}
+
+/** Diz se um link de recuperação ainda serve, sem o gastar. */
+export async function isPasswordResetTokenValid(token: string): Promise<boolean> {
+  if (!token || !isNeonConfigured()) return false;
+  try {
+    const rows = await getNeonSql().query(
+      `select 1 from public.ancaf_password_resets
+        where token_hash = $1 and used_at is null
+          and expires_at > timezone('utc', now())
+        limit 1`,
+      [hashResetToken(token)],
+    ) as Array<unknown>;
+    return rows.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Gasta um link de recuperação e define a palavra-passe nova. O token é
+ * marcado como usado e a senha trocada na mesma instrução, para que um
+ * pedido repetido não possa reutilizar o link.
+ */
+export async function consumePasswordReset(
+  token: string,
+  newPassword: string,
+): Promise<{ ok: true; email: string } | { ok: false; error: 'server_misconfigured' | 'invalid_token' | 'update_failed' }> {
+  if (!isNeonConfigured()) return { ok: false, error: 'server_misconfigured' };
+  if (!token) return { ok: false, error: 'invalid_token' };
+  try {
+    const rows = await getNeonSql().query(
+      `with valido as (
+         select id, email from public.ancaf_password_resets
+          where token_hash = $1 and used_at is null
+            and expires_at > timezone('utc', now())
+          limit 1
+       ), gasto as (
+         update public.ancaf_password_resets r
+            set used_at = timezone('utc', now())
+           from valido v
+          where r.id = v.id
+         returning v.email
+       )
+       update public.ancaf_profiles p
+          set password_hash = crypt($2, gen_salt('bf', 12)),
+              must_change_password = false,
+              password_changed_at = timezone('utc', now())
+         from gasto g
+        where p.email = g.email
+       returning p.email`,
+      [hashResetToken(token), newPassword],
+    ) as Array<{ email: string }>;
+    const row = rows[0];
+    return row ? { ok: true, email: row.email } : { ok: false, error: 'invalid_token' };
+  } catch {
+    return { ok: false, error: 'update_failed' };
+  }
+}
+
 export function getAdminSession(token: string | undefined | null): AdminSession | null {
   if (!token) return null;
   if (token.startsWith('v3.')) {

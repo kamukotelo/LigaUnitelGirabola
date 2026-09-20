@@ -156,7 +156,9 @@ export default function LoginPage() {
             {recoveryMode ? 'Recuperar palavra-passe' : 'Iniciar Sessão'}
           </h1>
           <p className="mt-2 text-xs text-zinc-500 font-mono uppercase tracking-widest">
-            Acesso reservado aos representantes oficiais
+            {recoveryMode
+              ? 'Enviamos-lhe um link para definir uma nova'
+              : 'Acesso reservado aos representantes oficiais'}
           </p>
         </div>
 
@@ -257,7 +259,7 @@ export default function LoginPage() {
                   {loading ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>Autenticando...</span>
+                      <span>{recoveryMode ? 'A enviar...' : 'Autenticando...'}</span>
                     </>
                   ) : (
                     <>
@@ -267,6 +269,13 @@ export default function LoginPage() {
                   )}
                 </button>
 
+                <div className="relative pt-1">
+                  <div className="absolute inset-x-0 top-1/2 h-px bg-zinc-200 dark:bg-zinc-800" aria-hidden="true" />
+                  <span className="relative mx-auto block w-fit bg-white/60 dark:bg-zinc-950/60 px-3 text-[10px] font-mono uppercase tracking-widest text-zinc-400">
+                    ou
+                  </span>
+                </div>
+
                 <button
                   type="button"
                   onClick={() => {
@@ -275,9 +284,10 @@ export default function LoginPage() {
                     setError('');
                     setPassword('');
                   }}
-                  className="w-full text-xs font-mono text-accent hover:underline"
+                  className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl border border-zinc-300 dark:border-zinc-700 text-sm font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 hover:border-accent hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all cursor-pointer select-none active:scale-[0.98] duration-150"
                 >
-                  {recoveryMode ? 'Voltar ao início de sessão' : 'Esqueci a palavra-passe'}
+                  {recoveryMode ? <ArrowLeft size={15} /> : <KeyRound size={15} />}
+                  <span>{recoveryMode ? 'Voltar ao início de sessão' : 'Recuperar palavra-passe'}</span>
                 </button>
               </motion.form>
             ) : (

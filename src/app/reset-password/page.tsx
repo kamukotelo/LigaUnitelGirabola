@@ -1,56 +1,76 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, KeyRound, Loader2, ShieldCheck } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { MIN_PASSWORD_LENGTH, validateNewPassword } from '@/lib/password-policy';
 
-const MIN_LENGTH = 10;
-
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
+  const token = useSearchParams().get('token') ?? '';
   const [password, setPassword] = useState('');
   const [confirmation, setConfirmation] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [status, setStatus] = useState<'checking' | 'ready' | 'invalid'>(token ? 'checking' : 'invalid');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
+  // Confirma a validade do link antes de pedir a palavra-passe, para não
+  // desperdiçar o esforço de quem chega com um link já expirado.
   useEffect(() => {
+    if (!token) return;
     let active = true;
-    supabase.auth.getSession().then(({ data }) => {
-      if (active) setReady(Boolean(data.session));
-    });
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (active && (event === 'PASSWORD_RECOVERY' || session)) setReady(true);
-    });
+    fetch('/api/admin/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (active) setStatus(data?.valid ? 'ready' : 'invalid');
+      })
+      .catch(() => {
+        if (active) setStatus('invalid');
+      });
     return () => {
       active = false;
-      listener.subscription.unsubscribe();
     };
-  }, []);
+  }, [token]);
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError('');
-    if (password.length < MIN_LENGTH) {
-      setError(`A palavra-passe deve ter pelo menos ${MIN_LENGTH} caracteres.`);
+
+    const policyError = validateNewPassword(password);
+    if (policyError) {
+      setError(policyError);
       return;
     }
     if (password !== confirmation) {
       setError('As palavras-passe não coincidem.');
       return;
     }
+
     setLoading(true);
-    const { error: updateError } = await supabase.auth.updateUser({ password });
-    if (updateError) {
-      setError('O link expirou ou não foi possível atualizar a palavra-passe. Solicite um novo link.');
+    try {
+      const res = await fetch('/api/admin/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, newPassword: password }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        setError(data?.message ?? 'Não foi possível atualizar a palavra-passe.');
+        if (data?.error === 'invalid_token') setStatus('invalid');
+        return;
+      }
+      setSuccess(true);
+    } catch {
+      setError('Falha de ligação ao servidor.');
+    } finally {
       setLoading(false);
-      return;
     }
-    await supabase.auth.signOut();
-    setSuccess(true);
-    setLoading(false);
   };
 
   return (
@@ -73,9 +93,14 @@ export default function ResetPasswordPage() {
               Iniciar sessão
             </Link>
           </div>
-        ) : !ready ? (
+        ) : status === 'checking' ? (
+          <div className="flex items-center justify-center gap-2 py-6 text-sm text-zinc-500">
+            <Loader2 size={16} className="animate-spin" />
+            A validar o link…
+          </div>
+        ) : status === 'invalid' ? (
           <div className="space-y-4 text-center">
-            <p className="text-sm text-zinc-500">O link de recuperação é inválido ou expirou.</p>
+            <p className="text-sm text-zinc-500">O link de recuperação é inválido, já foi usado ou expirou.</p>
             <Link href="/login" className="text-sm text-accent hover:underline">Solicitar um novo link</Link>
           </div>
         ) : (
@@ -89,14 +114,14 @@ export default function ResetPasswordPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="new-password"
                   required
-                  minLength={MIN_LENGTH}
+                  minLength={MIN_PASSWORD_LENGTH}
                   className="w-full rounded-xl border border-zinc-200 bg-white/60 px-4 py-3 pr-12 text-sm text-foreground outline-none focus:border-accent dark:border-zinc-800 dark:bg-zinc-900/60"
                 />
                 <button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? 'Ocultar palavra-passe' : 'Mostrar palavra-passe'} className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-foreground">
                   {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
                 </button>
               </div>
-              <span className="mt-1 block text-[10px] text-zinc-500">Mínimo de {MIN_LENGTH} caracteres.</span>
+              <span className="mt-1 block text-[10px] text-zinc-500">Mínimo de {MIN_PASSWORD_LENGTH} caracteres.</span>
             </label>
 
             <label className="block">
@@ -114,5 +139,13 @@ export default function ResetPasswordPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen bg-background" />}>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

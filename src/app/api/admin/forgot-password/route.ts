@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createPasswordReset, PASSWORD_RESET_TTL_SECONDS } from '@/lib/admin-auth';
+import { isAdminMailConfigured, sendPasswordResetEmail } from '@/lib/admin-mail';
 import { checkRateLimit, isSameOriginRequest } from '@/lib/request-security';
 
+// POST /api/admin/forgot-password — emite um link de recuperação e envia-o
+// por e-mail. A resposta é sempre genérica: não revela se a conta existe.
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
@@ -29,15 +32,31 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'bad_request', message: 'Introduza um e-mail válido.' }, { status: 400 });
   }
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  if (!url || !key) {
-    return NextResponse.json({ error: 'server_misconfigured', message: 'Recuperação indisponível.' }, { status: 503 });
+  // Indisponibilidade do serviço de e-mail não revela nada sobre a conta, por
+  // isso pode ser dita ao utilizador — poupa-lhe a espera por um e-mail que
+  // nunca chegaria.
+  if (!isAdminMailConfigured()) {
+    return NextResponse.json(
+      { error: 'server_misconfigured', message: 'A recuperação por e-mail não está configurada. Contacte a administração.' },
+      { status: 503 },
+    );
   }
 
-  const origin = new URL(request.url).origin;
-  const authClient = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
-  await authClient.auth.resetPasswordForEmail(email, { redirectTo: `${origin}/reset-password` });
+  const reset = await createPasswordReset(email);
+  if (reset) {
+    const origin = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || new URL(request.url).origin;
+    const link = `${origin}/reset-password?token=${encodeURIComponent(reset.token)}`;
+    const sent = await sendPasswordResetEmail(
+      reset.email,
+      reset.name,
+      link,
+      Math.round(PASSWORD_RESET_TTL_SECONDS / 60),
+    );
+    if (!sent.ok) {
+      // Só o servidor fica a saber; ao cliente responde-se como nos restantes casos.
+      console.error('[forgot-password] envio falhou:', sent.reason);
+    }
+  }
 
   // Resposta deliberadamente genérica: não revela se a conta existe.
   return NextResponse.json({ ok: true });

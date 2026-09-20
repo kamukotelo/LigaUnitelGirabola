@@ -11,6 +11,8 @@
     "supabase:verify": "node scripts/verify-supabase.mjs",
     "neon:setup": "node scripts/neon-setup.mjs",
     "neon:verify": "node scripts/verify-neon.mjs",
+    "admins": "node --env-file=.env scripts/create-ancaf-admins.mjs",
+    "admins:reset": "node --env-file=.env scripts/create-ancaf-admins.mjs --reset",
     "db:seed:generate": "tsx scripts/generate-db-seed.mts",
     "test:regressions": "node scripts/test-portal-regressions.mjs && tsx scripts/test-team-crests.mts && tsx scripts/test-match-records.mts",
     "test:fcms": "tsx scripts/test-fcms-sync.ts",
