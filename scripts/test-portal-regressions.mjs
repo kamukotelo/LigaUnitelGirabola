@@ -267,6 +267,11 @@ assert.match(estatisticasTab, /getSeasonResultsUpdatedAt\(seasonId\)/);
 assert.match(classificacaoTab, /getSeasonResultsUpdatedAt\(seasonId\)/);
 assert.match(data, /function collectEligibleMatchSides/);
 assert.match(advancedStatistics, /playerRates = isCurrent[\s\S]{0,160}getCurrentSeasonPer90\(\)/);
+// Num autogolo, `team` é a equipa beneficiada e o autor está na escalação
+// adversária: conciliar pela camisola no índice da equipa beneficiada mostrava
+// na ficha o nome de quem veste esse número no outro clube.
+assert.match(data, /const index = event\.ownGoal \? \(event\.team === 'home' \? away : home\) : teamIndex;/);
+
 // O rácio por 90' exige um mínimo de minutos: sem ele, um suplente com um golo
 // em 45 minutos liderava a tabela à frente de quem marca todas as jornadas.
 assert.match(advancedStatistics, /const PER90_MIN_MINUTES = \d+;/);
@@ -305,7 +310,7 @@ assert.match(estatisticasTab, /filter\(\(gk\) => gk\.cleanSheets > 0\)/);
 assert.match(estatisticasTab, /HISTORICAL_DISCIPLINE_2025_26/);
 assert.match(seasonComparisonMatrix, /HISTORICAL_DISCIPLINE_2025_26/);
 assert.doesNotMatch(advancedStatistics, /getCurrentSeasonMinutesPlayed/);
-assert.match(data, /const leaving = event\.playerOut \? lookupLineupName\(index, event\.playerOut\) : undefined;/);
+assert.match(data, /const leaving = event\.playerOut \? lookupLineupName\(teamIndex, event\.playerOut\) : undefined;/);
 assert.doesNotMatch(data, /publishedLineups\?\.home \?\? buildLineup/);
 assert.doesNotMatch(data, /homeScorers = pickScorers/);
 assert.match(advancedStatistics, /referee === 'A definir'/);

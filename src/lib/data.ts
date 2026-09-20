@@ -3357,7 +3357,11 @@ function lookupLineupName(index: LineupNameIndex, value: string | undefined): Li
 
 function reconcileMatchEvents(events: MatchEventDetail[], home: LineupNameIndex, away: LineupNameIndex): MatchEventDetail[] {
   return events.map((event) => {
-    const index = event.team === 'home' ? home : away;
+    const teamIndex = event.team === 'home' ? home : away;
+    // Num autogolo, `team` é a equipa beneficiada e o autor está na escalação
+    // adversária: conciliar pela camisola no índice da equipa beneficiada dava
+    // o nome de quem veste esse número no outro clube.
+    const index = event.ownGoal ? (event.team === 'home' ? away : home) : teamIndex;
     const byId = event.playerId
       ? [...index.values()].find((slot) => slot.playerId === event.playerId)
       : undefined;
@@ -3367,7 +3371,7 @@ function reconcileMatchEvents(events: MatchEventDetail[], home: LineupNameIndex,
     const player = byShirt ?? byId ?? lookupLineupName(index, event.player);
     // O atleta substituído também é conciliado, para a ficha e os minutos em
     // campo usarem sempre o mesmo nome da escalação.
-    const leaving = event.playerOut ? lookupLineupName(index, event.playerOut) : undefined;
+    const leaving = event.playerOut ? lookupLineupName(teamIndex, event.playerOut) : undefined;
     const withOut = leaving ? { ...event, playerOut: leaving.name } : event;
     return player
       ? { ...withOut, player: player.name, playerId: player.playerId, number: player.number }
