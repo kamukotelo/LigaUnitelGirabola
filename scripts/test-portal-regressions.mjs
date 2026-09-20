@@ -279,9 +279,15 @@ assert.match(data, /export function buildOfficialNameCanonicalizer/);
 // comparador entre temporadas — não apenas os rankings individuais.
 assert.match(advancedStatistics, /teamId\?: string/);
 assert.match(estatisticasTab, /<AdvancedStatistics seasonId=\{seasonId\} teamId=/);
-assert.match(estatisticasTab, /<SeasonComparisonMatrix clubFilter=\{activeTeam\} \/>/);
-assert.match(seasonComparisonMatrix, /clubFilter = 'all' \}: \{ clubFilter\?: string \}/);
+assert.match(estatisticasTab, /<SeasonComparisonMatrix clubFilter=\{activeTeam\} seasonId=\{seasonId\} \/>/);
+assert.match(seasonComparisonMatrix, /clubFilter\?: string; seasonId\?: string/);
 assert.doesNotMatch(seasonComparisonMatrix, /setClubFilter/);
+// A época escolhida no seletor do hub manda em toda a página de estatísticas,
+// incluindo o comparador: ele não tem seletor próprio e, sem escolha, abre na
+// época atual — nunca com a época de arquivo em destaque.
+assert.doesNotMatch(seasonComparisonMatrix, /setSeasonId|setFocusSeason/);
+assert.match(seasonComparisonMatrix, /seasonId = CURRENT_SEASON_ID/);
+assert.match(seasonComparisonMatrix, /const focusIsCurrent = seasonId !== BASELINE_SEASON_ID/);
 // O seletor de clubes lista apenas quem disputa a época escolhida: getAllTeams()
 // devolve também promovidos e emblemas históricos de outras edições.
 assert.match(data, /export function getSeasonTeams/);

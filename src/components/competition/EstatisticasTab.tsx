@@ -408,7 +408,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       </div>
 
       {/* Módulo Comparador Geral de Temporadas */}
-      <SeasonComparisonMatrix clubFilter={activeTeam} />
+      <SeasonComparisonMatrix clubFilter={activeTeam} seasonId={seasonId} />
 
       {/* Sub-abas de métricas */}
       <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-6 max-w-3xl overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">

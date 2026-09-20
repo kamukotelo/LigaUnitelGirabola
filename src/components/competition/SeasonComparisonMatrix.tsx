@@ -16,6 +16,7 @@ import {
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { 
+  CURRENT_SEASON_ID,
   CURRENT_SEASON_SCORERS, 
   getCurrentSeasonCleanSheets,
   getCurrentSeasonDiscipline,
@@ -39,10 +40,30 @@ export type ComparisonCategory = 'jogos' | 'marcadores' | 'guardaredes' | 'disci
  * com uma lista de clubes escrita à mão que já não incluía o CR Caála nem o FC
  * Luanda — duas equipas do plantel de 2026/2027.
  */
-export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFilter?: string }) {
+/** Época de arquivo que serve de termo de comparação. */
+const BASELINE_SEASON_ID = '2025-26';
+
+export default function SeasonComparisonMatrix({
+  clubFilter = 'all',
+  seasonId = CURRENT_SEASON_ID,
+}: { clubFilter?: string; seasonId?: string }) {
   const [activeCategory, setActiveCategory] = useState<ComparisonCategory>('jogos');
   const [roundScope, setRoundScope] = useState<'all' | 'homologous'>('all');
   const clubLabel = clubFilter === 'all' ? '' : getTeamFullName(clubFilter, clubFilter);
+
+  // A época escolhida no seletor do hub é a que fica em destaque aqui; a outra
+  // passa a termo de comparação. Sem escolha, o destaque é o da época atual —
+  // o comparador nunca abre com a época passada em primeiro plano.
+  const focusIsCurrent = seasonId !== BASELINE_SEASON_ID;
+  const focusSeasonLabel = focusIsCurrent ? '2026/2027' : '2025/2026';
+  const referenceSeasonLabel = focusIsCurrent ? '2025/2026' : '2026/2027';
+  const panelClass = (isFocus: boolean) => (isFocus
+    ? 'bg-primary/5 dark:bg-primary/10 border-primary/20'
+    : 'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800');
+  const orderClass = (isFocus: boolean) => (isFocus ? 'order-first' : 'order-last');
+  const headingClass = (isFocus: boolean) => (isFocus ? 'text-primary' : 'text-zinc-600 dark:text-zinc-400');
+  const rankClass = (isFocus: boolean) => (isFocus ? 'text-primary' : 'text-zinc-400');
+  const valueClass = (isFocus: boolean) => (isFocus ? 'text-primary' : 'text-foreground');
 
   // Dados reais 2026/27 (atual apurado)
   const currentMatches = getMatchesForSeason('2026-27');
@@ -231,6 +252,32 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
     return list.slice(0, 5);
   }, [clubFilter]);
 
+  // As linhas de variação comparam sempre a época em foco com a outra, e não
+  // 2026/2027 com 2025/2026 em fixo: trocar de época troca o sentido da leitura.
+  const gpmDelta = Number(focusIsCurrent ? currentGpm : histGpm) - Number(focusIsCurrent ? histGpm : currentGpm);
+  const gpmDeltaRow = (
+    <div className="flex justify-between items-center">
+      <span className="text-zinc-500">Diferença de Eficácia face a {referenceSeasonLabel}:</span>
+      <span className={`font-bold ${gpmDelta >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
+        {gpmDelta >= 0
+          ? `▲ +${gpmDelta.toFixed(2)} g/j mais eficaz`
+          : `▼ ${gpmDelta.toFixed(2)} g/j`}
+      </span>
+    </div>
+  );
+
+  const ypmDelta = Number((focusIsCurrent ? currentCards : histCards).ypm) - Number((focusIsCurrent ? histCards : currentCards).ypm);
+  const ypmDeltaRow = (
+    <div className="flex justify-between items-center pt-1">
+      <span className="text-zinc-500">Amarelos/Jogo face a {referenceSeasonLabel}:</span>
+      <span className={`font-bold ${ypmDelta <= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
+        {ypmDelta <= 0
+          ? `▼ ${ypmDelta.toFixed(2)} (mais disciplinado)`
+          : `▲ +${ypmDelta.toFixed(2)} (mais advertido)`}
+      </span>
+    </div>
+  );
+
   const categories = [
     { key: 'jogos', label: '🏟️ Jogos & Resultados Oficiais', icon: Calendar },
     { key: 'marcadores', label: '⚽ Melhores Marcadores', icon: Flame },
@@ -255,11 +302,15 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
           </div>
           <p className="text-xs text-zinc-500 font-mono">
             Dados 100% reais e apurados das fichas oficiais e classificações homologadas da FAF / ANCAF.
+            A época em destaque é a que está selecionada no topo da página.
           </p>
         </div>
 
         {/* Badge estrita de dados reais */}
         <div className="flex items-center gap-2 flex-wrap text-[10px] font-mono">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/30 font-bold">
+            Em foco: {focusSeasonLabel}
+          </span>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 font-bold">
             <CheckCircle2 size={12} /> Apenas Dados Reais & Fichas Homologadas
           </span>
@@ -333,16 +384,16 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
       <>
         {activeCategory === 'jogos' && (
           <motion.div
-            key={`jogos-${roundScope}-${clubFilter}`}
+            key={`jogos-${seasonId}-${roundScope}-${clubFilter}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-4"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Coluna 2025/2026 */}
-              <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
+              <div className={`p-4 rounded-xl border ${panelClass(!focusIsCurrent)} ${orderClass(!focusIsCurrent)}`}>
                 <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-3">
-                  <span className="font-bold text-xs uppercase font-mono text-zinc-600 dark:text-zinc-400">
+                  <span className={`font-bold text-xs uppercase font-mono ${headingClass(!focusIsCurrent)}`}>
                     Época 2025/2026 {roundScope === 'homologous' ? `(Até J${maxCurrentRound})` : '(Concluída)'}
                   </span>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 font-bold">
@@ -370,13 +421,14 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                       <span className="font-bold text-accent flex items-center gap-1"><Trophy size={12} /> Petro de Luanda (72 pts)</span>
                     </div>
                   )}
+                  {!focusIsCurrent && gpmDeltaRow}
                 </div>
               </div>
 
               {/* Coluna 2026/2027 */}
-              <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20">
+              <div className={`p-4 rounded-xl border ${panelClass(focusIsCurrent)} ${orderClass(focusIsCurrent)}`}>
                 <div className="flex items-center justify-between pb-3 border-b border-primary/20 mb-3">
-                  <span className="font-bold text-xs uppercase font-mono text-primary">
+                  <span className={`font-bold text-xs uppercase font-mono ${headingClass(focusIsCurrent)}`}>
                     Época 2026/2027 {roundScope === 'homologous' ? `(Até J${maxCurrentRound})` : '(Em Curso)'}
                   </span>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-primary/20 text-primary font-bold">
@@ -398,14 +450,7 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                       {currentHomeWins}V Casa ({currentHomeWinPct}%) · {currentDraws}E ({currentDrawPct}%) · {currentAwayWins}V Fora ({currentAwayWinPct}%)
                     </span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-zinc-500">Diferença Homóloga de Eficácia:</span>
-                    <span className={`font-bold ${Number(currentGpm) >= Number(histGpm) ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
-                      {Number(currentGpm) >= Number(histGpm)
-                        ? `▲ +${(Number(currentGpm) - Number(histGpm)).toFixed(2)} g/j mais eficaz`
-                        : `▼ ${(Number(currentGpm) - Number(histGpm)).toFixed(2)} g/j`}
-                    </span>
-                  </div>
+                  {focusIsCurrent && gpmDeltaRow}
                 </div>
               </div>
             </div>
@@ -414,14 +459,14 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
 
         {activeCategory === 'marcadores' && (
           <motion.div
-            key={`marcadores-${clubFilter}`}
+            key={`marcadores-${seasonId}-${clubFilter}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             {/* 2025/26 Marcadores */}
-            <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
-              <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400 block mb-3">
+            <div className={`p-4 rounded-xl border ${panelClass(!focusIsCurrent)} ${orderClass(!focusIsCurrent)}`}>
+              <span className={`text-xs font-bold uppercase font-mono block mb-3 ${headingClass(!focusIsCurrent)}`}>
                 Top Goleadores Oficiais (2025/2026) {clubLabel ? `— ${clubLabel}` : ''}
               </span>
               <div className="space-y-2">
@@ -429,14 +474,14 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                   topHistoricalScorers.map((s, idx) => (
                     <div key={idx} className="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800">
                       <div className="flex items-center gap-2.5">
-                        <span className="w-5 text-center font-bold text-xs text-zinc-400 font-mono">{idx + 1}</span>
+                        <span className={`w-5 text-center font-bold text-xs font-mono ${rankClass(!focusIsCurrent)}`}>{idx + 1}</span>
                         <TeamCrest teamId={s.teamId} size={24} />
                         <div>
                           <p className="text-xs font-bold text-foreground">{s.name}</p>
                           <p className="text-[10px] text-zinc-500 font-mono">{getTeamFullName(s.teamId, s.teamId)}</p>
                         </div>
                       </div>
-                      <span className="font-mono font-black text-sm text-foreground">{s.goals} <span className="text-[10px] font-normal text-zinc-500">golos</span></span>
+                      <span className={`font-mono font-black text-sm ${valueClass(!focusIsCurrent)}`}>{s.goals} <span className="text-[10px] font-normal text-zinc-500">golos</span></span>
                     </div>
                   ))
                 ) : (
@@ -446,8 +491,8 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
             </div>
 
             {/* 2026/27 Marcadores */}
-            <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20">
-              <span className="text-xs font-bold uppercase font-mono text-primary block mb-3">
+            <div className={`p-4 rounded-xl border ${panelClass(focusIsCurrent)} ${orderClass(focusIsCurrent)}`}>
+              <span className={`text-xs font-bold uppercase font-mono block mb-3 ${headingClass(focusIsCurrent)}`}>
                 Top Goleadores Fichas Recebidas (2026/2027) {clubLabel ? `— ${clubLabel}` : ''}
               </span>
               <div className="space-y-2">
@@ -455,14 +500,14 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                   topCurrentScorers.map((s, idx) => (
                     <div key={idx} className="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800">
                       <div className="flex items-center gap-2.5">
-                        <span className="w-5 text-center font-bold text-xs text-primary font-mono">{idx + 1}</span>
+                        <span className={`w-5 text-center font-bold text-xs font-mono ${rankClass(focusIsCurrent)}`}>{idx + 1}</span>
                         <TeamCrest teamId={s.teamId} size={24} />
                         <div>
                           <p className="text-xs font-bold text-foreground">{s.name}</p>
                           <p className="text-[10px] text-zinc-500 font-mono">{s.club}</p>
                         </div>
                       </div>
-                      <span className="font-mono font-black text-sm text-primary">{s.goals} <span className="text-[10px] font-normal text-zinc-500">golos</span></span>
+                      <span className={`font-mono font-black text-sm ${valueClass(focusIsCurrent)}`}>{s.goals} <span className="text-[10px] font-normal text-zinc-500">golos</span></span>
                     </div>
                   ))
                 ) : (
@@ -475,14 +520,14 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
 
         {activeCategory === 'guardaredes' && (
           <motion.div
-            key={`guardaredes-${clubFilter}`}
+            key={`guardaredes-${seasonId}-${clubFilter}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             {/* 2025/26 Clean Sheets */}
-            <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
-              <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400 block mb-3">
+            <div className={`p-4 rounded-xl border ${panelClass(!focusIsCurrent)} ${orderClass(!focusIsCurrent)}`}>
+              <span className={`text-xs font-bold uppercase font-mono block mb-3 ${headingClass(!focusIsCurrent)}`}>
                 Top Guarda-Redes Sem Sofrer Golos (2025/2026) {clubLabel ? `— ${clubLabel}` : ''}
               </span>
               <div className="space-y-2">
@@ -490,14 +535,14 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                   historicalCleanSheets.map((gk, idx) => (
                     <div key={idx} className="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800">
                       <div className="flex items-center gap-2.5">
-                        <span className="w-5 text-center font-bold text-xs text-zinc-400 font-mono">{idx + 1}</span>
+                        <span className={`w-5 text-center font-bold text-xs font-mono ${rankClass(!focusIsCurrent)}`}>{idx + 1}</span>
                         <TeamCrest teamId={gk.teamId} size={24} />
                         <div>
                           <p className="text-xs font-bold text-foreground">{gk.name}</p>
                           <p className="text-[10px] text-zinc-500 font-mono">{gk.club}</p>
                         </div>
                       </div>
-                      <span className="font-mono font-black text-sm text-foreground">{gk.cleanSheets} <span className="text-[10px] font-normal text-zinc-500">jogos a zero</span></span>
+                      <span className={`font-mono font-black text-sm ${valueClass(!focusIsCurrent)}`}>{gk.cleanSheets} <span className="text-[10px] font-normal text-zinc-500">jogos a zero</span></span>
                     </div>
                   ))
                 ) : (
@@ -507,8 +552,8 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
             </div>
 
             {/* 2026/27 Clean Sheets */}
-            <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20">
-              <span className="text-xs font-bold uppercase font-mono text-primary block mb-3">
+            <div className={`p-4 rounded-xl border ${panelClass(focusIsCurrent)} ${orderClass(focusIsCurrent)}`}>
+              <span className={`text-xs font-bold uppercase font-mono block mb-3 ${headingClass(focusIsCurrent)}`}>
                 Guarda-Redes Sem Sofrer Golos (2026/2027) {clubLabel ? `— ${clubLabel}` : ''}
               </span>
               <div className="space-y-2">
@@ -516,14 +561,14 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                   currentCleanSheets.map((gk, idx) => (
                     <div key={idx} className="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800">
                       <div className="flex items-center gap-2.5">
-                        <span className="w-5 text-center font-bold text-xs text-primary font-mono">{idx + 1}</span>
+                        <span className={`w-5 text-center font-bold text-xs font-mono ${rankClass(focusIsCurrent)}`}>{idx + 1}</span>
                         <TeamCrest teamId={gk.teamId} size={24} />
                         <div>
                           <p className="text-xs font-bold text-foreground">{gk.name}</p>
                           <p className="text-[10px] text-zinc-500 font-mono">{gk.club}</p>
                         </div>
                       </div>
-                      <span className="font-mono font-black text-sm text-primary">{gk.cleanSheets} <span className="text-[10px] font-normal text-zinc-500">jogos a zero</span></span>
+                      <span className={`font-mono font-black text-sm ${valueClass(focusIsCurrent)}`}>{gk.cleanSheets} <span className="text-[10px] font-normal text-zinc-500">jogos a zero</span></span>
                     </div>
                   ))
                 ) : (
@@ -536,7 +581,7 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
 
         {activeCategory === 'disciplina' && (
           <motion.div
-            key={`disciplina-${roundScope}-${clubFilter}`}
+            key={`disciplina-${seasonId}-${roundScope}-${clubFilter}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-4"
@@ -544,15 +589,15 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
             {/* Comparação Geral de Disciplina */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* 2025/26 Cartões */}
-              <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 space-y-3">
+              <div className={`p-4 rounded-xl border space-y-3 ${panelClass(!focusIsCurrent)} ${orderClass(!focusIsCurrent)}`}>
                 <div className="flex justify-between items-center">
-                  <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400">
+                  <span className={`text-xs font-bold uppercase font-mono ${headingClass(!focusIsCurrent)}`}>
                     2025/2026 {roundScope === 'homologous' ? `(Até J${maxCurrentRound})` : '(30J)'}
                   </span>
                   <span className="text-[10px] font-mono text-zinc-500">{histCards.counted} jogos com súmula</span>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black font-mono text-foreground">{histCards.total}</span>
+                  <span className={`text-3xl font-black font-mono ${valueClass(!focusIsCurrent)}`}>{histCards.total}</span>
                   <span className="text-xs font-mono text-zinc-500">cartões totais</span>
                 </div>
                 <div className="space-y-1.5 pt-2 border-t border-zinc-200 dark:border-zinc-800 text-xs font-mono">
@@ -564,19 +609,20 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                     <span className="text-zinc-500">🟥 Cartões Vermelhos:</span>
                     <span className="font-bold text-foreground">{histCards.red} <span className="text-zinc-400 font-normal">({histCards.rpm}/j)</span></span>
                   </div>
+                  {!focusIsCurrent && ypmDeltaRow}
                 </div>
               </div>
 
               {/* 2026/27 Cartões */}
-              <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20 space-y-3">
+              <div className={`p-4 rounded-xl border space-y-3 ${panelClass(focusIsCurrent)} ${orderClass(focusIsCurrent)}`}>
                 <div className="flex justify-between items-center">
-                  <span className="text-xs font-bold uppercase font-mono text-primary">
+                  <span className={`text-xs font-bold uppercase font-mono ${headingClass(focusIsCurrent)}`}>
                     2026/2027 (Época Atual — Fichas Oficiais)
                   </span>
                   <span className="text-[10px] font-mono text-primary/70">{currentCards.counted} de {currentMatchesFiltered.length} jogos com súmula</span>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black font-mono text-primary">{currentCards.total}</span>
+                  <span className={`text-3xl font-black font-mono ${valueClass(focusIsCurrent)}`}>{currentCards.total}</span>
                   <span className="text-xs font-mono text-zinc-500">cartões totais</span>
                 </div>
                 <div className="space-y-1.5 pt-2 border-t border-primary/20 text-xs font-mono">
@@ -588,14 +634,7 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                     <span className="text-zinc-500">🟥 Cartões Vermelhos:</span>
                     <span className="font-bold text-foreground">{currentCards.red} <span className="text-primary font-normal">({currentCards.rpm}/j)</span></span>
                   </div>
-                  <div className="flex justify-between items-center pt-1">
-                    <span className="text-zinc-500">Variação de Amarelos/Jogo:</span>
-                    <span className={`font-bold ${Number(currentCards.ypm) <= Number(histCards.ypm) ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
-                      {Number(currentCards.ypm) <= Number(histCards.ypm)
-                        ? `▼ ${(Number(currentCards.ypm) - Number(histCards.ypm)).toFixed(2)} (mais disciplinado)`
-                        : `▲ +${(Number(currentCards.ypm) - Number(histCards.ypm)).toFixed(2)} (mais advertido)`}
-                    </span>
-                  </div>
+                  {focusIsCurrent && ypmDeltaRow}
                 </div>
               </div>
             </div>
@@ -603,8 +642,8 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
             {/* Listas de Jogadores com Mais Cartões */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* 2025/26 Jogadores */}
-              <div className="bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
-                <span className="text-xs font-bold uppercase font-mono text-zinc-600 dark:text-zinc-400 block mb-3">
+              <div className={`p-4 rounded-xl border ${panelClass(!focusIsCurrent)} ${orderClass(!focusIsCurrent)}`}>
+                <span className={`text-xs font-bold uppercase font-mono block mb-3 ${headingClass(!focusIsCurrent)}`}>
                   Mais Advertidos (2025/2026) {clubLabel ? `— ${clubLabel}` : ''}
                 </span>
                 <div className="space-y-2">
@@ -612,7 +651,7 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                     topHistoricalDiscipline.map((p, idx) => (
                       <div key={idx} className="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800">
                         <div className="flex items-center gap-2.5">
-                          <span className="w-5 text-center font-bold text-xs text-zinc-400 font-mono">{idx + 1}</span>
+                          <span className={`w-5 text-center font-bold text-xs font-mono ${rankClass(!focusIsCurrent)}`}>{idx + 1}</span>
                           <TeamCrest teamId={p.teamId} size={24} />
                           <div>
                             <p className="text-xs font-bold text-foreground">{p.name}</p>
@@ -638,8 +677,8 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
               </div>
 
               {/* 2026/27 Jogadores */}
-              <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/20">
-                <span className="text-xs font-bold uppercase font-mono text-primary block mb-3">
+              <div className={`p-4 rounded-xl border ${panelClass(focusIsCurrent)} ${orderClass(focusIsCurrent)}`}>
+                <span className={`text-xs font-bold uppercase font-mono block mb-3 ${headingClass(focusIsCurrent)}`}>
                   Cartões Atribuídos nas Súmulas (2026/2027) {clubLabel ? `— ${clubLabel}` : ''}
                 </span>
                 <div className="space-y-2">
@@ -647,7 +686,7 @@ export default function SeasonComparisonMatrix({ clubFilter = 'all' }: { clubFil
                     topCurrentDiscipline.map((p, idx) => (
                       <div key={idx} className="flex items-center justify-between p-2.5 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200/80 dark:border-zinc-800">
                         <div className="flex items-center gap-2.5">
-                          <span className="w-5 text-center font-bold text-xs text-primary font-mono">{idx + 1}</span>
+                          <span className={`w-5 text-center font-bold text-xs font-mono ${rankClass(focusIsCurrent)}`}>{idx + 1}</span>
                           <TeamCrest teamId={p.teamId} size={24} />
                           <div>
                             <p className="text-xs font-bold text-foreground">{p.name}</p>
