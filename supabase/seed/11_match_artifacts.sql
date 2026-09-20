@@ -460,8 +460,8 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-5-6', 1, 'goal', 'home', 'Bocar Sidibé', 'fifa-1qvfjm7', null, null, '1'' (1-0)', 0),
   ('m27-5-6', 49, 'goal', 'home', 'Mabululu', 'mabululu-wiliete', null, null, '49'' (2-0)', 1),
   ('m27-5-6', 63, 'goal', 'home', 'Mabululu', 'mabululu-wiliete', null, null, '63'' (3-0)', 2),
-  ('m27-5-6', 82, 'goal', 'home', null, null, null, null, '82'' · autor por confirmar (4-0)', 3),
-  ('m27-5-6', 87, 'goal', 'home', null, null, null, null, '87'' · autor por confirmar (5-0)', 4);
+  ('m27-5-6', 82, 'goal', 'home', 'Rodino Dumbo José', 'fifa-1jwu0l8', null, null, '82'' (4-0)', 3),
+  ('m27-5-6', 87, 'goal', 'home', 'Valter Monteiro', 'valter-monteiro', null, null, '87'' (5-0)', 4);
 
 insert into public.ancaf_match_stats (match_id, side, stat_key, value, published) values
   ('m27-1-4', 'home', 'yellowCards', 4, true),
