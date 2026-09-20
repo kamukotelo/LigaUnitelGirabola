@@ -149,7 +149,7 @@ export default function LigaAngolaBlock() {
               <h3 className="text-sm font-display uppercase tracking-wider text-[#0B1E43] dark:text-zinc-300 font-extrabold mb-1 max-w-[200px]">
                 Não perca os próximos jogos da sua equipa
               </h3>
-              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono mb-4">
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 font-mono mb-4">
                 Personalize os seus alertas e siga o seu clube favorito
               </p>
               <Link href={`/competicao/${UPCOMING_SEASON_ID}?tab=calendario`}>
@@ -174,25 +174,25 @@ export default function LigaAngolaBlock() {
                 <div className="flex border-b border-zinc-100 dark:border-zinc-900 pb-3 mb-4">
                   <button
                     onClick={() => selectSeason(PREVIOUS_SEASON_ID)}
-                    className={`flex-1 text-center py-1.5 font-mono text-[10px] uppercase font-bold tracking-wider rounded-lg transition-colors ${
+                    className={`min-h-11 flex-1 text-center py-2 font-mono text-[11px] uppercase font-bold tracking-wide rounded-lg transition-colors ${
                       selectedSeasonId === PREVIOUS_SEASON_ID
                         ? 'bg-primary/10 text-primary dark:text-white'
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                   >
                     <span className="block leading-tight">Girabola 25/26</span>
-                    <span className="block text-[8px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Época concluída</span>
+                    <span className="block text-[11px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Época concluída</span>
                   </button>
                   <button
                     onClick={() => selectSeason(UPCOMING_SEASON_ID)}
-                    className={`flex-1 text-center py-1.5 font-mono text-[10px] uppercase font-bold tracking-wider rounded-lg transition-colors ${
+                    className={`min-h-11 flex-1 text-center py-2 font-mono text-[11px] uppercase font-bold tracking-wide rounded-lg transition-colors ${
                       selectedSeasonId === UPCOMING_SEASON_ID
                         ? 'bg-[#0B1E43]/10 text-[#0B1E43] dark:text-zinc-300'
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                   >
                     <span className="block leading-tight">Girabola 26/27</span>
-                    <span className="block text-[8px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Nova época</span>
+                    <span className="block text-[11px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Nova época</span>
                   </button>
                 </div>
 
@@ -201,7 +201,7 @@ export default function LigaAngolaBlock() {
                   <button 
                     onClick={() => currentRound > 1 && setCurrentRound(currentRound - 1)}
                     disabled={currentRound === 1}
-                    className="p-1 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                    className="flex h-11 w-11 items-center justify-center rounded transition-colors hover:bg-zinc-200 disabled:opacity-30 disabled:hover:bg-transparent dark:hover:bg-zinc-800"
                     aria-label="Jornada anterior"
                   >
                     <ChevronLeft size={16} className="text-zinc-600 dark:text-zinc-400" />
@@ -212,7 +212,7 @@ export default function LigaAngolaBlock() {
                   <button 
                     onClick={() => currentRound < TOTAL_ROUNDS && setCurrentRound(currentRound + 1)}
                     disabled={currentRound === TOTAL_ROUNDS}
-                    className="p-1 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+                    className="flex h-11 w-11 items-center justify-center rounded transition-colors hover:bg-zinc-200 disabled:opacity-30 disabled:hover:bg-transparent dark:hover:bg-zinc-800"
                     aria-label="Próxima jornada"
                   >
                     <ChevronRight size={16} className="text-zinc-600 dark:text-zinc-400" />
@@ -250,14 +250,14 @@ export default function LigaAngolaBlock() {
                               : 'border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/50'
                           }`}>
                             {isCurrentFocus && (
-                              <span className="mb-2 basis-full text-center font-mono text-[8px] font-black uppercase tracking-[0.18em] text-accent">
+                              <span className="mb-2 basis-full text-center font-mono text-[11px] font-black uppercase tracking-wide text-accent">
                                 {isLive ? '● Em direto agora' : 'Jogo em destaque · 1.ª jornada'}
                               </span>
                             )}
                             {/* Home */}
                             <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
-                              <span className="hidden whitespace-normal break-words text-right text-xs font-bold leading-tight text-foreground sm:inline">{homeAbbr}</span>
-                              <TeamCrest teamId={match.homeTeamId} size={30} className="flex-shrink-0 sm:w-[22px]" />
+                              <span className="min-w-0 truncate text-right text-[11px] font-bold leading-tight text-foreground sm:text-xs">{homeAbbr}</span>
+                              <TeamCrest teamId={match.homeTeamId} size={22} className="flex-shrink-0" />
                             </div>
 
                             {/* Center Score/Status */}
@@ -275,11 +275,11 @@ export default function LigaAngolaBlock() {
 
                             {/* Away */}
                             <div className="flex items-center gap-2 flex-1 min-w-0">
-                              <TeamCrest teamId={match.awayTeamId} size={30} className="flex-shrink-0 sm:w-[22px]" />
-                              <span className="hidden whitespace-normal break-words text-xs font-bold leading-tight text-foreground sm:inline">{awayAbbr}</span>
+                              <TeamCrest teamId={match.awayTeamId} size={22} className="flex-shrink-0" />
+                              <span className="min-w-0 truncate text-[11px] font-bold leading-tight text-foreground sm:text-xs">{awayAbbr}</span>
                             </div>
                             {broadcast !== 'Por confirmar' && (
-                              <span className={`mt-1.5 flex basis-full items-center justify-center gap-1 font-mono text-[8px] font-bold uppercase tracking-wide ${match.broadcaster ? 'text-primary dark:text-purple-300' : 'text-amber-700 dark:text-amber-300'}`}>
+                              <span className={`mt-1.5 flex basis-full items-center justify-center gap-1 font-mono text-[11px] font-bold uppercase tracking-normal ${match.broadcaster ? 'text-primary dark:text-purple-300' : 'text-amber-700 dark:text-amber-300'}`}>
                                 <Tv size={10} /> {match.broadcaster && !isDeferredBroadcast ? `${isFinished ? 'Transmitido' : 'Em direto'} · ${broadcast}` : broadcast}
                               </span>
                             )}
@@ -295,7 +295,7 @@ export default function LigaAngolaBlock() {
                 </div>
 
                 <div className="border-t border-zinc-100 dark:border-zinc-900 mt-4 pt-3 text-center">
-                  <Link href={ROUTES.calendar} className="inline-flex items-center gap-1 text-[10px] font-mono uppercase font-bold text-primary hover:text-accent transition-colors">
+                  <Link href={ROUTES.calendar} className="inline-flex min-h-11 items-center gap-1 px-2 text-[11px] font-mono uppercase font-bold text-primary hover:text-accent transition-colors">
                     Ver todos os jogos <ArrowRight size={10} />
                   </Link>
                 </div>
@@ -317,25 +317,25 @@ export default function LigaAngolaBlock() {
                 <div className="flex border-b border-zinc-100 dark:border-zinc-900 pb-3 mb-4">
                   <button
                     onClick={() => setStandingsSeasonId(PREVIOUS_SEASON_ID)}
-                    className={`flex-1 text-center py-1.5 font-mono text-[10px] uppercase font-bold tracking-wider rounded-lg transition-colors ${
+                    className={`min-h-11 flex-1 text-center py-2 font-mono text-[11px] uppercase font-bold tracking-wide rounded-lg transition-colors ${
                       standingsSeasonId === PREVIOUS_SEASON_ID
                         ? 'bg-primary/10 text-primary dark:text-white'
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                   >
                     <span className="block leading-tight">Girabola 25/26</span>
-                    <span className="block text-[8px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Época concluída</span>
+                    <span className="block text-[11px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Época concluída</span>
                   </button>
                   <button
                     onClick={() => setStandingsSeasonId(UPCOMING_SEASON_ID)}
-                    className={`flex-1 text-center py-1.5 font-mono text-[10px] uppercase font-bold tracking-wider rounded-lg transition-colors ${
+                    className={`min-h-11 flex-1 text-center py-2 font-mono text-[11px] uppercase font-bold tracking-wide rounded-lg transition-colors ${
                       standingsSeasonId === UPCOMING_SEASON_ID
                         ? 'bg-[#0B1E43]/10 text-[#0B1E43] dark:text-zinc-300'
                         : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
                     }`}
                   >
                     <span className="block leading-tight">Girabola 26/27</span>
-                    <span className="block text-[8px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Nova época</span>
+                    <span className="block text-[11px] font-semibold normal-case tracking-normal text-zinc-400 dark:text-zinc-500 mt-0.5">Nova época</span>
                   </button>
                 </div>
 
@@ -397,11 +397,11 @@ export default function LigaAngolaBlock() {
                     <ShieldCheck size={24} />
                   </span>
                   <div>
-                    <p className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white/80">Informação institucional</p>
+                    <p className="font-mono text-[11px] sm:text-[9px] font-bold uppercase tracking-wide sm:tracking-[0.2em] text-white/80">Informação institucional</p>
                     <h2 id="official-communications-title" className="font-display text-lg font-black uppercase tracking-wide sm:text-xl">Comunicados Oficiais</h2>
                   </div>
                 </div>
-                <Link href="/comunicados" className="inline-flex w-fit items-center gap-2 rounded-lg bg-white px-4 py-2.5 font-mono text-[10px] font-black uppercase tracking-wide text-[#B9430C] transition-colors hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                <Link href="/comunicados" className="inline-flex min-h-11 w-fit items-center gap-2 rounded-lg bg-white px-4 py-2.5 font-mono text-[11px] font-black uppercase tracking-wide text-[#B9430C] transition-colors hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
                   Ver todos <ArrowRight size={12} />
                 </Link>
               </div>

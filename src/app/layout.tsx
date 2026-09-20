@@ -8,6 +8,7 @@ import { PortalDataProvider } from "@/lib/portal-overrides";
 import HoloBgLogo from "@/components/layout/HoloBgLogo";
 import AppSplash from "@/components/layout/AppSplash";
 import { Analytics } from "@vercel/analytics/next";
+import MobileBottomNav from "@/components/layout/MobileBottomNav";
 
 /**
  * Substituto temporário da tipografia corporativa "Intro" (Manual de Normas
@@ -102,10 +103,11 @@ export default function RootLayout({
           <HoloBgLogo />
 
           <Navbar />
-          <main className="flex-1 z-10 pt-16 md:pt-20">
+          <main className="flex-1 z-10 pt-16 pb-16 md:pt-20 xl:pb-0">
             {children}
           </main>
           <Footer />
+          <MobileBottomNav />
         </div>
         </PortalDataProvider>
         </TeamLogosProvider>

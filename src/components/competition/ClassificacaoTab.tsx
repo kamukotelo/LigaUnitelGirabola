@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Info, Award, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { getSeasonResultsUpdatedAt, SEASONS, UPCOMING_SEASON_ID, computeStandings, getStandingsForSeason, getTeamFullName, type StandingsVenue } from '@/lib/data';
+import { getSeasonResultsUpdatedAt, SEASONS, TEAMS, UPCOMING_SEASON_ID, computeStandings, getStandingsForSeason, getTeamFullName, type StandingsVenue } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -33,7 +33,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
       )}
 
       <div className="flex justify-center">
-        <div className="inline-flex rounded-xl border border-zinc-200 bg-zinc-100/70 p-1 dark:border-zinc-800 dark:bg-zinc-950/70" aria-label="Âmbito da classificação">
+        <div className="grid w-full grid-cols-2 rounded-xl border border-zinc-200 bg-zinc-100/70 p-1 sm:inline-flex sm:w-auto dark:border-zinc-800 dark:bg-zinc-950/70" aria-label="Âmbito da classificação">
           {([
             ['all', 'Geral'],
             ['home', 'Casa'],
@@ -45,7 +45,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
               type="button"
               onClick={() => setVenue(key)}
               aria-pressed={venue === key}
-              className={`min-w-20 rounded-lg px-4 py-2 text-xs font-bold transition-all ${
+              className={`min-h-11 min-w-20 rounded-lg px-3 py-2 text-xs font-bold transition-all ${
                 venue === key
                   ? 'bg-white text-foreground shadow-sm dark:bg-zinc-800'
                   : 'text-zinc-500 hover:text-foreground'
@@ -69,8 +69,46 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
         </div>
       )}
 
-      {/* Table Container */}
-      <div className="overflow-hidden">
+      {/* Mobile standings: the essential columns fit without horizontal scrolling. */}
+      <AnimatedCard variant="hud" className="overflow-hidden p-0 md:hidden">
+        <div className="grid grid-cols-[2rem_minmax(0,1fr)_2rem_2.5rem_3rem] items-center gap-1 border-b border-zinc-200 bg-zinc-100/70 px-2 py-3 text-center font-mono text-[10px] font-bold uppercase text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900/40">
+          <span>#</span><span className="text-left">Clube</span><span>J</span><span>DG</span><span>PTS</span>
+        </div>
+        <div className="divide-y divide-zinc-200 dark:divide-zinc-900/60">
+          {standingsList.map((row) => {
+            const shortName = TEAMS.find((team) => team.id === row.teamId)?.shortName ?? row.teamName;
+            const isHighlighted = (row.position === 1 && venue === 'form5') || (row.position === 1 && !isUpcoming && venue === 'all');
+            const indicator = venue !== 'all'
+              ? (isHighlighted ? 'border-l-4 border-accent' : 'border-l-4 border-transparent')
+              : row.position === 1 ? 'border-l-4 border-accent'
+                : row.position === 2 ? 'border-l-4 border-amber-500'
+                  : row.position === 3 ? 'border-l-4 border-blue-500'
+                    : row.position >= 14 ? 'border-l-4 border-red-600'
+                      : 'border-l-4 border-transparent';
+            return (
+              <Link
+                key={row.teamId}
+                href={`/teams/${row.teamId}`}
+                className={`grid min-h-14 grid-cols-[2rem_minmax(0,1fr)_2rem_2.5rem_3rem] items-center gap-1 px-2 py-2 ${indicator} ${isHighlighted ? 'bg-primary/5' : ''}`}
+              >
+                <span className="text-center font-mono text-xs font-bold text-zinc-500">{row.position}</span>
+                <span className="flex min-w-0 items-center gap-2">
+                  <TeamCrest teamId={row.teamId} size={22} className="shrink-0" />
+                  <span className="truncate text-xs font-bold text-foreground">{shortName}</span>
+                </span>
+                <span className="text-center font-mono text-xs">{row.played}</span>
+                <span className={`text-center font-mono text-xs font-semibold ${row.goalsVerified === false ? 'text-zinc-400' : row.goalDifference >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+                  {row.goalsVerified === false ? '—' : row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}
+                </span>
+                <span className="rounded-md bg-primary/10 py-1 text-center font-mono text-sm font-black text-primary dark:text-white">{row.points}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </AnimatedCard>
+
+      {/* Full desktop table */}
+      <div className="hidden overflow-hidden md:block">
         <AnimatedCard variant="hud" className="p-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           <table className="w-full text-left border-collapse min-w-[720px]">
             <thead>

@@ -21,7 +21,7 @@ export default function TeamsPage() {
         </Link>} />
 
       {/* Grid of Teams */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 2xl:gap-7">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-6 2xl:gap-7">
         {getTeams().map((team, idx) => {
           // Highlight first-class traditional clubs (Petro, 1º de Agosto, Kabuscorp, Sagrada, Interclube, Wiliete)
           const isGiant = ['petro', 'dago', 'kabuscorp', 'sagrada', 'interclube', 'wiliete'].includes(team.id);
@@ -41,29 +41,29 @@ export default function TeamsPage() {
                 >
                   {/* Header: Team Crest / Nickname */}
                   <div>
-                    <div className="flex justify-between items-start mb-4">
-                      <TeamCrest teamId={team.id} size={64} className="filter drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]" />
-                      <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">
+                    <div className="flex justify-between items-start mb-3 sm:mb-4">
+                      <TeamCrest teamId={team.id} size={40} className="filter drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] sm:w-16" />
+                      <span className="hidden text-[9px] font-mono text-zinc-500 uppercase tracking-wider sm:inline">
                         Fundado em {team.founded}
                       </span>
                     </div>
 
                     {/* Names */}
-                    <h3 className="text-xl font-display text-foreground font-black uppercase leading-snug truncate" title={team.name}>
+                    <h3 className="text-sm font-display text-foreground font-black uppercase leading-snug sm:text-xl sm:truncate" title={team.name}>
                       {team.name}
                     </h3>
-                    <p className="text-[10px] text-accent font-mono tracking-widest uppercase mb-4">
+                    <p className="text-[11px] text-accent font-mono tracking-wide uppercase mb-2 sm:mb-4 sm:tracking-widest">
                       {team.shortName}
                     </p>
                   </div>
 
                   {/* Details List */}
-                  <div className="space-y-2.5 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-xs font-mono text-zinc-600 dark:text-zinc-400">
-                    <div className="flex items-center gap-2">
+                  <div className="pt-3 border-t border-zinc-200/60 dark:border-zinc-900/60 text-xs font-mono text-zinc-600 dark:text-zinc-400 sm:space-y-2.5 sm:pt-4">
+                    <div className="hidden items-center gap-2 sm:flex">
                       <MapPin size={13} className="text-zinc-600 flex-shrink-0" />
                       <span className="truncate">{team.city}</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="hidden items-center gap-2 sm:flex">
                       <Award size={13} className="text-zinc-600 flex-shrink-0" />
                       <span className="truncate" title={team.stadium}>{team.stadium}</span>
                     </div>
@@ -74,7 +74,7 @@ export default function TeamsPage() {
                   </div>
 
                   {/* Footer Colors */}
-                  <div className="mt-5 pt-3 border-t border-zinc-200/40 dark:border-zinc-900/40 flex justify-between items-center text-[9px] font-mono text-zinc-500">
+                  <div className="hidden mt-5 pt-3 border-t border-zinc-200/40 dark:border-zinc-900/40 sm:flex justify-between items-center text-[9px] font-mono text-zinc-500">
                     <span>CORES:</span>
                     <span className="text-zinc-700 dark:text-zinc-300 font-bold uppercase">{team.colors}</span>
                   </div>

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Trophy, Calendar, Shield, Flame } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import AnimatedCard from '@/components/ui/AnimatedCard';
@@ -17,6 +17,20 @@ import { useOfficialCalendar } from '@/lib/use-official-calendar';
 /* ── Animated Number Counter ─────────────────────────────────── */
 function AnimatedCounter({ value }: { value: number }) {
   return <span className="tabular-nums font-display">{value}</span>;
+}
+
+function subscribeToDesktopViewport(callback: () => void) {
+  const query = window.matchMedia('(min-width: 1024px)');
+  query.addEventListener('change', callback);
+  return () => query.removeEventListener('change', callback);
+}
+
+function useDesktopViewport() {
+  return useSyncExternalStore(
+    subscribeToDesktopViewport,
+    () => window.matchMedia('(min-width: 1024px)').matches,
+    () => false,
+  );
 }
 
 /* ── Stylized Soccer Ball ─────────────────────────────────────── */
@@ -143,6 +157,7 @@ function PitchOrbit() {
 // Compact match row helper has been migrated to LigaAngolaBlock
 
 export default function Home() {
+  const showDesktopOrbit = useDesktopViewport();
   const logoHorizontal = useBrandLogo('logo_horizontal');
   const logoHorizontalWhite = useBrandLogo('logo_horizontal_white');
   const isCustomHorizontal = logoHorizontal.startsWith('data:') || (logoHorizontal.startsWith('http') && !logoHorizontal.includes('.supabase.co'));
@@ -200,7 +215,7 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden">
       {/* ── HERO ──────────────────────────────────────────────── */}
-      <section className="relative min-h-[36rem] lg:min-h-[42rem] flex items-center bg-gradient-to-br from-background via-background to-primary/10 overflow-hidden border-b border-border">
+      <section className="relative min-h-[60vh] lg:min-h-[42rem] flex items-center bg-gradient-to-br from-background via-background to-primary/10 overflow-hidden border-b border-border">
 
         <div className="content-shell relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-12 2xl:gap-20">
           <div>
@@ -272,9 +287,11 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="absolute inset-0 lg:relative lg:inset-auto flex items-center justify-center lg:justify-self-center opacity-20 lg:opacity-100 pointer-events-none lg:pointer-events-auto scale-75 md:scale-90 lg:scale-100 -z-10 lg:z-auto mt-24 lg:mt-0">
-            <PitchOrbit />
-          </div>
+          {showDesktopOrbit && (
+            <div className="relative flex items-center justify-center justify-self-center pointer-events-auto z-auto">
+              <PitchOrbit />
+            </div>
+          )}
         </div>
       </section>
 

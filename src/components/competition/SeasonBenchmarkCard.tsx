@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BarChart3, TrendingUp, TrendingDown, Minus, Info, ShieldAlert, Award, Clock } from 'lucide-react';
+import { BarChart3, TrendingUp, TrendingDown, Minus, Info, Clock } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
-import { getSeasonBenchmarkComparison, SEASON_2025_26_BASELINE } from '@/lib/season-baseline';
+import { getSeasonBenchmarkComparison } from '@/lib/season-baseline';
 import { Match, getMatchDetail } from '@/lib/data';
 
 interface SeasonBenchmarkCardProps {
@@ -87,7 +87,7 @@ export default function SeasonBenchmarkCard({ currentMatches }: SeasonBenchmarkC
                 {/* Valores lado a lado */}
                 <div className="flex items-baseline justify-between my-3">
                   <div>
-                    <span className="text-[9px] uppercase font-mono tracking-wider text-zinc-600 dark:text-zinc-300 block mb-0.5">
+                    <span className="text-[11px] sm:text-[9px] uppercase font-mono tracking-wide sm:tracking-wider text-zinc-600 dark:text-zinc-300 block mb-0.5">
                       Atual 2026/27
                     </span>
                     <span className="text-xl sm:text-2xl font-black font-mono text-foreground tracking-tight">
@@ -96,7 +96,7 @@ export default function SeasonBenchmarkCard({ currentMatches }: SeasonBenchmarkC
                   </div>
 
                   <div className="text-right">
-                    <span className="text-[9px] uppercase font-mono tracking-wider text-zinc-600 dark:text-zinc-300 block mb-0.5">
+                    <span className="text-[11px] sm:text-[9px] uppercase font-mono tracking-wide sm:tracking-wider text-zinc-600 dark:text-zinc-300 block mb-0.5">
                       Base 2025/26
                     </span>
                     <span className="text-sm font-bold font-mono text-zinc-600 dark:text-zinc-300">

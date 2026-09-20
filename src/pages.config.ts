@@ -35,6 +35,7 @@ export const NAV_LINKS = [
   { label: 'Calendário', path: ROUTES.calendar, match: '/competicao', tab: 'calendario' },
   { label: 'Classificação', path: ROUTES.standings, match: '/competicao', tab: 'classificacao' },
   { label: 'Equipas', path: ROUTES.teams, match: ROUTES.teams },
+  { label: 'Jogadores', path: '/players', match: '/players' },
   { label: 'Notícias', path: ROUTES.news, match: ROUTES.news },
   { label: 'Liga TV', path: ROUTES.ligaTv, match: ROUTES.ligaTv },
 ];

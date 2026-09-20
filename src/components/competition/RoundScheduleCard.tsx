@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Radio, Tv, Swords, Crown, Calendar, MapPin } from 'lucide-react';
-import { type Match } from '@/lib/data';
+import { Tv, Swords, Crown } from 'lucide-react';
+import { TEAMS, type Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 
 interface RoundScheduleCardProps {
@@ -11,8 +11,6 @@ interface RoundScheduleCardProps {
   matches: Match[];
   title?: string;
 }
-
-const ANGOLA_TIME_ZONE = 'Africa/Luanda';
 
 export default function RoundScheduleCard({
   round,
@@ -54,13 +52,6 @@ export default function RoundScheduleCard({
     return null;
   };
 
-  const getBroadcasterBadges = (m: Match, idx: number) => {
-    const isLiveTv = m.broadcaster?.toUpperCase().includes('ZSPORTS') || idx === 0 || idx === 3 || idx === 7;
-    const hasRadio = true; // Quase todos os jogos contam com cobertura Rádio 5
-
-    return { isLiveTv, hasRadio };
-  };
-
   return (
     <div className="w-full max-w-md mx-auto bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm overflow-hidden font-sans">
       {/* Cabeçalho Laranja Vibrante Estilo Imagem 4 */}
@@ -72,10 +63,12 @@ export default function RoundScheduleCard({
 
       {/* Lista de Partidas */}
       <div className="divide-y divide-zinc-100 dark:divide-zinc-900">
-        {matches.map((match, idx) => {
+        {matches.map((match) => {
           const { dayOfWeek, date, time } = formatMatchKickoff(match.date);
           const tag = getSpecialTag(match);
-          const { isLiveTv, hasRadio } = getBroadcasterBadges(match, idx);
+          const broadcaster = match.broadcaster?.trim();
+          const homeShortName = TEAMS.find((team) => team.id === match.homeTeamId)?.shortName ?? match.homeTeam;
+          const awayShortName = TEAMS.find((team) => team.id === match.awayTeamId)?.shortName ?? match.awayTeam;
           const isFinished = match.status === 'finished';
           const isLive = match.status === 'live';
           const isPostponed = match.postponed === true;
@@ -91,9 +84,9 @@ export default function RoundScheduleCard({
                 {/* Equipa Casa */}
                 <div className="flex-1 flex items-center justify-end gap-2 text-right min-w-0">
                   <span className="font-bold text-xs sm:text-sm text-foreground truncate group-hover:text-primary transition-colors">
-                    {match.homeTeam}
+                    <span className="sm:hidden">{homeShortName}</span><span className="hidden sm:inline">{match.homeTeam}</span>
                   </span>
-                  <TeamCrest teamId={match.homeTeamId} size={28} className="flex-shrink-0" />
+                  <TeamCrest teamId={match.homeTeamId} size={22} className="flex-shrink-0 sm:w-7" />
                 </div>
 
                 {/* Placar Central em Pílula Arredondada (Imagem 4) */}
@@ -103,9 +96,9 @@ export default function RoundScheduleCard({
 
                 {/* Equipa Fora */}
                 <div className="flex-1 flex items-center justify-start gap-2 text-left min-w-0">
-                  <TeamCrest teamId={match.awayTeamId} size={28} className="flex-shrink-0" />
+                  <TeamCrest teamId={match.awayTeamId} size={22} className="flex-shrink-0 sm:w-7" />
                   <span className="font-bold text-xs sm:text-sm text-foreground truncate group-hover:text-primary transition-colors">
-                    {match.awayTeam}
+                    <span className="sm:hidden">{awayShortName}</span><span className="hidden sm:inline">{match.awayTeam}</span>
                   </span>
                 </div>
               </div>
@@ -129,16 +122,9 @@ export default function RoundScheduleCard({
                 )}
 
                 {/* Badge de TV Zsports */}
-                {isLiveTv && (
+                {broadcaster && (
                   <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#5C0F8B] text-white font-bold uppercase tracking-wider">
-                    <Tv size={10} /> EM DIRETO · ZSPORTS
-                  </span>
-                )}
-
-                {/* Badge Rádio 5 */}
-                {hasRadio && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#fef08a] dark:bg-yellow-950/50 text-[#854d0e] dark:text-yellow-400 border border-[#fde047] dark:border-yellow-800 font-bold uppercase tracking-wider">
-                    <Radio size={10} /> RÁDIO 5
+                    <Tv size={10} /> {broadcaster}
                   </span>
                 )}
               </div>

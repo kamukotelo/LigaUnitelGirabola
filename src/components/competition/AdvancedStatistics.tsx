@@ -324,7 +324,7 @@ export default function AdvancedStatistics({ seasonId, teamId }: { seasonId: str
           <AnimatedCard key={team.teamId} variant="hud" className="p-5">
             <p className="truncate text-xs font-bold uppercase text-foreground">{team.teamName}</p>
             <p className="mt-3 text-3xl font-black text-accent">{team.efficiency.toFixed(1)}%</p>
-            <p className="text-[9px] font-mono uppercase text-zinc-500">Aproveitamento</p>
+            <p className="text-[11px] sm:text-[9px] font-mono uppercase text-zinc-500">Aproveitamento</p>
             <p className="mt-3 text-[10px] text-zinc-500">Forma: {team.form.map((item) => item === 'W' ? 'V' : item === 'D' ? 'E' : 'D').join(' · ') || '—'}</p>
             <p className="mt-1 text-[10px] text-zinc-500">Médias: {team.goalsForAverage.toFixed(2)} marcados · {team.goalsAgainstAverage.toFixed(2)} sofridos</p>
           </AnimatedCard>
@@ -392,7 +392,7 @@ export default function AdvancedStatistics({ seasonId, teamId }: { seasonId: str
 function Metric({ label, value, hint, icon }: { label: string; value: string; hint: string; icon: React.ReactNode }) {
   return (
     <div className="rounded-xl border border-zinc-200 bg-white/60 p-4 dark:border-zinc-800 dark:bg-zinc-950/40">
-      <p className="flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-wider text-zinc-500"><span className="text-accent">{icon}</span>{label}</p>
+      <p className="flex items-center gap-1.5 text-[11px] sm:text-[9px] font-mono uppercase tracking-wide sm:tracking-wider text-zinc-500"><span className="text-accent">{icon}</span>{label}</p>
       <p className="mt-2 font-display text-lg font-black text-foreground">{value}</p>
       <p className="mt-1 text-[10px] font-mono text-zinc-500">{hint}</p>
     </div>

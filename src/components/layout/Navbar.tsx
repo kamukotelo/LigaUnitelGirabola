@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Home, Trophy, Shield, Newspaper, PlayCircle, CalendarDays, ListOrdered, LogIn, Globe2, BriefcaseBusiness, Mail } from 'lucide-react';
+import { Menu, X, ArrowRight, Home, Trophy, Shield, Newspaper, PlayCircle, CalendarDays, ListOrdered, LogIn, Globe2, BriefcaseBusiness, Mail, Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS } from '@/pages.config';
 import Brand from './Brand';
@@ -17,6 +17,7 @@ const MOBILE_NAV_ICONS = {
   'Calendário': CalendarDays,
   'Classificação': ListOrdered,
   'Equipas': Shield,
+  'Jogadores': Users,
   'Notícias': Newspaper,
   'Liga TV': PlayCircle,
 };
