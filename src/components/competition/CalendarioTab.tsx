@@ -338,6 +338,49 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         <CalendarioPlaneamento matches={MATCHES} />
       ) : (
         <>
+      {/* Navegação por emblemas — mobile (sempre visível, scroll horizontal) */}
+      <div className="mb-3 sm:hidden">
+        {selectedTeam && (
+          <div className="mb-2 flex items-center gap-2 px-0.5">
+            <div className="flex min-w-0 items-center gap-2">
+              <TeamCrest teamId={selectedTeam.id} size={22} className="shrink-0" />
+              <span className="truncate text-[11px] font-bold font-mono uppercase tracking-wide text-foreground">
+                {selectedTeam.name}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => updateFilters({ filterTeam: 'all' })}
+              className="ml-auto flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-mono uppercase text-zinc-400 hover:text-foreground"
+            >
+              <X size={12} /> Limpar
+            </button>
+          </div>
+        )}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <button
+            type="button"
+            onClick={() => updateFilters({ filterTeam: 'all' })}
+            aria-label="Mostrar todas as equipas"
+            className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border transition-all ${filterTeam === 'all' ? 'border-primary bg-primary/10 ring-2 ring-primary/20' : 'border-zinc-200 bg-white/60 opacity-55 dark:border-zinc-800 dark:bg-zinc-900/60'}`}
+          >
+            <Image src="/logo-ancaf.png" alt="Todas" width={34} height={34} className="h-8 w-8 object-contain" />
+          </button>
+          {seasonTeams.map((team) => (
+            <button
+              key={team.id}
+              type="button"
+              onClick={() => updateFilters({ filterTeam: team.id, selectedRound: 'all' })}
+              aria-label={`Destacar jogos do ${team.name}`}
+              title={team.name}
+              className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border transition-all ${filterTeam === team.id ? 'border-primary bg-primary/10 ring-2 ring-primary/20 scale-105' : 'border-zinc-200 bg-white/60 opacity-55 dark:border-zinc-800 dark:bg-zinc-900/60'}`}
+            >
+              <TeamCrest teamId={team.id} size={30} />
+            </button>
+          ))}
+        </div>
+      </div>
+
       <button
         type="button"
         onClick={() => setMobileFiltersOpen((open) => !open)}
@@ -452,13 +495,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
       {/* Barra de filtros */}
       <div className={`${mobileFiltersOpen ? 'block' : 'hidden'} bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm mb-5 space-y-4 sm:block sm:mb-8`}>
-        <div className="flex flex-col gap-2 sm:hidden">
-          <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">Equipa</span>
-          <select aria-label="Filtrar calendário por equipa" value={filterTeam} onChange={(e) => updateFilters({ filterTeam: e.target.value, selectedRound: e.target.value === 'all' ? selectedRound : 'all' })} className={selectClass}>
-            <option value="all">Todas as equipas</option>
-            {seasonTeams.map((team) => <option key={team.id} value={team.id}>{team.name}</option>)}
-          </select>
-        </div>
+
         {/* Linha 1: Estado, Mês e Província */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Estado */}
