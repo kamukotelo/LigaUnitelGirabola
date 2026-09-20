@@ -4,7 +4,7 @@
 -- ═════════════════════════════════════════════════════════════════════
 
 insert into public.ancaf_player_season_stats (season_id, player_id, goals, assists, appearances, yellow_cards, red_cards) values
-  ('2026-27', 'dago-tshibamba', 3, 0, 4, 1, 0),
+  ('2026-27', 'dago-tshibamba', 5, 0, 5, 1, 0),
   ('2026-27', 'lito-bravos', 3, 0, 3, 0, 0),
   ('2026-27', 'axel-dago', 2, 0, 3, 1, 0),
   ('2026-27', 'fifa-1jz4pi8', 2, 0, 2, 0, 0),
@@ -32,6 +32,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'dieu', 1, 0, 3, 1, 0),
   ('2026-27', 'depu', 1, 0, 3, 0, 0),
   ('2026-27', 'deybi-flores', 1, 0, 3, 1, 0),
+  ('2026-27', 'fifa-1ljudk2', 1, 0, 3, 1, 0),
   ('2026-27', 'gladilson-bravos', 1, 0, 1, 0, 0),
   ('2026-27', 'fifa-1mppsb5', 1, 0, 2, 0, 0),
   ('2026-27', 'higino-bravos', 1, 0, 2, 0, 0),
@@ -46,6 +47,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'fifa-1jrku39', 1, 0, 2, 0, 0),
   ('2026-27', 'mestre-gui-libolo', 1, 0, 1, 0, 0),
   ('2026-27', 'moises-primeiromaio', 1, 0, 1, 0, 0),
+  ('2026-27', 'motivado-fcluanda', 1, 0, 1, 0, 0),
   ('2026-27', 'mussa-lunda-sul', 1, 0, 3, 1, 0),
   ('2026-27', 'ning-wiliete', 1, 0, 1, 0, 0),
   ('2026-27', 'fifa-1mqvbd5', 1, 0, 1, 0, 0),
@@ -89,7 +91,6 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'elias-huila', 0, 0, 1, 1, 0),
   ('2026-27', 'fifa-1qvfe29', 0, 0, 1, 1, 0),
   ('2026-27', 'fifa-1qtzy92', 0, 0, 1, 1, 0),
-  ('2026-27', 'fifa-1ljudk2', 0, 0, 1, 1, 0),
   ('2026-27', 'fifa-1jtuys4', 0, 0, 1, 1, 0),
   ('2026-27', 'januario-lobito', 0, 0, 1, 1, 0),
   ('2026-27', 'joao-milagre-huila', 0, 0, 1, 1, 0),
