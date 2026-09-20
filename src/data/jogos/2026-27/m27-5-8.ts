@@ -7,4 +7,10 @@ export default defineMatch({
   homeTeamId: 'saosalvador',
   awayTeamId: 'cabinda',
   schedule: { date: '2026-09-20T15:00:00+01:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'official' },
+  officials: {
+    referee: 'Sanda Mateus Miguel Kitu',
+    assistants: ['António Domingos Miguel', 'Natarino António Soares'],
+    fourth: 'Bernardo Kenge Mário',
+    commissioner: 'João Amado Muanda Goma',
+  },
 });
