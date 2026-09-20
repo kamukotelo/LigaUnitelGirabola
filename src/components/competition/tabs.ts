@@ -3,11 +3,11 @@
 
 export type HubTab = 'geral' | 'classificacao' | 'calendario' | 'estatisticas' | 'tempo-util' | 'nomeacoes';
 
-export const HUB_TABS: { key: HubTab; label: string }[] = [
-  { key: 'geral', label: 'Geral' },
-  { key: 'classificacao', label: 'Classificação' },
-  { key: 'calendario', label: 'Calendário' },
-  { key: 'estatisticas', label: 'Estatísticas' },
-  { key: 'tempo-util', label: 'Tempo Útil' },
-  { key: 'nomeacoes', label: 'Nomeações' },
+export const HUB_TABS: { key: HubTab; label: string; shortLabel: string }[] = [
+  { key: 'geral', label: 'Geral', shortLabel: 'Geral' },
+  { key: 'classificacao', label: 'Classificação', shortLabel: 'Tabela' },
+  { key: 'calendario', label: 'Calendário', shortLabel: 'Jogos' },
+  { key: 'estatisticas', label: 'Estatísticas', shortLabel: 'Stats' },
+  { key: 'tempo-util', label: 'Tempo Útil', shortLabel: 'Tempo' },
+  { key: 'nomeacoes', label: 'Nomeações', shortLabel: 'Árbitros' },
 ];

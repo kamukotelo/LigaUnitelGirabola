@@ -100,14 +100,15 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
                 <button
                   key={t.key}
                   onClick={() => goTo(seasonId, t.key)}
-                  className={`min-h-11 rounded-lg border px-1.5 py-2 text-center text-[10px] font-mono uppercase tracking-tight font-extrabold transition-all duration-200 flex flex-col items-center justify-center gap-1 sm:min-h-0 sm:rounded-none sm:border-x-0 sm:border-t-0 sm:border-b-2 sm:px-5 sm:py-4 sm:text-xs sm:tracking-wider sm:flex-row sm:flex-shrink-0 sm:gap-2 ${
+                  className={`min-h-[50px] rounded-xl border px-2 py-2 text-center text-[11px] font-mono uppercase tracking-tight font-extrabold transition-all duration-200 flex flex-col items-center justify-center gap-1 sm:min-h-0 sm:rounded-none sm:border-x-0 sm:border-t-0 sm:border-b-2 sm:px-5 sm:py-4 sm:text-xs sm:tracking-wider sm:flex-row sm:flex-shrink-0 sm:gap-2 ${
                     active
-                      ? 'text-accent border-accent bg-accent/5'
-                      : 'text-zinc-500 border-zinc-200 dark:border-zinc-800 sm:border-transparent hover:text-foreground hover:bg-white/5'
+                      ? 'text-accent border-accent bg-accent/10 sm:bg-accent/5 shadow-xs sm:shadow-none'
+                      : 'text-zinc-500 border-zinc-200/80 dark:border-zinc-800/80 bg-white/40 dark:bg-zinc-900/30 sm:bg-transparent sm:dark:bg-transparent sm:border-transparent hover:text-foreground hover:bg-white/80 dark:hover:bg-zinc-800/50'
                   }`}
                 >
-                  <Icon size={14} />
-                  {t.label}
+                  <Icon size={16} className={active ? 'text-accent' : 'text-zinc-500'} />
+                  <span className="sm:hidden">{t.shortLabel}</span>
+                  <span className="hidden sm:inline">{t.label}</span>
                 </button>
               );
             })}
