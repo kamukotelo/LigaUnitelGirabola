@@ -21,11 +21,10 @@ import {
 import SeasonBenchmarkCard from './SeasonBenchmarkCard';
 
 /**
- * Minutos mínimos para entrar no ranking por 90'. Sem este corte, um suplente
- * com um golo em 45 minutos aparecia no topo com 2,00 G/90 — à frente de quem
- * marca todas as jornadas. Corresponde a dois jogos completos.
+ * Minutos mínimos para entrar no ranking com 1 golo. Atletas com 2 ou mais G+A
+ * entram sempre no topo em ordem estritamente descendente.
  */
-const PER90_MIN_MINUTES = 180;
+const PER90_MIN_MINUTES = 90;
 
 function scoreAtHalfTime(match: Match): [number, number] | null {
   const parts = match.halfTimeScore?.match(/^(\d+)\s*[-–:]\s*(\d+)$/);
@@ -154,7 +153,7 @@ export default function AdvancedStatistics({ seasonId, teamId }: { seasonId: str
     const byTeam = <T extends { teamId: string }>(rows: T[]) => (teamId ? rows.filter((row) => row.teamId === teamId) : rows);
 
     const playerRates = isCurrent
-      ? byTeam(getCurrentSeasonPer90()).filter((row) => row.minutesPlayed >= PER90_MIN_MINUTES)
+      ? byTeam(getCurrentSeasonPer90()).filter((row) => row.contributions >= 2 || row.minutesPlayed >= PER90_MIN_MINUTES)
       : [];
 
     const cleanSheets = isCurrent
@@ -332,11 +331,11 @@ export default function AdvancedStatistics({ seasonId, teamId }: { seasonId: str
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">
-        <Panel title={`Rendimento individual por 90' (mín. ${PER90_MIN_MINUTES}')`} icon={<TrendingUp size={16} />}>
+        <Panel title="Rendimento individual por 90' e G+A" icon={<TrendingUp size={16} />}>
           <Table
             headers={['Jogador', 'G+A', 'Minutos', 'G/90', 'A/90']}
-            rows={analytics.playerRates.slice(0, 8).map((row) => [row.name, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)])}
-            empty={`Nenhum atleta com ${PER90_MIN_MINUTES} minutos reconstruídos a partir de fichas com escalação e substituições oficiais.`}
+            rows={analytics.playerRates.slice(0, 10).map((row) => [row.name, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)])}
+            empty="Nenhum atleta com participações em golo registadas na época em curso."
           />
         </Panel>
         <Panel title="Balizas limpas" icon={<ShieldCheck size={16} />}>

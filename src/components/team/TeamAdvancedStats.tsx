@@ -250,7 +250,7 @@ export default function TeamAdvancedStats({
       (c) => c.teamId === team.id && c.cleanSheets > 0,
     );
     const clubPer90 = getCurrentSeasonPer90()
-      .filter((p) => p.teamId === team.id && p.minutesPlayed >= 90)
+      .filter((p) => p.teamId === team.id && (p.contributions >= 2 || p.minutesPlayed >= 90))
       .slice(0, 5);
 
     return {
@@ -715,7 +715,7 @@ export default function TeamAdvancedStats({
           {stats.clubPer90.length > 0 && (
             <AnimatedCard variant="hud" className="p-4 sm:p-6 bg-white/60 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800">
               <h4 className="font-display text-xs sm:text-sm uppercase text-foreground flex items-center gap-2 mb-3 sm:mb-4">
-                <Award size={15} className="text-accent shrink-0" /> Rendimento por 90 Minutos
+                <Award size={15} className="text-accent shrink-0" /> Rendimento por 90 Minutos (G+A)
               </h4>
               <div className="space-y-2.5 sm:space-y-3">
                 {stats.clubPer90.map((player) => (
@@ -731,7 +731,7 @@ export default function TeamAdvancedStats({
                         {player.name}
                       </Link>
                       <span className="block text-[9px] font-mono text-zinc-500 truncate">
-                        {player.minutesPlayed}&apos; · {player.goals}G {player.assists > 0 ? `+ ${player.assists}A` : ''}
+                        {player.minutesPlayed}&apos; · {player.goals}G {player.assists > 0 ? `+ ${player.assists}A · ` : ''}({player.contributions} G+A)
                       </span>
                     </div>
                     <div className="text-right shrink-0">
