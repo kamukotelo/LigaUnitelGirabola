@@ -10,6 +10,7 @@ import {
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
+import TeamAdvancedStats from '@/components/team/TeamAdvancedStats';
 
 interface TeamDetailClientProps {
   team: Team;
@@ -541,6 +542,13 @@ export default function TeamDetailClient({
               </span>
             </AnimatedCard>
           </div>
+
+          <TeamAdvancedStats
+            team={team}
+            matches={matches}
+            standing={standing}
+            seasonId={UPCOMING_SEASON_ID}
+          />
         </div>
       )}
 
