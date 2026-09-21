@@ -32,14 +32,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'bad_request', message: 'Introduza um e-mail válido.' }, { status: 400 });
   }
 
-  // Indisponibilidade do serviço de e-mail não revela nada sobre a conta, por
-  // isso pode ser dita ao utilizador — poupa-lhe a espera por um e-mail que
-  // nunca chegaria.
+  // Se o serviço de e-mail não estiver configurado, informa o utilizador
+  // para que possa utilizar a Chave de Segurança Master ANCAF sem ficar bloqueado.
   if (!isAdminMailConfigured()) {
-    return NextResponse.json(
-      { error: 'server_misconfigured', message: 'A recuperação por e-mail não está configurada. Contacte a administração.' },
-      { status: 503 },
-    );
+    return NextResponse.json({
+      ok: true,
+      emailSent: false,
+      canUseRecoveryKey: true,
+      message: 'O envio automático de e-mails não está ativo. Utilize a Chave de Segurança ANCAF para redefinir a palavra-passe.',
+    });
   }
 
   const reset = await createPasswordReset(email);
@@ -59,5 +60,5 @@ export async function POST(request: Request) {
   }
 
   // Resposta deliberadamente genérica: não revela se a conta existe.
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, emailSent: true, canUseRecoveryKey: true });
 }
