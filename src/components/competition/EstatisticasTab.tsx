@@ -18,6 +18,7 @@ import {
   X,
   Flame,
   Crown,
+  ArrowRightLeft,
 } from 'lucide-react';
 import {
   CURRENT_SEASON_SCORERS,
@@ -93,12 +94,11 @@ function cardsLabel(yellow: number, red: number): string {
 }
 
 /**
- * 1. Abas no topo estilo Sofascore (Pills arredondadas)
+ * 1. Abas de Estatísticas: Jogadores e Equipas (O comparador tem aba própria no hub)
  */
-const SOFASCORE_VIEWS: { key: StatsView; label: string }[] = [
+const STATS_VIEWS: { key: StatsView; label: string }[] = [
   { key: 'jogadores', label: 'Jogadores' },
   { key: 'equipas', label: 'Equipas' },
-  { key: 'comparador', label: 'Comparador' },
 ];
 
 /**
@@ -485,149 +485,57 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   ];
 
   return (
-    <div className="space-y-4 sm:space-y-5">
-      {/* 1. NAVEGAÇÃO DE NÍVEL SUPERIOR ESTILO SOFASCORE: JOGADORES | EQUIPAS | COMPARADOR */}
-      <div className="flex items-center gap-2 p-1 bg-zinc-950/80 dark:bg-zinc-900/90 rounded-full border border-zinc-800/80 w-fit">
-        {SOFASCORE_VIEWS.map((v) => {
-          const active = activeView === v.key;
-          return (
-            <button
-              key={v.key}
-              onClick={() => setActiveView(v.key)}
-              className={`px-5 py-1.5 rounded-full text-xs uppercase font-extrabold tracking-wider transition-all duration-200 ${
-                active
-                  ? 'bg-white text-zinc-950 shadow-md shadow-white/10'
-                  : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/60'
-              }`}
-            >
-              {v.label}
-            </button>
-          );
-        })}
+    <div className="space-y-3 sm:space-y-4">
+      {/* 1. NAVEGAÇÃO DE TOPO COMPACTA: JOGADORES | EQUIPAS + LINK DEDICADO PARA O COMPARADOR */}
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <div className="flex items-center gap-1 p-1 bg-zinc-950/80 dark:bg-zinc-900/90 rounded-full border border-zinc-800/80">
+          {STATS_VIEWS.map((v) => {
+            const active = activeView === v.key;
+            return (
+              <button
+                key={v.key}
+                onClick={() => setActiveView(v.key)}
+                className={`px-4 py-1 rounded-full text-xs font-mono uppercase font-bold tracking-wider transition-all duration-200 ${
+                  active
+                    ? 'bg-white text-zinc-950 shadow-xs'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                }`}
+              >
+                {v.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Link direto para a página/aba dedicada do Comparador */}
+        <Link
+          href={`/competicao/${seasonId}?tab=comparador`}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono text-zinc-400 hover:text-accent border border-zinc-800 hover:border-accent/40 bg-zinc-950/40 hover:bg-accent/5 transition-all"
+        >
+          <ArrowRightLeft size={13} className="text-accent" />
+          <span className="hidden sm:inline">Comparador de Temporadas</span>
+          <span className="sm:hidden">Comparador</span>
+          <span className="text-accent">→</span>
+        </Link>
       </div>
 
       {/* ========================================================================= */}
-      {/* VISTA 1: JOGADORES (ESTILO SOFASCORE COM MINI-CARDS & PESQUISA)           */}
+      {/* VISTA 1: JOGADORES (FILTROS COMPACTOS & RESULTADOS IMEDIATOS)             */}
       {/* ========================================================================= */}
       {activeView === 'jogadores' && (
-        <div className="space-y-4">
-          {/* MINI-CARDS DOS LÍDERES NO TOPO (DESTAQUES RÁPIDOS EM 3 SEGUNDOS) */}
-          <div className="flex items-center gap-2.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1 px-0.5">
-            {quickLeaderCards.map((card) => {
-              const isCardActive = activeTab === card.key;
-              const hasPlayer = !!card.player;
-
-              return (
-                <button
-                  key={card.key}
-                  onClick={() => setActiveTab(card.key)}
-                  className={`flex-shrink-0 min-w-[190px] sm:min-w-[210px] p-3 rounded-2xl border text-left transition-all duration-200 relative overflow-hidden ${
-                    isCardActive
-                      ? 'border-accent bg-accent/10 shadow-sm ring-1 ring-accent/40'
-                      : 'border-zinc-800/80 bg-zinc-950/80 hover:border-zinc-700 hover:bg-zinc-900/80'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-1 mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 font-bold flex items-center gap-1">
-                      <span>{card.emoji}</span>
-                      <span>{card.label}</span>
-                    </span>
-                    {isCardActive && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                    )}
-                  </div>
-
-                  {hasPlayer ? (
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <div className="relative flex-shrink-0">
-                          <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-200">
-                            {card.player!.name.slice(0, 2).toUpperCase()}
-                          </div>
-                          <div className="absolute -bottom-1 -right-1 bg-zinc-950 rounded-full p-0.5 border border-zinc-800">
-                            <TeamCrest teamId={card.player!.teamId} size={12} />
-                          </div>
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-xs font-bold text-foreground truncate">{card.player!.name}</p>
-                          <p className="text-[10px] text-zinc-500 truncate">{card.player!.club}</p>
-                        </div>
-                      </div>
-
-                      <div className="text-right flex-shrink-0">
-                        <span className={`font-display font-black text-lg block leading-none ${card.colorClass}`}>
-                          {card.key === 'minutes' ? card.player!.value.toLocaleString('pt-AO') : card.player!.value}
-                        </span>
-                        <span className="text-[8px] font-mono text-zinc-500 uppercase">
-                          {card.valueSuffix}
-                        </span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="py-2 text-center text-xs text-zinc-600 font-mono">
-                      A aguardar dados
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* BARRA DE PESQUISA RÁPIDA DE JOGADOR ("QUICK SEARCH") */}
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500">
-              <Search size={15} />
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Procurar jogador ou clube (ex: Zito, Tiago, Petro...)"
-              className="w-full pl-10 pr-10 py-2 rounded-xl bg-zinc-900/90 border border-zinc-800 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                title="Limpar pesquisa"
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-500 hover:text-zinc-300"
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
-
-          {/* 2. SCROLL FACILITADO DE POSIÇÕES (CÁPSULAS ESTILO SOFASCORE) */}
-          <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1 px-0.5">
-            {POSITION_FILTERS.map((pos) => {
-              const active = filterPosition === pos.key;
-              return (
-                <button
-                  key={pos.key}
-                  onClick={() => setFilterPosition(pos.key)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-150 flex-shrink-0 border ${
-                    active
-                      ? 'bg-white text-zinc-950 border-white shadow-xs font-bold'
-                      : 'bg-zinc-900/90 dark:bg-zinc-950/80 text-zinc-300 dark:text-zinc-400 border-zinc-800 hover:border-zinc-700 hover:text-white'
-                  }`}
-                >
-                  {pos.label}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* 3. SCROLL FACILITADO DE MÉTRICAS COM ÍCONE + TEXTO (ESTILO SOFASCORE) */}
-          <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1 px-0.5">
+        <div className="space-y-2.5 sm:space-y-3">
+          {/* 1. SCROLL DE MÉTRICAS (ESTILO SOFASCORE - PILLS HORIZONTAIS) */}
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-0.5 px-0.5">
             {STAT_TABS.map((tab) => {
               const active = activeTab === tab.key;
               return (
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key)}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-150 flex-shrink-0 border ${
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-150 flex-shrink-0 border ${
                     active
-                      ? 'bg-accent text-zinc-950 border-accent font-bold shadow-md shadow-accent/15'
-                      : 'bg-zinc-900/80 dark:bg-zinc-950/60 text-zinc-300 dark:text-zinc-400 border-zinc-800/80 hover:border-zinc-700 hover:text-white'
+                      ? 'bg-accent text-zinc-950 border-accent font-bold shadow-xs'
+                      : 'bg-zinc-900/90 dark:bg-zinc-950/80 text-zinc-300 dark:text-zinc-400 border-zinc-800 hover:border-zinc-700 hover:text-white'
                   }`}
                 >
                   <span>{tab.emoji}</span>
@@ -637,58 +545,95 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             })}
           </div>
 
-          {/* Filtro Compacto de Clube */}
-          <div className="flex items-center justify-between gap-3 px-1">
-            <div className="flex items-center gap-2">
-              <Filter size={13} className="text-accent flex-shrink-0" />
-              <select
-                value={activeTeam}
-                onChange={(e) => setFilterTeam(e.target.value)}
-                aria-label="Filtrar por clube"
-                className="rounded-lg border border-zinc-800 bg-zinc-900/90 px-3 py-1 text-xs font-medium text-zinc-200 focus:outline-none focus:ring-1 focus:ring-accent"
-              >
-                <option value="all">Todos os Clubes ({seasonTeams.length})</option>
-                {seasonTeams.map((team) => (
-                  <option key={team.id} value={team.id}>
-                    {team.name || team.shortName}
-                  </option>
-                ))}
-              </select>
+          {/* 2. BARRA COMPACTA: POSIÇÕES + CLUBE + PESQUISA */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-zinc-950/60 border border-zinc-800/60 p-1.5 sm:p-2 rounded-xl">
+            {/* Cápsulas de Posição */}
+            <div className="flex items-center gap-1 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              {POSITION_FILTERS.map((pos) => {
+                const active = filterPosition === pos.key;
+                return (
+                  <button
+                    key={pos.key}
+                    onClick={() => setFilterPosition(pos.key)}
+                    className={`px-3 py-1 rounded-lg text-xs font-mono font-bold whitespace-nowrap transition-all duration-150 flex-shrink-0 border ${
+                      active
+                        ? 'bg-white text-zinc-950 border-white shadow-xs'
+                        : 'bg-zinc-900/60 text-zinc-400 border-zinc-800/80 hover:border-zinc-700 hover:text-white'
+                    }`}
+                  >
+                    {pos.label}
+                  </button>
+                );
+              })}
             </div>
 
-            {activeTeamName && (
-              <span className="text-[11px] font-mono text-zinc-500 truncate">
-                Filtro: <strong className="text-zinc-300">{activeTeamName}</strong>
-              </span>
-            )}
+            {/* Filtro de Clube & Pesquisa Rápida */}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                <Filter size={12} className="text-accent flex-shrink-0" />
+                <select
+                  value={activeTeam}
+                  onChange={(e) => setFilterTeam(e.target.value)}
+                  aria-label="Filtrar por clube"
+                  className="rounded-lg border border-zinc-800 bg-zinc-900/90 px-2.5 py-1 text-xs font-medium text-zinc-200 focus:outline-none focus:ring-1 focus:ring-accent max-w-[150px] sm:max-w-[200px] truncate"
+                >
+                  <option value="all">Todos ({seasonTeams.length})</option>
+                  {seasonTeams.map((team) => (
+                    <option key={team.id} value={team.id}>
+                      {team.name || team.shortName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Input Compacto de Pesquisa */}
+              <div className="relative w-32 sm:w-44 flex-shrink-0">
+                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-zinc-500">
+                  <Search size={12} />
+                </div>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Pesquisar..."
+                  className="w-full pl-7 pr-6 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-accent"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    title="Limpar pesquisa"
+                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-zinc-500 hover:text-zinc-300"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Alerta de Pré-Época */}
           {isUpcoming && !seasonHasStarted && (
             <motion.div
-              initial={{ opacity: 0, y: -6 }}
+              initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex gap-3 items-center"
+              className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl flex gap-2.5 items-center text-xs text-amber-500"
             >
-              <AlertTriangle className="text-amber-500 flex-shrink-0" size={16} />
-              <div className="text-xs">
-                <strong className="text-foreground uppercase font-mono tracking-wider block">Temporada por Iniciar</strong>
-                <p className="text-zinc-400 mt-0.5">As estatísticas individuais serão sincronizadas assim que as primeiras súmulas forem homologadas.</p>
-              </div>
+              <AlertTriangle className="text-amber-500 flex-shrink-0" size={15} />
+              <span>Temporada por iniciar: as estatísticas serão computadas logo após as primeiras súmulas oficiais homologadas.</span>
             </motion.div>
           )}
 
-          {/* 4. CARD CONTAINER DE ESTATÍSTICA DO SOFASCORE */}
+          {/* 3. CARD CONTAINER DE RANKINGS DO SOFASCORE - IMEDIATAMENTE VISÍVEL */}
           <div className="bg-zinc-950/90 dark:bg-zinc-900/60 border border-zinc-800/80 rounded-2xl overflow-hidden shadow-sm">
             {/* Cabeçalho do Bloco Sofascore */}
-            <div className="flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-zinc-800/60 bg-zinc-900/40">
+            <div className="flex items-center justify-between px-3.5 sm:px-5 py-2.5 sm:py-3 border-b border-zinc-800/60 bg-zinc-900/40">
               <div className="flex items-center gap-2">
                 <span className="text-base">{activeStatMeta.emoji}</span>
-                <h3 className="font-bold text-sm sm:text-base text-foreground">
-                  {activeStatMeta.label}
+                <h3 className="font-bold text-xs sm:text-sm text-foreground">
+                  Ranking · {activeStatMeta.label}
                 </h3>
               </div>
-              <span className="text-xs font-semibold text-accent font-mono">
+              <span className="text-[11px] font-semibold text-accent font-mono">
                 {visiblePlayers.length} atletas
               </span>
             </div>
@@ -714,17 +659,24 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                   return (
                     <div
                       key={player.id}
-                      className="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 hover:bg-zinc-800/30 transition-colors"
+                      className="flex items-center justify-between gap-2.5 sm:gap-3 px-3.5 sm:px-5 py-2.5 hover:bg-zinc-800/30 transition-colors"
                     >
-                      {/* Avatar com Mini-Escudo Sobreposto (Sofascore) */}
-                      <div className="flex items-center gap-3 min-w-0">
+                      {/* Posição no Ranking + Avatar com Mini-Escudo Sobreposto */}
+                      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                        {/* Número do Ranking */}
+                        <span className={`w-4 sm:w-5 text-center text-xs font-mono font-bold flex-shrink-0 ${
+                          rank === 1 ? 'text-accent font-black' : rank <= 3 ? 'text-zinc-200' : 'text-zinc-500'
+                        }`}>
+                          {rank}
+                        </span>
+
                         <div className="relative flex-shrink-0">
-                          <div className="w-10 h-10 rounded-full bg-zinc-800 border border-zinc-700/80 flex items-center justify-center text-xs font-bold text-zinc-200 overflow-hidden shadow-xs">
+                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-800 border border-zinc-700/80 flex items-center justify-center text-xs font-bold text-zinc-200 overflow-hidden shadow-xs">
                             {player.name.slice(0, 2).toUpperCase()}
                           </div>
                           {/* Mini escudo do clube sobreposto no canto inferior */}
                           <div className="absolute -bottom-1 -right-1 bg-zinc-950 rounded-full p-0.5 shadow-sm border border-zinc-800">
-                            <TeamCrest teamId={player.teamId} size={15} />
+                            <TeamCrest teamId={player.teamId} size={14} />
                           </div>
                         </div>
 
@@ -732,11 +684,11 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5 truncate">
                             {player.hasProfile === false ? (
-                              <span className="font-semibold text-sm text-foreground truncate">{player.name}</span>
+                              <span className="font-semibold text-xs sm:text-sm text-foreground truncate">{player.name}</span>
                             ) : (
                               <Link
                                 href={`/players/${player.id}`}
-                                className="font-semibold text-sm text-foreground hover:text-accent transition-colors truncate"
+                                className="font-semibold text-xs sm:text-sm text-foreground hover:text-accent transition-colors truncate"
                               >
                                 {player.name}
                               </Link>
@@ -752,7 +704,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-zinc-400 flex items-center gap-1.5 truncate mt-0.5 font-sans">
+                          <p className="text-[11px] text-zinc-400 flex items-center gap-1.5 truncate mt-0.5 font-sans">
                             <span>{shown(player.position) ? player.position : 'Atleta'}</span>
                             <span className="text-zinc-600">·</span>
                             <span className="truncate text-zinc-500">{player.club}</span>
@@ -760,15 +712,15 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                         </div>
                       </div>
 
-                      {/* Score Numérico Alinhado à Direita (Sofascore) */}
-                      <div className="text-right flex-shrink-0 flex items-center gap-2 pl-3">
+                      {/* Score Numérico Alinhado à Direita */}
+                      <div className="text-right flex-shrink-0 flex items-center gap-1.5 sm:gap-2 pl-2">
                         {isLeagueLeader ? (
-                          <div className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-display font-black text-sm sm:text-base">
-                            <span className="w-2 h-2 rounded-xs bg-emerald-500 inline-block" />
+                          <div className="flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-display font-black text-sm sm:text-base">
+                            <span className="w-1.5 h-1.5 rounded-xs bg-emerald-500 inline-block" />
                             <span>{activeTab === 'minutes' ? player.value.toLocaleString('pt-AO') : player.value}</span>
                           </div>
                         ) : (
-                          <div className="font-display font-bold text-base sm:text-lg text-foreground pr-1">
+                          <div className="font-display font-bold text-sm sm:text-base text-foreground pr-1">
                             {activeTab === 'minutes' ? player.value.toLocaleString('pt-AO') : player.value}
                           </div>
                         )}
@@ -785,9 +737,82 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             </div>
           </div>
 
+          {/* Destaques Rápidos da Temporada (Colapsável Discreto após a lista) */}
+          <details className="group overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-950/40">
+            <summary className="flex cursor-pointer list-none items-center justify-between p-3 text-xs font-mono font-bold uppercase tracking-wider text-zinc-400 hover:text-zinc-200 select-none">
+              <div className="flex items-center gap-2">
+                <Flame size={14} className="text-accent flex-shrink-0" />
+                <span>Ver Destaques da Temporada (Líderes Rápidos)</span>
+              </div>
+              <ChevronDown size={14} className="text-zinc-400 transition-transform duration-200 group-open:rotate-180" />
+            </summary>
+            <div className="p-3 border-t border-zinc-800/60">
+              <div className="flex items-center gap-2.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1 px-0.5">
+                {quickLeaderCards.map((card) => {
+                  const isCardActive = activeTab === card.key;
+                  const hasPlayer = !!card.player;
+
+                  return (
+                    <button
+                      key={card.key}
+                      onClick={() => setActiveTab(card.key)}
+                      className={`flex-shrink-0 min-w-[180px] sm:min-w-[200px] p-2.5 rounded-xl border text-left transition-all duration-200 relative overflow-hidden ${
+                        isCardActive
+                          ? 'border-accent bg-accent/10 shadow-sm ring-1 ring-accent/40'
+                          : 'border-zinc-800/80 bg-zinc-950/80 hover:border-zinc-700 hover:bg-zinc-900/80'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-1 mb-1.5">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 font-bold flex items-center gap-1">
+                          <span>{card.emoji}</span>
+                          <span>{card.label}</span>
+                        </span>
+                        {isCardActive && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                        )}
+                      </div>
+
+                      {hasPlayer ? (
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <div className="relative flex-shrink-0">
+                              <div className="w-7 h-7 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-200">
+                                {card.player!.name.slice(0, 2).toUpperCase()}
+                              </div>
+                              <div className="absolute -bottom-1 -right-1 bg-zinc-950 rounded-full p-0.5 border border-zinc-800">
+                                <TeamCrest teamId={card.player!.teamId} size={11} />
+                              </div>
+                            </div>
+                            <div className="min-w-0">
+                              <p className="text-xs font-bold text-foreground truncate">{card.player!.name}</p>
+                              <p className="text-[10px] text-zinc-500 truncate">{card.player!.club}</p>
+                            </div>
+                          </div>
+
+                          <div className="text-right flex-shrink-0">
+                            <span className={`font-display font-black text-base block leading-none ${card.colorClass}`}>
+                              {card.key === 'minutes' ? card.player!.value.toLocaleString('pt-AO') : card.player!.value}
+                            </span>
+                            <span className="text-[8px] font-mono text-zinc-500 uppercase">
+                              {card.valueSuffix}
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="py-1 text-center text-xs text-zinc-600 font-mono">
+                          A aguardar dados
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </details>
+
           {/* Critérios Oficiais e Reconciliação (Colapsável Discreto) */}
           <details className="group overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-950/40">
-            <summary className="flex cursor-pointer list-none items-center justify-between p-3.5 text-xs font-mono font-bold uppercase tracking-wider text-zinc-500 select-none">
+            <summary className="flex cursor-pointer list-none items-center justify-between p-3 text-xs font-mono font-bold uppercase tracking-wider text-zinc-500 select-none">
               <div className="flex items-center gap-2">
                 <Info size={14} className="text-accent flex-shrink-0" />
                 <span>Auditoria & Critérios Oficiais FAF/ANCAF</span>
@@ -823,7 +848,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       )}
 
       {/* ========================================================================= */}
-      {/* VISTA 3: COMPARADOR OFICIAL ENTRE TEMPORADAS                              */}
+      {/* VISTA 3: COMPARADOR (SUPORTE SECUNDÁRIO E SALVAGUARDA DE REGRESSÃO)       */}
       {/* ========================================================================= */}
       {activeView === 'comparador' && (
         <SeasonComparisonMatrix clubFilter={activeTeam} seasonId={seasonId} />

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { LayoutGrid, Trophy, CalendarDays, BarChart3, Timer, Flag } from 'lucide-react';
+import { LayoutGrid, Trophy, CalendarDays, BarChart3, Timer, Flag, ArrowRightLeft } from 'lucide-react';
 import { SEASONS } from '@/lib/data';
 import PageHeader from '@/components/ui/PageHeader';
 import { HUB_TABS, HubTab } from './tabs';
@@ -10,6 +10,7 @@ import GeralTab from './GeralTab';
 import ClassificacaoTab from './ClassificacaoTab';
 import CalendarioTab from './CalendarioTab';
 import EstatisticasTab from './EstatisticasTab';
+import SeasonComparisonMatrix from './SeasonComparisonMatrix';
 import TempoUtilTab from './TempoUtilTab';
 import NomeacoesTab from './NomeacoesTab';
 
@@ -18,6 +19,7 @@ const TAB_ICONS: Record<HubTab, typeof Trophy> = {
   classificacao: Trophy,
   calendario: CalendarDays,
   estatisticas: BarChart3,
+  comparador: ArrowRightLeft,
   'tempo-util': Timer,
   nomeacoes: Flag,
 };
@@ -91,8 +93,8 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
             <MiniStandings seasonId={seasonId} limit={5} />
           </details>}
 
-          {/* Barra de abas */}
-          <div className="grid grid-cols-3 gap-1.5 mb-8 sm:flex sm:gap-0 sm:border-b sm:border-zinc-200 sm:dark:border-zinc-900">
+          {/* Barra de abas com scroll suave no mobile */}
+          <div className="flex items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden mb-6 sm:mb-8 sm:flex-wrap sm:gap-0 sm:border-b sm:border-zinc-200 sm:dark:border-zinc-900 pb-1 sm:pb-0">
             {HUB_TABS.map((t) => {
               const Icon = TAB_ICONS[t.key];
               const active = tab === t.key;
@@ -100,7 +102,7 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
                 <button
                   key={t.key}
                   onClick={() => goTo(seasonId, t.key)}
-                  className={`min-h-[50px] rounded-xl border px-2 py-2 text-center text-[11px] font-mono uppercase tracking-tight font-extrabold transition-all duration-200 flex flex-col items-center justify-center gap-1 sm:min-h-0 sm:rounded-none sm:border-x-0 sm:border-t-0 sm:border-b-2 sm:px-5 sm:py-4 sm:text-xs sm:tracking-wider sm:flex-row sm:flex-shrink-0 sm:gap-2 ${
+                  className={`min-h-[48px] sm:min-h-0 rounded-xl sm:rounded-none border sm:border-x-0 sm:border-t-0 sm:border-b-2 px-3 py-2 sm:px-5 sm:py-4 text-center text-xs font-mono uppercase tracking-tight sm:tracking-wider font-extrabold transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 flex-shrink-0 whitespace-nowrap ${
                     active
                       ? 'text-accent border-accent bg-accent/10 sm:bg-accent/5 shadow-xs sm:shadow-none'
                       : 'text-zinc-500 border-zinc-200/80 dark:border-zinc-800/80 bg-white/40 dark:bg-zinc-900/30 sm:bg-transparent sm:dark:bg-transparent sm:border-transparent hover:text-foreground hover:bg-white/80 dark:hover:bg-zinc-800/50'
@@ -119,6 +121,7 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
           {tab === 'classificacao' && <ClassificacaoTab seasonId={seasonId} />}
           {tab === 'calendario' && <CalendarioTab seasonId={seasonId} />}
           {tab === 'estatisticas' && <EstatisticasTab seasonId={seasonId} />}
+          {tab === 'comparador' && <SeasonComparisonMatrix seasonId={seasonId} />}
           {tab === 'tempo-util' && <TempoUtilTab seasonId={seasonId} />}
           {tab === 'nomeacoes' && <NomeacoesTab seasonId={seasonId} />}
         </div>
