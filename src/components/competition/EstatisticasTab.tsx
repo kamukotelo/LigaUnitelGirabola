@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -48,7 +48,7 @@ import SeasonComparisonMatrix from './SeasonComparisonMatrix';
 import { shown } from '@/lib/display';
 
 type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'yellowcards' | 'redcards' | 'minutes';
-type StatsView = 'jogadores' | 'equipas' | 'comparador';
+type StatsView = 'jogadores' | 'equipas' | 'avancada' | 'comparador';
 
 const RANKING_SIZE = 30;
 const HISTORICAL_RANKING_SIZE = 15;
@@ -94,11 +94,12 @@ function cardsLabel(yellow: number, red: number): string {
 }
 
 /**
- * 1. Abas de Estatísticas: Jogadores e Equipas (O comparador tem aba própria no hub)
+ * 1. Abas de Estatísticas: Jogadores, Equipas e Análise Avançada (O comparador tem aba própria no hub)
  */
 const STATS_VIEWS: { key: StatsView; label: string }[] = [
   { key: 'jogadores', label: 'Jogadores' },
   { key: 'equipas', label: 'Equipas' },
+  { key: 'avancada', label: 'Análise Avançada' },
 ];
 
 /**
@@ -144,6 +145,15 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   const [filterTeam, setFilterTeam] = useState<string>('all');
   const [filterPosition, setFilterPosition] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const viewParam = params.get('view');
+    if (viewParam === 'jogadores' || viewParam === 'equipas' || viewParam === 'avancada') {
+      setActiveView(viewParam);
+    }
+  }, []);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const allPlayers = useMemo(() => getPlayers(), []);
@@ -488,14 +498,14 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
     <div className="space-y-3 sm:space-y-4">
       {/* 1. NAVEGAÇÃO DE TOPO COMPACTA: JOGADORES | EQUIPAS + LINK DEDICADO PARA O COMPARADOR */}
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <div className="flex items-center gap-1 p-1 bg-zinc-100 dark:bg-zinc-900/90 rounded-full border border-zinc-200 dark:border-zinc-800/80">
+        <div className="flex items-center gap-1 p-1 bg-zinc-100 dark:bg-zinc-900/90 rounded-full border border-zinc-200 dark:border-zinc-800/80 max-w-full overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {STATS_VIEWS.map((v) => {
             const active = activeView === v.key;
             return (
               <button
                 key={v.key}
                 onClick={() => setActiveView(v.key)}
-                className={`px-4 py-1 rounded-full text-xs font-mono uppercase font-bold tracking-wider transition-all duration-200 ${
+                className={`px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs font-mono uppercase font-bold tracking-wider transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                   active
                     ? 'bg-white text-zinc-950 shadow-xs dark:bg-zinc-800 dark:text-white'
                     : 'text-zinc-500 hover:text-foreground hover:bg-zinc-200/60 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/50'
@@ -838,18 +848,95 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
               </p>
             </div>
           </details>
+          {/* Métricas Avançadas Individuais de Atletas */}
+          <AdvancedStatistics seasonId={seasonId} teamId={activeTeam === 'all' ? undefined : activeTeam} scope="players" className="mt-6 pt-6 border-t border-zinc-200 dark:border-zinc-800/80 space-y-4 sm:space-y-6" />
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* VISTA 2: EQUIPAS / ANÁLISE COLETIVA AVANÇADA                              */}
+      {/* VISTA 2: EQUIPAS / ANÁLISE COLETIVA PURA                                  */}
       {/* ========================================================================= */}
       {activeView === 'equipas' && (
-        <AdvancedStatistics seasonId={seasonId} teamId={activeTeam === 'all' ? undefined : activeTeam} />
+        <div className="space-y-3 sm:space-y-4">
+          {/* Barra de Filtro de Clube */}
+          <div className="flex items-center justify-between gap-2 bg-zinc-100/80 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/60 p-2 sm:p-2.5 rounded-xl">
+            <div className="flex items-center gap-2">
+              <Filter size={13} className="text-accent flex-shrink-0" />
+              <span className="text-xs font-mono text-zinc-600 dark:text-zinc-400 font-semibold hidden sm:inline">
+                Filtrar por equipa:
+              </span>
+              <select
+                value={activeTeam}
+                onChange={(e) => setFilterTeam(e.target.value)}
+                aria-label="Filtrar por clube"
+                className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 px-2.5 py-1.5 text-xs font-medium text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-accent max-w-[180px] sm:max-w-[260px] truncate"
+              >
+                <option value="all">Todas as equipas ({seasonTeams.length})</option>
+                {seasonTeams.map((team) => (
+                  <option key={team.id} value={team.id}>
+                    {team.name || team.shortName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {activeTeam !== 'all' && (
+              <button
+                onClick={() => setFilterTeam('all')}
+                className="text-xs font-mono text-accent hover:underline flex items-center gap-1"
+              >
+                <X size={12} />
+                <span>Ver todas</span>
+              </button>
+            )}
+          </div>
+
+          <AdvancedStatistics seasonId={seasonId} teamId={activeTeam === 'all' ? undefined : activeTeam} scope="teams" className="mt-2 space-y-6" />
+        </div>
       )}
 
       {/* ========================================================================= */}
-      {/* VISTA 3: COMPARADOR (SUPORTE SECUNDÁRIO E SALVAGUARDA DE REGRESSÃO)       */}
+      {/* VISTA 3: ANÁLISE AVANÇADA (DOSSIÊ CONSOLIDADO INTEGRAL)                   */}
+      {/* ========================================================================= */}
+      {activeView === 'avancada' && (
+        <div className="space-y-3 sm:space-y-4">
+          {/* Barra de Filtro de Clube */}
+          <div className="flex items-center justify-between gap-2 bg-zinc-100/80 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/60 p-2 sm:p-2.5 rounded-xl">
+            <div className="flex items-center gap-2">
+              <Filter size={13} className="text-accent flex-shrink-0" />
+              <span className="text-xs font-mono text-zinc-600 dark:text-zinc-400 font-semibold hidden sm:inline">
+                Filtrar por clube:
+              </span>
+              <select
+                value={activeTeam}
+                onChange={(e) => setFilterTeam(e.target.value)}
+                aria-label="Filtrar por clube na análise avançada"
+                className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 px-2.5 py-1.5 text-xs font-medium text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-accent max-w-[180px] sm:max-w-[260px] truncate"
+              >
+                <option value="all">Todos os clubes ({seasonTeams.length})</option>
+                {seasonTeams.map((team) => (
+                  <option key={team.id} value={team.id}>
+                    {team.name || team.shortName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {activeTeam !== 'all' && (
+              <button
+                onClick={() => setFilterTeam('all')}
+                className="text-xs font-mono text-accent hover:underline flex items-center gap-1"
+              >
+                <X size={12} />
+                <span>Ver todos</span>
+              </button>
+            )}
+          </div>
+
+          <AdvancedStatistics seasonId={seasonId} teamId={activeTeam === 'all' ? undefined : activeTeam} scope="all" className="mt-2 space-y-6" />
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* VISTA 4: COMPARADOR (SUPORTE SECUNDÁRIO E SALVAGUARDA DE REGRESSÃO)       */}
       {/* ========================================================================= */}
       {activeView === 'comparador' && (
         <SeasonComparisonMatrix clubFilter={activeTeam} seasonId={seasonId} />
