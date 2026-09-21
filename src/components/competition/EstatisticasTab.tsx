@@ -122,11 +122,11 @@ const STAT_TABS: {
  * 3. Scroll de Posições facilitado estilo Sofascore
  */
 const POSITION_FILTERS = [
-  { key: 'all', label: 'Todas as posições' },
-  { key: 'GR', label: 'Guarda-Redes' },
-  { key: 'DEF', label: 'Defesas' },
-  { key: 'MED', label: 'Médios' },
-  { key: 'AVA', label: 'Avançados' },
+  { key: 'all', label: 'Todas as posições', shortLabel: 'Todas' },
+  { key: 'GR', label: 'Guarda-Redes', shortLabel: 'GR' },
+  { key: 'DEF', label: 'Defesas', shortLabel: 'DEF' },
+  { key: 'MED', label: 'Médios', shortLabel: 'MED' },
+  { key: 'AVA', label: 'Avançados', shortLabel: 'AVA' },
 ];
 
 const VALUE_LABELS: Record<StatTab, string> = {
@@ -443,8 +443,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       emoji: '⚽',
       player: metricLeaders.topScorer,
       valueSuffix: 'Golos',
-      colorClass: 'text-amber-500 dark:text-amber-400',
-      badgeClass: 'border-amber-500/30 bg-amber-500/10 text-amber-500',
+      colorClass: 'text-amber-600 dark:text-amber-400',
+      badgeClass: 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-500',
     },
     {
       key: 'assists' as StatTab,
@@ -452,8 +452,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       emoji: '🎯',
       player: metricLeaders.topAssist,
       valueSuffix: 'Assist.',
-      colorClass: 'text-sky-500 dark:text-sky-400',
-      badgeClass: 'border-sky-500/30 bg-sky-500/10 text-sky-500',
+      colorClass: 'text-sky-600 dark:text-sky-400',
+      badgeClass: 'border-sky-500/30 bg-sky-500/10 text-sky-600 dark:text-sky-500',
     },
     {
       key: 'cleansheets' as StatTab,
@@ -461,8 +461,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       emoji: '🧤',
       player: metricLeaders.topCleanSheet,
       valueSuffix: 'Balizas',
-      colorClass: 'text-emerald-500 dark:text-emerald-400',
-      badgeClass: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-500',
+      colorClass: 'text-emerald-600 dark:text-emerald-400',
+      badgeClass: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-500',
     },
     {
       key: 'minutes' as StatTab,
@@ -470,8 +470,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       emoji: '⏱️',
       player: metricLeaders.topMinutes,
       valueSuffix: 'Min.',
-      colorClass: 'text-indigo-400',
-      badgeClass: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-400',
+      colorClass: 'text-indigo-600 dark:text-indigo-400',
+      badgeClass: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400',
     },
     {
       key: 'yellowcards' as StatTab,
@@ -479,8 +479,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       emoji: '🟨',
       player: metricLeaders.topCards,
       valueSuffix: 'Amarelos',
-      colorClass: 'text-amber-400',
-      badgeClass: 'border-amber-400/30 bg-amber-400/10 text-amber-400',
+      colorClass: 'text-amber-600 dark:text-amber-400',
+      badgeClass: 'border-amber-400/30 bg-amber-400/10 text-amber-600 dark:text-amber-400',
     },
   ];
 
@@ -488,7 +488,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
     <div className="space-y-3 sm:space-y-4">
       {/* 1. NAVEGAÇÃO DE TOPO COMPACTA: JOGADORES | EQUIPAS + LINK DEDICADO PARA O COMPARADOR */}
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <div className="flex items-center gap-1 p-1 bg-zinc-950/80 dark:bg-zinc-900/90 rounded-full border border-zinc-800/80">
+        <div className="flex items-center gap-1 p-1 bg-zinc-100 dark:bg-zinc-900/90 rounded-full border border-zinc-200 dark:border-zinc-800/80">
           {STATS_VIEWS.map((v) => {
             const active = activeView === v.key;
             return (
@@ -497,8 +497,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                 onClick={() => setActiveView(v.key)}
                 className={`px-4 py-1 rounded-full text-xs font-mono uppercase font-bold tracking-wider transition-all duration-200 ${
                   active
-                    ? 'bg-white text-zinc-950 shadow-xs'
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                    ? 'bg-white text-zinc-950 shadow-xs dark:bg-zinc-800 dark:text-white'
+                    : 'text-zinc-500 hover:text-foreground hover:bg-zinc-200/60 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/50'
                 }`}
               >
                 {v.label}
@@ -510,7 +510,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         {/* Link direto para a página/aba dedicada do Comparador */}
         <Link
           href={`/competicao/${seasonId}?tab=comparador`}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono text-zinc-400 hover:text-accent border border-zinc-800 hover:border-accent/40 bg-zinc-950/40 hover:bg-accent/5 transition-all"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-accent dark:hover:text-accent border border-zinc-200 dark:border-zinc-800 hover:border-accent/40 bg-zinc-100/70 dark:bg-zinc-900/50 hover:bg-accent/5 transition-all"
         >
           <ArrowRightLeft size={13} className="text-accent" />
           <span className="hidden sm:inline">Comparador de Temporadas</span>
@@ -535,7 +535,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-150 flex-shrink-0 border ${
                     active
                       ? 'bg-accent text-zinc-950 border-accent font-bold shadow-xs'
-                      : 'bg-zinc-900/90 dark:bg-zinc-950/80 text-zinc-300 dark:text-zinc-400 border-zinc-800 hover:border-zinc-700 hover:text-white'
+                      : 'bg-zinc-100/90 text-zinc-700 border-zinc-200 hover:border-zinc-300 hover:bg-zinc-200/60 hover:text-zinc-900 dark:bg-zinc-950/80 dark:text-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-700 dark:hover:text-white'
                   }`}
                 >
                   <span>{tab.emoji}</span>
@@ -546,7 +546,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
           </div>
 
           {/* 2. BARRA COMPACTA: POSIÇÕES + CLUBE + PESQUISA */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-zinc-950/60 border border-zinc-800/60 p-1.5 sm:p-2 rounded-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-zinc-100/80 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/60 p-1.5 sm:p-2 rounded-xl">
             {/* Cápsulas de Posição */}
             <div className="flex items-center gap-1 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               {POSITION_FILTERS.map((pos) => {
@@ -557,11 +557,12 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                     onClick={() => setFilterPosition(pos.key)}
                     className={`px-3 py-1 rounded-lg text-xs font-mono font-bold whitespace-nowrap transition-all duration-150 flex-shrink-0 border ${
                       active
-                        ? 'bg-white text-zinc-950 border-white shadow-xs'
-                        : 'bg-zinc-900/60 text-zinc-400 border-zinc-800/80 hover:border-zinc-700 hover:text-white'
+                        ? 'bg-primary text-white border-primary shadow-xs dark:bg-white dark:text-zinc-950 dark:border-white'
+                        : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-300 hover:text-foreground dark:bg-zinc-900/60 dark:text-zinc-400 dark:border-zinc-800/80 dark:hover:border-zinc-700 dark:hover:text-white'
                     }`}
                   >
-                    {pos.label}
+                    <span className="sm:hidden">{pos.shortLabel}</span>
+                    <span className="hidden sm:inline">{pos.label}</span>
                   </button>
                 );
               })}
@@ -575,7 +576,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                   value={activeTeam}
                   onChange={(e) => setFilterTeam(e.target.value)}
                   aria-label="Filtrar por clube"
-                  className="rounded-lg border border-zinc-800 bg-zinc-900/90 px-2.5 py-1 text-xs font-medium text-zinc-200 focus:outline-none focus:ring-1 focus:ring-accent max-w-[150px] sm:max-w-[200px] truncate"
+                  className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/90 px-2.5 py-1 text-xs font-medium text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-accent max-w-[150px] sm:max-w-[200px] truncate"
                 >
                   <option value="all">Todos ({seasonTeams.length})</option>
                   {seasonTeams.map((team) => (
@@ -588,7 +589,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
 
               {/* Input Compacto de Pesquisa */}
               <div className="relative w-32 sm:w-44 flex-shrink-0">
-                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-zinc-500">
+                <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-500">
                   <Search size={12} />
                 </div>
                 <input
@@ -596,13 +597,13 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Pesquisar..."
-                  className="w-full pl-7 pr-6 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-accent"
+                  className="w-full pl-7 pr-6 py-1 rounded-lg bg-white dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-900 dark:text-zinc-200 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-accent"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
                     title="Limpar pesquisa"
-                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-zinc-500 hover:text-zinc-300"
+                    className="absolute inset-y-0 right-0 pr-2 flex items-center text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
                   >
                     <X size={12} />
                   </button>
@@ -616,7 +617,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             <motion.div
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl flex gap-2.5 items-center text-xs text-amber-500"
+              className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl flex gap-2.5 items-center text-xs text-amber-600 dark:text-amber-400"
             >
               <AlertTriangle className="text-amber-500 flex-shrink-0" size={15} />
               <span>Temporada por iniciar: as estatísticas serão computadas logo após as primeiras súmulas oficiais homologadas.</span>
@@ -624,9 +625,9 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
           )}
 
           {/* 3. CARD CONTAINER DE RANKINGS DO SOFASCORE - IMEDIATAMENTE VISÍVEL */}
-          <div className="bg-zinc-950/90 dark:bg-zinc-900/60 border border-zinc-800/80 rounded-2xl overflow-hidden shadow-sm">
+          <div className="bg-white dark:bg-zinc-950/80 border border-zinc-200 dark:border-zinc-800/80 rounded-2xl overflow-hidden shadow-xs">
             {/* Cabeçalho do Bloco Sofascore */}
-            <div className="flex items-center justify-between px-3.5 sm:px-5 py-2.5 sm:py-3 border-b border-zinc-800/60 bg-zinc-900/40">
+            <div className="flex items-center justify-between px-3.5 sm:px-5 py-2.5 sm:py-3 border-b border-zinc-200/80 dark:border-zinc-800/60 bg-zinc-50/80 dark:bg-zinc-900/40">
               <div className="flex items-center gap-2">
                 <span className="text-base">{activeStatMeta.emoji}</span>
                 <h3 className="font-bold text-xs sm:text-sm text-foreground">
@@ -639,9 +640,9 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             </div>
 
             {/* Lista dos Jogadores Estilo Sofascore */}
-            <div className="divide-y divide-zinc-800/50">
+            <div className="divide-y divide-zinc-200/70 dark:divide-zinc-800/50">
               {visiblePlayers.length === 0 ? (
-                <div className="p-8 text-center text-zinc-500 font-mono text-xs">
+                <div className="p-8 text-center text-zinc-500 dark:text-zinc-400 font-mono text-xs">
                   Nenhum jogador encontrado para estes filtros.
                   <button
                     onClick={() => { setFilterTeam('all'); setFilterPosition('all'); setSearchQuery(''); }}
@@ -659,23 +660,23 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                   return (
                     <div
                       key={player.id}
-                      className="flex items-center justify-between gap-2.5 sm:gap-3 px-3.5 sm:px-5 py-2.5 hover:bg-zinc-800/30 transition-colors"
+                      className="flex items-center justify-between gap-2.5 sm:gap-3 px-3.5 sm:px-5 py-2.5 hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors"
                     >
                       {/* Posição no Ranking + Avatar com Mini-Escudo Sobreposto */}
                       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                         {/* Número do Ranking */}
                         <span className={`w-4 sm:w-5 text-center text-xs font-mono font-bold flex-shrink-0 ${
-                          rank === 1 ? 'text-accent font-black' : rank <= 3 ? 'text-zinc-200' : 'text-zinc-500'
+                          rank === 1 ? 'text-accent font-black' : rank <= 3 ? 'text-zinc-800 dark:text-zinc-200 font-extrabold' : 'text-zinc-400 dark:text-zinc-500'
                         }`}>
                           {rank}
                         </span>
 
                         <div className="relative flex-shrink-0">
-                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-800 border border-zinc-700/80 flex items-center justify-center text-xs font-bold text-zinc-200 overflow-hidden shadow-xs">
+                          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700/80 flex items-center justify-center text-xs font-bold text-zinc-700 dark:text-zinc-200 overflow-hidden shadow-xs">
                             {player.name.slice(0, 2).toUpperCase()}
                           </div>
                           {/* Mini escudo do clube sobreposto no canto inferior */}
-                          <div className="absolute -bottom-1 -right-1 bg-zinc-950 rounded-full p-0.5 shadow-sm border border-zinc-800">
+                          <div className="absolute -bottom-1 -right-1 bg-white dark:bg-zinc-950 rounded-full p-0.5 shadow-sm border border-zinc-200 dark:border-zinc-800">
                             <TeamCrest teamId={player.teamId} size={14} />
                           </div>
                         </div>
@@ -704,10 +705,10 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                               </span>
                             )}
                           </div>
-                          <p className="text-[11px] text-zinc-400 flex items-center gap-1.5 truncate mt-0.5 font-sans">
+                          <p className="text-[11px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 truncate mt-0.5 font-sans">
                             <span>{shown(player.position) ? player.position : 'Atleta'}</span>
-                            <span className="text-zinc-600">·</span>
-                            <span className="truncate text-zinc-500">{player.club}</span>
+                            <span className="text-zinc-300 dark:text-zinc-600">·</span>
+                            <span className="truncate text-zinc-500 dark:text-zinc-400">{player.club}</span>
                           </p>
                         </div>
                       </div>
@@ -720,12 +721,12 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                             <span>{activeTab === 'minutes' ? player.value.toLocaleString('pt-AO') : player.value}</span>
                           </div>
                         ) : (
-                          <div className="font-display font-bold text-sm sm:text-base text-foreground pr-1">
+                          <div className="font-display font-bold text-sm sm:text-base text-zinc-900 dark:text-foreground pr-1">
                             {activeTab === 'minutes' ? player.value.toLocaleString('pt-AO') : player.value}
                           </div>
                         )}
                         {player.secondaryValue !== undefined && (
-                          <span className="text-[10px] font-mono text-zinc-500 hidden sm:inline">
+                          <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 hidden sm:inline">
                             ({player.secondaryValue} {player.secondaryLabel === 'Jogos' ? 'J' : player.secondaryLabel?.slice(0, 3)})
                           </span>
                         )}
@@ -738,15 +739,15 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
           </div>
 
           {/* Destaques Rápidos da Temporada (Colapsável Discreto após a lista) */}
-          <details className="group overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-950/40">
-            <summary className="flex cursor-pointer list-none items-center justify-between p-3 text-xs font-mono font-bold uppercase tracking-wider text-zinc-400 hover:text-zinc-200 select-none">
+          <details className="group overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40">
+            <summary className="flex cursor-pointer list-none items-center justify-between p-3 text-xs font-mono font-bold uppercase tracking-wider text-zinc-600 hover:text-foreground dark:text-zinc-400 dark:hover:text-zinc-200 select-none">
               <div className="flex items-center gap-2">
                 <Flame size={14} className="text-accent flex-shrink-0" />
                 <span>Ver Destaques da Temporada (Líderes Rápidos)</span>
               </div>
-              <ChevronDown size={14} className="text-zinc-400 transition-transform duration-200 group-open:rotate-180" />
+              <ChevronDown size={14} className="text-zinc-400 dark:text-zinc-500 transition-transform duration-200 group-open:rotate-180" />
             </summary>
-            <div className="p-3 border-t border-zinc-800/60">
+            <div className="p-3 border-t border-zinc-200 dark:border-zinc-800/60">
               <div className="flex items-center gap-2.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1 px-0.5">
                 {quickLeaderCards.map((card) => {
                   const isCardActive = activeTab === card.key;
@@ -759,11 +760,11 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                       className={`flex-shrink-0 min-w-[180px] sm:min-w-[200px] p-2.5 rounded-xl border text-left transition-all duration-200 relative overflow-hidden ${
                         isCardActive
                           ? 'border-accent bg-accent/10 shadow-sm ring-1 ring-accent/40'
-                          : 'border-zinc-800/80 bg-zinc-950/80 hover:border-zinc-700 hover:bg-zinc-900/80'
+                          : 'border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-950/80 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-900/80'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-1 mb-1.5">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 font-bold flex items-center gap-1">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold flex items-center gap-1">
                           <span>{card.emoji}</span>
                           <span>{card.label}</span>
                         </span>
@@ -776,16 +777,16 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2 min-w-0">
                             <div className="relative flex-shrink-0">
-                              <div className="w-7 h-7 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-200">
+                              <div className="w-7 h-7 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-700 dark:text-zinc-200">
                                 {card.player!.name.slice(0, 2).toUpperCase()}
                               </div>
-                              <div className="absolute -bottom-1 -right-1 bg-zinc-950 rounded-full p-0.5 border border-zinc-800">
+                              <div className="absolute -bottom-1 -right-1 bg-white dark:bg-zinc-950 rounded-full p-0.5 border border-zinc-200 dark:border-zinc-800">
                                 <TeamCrest teamId={card.player!.teamId} size={11} />
                               </div>
                             </div>
                             <div className="min-w-0">
                               <p className="text-xs font-bold text-foreground truncate">{card.player!.name}</p>
-                              <p className="text-[10px] text-zinc-500 truncate">{card.player!.club}</p>
+                              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 truncate">{card.player!.club}</p>
                             </div>
                           </div>
 
@@ -793,13 +794,13 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                             <span className={`font-display font-black text-base block leading-none ${card.colorClass}`}>
                               {card.key === 'minutes' ? card.player!.value.toLocaleString('pt-AO') : card.player!.value}
                             </span>
-                            <span className="text-[8px] font-mono text-zinc-500 uppercase">
+                            <span className="text-[8px] font-mono text-zinc-500 dark:text-zinc-400 uppercase">
                               {card.valueSuffix}
                             </span>
                           </div>
                         </div>
                       ) : (
-                        <div className="py-1 text-center text-xs text-zinc-600 font-mono">
+                        <div className="py-1 text-center text-xs text-zinc-500 dark:text-zinc-500 font-mono">
                           A aguardar dados
                         </div>
                       )}
@@ -811,15 +812,15 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
           </details>
 
           {/* Critérios Oficiais e Reconciliação (Colapsável Discreto) */}
-          <details className="group overflow-hidden rounded-2xl border border-zinc-800/80 bg-zinc-950/40">
-            <summary className="flex cursor-pointer list-none items-center justify-between p-3 text-xs font-mono font-bold uppercase tracking-wider text-zinc-500 select-none">
+          <details className="group overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/40">
+            <summary className="flex cursor-pointer list-none items-center justify-between p-3 text-xs font-mono font-bold uppercase tracking-wider text-zinc-600 hover:text-foreground dark:text-zinc-500 dark:hover:text-zinc-400 select-none">
               <div className="flex items-center gap-2">
                 <Info size={14} className="text-accent flex-shrink-0" />
                 <span>Auditoria & Critérios Oficiais FAF/ANCAF</span>
               </div>
-              <ChevronDown size={14} className="text-zinc-400 transition-transform duration-200 group-open:rotate-180" />
+              <ChevronDown size={14} className="text-zinc-400 dark:text-zinc-500 transition-transform duration-200 group-open:rotate-180" />
             </summary>
-            <div className="p-4 pt-1 border-t border-zinc-800/60 text-xs text-zinc-500 space-y-2 font-mono">
+            <div className="p-4 pt-1 border-t border-zinc-200 dark:border-zinc-800/60 text-xs text-zinc-600 dark:text-zinc-500 space-y-2 font-mono">
               <p>
                 Estatísticas atualizadas em {new Date(getSeasonResultsUpdatedAt(seasonId)).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })} a partir das fichas oficiais da FAF/ANCAF.
               </p>
