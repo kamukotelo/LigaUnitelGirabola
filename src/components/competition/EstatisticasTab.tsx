@@ -14,6 +14,10 @@ import {
   Info,
   Compass,
   Zap,
+  Search,
+  X,
+  Flame,
+  Crown,
 } from 'lucide-react';
 import {
   CURRENT_SEASON_SCORERS,
@@ -139,6 +143,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   const [activeTab, setActiveTab] = useState<StatTab>('scorers');
   const [filterTeam, setFilterTeam] = useState<string>('all');
   const [filterPosition, setFilterPosition] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const allPlayers = useMemo(() => getPlayers(), []);
@@ -148,6 +153,81 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
 
   const activeTeam = seasonTeams.some((team) => team.id === filterTeam) ? filterTeam : 'all';
   const activeTeamName = activeTeam === 'all' ? null : getTeamFullName(activeTeam, activeTeam);
+
+  // Líderes rápidos de cada métrica para os mini-cards do topo (Destaques da Temporada)
+  const metricLeaders = useMemo(() => {
+    let topScorer: DisplayPlayer | undefined;
+    let topAssist: DisplayPlayer | undefined;
+    let topCleanSheet: DisplayPlayer | undefined;
+    let topMinutes: DisplayPlayer | undefined;
+    let topCards: DisplayPlayer | undefined;
+
+    if (isUpcoming && seasonHasStarted) {
+      if (CURRENT_SEASON_SCORERS.length > 0) {
+        const sorted = [...CURRENT_SEASON_SCORERS].sort((a, b) => b.goals - a.goals);
+        topScorer = {
+          id: sorted[0].id, name: sorted[0].name, club: sorted[0].club, teamId: sorted[0].teamId,
+          position: sorted[0].position, value: sorted[0].goals, secondaryLabel: 'Jogos', secondaryValue: sorted[0].appearances,
+        };
+      }
+      if (currentSeasonAssists.length > 0) {
+        topAssist = {
+          id: currentSeasonAssists[0].id, name: currentSeasonAssists[0].name, club: currentSeasonAssists[0].club,
+          teamId: currentSeasonAssists[0].teamId, position: currentSeasonAssists[0].position, value: currentSeasonAssists[0].assists,
+          secondaryLabel: 'Jogos', secondaryValue: currentSeasonAssists[0].appearances,
+        };
+      }
+      const cs = getCurrentSeasonCleanSheets().filter((gk) => gk.cleanSheets > 0);
+      if (cs.length > 0) {
+        topCleanSheet = {
+          id: cs[0].id, name: cs[0].name, club: cs[0].club, teamId: cs[0].teamId,
+          position: cs[0].position, value: cs[0].cleanSheets, secondaryLabel: 'Jogos', secondaryValue: cs[0].appearances,
+        };
+      }
+      const mins = getCurrentSeasonMinutesPlayed();
+      if (mins.length > 0) {
+        topMinutes = {
+          id: mins[0].id, name: mins[0].name, club: mins[0].club, teamId: mins[0].teamId,
+          position: mins[0].position, value: mins[0].minutesPlayed, secondaryLabel: 'Jogos', secondaryValue: mins[0].appearances,
+        };
+      }
+      const disc = getCurrentSeasonDiscipline().filter((p) => p.yellowCards > 0);
+      if (disc.length > 0) {
+        topCards = {
+          id: disc[0].id, name: disc[0].name, club: disc[0].club, teamId: disc[0].teamId,
+          position: disc[0].position, value: disc[0].yellowCards, secondaryLabel: 'Vermelhos', secondaryValue: disc[0].redCards,
+        };
+      }
+    } else if (seasonId === '2025-26') {
+      if (HISTORICAL_SCORERS_2025_26.length > 0) {
+        const s = HISTORICAL_SCORERS_2025_26[0];
+        topScorer = { id: 'h-s-0', name: s.name, club: getTeamFullName(s.teamId, s.teamId), teamId: s.teamId, position: 'Avançado', value: s.goals };
+      }
+      if (HISTORICAL_ASSISTS_2025_26.length > 0) {
+        const a = HISTORICAL_ASSISTS_2025_26[0];
+        topAssist = { id: 'h-a-0', name: a.name, club: getTeamFullName(a.teamId, a.teamId), teamId: a.teamId, position: 'Médio', value: a.assists };
+      }
+      const cs = HISTORICAL_CLEAN_SHEETS_2025_26.filter((gk) => gk.cleanSheets > 0);
+      if (cs.length > 0) {
+        topCleanSheet = { id: cs[0].id, name: cs[0].name, club: cs[0].club, teamId: cs[0].teamId, position: 'Guarda-redes', value: cs[0].cleanSheets };
+      }
+      if (HISTORICAL_DISCIPLINE_2025_26.length > 0) {
+        const d = HISTORICAL_DISCIPLINE_2025_26[0];
+        topCards = { id: `h-d-${d.id}`, name: d.name, club: d.club, teamId: d.teamId, position: d.position, value: d.yellow };
+      }
+    } else {
+      const scorers = [...allPlayers].filter((p) => p.goals > 0).sort((a, b) => b.goals - a.goals);
+      if (scorers.length > 0) {
+        topScorer = { id: scorers[0].id, name: scorers[0].name, club: scorers[0].club, teamId: scorers[0].teamId, position: scorers[0].position, value: scorers[0].goals };
+      }
+      const assists = [...allPlayers].filter((p) => p.assists > 0).sort((a, b) => b.assists - a.assists);
+      if (assists.length > 0) {
+        topAssist = { id: assists[0].id, name: assists[0].name, club: assists[0].club, teamId: assists[0].teamId, position: assists[0].position, value: assists[0].assists };
+      }
+    }
+
+    return { topScorer, topAssist, topCleanSheet, topMinutes, topCards };
+  }, [isUpcoming, seasonHasStarted, seasonId, allPlayers, currentSeasonAssists]);
 
   // Compilação dos dados estatísticos
   const { displayPlayers, rankingSize } = useMemo(() => {
@@ -324,18 +404,25 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   }, [displayPlayers]);
 
   const filteredPlayers = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
     return displayPlayers.filter((player) => {
       const matchTeam = activeTeam === 'all' || player.teamId === activeTeam;
       if (!matchTeam) return false;
-      if (filterPosition === 'all') return true;
-      const pos = (player.position || '').toLowerCase();
-      if (filterPosition === 'GR') return pos.includes('guarda') || pos.includes('gr');
-      if (filterPosition === 'DEF') return pos.includes('def');
-      if (filterPosition === 'MED') return pos.includes('médio') || pos.includes('medio');
-      if (filterPosition === 'AVA') return pos.includes('avan') || pos.includes('ata');
+      if (filterPosition !== 'all') {
+        const pos = (player.position || '').toLowerCase();
+        if (filterPosition === 'GR' && !(pos.includes('guarda') || pos.includes('gr'))) return false;
+        if (filterPosition === 'DEF' && !pos.includes('def')) return false;
+        if (filterPosition === 'MED' && !(pos.includes('médio') || pos.includes('medio'))) return false;
+        if (filterPosition === 'AVA' && !(pos.includes('avan') || pos.includes('ata'))) return false;
+      }
+      if (q) {
+        const matchName = player.name.toLowerCase().includes(q);
+        const matchClub = player.club.toLowerCase().includes(q);
+        return matchName || matchClub;
+      }
       return true;
     });
-  }, [displayPlayers, activeTeam, filterPosition]);
+  }, [displayPlayers, activeTeam, filterPosition, searchQuery]);
 
   const withoutPosition = useMemo(() => displayPlayers.filter((player) => {
     if (activeTeam !== 'all' && player.teamId !== activeTeam) return false;
@@ -348,6 +435,54 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   const clubBestValue = filteredPlayers.length > 0 ? Math.max(...filteredPlayers.map((p) => p.value)) : 0;
 
   const activeStatMeta = STAT_TABS.find((t) => t.key === activeTab) ?? STAT_TABS[0];
+
+  const quickLeaderCards = [
+    {
+      key: 'scorers' as StatTab,
+      label: 'Melhor Marcador',
+      emoji: '⚽',
+      player: metricLeaders.topScorer,
+      valueSuffix: 'Golos',
+      colorClass: 'text-amber-500 dark:text-amber-400',
+      badgeClass: 'border-amber-500/30 bg-amber-500/10 text-amber-500',
+    },
+    {
+      key: 'assists' as StatTab,
+      label: 'Mais Assistências',
+      emoji: '🎯',
+      player: metricLeaders.topAssist,
+      valueSuffix: 'Assist.',
+      colorClass: 'text-sky-500 dark:text-sky-400',
+      badgeClass: 'border-sky-500/30 bg-sky-500/10 text-sky-500',
+    },
+    {
+      key: 'cleansheets' as StatTab,
+      label: 'Luva de Ouro',
+      emoji: '🧤',
+      player: metricLeaders.topCleanSheet,
+      valueSuffix: 'Balizas',
+      colorClass: 'text-emerald-500 dark:text-emerald-400',
+      badgeClass: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-500',
+    },
+    {
+      key: 'minutes' as StatTab,
+      label: 'Mais Utilizado',
+      emoji: '⏱️',
+      player: metricLeaders.topMinutes,
+      valueSuffix: 'Min.',
+      colorClass: 'text-indigo-400',
+      badgeClass: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-400',
+    },
+    {
+      key: 'yellowcards' as StatTab,
+      label: 'Mais Advertido',
+      emoji: '🟨',
+      player: metricLeaders.topCards,
+      valueSuffix: 'Amarelos',
+      colorClass: 'text-amber-400',
+      badgeClass: 'border-amber-400/30 bg-amber-400/10 text-amber-400',
+    },
+  ];
 
   return (
     <div className="space-y-4 sm:space-y-5">
@@ -372,10 +507,95 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       </div>
 
       {/* ========================================================================= */}
-      {/* VISTA 1: JOGADORES (ESTILO SOFASCORE)                                     */}
+      {/* VISTA 1: JOGADORES (ESTILO SOFASCORE COM MINI-CARDS & PESQUISA)           */}
       {/* ========================================================================= */}
       {activeView === 'jogadores' && (
         <div className="space-y-4">
+          {/* MINI-CARDS DOS LÍDERES NO TOPO (DESTAQUES RÁPIDOS EM 3 SEGUNDOS) */}
+          <div className="flex items-center gap-2.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1 px-0.5">
+            {quickLeaderCards.map((card) => {
+              const isCardActive = activeTab === card.key;
+              const hasPlayer = !!card.player;
+
+              return (
+                <button
+                  key={card.key}
+                  onClick={() => setActiveTab(card.key)}
+                  className={`flex-shrink-0 min-w-[190px] sm:min-w-[210px] p-3 rounded-2xl border text-left transition-all duration-200 relative overflow-hidden ${
+                    isCardActive
+                      ? 'border-accent bg-accent/10 shadow-sm ring-1 ring-accent/40'
+                      : 'border-zinc-800/80 bg-zinc-950/80 hover:border-zinc-700 hover:bg-zinc-900/80'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1 mb-2">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 font-bold flex items-center gap-1">
+                      <span>{card.emoji}</span>
+                      <span>{card.label}</span>
+                    </span>
+                    {isCardActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                    )}
+                  </div>
+
+                  {hasPlayer ? (
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <div className="relative flex-shrink-0">
+                          <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-200">
+                            {card.player!.name.slice(0, 2).toUpperCase()}
+                          </div>
+                          <div className="absolute -bottom-1 -right-1 bg-zinc-950 rounded-full p-0.5 border border-zinc-800">
+                            <TeamCrest teamId={card.player!.teamId} size={12} />
+                          </div>
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-foreground truncate">{card.player!.name}</p>
+                          <p className="text-[10px] text-zinc-500 truncate">{card.player!.club}</p>
+                        </div>
+                      </div>
+
+                      <div className="text-right flex-shrink-0">
+                        <span className={`font-display font-black text-lg block leading-none ${card.colorClass}`}>
+                          {card.key === 'minutes' ? card.player!.value.toLocaleString('pt-AO') : card.player!.value}
+                        </span>
+                        <span className="text-[8px] font-mono text-zinc-500 uppercase">
+                          {card.valueSuffix}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="py-2 text-center text-xs text-zinc-600 font-mono">
+                      A aguardar dados
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* BARRA DE PESQUISA RÁPIDA DE JOGADOR ("QUICK SEARCH") */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500">
+              <Search size={15} />
+            </div>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Procurar jogador ou clube (ex: Zito, Tiago, Petro...)"
+              className="w-full pl-10 pr-10 py-2 rounded-xl bg-zinc-900/90 border border-zinc-800 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent transition-all"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                title="Limpar pesquisa"
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-500 hover:text-zinc-300"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
           {/* 2. SCROLL FACILITADO DE POSIÇÕES (CÁPSULAS ESTILO SOFASCORE) */}
           <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1 px-0.5">
             {POSITION_FILTERS.map((pos) => {
@@ -417,7 +637,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             })}
           </div>
 
-          {/* Filtro Compacto de Clube (Opcional) */}
+          {/* Filtro Compacto de Clube */}
           <div className="flex items-center justify-between gap-3 px-1">
             <div className="flex items-center gap-2">
               <Filter size={13} className="text-accent flex-shrink-0" />
@@ -479,7 +699,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                 <div className="p-8 text-center text-zinc-500 font-mono text-xs">
                   Nenhum jogador encontrado para estes filtros.
                   <button
-                    onClick={() => { setFilterTeam('all'); setFilterPosition('all'); }}
+                    onClick={() => { setFilterTeam('all'); setFilterPosition('all'); setSearchQuery(''); }}
                     className="mt-2 block mx-auto text-accent underline"
                   >
                     Limpar filtros
