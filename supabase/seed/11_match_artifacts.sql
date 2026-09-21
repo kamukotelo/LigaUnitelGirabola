@@ -95,7 +95,7 @@ insert into public.ancaf_match_lineups (match_id, team_id, side, players, coach,
   ('m27-5-8', 'cabinda', 'away', '[{"playerId":"cabinda-player-1","name":"João Eduardo","number":1,"position":"GK","isStarter":true,"isCaptain":false},{"playerId":"rodrigo-cabinda","name":"Rodrigo","number":2,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"fifa-1qtzy92","name":"Francisco Luemba","number":4,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"marcos-cabinda","name":"Marcos","number":5,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"luyeye-cabinda","name":"Luyeye Tomás","number":13,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"cornelio-cabinda","name":"Cornélio","number":15,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"julio-cabinda","name":"Júlio Mavungo André","number":17,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"fernando-cabinda","name":"Fernando","number":21,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"fifa-1ljjyh4","name":"Mário da Silva","number":24,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"ariclenis-cabinda","name":"Ariclenis Afonso Araújo Lede","number":29,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"pedro-da-silva-cabinda","name":"Pedro da Silva","number":30,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"gedeon-cabinda","name":"Gedeon","number":3,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"cristiano-cabinda","name":"Cristiano Malonda","number":8,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":"francisco-cabinda","name":"Francisco","number":12,"position":"GK","isStarter":false,"isCaptain":false},{"playerId":"joao-cambo-cabinda","name":"João Cambo","number":25,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":"jaime-cabinda","name":"Jaime","number":26,"position":"MID","isStarter":false,"isCaptain":false},{"playerId":null,"name":"Efraim Rosário Sabi Kadima","number":37,"position":null,"isStarter":false,"isCaptain":false},{"playerId":null,"name":"Neves Paulo Osvaldo","number":38,"position":null,"isStarter":false,"isCaptain":false},{"playerId":null,"name":"António Alberto Sumbo Luemba","number":39,"position":null,"isStarter":false,"isCaptain":false}]'::jsonb, null, 'seed')
 on conflict (match_id,team_id) do update set side = excluded.side, players = excluded.players, coach = excluded.coach, confirmed_by = excluded.confirmed_by;
 
-delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-2', 'm27-3-6', 'm27-3-1', 'm27-3-4', 'm27-3-8', 'm27-3-5', 'm27-4-5', 'm27-4-7', 'm27-4-2', 'm27-4-8', 'm27-4-1', 'm27-4-3', 'm27-4-4', 'm27-4-6', 'm27-5-2', 'm27-5-1', 'm27-5-7', 'm27-5-4', 'm27-5-6');
+delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-2', 'm27-3-6', 'm27-3-1', 'm27-3-4', 'm27-3-8', 'm27-3-5', 'm27-4-5', 'm27-4-7', 'm27-4-2', 'm27-4-8', 'm27-4-1', 'm27-4-3', 'm27-4-4', 'm27-4-6', 'm27-5-2', 'm27-5-1', 'm27-5-7', 'm27-5-4', 'm27-5-6', 'm27-5-5');
 insert into public.ancaf_match_events (match_id, minute, type, team_side, player, player_id, assist, player_out, detail, sort) values
   ('m27-1-4', 28, 'yellow', 'home', 'Sicuba Vunge', 'maranata', null, null, 'Rasteirou o adversário', 0),
   ('m27-1-4', 37, 'yellow', 'home', 'Paulino', 'platini', null, null, 'Rasteirou o adversário', 1),
@@ -230,7 +230,7 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-2-1', 32, 'goal', 'home', 'Valegol', 'valegol-caala', null, null, 'Grande penalidade · 1-0', 0),
   ('m27-2-1', 34, 'goal', 'away', 'Bello Lukman', 'bello-lukman-wiliete', null, null, '1-1', 1),
   ('m27-2-1', 44, 'red', 'home', 'Valegol', 'valegol-caala', null, null, null, 2),
-  ('m27-2-1', 49, 'goal', 'away', 'Ning', 'ning-wiliete', null, null, '1-2', 3),
+  ('m27-2-1', 49, 'goal', 'away', 'Ning', 'fifa-1jwu0l8', null, null, '1-2', 3),
   ('m27-2-5', 10, 'yellow', 'away', 'Gelson dos Santos André', 'fifa-1ljudk2', null, null, 'Rasteirou o adversário', 0),
   ('m27-2-5', 36, 'yellow', 'home', 'Paulo Gaspar', 'fifa-1m92d85', null, null, null, 1),
   ('m27-2-5', 45, 'sub', 'away', 'Francisco Chiquinho', null, null, 'Domingos Bangula', null, 2),
@@ -461,7 +461,9 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-5-6', 49, 'goal', 'home', 'Mabululu', 'mabululu-wiliete', null, null, '49'' (2-0)', 1),
   ('m27-5-6', 63, 'goal', 'home', 'Mabululu', 'mabululu-wiliete', null, null, '63'' (3-0)', 2),
   ('m27-5-6', 82, 'goal', 'home', 'Rodino Dumbo José', 'fifa-1jwu0l8', null, null, '82'' (4-0)', 3),
-  ('m27-5-6', 87, 'goal', 'home', 'Valter Monteiro', 'valter-monteiro', null, null, '87'' (5-0)', 4);
+  ('m27-5-6', 87, 'goal', 'home', 'Valter Monteiro', 'valter-monteiro', null, null, '87'' (5-0)', 4),
+  ('m27-5-5', 30, 'red', 'away', null, null, null, null, null, 0),
+  ('m27-5-5', 55, 'goal', 'home', 'Cláudio', null, null, null, '1-0', 1);
 
 insert into public.ancaf_match_stats (match_id, side, stat_key, value, published) values
   ('m27-1-4', 'home', 'yellowCards', 4, true),
@@ -583,5 +585,9 @@ insert into public.ancaf_match_stats (match_id, side, stat_key, value, published
   ('m27-5-2', 'home', 'corners', 1, true),
   ('m27-5-2', 'away', 'corners', 0, true),
   ('m27-5-2', 'home', 'yellowCards', 1, true),
-  ('m27-5-2', 'away', 'yellowCards', 1, true)
+  ('m27-5-2', 'away', 'yellowCards', 1, true),
+  ('m27-5-5', 'home', 'corners', 5, true),
+  ('m27-5-5', 'away', 'corners', 3, true),
+  ('m27-5-5', 'home', 'redCards', 0, true),
+  ('m27-5-5', 'away', 'redCards', 1, true)
 on conflict (match_id,side,stat_key) do update set value = excluded.value, published = excluded.published;

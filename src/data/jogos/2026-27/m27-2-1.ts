@@ -14,7 +14,7 @@ export default defineMatch({
     { minute: 32, type: 'goal', team: 'home', player: 'Valegol', playerId: 'valegol-caala', detail: 'Grande penalidade · 1-0' },
     { minute: 34, type: 'goal', team: 'away', player: 'Bello Lukman', playerId: 'bello-lukman-wiliete', detail: '1-1' },
     { minute: 44, type: 'red', team: 'home', player: 'Valegol', playerId: 'valegol-caala' },
-    { minute: 49, type: 'goal', team: 'away', player: 'Ning', playerId: 'ning-wiliete', detail: '1-2' },
+    { minute: 49, type: 'goal', team: 'away', player: 'Ning', playerId: 'fifa-1jwu0l8', detail: '1-2' },
   ],
   stats: {
     home: { redCards: 1 },
