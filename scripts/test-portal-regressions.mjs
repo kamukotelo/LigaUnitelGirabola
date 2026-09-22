@@ -286,7 +286,11 @@ assert.doesNotMatch(data, /'ning-wiliete'/);
 // oficiais de arbitragem preenche-os, e a folha de seed leva-o para a base de
 // dados — sem isto, cada publicação repunha a lacuna.
 assert.match(data, /const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>>/);
-assert.match(data, /OFFICIAL_STAFF_ROLE_LABELS\[member\.role\]\s*\?\?\s*OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27\[member\.maId\]/);
+assert.match(data, /OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27\[member\.maId\]\s*\?\?\s*OFFICIAL_STAFF_ROLE_LABELS\[member\.role\]/);
+// A correção por licença manda sobre o código da inscrição, e quem a DCE
+// mandou retirar não volta à lista na publicação seguinte.
+assert.match(data, /OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27: ReadonlySet<string>/);
+assert.match(data, /\.filter\(\(member\) => !OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27\.has\(member\.maId\)\)/);
 
 // O rácio por 90' exige um mínimo de minutos: sem ele, um suplente com um golo
 // em 45 minutos liderava a tabela à frente de quem marca todas as jornadas.

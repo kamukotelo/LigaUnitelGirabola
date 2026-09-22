@@ -1916,6 +1916,13 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   'fifa-1jrxs05': 'Bito',            // nº 28 · Camilo Mbule Ngongue
   'fifa-1qvfjm7': 'Sidibé',          // nº 30 · Bocar Sidibé
   'fifa-1m95s64': 'Célio',           // nº 32 · Célio Alberto Junqueira Zua
+  'fifa-1ndemr2': 'Didi Craque',     // nº 2 · Eduardo António Henrique Capingana
+  'fifa-1jrtue9': 'Benny',           // nº 12 · Teodoro Edvaldo Rita Tchissingui
+  'fifa-1ni87h8': 'Filó',            // nº 21 · Filomeno Pinheiro Alberto Giloso
+  'fifa-1uqnv32': 'Igui',            // nº 24 · Carlos Cassissi
+  'fifa-1jz4n21': 'Nelo',            // nº 26 · João Valonga Basílio Barros
+  'fifa-1kzr1v5': 'Quare',           // nº 33 · Zeferino Venâncio Lussati
+  'fifa-1k36hf0': 'César Cangué',    // nº 34 · César Cangui Uvi Jeremias
 };
 
 const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
@@ -2128,21 +2135,24 @@ export interface TeamStaffMember {
 }
 
 /**
- * Cargo de quem a inscrição de 31/08 entregou sem função. Cada um sai do
- * cargo impresso no relatório oficial de arbitragem de um jogo da época
- * ("Team Official", "Team Staff"), identificado pelo número de licença.
- * Sem isto, o portal mostrava "Função por confirmar" e a folha de seed
- * reescrevia essa lacuna na base de dados a cada publicação.
+ * Cargo por número de licença, quando a inscrição de 31/08 o entregou em
+ * branco ou errado. Vale sobre o código da inscrição: as entradas marcadas
+ * "DCE" são correções recebidas da Direção de Competições; as restantes saem
+ * do cargo impresso no relatório oficial de arbitragem de um jogo da época
+ * ("Team Official", "Team Staff"). Sem isto, o portal mostrava "Função por
+ * confirmar" e a folha de seed reescrevia a lacuna na base de dados a cada
+ * publicação.
  */
 const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
   // Estrela 1.º de Maio
   '009006M83': 'Equipa técnica',         // Hermino Nunes
   // Wiliete de Benguela
+  '000535M89': 'Treinador adjunto',   // Feliciano Felisberto Javela (DCE; a inscrição diz gestor da equipa)
   '000546M85': 'Oficial da equipa',         // Dilson Macuva Alfredo
-  '000556M85': 'Oficial da equipa',         // Wilson Fernando Faria
+  '000556M85': 'Presidente',          // Wilson Fernando Faria (DCE)
   '003005M03': 'Oficial da equipa',         // Evaristo Gomes
-  '002979M67': 'Oficial da equipa',         // Francisco Junior Paulino
-  '008405M66': 'Oficial da equipa',         // Roberto Luiz Pelliser Bianchi
+  '002979M67': 'Treinador adjunto',   // Francisco Junior Paulino (DCE)
+  '008405M66': 'Treinador principal', // Roberto Luiz Pelliser Bianchi — Beto Bianchi (DCE)
   '000547M84': 'Oficial da equipa',         // Victorino Lunga Visele
   '000548M89': 'Oficial da equipa',         // Claudio Graciano Ezequiel Zala
   // Desportivo da Huíla
@@ -2163,6 +2173,12 @@ const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
   '007727M75': 'Oficial da equipa',         // Alves Simão Afonso Lede
 };
 
+/** Membros que a Direção de Competições mandou retirar da equipa técnica. */
+const OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27: ReadonlySet<string> = new Set([
+  '003004M94', // António Victorino Baptista (Wiliete)
+  '003009M63', // Jorge Manuel Faial Delgado (Wiliete)
+]);
+
 const OFFICIAL_STAFF_ROLE_LABELS: Readonly<Record<string, string>> = {
   HDCH: 'Treinador principal',
   ASCH: 'Treinador adjunto',
@@ -2179,30 +2195,45 @@ const OFFICIAL_STAFF_ROLE_LABELS: Readonly<Record<string, string>> = {
   MASG: 'Massagista',
 };
 
+/**
+ * Cargo final de um membro da equipa técnica. A correção por número de licença
+ * manda sobre o código da inscrição — é por ela que entram as decisões da
+ * Direção de Competições sobre quem a inscrição classificou mal.
+ */
+function officialStaffRoleLabel(member: { role: string; maId: string }): string {
+  return OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27[member.maId]
+    ?? OFFICIAL_STAFF_ROLE_LABELS[member.role]
+    ?? (member.role || 'Função por confirmar');
+}
+
 // Ordem de apresentação da equipa técnica: treinador principal, adjuntos,
-// treinador de guarda-redes e depois o restante staff.
-const OFFICIAL_STAFF_ROLE_ORDER: readonly string[] = [
-  'HDCH', 'ASCH', 'GKCH', 'PTNR', 'TMED', 'DOCT', 'PHYS', 'TCSC',
-  'TMGR', 'AMGR', 'KMGR', 'MASG', 'TSTF',
+// treinador de guarda-redes, o restante staff e, no fim, a direção. Ordena-se
+// pelo cargo já corrigido, senão um treinador que a inscrição deixou em branco
+// caía para o fim da lista.
+const OFFICIAL_STAFF_LABEL_ORDER: readonly string[] = [
+  'Treinador principal', 'Treinador adjunto', 'Treinador de guarda-redes',
+  'Preparador físico', 'Médico', 'Fisioterapeuta', 'Técnico',
+  'Gestor da equipa', 'Gestor adjunto', 'Responsável de equipamentos',
+  'Massagista', 'Equipa técnica', 'Presidente', 'Oficial da equipa',
 ];
 
-function officialStaffRank(role: string): number {
-  const idx = OFFICIAL_STAFF_ROLE_ORDER.indexOf(role);
+function officialStaffRank(label: string): number {
+  const idx = OFFICIAL_STAFF_LABEL_ORDER.indexOf(label);
   if (idx !== -1) return idx;
-  // Funções fora da tabela FIFA (Presidente, Diretor, Oficial da equipa…)
-  // e funções por confirmar ficam no fim, mantendo a ordem do ficheiro.
-  return OFFICIAL_STAFF_ROLE_ORDER.length + (role ? 0 : 1);
+  // Funções fora da tabela FIFA (Presidente, Diretor, Oficial da equipa…) e
+  // funções por confirmar ficam no fim, mantendo a ordem do ficheiro.
+  return OFFICIAL_STAFF_LABEL_ORDER.length + (label === 'Função por confirmar' ? 1 : 0);
 }
 
 export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMember[]>> = Object.fromEntries(
   OFFICIAL_SQUADS_2026_27.map((squad) => [squad.teamId, squad.staff
-    .map((member, index) => ({ member, index, rank: officialStaffRank(member.role) }))
+    .filter((member) => !OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27.has(member.maId))
+    .map((member, index) => ({ member, index, role: officialStaffRoleLabel(member) }))
+    .map((entry) => ({ ...entry, rank: officialStaffRank(entry.role) }))
     .sort((a, b) => a.rank - b.rank || a.index - b.index)
-    .map(({ member }) => ({
+    .map(({ member, role }) => ({
       name: formatOfficialPlayerName(member.name),
-      role: OFFICIAL_STAFF_ROLE_LABELS[member.role]
-        ?? OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27[member.maId]
-        ?? (member.role || 'Função por confirmar'),
+      role,
       nationality: OFFICIAL_NATIONALITY_LABELS[member.nationality] ?? (member.nationality || 'A confirmar'),
       maId: member.maId || undefined,
       fifaId: member.fifaId || undefined,
