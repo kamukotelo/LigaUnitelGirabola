@@ -1924,6 +1924,10 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   'fifa-1jz4n21': 'Nelo',            // nº 26 · João Valonga Basílio Barros
   'fifa-1kzr1v5': 'Quare',           // nº 33 · Zeferino Venâncio Lussati
   'fifa-1k36hf0': 'César Cangué',    // nº 34 · César Cangui Uvi Jeremias
+  // Recreativo do Libolo — escalação publicada pelo clube na 5.ª jornada.
+  'fifa-1mr7m11': 'Gui',             // nº 11 · Diogo da Rocha Quiamesso
+  'fifa-1pxu766': 'Inglês',          // nº 16 · Fernando José Paulino Lourenço
+  'fifa-1qhqtd1': 'Amado',           // nº 18 · Amado Tiago Marques Haidara
   // CR Caála — escalação publicada pelo clube na 2.ª jornada.
   'fifa-1t647t5': 'Vale',            // nº 2 · Valentim Sacuvale
   'fifa-1lb66s2': 'Tchaba',          // nº 3 · Albano Kupenala

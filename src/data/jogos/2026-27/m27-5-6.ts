@@ -16,7 +16,10 @@ export default defineMatch({
     fourth: 'Nelson Joaquim Camunga',
     commissioner: 'António Caxala Muachihuissa',
   },
+  coaches: { away: 'Osvaldo Roque' },
   // Onze inicial e suplentes da ficha oficial (Relatório do Árbitro n.º 38).
+  // Os quatro sem ficha na inscrição — Mário (1), Quinho (21), Lino (26) e
+  // Jacinto (29) — ficam com o nome que o clube publica.
   lineups: {
     home: [
       { name: 'Nayan Gomes', number: 1, position: 'GK', isStarter: true, playerId: 'fifa-1pkwt84' },
@@ -54,15 +57,15 @@ export default defineMatch({
       { name: 'Amado Tiago Marques Haidara', number: 18, isStarter: true, playerId: 'fifa-1qhqtd1' },
       { name: 'Edmilson João Francisco Cuxixima', number: 27, position: 'FWD', isStarter: true, playerId: 'cuxixima-libolo' },
       { name: 'Joel Kaluvala Alexandre Lucamba', number: 30, position: 'FWD', isStarter: true, playerId: 'tubarao-libolo' },
-      { name: 'Amado Salem Miguel', number: 1, position: 'GK', isStarter: false },
+      { name: 'Mário', number: 1, position: 'GK', isStarter: false },
       { name: 'Diogo da Rocha Quiamesso', number: 11, isStarter: false, playerId: 'fifa-1mr7m11' },
       { name: 'Fernando José Paulino Lourenço', number: 16, isStarter: false, playerId: 'fifa-1pxu766' },
-      { name: 'Samuel Kuyokoya Francisco', number: 21, isStarter: false },
+      { name: 'Quinho', number: 21, isStarter: false },
       { name: 'Zinadine Zidane Moisés Catraio', number: 24, position: 'DEF', isStarter: false, playerId: 'catraio-libolo' },
       { name: 'Salomão Mukanda', number: 25, position: 'DEF', isStarter: false, playerId: 'miro-libolo' },
-      { name: 'Zeferino Handa Monissa', number: 26, isStarter: false },
+      { name: 'Lino', number: 26, isStarter: false },
       { name: 'Manuel Jacinto Domingos', number: 28, position: 'FWD', isStarter: false, playerId: 'lara-libolo' },
-      { name: 'Jacinto Bernardo Machado', number: 29, isStarter: false },
+      { name: 'Jacinto', number: 29, isStarter: false },
     ],
   },
   events: [
@@ -71,6 +74,13 @@ export default defineMatch({
     { minute: 63, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: "63' (3-0)" },
     { minute: 82, type: 'goal', team: 'home', player: 'Rodino Dumbo José', number: 25, playerId: 'fifa-1jwu0l8', detail: "82' (4-0)" },
     { minute: 87, type: 'goal', team: 'home', player: 'Valter Monteiro', number: 35, playerId: 'valter-monteiro', detail: "87' (5-0)" },
+    // Cartão e substituições do Recreativo do Libolo comunicados pela DCE.
+    { minute: 27, type: 'sub', team: 'away', player: 'Catraio', number: 24, playerId: 'catraio-libolo', playerOut: 'Cuxixima' },
+    { minute: 38, type: 'yellow', team: 'away', player: 'Andeloy', number: 10, playerId: 'andeloy-libolo' },
+    { minute: 66, type: 'sub', team: 'away', player: 'Gui', number: 11, playerId: 'fifa-1mr7m11', playerOut: 'Tchube' },
+    { minute: 66, type: 'sub', team: 'away', player: 'Quinho', number: 21, playerOut: 'Maninho' },
+    { minute: 77, type: 'sub', team: 'away', player: 'Lino', number: 26, playerOut: 'Andeloy' },
+    { minute: 84, type: 'sub', team: 'away', player: 'Inglês', number: 16, playerId: 'fifa-1pxu766', playerOut: 'Nelo' },
     // Substituições do Wiliete comunicadas pela DCE. O Recreativo do Libolo
     // não consta da comunicação recebida.
     { minute: 46, type: 'sub', team: 'home', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', playerOut: 'Bito' },
@@ -79,4 +89,9 @@ export default defineMatch({
     { minute: 77, type: 'sub', team: 'home', player: 'Valter Monteiro', number: 35, playerId: 'valter-monteiro', playerOut: 'Gibelé' },
     { minute: 84, type: 'sub', team: 'home', player: 'Macaiabo', number: 16, playerId: 'fifa-1k1jsj8', playerOut: 'Mabululu' },
   ],
+  stats: {
+    home: { yellowCards: 0 },
+    away: { yellowCards: 1 },
+    keys: ['yellowCards'],
+  },
 });

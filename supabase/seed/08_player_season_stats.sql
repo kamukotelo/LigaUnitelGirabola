@@ -23,7 +23,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'fifa-1jtv3g3', 1, 0, 2, 0, 0),
   ('2026-27', 'alexandre-fernando-interclube', 1, 0, 1, 0, 0),
   ('2026-27', 'fifa-1v1a1u9', 1, 0, 2, 2, 0),
-  ('2026-27', 'andeloy-libolo', 1, 0, 3, 1, 0),
+  ('2026-27', 'andeloy-libolo', 1, 0, 3, 2, 0),
   ('2026-27', 'anderson-mputa-saosalvador', 1, 0, 1, 0, 0),
   ('2026-27', 'ariclenis-cabinda', 1, 0, 5, 1, 0),
   ('2026-27', 'bello-lukman-wiliete', 1, 0, 2, 0, 0),

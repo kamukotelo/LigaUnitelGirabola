@@ -63,7 +63,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
   ],
   cards: {
     'adriano-pedro': { yellow: 1, red: 0 },
-    'andeloy-libolo': { yellow: 1, red: 0 },
+    'andeloy-libolo': { yellow: 2, red: 0 },
     'angelo-cangu-huila': { yellow: 1, red: 0 },
     'antonio-cabinda': { yellow: 1, red: 0 },
     'antonio-hossi': { yellow: 1, red: 0 },
