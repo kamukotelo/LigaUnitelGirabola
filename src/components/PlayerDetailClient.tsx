@@ -18,6 +18,7 @@ import {
   getPlayerFicha, getNationalityFlag, getPlayerSeasonMinutes
 } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import PlayerAdvancedStats from '@/components/player/PlayerAdvancedStats';
 import { ROUTES } from '@/lib/routes';
 import { useFifaConnectAccess } from '@/lib/use-fifa-connect-access';
 import { shown } from '@/lib/display';
@@ -284,8 +285,9 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
 
 // ── ABA 2: Estatísticas Detalhadas ──────────
 function StatsTab({ player }: { player: Player }) {
-  // O portal ainda não recebe métricas avançadas oficiais por atleta.
-  // Até essa integração existir, mostra apenas totais editoriais confirmados.
+  // O portal ainda não recebe ratings nem métricas de posse/passe por atleta.
+  // O que existe — totais oficiais da época e tudo o que se deduz das fichas
+  // publicadas — é apresentado sem qualquer valor estimado.
   const hasOfficialAdvancedPlayerMetrics = false;
   if (!hasOfficialAdvancedPlayerMetrics || !player.statsVerified) {
     const yellowCards = player.detailedStats?.yellowCards ?? 0;
@@ -303,19 +305,27 @@ function StatsTab({ player }: { player: Player }) {
 
     return (
       <div className="space-y-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {confirmedStats.map((stat) => (
-            <div key={stat.label} className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-5 rounded-2xl text-center">
-              <span className="font-display text-3xl font-black text-foreground">{stat.value}</span>
-              <span className="block mt-1 text-[9px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</span>
-            </div>
-          ))}
+        <div>
+          <h3 className="mb-3 flex items-center gap-2 font-display text-xs uppercase tracking-wider text-foreground sm:text-sm">
+            <Award size={15} className="shrink-0 text-accent" /> Totais oficiais da época
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+            {confirmedStats.map((stat) => (
+              <div key={stat.label} className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-4 sm:p-5 rounded-2xl text-center">
+                <span className="font-display text-2xl sm:text-3xl font-black text-foreground">{stat.value}</span>
+                <span className="block mt-1 text-[9px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
+
+        <PlayerAdvancedStats player={player} />
+
         <div className="p-6 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start">
           <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={18} />
           <p className="text-xs text-zinc-500">
-            Os minutos em campo são calculados a partir das escalações e das substituições das fichas oficiais.
-            Ratings, posse, precisão de passe, duelos e remates serão apresentados apenas quando forem publicados nessas fichas.
+            Ratings, posse de bola, precisão de passe, duelos e remates serão apresentados apenas quando forem
+            publicados nas fichas oficiais de jogo.
           </p>
         </div>
       </div>

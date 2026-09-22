@@ -17,9 +17,10 @@ const files = {
   estatisticasTab: new URL('../src/components/competition/EstatisticasTab.tsx', import.meta.url),
   classificacaoTab: new URL('../src/components/competition/ClassificacaoTab.tsx', import.meta.url),
   seasonComparisonMatrix: new URL('../src/components/competition/SeasonComparisonMatrix.tsx', import.meta.url),
+  playerAdvancedStats: new URL('../src/components/player/PlayerAdvancedStats.tsx', import.meta.url),
 };
 
-const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage, advancedStatistics, playerDetail, matchDetailClient, estatisticasTab, classificacaoTab, seasonComparisonMatrix] = await Promise.all(
+const [calendar, config, favicon, data, publishedCalendar, adminAuth, adminLogin, loginPage, advancedStatistics, playerDetail, matchDetailClient, estatisticasTab, classificacaoTab, seasonComparisonMatrix, playerAdvancedStats] = await Promise.all(
   Object.values(files).map((file) => readFile(file, 'utf8')),
 );
 
@@ -345,6 +346,23 @@ assert.doesNotMatch(data, /publishedLineups\?\.home \?\? buildLineup/);
 assert.doesNotMatch(data, /homeScorers = pickScorers/);
 assert.match(advancedStatistics, /referee === 'A definir'/);
 assert.match(playerDetail, /hasOfficialAdvancedPlayerMetrics = false/);
+
+// Estatística avançada por atleta: a aba do jogador mostra a ficha derivada das
+// escalações e cronologias oficiais, além dos totais editoriais da época.
+assert.match(playerDetail, /<PlayerAdvancedStats player=\{player\} \/>/);
+assert.match(data, /export function getPlayerAdvancedStats\(playerId: string\): PlayerAdvancedStats \| undefined/);
+// Só entram jogos com ficha publicada: um onze gerado proceduralmente (rating > 0)
+// daria presenças e minutos que nunca aconteceram.
+assert.match(data, /function isPublishedLineupSheet\(detail: MatchDetail\): boolean/);
+assert.match(data, /isPublishedLineupSheet\(detail\)/);
+// Um suplente numa ficha sem trocas publicadas não pode ser dado como não
+// utilizado — fica com o papel por determinar.
+assert.match(data, /sideHasSubs \? 'unused' : 'unknown'/);
+// Extrapolar 90 minutos a partir de 13 daria rácios absurdos na página do atleta.
+assert.match(data, /goalsPer90: minutesPlayed >= REGULATION_MATCH_LENGTH/);
+// Nenhum valor estimado nesta aba: sem dado publicado, o campo fica vazio.
+assert.match(playerAdvancedStats, /Nada é estimado/);
+assert.doesNotMatch(playerAdvancedStats, /Math\.random|DemoBadge/);
 
 // O login administrativo deve identificar cada pessoa, validar o perfil no
 // servidor e emitir uma sessão assinada e limitada no tempo.

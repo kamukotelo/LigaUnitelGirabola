@@ -4193,6 +4193,255 @@ export function getPlayerSeasonMinutes(playerId: string): MinutesPlayedRecord | 
   return getCurrentSeasonMinutesPlayed().find((row) => row.id === playerId);
 }
 
+// ── ESTATÍSTICA AVANÇADA POR ATLETA ──────────────────────────────────
+// Tudo o que se segue é derivado das fichas oficiais já publicadas: escalação
+// (titulares/suplentes), cronologia de substituições e expulsões, golos e
+// cartões. Nenhum valor é estimado; quando a ficha não permite reconstruir
+// um dado, o campo fica por preencher e a página diz que está por publicar.
+
+export interface PlayerMatchLogEntry {
+  matchId: string;
+  round: number;
+  date: string;
+  opponent: string;
+  opponentId: string;
+  venue: 'home' | 'away';
+  scoreFor: number;
+  scoreAgainst: number;
+  outcome: 'win' | 'draw' | 'loss';
+  /**
+   * `starter` = onze inicial, `substitute` = entrou do banco, `unused` = suplente
+   * não utilizado, `unknown` = suplente numa ficha que ainda não publicou trocas
+   * (não se pode afirmar que ficou no banco).
+   */
+  role: 'starter' | 'substitute' | 'unused' | 'unknown';
+  /** Só preenchido nos jogos cuja ficha permite reconstruir a cronologia. */
+  minutes?: number;
+  onMinute?: number;
+  offMinute?: number;
+  goals: number;
+  goalMinutes: number[];
+  penaltyGoals: number;
+  ownGoals: number;
+  assists: number;
+  yellow: number;
+  red: number;
+  /** Golos sofridos pela equipa — relevante para a baliza do guarda-redes titular. */
+  concededByTeam: number;
+  cleanSheet: boolean;
+}
+
+export interface PlayerGoalPhase {
+  label: string;
+  goals: number;
+}
+
+export interface PlayerAdvancedStats {
+  playerId: string;
+  /** Jogos, do mais recente para o mais antigo. */
+  log: PlayerMatchLogEntry[];
+  /** Jogos em que entrou em campo (titular ou suplente utilizado). */
+  matchesPlayed: number;
+  starts: number;
+  benchAppearances: number;
+  unusedBench: number;
+  /** Fichas em que consta na convocatória mas as trocas ainda não foram publicadas. */
+  undeterminedRole: number;
+  /** Minutos reconstituídos e número de jogos que os sustentam. */
+  minutesPlayed: number;
+  matchesWithMinutes: number;
+  averageMinutes?: number;
+  goals: number;
+  penaltyGoals: number;
+  ownGoals: number;
+  assists: number;
+  yellow: number;
+  red: number;
+  goalsPer90?: number;
+  minutesPerGoal?: number;
+  goalsPerMatch?: number;
+  /** Distribuição dos golos por períodos de 15 minutos. */
+  goalPhases: PlayerGoalPhase[];
+  goalsWithMinute: number;
+  homeGoals: number;
+  awayGoals: number;
+  homeMatches: number;
+  awayMatches: number;
+  goalsByOpponent: { teamId: string; team: string; goals: number }[];
+  /** Balizas invioladas enquanto guarda-redes titular. */
+  cleanSheets: number;
+  isGoalkeeper: boolean;
+  wins: number;
+  draws: number;
+  losses: number;
+  /** Jogos terminados da equipa na época e quantos já têm ficha com escalação. */
+  coverage: { teamMatchesFinished: number; matchesWithSheet: number };
+}
+
+const GOAL_PHASE_BOUNDS: readonly [string, number, number][] = [
+  ['1-15', 1, 15],
+  ['16-30', 16, 30],
+  ['31-45', 31, 45],
+  ['46-60', 46, 60],
+  ['61-75', 61, 75],
+  ['76-90+', 76, 200],
+];
+
+/** Uma entrada da escalação é oficial quando vem de ficha publicada (rating 0),
+ * e não de um onze gerado proceduralmente. */
+function isPublishedLineupSheet(detail: MatchDetail): boolean {
+  return [...detail.homeLineup, ...detail.awayLineup].some((player) => player.rating === 0);
+}
+
+/**
+ * Ficha avançada de um atleta na época em curso: registo jogo a jogo e os
+ * agregados que dele se deduzem. Devolve `undefined` quando o atleta ainda não
+ * aparece em nenhuma escalação oficial — a página mostra então o aviso de
+ * dados por publicar em vez de uma grelha de zeros.
+ */
+export function getPlayerAdvancedStats(playerId: string): PlayerAdvancedStats | undefined {
+  const player = getPlayerById(playerId);
+  if (!player) return undefined;
+
+  // Minutos reconstituídos jogo a jogo, a partir da mesma cronologia que
+  // alimenta a tabela de minutos da competição.
+  const spanByMatch = new Map<string, PitchSpan>();
+  for (const { match, side, spans } of getEligibleMatchSides()) {
+    const span = spans.find((entry) => entry.playerId === playerId);
+    if (span) spanByMatch.set(`${match.id}:${side}`, span);
+  }
+
+  const log: PlayerMatchLogEntry[] = [];
+  let teamMatchesFinished = 0;
+
+  for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
+    if (match.status !== 'finished') continue;
+    const side: 'home' | 'away' | undefined =
+      match.homeTeamId === player.teamId ? 'home'
+      : match.awayTeamId === player.teamId ? 'away'
+      : undefined;
+    if (!side) continue;
+    teamMatchesFinished += 1;
+
+    const detail = getMatchDetail(match);
+    if (!isPublishedLineupSheet(detail)) continue;
+
+    const lineup = side === 'home' ? detail.homeLineup : detail.awayLineup;
+    const slot = lineup.find((entry) => entry.playerId === playerId);
+    if (!slot) continue;
+
+    const teamEvents = detail.events.filter((event) => event.team === side);
+    const mine = teamEvents.filter((event) => event.playerId === playerId);
+    const folded = foldName(slot.name);
+
+    const goalEvents = mine.filter((event) => event.type === 'goal' && !event.ownGoal);
+    // Num autogolo o campo `team` é a equipa beneficiada, logo o autor está do lado contrário.
+    const ownGoals = detail.events.filter((event) =>
+      event.type === 'goal' && event.ownGoal === true && event.playerId === playerId).length;
+
+    const subIn = teamEvents.find((event) => event.type === 'sub' && event.playerId === playerId);
+    const subOut = teamEvents.find((event) =>
+      event.type === 'sub' && event.playerOut !== undefined && foldName(event.playerOut) === folded);
+
+    const span = spanByMatch.get(`${match.id}:${side}`);
+    // Sem trocas publicadas não há como afirmar que um suplente ficou no banco.
+    const sideHasSubs = teamEvents.some((event) => event.type === 'sub');
+    const role: PlayerMatchLogEntry['role'] =
+      slot.isStarter ? 'starter' : subIn ? 'substitute' : sideHasSubs ? 'unused' : 'unknown';
+
+    const scoreFor = side === 'home' ? match.homeScore : match.awayScore;
+    const scoreAgainst = side === 'home' ? match.awayScore : match.homeScore;
+
+    log.push({
+      matchId: match.id,
+      round: match.round,
+      date: match.date,
+      opponent: side === 'home' ? match.awayTeam : match.homeTeam,
+      opponentId: side === 'home' ? match.awayTeamId : match.homeTeamId,
+      venue: side,
+      scoreFor,
+      scoreAgainst,
+      outcome: scoreFor > scoreAgainst ? 'win' : scoreFor < scoreAgainst ? 'loss' : 'draw',
+      role,
+      minutes: role === 'starter' || role === 'substitute' ? (span ? spanMinutes(span) : undefined) : undefined,
+      onMinute: subIn?.minute,
+      offMinute: subOut?.minute,
+      goals: goalEvents.length,
+      goalMinutes: goalEvents.map((event) => event.minute).filter((minute): minute is number => minute !== undefined),
+      penaltyGoals: goalEvents.filter((event) => /penalidade|penalti|penálti/i.test(event.detail ?? '')).length,
+      ownGoals,
+      assists: teamEvents.filter((event) =>
+        event.type === 'goal' && !event.ownGoal && event.assist ? foldName(event.assist) === folded : false).length,
+      yellow: mine.filter((event) => event.type === 'yellow').length,
+      red: mine.filter((event) => event.type === 'red').length,
+      concededByTeam: scoreAgainst,
+      cleanSheet: slot.isStarter && slot.position === 'GK' && scoreAgainst === 0,
+    });
+  }
+
+  if (log.length === 0) return undefined;
+
+  log.sort((a, b) => b.round - a.round);
+
+  const played = log.filter((entry) => entry.role === 'starter' || entry.role === 'substitute');
+  const sum = (pick: (entry: PlayerMatchLogEntry) => number) =>
+    log.reduce((total, entry) => total + pick(entry), 0);
+
+  const minutesPlayed = sum((entry) => entry.minutes ?? 0);
+  const matchesWithMinutes = log.filter((entry) => entry.minutes !== undefined).length;
+  const goals = sum((entry) => entry.goals);
+  const goalMinutes = log.flatMap((entry) => entry.goalMinutes);
+
+  const opponents = new Map<string, { teamId: string; team: string; goals: number }>();
+  for (const entry of log) {
+    if (entry.goals === 0) continue;
+    const bucket = opponents.get(entry.opponentId)
+      ?? { teamId: entry.opponentId, team: entry.opponent, goals: 0 };
+    bucket.goals += entry.goals;
+    opponents.set(entry.opponentId, bucket);
+  }
+
+  return {
+    playerId,
+    log,
+    matchesPlayed: played.length,
+    starts: log.filter((entry) => entry.role === 'starter').length,
+    benchAppearances: log.filter((entry) => entry.role === 'substitute').length,
+    unusedBench: log.filter((entry) => entry.role === 'unused').length,
+    undeterminedRole: log.filter((entry) => entry.role === 'unknown').length,
+    minutesPlayed,
+    matchesWithMinutes,
+    averageMinutes: matchesWithMinutes > 0 ? minutesPlayed / matchesWithMinutes : undefined,
+    goals,
+    penaltyGoals: sum((entry) => entry.penaltyGoals),
+    ownGoals: sum((entry) => entry.ownGoals),
+    assists: sum((entry) => entry.assists),
+    yellow: sum((entry) => entry.yellow),
+    red: sum((entry) => entry.red),
+    // Rácios por 90' só com minutos reais e com pelo menos um jogo completo de
+    // amostra: extrapolar 90 minutos a partir de 13 daria um número absurdo.
+    goalsPer90: minutesPlayed >= REGULATION_MATCH_LENGTH ? (goals * 90) / minutesPlayed : undefined,
+    minutesPerGoal: minutesPlayed > 0 && goals > 0 ? minutesPlayed / goals : undefined,
+    goalsPerMatch: played.length > 0 ? goals / played.length : undefined,
+    goalPhases: GOAL_PHASE_BOUNDS.map(([label, from, to]) => ({
+      label,
+      goals: goalMinutes.filter((minute) => minute >= from && minute <= to).length,
+    })),
+    goalsWithMinute: goalMinutes.length,
+    homeGoals: sum((entry) => (entry.venue === 'home' ? entry.goals : 0)),
+    awayGoals: sum((entry) => (entry.venue === 'away' ? entry.goals : 0)),
+    homeMatches: played.filter((entry) => entry.venue === 'home').length,
+    awayMatches: played.filter((entry) => entry.venue === 'away').length,
+    goalsByOpponent: [...opponents.values()].sort((a, b) => b.goals - a.goals || a.team.localeCompare(b.team, 'pt')),
+    cleanSheets: log.filter((entry) => entry.cleanSheet).length,
+    isGoalkeeper: mapPitchPosition(player.position) === 'GK',
+    wins: played.filter((entry) => entry.outcome === 'win').length,
+    draws: played.filter((entry) => entry.outcome === 'draw').length,
+    losses: played.filter((entry) => entry.outcome === 'loss').length,
+    coverage: { teamMatchesFinished, matchesWithSheet: log.length },
+  };
+}
+
 /** Treinadores confirmados nas fichas de jogo. */
 const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: string }>> = Object.fromEntries(
   MATCH_RECORDS_2026_27.flatMap((record) => (record.coaches ? [[record.id, record.coaches]] : [])),
