@@ -71,5 +71,12 @@ export default defineMatch({
     { minute: 63, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: "63' (3-0)" },
     { minute: 82, type: 'goal', team: 'home', player: 'Rodino Dumbo José', number: 25, playerId: 'fifa-1jwu0l8', detail: "82' (4-0)" },
     { minute: 87, type: 'goal', team: 'home', player: 'Valter Monteiro', number: 35, playerId: 'valter-monteiro', detail: "87' (5-0)" },
+    // Substituições do Wiliete comunicadas pela DCE. O Recreativo do Libolo
+    // não consta da comunicação recebida.
+    { minute: 46, type: 'sub', team: 'home', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', playerOut: 'Bito' },
+    { minute: 46, type: 'sub', team: 'home', player: 'Janderson', number: 6, playerOut: 'Sidibé' },
+    { minute: 46, type: 'sub', team: 'home', player: 'Célio', number: 32, playerId: 'fifa-1m95s64', playerOut: 'Mule' },
+    { minute: 77, type: 'sub', team: 'home', player: 'Valter Monteiro', number: 35, playerId: 'valter-monteiro', playerOut: 'Gibelé' },
+    { minute: 84, type: 'sub', team: 'home', player: 'Macaiabo', number: 16, playerId: 'fifa-1k1jsj8', playerOut: 'Mabululu' },
   ],
 });
