@@ -55,7 +55,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     { id: 'pedro-manuel-interclube', name: 'Pedro Manuel', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
     { id: 'ricardo-batista-fcluanda', name: 'Ricardo Batista', club: 'FC Luanda', teamId: 'fcluanda', position: 'Posição por confirmar', goals: 1, appearances: 1 },
     { id: 'ruben-aderito', name: 'Rúben Adérito', club: 'Petro de Luanda', teamId: 'petro', position: 'Defesa', goals: 1, appearances: 4 },
-    { id: 'fifa-1qvfjm7', name: 'Sidibé', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Médio', goals: 1, appearances: 2 },
+    { id: 'fifa-1qvfjm7', name: 'Sidibé', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Médio', goals: 1, appearances: 3 },
     { id: 'silvano-da-cruz-interclube', name: 'Silvano da Cruz', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
     { id: 'fifa-1nb4bp9', name: 'Simão Gonga', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Médio', goals: 1, appearances: 2 },
     { id: 'fifa-1uy6ar6', name: 'Tiago Adelino', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 1 },

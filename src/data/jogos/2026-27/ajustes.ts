@@ -9,5 +9,4 @@
  */
 export const APPEARANCES_WITHOUT_LINEUP_2026_27: Readonly<Record<string, number>> = {
   'fifa-1jrku39': 1, // Mankoka Afonso (Kabuscorp SC)
-  'fifa-1jwu0l8': 1, // Rodino Dumbo José (Wiliete de Benguela)
 };
