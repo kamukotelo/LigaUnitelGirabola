@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Trophy, Target, CalendarDays, Flag, Tv, X, Filter, Sparkles, MapPin } from 'lucide-react';
-import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, Match, getActiveSeasonRound } from '@/lib/data';
+import { UPCOMING_SEASON_ID, getMatchBroadcast, getMatchesForSeason, getAllTeams, getTeamById, Match, getActiveSeasonRound } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
 import CalendarioPlaneamento from './CalendarioPlaneamento';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -116,11 +116,13 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
   const awayScore = isFinished || isLive ? match.awayScore : '—';
   const broadcast = getMatchBroadcast(match);
   const isDeferredBroadcast = broadcast.toLowerCase().includes('diferido');
+  const homeShortName = getTeamById(match.homeTeamId)?.shortName ?? match.homeTeam;
+  const awayShortName = getTeamById(match.awayTeamId)?.shortName ?? match.awayTeam;
 
   // Alinhamento padronizado: casa sempre à direita, fora sempre à esquerda,
   // com quebra de linha equilibrada (text-balance) para evitar linhas soltas.
   const teamNameClass = (isSelected: boolean, align: 'right' | 'left') =>
-    `min-w-0 text-balance break-words font-condensed text-[12px] font-bold leading-tight sm:text-[13px] ${
+    `min-w-0 text-balance break-words font-condensed text-xs font-bold leading-tight sm:text-[13px] ${
       align === 'right' ? 'text-right' : 'text-left'
     } ${isSelected ? 'font-extrabold text-red-700' : 'text-zinc-950'}`;
 
@@ -137,8 +139,8 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
           comprimento do nome ou de o resultado ser numérico ou um traço. */}
       <div className="grid min-h-8 grid-cols-[minmax(0,1fr)_1.75rem_3.25rem_1.75rem_minmax(0,1fr)] items-center gap-x-1.5 sm:grid-cols-[minmax(0,1fr)_1.75rem_4rem_1.75rem_minmax(0,1fr)] sm:gap-x-2">
         {/* Casa */}
-        <span className={teamNameClass(selected, 'right')}>{match.homeTeam}</span>
-        <TeamCrest teamId={match.homeTeamId} size={28} className="shrink-0 justify-self-center" />
+        <span className={teamNameClass(selected, 'right')}><span className="min-[400px]:hidden">{homeShortName}</span><span className="hidden min-[400px]:inline">{match.homeTeam}</span></span>
+        <TeamCrest teamId={match.homeTeamId} size={24} className="shrink-0 justify-self-center sm:w-7" />
 
         {/* Resultado */}
         <div className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-1.5 py-1 font-mono text-sm font-black tabular-nums text-zinc-900 shadow-sm">
@@ -148,29 +150,34 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
         </div>
 
         {/* Fora */}
-        <TeamCrest teamId={match.awayTeamId} size={28} className="shrink-0 justify-self-center" />
-        <span className={teamNameClass(selected, 'left')}>{match.awayTeam}</span>
+        <TeamCrest teamId={match.awayTeamId} size={24} className="shrink-0 justify-self-center sm:w-7" />
+        <span className={teamNameClass(selected, 'left')}><span className="min-[400px]:hidden">{awayShortName}</span><span className="hidden min-[400px]:inline">{match.awayTeam}</span></span>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-1.5 font-mono text-[9px] font-bold uppercase tracking-wide text-zinc-700 sm:text-[10px]">
+      <div className="flex flex-wrap items-center justify-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-normal text-zinc-700 sm:text-xs sm:tracking-wide">
         <span className={isLive ? 'text-red-600' : isPostponed ? 'text-amber-700' : undefined}>{isLive ? `● ${match.liveMinute ?? ''}' · Em direto` : isPostponed ? 'Adiado · À espera de data' : `${formattedDay} · ${formattedTime}`}</span>
+        {match.stadium && (
+          <span className="inline-flex items-center gap-1 text-zinc-600" title={match.stadium}>
+            <MapPin size={10} aria-hidden="true" /> <span className="max-w-40 truncate sm:max-w-56">{match.stadium}</span>
+          </span>
+        )}
         {isClassicMatch(match) && (
-          <span className="rounded bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.5 text-[8px] font-extrabold text-amber-700 dark:text-amber-400">
+          <span className="rounded bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.5 text-[11px] font-extrabold text-amber-700 dark:text-amber-400">
             👑 Clássico
           </span>
         )}
         {isDerbiBenguela(match) && (
-          <span className="rounded bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.5 text-[8px] font-extrabold text-emerald-700 dark:text-emerald-400">
+          <span className="rounded bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.5 text-[11px] font-extrabold text-emerald-700 dark:text-emerald-400">
             🌊 Dérbi Benguela
           </span>
         )}
         {isDerbiLeste(match) && (
-          <span className="rounded bg-purple-500/15 border border-purple-500/30 px-1.5 py-0.5 text-[8px] font-extrabold text-purple-700 dark:text-purple-400">
+          <span className="rounded bg-purple-500/15 border border-purple-500/30 px-1.5 py-0.5 text-[11px] font-extrabold text-purple-700 dark:text-purple-400">
             💎 Dérbi do Leste
           </span>
         )}
         {isDerbiLuanda(match) && !isClassicMatch(match) && (
-          <span className="rounded bg-blue-500/15 border border-blue-500/30 px-1.5 py-0.5 text-[8px] font-extrabold text-blue-700 dark:text-blue-400">
+          <span className="rounded bg-blue-500/15 border border-blue-500/30 px-1.5 py-0.5 text-[11px] font-extrabold text-blue-700 dark:text-blue-400">
             ⚔️ Dérbi Luanda
           </span>
         )}
@@ -187,6 +194,7 @@ function CalendarMatchRow({ match, selectedTeamId }: { match: Match; selectedTea
 export default function CalendarioTab({ seasonId }: { seasonId: string }) {
   const [filterState, setFilterState] = useState<CalendarFilters>(() => getDefaultFilters(seasonId));
   const [viewMode, setViewMode] = useState<'lista' | 'planeamento'>('lista');
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const { matches: MATCHES, loading, generatedAt } = useOfficialCalendar(seasonId);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
@@ -288,16 +296,24 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
   const hasResults = visibleRounds.length > 0;
 
-  const selectClass = 'bg-zinc-100 dark:bg-zinc-950 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-primary w-full sm:w-auto';
+  const activeFilterCount = [
+    filterStatus !== 'all',
+    filterMonth !== 'all',
+    filterTeam !== 'all',
+    filterHighlight !== 'all',
+    filterProvince !== 'all',
+  ].filter(Boolean).length;
+
+  const selectClass = 'min-h-11 bg-zinc-100 dark:bg-zinc-950 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:border-primary w-full sm:w-auto';
 
   return (
     <div>
       {/* Seletor de Modo de Visualização */}
-      <div className="flex justify-end mb-6">
-        <div className="flex gap-1 bg-zinc-100/60 dark:bg-zinc-950/60 p-1 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80">
+      <div className="flex justify-end mb-4 sm:mb-6">
+        <div className="grid w-full grid-cols-2 gap-1 bg-zinc-100/60 dark:bg-zinc-950/60 p-1 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 sm:flex sm:w-auto">
           <button
             onClick={() => setViewMode('lista')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
+            className={`min-h-11 px-3 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
               viewMode === 'lista'
                 ? 'bg-primary text-white shadow-md shadow-primary/20'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
@@ -307,7 +323,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           </button>
           <button
             onClick={() => setViewMode('planeamento')}
-            className={`px-4 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
+            className={`min-h-11 px-3 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
               viewMode === 'planeamento'
                 ? 'bg-primary text-white shadow-md shadow-primary/20'
                 : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
@@ -322,8 +338,18 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         <CalendarioPlaneamento matches={MATCHES} />
       ) : (
         <>
-      {/* Capa e seletor visual de equipa */}
-      <section className="mb-8 overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-primary/15 via-white/60 to-accent/10 dark:from-primary/20 dark:via-zinc-950/80 dark:to-accent/10">
+      <button
+        type="button"
+        onClick={() => setMobileFiltersOpen((open) => !open)}
+        aria-expanded={mobileFiltersOpen}
+        className="mb-4 flex min-h-11 w-full items-center justify-between rounded-xl border border-zinc-200 bg-white/70 px-4 text-xs font-bold text-foreground dark:border-zinc-800 dark:bg-zinc-900/70 sm:hidden"
+      >
+        <span className="inline-flex items-center gap-2"><Filter size={15} /> Filtros{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}</span>
+        <span className="text-zinc-500">{mobileFiltersOpen ? 'Fechar' : 'Abrir'}</span>
+      </button>
+
+      {/* Capa e seletor visual de equipa: contextual no desktop, integrado nos filtros no mobile. */}
+      <section className="mb-8 hidden overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-primary/15 via-white/60 to-accent/10 dark:from-primary/20 dark:via-zinc-950/80 dark:to-accent/10 sm:block">
         <div className="grid gap-5 p-5 sm:p-7 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <p className="text-xs font-bold text-primary">Calendário oficial · Época {seasonId.replace('-', '/')}</p>
@@ -376,7 +402,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
       </section>
           {/* Estado de sincronização do calendário */}
       {isUpcoming && (
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center gap-3 bg-green-500/5 border border-green-500/35 rounded-2xl p-4 backdrop-blur-sm">
+        <div className="mb-4 flex flex-col sm:mb-6 sm:flex-row sm:items-center gap-2 sm:gap-3 bg-green-500/5 border border-green-500/35 rounded-2xl p-3 sm:p-4 backdrop-blur-sm">
           <div className="flex items-center gap-2.5">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -387,7 +413,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
             </span>
           </div>
           {generatedAt && (
-            <div className="text-xs text-zinc-500 flex flex-wrap gap-x-4 gap-y-1">
+            <div className="hidden text-xs text-zinc-500 flex-wrap gap-x-4 gap-y-1 sm:flex">
               <span>
                 Última publicação na plataforma:{' '}
                 <strong className="text-foreground font-semibold">
@@ -404,7 +430,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
       )}
 
       {/* Resumo da época */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8">
+      <div className="hidden grid-cols-2 md:grid md:grid-cols-4 gap-3 sm:gap-4 mb-8">
         {seasonStats.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -425,7 +451,14 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
       </div>
 
       {/* Barra de filtros */}
-      <div className="bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm mb-8 space-y-4">
+      <div className={`${mobileFiltersOpen ? 'block' : 'hidden'} bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm mb-5 space-y-4 sm:block sm:mb-8`}>
+        <div className="flex flex-col gap-2 sm:hidden">
+          <span className="text-[11px] font-mono text-zinc-500 uppercase tracking-wider">Equipa</span>
+          <select aria-label="Filtrar calendário por equipa" value={filterTeam} onChange={(e) => updateFilters({ filterTeam: e.target.value, selectedRound: e.target.value === 'all' ? selectedRound : 'all' })} className={selectClass}>
+            <option value="all">Todas as equipas</option>
+            {seasonTeams.map((team) => <option key={team.id} value={team.id}>{team.name}</option>)}
+          </select>
+        </div>
         {/* Linha 1: Estado, Mês e Província */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Estado */}
@@ -436,7 +469,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
                 <button
                   key={opt.key}
                   onClick={() => updateFilters({ filterStatus: opt.key })}
-                  className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
+                  className={`min-h-11 flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg text-xs font-semibold font-mono transition-all ${
                     filterStatus === opt.key ? 'bg-primary text-white' : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
                   }`}
                 >
@@ -477,7 +510,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
         </div>
 
         {/* Linha 2: Destaques & Confrontos / Clássicos */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 pt-2 border-t border-zinc-200/50 dark:border-zinc-800/50">
+        <div className="hidden sm:flex sm:flex-row sm:items-center gap-2 sm:gap-3 pt-2 border-t border-zinc-200/50 dark:border-zinc-800/50">
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider sm:w-20 flex-shrink-0 flex items-center gap-1">
             <Sparkles size={11} className="text-accent" /> Destaque
           </span>
@@ -496,7 +529,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
                   filterHighlight: item.key as MatchTypeFilter,
                   selectedRound: item.key !== 'all' ? 'all' : selectedRound,
                 })}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all ${
+                className={`min-h-11 px-3 py-2 rounded-lg text-xs font-semibold font-mono transition-all ${
                   filterHighlight === item.key
                     ? 'bg-accent text-zinc-950 font-bold shadow-sm'
                     : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
@@ -561,20 +594,20 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
 
       {/* Paginação de Jornada (Navegador Rápido) */}
       {selectedRound !== 'all' && (
-        <div className="flex justify-between items-center bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm mb-6 font-mono text-xs select-none">
+        <div className="sticky top-16 z-20 flex justify-between items-center bg-white/95 dark:bg-zinc-900/95 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-2.5 sm:p-4 backdrop-blur-md mb-4 sm:mb-6 font-mono text-xs select-none shadow-sm">
           <button
             onClick={() => updateFilters({ selectedRound: selectedRound - 1 })}
             disabled={selectedRound === 1}
-            className="px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-white/20 disabled:opacity-40 transition-colors flex items-center gap-1 font-bold text-foreground disabled:cursor-not-allowed"
+            className="min-h-11 px-3 sm:px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-white/20 disabled:opacity-40 transition-colors flex items-center gap-1 font-bold text-foreground disabled:cursor-not-allowed"
           >
             ◀ Anterior
           </button>
 
           <div className="flex items-center gap-2">
-            <span className="text-zinc-600 dark:text-zinc-400 font-extrabold uppercase">Jornada {selectedRound} de {rounds.length}</span>
+            <span className="text-zinc-600 dark:text-zinc-400 font-extrabold uppercase"><span className="sm:hidden">J{selectedRound}</span><span className="hidden sm:inline">Jornada {selectedRound} de {rounds.length}</span></span>
             <button
               onClick={() => updateFilters({ selectedRound: 'all' })}
-              className="text-[10px] bg-accent/10 hover:bg-accent/20 text-accent font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg border border-accent/20 transition-colors"
+              className="hidden text-[10px] bg-accent/10 hover:bg-accent/20 text-accent font-bold uppercase tracking-widest px-2.5 py-1 rounded-lg border border-accent/20 transition-colors sm:block"
             >
               Ver Todas
             </button>
@@ -583,7 +616,7 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           <button
             onClick={() => updateFilters({ selectedRound: selectedRound + 1 })}
             disabled={selectedRound === rounds.length}
-            className="px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-white/20 disabled:opacity-40 transition-colors flex items-center gap-1 font-bold text-foreground disabled:cursor-not-allowed"
+            className="min-h-11 px-3 sm:px-3.5 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-white/20 disabled:opacity-40 transition-colors flex items-center gap-1 font-bold text-foreground disabled:cursor-not-allowed"
           >
             Próxima ▶
           </button>
@@ -639,6 +672,24 @@ export default function CalendarioTab({ seasonId }: { seasonId: string }) {
           <p className="text-zinc-500 font-mono">Nenhum jogo encontrado com os filtros selecionados.</p>
         </div>
       )}
+
+      {/* No telemóvel, o resumo vem depois dos jogos para não atrasar o conteúdo principal. */}
+      <div className="mt-8 grid grid-cols-2 gap-3 md:hidden">
+        {seasonStats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div key={stat.label} className="flex items-center gap-3 rounded-2xl border border-zinc-200/80 bg-white/40 p-3 dark:border-zinc-800/80 dark:bg-zinc-900/40">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10">
+                <Icon size={15} className="text-primary" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-display text-lg font-black leading-none text-foreground">{stat.value}</p>
+                <p className="mt-1 text-[11px] font-mono uppercase leading-tight text-zinc-500">{stat.label}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
         </>
       )}
     </div>

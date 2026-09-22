@@ -98,7 +98,7 @@ export default function TeamDetailClient({
     : 0;
 
   return (
-    <div className="content-shell py-12 relative z-10">
+    <div className="content-shell py-12 relative z-10 overflow-hidden">
 
       {/* Club ambient light glow */}
       <div

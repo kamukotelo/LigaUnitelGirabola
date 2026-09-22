@@ -41,7 +41,9 @@ assert.equal(scorers.has('cuxixima-caala'), false, 'Cuxixima não marcou no Rela
 // Todos os golos dos resultados têm marcador ou são autogolos assinalados.
 // Exceção única: golos cujo autor a fonte oficial ainda não identificou ficam
 // em branco no site (nunca com "por confirmar") e têm de estar listados aqui.
-const PENDING_SCORERS = ["m27-5-2 95'"];
+// m27-5-5 55': a fonte assina o golo a «Cláudio», alcunha que não consta do
+// plantel oficial do 1.º de Maio; sem camisola não há como ligar ao plantel.
+const PENDING_SCORERS = ["m27-5-2 95'", "m27-5-5 55'"];
 const pending = d.getMatchesForSeason(d.UPCOMING_SEASON_ID)
   .filter((m: { status: string }) => m.status === 'finished')
   .flatMap((m: { id: string }) => d.getMatchDetail(m).events

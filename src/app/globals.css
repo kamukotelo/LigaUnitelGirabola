@@ -335,6 +335,21 @@ html {
   scroll-padding-top: 6rem;
 }
 
+@media (max-width: 639px) {
+  html { scroll-padding-top: 4rem; }
+  .page-shell { padding-top: 2rem; }
+  .page-header { margin-bottom: 1.5rem; }
+  .page-title { font-size: 1.75rem; }
+  button, select { min-height: 2.75rem; }
+  .text-\[8px\], .text-\[9px\] { font-size: .6875rem; }
+  .page-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+}
+
 ::selection {
   background: var(--accent);
   color: white;

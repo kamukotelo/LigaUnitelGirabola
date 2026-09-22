@@ -595,12 +595,12 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                             <Link href={`/players/${player.id}`} className="hover:text-primary transition-colors truncate">{player.name}</Link>
                           )}
                           {isLeagueLeader && (
-                            <span className="text-[9px] font-mono bg-accent/20 text-accent border border-accent/40 px-2 py-0.5 rounded-full uppercase flex-shrink-0">
+                            <span className="text-[11px] sm:text-[9px] font-mono bg-accent/20 text-accent border border-accent/40 px-2 py-0.5 rounded-full uppercase flex-shrink-0">
                               {sharedLead ? 'Liderança partilhada' : 'Líder'}
                             </span>
                           )}
                           {isClubBest && (
-                            <span className="text-[9px] font-mono bg-primary/15 text-primary border border-primary/30 px-2 py-0.5 rounded-full uppercase flex-shrink-0">
+                            <span className="text-[11px] sm:text-[9px] font-mono bg-primary/15 text-primary border border-primary/30 px-2 py-0.5 rounded-full uppercase flex-shrink-0">
                               {sharedClubBest ? 'Melhor do clube (partilhado)' : 'Melhor do clube'}
                             </span>
                           )}
@@ -639,11 +639,11 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                       }`}>
                         {activeTab === 'minutes' ? player.value.toLocaleString('pt-AO') : player.value}
                       </span>
-                      <p className="text-[9px] font-mono text-zinc-500 uppercase mt-0.5">
+                      <p className="text-[11px] sm:text-[9px] font-mono text-zinc-500 uppercase mt-0.5">
                         {VALUE_LABELS[activeTab]}
                       </p>
                       {player.secondaryValue !== undefined && (
-                        <p className="text-[8px] font-mono text-zinc-400 mt-0.5">
+                        <p className="text-[11px] sm:text-[8px] font-mono text-zinc-400 mt-0.5">
                           {player.secondaryLabel}: {player.secondaryValue}
                         </p>
                       )}
@@ -681,19 +681,19 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                     <span className="text-foreground font-bold block text-sm">
                       {seasonHasStarted ? (leaderAppearances ?? '—') : 0}
                     </span>
-                    <span className="text-[8px] text-zinc-500 uppercase">Jogos</span>
+                    <span className="text-[11px] sm:text-[8px] text-zinc-500 uppercase">Jogos</span>
                   </div>
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
                     <span className="text-accent font-bold block text-sm">
                       {seasonHasStarted ? (leaderPlayer ? leaderPlayer.value.toLocaleString('pt-AO') : '—') : 0}
                     </span>
-                    <span className="text-[8px] text-zinc-500 uppercase">{VALUE_LABELS[activeTab]}</span>
+                    <span className="text-[11px] sm:text-[8px] text-zinc-500 uppercase">{VALUE_LABELS[activeTab]}</span>
                   </div>
                   <div className="bg-zinc-100 dark:bg-black/30 p-2 rounded-lg border border-zinc-200 dark:border-zinc-900">
                     <span className="text-foreground font-bold block text-sm">
                       {seasonHasStarted ? (leaderThirdValue ?? '—') : 0}
                     </span>
-                    <span className="text-[8px] text-zinc-500 uppercase">{leaderThirdLabel}</span>
+                    <span className="text-[11px] sm:text-[8px] text-zinc-500 uppercase">{leaderThirdLabel}</span>
                   </div>
                 </div>
               </div>

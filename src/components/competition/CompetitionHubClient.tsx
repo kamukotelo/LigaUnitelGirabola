@@ -57,7 +57,7 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
               <button
                 key={s.id}
                 onClick={() => goTo(s.id, tab)}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all border ${
+                className={`min-h-11 px-3.5 py-2 rounded-lg text-xs font-semibold font-mono transition-all border ${
                   active
                     ? 'bg-primary text-white border-primary'
                     : 'bg-zinc-100 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:text-foreground'
@@ -83,8 +83,16 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
 
         {/* Coluna principal: abas + conteúdo */}
         <div className="min-w-0">
+          {tab === 'geral' && <details className="mb-5 overflow-hidden rounded-2xl border border-zinc-200 bg-white/50 dark:border-zinc-800 dark:bg-zinc-900/40 xl:hidden">
+            <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between px-4 text-xs font-bold uppercase tracking-wide text-foreground">
+              <span>Top 5 da classificação</span>
+              <span className="text-accent">Ver tabela</span>
+            </summary>
+            <MiniStandings seasonId={seasonId} limit={5} />
+          </details>}
+
           {/* Barra de abas */}
-          <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className="grid grid-cols-3 gap-1.5 mb-8 sm:flex sm:gap-0 sm:border-b sm:border-zinc-200 sm:dark:border-zinc-900">
             {HUB_TABS.map((t) => {
               const Icon = TAB_ICONS[t.key];
               const active = tab === t.key;
@@ -92,10 +100,10 @@ export default function CompetitionHubClient({ seasonId, tab }: { seasonId: stri
                 <button
                   key={t.key}
                   onClick={() => goTo(seasonId, t.key)}
-                  className={`px-4 sm:px-5 py-4 text-center text-xs font-mono uppercase tracking-wider font-extrabold border-b-2 transition-all duration-200 flex-shrink-0 flex items-center gap-2 ${
+                  className={`min-h-11 rounded-lg border px-1.5 py-2 text-center text-[10px] font-mono uppercase tracking-tight font-extrabold transition-all duration-200 flex flex-col items-center justify-center gap-1 sm:min-h-0 sm:rounded-none sm:border-x-0 sm:border-t-0 sm:border-b-2 sm:px-5 sm:py-4 sm:text-xs sm:tracking-wider sm:flex-row sm:flex-shrink-0 sm:gap-2 ${
                     active
                       ? 'text-accent border-accent bg-accent/5'
-                      : 'text-zinc-500 border-transparent hover:text-foreground hover:bg-white/5'
+                      : 'text-zinc-500 border-zinc-200 dark:border-zinc-800 sm:border-transparent hover:text-foreground hover:bg-white/5'
                   }`}
                 >
                   <Icon size={14} />

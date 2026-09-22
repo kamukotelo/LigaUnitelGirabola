@@ -150,7 +150,7 @@ function LineupColumn({ title, accent, lineup, isFinished, coach }: { title: str
           if (!players.length) return null;
           return (
             <div key={g ?? 'unknown'} className="mb-3">
-              {g && <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">{POS_LABEL[g]}</p>}
+              {g && <p className="text-[11px] sm:text-[9px] font-mono text-zinc-600 uppercase tracking-wide sm:tracking-widest mb-1">{POS_LABEL[g]}</p>}
               {players.map((p, i) => <Row key={i} p={p} />)}
             </div>
           );
@@ -158,7 +158,7 @@ function LineupColumn({ title, accent, lineup, isFinished, coach }: { title: str
       </div>
       {subs.length > 0 && (
         <div>
-          <p className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest mb-1">Suplentes</p>
+          <p className="text-[11px] sm:text-[9px] font-mono text-zinc-600 uppercase tracking-wide sm:tracking-widest mb-1">Suplentes</p>
           {subs.map((p, i) => <Row key={i} p={p} />)}
         </div>
       )}
@@ -319,13 +319,13 @@ export default function MatchDetailClient({
   ];
 
   return (
-    <div className="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 font-sans">
+    <div className="py-8 sm:py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 font-sans">
       <Link href={ROUTES.calendar} className="inline-flex items-center gap-2 text-primary font-mono text-xs uppercase tracking-widest mb-8 hover:-translate-x-1 transition-transform">
         <ArrowLeft size={14} /> Voltar ao Calendário
       </Link>
 
       {/* Placar */}
-      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-8 mb-8 relative overflow-hidden">
+      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-4 sm:p-8 mb-6 sm:mb-8 relative overflow-hidden">
         <div
           className="absolute top-0 left-0 w-1/2 h-full opacity-[0.07] pointer-events-none"
           style={{ background: `radial-gradient(circle at left, ${homeColor}, transparent 70%)` }}
@@ -336,7 +336,7 @@ export default function MatchDetailClient({
         />
 
         <div className="flex flex-col items-center gap-2 mb-6 relative z-10">
-          <span className="text-[9px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-full uppercase tracking-widest">
+          <span className="text-[11px] font-mono bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-full uppercase tracking-wide">
             Jornada {match.round} · {isFinished ? 'Terminado' : isLive ? `${match.liveMinute ?? ''}' · Em direto` : 'Agendado'}
           </span>
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider flex items-center gap-2 flex-wrap justify-center">
@@ -351,18 +351,18 @@ export default function MatchDetailClient({
           )}
         </div>
 
-        <div className="grid grid-cols-3 items-center gap-4 relative z-10">
+        <div className="grid grid-cols-3 items-center gap-2 sm:gap-4 relative z-10">
           {/* Casa */}
           <Link href={homeTeam ? `/teams/${homeTeam.id}` : '#'} className="text-center group">
-            <TeamCrest teamId={match.homeTeamId} size={80} className="mx-auto mb-3 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]" />
-            <p className="font-display text-foreground uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.homeTeam}</p>
+            <TeamCrest teamId={match.homeTeamId} size={80} className="mx-auto mb-2 w-12 sm:mb-3 sm:w-20 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]" />
+            <p className="font-display text-foreground uppercase text-xs sm:text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.homeTeam}</p>
           </Link>
 
           {/* Resultado */}
           <div className="text-center">
             {isFinished || isLive ? (
-              <div className="font-display text-5xl md:text-6xl font-black text-foreground tracking-tight">
-                {match.homeScore}<span className="text-zinc-700 mx-2">:</span>{match.awayScore}
+              <div className="font-display text-4xl sm:text-5xl md:text-6xl font-black text-foreground tracking-tight">
+                {match.homeScore}<span className="text-zinc-700 mx-1 sm:mx-2">:</span>{match.awayScore}
                 {isLive && <span className="block mt-2 text-xs font-mono uppercase tracking-widest text-red-500">● Em direto</span>}
               </div>
             ) : (
@@ -375,14 +375,14 @@ export default function MatchDetailClient({
 
           {/* Fora */}
           <Link href={awayTeam ? `/teams/${awayTeam.id}` : '#'} className="text-center group">
-            <TeamCrest teamId={match.awayTeamId} size={80} className="mx-auto mb-3 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]" />
-            <p className="font-display text-foreground uppercase text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.awayTeam}</p>
+            <TeamCrest teamId={match.awayTeamId} size={80} className="mx-auto mb-2 w-12 sm:mb-3 sm:w-20 filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]" />
+            <p className="font-display text-foreground uppercase text-xs sm:text-sm md:text-base leading-tight group-hover:text-accent transition-colors">{match.awayTeam}</p>
           </Link>
         </div>
       </AnimatedCard>
 
       {/* Abas */}
-      <div className="flex flex-wrap gap-2 mb-8 border-b border-zinc-200/80 dark:border-zinc-900/80">
+      <div className="grid grid-cols-3 gap-1 mb-8 border-b border-zinc-200/80 dark:border-zinc-900/80">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.key;
@@ -390,7 +390,7 @@ export default function MatchDetailClient({
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`relative flex items-center gap-2 px-4 py-3 font-mono text-[11px] uppercase tracking-widest transition-colors ${isActive ? 'text-foreground' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
+              className={`relative flex min-h-11 items-center justify-center gap-1 px-1 py-3 font-mono text-[10px] uppercase tracking-tight transition-colors sm:gap-2 sm:px-4 sm:text-[11px] sm:tracking-widest ${isActive ? 'text-foreground' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
             >
               <Icon size={14} className={isActive ? 'text-accent' : ''} /> {tab.label}
               {isActive && <motion.span layoutId="matchTabUnderline" className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-accent" />}

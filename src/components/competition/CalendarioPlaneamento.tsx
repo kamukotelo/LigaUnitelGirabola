@@ -338,7 +338,7 @@ export default function CalendarioPlaneamento({ matches }: { matches: Match[] })
                           {isValidDay ? (
                             <div className="flex flex-col h-full justify-between min-h-[44px]">
                               {/* Dia do mês */}
-                              <span className="font-mono text-[9px] font-extrabold opacity-60">
+                              <span className="font-mono text-[11px] sm:text-[9px] font-extrabold opacity-60">
                                 {dayNumber}
                               </span>
 
@@ -348,7 +348,7 @@ export default function CalendarioPlaneamento({ matches }: { matches: Match[] })
                                   {events.map((evt, idx) => (
                                     <div
                                       key={idx}
-                                      className="text-[8px] font-mono uppercase tracking-wider font-black px-1.5 py-0.5 rounded leading-none truncate flex items-center justify-center text-center select-none"
+                                      className="text-[11px] sm:text-[8px] font-mono uppercase tracking-wide sm:tracking-wider font-black px-1.5 py-0.5 rounded leading-none truncate flex items-center justify-center text-center select-none"
                                       title={evt.label}
                                     >
                                       {evt.label}
@@ -380,7 +380,7 @@ export default function CalendarioPlaneamento({ matches }: { matches: Match[] })
           {LEGEND_ITEMS.map((item) => (
             <div
               key={item.label}
-              className={`p-2.5 rounded-xl border text-[9px] font-mono uppercase tracking-wider font-extrabold text-center ${item.color}`}
+              className={`p-2.5 rounded-xl border text-[11px] sm:text-[9px] font-mono uppercase tracking-wide sm:tracking-wider font-extrabold text-center ${item.color}`}
             >
               {item.label}
             </div>

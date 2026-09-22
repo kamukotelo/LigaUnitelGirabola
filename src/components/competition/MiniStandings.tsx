@@ -7,8 +7,8 @@ import TeamCrest from '@/components/ui/TeamCrest';
 // Mini-classificação lateral persistente (estilo Liga Angola): lista
 // compacta de todos os clubes com jogos (J) e pontos (P), visível ao lado
 // de qualquer aba do hub de competição.
-export default function MiniStandings({ seasonId }: { seasonId: string }) {
-  const standings = getStandingsForSeason(seasonId);
+export default function MiniStandings({ seasonId, limit }: { seasonId: string; limit?: number }) {
+  const standings = getStandingsForSeason(seasonId).slice(0, limit);
 
   return (
     <aside className="bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl overflow-hidden backdrop-blur-sm">

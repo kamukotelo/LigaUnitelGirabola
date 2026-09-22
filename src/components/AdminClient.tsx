@@ -9,7 +9,7 @@ import {
   LogOut, Save, RefreshCw, Database, Radio, Wifi, Trophy,
   Fingerprint, FileText, Plane, HeartPulse, Loader2, CheckCircle2,
   AlertTriangle, BadgeCheck, Search, Download, Home,
-  Plus, Trash2, Pencil, Shirt, Flag, Palette, Undo2, BarChart3, Sparkles, ExternalLink, UploadCloud, Lock,
+  Plus, Trash2, Pencil, Shirt, Flag, Palette, Undo2, BarChart3, Sparkles, ExternalLink, UploadCloud, Lock, KeyRound,
 } from 'lucide-react';
 import {
   MATCHES, TEAMS, PLAYERS, newsMock, getStandings, getNewsArticles,
@@ -25,6 +25,7 @@ import FichaSection from '@/components/admin/FichaSection';
 import JornadaSection from '@/components/admin/JornadaSection';
 import MatchFileLoaderSection from '@/components/admin/MatchFileLoaderSection';
 import LivePreviewPanel from '@/components/admin/LivePreviewPanel';
+import AdminAccountsModal from '@/components/admin/AdminAccountsModal';
 import { publishOverride, type OverrideSection } from '@/lib/portal-overrides';
 import { supabase } from '@/lib/supabase';
 
@@ -263,6 +264,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
   // trocar de secção, sair da consola ou fechar o separador.
   const [dirty, setDirty] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [accountsModalOpen, setAccountsModalOpen] = useState(false);
   const reportDirty = React.useCallback((d: boolean) => setDirty(d), []);
 
   useEffect(() => {
@@ -411,6 +413,15 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
             >
               <Home size={13} /> Ver site
             </Link>
+            {userProfile === 'admin' && (
+              <button
+                onClick={() => setAccountsModalOpen(true)}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/60 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-[11px] uppercase tracking-widest hover:text-foreground hover:border-accent transition-colors"
+                title="Gestão de Palavras-passe e Contas Oficiais"
+              >
+                <KeyRound size={13} /> Segurança & Contas
+              </button>
+            )}
             <button
               onClick={logout}
               className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-[11px] uppercase tracking-widest hover:bg-red-500/20 transition-colors"
@@ -480,6 +491,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
       </div>
 
       <LivePreviewPanel open={previewOpen} onClose={() => setPreviewOpen(false)} />
+      <AdminAccountsModal isOpen={accountsModalOpen} onClose={() => setAccountsModalOpen(false)} />
     </div>
   );
 }

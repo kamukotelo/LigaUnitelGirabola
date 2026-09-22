@@ -17,6 +17,8 @@ export default function PlayersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTeam, setSelectedTeam] = useState<string>('all');
   const [selectedPosition, setSelectedPosition] = useState<string>('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 40;
 
   const positions = ['all', 'Guarda-redes', 'Defesa', 'Médio', 'Avançado'];
 
@@ -30,6 +32,8 @@ export default function PlayersPage() {
 
     return matchesSearch && matchesTeam && matchesPosition;
   });
+  const totalPages = Math.max(1, Math.ceil(filteredPlayers.length / pageSize));
+  const visiblePlayers = filteredPlayers.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
     <div className="page-shell relative z-10">
@@ -47,7 +51,7 @@ export default function PlayersPage() {
               aria-label="Pesquisar jogadores por nome"
               placeholder="Pesquisar por nome..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
               className="w-full pl-10 pr-4 py-2.5 bg-white/60 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm focus:outline-none focus:border-primary transition-all font-mono"
             />
           </div>
@@ -57,7 +61,7 @@ export default function PlayersPage() {
             <select
               aria-label="Filtrar jogadores por clube"
               value={selectedTeam}
-              onChange={(e) => setSelectedTeam(e.target.value)}
+              onChange={(e) => { setSelectedTeam(e.target.value); setCurrentPage(1); }}
               className="w-full px-4 py-2.5 bg-white/60 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-600 dark:text-zinc-400 focus:outline-none focus:border-primary transition-all font-mono"
             >
               <option value="all">TODOS OS CLUBES</option>
@@ -74,7 +78,7 @@ export default function PlayersPage() {
             <select
               aria-label="Filtrar jogadores por posição"
               value={selectedPosition}
-              onChange={(e) => setSelectedPosition(e.target.value)}
+              onChange={(e) => { setSelectedPosition(e.target.value); setCurrentPage(1); }}
               className="w-full px-4 py-2.5 bg-white/60 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-600 dark:text-zinc-400 focus:outline-none focus:border-primary transition-all font-mono"
             >
               <option value="all">TODAS AS POSIÇÕES</option>
@@ -92,7 +96,7 @@ export default function PlayersPage() {
       {filteredPlayers.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <AnimatePresence>
-            {filteredPlayers.map((player, idx) => {
+            {visiblePlayers.map((player) => {
               const team = allTeams.find((t) => t.id === player.teamId);
               return (
                 <motion.div
@@ -101,7 +105,7 @@ export default function PlayersPage() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3, delay: idx * 0.01 }}
+                  transition={{ duration: 0.25, delay: 0 }}
                   className="h-full"
                 >
                   <Link href={`/players/${player.id}`} className="block h-full cursor-pointer group">
@@ -111,15 +115,15 @@ export default function PlayersPage() {
                     >
                       <div>
                         {/* Header: Photo icon / Jersey Number */}
-                        <div className="flex justify-between items-start mb-4">
-                          <div className="w-12 h-12 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center font-display text-lg text-primary select-none">
+                        <div className="flex justify-between items-start mb-2 sm:mb-4">
+                          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center font-display text-lg text-primary select-none">
                             <User className="h-6 w-6 text-accent" />
                           </div>
                           <div className="text-right">
                             <span className="text-xs font-mono font-black text-primary bg-primary/10 border border-primary/25 rounded-md px-2 py-0.5">
                               {player.jerseyNumber > 0 ? `#${player.jerseyNumber}` : '—'}
                             </span>
-                            <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider mt-1">
+                            <div className="text-[11px] font-mono text-zinc-500 uppercase tracking-wide mt-1">
                               {shown(player.position)}
                             </div>
                           </div>
@@ -129,26 +133,26 @@ export default function PlayersPage() {
                         <h3 className="text-md font-display text-foreground uppercase tracking-tight group-hover:text-primary transition-colors break-words leading-tight">
                           {player.name}
                         </h3>
-                        <p className="text-[10px] text-zinc-500 font-mono flex items-center gap-1 mt-1">
+                        <p className="text-[11px] text-zinc-500 font-mono flex items-center gap-1 mt-1">
                           <Shield size={10} className="text-zinc-400" />
                           {team?.name ?? player.club}
                         </p>
                       </div>
 
                       {/* Stats Overview */}
-                      <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-center font-mono">
+                      <div className="hidden sm:grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-center font-mono">
                         <div className="bg-white/50 dark:bg-black/20 p-1.5 rounded-lg border border-zinc-200/60 dark:border-zinc-900/60">
                           <span className="text-foreground font-black block text-xs">{player.goals}</span>
-                          <span className="text-[8px] text-zinc-500 uppercase">Golos</span>
+                          <span className="text-[11px] text-zinc-500 uppercase">Golos</span>
                         </div>
                         <div className="bg-white/50 dark:bg-black/20 p-1.5 rounded-lg border border-zinc-200/60 dark:border-zinc-900/60">
                           <span className="text-foreground font-black block text-xs">{player.appearances}</span>
-                          <span className="text-[8px] text-zinc-500 uppercase">Jogos</span>
+                          <span className="text-[11px] text-zinc-500 uppercase">Jogos</span>
                         </div>
                       </div>
 
                       {/* Footer Link */}
-                      <div className="mt-4 pt-3 border-t border-zinc-200/40 dark:border-zinc-900/40 flex justify-between items-center text-[9px] font-mono text-accent font-bold">
+                      <div className="hidden mt-4 pt-3 border-t border-zinc-200/40 dark:border-zinc-900/40 sm:flex justify-between items-center text-[11px] font-mono text-accent font-bold">
                         <span>ESTATÍSTICAS COMPLETAS</span>
                         <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                       </div>
@@ -161,6 +165,13 @@ export default function PlayersPage() {
         </div>
       ) : (
         <EmptyState title="Nenhum jogador encontrado" description="Altere o nome, clube ou posição selecionada para ampliar os resultados." />
+      )}
+      {filteredPlayers.length > pageSize && (
+        <nav className="mt-8 flex items-center justify-center gap-3" aria-label="Paginação de jogadores">
+          <button type="button" onClick={() => setCurrentPage((page) => Math.max(1, page - 1))} disabled={currentPage === 1} className="min-h-11 rounded-lg border border-zinc-200 px-4 text-xs font-bold disabled:opacity-40 dark:border-zinc-800">Anterior</button>
+          <span className="font-mono text-xs text-zinc-500">{currentPage} / {totalPages}</span>
+          <button type="button" onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))} disabled={currentPage === totalPages} className="min-h-11 rounded-lg border border-zinc-200 px-4 text-xs font-bold disabled:opacity-40 dark:border-zinc-800">Seguinte</button>
+        </nav>
       )}
     </div>
   );

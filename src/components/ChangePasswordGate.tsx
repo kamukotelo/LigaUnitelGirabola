@@ -170,20 +170,40 @@ export default function ChangePasswordGate({ email }: { email?: string }) {
           </FuturisticButton>
 
           {recoverySent ? (
-            <div className="flex items-start gap-2 p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-600 dark:text-emerald-400 font-mono text-[10px] uppercase font-bold">
-              <CheckCircle2 size={14} className="flex-shrink-0 mt-0.5" />
-              <span>Enviámos um link para {email}. Abra-o para definir a palavra-passe.</span>
+            <div className="space-y-3">
+              <div className="flex items-start gap-2 p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-600 dark:text-emerald-400 font-mono text-[10px] uppercase font-bold">
+                <CheckCircle2 size={14} className="flex-shrink-0 mt-0.5" />
+                <span>Enviámos um link para {email}. Abra-o para definir a palavra-passe.</span>
+              </div>
+              <a
+                href={`/reset-password?mode=key${email ? `&email=${encodeURIComponent(email)}` : ''}`}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-accent text-white text-xs font-semibold uppercase tracking-wider hover:bg-accent/90 transition-all text-center"
+              >
+                <KeyRound size={13} />
+                <span>Redefinir com Chave de Segurança ANCAF</span>
+              </a>
             </div>
           ) : email ? (
-            <button
-              type="button"
-              onClick={handleRecovery}
-              disabled={recovering}
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-zinc-200 dark:border-zinc-800 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 hover:border-primary hover:text-primary disabled:opacity-50 transition-all cursor-pointer active:scale-[0.98]"
-            >
-              {recovering ? <Loader2 size={14} className="animate-spin" /> : <MailQuestion size={14} />}
-              {recovering ? 'A enviar...' : 'Não sei a palavra-passe provisória'}
-            </button>
+            <div className="space-y-2">
+              <button
+                type="button"
+                onClick={handleRecovery}
+                disabled={recovering}
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-zinc-200 dark:border-zinc-800 text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400 hover:border-primary hover:text-primary disabled:opacity-50 transition-all cursor-pointer active:scale-[0.98]"
+              >
+                {recovering ? <Loader2 size={14} className="animate-spin" /> : <MailQuestion size={14} />}
+                {recovering ? 'A enviar...' : 'Não sei a palavra-passe provisória'}
+              </button>
+              <div className="text-center">
+                <a
+                  href={`/reset-password?mode=key${email ? `&email=${encodeURIComponent(email)}` : ''}`}
+                  className="inline-flex items-center gap-1.5 text-[11px] font-mono text-zinc-400 hover:text-accent transition-colors"
+                >
+                  <KeyRound size={12} />
+                  <span>Redefinir com Chave de Segurança ANCAF</span>
+                </a>
+              </div>
+            </div>
           ) : null}
         </form>
       </AnimatedCard>

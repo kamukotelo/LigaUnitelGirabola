@@ -97,7 +97,7 @@ insert into public.ancaf_match_lineups (match_id, team_id, side, players, coach,
   ('m27-5-6', 'libolo', 'away', '[{"playerId":"beny-libolo","name":"Beny","number":12,"position":"GK","isStarter":true,"isCaptain":false},{"playerId":"maninho-libolo","name":"Maninho","number":5,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"marcos-libolo","name":"Marcos","number":3,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"toti-libolo","name":"Toti","number":4,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"chimito-libolo","name":"Chimito","number":6,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"tchube-libolo","name":"Tchube","number":8,"position":"DEF","isStarter":true,"isCaptain":false},{"playerId":"andeloy-libolo","name":"Andeloy","number":10,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"nelo-libolo","name":"Nelo","number":14,"position":"MID","isStarter":true,"isCaptain":false},{"playerId":"fifa-1qhqtd1","name":"Amado Haidara","number":18,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"cuxixima-libolo","name":"Cuxixima","number":27,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":"tubarao-libolo","name":"Tubarão","number":30,"position":"FWD","isStarter":true,"isCaptain":false},{"playerId":null,"name":"Amado Salem Miguel","number":1,"position":"GK","isStarter":false,"isCaptain":false},{"playerId":"fifa-1mr7m11","name":"Diogo Quiamesso","number":11,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":"fifa-1pxu766","name":"Fernando Lourenço","number":16,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":null,"name":"Samuel Kuyokoya Francisco","number":21,"position":null,"isStarter":false,"isCaptain":false},{"playerId":"catraio-libolo","name":"Catraio","number":24,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":"miro-libolo","name":"Miro","number":25,"position":"DEF","isStarter":false,"isCaptain":false},{"playerId":null,"name":"Zeferino Handa Monissa","number":26,"position":null,"isStarter":false,"isCaptain":false},{"playerId":"lara-libolo","name":"Lara","number":28,"position":"FWD","isStarter":false,"isCaptain":false},{"playerId":null,"name":"Jacinto Bernardo Machado","number":29,"position":null,"isStarter":false,"isCaptain":false}]'::jsonb, null, 'seed')
 on conflict (match_id,team_id) do update set side = excluded.side, players = excluded.players, coach = excluded.coach, confirmed_by = excluded.confirmed_by;
 
-delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-2', 'm27-3-6', 'm27-3-1', 'm27-3-4', 'm27-3-8', 'm27-3-5', 'm27-4-5', 'm27-4-7', 'm27-4-2', 'm27-4-8', 'm27-4-1', 'm27-4-3', 'm27-4-4', 'm27-4-6', 'm27-5-2', 'm27-5-1', 'm27-5-7', 'm27-5-4', 'm27-5-6');
+delete from public.ancaf_match_events where match_id in ('m27-1-4', 'm27-1-2', 'm27-1-3', 'm27-1-7', 'm27-1-1', 'm27-1-6', 'm27-1-8', 'm27-1-5', 'm27-2-3', 'm27-2-7', 'm27-2-1', 'm27-2-5', 'm27-2-4', 'm27-2-2', 'm27-2-8', 'm27-2-6', 'm27-3-7', 'm27-3-2', 'm27-3-6', 'm27-3-1', 'm27-3-4', 'm27-3-8', 'm27-3-5', 'm27-4-5', 'm27-4-7', 'm27-4-2', 'm27-4-8', 'm27-4-1', 'm27-4-3', 'm27-4-4', 'm27-4-6', 'm27-5-2', 'm27-5-1', 'm27-5-7', 'm27-5-4', 'm27-5-6', 'm27-5-5');
 insert into public.ancaf_match_events (match_id, minute, type, team_side, player, player_id, assist, player_out, detail, sort) values
   ('m27-1-4', 28, 'yellow', 'home', 'Sicuba Vunge', 'maranata', null, null, 'Rasteirou o adversário', 0),
   ('m27-1-4', 37, 'yellow', 'home', 'Paulino', 'platini', null, null, 'Rasteirou o adversário', 1),
@@ -463,7 +463,9 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-5-6', 49, 'goal', 'home', 'Mabululu', 'mabululu-wiliete', null, null, '49'' (2-0)', 1),
   ('m27-5-6', 63, 'goal', 'home', 'Mabululu', 'mabululu-wiliete', null, null, '63'' (3-0)', 2),
   ('m27-5-6', 82, 'goal', 'home', 'Ning', 'fifa-1jwu0l8', null, null, '82'' (4-0)', 3),
-  ('m27-5-6', 87, 'goal', 'home', 'Valter Monteiro', 'valter-monteiro', null, null, '87'' (5-0)', 4);
+  ('m27-5-6', 87, 'goal', 'home', 'Valter Monteiro', 'valter-monteiro', null, null, '87'' (5-0)', 4),
+  ('m27-5-5', 30, 'red', 'away', null, null, null, null, null, 0),
+  ('m27-5-5', 55, 'goal', 'home', 'Cláudio', null, null, null, '1-0', 1);
 
 insert into public.ancaf_match_stats (match_id, side, stat_key, value, published) values
   ('m27-1-4', 'home', 'yellowCards', 4, true),
@@ -585,5 +587,9 @@ insert into public.ancaf_match_stats (match_id, side, stat_key, value, published
   ('m27-5-2', 'home', 'corners', 1, true),
   ('m27-5-2', 'away', 'corners', 0, true),
   ('m27-5-2', 'home', 'yellowCards', 1, true),
-  ('m27-5-2', 'away', 'yellowCards', 1, true)
+  ('m27-5-2', 'away', 'yellowCards', 1, true),
+  ('m27-5-5', 'home', 'corners', 5, true),
+  ('m27-5-5', 'away', 'corners', 3, true),
+  ('m27-5-5', 'home', 'redCards', 0, true),
+  ('m27-5-5', 'away', 'redCards', 1, true)
 on conflict (match_id,side,stat_key) do update set value = excluded.value, published = excluded.published;
