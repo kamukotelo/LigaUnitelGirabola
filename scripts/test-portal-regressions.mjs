@@ -281,6 +281,13 @@ assert.match(data, /'fifa-1jwu0l8': 'Ning',/);
 // golos ficavam repartidos entre as duas.
 assert.doesNotMatch(data, /'ning-wiliete'/);
 
+// A inscrição de 31/08 entregou 31 membros de equipa técnica sem função e o
+// portal mostrava "Função por confirmar". O cargo impresso nos relatórios
+// oficiais de arbitragem preenche-os, e a folha de seed leva-o para a base de
+// dados — sem isto, cada publicação repunha a lacuna.
+assert.match(data, /const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>>/);
+assert.match(data, /OFFICIAL_STAFF_ROLE_LABELS\[member\.role\]\s*\?\?\s*OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27\[member\.maId\]/);
+
 // O rácio por 90' exige um mínimo de minutos: sem ele, um suplente com um golo
 // em 45 minutos liderava a tabela à frente de quem marca todas as jornadas.
 assert.match(advancedStatistics, /const PER90_MIN_MINUTES = \d+;/);

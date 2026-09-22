@@ -2127,6 +2127,42 @@ export interface TeamStaffMember {
   fifaId?: string;
 }
 
+/**
+ * Cargo de quem a inscrição de 31/08 entregou sem função. Cada um sai do
+ * cargo impresso no relatório oficial de arbitragem de um jogo da época
+ * ("Team Official", "Team Staff"), identificado pelo número de licença.
+ * Sem isto, o portal mostrava "Função por confirmar" e a folha de seed
+ * reescrevia essa lacuna na base de dados a cada publicação.
+ */
+const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
+  // Estrela 1.º de Maio
+  '009006M83': 'Equipa técnica',         // Hermino Nunes
+  // Wiliete de Benguela
+  '000546M85': 'Oficial da equipa',         // Dilson Macuva Alfredo
+  '000556M85': 'Oficial da equipa',         // Wilson Fernando Faria
+  '003005M03': 'Oficial da equipa',         // Evaristo Gomes
+  '002979M67': 'Oficial da equipa',         // Francisco Junior Paulino
+  '008405M66': 'Oficial da equipa',         // Roberto Luiz Pelliser Bianchi
+  '000547M84': 'Oficial da equipa',         // Victorino Lunga Visele
+  '000548M89': 'Oficial da equipa',         // Claudio Graciano Ezequiel Zala
+  // Desportivo da Huíla
+  '000850M86': 'Oficial da equipa',         // Alfredo Calunganga
+  '000847M87': 'Oficial da equipa',         // Sidney
+  '000828M64': 'Oficial da equipa',         // Ezequias
+  // Académica do Lobito
+  '000569M72': 'Oficial da equipa',         // António David Almeida
+  '002013M64': 'Oficial da equipa',         // Fernando Luciano Hossi
+  // Bravos do Maquis
+  '003018M81': 'Oficial da equipa',         // Belo Chanhi
+  '000702M85': 'Oficial da equipa',         // Ilunga
+  '000710M75': 'Oficial da equipa',         // Samba
+  '005392M68': 'Oficial da equipa',         // Tomás
+  // Sagrada Esperança
+  '007242M79': 'Oficial da equipa',         // Mendonça
+  // FC Cabinda
+  '007727M75': 'Oficial da equipa',         // Alves Simão Afonso Lede
+};
+
 const OFFICIAL_STAFF_ROLE_LABELS: Readonly<Record<string, string>> = {
   HDCH: 'Treinador principal',
   ASCH: 'Treinador adjunto',
@@ -2164,7 +2200,9 @@ export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMembe
     .sort((a, b) => a.rank - b.rank || a.index - b.index)
     .map(({ member }) => ({
       name: formatOfficialPlayerName(member.name),
-      role: OFFICIAL_STAFF_ROLE_LABELS[member.role] ?? (member.role || 'Função por confirmar'),
+      role: OFFICIAL_STAFF_ROLE_LABELS[member.role]
+        ?? OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27[member.maId]
+        ?? (member.role || 'Função por confirmar'),
       nationality: OFFICIAL_NATIONALITY_LABELS[member.nationality] ?? (member.nationality || 'A confirmar'),
       maId: member.maId || undefined,
       fifaId: member.fifaId || undefined,
