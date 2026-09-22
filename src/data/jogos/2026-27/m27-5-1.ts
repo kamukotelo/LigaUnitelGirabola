@@ -12,6 +12,6 @@ export default defineMatch({
   events: [
     { minute: 14, type: 'goal', team: 'away', player: 'Lito', number: 23, playerId: 'lito-bravos', detail: "14' (0-1)" },
     { minute: 29, type: 'goal', team: 'away', player: 'Ju Cabral', number: 8, playerId: 'ju-cabral-bravos', detail: "29' (0-2)" },
-    { minute: 83, type: 'goal', team: 'home', player: 'Valegol', playerId: 'valegol-caala', detail: "83' (1-2)" },
+    { minute: 83, type: 'goal', team: 'home', player: 'Valegol', number: 9, playerId: 'fifa-1k0r4w6', detail: "83' (1-2)" },
   ],
 });

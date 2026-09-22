@@ -10,10 +10,31 @@ export default defineMatch({
   result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '1-1', updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Miguel Tchissingui Augusto Américo', assistants: ['Bernardo Kunjuca Lúcio Serafim', 'Floriano Cawala'], fourth: 'Ana Kuvundu Pumba' },
   coaches: { home: 'Divaldo Alves', away: 'Beto Bianchi' },
-  // Onze inicial e suplentes publicados pelo Wiliete. O capitão não vem
-  // identificado e o CR Caála não consta da comunicação.
+  // Onze inicial e suplentes publicados pelos dois clubes. Nenhuma das
+  // comunicações identifica o capitão.
   lineups: {
-    home: [],
+    home: [
+      { name: 'Landu', number: 22, position: 'GK', isStarter: true, playerId: 'fifa-1k002p8' },
+      { name: 'Vale', number: 2, position: 'DEF', isStarter: true, playerId: 'fifa-1t647t5' },
+      { name: 'Tchaba', number: 3, position: 'DEF', isStarter: true, playerId: 'fifa-1lb66s2' },
+      { name: 'Jó Vidal', number: 15, position: 'DEF', isStarter: true, playerId: 'fifa-1jsrqb0' },
+      { name: 'Sequesseque', number: 25, position: 'DEF', isStarter: true, playerId: 'fifa-1jxikq1' },
+      { name: 'Neidy Bicho', number: 23, position: 'MID', isStarter: true, playerId: 'lisneu-caala' },
+      { name: 'Be Ngueve', number: 19, position: 'MID', isStarter: true, playerId: 'fifa-1lda172' },
+      { name: 'Aisson', number: 10, position: 'MID', isStarter: true, playerId: 'fifa-1jwgzb2' },
+      { name: 'Valegol', number: 9, position: 'FWD', isStarter: true, playerId: 'fifa-1k0r4w6' },
+      { name: 'Cuxixima', number: 7, position: 'FWD', isStarter: true, playerId: 'cuxixima-caala' },
+      { name: 'Manucho', number: 27, position: 'FWD', isStarter: true, playerId: 'fifa-1r8lp51' },
+      { name: 'Benvindo Afonso', number: 4, position: 'MID', isStarter: false, playerId: 'fifa-1jz4pi8' },
+      { name: 'Bebo', number: 6, position: 'MID', isStarter: false, playerId: 'fifa-1kz4es4' },
+      { name: 'Claúdio Sozinho', number: 8, position: 'MID', isStarter: false, playerId: 'fifa-1k0rem6' },
+      { name: 'Vieira', number: 16, position: 'DEF', isStarter: false, playerId: 'fifa-1jzj8y2' },
+      { name: 'Bito', number: 17, position: 'FWD', isStarter: false, playerId: 'fifa-1l96dj1' },
+      { name: 'Putchú', number: 21, position: 'DEF', isStarter: false, playerId: 'fifa-1jzhzh1' },
+      { name: 'Kabila', number: 24, position: 'FWD', isStarter: false, playerId: 'fifa-1k2qwk8' },
+      { name: 'Fany', number: 30, position: 'GK', isStarter: false, playerId: 'fifa-1k0ag17' },
+      { name: 'Marega', number: 34, position: 'FWD', isStarter: false, playerId: 'fifa-1qvfe29' },
+    ],
     away: [
       { name: 'Nayan', number: 1, position: 'GK', isStarter: true, playerId: 'fifa-1pkwt84' },
       { name: 'Giovani', number: 17, position: 'DEF', isStarter: true, playerId: 'fifa-1jwu6z0' },
@@ -38,9 +59,9 @@ export default defineMatch({
     ],
   },
   events: [
-    { minute: 32, type: 'goal', team: 'home', player: 'Valegol', playerId: 'valegol-caala', detail: 'Grande penalidade · 1-0' },
+    { minute: 32, type: 'goal', team: 'home', player: 'Valegol', number: 9, playerId: 'fifa-1k0r4w6', detail: 'Grande penalidade · 1-0' },
     { minute: 34, type: 'goal', team: 'away', player: 'Bello Lukman', playerId: 'bello-lukman-wiliete', detail: '1-1' },
-    { minute: 44, type: 'red', team: 'home', player: 'Valegol', playerId: 'valegol-caala' },
+    { minute: 44, type: 'red', team: 'home', player: 'Valegol', number: 9, playerId: 'fifa-1k0r4w6' },
     // «Ning» é o nº 25 Rodino Dumbo José, como o Wiliete o identifica na sua
     // própria escalação publicada da 5.ª jornada.
     { minute: 45, type: 'sub', team: 'away', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', playerOut: 'Sidibé' },

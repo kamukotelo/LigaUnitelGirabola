@@ -1852,7 +1852,6 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['silvano-da-cruz-interclube', 'Silvano da Cruz', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
   ['alberto-alves-interclube', 'Alberto Alves', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
   ['ricardo-batista-fcluanda', 'Ricardo Batista', 'FC Luanda', 'fcluanda', 'Posição por confirmar', 0, 1],
-  ['valegol-caala', 'Valegol', 'CR Caála', 'caala', 'Posição por confirmar', 0, 1],
   ['bello-lukman-wiliete', 'Bello Lukman', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['milagre-simba-huila', 'Milagre Carlos Simba', 'Desportivo da Huíla', 'desphuila', 'Avançado', 25, 2],
   ['leonardo-isola-huila', 'Leonardo Manuel Isola Ramos', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 7, 1],
@@ -1925,6 +1924,22 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   'fifa-1jz4n21': 'Nelo',            // nº 26 · João Valonga Basílio Barros
   'fifa-1kzr1v5': 'Quare',           // nº 33 · Zeferino Venâncio Lussati
   'fifa-1k36hf0': 'César Cangué',    // nº 34 · César Cangui Uvi Jeremias
+  // CR Caála — escalação publicada pelo clube na 2.ª jornada.
+  'fifa-1t647t5': 'Vale',            // nº 2 · Valentim Sacuvale
+  'fifa-1lb66s2': 'Tchaba',          // nº 3 · Albano Kupenala
+  'fifa-1kz4es4': 'Bebo',            // nº 6 · Osvaldo
+  'fifa-1k0r4w6': 'Valegol',         // nº 9 · Hermenegildo Sandumbo (a inscrição diz "Valente")
+  'fifa-1jwgzb2': 'Aisson',          // nº 10 · Arilson de Ceita Pereira Jorge
+  'fifa-1jsrqb0': 'Jó Vidal',        // nº 15 · Mariano da Costa Vidal
+  'fifa-1jzj8y2': 'Vieira',          // nº 16 · Francisco
+  'fifa-1l96dj1': 'Bito',            // nº 17 · Gabriel
+  'fifa-1lda172': 'Be Ngueve',       // nº 19 · Benedito Antunes
+  'fifa-1jzhzh1': 'Putchú',          // nº 21 · Gonçalves Zinho Manico
+  'lisneu-caala': 'Neidy Bicho',     // nº 23 · Lisneu Emanuel Neto Simão
+  'fifa-1k2qwk8': 'Kabila',          // nº 24 · Timóteo Sambissa
+  'fifa-1r8lp51': 'Manucho',         // nº 27 · José Manuel Raul
+  'fifa-1k0ag17': 'Fany',            // nº 30 · José Afonso dos Santos Fernando
+  'fifa-1qvfe29': 'Marega',          // nº 34 · Ernesto
 };
 
 const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {

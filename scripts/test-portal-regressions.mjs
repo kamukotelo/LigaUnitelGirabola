@@ -280,6 +280,10 @@ assert.match(data, /'fifa-1jwu0l8': 'Ning',/);
 // O nº 25 do Wiliete tinha duas fichas — "Ning" e "Rodino Dumbo José" — e os
 // golos ficavam repartidos entre as duas.
 assert.doesNotMatch(data, /'ning-wiliete'/);
+// O mesmo com o nº 9 do CR Caála: "Valegol" e "Hermenegildo Sandumbo" eram a
+// mesma pessoa, com os golos numa ficha e o vermelho na outra.
+assert.doesNotMatch(data, /'valegol-caala'/);
+assert.match(data, /'fifa-1k0r4w6': 'Valegol',/);
 
 // A inscrição de 31/08 entregou 31 membros de equipa técnica sem função e o
 // portal mostrava "Função por confirmar". O cargo impresso nos relatórios
