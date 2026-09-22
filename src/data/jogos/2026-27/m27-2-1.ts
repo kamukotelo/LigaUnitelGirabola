@@ -43,7 +43,12 @@ export default defineMatch({
     { minute: 44, type: 'red', team: 'home', player: 'Valegol', playerId: 'valegol-caala' },
     // «Ning» é o nº 25 Rodino Dumbo José, como o Wiliete o identifica na sua
     // própria escalação publicada da 5.ª jornada.
+    { minute: 45, type: 'sub', team: 'away', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', playerOut: 'Sidibé' },
     { minute: 49, type: 'goal', team: 'away', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', detail: '1-2' },
+    { minute: 65, type: 'sub', team: 'away', player: 'Artur Kaká', number: 19, playerId: 'fifa-1l05v38', playerOut: 'Bito' },
+    { minute: 78, type: 'sub', team: 'away', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', playerOut: 'Mule' },
+    { minute: 78, type: 'sub', team: 'away', player: 'Célio', number: 32, playerId: 'fifa-1m95s64', playerOut: 'Bello Lukman' },
+    { minute: 90, type: 'sub', team: 'away', player: 'Didi Craque', number: 2, playerId: 'fifa-1ndemr2', playerOut: 'Gibelé' },
   ],
   stats: {
     home: { redCards: 1 },

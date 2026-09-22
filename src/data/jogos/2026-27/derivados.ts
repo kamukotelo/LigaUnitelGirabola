@@ -5,7 +5,7 @@ import type { SeasonDerivedStats } from '../tipos';
 export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
   scorers: [
     { id: 'dago-tshibamba', name: 'Dagó Tshibamba', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 5, appearances: 5 },
-    { id: 'mabululu-wiliete', name: 'Mabululu', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 4, appearances: 3 },
+    { id: 'mabululu-wiliete', name: 'Mabululu', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 4, appearances: 4 },
     { id: 'lito-bravos', name: 'Lito', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 3, appearances: 3 },
     { id: 'fifa-1jwu0l8', name: 'Ning', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 3, appearances: 4 },
     { id: 'axel-dago', name: 'Axel', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 2, appearances: 4 },

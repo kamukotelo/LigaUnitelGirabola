@@ -5,7 +5,7 @@
 
 insert into public.ancaf_player_season_stats (season_id, player_id, goals, assists, appearances, yellow_cards, red_cards) values
   ('2026-27', 'dago-tshibamba', 5, 0, 5, 1, 0),
-  ('2026-27', 'mabululu-wiliete', 4, 0, 3, 0, 0),
+  ('2026-27', 'mabululu-wiliete', 4, 0, 4, 0, 0),
   ('2026-27', 'lito-bravos', 3, 0, 3, 0, 0),
   ('2026-27', 'fifa-1jwu0l8', 3, 0, 4, 0, 0),
   ('2026-27', 'axel-dago', 2, 0, 4, 1, 0),
