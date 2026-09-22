@@ -710,11 +710,11 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
       </Link>
 
       {/* Profile Header */}
-      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-8 pt-20 md:pt-8 mb-12 relative overflow-hidden">
-        <div className="absolute top-4 right-4 flex items-center gap-2">
-          <span className="h-3 w-3 shrink-0 rounded-full bg-red-600 animate-pulse" />
+      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-6 sm:p-8 mb-12 relative overflow-hidden">
+        <div className="mb-5 flex items-center justify-center gap-2 md:absolute md:top-4 md:right-4 md:mb-0">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-red-600 animate-pulse" />
           <span className="update-alert font-mono font-black uppercase tracking-wide">
-            EM_ATUALIZAÇÃO
+            Em atualização
           </span>
         </div>
 

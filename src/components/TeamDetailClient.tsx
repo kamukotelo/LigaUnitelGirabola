@@ -112,11 +112,11 @@ export default function TeamDetailClient({
       </Link>
 
       {/* HUD Header — denominação oficial, fundação, presidente e estádio */}
-      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-8 pt-20 md:pt-8 mb-8 relative overflow-hidden">
-        <div className="absolute top-4 right-4 flex items-center gap-2">
-          <span className="h-3 w-3 shrink-0 rounded-full bg-red-600 animate-pulse" />
+      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-6 sm:p-8 mb-8 relative overflow-hidden">
+        <div className="mb-5 flex items-center justify-center gap-2 md:absolute md:top-4 md:right-4 md:mb-0">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-red-600 animate-pulse" />
           <span className="update-alert font-mono font-black uppercase tracking-wide">
-            EM_ATUALIZAÇÃO
+            Em atualização
           </span>
         </div>
 
@@ -133,7 +133,7 @@ export default function TeamDetailClient({
                 {team.name}
               </h1>
               <p className="text-zinc-600 dark:text-zinc-400 font-mono text-xs uppercase tracking-wider mt-1">
-                Fundado em {team.founded} · Alcunha: {team.shortName}
+                Fundado em {team.founded}
                 {profile?.president && <> · Presidente: {profile.president}</>}
               </p>
             </div>
@@ -152,19 +152,19 @@ export default function TeamDetailClient({
                     href={profile.mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-foreground font-bold flex items-center justify-center md:justify-start gap-1.5 truncate hover:text-primary transition-colors"
+                    className="text-foreground font-bold flex items-start justify-center md:justify-start gap-1.5 break-words hover:text-primary transition-colors"
                     title={`${team.stadium} · Ver no mapa`}
                   >
-                    <Trophy size={12} className="text-accent" /> {team.stadium}
+                    <Trophy size={12} className="text-accent mt-0.5 flex-shrink-0" /> {team.stadium}
                   </a>
                 ) : (
-                  <span className="text-foreground font-bold flex items-center justify-center md:justify-start gap-1.5 truncate" title={team.stadium}>
-                    <Trophy size={12} className="text-accent" /> {team.stadium}
+                  <span className="text-foreground font-bold flex items-start justify-center md:justify-start gap-1.5 break-words" title={team.stadium}>
+                    <Trophy size={12} className="text-accent mt-0.5 flex-shrink-0" /> {team.stadium}
                   </span>
                 )}
               </div>
               <div className="space-y-1">
-                <span className="text-[9px] text-zinc-600 block uppercase">Apelido</span>
+                <span className="text-[9px] text-zinc-600 block uppercase">Alcunha</span>
                 <span className="text-foreground font-bold flex items-center justify-center md:justify-start gap-1.5">
                   <User size={12} className="text-accent" /> {team.nickname ?? team.shortName}
                 </span>

@@ -93,6 +93,13 @@ export default function PlayersPage() {
       </div>
 
       {/* Players List Grid */}
+      {filteredPlayers.length > 0 && (
+        <p className="mb-4 font-mono text-[11px] uppercase tracking-wider text-zinc-500">
+          A mostrar {visiblePlayers.length} de {filteredPlayers.length} atletas
+          {filteredPlayers.length !== allPlayers.length && ` · ${allPlayers.length} no total`}
+        </p>
+      )}
+
       {filteredPlayers.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <AnimatePresence>

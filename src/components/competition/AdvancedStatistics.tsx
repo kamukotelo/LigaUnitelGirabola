@@ -400,7 +400,10 @@ function Metric({ label, value, hint, icon }: { label: string; value: string; hi
 }
 
 function Panel({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
-  return <AnimatedCard variant="hud" className="p-6"><h3 className="mb-5 flex items-center gap-2 font-display text-sm uppercase text-foreground"><span className="text-accent">{icon}</span>{title}</h3>{children}</AnimatedCard>;
+  // `min-w-0`: sem isto o painel é um item de grelha com largura mínima
+  // automática, a tabela de 420px estica-o e a página inteira passa a ter
+  // deslocamento lateral no telemóvel em vez de a tabela rolar por dentro.
+  return <AnimatedCard variant="hud" className="min-w-0 p-6"><h3 className="mb-5 flex items-center gap-2 font-display text-sm uppercase text-foreground"><span className="text-accent">{icon}</span>{title}</h3>{children}</AnimatedCard>;
 }
 
 function Table({ headers, rows, empty = 'Sem dados oficiais disponíveis.' }: { headers: string[]; rows: string[][]; empty?: string }) {

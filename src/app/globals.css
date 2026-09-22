@@ -55,11 +55,17 @@
 }
 
 @layer components {
+  /* Distintivo de estado: um selo discreto no canto do cartão. Com 27px a
+     piscar, tapava o emblema do clube e a camisola do jogador no telemóvel. */
   .update-alert {
     color: #dc2626;
-    font-size: 1.6875rem;
+    font-size: .6875rem;
+    letter-spacing: .08em;
     line-height: 1;
     animation: update-alert-blink 1.15s steps(1, end) infinite;
+  }
+  @media (min-width: 640px) {
+    .update-alert { font-size: .75rem; }
   }
 }
 
@@ -345,7 +351,7 @@ html {
   .page-description {
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     overflow: hidden;
   }
 }
