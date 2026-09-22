@@ -590,9 +590,12 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                       </span>
                       <TeamCrest teamId={player.teamId} size={48} className="filter drop-shadow-[0_0_6px_rgba(255,255,255,0.08)]" />
                       <div className="min-w-0">
-                        <h3 className="text-foreground font-bold uppercase text-sm flex items-center gap-2 truncate">
+                        {/* O nome nunca cede à etiqueta: num telemóvel, com
+                            `truncate` na linha e a etiqueta a não encolher, o
+                            líder aparecia sem nome — só o clube por baixo. */}
+                        <h3 className="text-foreground font-bold uppercase text-sm flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0">
                           {player.hasProfile === false ? player.name : (
-                            <Link href={`/players/${player.id}`} className="hover:text-primary transition-colors truncate">{player.name}</Link>
+                            <Link href={`/players/${player.id}`} className="hover:text-primary transition-colors break-words">{player.name}</Link>
                           )}
                           {isLeagueLeader && (
                             <span className="text-[11px] sm:text-[9px] font-mono bg-accent/20 text-accent border border-accent/40 px-2 py-0.5 rounded-full uppercase flex-shrink-0">
