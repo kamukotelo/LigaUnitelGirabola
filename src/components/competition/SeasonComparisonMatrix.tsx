@@ -279,17 +279,17 @@ export default function SeasonComparisonMatrix({
   );
 
   const categories = [
-    { key: 'jogos', label: '🏟️ Jogos & Resultados Oficiais', icon: Calendar },
-    { key: 'marcadores', label: '⚽ Melhores Marcadores', icon: Flame },
-    { key: 'guardaredes', label: '🧤 Guarda-Redes (Baliza a Zero)', icon: Shield },
-    { key: 'disciplina', label: '🟨 Cartões & Disciplina', icon: AlertTriangle },
+    { key: 'jogos', label: 'Jogos & Resultados', shortLabel: 'Jogos', icon: Calendar },
+    { key: 'marcadores', label: 'Melhores Marcadores', shortLabel: 'Golos', icon: Flame },
+    { key: 'guardaredes', label: 'Guarda-Redes (Balizas)', shortLabel: 'Balizas', icon: Shield },
+    { key: 'disciplina', label: 'Cartões & Disciplina', shortLabel: 'Disciplina', icon: AlertTriangle },
   ];
 
 
   return (
     <AnimatedCard
       variant="hud"
-      className="p-5 sm:p-7 bg-white/80 dark:bg-zinc-950/80 border-zinc-200 dark:border-zinc-800 backdrop-blur-md rounded-2xl mb-8"
+      className="p-4 sm:p-7 bg-white/80 dark:bg-zinc-950/80 border-zinc-200 dark:border-zinc-800 backdrop-blur-md rounded-2xl mb-8"
     >
       {/* Header do Módulo */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200/80 dark:border-zinc-800/80 pb-4 mb-6">
@@ -356,7 +356,7 @@ export default function SeasonComparisonMatrix({
       </div>
 
       {/* Tabs das Categorias */}
-      <div className="flex border-b border-zinc-200 dark:border-zinc-800 mb-6 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden gap-2">
+      <div className="flex border-b border-zinc-200 dark:border-zinc-800 mb-6 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden gap-1.5 sm:gap-2">
         {categories.map(c => {
           const Icon = c.icon;
           const active = activeCategory === c.key;
@@ -364,14 +364,15 @@ export default function SeasonComparisonMatrix({
             <button
               key={c.key}
               onClick={() => setActiveCategory(c.key as ComparisonCategory)}
-              className={`px-4 py-2.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 whitespace-nowrap ${
+              className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 sm:gap-2 whitespace-nowrap flex-shrink-0 ${
                 active
-                  ? 'bg-accent text-white shadow-sm'
+                  ? 'bg-accent text-zinc-950 shadow-sm font-black'
                   : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-foreground hover:bg-zinc-200 dark:hover:bg-zinc-800'
               }`}
             >
               <Icon size={14} />
-              {c.label}
+              <span className="sm:hidden">{c.shortLabel}</span>
+              <span className="hidden sm:inline">{c.label}</span>
             </button>
           );
         })}

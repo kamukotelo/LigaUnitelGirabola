@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Activity, BarChart3, Clock3, Home, ShieldCheck, TrendingUp, Users } from 'lucide-react';
+import { Activity, BarChart3, Clock3, Home, Shield, ShieldCheck, TrendingUp, Users } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import {
@@ -21,11 +21,10 @@ import {
 import SeasonBenchmarkCard from './SeasonBenchmarkCard';
 
 /**
- * Minutos mínimos para entrar no ranking por 90'. Sem este corte, um suplente
- * com um golo em 45 minutos aparecia no topo com 2,00 G/90 — à frente de quem
- * marca todas as jornadas. Corresponde a dois jogos completos.
+ * Minutos mínimos para entrar no ranking com 1 golo. Atletas com 2 ou mais G+A
+ * entram sempre no topo em ordem estritamente descendente.
  */
-const PER90_MIN_MINUTES = 180;
+const PER90_MIN_MINUTES = 90;
 
 function scoreAtHalfTime(match: Match): [number, number] | null {
   const parts = match.halfTimeScore?.match(/^(\d+)\s*[-–:]\s*(\d+)$/);
@@ -36,7 +35,19 @@ function resultPoints(gf: number, ga: number) {
   return gf > ga ? 3 : gf === ga ? 1 : 0;
 }
 
-export default function AdvancedStatistics({ seasonId, teamId }: { seasonId: string; teamId?: string }) {
+export interface AdvancedStatisticsProps {
+  seasonId: string;
+  teamId?: string;
+  scope?: 'all' | 'players' | 'teams';
+  className?: string;
+}
+
+export default function AdvancedStatistics({
+  seasonId,
+  teamId,
+  scope = 'all',
+  className = 'mt-14 space-y-6',
+}: AdvancedStatisticsProps) {
   const analytics = useMemo(() => {
     const seasonFinished = getMatchesForSeason(seasonId).filter((match) => match.status === 'finished');
     // Com um clube selecionado, cada painel passa a ler apenas os jogos desse
@@ -154,7 +165,7 @@ export default function AdvancedStatistics({ seasonId, teamId }: { seasonId: str
     const byTeam = <T extends { teamId: string }>(rows: T[]) => (teamId ? rows.filter((row) => row.teamId === teamId) : rows);
 
     const playerRates = isCurrent
-      ? byTeam(getCurrentSeasonPer90()).filter((row) => row.minutesPlayed >= PER90_MIN_MINUTES)
+      ? byTeam(getCurrentSeasonPer90()).filter((row) => row.contributions >= 2 || row.minutesPlayed >= PER90_MIN_MINUTES)
       : [];
 
     const cleanSheets = isCurrent
@@ -231,9 +242,9 @@ export default function AdvancedStatistics({ seasonId, teamId }: { seasonId: str
   if (analytics.finished.length === 0) {
     if (!teamId) return null;
     return (
-      <section className="mt-14">
+      <section className={className}>
         <AnimatedCard variant="hud" className="p-6">
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
             {getTeamFullName(teamId, teamId)} ainda não tem jogos terminados nesta época — a análise avançada fica disponível após a primeira partida.
           </p>
         </AnimatedCard>
@@ -247,22 +258,219 @@ export default function AdvancedStatistics({ seasonId, teamId }: { seasonId: str
   const dossier = analytics.clubDossier;
   const teamName = teamId ? getTeamFullName(teamId, teamId) : null;
 
+  const renderDossier = () => (
+    dossier && teamId && (
+      <AnimatedCard variant="hud" className="p-6">
+        <div className="mb-5 flex items-center gap-3">
+          <TeamCrest teamId={teamId} size={44} />
+          <div>
+            <h3 className="font-display text-sm uppercase text-foreground">Dossiê do clube</h3>
+            <p className="text-[10px] font-mono text-zinc-500 dark:text-zinc-400">
+              {dossier.position > 0 ? `${dossier.position}.º de ${dossier.tableSize} na classificação` : 'Sem posição apurada'} ·
+              {' '}{dossier.all.points} pts em {dossier.all.played} jogos · Aproveitamento {dossier.all.efficiency.toFixed(1)}%
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <Metric label="Casa" value={`${dossier.home.won}V ${dossier.home.drawn}E ${dossier.home.lost}D`} hint={`${dossier.home.scored}:${dossier.home.conceded} golos · ${dossier.home.efficiency.toFixed(0)}%`} icon={<Home size={14} />} />
+          <Metric label="Fora" value={`${dossier.away.won}V ${dossier.away.drawn}E ${dossier.away.lost}D`} hint={`${dossier.away.scored}:${dossier.away.conceded} golos · ${dossier.away.efficiency.toFixed(0)}%`} icon={<Activity size={14} />} />
+          <Metric
+            label="Ritmo de golo"
+            value={`${(dossier.all.played ? dossier.all.scored / dossier.all.played : 0).toFixed(2)} marcados/j`}
+            hint={`${(dossier.all.played ? dossier.all.conceded / dossier.all.played : 0).toFixed(2)} sofridos/j · marcou em ${dossier.scoredIn} de ${dossier.all.played}`}
+            icon={<TrendingUp size={14} />}
+          />
+          <Metric
+            label="Disciplina"
+            value={dossier.cardMatches ? `${dossier.yellow} 🟨 · ${dossier.red} 🟥` : 'Sem súmula'}
+            hint={dossier.cardMatches ? `${(dossier.yellow / dossier.cardMatches).toFixed(2)} amarelos/jogo · ${dossier.cardMatches} fichas` : 'Nenhuma ficha disciplinar publicada'}
+            icon={<ShieldCheck size={14} />}
+          />
+        </div>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <Metric label="Baliza a zero" value={`${dossier.cleanSheetMatches} jogos`} hint={`${dossier.all.played ? ((dossier.cleanSheetMatches / dossier.all.played) * 100).toFixed(0) : 0}% dos jogos terminados`} icon={<ShieldCheck size={14} />} />
+          <Metric
+            label="Melhor resultado"
+            value={dossier.best ? `${dossier.best.gf}-${dossier.best.ga}` : '—'}
+            hint={dossier.best ? `J${dossier.best.round} ${dossier.best.venue} · ${dossier.best.opponent}` : 'Sem jogos terminados'}
+            icon={<TrendingUp size={14} />}
+          />
+          <Metric
+            label="Pior resultado"
+            value={dossier.worst ? `${dossier.worst.gf}-${dossier.worst.ga}` : '—'}
+            hint={dossier.worst ? `J${dossier.worst.round} ${dossier.worst.venue} · ${dossier.worst.opponent}` : 'Sem jogos terminados'}
+            icon={<Activity size={14} />}
+          />
+        </div>
+      </AnimatedCard>
+    )
+  );
+
+  const renderTeamMetrics = () => (
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {analytics.teamMetrics.map((team) => (
+        <AnimatedCard key={team.teamId} variant="hud" className="p-5">
+          <p className="truncate text-xs font-bold uppercase text-foreground">{team.teamName}</p>
+          <p className="mt-3 text-3xl font-black text-accent">{team.efficiency.toFixed(1)}%</p>
+          <p className="text-[11px] sm:text-[9px] font-mono uppercase text-zinc-500 dark:text-zinc-400">Aproveitamento</p>
+          <p className="mt-3 text-[10px] text-zinc-500 dark:text-zinc-400">Forma: {team.form.map((item) => item === 'W' ? 'V' : item === 'D' ? 'E' : 'D').join(' · ') || '—'}</p>
+          <p className="mt-1 text-[10px] text-zinc-500 dark:text-zinc-400">Médias: {team.goalsForAverage.toFixed(2)} marcados · {team.goalsAgainstAverage.toFixed(2)} sofridos</p>
+        </AnimatedCard>
+      ))}
+    </div>
+  );
+
+  const renderPlayerPanels = () => (
+    <>
+      <Panel title="Rendimento individual por 90' e G+A" icon={<TrendingUp size={16} />}>
+        <Table
+          headers={teamName ? ['Jogador', 'G+A', 'Minutos', 'G/90', 'A/90'] : ['Jogador', 'Clube', 'G+A', 'Minutos', 'G/90', 'A/90']}
+          rows={analytics.playerRates.slice(0, 10).map((row) =>
+            teamName
+              ? [row.name, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)]
+              : [row.name, row.club, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)]
+          )}
+          empty="Nenhum atleta com participações em golo registadas na época em curso."
+        />
+      </Panel>
+      <Panel title="Balizas limpas" icon={<ShieldCheck size={16} />}>
+        <Table
+          headers={teamName ? ['Guarda-redes', 'Jogos', 'Sem sofrer', '%'] : ['Guarda-redes', 'Clube', 'Jogos', 'Sem sofrer', '%']}
+          rows={analytics.cleanSheets.slice(0, 8).map((row) =>
+            teamName
+              ? [row.name, String(row.appearances), String(row.cleanSheets), `${row.percentage.toFixed(1)}%`]
+              : [row.name, row.club, String(row.appearances), String(row.cleanSheets), `${row.percentage.toFixed(1)}%`]
+          )}
+          empty="Ainda sem balizas invioladas em jogos com escalação oficial."
+        />
+      </Panel>
+      <Panel title="Golos múltiplos no mesmo jogo" icon={<Activity size={16} />}>
+        <Table
+          headers={teamName ? ['Jogador', '2 · Doblete', '3 · Hat-trick', '4 · Poker', '5 · Manita', 'Mais de 5'] : ['Jogador', 'Clube', '2 · Doblete', '3 · Hat-trick', '4 · Poker', '5 · Manita', 'Mais de 5']}
+          rows={analytics.goalHauls.slice(0, 8).map((row) =>
+            teamName
+              ? [row.name, String(row.braces), String(row.hatTricks), String(row.pokers), String(row.manitas), String(row.overFive)]
+              : [row.name, row.club, String(row.braces), String(row.hatTricks), String(row.pokers), String(row.manitas), String(row.overFive)]
+          )}
+          empty="Nenhum jogador marcou duas ou mais vezes no mesmo jogo oficial."
+        />
+      </Panel>
+    </>
+  );
+
+  const renderTeamPanels = () => (
+    <>
+      <Panel title={teamName ? 'Percurso jornada a jornada' : 'Estatísticas por jornada'} icon={<BarChart3 size={16} />}>
+        <Table headers={['Jornada', 'Jogos', 'Golos', 'Média']} rows={analytics.roundMetrics.map((row) => [`J${row.round}`, String(row.matches), String(row.goals), row.average.toFixed(2)])} />
+      </Panel>
+      <Panel title={teamName ? 'Evolução na classificação' : 'Evolução da liderança'} icon={<Activity size={16} />}>
+        <Table
+          headers={teamName ? ['Jornada', 'Posição', 'Pontos', 'Golos'] : ['Jornada', '1.º', '2.º', '3.º']}
+          rows={analytics.evolution.map((row) => [`J${row.round}`, ...row.leaders])}
+        />
+      </Panel>
+      <Panel title={teamName ? 'Golos por intervalo (marcados e sofridos)' : 'Golos por intervalo'} icon={<Clock3 size={16} />}>
+        <div className="space-y-3">
+          {analytics.goalIntervals.map((row) => (
+            <div key={row.label}>
+              <div className="mb-1 flex justify-between text-[10px] font-mono">
+                <span>{row.label}</span>
+                <span>{teamName ? `${row.goals} marcados · ${row.conceded} sofridos` : row.goals}</span>
+              </div>
+              <div className="h-2 rounded bg-zinc-200 dark:bg-zinc-800"><div className="h-2 rounded bg-primary" style={{ width: `${(row.goals / maxGoals) * 100}%` }} /></div>
+              {teamName && (
+                <div className="mt-1 h-2 rounded bg-zinc-200 dark:bg-zinc-800"><div className="h-2 rounded bg-rose-500/70" style={{ width: `${(row.conceded / maxGoals) * 100}%` }} /></div>
+              )}
+            </div>
+          ))}
+        </div>
+      </Panel>
+      <Panel title={teamName ? 'Arbitragem dos jogos do clube' : 'Arbitragem e disciplina'} icon={<ShieldCheck size={16} />}>
+        <Table headers={['Árbitro', 'Jogos', 'Amarelos', 'Vermelhos']} rows={analytics.referees.slice(0, 8).map((row) => [row.name, String(row.matches), String(row.yellow), String(row.red)])} empty="Sem nomeações oficiais suficientes." />
+      </Panel>
+      <Panel title={teamName ? 'Público em casa' : 'Público por clube e estádio'} icon={<Users size={16} />}>
+        <Table headers={['Clube anfitrião', 'Total', 'Média']} rows={analytics.attendanceTeams.slice(0, 4).map((row) => [row.label, row.total.toLocaleString('pt-AO'), Math.round(row.average).toLocaleString('pt-AO')])} empty="Assistências ainda não publicadas." />
+        {analytics.attendanceStadiums[0] && <p className="mt-4 text-[10px] text-zinc-500 dark:text-zinc-400">Estádio com maior total: <strong className="text-foreground">{analytics.attendanceStadiums[0].label}</strong> · {analytics.attendanceStadiums[0].total.toLocaleString('pt-AO')}</p>}
+      </Panel>
+      <Panel title="Pontos recuperados e perdidos" icon={<TrendingUp size={16} />}>
+        <Table headers={['Equipa', 'Recuperados', 'Perdidos']} rows={swingRows.slice(0, 8).map((row) => [getTeamFullName(row.teamId, row.teamId), String(row.recovered), String(row.lost)])} empty="Aguardam-se resultados oficiais ao intervalo." />
+      </Panel>
+    </>
+  );
+
+  if (scope === 'players') {
+    return (
+      <section className={className} aria-labelledby="advanced-players-title">
+        <div>
+          <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent">
+            {teamName ? `Métricas Individuais · ${teamName}` : 'Métricas Individuais Avançadas'}
+          </p>
+          <h2 id="advanced-players-title" className="mt-1 font-display text-xl sm:text-2xl font-black uppercase text-foreground">
+            {teamName ? `${teamName} — Rendimento por 90' e Eficácia` : 'Rendimento por 90\', Balizas Limpas e Golos'}
+          </h2>
+          <p className="mt-1.5 max-w-3xl text-xs text-zinc-500 dark:text-zinc-400">
+            {teamName
+              ? `Métricas avançadas por 90 minutos, participações diretas (G+A) e jogos sem sofrer golos dos atletas do ${teamName}.`
+              : 'Análise individual calculada com minutos oficiais: rácio de golos e assistências por 90 minutos, registo de balizas invioladas e jogos com múltiplos golos.'}
+          </p>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {renderPlayerPanels()}
+        </div>
+      </section>
+    );
+  }
+
+  if (scope === 'teams') {
+    return (
+      <section className={className} aria-labelledby="advanced-teams-title">
+        {seasonId === UPCOMING_SEASON_ID && !teamId && (
+          <SeasonBenchmarkCard currentMatches={getMatchesForSeason(seasonId)} />
+        )}
+
+        <div>
+          <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent">
+            {teamName ? `Análise por clube · ${analytics.finished.length} jogos` : 'Análise Coletiva das Equipas'}
+          </p>
+          <h2 id="advanced-teams-title" className="mt-1 font-display text-xl sm:text-2xl font-black uppercase text-foreground">
+            {teamName ? `${teamName} — Desempenho e Indicadores Coletivos` : 'Métricas Coletivas e Desempenho'}
+          </h2>
+          <p className="mt-1.5 max-w-3xl text-xs text-zinc-500 dark:text-zinc-400">
+            {teamName
+              ? 'Dossiê tático e competitivo restrito a este clube: rendimento casa/fora, golos por período, assistências e disciplina.'
+              : 'Aproveitamento, ritmo de jogo, golos marcados e sofridos por intervalo, público nos estádios, árbitros e pontos recuperados/perdidos.'}
+          </p>
+        </div>
+
+        {renderDossier()}
+        {renderTeamMetrics()}
+
+        <div className="grid gap-6 xl:grid-cols-2">
+          {renderTeamPanels()}
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="mt-14 space-y-6" aria-labelledby="advanced-statistics-title">
+    <section className={className} aria-labelledby="advanced-statistics-title">
       {seasonId === UPCOMING_SEASON_ID && !teamId && (
         <SeasonBenchmarkCard currentMatches={getMatchesForSeason(seasonId)} />
       )}
 
       <div>
         <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-accent">
-          {teamName ? `Análise por clube · ${analytics.finished.length} jogos` : '12 indicadores automáticos'}
+          {teamName ? `Análise por clube · ${analytics.finished.length} jogos` : '12 indicadores automáticos · Análise Avançada'}
         </p>
         <h2 id="advanced-statistics-title" className="mt-2 font-display text-2xl font-black uppercase text-foreground">
           {teamName
-            ? `${teamName} — análise avançada`
+            ? `${teamName} — Análise Avançada Consolidada`
             : seasonId === UPCOMING_SEASON_ID ? 'Análise avançada da época em curso' : 'Análise consolidada da época 2025/2026 (Métrica Base)'}
         </h2>
-        <p className="mt-2 max-w-3xl text-xs text-zinc-500">
+        <p className="mt-2 max-w-3xl text-xs text-zinc-500 dark:text-zinc-400">
           {teamName
             ? 'Todos os painéis abaixo estão restritos a este clube, calculados apenas com jogos terminados e informação oficialmente publicada.'
             : seasonId === UPCOMING_SEASON_ID
@@ -271,119 +479,33 @@ export default function AdvancedStatistics({ seasonId, teamId }: { seasonId: str
         </p>
       </div>
 
-      {dossier && teamId && (
-        <AnimatedCard variant="hud" className="p-6">
-          <div className="mb-5 flex items-center gap-3">
-            <TeamCrest teamId={teamId} size={44} />
-            <div>
-              <h3 className="font-display text-sm uppercase text-foreground">Dossiê do clube</h3>
-              <p className="text-[10px] font-mono text-zinc-500">
-                {dossier.position > 0 ? `${dossier.position}.º de ${dossier.tableSize} na classificação` : 'Sem posição apurada'} ·
-                {' '}{dossier.all.points} pts em {dossier.all.played} jogos · Aproveitamento {dossier.all.efficiency.toFixed(1)}%
-              </p>
-            </div>
-          </div>
+      {renderDossier()}
+      {renderTeamMetrics()}
 
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <Metric label="Casa" value={`${dossier.home.won}V ${dossier.home.drawn}E ${dossier.home.lost}D`} hint={`${dossier.home.scored}:${dossier.home.conceded} golos · ${dossier.home.efficiency.toFixed(0)}%`} icon={<Home size={14} />} />
-            <Metric label="Fora" value={`${dossier.away.won}V ${dossier.away.drawn}E ${dossier.away.lost}D`} hint={`${dossier.away.scored}:${dossier.away.conceded} golos · ${dossier.away.efficiency.toFixed(0)}%`} icon={<Activity size={14} />} />
-            <Metric
-              label="Ritmo de golo"
-              value={`${(dossier.all.played ? dossier.all.scored / dossier.all.played : 0).toFixed(2)} marcados/j`}
-              hint={`${(dossier.all.played ? dossier.all.conceded / dossier.all.played : 0).toFixed(2)} sofridos/j · marcou em ${dossier.scoredIn} de ${dossier.all.played}`}
-              icon={<TrendingUp size={14} />}
-            />
-            <Metric
-              label="Disciplina"
-              value={dossier.cardMatches ? `${dossier.yellow} 🟨 · ${dossier.red} 🟥` : 'Sem súmula'}
-              hint={dossier.cardMatches ? `${(dossier.yellow / dossier.cardMatches).toFixed(2)} amarelos/jogo · ${dossier.cardMatches} fichas` : 'Nenhuma ficha disciplinar publicada'}
-              icon={<ShieldCheck size={14} />}
-            />
-          </div>
-
-          <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            <Metric label="Baliza a zero" value={`${dossier.cleanSheetMatches} jogos`} hint={`${dossier.all.played ? ((dossier.cleanSheetMatches / dossier.all.played) * 100).toFixed(0) : 0}% dos jogos terminados`} icon={<ShieldCheck size={14} />} />
-            <Metric
-              label="Melhor resultado"
-              value={dossier.best ? `${dossier.best.gf}-${dossier.best.ga}` : '—'}
-              hint={dossier.best ? `J${dossier.best.round} ${dossier.best.venue} · ${dossier.best.opponent}` : 'Sem jogos terminados'}
-              icon={<TrendingUp size={14} />}
-            />
-            <Metric
-              label="Pior resultado"
-              value={dossier.worst ? `${dossier.worst.gf}-${dossier.worst.ga}` : '—'}
-              hint={dossier.worst ? `J${dossier.worst.round} ${dossier.worst.venue} · ${dossier.worst.opponent}` : 'Sem jogos terminados'}
-              icon={<Activity size={14} />}
-            />
-          </div>
-        </AnimatedCard>
-      )}
-
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {analytics.teamMetrics.map((team) => (
-          <AnimatedCard key={team.teamId} variant="hud" className="p-5">
-            <p className="truncate text-xs font-bold uppercase text-foreground">{team.teamName}</p>
-            <p className="mt-3 text-3xl font-black text-accent">{team.efficiency.toFixed(1)}%</p>
-            <p className="text-[11px] sm:text-[9px] font-mono uppercase text-zinc-500">Aproveitamento</p>
-            <p className="mt-3 text-[10px] text-zinc-500">Forma: {team.form.map((item) => item === 'W' ? 'V' : item === 'D' ? 'E' : 'D').join(' · ') || '—'}</p>
-            <p className="mt-1 text-[10px] text-zinc-500">Médias: {team.goalsForAverage.toFixed(2)} marcados · {team.goalsAgainstAverage.toFixed(2)} sofridos</p>
-          </AnimatedCard>
-        ))}
+      {/* BLOCO 1: ANÁLISE COLETIVA DAS EQUIPAS */}
+      <div className="space-y-4 pt-2">
+        <div className="flex items-center gap-2 border-b border-zinc-200/80 dark:border-zinc-800 pb-2">
+          <Shield className="text-accent flex-shrink-0" size={16} />
+          <h3 className="text-xs font-mono uppercase font-bold tracking-wider text-foreground">
+            {teamName ? `Desempenho Coletivo · ${teamName}` : 'Desempenho Coletivo das Equipas'}
+          </h3>
+        </div>
+        <div className="grid gap-6 xl:grid-cols-2">
+          {renderTeamPanels()}
+        </div>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-2">
-        <Panel title={`Rendimento individual por 90' (mín. ${PER90_MIN_MINUTES}')`} icon={<TrendingUp size={16} />}>
-          <Table
-            headers={['Jogador', 'G+A', 'Minutos', 'G/90', 'A/90']}
-            rows={analytics.playerRates.slice(0, 8).map((row) => [row.name, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)])}
-            empty={`Nenhum atleta com ${PER90_MIN_MINUTES} minutos reconstruídos a partir de fichas com escalação e substituições oficiais.`}
-          />
-        </Panel>
-        <Panel title="Balizas limpas" icon={<ShieldCheck size={16} />}>
-          <Table headers={['Guarda-redes', 'Jogos', 'Sem sofrer', '%']} rows={analytics.cleanSheets.slice(0, 8).map((row) => [row.name, String(row.appearances), String(row.cleanSheets), `${row.percentage.toFixed(1)}%`])} empty="Ainda sem balizas invioladas em jogos com escalação oficial." />
-        </Panel>
-        <Panel title="Golos múltiplos no mesmo jogo" icon={<Activity size={16} />}>
-          <Table
-            headers={['Jogador', '2 · Doblete', '3 · Hat-trick', '4 · Poker', '5 · Manita', 'Mais de 5']}
-            rows={analytics.goalHauls.slice(0, 8).map((row) => [row.name, String(row.braces), String(row.hatTricks), String(row.pokers), String(row.manitas), String(row.overFive)])}
-            empty="Nenhum jogador marcou duas ou mais vezes no mesmo jogo oficial."
-          />
-        </Panel>
-        <Panel title={teamName ? 'Percurso jornada a jornada' : 'Estatísticas por jornada'} icon={<BarChart3 size={16} />}>
-          <Table headers={['Jornada', 'Jogos', 'Golos', 'Média']} rows={analytics.roundMetrics.map((row) => [`J${row.round}`, String(row.matches), String(row.goals), row.average.toFixed(2)])} />
-        </Panel>
-        <Panel title={teamName ? 'Evolução na classificação' : 'Evolução da liderança'} icon={<Activity size={16} />}>
-          <Table
-            headers={teamName ? ['Jornada', 'Posição', 'Pontos', 'Golos'] : ['Jornada', '1.º', '2.º', '3.º']}
-            rows={analytics.evolution.map((row) => [`J${row.round}`, ...row.leaders])}
-          />
-        </Panel>
-        <Panel title={teamName ? 'Golos por intervalo (marcados e sofridos)' : 'Golos por intervalo'} icon={<Clock3 size={16} />}>
-          <div className="space-y-3">
-            {analytics.goalIntervals.map((row) => (
-              <div key={row.label}>
-                <div className="mb-1 flex justify-between text-[10px] font-mono">
-                  <span>{row.label}</span>
-                  <span>{teamName ? `${row.goals} marcados · ${row.conceded} sofridos` : row.goals}</span>
-                </div>
-                <div className="h-2 rounded bg-zinc-200 dark:bg-zinc-800"><div className="h-2 rounded bg-primary" style={{ width: `${(row.goals / maxGoals) * 100}%` }} /></div>
-                {teamName && (
-                  <div className="mt-1 h-2 rounded bg-zinc-200 dark:bg-zinc-800"><div className="h-2 rounded bg-rose-500/70" style={{ width: `${(row.conceded / maxGoals) * 100}%` }} /></div>
-                )}
-              </div>
-            ))}
-          </div>
-        </Panel>
-        <Panel title={teamName ? 'Arbitragem dos jogos do clube' : 'Arbitragem e disciplina'} icon={<ShieldCheck size={16} />}>
-          <Table headers={['Árbitro', 'Jogos', 'Amarelos', 'Vermelhos']} rows={analytics.referees.slice(0, 8).map((row) => [row.name, String(row.matches), String(row.yellow), String(row.red)])} empty="Sem nomeações oficiais suficientes." />
-        </Panel>
-        <Panel title={teamName ? 'Público em casa' : 'Público por clube e estádio'} icon={<Users size={16} />}>
-          <Table headers={['Clube anfitrião', 'Total', 'Média']} rows={analytics.attendanceTeams.slice(0, 4).map((row) => [row.label, row.total.toLocaleString('pt-AO'), Math.round(row.average).toLocaleString('pt-AO')])} empty="Assistências ainda não publicadas." />
-          {analytics.attendanceStadiums[0] && <p className="mt-4 text-[10px] text-zinc-500">Estádio com maior total: <strong className="text-foreground">{analytics.attendanceStadiums[0].label}</strong> · {analytics.attendanceStadiums[0].total.toLocaleString('pt-AO')}</p>}
-        </Panel>
-        <Panel title="Pontos recuperados e perdidos" icon={<TrendingUp size={16} />}>
-          <Table headers={['Equipa', 'Recuperados', 'Perdidos']} rows={swingRows.slice(0, 8).map((row) => [getTeamFullName(row.teamId, row.teamId), String(row.recovered), String(row.lost)])} empty="Aguardam-se resultados oficiais ao intervalo." />
-        </Panel>
+      {/* BLOCO 2: RENDIMENTO INDIVIDUAL DOS JOGADORES */}
+      <div className="space-y-4 pt-4">
+        <div className="flex items-center gap-2 border-b border-zinc-200/80 dark:border-zinc-800 pb-2">
+          <Users className="text-accent flex-shrink-0" size={16} />
+          <h3 className="text-xs font-mono uppercase font-bold tracking-wider text-foreground">
+            {teamName ? `Rendimento Individual dos Atletas · ${teamName}` : 'Rendimento Individual dos Jogadores'}
+          </h3>
+        </div>
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {renderPlayerPanels()}
+        </div>
       </div>
     </section>
   );

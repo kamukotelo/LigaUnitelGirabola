@@ -12,6 +12,7 @@ export const ROUTES = {
   standings: competitionPath('classificacao'),
   calendar: competitionPath('calendario'),
   stats: competitionPath('estatisticas'),
+  comparator: competitionPath('comparador'),
   nominations: competitionPath('nomeacoes'),
   teams: '/teams',
   news: '/news',

@@ -10,6 +10,7 @@ import {
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
+import TeamAdvancedStats from '@/components/team/TeamAdvancedStats';
 
 interface TeamDetailClientProps {
   team: Team;
@@ -112,24 +113,24 @@ export default function TeamDetailClient({
       </Link>
 
       {/* HUD Header — denominação oficial, fundação, presidente e estádio */}
-      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-6 sm:p-8 mb-8 relative overflow-hidden">
-        <div className="mb-5 flex items-center justify-center gap-2 md:absolute md:top-4 md:right-4 md:mb-0">
-          <span className="h-2 w-2 shrink-0 rounded-full bg-red-600 animate-pulse" />
+      <AnimatedCard variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/80 dark:border-zinc-900/80 p-5 sm:p-8 mb-6 sm:mb-8 relative overflow-hidden">
+        <div className="mb-5 flex items-center justify-center gap-1.5 sm:gap-2 md:absolute md:top-4 md:right-4 md:mb-0">
+          <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 shrink-0 rounded-full bg-red-600 animate-pulse" />
           <span className="update-alert font-mono font-black uppercase tracking-wide">
             Em atualização
           </span>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-start text-center md:text-left">
           {/* Logo Badge (TeamCrest SVG) */}
-          <TeamCrest teamId={team.id} size={96} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-2.5 rounded-3xl" />
+          <TeamCrest teamId={team.id} size={84} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-2 sm:p-2.5 rounded-2xl sm:rounded-3xl shrink-0" />
 
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-3 sm:space-y-4 min-w-0">
             <div>
               <span className="text-[10px] font-mono text-accent uppercase tracking-widest font-semibold block mb-1">
                 {profile?.officialName && profile.officialName !== team.name ? profile.officialName : 'CLUBE PARTICIPANTE'}
               </span>
-              <h1 className="text-4xl md:text-5xl font-display text-foreground uppercase leading-none">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display text-foreground uppercase leading-tight md:leading-none break-words">
                 {team.name}
               </h1>
               <p className="text-zinc-600 dark:text-zinc-400 font-mono text-xs uppercase tracking-wider mt-1">
@@ -138,11 +139,11 @@ export default function TeamDetailClient({
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-xs font-mono text-zinc-600 dark:text-zinc-400">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 pt-3 sm:pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-xs font-mono text-zinc-600 dark:text-zinc-400">
               <div className="space-y-1">
                 <span className="text-[9px] text-zinc-600 block uppercase">Cidade</span>
-                <span className="text-foreground font-bold flex items-center justify-center md:justify-start gap-1.5">
-                  <MapPin size={12} className="text-primary" /> {team.city}
+                <span className="text-foreground font-bold flex items-center justify-center md:justify-start gap-1.5 truncate">
+                  <MapPin size={12} className="text-primary shrink-0" /> {team.city}
                 </span>
               </div>
               <div className="space-y-1">
@@ -155,18 +156,18 @@ export default function TeamDetailClient({
                     className="text-foreground font-bold flex items-start justify-center md:justify-start gap-1.5 break-words hover:text-primary transition-colors"
                     title={`${team.stadium} · Ver no mapa`}
                   >
-                    <Trophy size={12} className="text-accent mt-0.5 flex-shrink-0" /> {team.stadium}
+                    <Trophy size={12} className="text-accent mt-0.5 shrink-0" /> {team.stadium}
                   </a>
                 ) : (
                   <span className="text-foreground font-bold flex items-start justify-center md:justify-start gap-1.5 break-words" title={team.stadium}>
-                    <Trophy size={12} className="text-accent mt-0.5 flex-shrink-0" /> {team.stadium}
+                    <Trophy size={12} className="text-accent mt-0.5 shrink-0" /> {team.stadium}
                   </span>
                 )}
               </div>
               <div className="space-y-1">
                 <span className="text-[9px] text-zinc-600 block uppercase">Alcunha</span>
-                <span className="text-foreground font-bold flex items-center justify-center md:justify-start gap-1.5">
-                  <User size={12} className="text-accent" /> {team.nickname ?? team.shortName}
+                <span className="text-foreground font-bold flex items-center justify-center md:justify-start gap-1.5 break-words">
+                  <User size={12} className="text-accent shrink-0" /> {team.nickname ?? team.shortName}
                 </span>
               </div>
               <div className="space-y-1">
@@ -181,7 +182,7 @@ export default function TeamDetailClient({
       </AnimatedCard>
 
       {/* Abas do clube (estilo Liga Angola) */}
-      <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-8 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex border-b border-zinc-200 dark:border-zinc-900 mb-6 sm:mb-8 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {TEAM_TABS.map((t) => {
           const Icon = t.icon;
           const active = tab === t.key;
@@ -189,7 +190,7 @@ export default function TeamDetailClient({
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`px-5 sm:px-6 py-4 text-center text-xs font-mono uppercase tracking-wider font-extrabold border-b-2 transition-all duration-200 flex-shrink-0 flex items-center gap-2 ${
+              className={`px-4 sm:px-6 py-3 sm:py-4 text-center text-xs font-mono uppercase tracking-wider font-extrabold border-b-2 transition-all duration-200 flex-shrink-0 flex items-center gap-1.5 sm:gap-2 ${
                 active
                   ? 'text-accent border-accent bg-accent/5'
                   : 'text-zinc-500 border-transparent hover:text-foreground hover:bg-white/5'
@@ -502,45 +503,52 @@ export default function TeamDetailClient({
 
       {/* ── ABA ESTATÍSTICAS ──────────────────────────────────────────── */}
       {tab === 'estatisticas' && (
-        <div className="space-y-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div className="space-y-6 sm:space-y-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">
             {[
               { label: 'Golos Marcados', value: standing?.goalsFor ?? 0 },
               { label: 'Golos Sofridos', value: standing?.goalsAgainst ?? 0 },
               { label: 'Diferença de Golos', value: standing ? (standing.goalDifference > 0 ? `+${standing.goalDifference}` : standing.goalDifference) : 0 },
               { label: 'Idade Média do Plantel', value: squadAvgAge > 0 ? squadAvgAge.toFixed(1) : '—' },
             ].map((stat) => (
-              <div key={stat.label} className="bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl p-4 backdrop-blur-sm text-center">
-                <p className="font-display text-2xl sm:text-3xl text-foreground font-black leading-none">{stat.value}</p>
-                <p className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase tracking-wider mt-2">{stat.label}</p>
+              <div key={stat.label} className="bg-white/40 dark:bg-zinc-900/40 border border-zinc-200/80 dark:border-zinc-800/80 rounded-xl sm:rounded-2xl p-3 sm:p-4 backdrop-blur-sm text-center">
+                <p className="font-display text-xl sm:text-3xl text-foreground font-black leading-none">{stat.value}</p>
+                <p className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase tracking-wider mt-1.5 sm:mt-2">{stat.label}</p>
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
             {topScorer && (
-              <AnimatedCard variant="hud" className="p-6 text-center">
-                <span className="text-[10px] font-mono text-accent uppercase tracking-widest block mb-2">Melhor Marcador</span>
-                <Link href={`/players/${topScorer.id}`} className="text-lg font-display text-foreground uppercase hover:text-primary transition-colors block">{topScorer.name}</Link>
-                <span className="text-3xl font-display font-black text-accent block mt-2">{topScorer.goals} golos</span>
+              <AnimatedCard variant="hud" className="p-4 sm:p-6 text-center">
+                <span className="text-[10px] font-mono text-accent uppercase tracking-widest block mb-1.5 sm:mb-2">Melhor Marcador</span>
+                <Link href={`/players/${topScorer.id}`} className="text-base sm:text-lg font-display text-foreground uppercase hover:text-primary transition-colors block truncate">{topScorer.name}</Link>
+                <span className="text-2xl sm:text-3xl font-display font-black text-accent block mt-1.5 sm:mt-2">{topScorer.goals} golos</span>
               </AnimatedCard>
             )}
             {topAssister && (
-              <AnimatedCard variant="hud" className="p-6 text-center">
-                <span className="text-[10px] font-mono text-accent uppercase tracking-widest block mb-2">Rei das Assistências</span>
-                <Link href={`/players/${topAssister.id}`} className="text-lg font-display text-foreground uppercase hover:text-primary transition-colors block">{topAssister.name}</Link>
-                <span className="text-3xl font-display font-black text-accent block mt-2">{topAssister.assists} assistências</span>
+              <AnimatedCard variant="hud" className="p-4 sm:p-6 text-center">
+                <span className="text-[10px] font-mono text-accent uppercase tracking-widest block mb-1.5 sm:mb-2">Rei das Assistências</span>
+                <Link href={`/players/${topAssister.id}`} className="text-base sm:text-lg font-display text-foreground uppercase hover:text-primary transition-colors block truncate">{topAssister.name}</Link>
+                <span className="text-2xl sm:text-3xl font-display font-black text-accent block mt-1.5 sm:mt-2">{topAssister.assists} assistências</span>
               </AnimatedCard>
             )}
-            <AnimatedCard variant="hud" className="p-6 text-center">
-              <span className="text-[10px] font-mono text-accent uppercase tracking-widest block mb-2">Disciplina do Plantel</span>
-              <span className="text-lg font-display text-foreground uppercase block">Cartões</span>
-              <span className="text-3xl font-display font-black block mt-2">
+            <AnimatedCard variant="hud" className="p-4 sm:p-6 text-center">
+              <span className="text-[10px] font-mono text-accent uppercase tracking-widest block mb-1.5 sm:mb-2">Disciplina do Plantel</span>
+              <span className="text-base sm:text-lg font-display text-foreground uppercase block">Cartões</span>
+              <span className="text-2xl sm:text-3xl font-display font-black block mt-1.5 sm:mt-2">
                 <span className="text-amber-500">{totalYellow} 🟨</span>
-                <span className="text-red-500 ml-3">{totalRed} 🟥</span>
+                <span className="text-red-500 ml-2 sm:ml-3">{totalRed} 🟥</span>
               </span>
             </AnimatedCard>
           </div>
+
+          <TeamAdvancedStats
+            team={team}
+            matches={matches}
+            standing={standing}
+            seasonId={UPCOMING_SEASON_ID}
+          />
         </div>
       )}
 

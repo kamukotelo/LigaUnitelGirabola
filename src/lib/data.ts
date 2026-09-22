@@ -4136,55 +4136,52 @@ export interface Per90Record {
  */
 export function getCurrentSeasonPer90(): Per90Record[] {
   const players = getPlayers();
-  const totals = new Map<string, Per90Record>();
+  const trackedMap = new Map(getCurrentSeasonMinutesPlayed().map((r) => [r.id, r]));
 
-  const entryFor = (playerId: string, fallbackName: string, teamId: string): Per90Record => {
-    const existing = totals.get(playerId);
-    if (existing) return existing;
-    const profile = players.find((candidate) => candidate.id === playerId);
-    const created: Per90Record = {
-      id: playerId,
-      name: profile?.name ?? fallbackName,
-      club: profile?.club ?? TEAMS.find((t) => t.id === teamId)?.name ?? teamId,
-      teamId,
-      minutesPlayed: 0,
-      goals: 0,
-      assists: 0,
-      contributions: 0,
-      goalsPer90: 0,
-      assistsPer90: 0,
+  // Processar atletas com participações diretas em golo (golos e assistências)
+  const candidates = players.filter((p) => (p.goals ?? 0) > 0 || (p.assists ?? 0) > 0);
+
+  const records: Per90Record[] = candidates.map((p) => {
+    const tracked = trackedMap.get(p.id);
+    const trackedMins = tracked ? tracked.minutesPlayed : 0;
+    const trackedApps = tracked ? tracked.appearances : 0;
+    const untrackedApps = Math.max(0, (p.appearances ?? 0) - trackedApps);
+    // Para partidas sem minutagem de substituição publicada nas súmulas, considera-se a partida regulamentar de 90'
+    const minutesPlayed = Math.max(1, trackedMins + untrackedApps * 90);
+    const goals = p.goals ?? 0;
+    const assists = p.assists ?? 0;
+    const contributions = goals + assists;
+    const goalsPer90 = (goals * 90) / minutesPlayed;
+    const assistsPer90 = (assists * 90) / minutesPlayed;
+
+    return {
+      id: p.id,
+      name: p.name,
+      club: p.club,
+      teamId: p.teamId,
+      minutesPlayed,
+      goals,
+      assists,
+      contributions,
+      goalsPer90,
+      assistsPer90,
     };
-    totals.set(playerId, created);
-    return created;
-  };
+  });
 
-  for (const { detail, side, teamId, spans } of getEligibleMatchSides()) {
-    for (const span of spans) {
-      if (!span.playerId) continue;
-      entryFor(span.playerId, span.name, teamId).minutesPlayed += spanMinutes(span);
-    }
-
-    for (const event of detail.events) {
-      if (event.team !== side || event.type !== 'goal') continue;
-      if (event.detail?.toLowerCase().includes('autogolo')) continue;
-      if (event.playerId) entryFor(event.playerId, event.player, teamId).goals += 1;
-
-      const assist = event.assist?.trim();
-      if (!assist) continue;
-      const provider = spans.find((span) => span.playerId && foldName(span.name) === foldName(assist));
-      if (provider?.playerId) entryFor(provider.playerId, provider.name, teamId).assists += 1;
-    }
-  }
-
-  return [...totals.values()]
-    .map((row) => ({
-      ...row,
-      contributions: row.goals + row.assists,
-      goalsPer90: row.minutesPlayed > 0 ? (row.goals * 90) / row.minutesPlayed : 0,
-      assistsPer90: row.minutesPlayed > 0 ? (row.assists * 90) / row.minutesPlayed : 0,
-    }))
+  // Ordenação estritamente descendente:
+  // 1. Quem tem mais G+A vem para cima (contributions descendente)
+  // 2. Desempate por mais golos marcados (goals descendente)
+  // 3. Desempate por maior frequência de golo (goalsPer90 descendente)
+  // 4. Desempate por menor número de minutos necessários (minutesPlayed ascendente)
+  return records
     .filter((row) => row.contributions > 0)
-    .sort((a, b) => b.contributions - a.contributions || b.goals - a.goals || a.name.localeCompare(b.name));
+    .sort((a, b) =>
+      b.contributions - a.contributions
+      || b.goals - a.goals
+      || b.goalsPer90 - a.goalsPer90
+      || a.minutesPlayed - b.minutesPlayed
+      || a.name.localeCompare(b.name, 'pt')
+    );
 }
 
 /**
