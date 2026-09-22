@@ -6,7 +6,10 @@ export default defineMatch({
   round: 2,
   homeTeamId: 'caala',
   awayTeamId: 'wiliete',
-  schedule: { date: '2026-08-27T16:00:00+01:00', stadium: 'Estádio dos Mártires da Canhala', scheduleStatus: 'official' },
+  // O jogo realizou-se no Estádio Daniel Lutucuta, no Huambo, e não no
+  // Estádio dos Mártires da Canhala que consta do calendário do FAF —
+  // como o próprio CR Caála comunicou e como já acontecia na 4.ª jornada.
+  schedule: { date: '2026-08-27T16:00:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '1-1', updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Miguel Tchissingui Augusto Américo', assistants: ['Bernardo Kunjuca Lúcio Serafim', 'Floriano Cawala'], fourth: 'Ana Kuvundu Pumba' },
   coaches: { home: 'Divaldo Alves', away: 'Beto Bianchi' },
