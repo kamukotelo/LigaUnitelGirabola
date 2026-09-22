@@ -296,6 +296,12 @@ assert.match(data, /OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27\[member\.maId\]\s*\?\?\
 assert.match(data, /OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27: ReadonlySet<string>/);
 assert.match(data, /\.filter\(\(member\) => !OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27\.has\(member\.maId\)\)/);
 
+// A disciplina do plantel na página do clube lia só o bloco `stats` das
+// fichas: um jogo com o cartão identificado na cronologia e sem esse bloco —
+// como o amarelo ao Júnior Goiano na 4.ª jornada — contava zero.
+assert.match(data, /function matchCardTotals\(match: Match, side: 'home' \| 'away'\)/);
+assert.match(data, /Math\.max\(sheet\?\.yellowCards \?\? 0, counted\('yellow'\)\)/);
+
 // O rácio por 90' exige um mínimo de minutos: sem ele, um suplente com um golo
 // em 45 minutos liderava a tabela à frente de quem marca todas as jornadas.
 assert.match(advancedStatistics, /const PER90_MIN_MINUTES = \d+;/);

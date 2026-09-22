@@ -3544,18 +3544,33 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = Obj
  * total do jogo, pelo que inclui também os cartões cujo jogador ainda não foi
  * identificado — ao contrário da soma por atleta.
  */
+/**
+ * Cartões de uma equipa num jogo. Um registo pode trazer só o total da ficha
+ * (`stats`), só os cartões identificados ao minuto (`events`) ou os dois — e
+ * nem sempre coincidem: há fichas que publicam o total sem dizer a quem, e há
+ * jogos com o cartão na cronologia e sem bloco de estatística. Conta-se o
+ * maior dos dois, senão um jogo com cartão identificado somava zero.
+ */
+function matchCardTotals(match: Match, side: 'home' | 'away'): { yellow: number; red: number } {
+  const sheet = (RUNTIME_DATA.matchStats ?? PUBLISHED_MATCH_STATS)[match.id]?.[side];
+  const events = RUNTIME_DATA.events?.[match.id] ?? getPublishedMatchEvents(match) ?? [];
+  const counted = (type: 'yellow' | 'red') => events.filter((event) => event.type === type && event.team === side).length;
+  return {
+    yellow: Math.max(sheet?.yellowCards ?? 0, counted('yellow')),
+    red: Math.max(sheet?.redCards ?? 0, counted('red')),
+  };
+}
+
 export function getTeamCardTotalsFromSheets(teamId: string): { yellow: number; red: number } {
-  const seasonMatches = getMatchesForSeason(UPCOMING_SEASON_ID);
   let yellow = 0;
   let red = 0;
 
-  for (const [matchId, stats] of Object.entries(RUNTIME_DATA.matchStats ?? PUBLISHED_MATCH_STATS)) {
-    const match = seasonMatches.find((m) => m.id === matchId);
-    if (!match) continue;
-    const side = match.homeTeamId === teamId ? stats.home : match.awayTeamId === teamId ? stats.away : undefined;
+  for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
+    const side = match.homeTeamId === teamId ? 'home' : match.awayTeamId === teamId ? 'away' : undefined;
     if (!side) continue;
-    yellow += side.yellowCards ?? 0;
-    red += side.redCards ?? 0;
+    const totals = matchCardTotals(match, side);
+    yellow += totals.yellow;
+    red += totals.red;
   }
 
   return { yellow, red };
@@ -3565,9 +3580,12 @@ export function getTeamCardTotalsFromSheets(teamId: string): { yellow: number; r
 export function getCurrentSeasonCardReconciliation() {
   let yellowInSheets = 0;
   let redInSheets = 0;
-  for (const stats of Object.values(RUNTIME_DATA.matchStats ?? PUBLISHED_MATCH_STATS)) {
-    yellowInSheets += (stats.home.yellowCards ?? 0) + (stats.away.yellowCards ?? 0);
-    redInSheets += (stats.home.redCards ?? 0) + (stats.away.redCards ?? 0);
+  for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
+    for (const side of ['home', 'away'] as const) {
+      const totals = matchCardTotals(match, side);
+      yellowInSheets += totals.yellow;
+      redInSheets += totals.red;
+    }
   }
 
   const attributed = getCurrentSeasonDiscipline().reduce(
