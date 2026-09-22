@@ -23,7 +23,7 @@ const OFFICIAL_STADIUMS = [
   'Estádio dos Coqueiros',
   'Estádio do Santos',
   'Estádio do Buraco',
-  'Estádio Mártires da Canhala',
+  'Estádio Daniel Lutucuta',
   'Estádio do Tafe',
   'Estádio 1.º de Maio',
   'Estádio Comandante Jones Kufuna Yembe',

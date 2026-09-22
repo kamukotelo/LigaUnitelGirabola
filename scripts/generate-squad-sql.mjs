@@ -24,7 +24,7 @@ const CLUB_META = {
   lobito: { officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', city: 'Lobito', stadium: 'Estádio da Tundavala', founded: 1970, nickname: 'Estudantes' },
   fcluanda: { officialName: 'Futebol Clube de Luanda', shortName: 'FCL', city: 'Luanda', stadium: 'Estádio França Ndalu', founded: 2020, nickname: 'Luandenses' },
   libolo: { officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', city: 'Calulo', stadium: 'Estádio Municipal de Calulo', founded: 1942, nickname: 'Libolenses' },
-  caala: { officialName: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Huambo', stadium: 'Estádio Daniel Cassoma Lutucuta', founded: 1944, nickname: 'Caalenses' },
+  caala: { officialName: 'Clube Recreativo da Caála', shortName: 'CRC', city: 'Huambo', stadium: 'Estádio Daniel Lutucuta', founded: 1944, nickname: 'Caalenses' },
   interclube: { officialName: 'Grupo Desportivo Interclube', shortName: 'INT', city: 'Luanda', stadium: 'Estádio 22 de Junho', founded: 1976, nickname: 'Polícias' },
   bravos: { officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', city: 'Luena', stadium: 'Estádio Mundunduleno', founded: 1983, nickname: 'Maquisardes' },
   sagrada: { officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'SAG', city: 'Dundo', stadium: 'Estádio Sagrada Esperança', founded: 1976, nickname: 'Lundas' },

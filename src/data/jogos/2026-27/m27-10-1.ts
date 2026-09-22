@@ -6,5 +6,5 @@ export default defineMatch({
   round: 10,
   homeTeamId: 'caala',
   awayTeamId: 'lobito',
-  schedule: { date: '2026-11-08T15:00:00+01:00', stadium: 'Estádio dos Mártires da Canhala', scheduleStatus: 'official' },
+  schedule: { date: '2026-11-08T15:00:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official' },
 });

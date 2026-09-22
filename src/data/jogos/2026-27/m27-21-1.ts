@@ -6,5 +6,5 @@ export default defineMatch({
   round: 21,
   homeTeamId: 'caala',
   awayTeamId: 'petro',
-  schedule: { date: '2027-03-06T14:00:00+00:00', stadium: 'Estádio dos Mártires da Canhala', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-03-06T14:00:00+00:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'provisional' },
 });

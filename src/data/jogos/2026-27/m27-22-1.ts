@@ -6,5 +6,5 @@ export default defineMatch({
   round: 22,
   homeTeamId: 'caala',
   awayTeamId: 'sagrada',
-  schedule: { date: '2027-03-13T14:00:00+00:00', stadium: 'Estádio dos Mártires da Canhala', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-03-13T14:00:00+00:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'provisional' },
 });

@@ -6,5 +6,5 @@ export default defineMatch({
   round: 14,
   homeTeamId: 'caala',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2026-12-12T14:00:00+00:00', stadium: 'Estádio dos Mártires da Canhala', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-12T14:00:00+00:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'provisional' },
 });

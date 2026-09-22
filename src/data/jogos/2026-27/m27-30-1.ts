@@ -6,5 +6,5 @@ export default defineMatch({
   round: 30,
   homeTeamId: 'caala',
   awayTeamId: 'cabinda',
-  schedule: { date: '2027-05-15T14:00:00+00:00', stadium: 'Estádio dos Mártires da Canhala', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-05-15T14:00:00+00:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'provisional' },
 });

@@ -6,5 +6,5 @@ export default defineMatch({
   round: 11,
   homeTeamId: 'caala',
   awayTeamId: 'primeiromaio',
-  schedule: { date: '2026-11-21T14:00:00+00:00', stadium: 'Estádio dos Mártires da Canhala', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-11-21T14:00:00+00:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'provisional' },
 });

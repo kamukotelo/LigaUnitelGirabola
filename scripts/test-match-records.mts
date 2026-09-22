@@ -27,6 +27,14 @@ assert.equal(match('m27-5-2').broadcaster, 'Zsports');
 assert.equal(match('m27-5-3').broadcaster, undefined);
 assert.equal(d.getMatchBroadcast(match('m27-5-3')), 'Rádio 5');
 
+// O CR Caála recebe esta época no Estádio Daniel Lutucuta, no Huambo. O
+// calendário do FAF atribui-lhe o Estádio dos Mártires da Canhala em todos os
+// jogos em casa, e é o calendário que está errado — como já acontecia com o
+// Estrela 1.º de Maio e o Campo Municipal de Benguela.
+for (const caalaHome of d.getMatchesForSeason('2026-27').filter((m: { homeTeamId: string }) => m.homeTeamId === 'caala')) {
+  assert.equal(caalaHome.stadium, 'Estádio Daniel Lutucuta', `${caalaHome.id}: o Caála joga em casa no Estádio Daniel Lutucuta.`);
+}
+
 // Relatório do Árbitro n.º 29 (CR Caála 1-2 Desportivo da Huíla).
 const caalaHuila = match('m27-4-1');
 assert.equal(caalaHuila.stadium, 'Estádio Daniel Lutucuta');

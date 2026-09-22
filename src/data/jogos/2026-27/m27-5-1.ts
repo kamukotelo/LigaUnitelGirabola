@@ -7,7 +7,7 @@ export default defineMatch({
   round: 5,
   homeTeamId: 'caala',
   awayTeamId: 'bravos',
-  schedule: { date: '2026-09-20T15:00:00+01:00', stadium: 'Estádio dos Mártires da Canhala', scheduleStatus: 'official' },
+  schedule: { date: '2026-09-20T15:00:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '0-2', updatedAt: '2026-09-20T17:45:00+01:00' },
   events: [
     { minute: 14, type: 'goal', team: 'away', player: 'Lito', number: 23, playerId: 'lito-bravos', detail: "14' (0-1)" },
