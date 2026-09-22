@@ -59,21 +59,33 @@ export default defineMatch({
     ],
   },
   events: [
+    // Cartões e substituições do CR Caála comunicados pela DCE, que situa a
+    // expulsão do Valegol aos 37', por segundo amarelo, e não aos 44'.
+    { minute: 25, type: 'yellow', team: 'home', player: 'Jó Vidal', number: 15, playerId: 'fifa-1jsrqb0' },
     { minute: 32, type: 'goal', team: 'home', player: 'Valegol', number: 9, playerId: 'fifa-1k0r4w6', detail: 'Grande penalidade · 1-0' },
+    { minute: 32, type: 'yellow', team: 'home', player: 'Valegol', number: 9, playerId: 'fifa-1k0r4w6' },
     { minute: 34, type: 'goal', team: 'away', player: 'Bello Lukman', playerId: 'bello-lukman-wiliete', detail: '1-1' },
-    { minute: 44, type: 'red', team: 'home', player: 'Valegol', number: 9, playerId: 'fifa-1k0r4w6' },
+    { minute: 37, type: 'yellow', team: 'home', player: 'Valegol', number: 9, playerId: 'fifa-1k0r4w6' },
+    { minute: 37, type: 'red', team: 'home', player: 'Valegol', number: 9, playerId: 'fifa-1k0r4w6', detail: 'Segundo amarelo' },
     // «Ning» é o nº 25 Rodino Dumbo José, como o Wiliete o identifica na sua
     // própria escalação publicada da 5.ª jornada.
     { minute: 45, type: 'sub', team: 'away', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', playerOut: 'Sidibé' },
     { minute: 49, type: 'goal', team: 'away', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', detail: '1-2' },
+    { minute: 45, type: 'sub', team: 'home', player: 'Bito', number: 17, playerId: 'fifa-1l96dj1', playerOut: 'Manucho' },
+    { minute: 51, type: 'yellow', team: 'home', player: 'Sequesseque', number: 25, playerId: 'fifa-1jxikq1' },
+    { minute: 60, type: 'sub', team: 'home', player: 'Kabila', number: 24, playerId: 'fifa-1k2qwk8', playerOut: 'Aisson' },
+    { minute: 60, type: 'sub', team: 'home', player: 'Bebo', number: 6, playerId: 'fifa-1kz4es4', playerOut: 'Be Ngueve' },
+    { minute: 70, type: 'sub', team: 'home', player: 'Benvindo Afonso', number: 4, playerId: 'fifa-1jz4pi8', playerOut: 'Cuxixima' },
+    { minute: 70, type: 'sub', team: 'home', player: 'Vieira', number: 16, playerId: 'fifa-1jzj8y2', playerOut: 'Vale' },
     { minute: 65, type: 'sub', team: 'away', player: 'Artur Kaká', number: 19, playerId: 'fifa-1l05v38', playerOut: 'Bito' },
     { minute: 78, type: 'sub', team: 'away', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', playerOut: 'Mule' },
     { minute: 78, type: 'sub', team: 'away', player: 'Célio', number: 32, playerId: 'fifa-1m95s64', playerOut: 'Bello Lukman' },
     { minute: 90, type: 'sub', team: 'away', player: 'Didi Craque', number: 2, playerId: 'fifa-1ndemr2', playerOut: 'Gibelé' },
+    { minute: 90, type: 'yellow', team: 'home', player: 'Benvindo Afonso', number: 4, playerId: 'fifa-1jz4pi8' },
   ],
   stats: {
-    home: { redCards: 1 },
-    away: { redCards: 0 },
-    keys: ['redCards'],
+    home: { yellowCards: 5, redCards: 1 },
+    away: { yellowCards: 0, redCards: 0 },
+    keys: ['yellowCards', 'redCards'],
   },
 });
