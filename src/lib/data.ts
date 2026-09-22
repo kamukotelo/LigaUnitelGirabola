@@ -1854,7 +1854,6 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['ricardo-batista-fcluanda', 'Ricardo Batista', 'FC Luanda', 'fcluanda', 'Posição por confirmar', 0, 1],
   ['valegol-caala', 'Valegol', 'CR Caála', 'caala', 'Posição por confirmar', 0, 1],
   ['bello-lukman-wiliete', 'Bello Lukman', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
-  ['ning-wiliete', 'Ning', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['milagre-simba-huila', 'Milagre Carlos Simba', 'Desportivo da Huíla', 'desphuila', 'Avançado', 25, 2],
   ['leonardo-isola-huila', 'Leonardo Manuel Isola Ramos', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 7, 1],
   ['luyeye-cabinda', 'Luyeye Tomás', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 13, 1],
@@ -1894,6 +1893,30 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
   careerHistory: [],
 }));
+
+/**
+ * Como o próprio clube identifica o atleta na escalação que publica. A
+ * inscrição da federação traz o nome civil e só às vezes o `nome_popular`, mas
+ * é por estes nomes que o adepto reconhece o jogador na ficha e nos marcadores.
+ * A chave é o ID já registado; o nome completo da inscrição mantém-se em
+ * `fullName`.
+ */
+const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
+  // Wiliete de Benguela — escalação publicada pelo clube na 5.ª jornada.
+  'fifa-1jsrpl0': 'Wiwi',            // nº 5 · Arão Manuel Lologi
+  'fifa-1jsjbh0': 'Karanga',         // nº 7 · Jorge Mendes Corte Real Carneiro
+  'fifa-1k39nk6': 'Mule',            // nº 8 · António Mule Chitongo
+  'fifa-1jru7c5': 'Mindinho',        // nº 10 · Armindo Gonçalves Canji
+  'fifa-1jsj8t3': 'Gibelé',          // nº 11 · Deivi Miguel Vieira
+  'fifa-1pvxht8': 'Yano',            // nº 13 · Adriano Watchilala Tchombe
+  'fifa-1jjfij0': 'Balsa',           // nº 15 · Augusto Manuel Balsa
+  'fifa-1k1jsj8': 'Macaiabo',        // nº 16 · Francisco Cubuema Matoco
+  'fifa-1jwu0l8': 'Ning',            // nº 25 · Rodino Dumbo José
+  'fifa-1pnmj53': 'Júnior Goiano',   // nº 27 · Emanoel Júnior
+  'fifa-1jrxs05': 'Bito',            // nº 28 · Camilo Mbule Ngongue
+  'fifa-1qvfjm7': 'Sidibé',          // nº 30 · Bocar Sidibé
+  'fifa-1m95s64': 'Célio',           // nº 32 · Célio Alberto Junqueira Zua
+};
 
 const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
   '1SN8AC3': 'bello-lukman-wiliete',
@@ -2061,14 +2084,18 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
       ?? fallback?.position
       ?? 'Posição por confirmar';
 
+    const clubName = CLUB_PUBLISHED_PLAYER_NAMES_2026_27[id];
+
     return {
       id,
-      name: record.popularName
-        ? formatOfficialPlayerName(record.popularName)
-        : fallback?.name ?? shortDisplayName(formatOfficialPlayerName(record.name)),
-      nickname: record.popularName
-        ? formatOfficialPlayerName(record.popularName)
-        : (fallback?.nickname ?? (fallback?.fullName && fallback.name !== fallback.fullName ? fallback.name : undefined)),
+      name: clubName
+        ?? (record.popularName
+          ? formatOfficialPlayerName(record.popularName)
+          : fallback?.name ?? shortDisplayName(formatOfficialPlayerName(record.name))),
+      nickname: clubName
+        ?? (record.popularName
+          ? formatOfficialPlayerName(record.popularName)
+          : (fallback?.nickname ?? (fallback?.fullName && fallback.name !== fallback.fullName ? fallback.name : undefined))),
       fullName: formatOfficialPlayerName(record.fullName),
       club: squad.club,
       teamId: squad.teamId,

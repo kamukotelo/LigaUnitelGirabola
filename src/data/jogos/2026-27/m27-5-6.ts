@@ -30,13 +30,14 @@ export default defineMatch({
       { name: 'Emanoel Júnior', number: 27, position: 'DEF', isStarter: true, playerId: 'fifa-1pnmj53' },
       { name: 'Camilo Mbule Ngongue', number: 28, position: 'MID', isStarter: true, playerId: 'fifa-1jrxs05' },
       { name: 'Bocar Sidibé', number: 30, position: 'MID', isStarter: true, playerId: 'fifa-1qvfjm7' },
-      // Sem ficha na inscrição de 31/08: entram pelo nome da súmula, sem página de jogador.
-      { name: 'Jaderson de Oliveira Maia', number: 6, isStarter: false },
+      // Sem ficha na inscrição de 31/08: entram com o nome que o clube publica
+      // (Jaderson de Oliveira Maia e João Diogo na súmula), sem página de jogador.
+      { name: 'Janderson', number: 6, isStarter: false },
       { name: 'Adriano Watchilala Tchombe', number: 13, position: 'DEF', isStarter: false, playerId: 'fifa-1pvxht8' },
       { name: 'Augusto Manuel Balsa', number: 15, position: 'DEF', isStarter: false, playerId: 'fifa-1jjfij0' },
       { name: 'Francisco Cubuema Matoco', number: 16, position: 'MID', isStarter: false, playerId: 'fifa-1k1jsj8' },
       { name: 'Rodino Dumbo José', number: 25, position: 'FWD', isStarter: false, playerId: 'fifa-1jwu0l8' },
-      { name: 'João Diogo', number: 29, isStarter: false },
+      { name: 'Julinho', number: 29, isStarter: false },
       { name: 'Elber Delgado', number: 31, isStarter: false, playerId: 'fifa-1jm7y97' },
       { name: 'Célio Alberto Junqueira Zua', number: 32, position: 'MID', isStarter: false, playerId: 'fifa-1m95s64' },
       { name: 'Valter Manuel Monteiro', number: 35, position: 'MID', isStarter: false, playerId: 'valter-monteiro' },

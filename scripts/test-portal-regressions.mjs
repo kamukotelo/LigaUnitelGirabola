@@ -272,6 +272,15 @@ assert.match(advancedStatistics, /playerRates = isCurrent[\s\S]{0,160}getCurrent
 // na ficha o nome de quem veste esse número no outro clube.
 assert.match(data, /const index = event\.ownGoal \? \(event\.team === 'home' \? away : home\) : teamIndex;/);
 
+// O nome que o clube publica na sua escalação manda sobre o nome civil da
+// inscrição: é por ele que o adepto reconhece o jogador na ficha e nos
+// marcadores. O nome completo continua em `fullName`.
+assert.match(data, /const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>>/);
+assert.match(data, /'fifa-1jwu0l8': 'Ning',/);
+// O nº 25 do Wiliete tinha duas fichas — "Ning" e "Rodino Dumbo José" — e os
+// golos ficavam repartidos entre as duas.
+assert.doesNotMatch(data, /'ning-wiliete'/);
+
 // O rácio por 90' exige um mínimo de minutos: sem ele, um suplente com um golo
 // em 45 minutos liderava a tabela à frente de quem marca todas as jornadas.
 assert.match(advancedStatistics, /const PER90_MIN_MINUTES = \d+;/);
