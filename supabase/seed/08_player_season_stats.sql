@@ -98,6 +98,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'joao-cambo-cabinda', 0, 0, 1, 1, 0),
   ('2026-27', 'cabinda-player-1', 0, 0, 1, 1, 0),
   ('2026-27', 'joca-lunda-sul', 0, 0, 1, 1, 0),
+  ('2026-27', 'fifa-1pnmj53', 0, 0, 1, 1, 0),
   ('2026-27', 'cacusso', 0, 0, 1, 1, 0),
   ('2026-27', 'sozito', 0, 0, 1, 1, 0),
   ('2026-27', 'kinito', 0, 0, 1, 1, 0),

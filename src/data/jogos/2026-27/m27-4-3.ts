@@ -41,7 +41,14 @@ export default defineMatch({
     away: [],
   },
   events: [
+    // Cartão e substituições do Wiliete comunicados pela DCE; do FC Luanda não
+    // veio nada.
+    { minute: 27, type: 'yellow', team: 'home', player: 'Júnior Goiano', number: 27, playerId: 'fifa-1pnmj53' },
     { minute: 31, type: 'goal', team: 'home', player: 'Mabululu', playerId: 'mabululu-wiliete', detail: '1-0' },
     { minute: 45, type: 'goal', team: 'home', player: 'Mabululu', playerId: 'mabululu-wiliete', detail: "45'+6 · 2-0" },
+    { minute: 69, type: 'sub', team: 'home', player: 'Célio', number: 32, playerId: 'fifa-1m95s64', playerOut: 'Sidibé' },
+    { minute: 81, type: 'sub', team: 'home', player: 'Quare', number: 33, playerId: 'fifa-1kzr1v5', playerOut: 'Bito' },
+    { minute: 81, type: 'sub', team: 'home', player: 'Julinho', number: 29, playerOut: 'Mabululu' },
+    { minute: 89, type: 'sub', team: 'home', player: 'Igui', number: 24, playerId: 'fifa-1uqnv32', playerOut: 'Ning' },
   ],
 });
