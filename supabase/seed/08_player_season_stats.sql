@@ -28,7 +28,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'ariclenis-cabinda', 1, 0, 5, 1, 0),
   ('2026-27', 'bello-lukman-wiliete', 1, 0, 2, 0, 0),
   ('2026-27', 'beni-papel-saosalvador', 1, 0, 1, 0, 0),
-  ('2026-27', 'leonardo-isola-huila', 1, 0, 3, 0, 0),
+  ('2026-27', 'leonardo-isola-huila', 1, 0, 4, 0, 0),
   ('2026-27', 'fifa-1jm8058', 1, 0, 1, 0, 0),
   ('2026-27', 'cuxixima-libolo', 1, 0, 3, 0, 0),
   ('2026-27', 'dieu', 1, 0, 3, 1, 0),

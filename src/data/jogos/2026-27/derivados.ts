@@ -28,7 +28,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     { id: 'ariclenis-cabinda', name: 'Ariclenis Afonso Araújo Lede', club: 'FC Cabinda', teamId: 'cabinda', position: 'Avançado', goals: 1, appearances: 5 },
     { id: 'bello-lukman-wiliete', name: 'Bello Lukman', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 1, appearances: 2 },
     { id: 'beni-papel-saosalvador', name: 'Beni Papel', club: 'São Salvador', teamId: 'saosalvador', position: 'Posição por confirmar', goals: 1, appearances: 1 },
-    { id: 'leonardo-isola-huila', name: 'Cabibi', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Avançado', goals: 1, appearances: 3 },
+    { id: 'leonardo-isola-huila', name: 'Cabibi', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Avançado', goals: 1, appearances: 4 },
     { id: 'fifa-1jm8058', name: 'Calebi Yanda', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Posição por confirmar', goals: 1, appearances: 1 },
     { id: 'cuxixima-libolo', name: 'Cuxixima', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Avançado', goals: 1, appearances: 3 },
     { id: 'dieu', name: 'David', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Defesa', goals: 1, appearances: 3 },
