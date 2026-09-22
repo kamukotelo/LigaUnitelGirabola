@@ -55,7 +55,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'pedro-manuel-interclube', 1, 0, 1, 0, 0),
   ('2026-27', 'ricardo-batista-fcluanda', 1, 0, 1, 1, 0),
   ('2026-27', 'ruben-aderito', 1, 0, 4, 1, 0),
-  ('2026-27', 'fifa-1qvfjm7', 1, 0, 3, 0, 0),
+  ('2026-27', 'fifa-1qvfjm7', 1, 0, 4, 0, 0),
   ('2026-27', 'silvano-da-cruz-interclube', 1, 0, 1, 0, 0),
   ('2026-27', 'fifa-1nb4bp9', 1, 0, 2, 1, 0),
   ('2026-27', 'fifa-1uy6ar6', 1, 0, 1, 1, 0),

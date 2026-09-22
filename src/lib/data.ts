@@ -1916,7 +1916,9 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   'fifa-1jrxs05': 'Bito',            // nº 28 · Camilo Mbule Ngongue
   'fifa-1qvfjm7': 'Sidibé',          // nº 30 · Bocar Sidibé
   'fifa-1m95s64': 'Célio',           // nº 32 · Célio Alberto Junqueira Zua
+  'fifa-1ljz6e0': 'Silva',           // nº 3 · Silva Hinário António
   'fifa-1ndemr2': 'Didi Craque',     // nº 2 · Eduardo António Henrique Capingana
+  'fifa-1l05v38': 'Artur Kaká',      // nº 19 · Daniel Artur Kaka
   'fifa-1jrtue9': 'Benny',           // nº 12 · Teodoro Edvaldo Rita Tchissingui
   'fifa-1ni87h8': 'Filó',            // nº 21 · Filomeno Pinheiro Alberto Giloso
   'fifa-1uqnv32': 'Igui',            // nº 24 · Carlos Cassissi
