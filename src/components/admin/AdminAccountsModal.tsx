@@ -63,9 +63,11 @@ export default function AdminAccountsModal({ isOpen, onClose }: AdminAccountsMod
 
   useEffect(() => {
     if (isOpen) {
+      /* eslint-disable react-hooks/set-state-in-effect */
       fetchAccounts();
       setSuccessMsg(null);
       setError(null);
+      /* eslint-enable react-hooks/set-state-in-effect */
     }
   }, [isOpen]);
 

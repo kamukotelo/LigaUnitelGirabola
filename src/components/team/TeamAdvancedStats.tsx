@@ -282,7 +282,7 @@ export default function TeamAdvancedStats({
       clubCleanSheets,
       clubPer90,
     };
-  }, [matches, team.id, team.stadiumCapacity]);
+  }, [matches, team]);
 
   if (!stats) {
     return (

@@ -133,8 +133,18 @@ function resolveFixture(match: Match) {
 // desta rota, em vez de correr duas queries por cada visita ao portal.
 // Invalidado por revalidatePortalData() quando o admin publica.
 async function loadCalendarFromDb() {
-  let activeSeedStr = ANCAF_CALENDAR_SOURCE.accessCode;
-  let dynamicSource = {
+  let activeSeedStr: string = ANCAF_CALENDAR_SOURCE.accessCode;
+  let dynamicSource: {
+    system: string;
+    accessCode: string;
+    technicalSeed?: string;
+    fingerprint?: string;
+    season: string;
+    generatedAt: string;
+    rounds: number;
+    matches: number;
+    championshipId?: string;
+  } = {
     ...ANCAF_CALENDAR_SOURCE,
     championshipId: ANCAF_CALENDAR_SOURCE.accessCode,
     technicalSeed: PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed as string,
@@ -151,13 +161,13 @@ async function loadCalendarFromDb() {
         sql.query(
           'select key, value, updated_at from public.ancaf_configs where key = any($1::text[])',
           [['active_calendar_index', 'active_calendar_seed', 'active_calendar_fingerprint', 'override_calendar']],
-        ) as Promise<{ key: string; value: string; updated_at: string }[]>,
+        ) as unknown as Promise<{ key: string; value: string; updated_at: string }[]>,
         sql.query(
           `select id, round, home_team_id, away_team_id, home_team, away_team, home_score, away_score, score, half_time_score, date, stadium, status, schedule_status, referee, broadcaster, attendance, useful_time_minutes, updated_at
            from public.ancaf_matches
            where season_id = '2026-27'
            order by round, id`,
-        ) as Promise<DbMatch[]>,
+        ) as unknown as Promise<DbMatch[]>,
       ]);
 
       if (configs) {

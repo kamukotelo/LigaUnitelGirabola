@@ -140,20 +140,19 @@ const VALUE_LABELS: Record<StatTab, string> = {
 };
 
 export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
-  const [activeView, setActiveView] = useState<StatsView>('jogadores');
+  const [activeView, setActiveView] = useState<StatsView>(() => {
+    if (typeof window === 'undefined') return 'jogadores';
+    const params = new URLSearchParams(window.location.search);
+    const viewParam = params.get('view');
+    if (viewParam === 'jogadores' || viewParam === 'equipas' || viewParam === 'avancada') {
+      return viewParam;
+    }
+    return 'jogadores';
+  });
   const [activeTab, setActiveTab] = useState<StatTab>('scorers');
   const [filterTeam, setFilterTeam] = useState<string>('all');
   const [filterPosition, setFilterPosition] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const params = new URLSearchParams(window.location.search);
-    const viewParam = params.get('view');
-    if (viewParam === 'jogadores' || viewParam === 'equipas' || viewParam === 'avancada') {
-      setActiveView(viewParam);
-    }
-  }, []);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const allPlayers = useMemo(() => getPlayers(), []);
