@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createHash } from 'node:crypto';
 import { unstable_cache } from 'next/cache';
 import { supabase } from '@/lib/supabase';
+import { getNeonSql, isNeonConfigured } from '@/lib/neon';
 import { PORTAL_DATA_TAG, PORTAL_DATA_MAX_AGE_SECONDS } from '@/lib/portal-cache';
 import {
   ANCAF_CALENDAR_SOURCE,
@@ -143,7 +144,87 @@ async function loadCalendarFromDb() {
   let calendarOverrides: Record<string, Partial<Match>> = {};
   let platformUpdatedAt = PLATFORM_CALENDAR_BASE_UPDATED_AT;
   
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
+  if (isNeonConfigured()) {
+    try {
+      const sql = getNeonSql();
+      const [configs, dbMatches] = await Promise.all([
+        sql.query(
+          'select key, value, updated_at from public.ancaf_configs where key = any($1::text[])',
+          [['active_calendar_index', 'active_calendar_seed', 'active_calendar_fingerprint', 'override_calendar']],
+        ) as Promise<{ key: string; value: string; updated_at: string }[]>,
+        sql.query(
+          `select id, round, home_team_id, away_team_id, home_team, away_team, home_score, away_score, score, half_time_score, date, stadium, status, schedule_status, referee, broadcaster, attendance, useful_time_minutes, updated_at
+           from public.ancaf_matches
+           where season_id = '2026-27'
+           order by round, id`,
+        ) as Promise<DbMatch[]>,
+      ]);
+
+      if (configs) {
+        const indexConfig = configs.find((config) => config.key === 'active_calendar_index');
+        const seedConfig = configs.find((config) => config.key === 'active_calendar_seed');
+        const fingerprintConfig = configs.find((config) => config.key === 'active_calendar_fingerprint');
+        const overrideConfig = configs.find((config) => config.key === 'override_calendar');
+        platformUpdatedAt = mostRecentPublishedAt(platformUpdatedAt, overrideConfig?.updated_at);
+        if (overrideConfig?.value) {
+          try {
+            calendarOverrides = JSON.parse(overrideConfig.value) as Record<string, Partial<Match>>;
+          } catch {
+            calendarOverrides = {};
+          }
+        }
+
+        const candidateMatches = dbMatches?.length === 240
+          ? (dbMatches as DbMatch[]).map(fromDbMatch)
+          : [];
+        const matchesFingerprint = candidateMatches.length === 240
+          ? fingerprintMatches(candidateMatches)
+          : null;
+
+        const isOfficialStaticSource =
+          indexConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.accessCode &&
+          seedConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed &&
+          fingerprintConfig?.value === PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint;
+
+        if (isOfficialStaticSource && matchesFingerprint === PUBLISHED_MATCHES_COMPARISON_FINGERPRINT) {
+          activeSeedStr = seedConfig?.value ?? activeSeedStr;
+          dynamicSource = {
+            ...ANCAF_CALENDAR_SOURCE,
+            accessCode: indexConfig?.value ?? ANCAF_CALENDAR_SOURCE.accessCode,
+            championshipId: indexConfig?.value ?? ANCAF_CALENDAR_SOURCE.accessCode,
+            technicalSeed: seedConfig?.value ?? PUBLISHED_ANCAF_CALENDAR_SOURCE.technicalSeed,
+            fingerprint: fingerprintConfig?.value ?? PUBLISHED_ANCAF_CALENDAR_SOURCE.fingerprint,
+            generatedAt: fingerprintConfig?.updated_at ?? indexConfig?.updated_at ?? seedConfig?.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
+          };
+          persistedMatches = candidateMatches;
+        } else if (
+          indexConfig?.value &&
+          seedConfig?.value &&
+          fingerprintConfig?.value &&
+          matchesFingerprint === fingerprintConfig.value
+        ) {
+          activeSeedStr = seedConfig.value;
+          dynamicSource = {
+            ...ANCAF_CALENDAR_SOURCE,
+            accessCode: indexConfig.value,
+            championshipId: indexConfig.value,
+            technicalSeed: seedConfig.value,
+            fingerprint: fingerprintConfig.value,
+            generatedAt: fingerprintConfig.updated_at ?? indexConfig.updated_at ?? seedConfig.updated_at ?? ANCAF_CALENDAR_SOURCE.generatedAt,
+          };
+          persistedMatches = candidateMatches;
+        }
+        if (persistedMatches.length === 240) {
+          platformUpdatedAt = mostRecentPublishedAt(
+            platformUpdatedAt,
+            ...persistedMatches.map((match) => match.updatedAt),
+          );
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao ler calendário do Neon, tentando fallback:', err);
+    }
+  } else if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_URL !== 'https://placeholder.supabase.co') {
     try {
       const [{ data: configs, error: configError }, { data: dbMatches, error: matchesError }] = await Promise.all([
         supabase

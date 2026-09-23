@@ -23,8 +23,7 @@ import {
 } from './data';
 
 function isConfigured(): boolean {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  return !!url && url !== 'https://placeholder.supabase.co';
+  return true;
 }
 
 export type OverrideSection = 'news' | 'calendar' | 'players' | 'nominations' | 'teams' | 'site';

@@ -2838,6 +2838,9 @@ function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
   if (patch.date !== undefined && patch.scheduleStatus === undefined) {
     merged.scheduleStatus = 'official';
   }
+  if (patch.date !== undefined && patch.postponed === undefined) {
+    merged.postponed = false;
+  }
   const touchedScores = patch.homeScore !== undefined || patch.awayScore !== undefined;
   if (touchedScores && patch.score === undefined) {
     merged.score = `${merged.homeScore ?? 0}-${merged.awayScore ?? 0}`;

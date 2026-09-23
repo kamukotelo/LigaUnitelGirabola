@@ -85,6 +85,21 @@ export default function JornadaSection({ onGo }: { onGo: (s: AdminSection) => vo
       const err = await res.json().catch(() => null);
       throw new Error(err?.message || 'Não foi possível gravar a alteração.');
     }
+    try {
+      const stored = JSON.parse(localStorage.getItem('faf_calendar_overrides') || '{}');
+      stored[matchId] = {
+        ...(stored[matchId] || {}),
+        date: patch.date,
+        stadium: patch.stadium,
+        round: patch.round,
+        homeTeamId: patch.homeTeamId,
+        awayTeamId: patch.awayTeamId,
+        homeTeam: patch.homeTeam,
+        awayTeam: patch.awayTeam,
+        scheduleStatus: patch.scheduleStatus || 'official',
+      };
+      localStorage.setItem('faf_calendar_overrides', JSON.stringify(stored));
+    } catch {}
     await load(round);
   };
 

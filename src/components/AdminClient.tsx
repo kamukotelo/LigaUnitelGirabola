@@ -192,7 +192,7 @@ function SaveBar<T>({
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-white font-mono text-[10px] uppercase tracking-widest hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {saving ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
-            {saving ? 'A guardar…' : 'Guardar alterações'}
+            {saving ? 'A guardar e sincronizar…' : 'Guardar e sincronizar'}
           </button>
         </div>
       </div>
@@ -1082,7 +1082,7 @@ function CalendarSection() {
                     className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-[10px] font-mono uppercase tracking-widest text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     {ctl.saving ? <Loader2 size={12} className="animate-spin" /> : <Save size={12} />}
-                    {ctl.saving ? 'A guardar…' : 'Guardar e publicar'}
+                    {ctl.saving ? 'A guardar e sincronizar…' : 'Guardar e sincronizar'}
                   </button>
                 </div>
               </div>
