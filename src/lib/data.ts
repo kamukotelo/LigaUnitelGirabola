@@ -3707,6 +3707,8 @@ export interface CleanSheetRecord {
   teamId: string;
   position: string;
   cleanSheets: number;
+  /** Golos sofridos nos jogos atribuídos ao guarda-redes; ausente no arquivo histórico sem detalhe por jogo. */
+  goalsConceded?: number;
   appearances: number; // jogos com escalação oficial em que foi titular
 }
 
@@ -3730,9 +3732,11 @@ export function getCurrentSeasonCleanSheets(): CleanSheetRecord[] {
       teamId,
       position: 'Guarda-redes',
       cleanSheets: 0,
+      goalsConceded: 0,
       appearances: 0,
     };
     entry.appearances += 1;
+    entry.goalsConceded = (entry.goalsConceded ?? 0) + conceded;
     if (conceded === 0) entry.cleanSheets += 1;
     totals.set(gk.playerId, entry);
   };

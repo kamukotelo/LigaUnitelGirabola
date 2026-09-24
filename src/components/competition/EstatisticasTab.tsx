@@ -190,7 +190,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       if (cs.length > 0) {
         topCleanSheet = {
           id: cs[0].id, name: cs[0].name, club: cs[0].club, teamId: cs[0].teamId,
-          position: cs[0].position, value: cs[0].cleanSheets, secondaryLabel: 'Jogos', secondaryValue: cs[0].appearances,
+          position: cs[0].position, value: cs[0].cleanSheets, secondaryLabel: 'Sofridos', secondaryValue: cs[0].goalsConceded ?? 0,
         };
       }
       const mins = getCurrentSeasonMinutesPlayed();
@@ -278,8 +278,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         .filter((gk) => gk.cleanSheets > 0)
         .map((gk) => ({
           id: gk.id, name: gk.name, club: gk.club, teamId: gk.teamId,
-          position: gk.position, value: gk.cleanSheets, secondaryLabel: 'Jogos',
-          secondaryValue: gk.appearances, hasProfile: true,
+          position: gk.position, value: gk.cleanSheets, secondaryLabel: 'Sofridos',
+          secondaryValue: gk.goalsConceded ?? 0, hasProfile: true,
         }));
     } else if (isUpcoming && seasonHasStarted && activeTab === 'minutes') {
       displayPlayers = getCurrentSeasonMinutesPlayed().map((p) => ({
@@ -717,7 +717,9 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                           <p className="text-[11px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 truncate mt-0.5 font-sans">
                             <span>{shown(player.position) ? player.position : 'Atleta'}</span>
                             <span className="text-zinc-300 dark:text-zinc-600">·</span>
-                            <span className="truncate text-zinc-500 dark:text-zinc-400">{player.club}</span>
+                            <Link href={`/teams/${player.teamId}`} className="truncate text-zinc-500 hover:text-accent dark:text-zinc-400 transition-colors">
+                              {player.club}
+                            </Link>
                           </p>
                         </div>
                       </div>
@@ -763,9 +765,14 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                   const hasPlayer = !!card.player;
 
                   return (
-                    <button
+                    <div
                       key={card.key}
+                      role="button"
+                      tabIndex={0}
                       onClick={() => setActiveTab(card.key)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') setActiveTab(card.key);
+                      }}
                       className={`flex-shrink-0 min-w-[180px] sm:min-w-[200px] p-2.5 rounded-xl border text-left transition-all duration-200 relative overflow-hidden ${
                         isCardActive
                           ? 'border-accent bg-accent/10 shadow-sm ring-1 ring-accent/40'
@@ -794,8 +801,20 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                               </div>
                             </div>
                             <div className="min-w-0">
-                              <p className="text-xs font-bold text-foreground truncate">{card.player!.name}</p>
-                              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 truncate">{card.player!.club}</p>
+                              <Link
+                                href={`/players/${card.player!.id}`}
+                                onClick={(event) => event.stopPropagation()}
+                                className="block text-xs font-bold text-foreground hover:text-accent truncate transition-colors"
+                              >
+                                {card.player!.name}
+                              </Link>
+                              <Link
+                                href={`/teams/${card.player!.teamId}`}
+                                onClick={(event) => event.stopPropagation()}
+                                className="block text-[10px] text-zinc-500 hover:text-accent dark:text-zinc-400 truncate transition-colors"
+                              >
+                                {card.player!.club}
+                              </Link>
                             </div>
                           </div>
 
@@ -813,7 +832,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                           A aguardar dados
                         </div>
                       )}
-                    </button>
+                    </div>
                   );
                 })}
               </div>

@@ -693,7 +693,7 @@ export default function TeamAdvancedStats({
                           {keeper.name}
                         </Link>
                         <span className="block text-[9px] font-mono text-zinc-500 truncate">
-                          {keeper.appearances} {keeper.appearances === 1 ? 'jogo disputado' : 'jogos disputados'}
+                          {keeper.appearances} {keeper.appearances === 1 ? 'jogo disputado' : 'jogos disputados'} · {keeper.goalsConceded ?? 0} sofridos
                         </span>
                       </div>
                       <div className="text-right shrink-0">

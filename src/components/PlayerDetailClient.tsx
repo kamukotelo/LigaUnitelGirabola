@@ -15,7 +15,8 @@ import {
   Player, Team, getPlayers, getMatches, getPlayerById, getTeamById,
   getPlayerRatings, getRecentRatings, getDetailedMetrics,
   getFifaConnectStatus, FIFA_CHECK_META, FifaCheckKey,
-  getPlayerFicha, getNationalityFlag, getPlayerSeasonMinutes
+  getPlayerFicha, getNationalityFlag, getPlayerSeasonMinutes,
+  getCurrentSeasonCleanSheets,
 } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import { ROUTES } from '@/lib/routes';
@@ -292,18 +293,37 @@ function StatsTab({ player }: { player: Player }) {
     const redCards = player.detailedStats?.redCards ?? 0;
     // Minutos em campo derivados das escalações e substituições oficiais.
     const seasonMinutes = getPlayerSeasonMinutes(player.id);
-    const confirmedStats = [
-      { label: 'Jogos', value: player.appearances },
-      { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
-      { label: 'Golos', value: player.goals },
-      { label: 'Assistências', value: player.assists },
-      { label: 'Cartões amarelos', value: yellowCards },
-      { label: 'Cartões vermelhos', value: redCards },
-    ];
+    const isGoalkeeper = player.position.toLowerCase().includes('guarda');
+    const keeperStats = isGoalkeeper
+      ? getCurrentSeasonCleanSheets().find((row) => row.id === player.id)
+      : undefined;
+    const keeperAppearances = keeperStats?.appearances ?? player.appearances;
+    const confirmedStats = isGoalkeeper
+      ? [
+          { label: 'Jogos na baliza', value: keeperAppearances },
+          { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
+          { label: 'Balizas limpas', value: keeperStats?.cleanSheets ?? 0 },
+          { label: 'Golos sofridos', value: keeperStats?.goalsConceded ?? 0 },
+          { label: 'Sofridos por jogo', value: keeperAppearances ? ((keeperStats?.goalsConceded ?? 0) / keeperAppearances).toFixed(2) : '—' },
+          { label: 'Eficácia sem sofrer', value: keeperAppearances ? `${Math.round(((keeperStats?.cleanSheets ?? 0) / keeperAppearances) * 100)}%` : '—' },
+          ...(player.goals > 0 ? [{ label: 'Golos marcados', value: player.goals }] : []),
+          { label: 'Cartões amarelos', value: yellowCards },
+          { label: 'Cartões vermelhos', value: redCards },
+        ]
+      : [
+          { label: 'Jogos', value: player.appearances },
+          { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
+          { label: 'Golos', value: player.goals },
+          { label: 'Assistências', value: player.assists },
+          { label: 'Golos por jogo', value: (player.goals / (player.appearances || 1)).toFixed(2) },
+          { label: 'Participações em golo', value: player.goals + player.assists },
+          { label: 'Cartões amarelos', value: yellowCards },
+          { label: 'Cartões vermelhos', value: redCards },
+        ];
 
     return (
       <div className="space-y-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {confirmedStats.map((stat) => (
             <div key={stat.label} className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-5 rounded-2xl text-center">
               <span className="font-display text-3xl font-black text-foreground">{stat.value}</span>
@@ -315,7 +335,9 @@ function StatsTab({ player }: { player: Player }) {
           <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={18} />
           <p className="text-xs text-zinc-500">
             Os minutos em campo são calculados a partir das escalações e das substituições das fichas oficiais.
-            Ratings, posse, precisão de passe, duelos e remates serão apresentados apenas quando forem publicados nessas fichas.
+            {isGoalkeeper
+              ? ' Balizas limpas e golos sofridos usam apenas jogos com escalação oficial que identifica o guarda-redes titular.'
+              : ' Ratings, posse, precisão de passe, duelos e remates serão apresentados apenas quando forem publicados nessas fichas.'}
           </p>
         </div>
       </div>
@@ -650,6 +672,10 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
   // aqui aplica as edições de jogador e de clube assim que ficam disponíveis.
   const player = getPlayerById(serverPlayer.id) ?? serverPlayer;
   const team = getTeamById(player.teamId) ?? serverTeam;
+  const isGoalkeeper = player.position.toLowerCase().includes('guarda');
+  const goalkeeperStats = isGoalkeeper
+    ? getCurrentSeasonCleanSheets().find((row) => row.id === player.id)
+    : undefined;
 
   // Goals classification
   const allPlayers = getPlayers();
@@ -759,8 +785,18 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
 
             {/* Stat Rings */}
             <div className="flex flex-wrap gap-6 justify-center md:justify-start pt-2 border-t border-zinc-200/60 dark:border-zinc-900/60">
-              <StatRing value={player.goals} max={maxGoals} label="Golos" color="#D21515" />
-              <StatRing value={player.assists} max={15} label="Assistências" color="#F9C304" />
+              {isGoalkeeper ? (
+                <>
+                  <StatRing value={goalkeeperStats?.cleanSheets ?? 0} max={Math.max(goalkeeperStats?.appearances ?? 1, 1)} label="Balizas limpas" color="#22c55e" />
+                  <StatRing value={goalkeeperStats?.goalsConceded ?? 0} max={Math.max((goalkeeperStats?.appearances ?? 1) * 3, 1)} label="Golos sofridos" color="#F9C304" />
+                  {player.goals > 0 && <StatRing value={player.goals} max={maxGoals} label="Golos marcados" color="#D21515" />}
+                </>
+              ) : (
+                <>
+                  <StatRing value={player.goals} max={maxGoals} label="Golos" color="#D21515" />
+                  <StatRing value={player.assists} max={15} label="Assistências" color="#F9C304" />
+                </>
+              )}
               <StatRing value={player.appearances} max={30} label="Jogos" color="#00F5FF" />
               {player.age > 0 && <StatRing value={player.age} max={40} label="Idade" color="#a855f7" />}
             </div>
@@ -1027,14 +1063,29 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
             </h3>
             
             <div className="space-y-4 font-mono text-xs">
-              <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
-                <span className="text-zinc-500">Class. Golos</span>
-                <span className="font-bold text-foreground">{goalRank ? `#${goalRank}º` : '—'}</span>
-              </div>
-              <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
-                <span className="text-zinc-500">Golos por Jogo</span>
-                <span className="font-bold text-foreground">{(player.goals / (player.appearances || 1)).toFixed(2)}</span>
-              </div>
+              {isGoalkeeper ? (
+                <>
+                  <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
+                    <span className="text-zinc-500">Balizas limpas</span>
+                    <span className="font-bold text-foreground">{goalkeeperStats?.cleanSheets ?? 0}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
+                    <span className="text-zinc-500">Golos sofridos</span>
+                    <span className="font-bold text-foreground">{goalkeeperStats?.goalsConceded ?? 0}</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
+                    <span className="text-zinc-500">Class. Golos</span>
+                    <span className="font-bold text-foreground">{goalRank ? `#${goalRank}º` : '—'}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
+                    <span className="text-zinc-500">Golos por Jogo</span>
+                    <span className="font-bold text-foreground">{(player.goals / (player.appearances || 1)).toFixed(2)}</span>
+                  </div>
+                </>
+              )}
               <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
                 <span className="text-zinc-500">Minutos Jogados</span>
                 <span className="font-bold text-foreground">
