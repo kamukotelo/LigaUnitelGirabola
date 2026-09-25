@@ -9,11 +9,7 @@ import {
   RefreshCw, Check
 } from 'lucide-react';
 import {
-  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
-} from 'recharts';
-import {
   Player, Team, getPlayers, getMatches, getPlayerById, getTeamById,
-  getPlayerRatings, getRecentRatings, getDetailedMetrics,
   getFifaConnectStatus, FIFA_CHECK_META, FifaCheckKey,
   getPlayerFicha, getNationalityFlag, getPlayerSeasonMinutes,
   getCurrentSeasonCleanSheets,
@@ -340,120 +336,6 @@ function StatsTab({ player, team }: { player: Player; team?: Team }) {
         <p className="text-xs text-zinc-500 font-mono">
           Os minutos em campo, golos por intervalo, balizas limpas e rácios de rendimento são calculados a partir das escalações, cronologia de substituições e ocorrências das súmulas oficiais da competição.
         </p>
-      </div>
-    </div>
-  );
-}
-
-  const ratings = getPlayerRatings(player);
-  const recent = getRecentRatings(player);
-  const metrics = getDetailedMetrics(player);
-
-  const ratingColor = (r: number) =>
-    r >= 8 ? '#22c55e' : r >= 7 ? '#00F5FF' : r >= 6 ? '#F9C304' : '#ef4444';
-
-  const metricGrid = [
-    { label: 'Precisão de Passe', value: `${metrics.passAccuracy}%` },
-    { label: 'Duelos Ganhos', value: `${metrics.duelsWon}%` },
-    { label: 'Remates à Baliza', value: `${metrics.shotsOnTarget}%` },
-    { label: 'Cartões Amarelos', value: metrics.yellowCards },
-    { label: 'Cartões Vermelhos', value: metrics.redCards },
-    { label: 'Minutos Jogados', value: `${metrics.minutesPlayed}'` },
-  ];
-
-  return (
-    <div className="space-y-8">
-      <div className="flex justify-end"><DemoBadge /></div>
-
-      {/* Índices de avaliação técnica (FAF) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {([
-          { name: 'Índice Técnico', value: ratings.technical, accent: '#00F5FF', caption: 'Avaliação integrada' },
-          { name: 'Índice de Forma', value: ratings.form, accent: '#F9C304', caption: 'Rendimento recente' },
-        ] as const).map((src) => (
-          <AnimatedCard key={src.name} variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <span className="font-display text-foreground uppercase tracking-wider text-sm">{src.name}</span>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">
-                {src.caption}
-              </span>
-            </div>
-            <div className="flex items-end gap-3">
-              <span
-                className="font-display text-5xl font-black leading-none"
-                style={{ color: src.accent }}
-              >
-                {src.value.toFixed(1)}
-              </span>
-              <span className="text-[10px] font-mono text-zinc-500 uppercase mb-1.5">Rating médio</span>
-            </div>
-          </AnimatedCard>
-        ))}
-      </div>
-
-      {/* Tendência últimos 5 jogos */}
-      <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
-        <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
-          <BarChart3 size={16} className="text-accent" /> Tendência de Forma · Últimos 5 Jogos
-        </h3>
-        <div className="h-56 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={recent} margin={{ top: 10, right: 12, left: -18, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
-              <XAxis dataKey="match" stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} />
-              <YAxis domain={[5, 10]} stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} />
-              <Tooltip
-                contentStyle={{
-                  background: '#09090b',
-                  border: '1px solid #27272a',
-                  borderRadius: 12,
-                  fontSize: 12,
-                  fontFamily: 'monospace',
-                }}
-                labelStyle={{ color: '#a1a1aa' }}
-                formatter={(v) => [Number(v).toFixed(1), 'Rating']}
-              />
-              <Line
-                type="monotone"
-                dataKey="rating"
-                stroke="#00F5FF"
-                strokeWidth={2.5}
-                dot={{ r: 4, fill: '#00F5FF', stroke: '#09090b', strokeWidth: 2 }}
-                activeDot={{ r: 6 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="flex flex-wrap gap-2 mt-4">
-          {recent.map((r) => (
-            <span
-              key={r.match}
-              className="px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold border"
-              style={{
-                color: ratingColor(r.rating),
-                borderColor: `${ratingColor(r.rating)}40`,
-                background: `${ratingColor(r.rating)}12`,
-              }}
-            >
-              {r.match}: {r.rating.toFixed(1)}
-            </span>
-          ))}
-        </div>
-      </AnimatedCard>
-
-      {/* Grelha de métricas */}
-      <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-6 rounded-2xl">
-        <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-          <Activity size={16} className="text-primary" /> Métricas de Rendimento
-        </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 font-mono">
-          {metricGrid.map((m) => (
-            <div key={m.label} className="bg-zinc-100 dark:bg-black/40 rounded-xl p-3.5">
-              <span className="text-[9px] text-zinc-500 uppercase block mb-1">{m.label}</span>
-              <span className="font-bold text-foreground text-lg block">{m.value}</span>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
