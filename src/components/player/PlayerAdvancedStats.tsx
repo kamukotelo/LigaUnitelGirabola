@@ -173,8 +173,7 @@ export default function PlayerAdvancedStats({
       ...intervals.map((i) => (isGoalkeeper ? i.conceded : i.scored))
     );
 
-    return {
-      isGk: isGoalkeeper,
+    const common = {
       appearances,
       starts,
       subIn,
@@ -185,37 +184,44 @@ export default function PlayerAdvancedStats({
       avgMinutesPerMatch: appearances > 0 ? Math.round(minutesSum / appearances) : 0,
       intervals,
       maxIntervalValue,
-      ...(isGoalkeeper
-        ? {
-            cleanSheets,
-            goalsConceded,
-            cleanSheetRate: appearances > 0 ? Math.round((cleanSheets / appearances) * 100) : 0,
-            goalsConcededPerMatch: appearances > 0 ? (goalsConceded / appearances).toFixed(2) : '0.00',
-            minutesPerConceded: goalsConceded > 0 ? Math.round(minutesSum / goalsConceded) : null,
-            firstHalfConceded,
-            secondHalfConceded,
-            homeConceded,
-            awayConceded,
-            homeCleanSheets,
-            awayCleanSheets,
-          }
-        : {
-            goalsScored,
-            assistsCount,
-            contributions: goalsScored + assistsCount,
-            minutesPerGoal: goalsScored > 0 ? Math.round(minutesSum / goalsScored) : null,
-            minutesPerContribution:
-              goalsScored + assistsCount > 0 ? Math.round(minutesSum / (goalsScored + assistsCount)) : null,
-            goalsPer90: minutesSum > 0 ? ((goalsScored * 90) / minutesSum).toFixed(2) : '0.00',
-            contributionsPer90:
-              minutesSum > 0 ? (((goalsScored + assistsCount) * 90) / minutesSum).toFixed(2) : '0.00',
-            firstHalfGoals,
-            secondHalfGoals,
-            homeGoals,
-            awayGoals,
-            penalties,
-            matchOpeners,
-          }),
+    };
+
+    if (isGoalkeeper) {
+      return {
+        ...common,
+        isGk: true as const,
+        cleanSheets,
+        goalsConceded,
+        cleanSheetRate: appearances > 0 ? Math.round((cleanSheets / appearances) * 100) : 0,
+        goalsConcededPerMatch: appearances > 0 ? (goalsConceded / appearances).toFixed(2) : '0.00',
+        minutesPerConceded: goalsConceded > 0 ? Math.round(minutesSum / goalsConceded) : null,
+        firstHalfConceded,
+        secondHalfConceded,
+        homeConceded,
+        awayConceded,
+        homeCleanSheets,
+        awayCleanSheets,
+      };
+    }
+
+    return {
+      ...common,
+      isGk: false as const,
+      goalsScored,
+      assistsCount,
+      contributions: goalsScored + assistsCount,
+      minutesPerGoal: goalsScored > 0 ? Math.round(minutesSum / goalsScored) : null,
+      minutesPerContribution:
+        goalsScored + assistsCount > 0 ? Math.round(minutesSum / (goalsScored + assistsCount)) : null,
+      goalsPer90: minutesSum > 0 ? ((goalsScored * 90) / minutesSum).toFixed(2) : '0.00',
+      contributionsPer90:
+        minutesSum > 0 ? (((goalsScored + assistsCount) * 90) / minutesSum).toFixed(2) : '0.00',
+      firstHalfGoals,
+      secondHalfGoals,
+      homeGoals,
+      awayGoals,
+      penalties,
+      matchOpeners,
     };
   }, [player.id, player.name, player.teamId, seasonId, isGoalkeeper]);
 
@@ -312,13 +318,13 @@ export default function PlayerAdvancedStats({
         </div>
 
         {/* Estado vazio amigável */}
-        {isGoalkeeper && stats.goalsConceded === 0 && hasActivity && (
+        {stats.isGk && stats.goalsConceded === 0 && hasActivity && (
           <div className="mt-5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-2 text-xs font-mono text-emerald-600 dark:text-emerald-400">
             <ShieldCheck size={16} className="shrink-0" />
             <span>Guarda-redes invicto: nenhuma baliza violada na presente temporada oficial.</span>
           </div>
         )}
-        {!isGoalkeeper && (stats.goalsScored ?? 0) === 0 && (
+        {!stats.isGk && stats.goalsScored === 0 && (
           <div className="mt-5 p-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 flex items-center gap-2 text-xs font-mono text-zinc-600 dark:text-zinc-400">
             <AlertCircle size={16} className="shrink-0 text-accent" />
             <span>Sem golos registados nas súmulas oficiais da presente temporada até à data.</span>
@@ -328,7 +334,7 @@ export default function PlayerAdvancedStats({
 
       {/* ── Painéis de Indicadores de Rendimento Competitivo ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {isGoalkeeper ? (
+        {stats.isGk ? (
           <>
             {/* GK Card 1: Eficácia de Baliza */}
             <AnimatedCard variant="hud" className="p-5 bg-white/60 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 flex flex-col justify-between">
