@@ -22,6 +22,7 @@ import AnimatedCard from '@/components/ui/AnimatedCard';
 import { ROUTES } from '@/lib/routes';
 import { useFifaConnectAccess } from '@/lib/use-fifa-connect-access';
 import { shown } from '@/lib/display';
+import PlayerAdvancedStats from '@/components/player/PlayerAdvancedStats';
 
 // Etiqueta de transparência: dados simulados, não oficiais.
 function DemoBadge() {
@@ -284,65 +285,65 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
 }
 
 // ── ABA 2: Estatísticas Detalhadas ──────────
-function StatsTab({ player }: { player: Player }) {
-  // O portal ainda não recebe métricas avançadas oficiais por atleta.
-  // Até essa integração existir, mostra apenas totais editoriais confirmados.
+function StatsTab({ player, team }: { player: Player; team?: Team }) {
+  // O portal ainda não recebe métricas avançadas oficiais de tracking por atleta (ratings simulados).
   const hasOfficialAdvancedPlayerMetrics = false;
-  if (!hasOfficialAdvancedPlayerMetrics || !player.statsVerified) {
-    const yellowCards = player.detailedStats?.yellowCards ?? 0;
-    const redCards = player.detailedStats?.redCards ?? 0;
-    // Minutos em campo derivados das escalações e substituições oficiais.
-    const seasonMinutes = getPlayerSeasonMinutes(player.id);
-    const isGoalkeeper = player.position.toLowerCase().includes('guarda');
-    const keeperStats = isGoalkeeper
-      ? getCurrentSeasonCleanSheets().find((row) => row.id === player.id)
-      : undefined;
-    const keeperAppearances = keeperStats?.appearances ?? player.appearances;
-    const confirmedStats = isGoalkeeper
-      ? [
-          { label: 'Jogos na baliza', value: keeperAppearances },
-          { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
-          { label: 'Balizas limpas', value: keeperStats?.cleanSheets ?? 0 },
-          { label: 'Golos sofridos', value: keeperStats?.goalsConceded ?? 0 },
-          { label: 'Sofridos por jogo', value: keeperAppearances ? ((keeperStats?.goalsConceded ?? 0) / keeperAppearances).toFixed(2) : '—' },
-          { label: 'Eficácia sem sofrer', value: keeperAppearances ? `${Math.round(((keeperStats?.cleanSheets ?? 0) / keeperAppearances) * 100)}%` : '—' },
-          ...(player.goals > 0 ? [{ label: 'Golos marcados', value: player.goals }] : []),
-          { label: 'Cartões amarelos', value: yellowCards },
-          { label: 'Cartões vermelhos', value: redCards },
-        ]
-      : [
-          { label: 'Jogos', value: player.appearances },
-          { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
-          { label: 'Golos', value: player.goals },
-          { label: 'Assistências', value: player.assists },
-          { label: 'Golos por jogo', value: (player.goals / (player.appearances || 1)).toFixed(2) },
-          { label: 'Participações em golo', value: player.goals + player.assists },
-          { label: 'Cartões amarelos', value: yellowCards },
-          { label: 'Cartões vermelhos', value: redCards },
-        ];
+  const yellowCards = player.detailedStats?.yellowCards ?? 0;
+  const redCards = player.detailedStats?.redCards ?? 0;
+  // Minutos em campo derivados das escalações e substituições oficiais.
+  const seasonMinutes = getPlayerSeasonMinutes(player.id);
+  const isGoalkeeper = player.position.toLowerCase().includes('guarda');
+  const keeperStats = isGoalkeeper
+    ? getCurrentSeasonCleanSheets().find((row) => row.id === player.id)
+    : undefined;
+  const keeperAppearances = keeperStats?.appearances ?? player.appearances;
+  const confirmedStats = isGoalkeeper
+    ? [
+        { label: 'Jogos na baliza', value: keeperAppearances },
+        { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
+        { label: 'Balizas limpas', value: keeperStats?.cleanSheets ?? 0 },
+        { label: 'Golos sofridos', value: keeperStats?.goalsConceded ?? 0 },
+        { label: 'Sofridos por jogo', value: keeperAppearances ? ((keeperStats?.goalsConceded ?? 0) / keeperAppearances).toFixed(2) : '—' },
+        { label: 'Eficácia sem sofrer', value: keeperAppearances ? `${Math.round(((keeperStats?.cleanSheets ?? 0) / keeperAppearances) * 100)}%` : '—' },
+        ...(player.goals > 0 ? [{ label: 'Golos marcados', value: player.goals }] : []),
+        { label: 'Cartões amarelos', value: yellowCards },
+        { label: 'Cartões vermelhos', value: redCards },
+      ]
+    : [
+        { label: 'Jogos', value: player.appearances },
+        { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
+        { label: 'Golos', value: player.goals },
+        { label: 'Assistências', value: player.assists },
+        { label: 'Golos por jogo', value: (player.goals / (player.appearances || 1)).toFixed(2) },
+        { label: 'Participações em golo', value: player.goals + player.assists },
+        { label: 'Cartões amarelos', value: yellowCards },
+        { label: 'Cartões vermelhos', value: redCards },
+      ];
 
-    return (
-      <div className="space-y-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {confirmedStats.map((stat) => (
-            <div key={stat.label} className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-5 rounded-2xl text-center">
-              <span className="font-display text-3xl font-black text-foreground">{stat.value}</span>
-              <span className="block mt-1 text-[9px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</span>
-            </div>
-          ))}
-        </div>
-        <div className="p-6 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start">
-          <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={18} />
-          <p className="text-xs text-zinc-500">
-            Os minutos em campo são calculados a partir das escalações e das substituições das fichas oficiais.
-            {isGoalkeeper
-              ? ' Balizas limpas e golos sofridos usam apenas jogos com escalação oficial que identifica o guarda-redes titular.'
-              : ' Ratings, posse, precisão de passe, duelos e remates serão apresentados apenas quando forem publicados nessas fichas.'}
-          </p>
-        </div>
+  return (
+    <div className="space-y-6">
+      {/* Resumo de Indicadores Principais */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {confirmedStats.map((stat) => (
+          <div key={stat.label} className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-5 rounded-2xl text-center">
+            <span className="font-display text-3xl font-black text-foreground">{stat.value}</span>
+            <span className="block mt-1 text-[9px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</span>
+          </div>
+        ))}
       </div>
-    );
-  }
+
+      {/* Análise Avançada da Época */}
+      <PlayerAdvancedStats player={player} team={team} />
+
+      <div className="p-4 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start">
+        <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={16} />
+        <p className="text-xs text-zinc-500 font-mono">
+          Os minutos em campo, golos por intervalo, balizas limpas e rácios de rendimento são calculados a partir das escalações, cronologia de substituições e ocorrências das súmulas oficiais da competição.
+        </p>
+      </div>
+    </div>
+  );
+}
 
   const ratings = getPlayerRatings(player);
   const recent = getRecentRatings(player);
@@ -837,7 +838,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
           exit={{ opacity: 0, x: -16 }}
           transition={{ duration: 0.25 }}
         >
-          {visibleActiveTab === 'estatisticas' && <StatsTab player={player} />}
+          {visibleActiveTab === 'estatisticas' && <StatsTab player={player} team={team} />}
           {canAccessFifaConnect && visibleActiveTab === 'fifaconnect' && <FifaConnectTab player={player} />}
           {visibleActiveTab === 'perfil' && (
       /* Grid Layout */
