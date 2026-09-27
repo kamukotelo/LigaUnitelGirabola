@@ -3039,7 +3039,8 @@ export function getMatchesByTeam(teamId: string, seasonId = UPCOMING_SEASON_ID):
  * Considera a maior jornada que já arrancou (jogos realizados ou em direto).
  * Se todos os jogos dessa jornada já terminaram, avança para a próxima jornada.
  * Jogos isolados adiados de jornadas anteriores (acertos de calendário) não
- * puxam o calendário para trás.
+ * puxam o calendário para trás, incluindo o jogo em atraso da própria jornada
+ * quando foi remarcado para depois do início da jornada seguinte.
  */
 export function getActiveSeasonRound(matches: Match[]): number {
   const rounds = Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b);
@@ -3050,13 +3051,25 @@ export function getActiveSeasonRound(matches: Match[]): number {
 
   const maxStartedRound = Math.max(...startedMatches.map((m) => m.round));
   const maxStartedMatches = matches.filter((m) => m.round === maxStartedRound);
-  const hasPendingInMaxStarted = maxStartedMatches.some((m) => m.status !== 'finished');
+  const nextRound = rounds.find((r) => r > maxStartedRound);
+
+  // Um jogo em atraso remarcado para depois do arranque da jornada seguinte
+  // não prende o site nessa jornada: só conta como pendente se estiver em
+  // direto ou marcado antes do primeiro jogo da próxima jornada.
+  const nextRoundStart = nextRound === undefined
+    ? Infinity
+    : Math.min(...matches.filter((m) => m.round === nextRound).map((m) => new Date(m.date).getTime()));
+  const hasPendingInMaxStarted = maxStartedMatches.some((m) => {
+    if (m.status === 'finished') return false;
+    if (m.status === 'live') return true;
+    const kickoff = new Date(m.date).getTime();
+    return Number.isNaN(kickoff) || kickoff < nextRoundStart;
+  });
 
   if (hasPendingInMaxStarted) {
     return maxStartedRound;
   }
 
-  const nextRound = rounds.find((r) => r > maxStartedRound);
   return nextRound ?? maxStartedRound;
 }
 
