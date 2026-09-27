@@ -3035,14 +3035,26 @@ export function getMatchesByTeam(teamId: string, seasonId = UPCOMING_SEASON_ID):
 }
 
 /**
+ * Um jogo por disputar cuja hora passou há mais do que isto sem resultado
+ * lançado é tratado como jogo em atraso: não prende o site nessa jornada.
+ */
+export const STALE_SCHEDULED_MATCH_MS = 12 * 60 * 60 * 1000;
+
+/**
  * Determina a jornada atualmente ativa / em curso de uma época.
  * Considera a maior jornada que já arrancou (jogos realizados ou em direto).
  * Se todos os jogos dessa jornada já terminaram, avança para a próxima jornada.
- * Jogos isolados adiados de jornadas anteriores (acertos de calendário) não
- * puxam o calendário para trás, incluindo o jogo em atraso da própria jornada
- * quando foi remarcado para depois do início da jornada seguinte.
+ *
+ * Um jogo por disputar só mantém a jornada ativa se estiver em direto, ou se
+ * estiver marcado para antes do arranque da jornada seguinte e ainda não tiver
+ * passado a hora há mais de STALE_SCHEDULED_MATCH_MS. Assim, nenhum jogo em
+ * atraso prende o site numa jornada que já passou:
+ *  - jogo marcado como adiado (`postponed`), com ou sem nova data;
+ *  - jogo remarcado para depois do início da jornada seguinte;
+ *  - jogo cuja hora já passou sem resultado lançado.
+ * Coberto por scripts/test-active-round.mts (corre no build).
  */
-export function getActiveSeasonRound(matches: Match[]): number {
+export function getActiveSeasonRound(matches: Match[], now: number = Date.now()): number {
   const rounds = Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b);
   if (rounds.length === 0) return 1;
 
@@ -3053,17 +3065,20 @@ export function getActiveSeasonRound(matches: Match[]): number {
   const maxStartedMatches = matches.filter((m) => m.round === maxStartedRound);
   const nextRound = rounds.find((r) => r > maxStartedRound);
 
-  // Um jogo em atraso remarcado para depois do arranque da jornada seguinte
-  // não prende o site nessa jornada: só conta como pendente se estiver em
-  // direto ou marcado antes do primeiro jogo da próxima jornada.
-  const nextRoundStart = nextRound === undefined
-    ? Infinity
-    : Math.min(...matches.filter((m) => m.round === nextRound).map((m) => new Date(m.date).getTime()));
+  const kickoffOf = (m: Match) => new Date(m.date).getTime();
+  const nextRoundKickoffs = matches
+    .filter((m) => m.round === nextRound && !m.postponed)
+    .map(kickoffOf)
+    .filter((t) => !Number.isNaN(t));
+  const nextRoundStart = nextRoundKickoffs.length > 0 ? Math.min(...nextRoundKickoffs) : Infinity;
+
   const hasPendingInMaxStarted = maxStartedMatches.some((m) => {
     if (m.status === 'finished') return false;
     if (m.status === 'live') return true;
-    const kickoff = new Date(m.date).getTime();
-    return Number.isNaN(kickoff) || kickoff < nextRoundStart;
+    if (m.postponed) return false;
+    const kickoff = kickoffOf(m);
+    if (Number.isNaN(kickoff)) return false;
+    return kickoff < nextRoundStart && now - kickoff < STALE_SCHEDULED_MATCH_MS;
   });
 
   if (hasPendingInMaxStarted) {
