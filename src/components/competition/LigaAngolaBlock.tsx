@@ -10,7 +10,6 @@ import {
   getOfficialCommunications,
   isOfficialCommunication,
   getMatchBroadcast,
-  getMatchesForSeason,
   isMatchDateOfficial,
   PREVIOUS_SEASON_ID,
   UPCOMING_SEASON_ID,
@@ -35,18 +34,17 @@ const OFFICIAL_PARTNERS = [
   { name: 'CHDCP', logo: '/partners/chdcp.png', scale: 'scale-[1.5]' },
 ] as const;
 
-function getDefaultRoundForSeason(seasonId: string) {
-  const matches = getMatchesForSeason(seasonId);
-  return getActiveSeasonRound(matches);
-}
-
 export default function LigaAngolaBlock() {
   // ─── STATE FOR JOGOS (MATCHES) SWITCHER ───
   const [selectedSeasonId, setSelectedSeasonId] = useState<string>(UPCOMING_SEASON_ID);
-  const [currentRound, setCurrentRound] = useState<number>(() => getDefaultRoundForSeason(UPCOMING_SEASON_ID));
-
-  // A mesma fonte oficial consumida pela página Calendário.
+  // A mesma fonte oficial consumida pela página Calendário. A jornada por
+  // defeito acompanha esse calendário (que inclui as edições do admin); só a
+  // escolha explícita do utilizador a sobrepõe.
   const { matches: seasonMatches } = useOfficialCalendar(selectedSeasonId);
+  const defaultRound = useMemo(() => getActiveSeasonRound(seasonMatches), [seasonMatches]);
+  const [userRound, setUserRound] = useState<number | null>(null);
+  const currentRound = userRound ?? defaultRound;
+  const setCurrentRound = (round: number) => setUserRound(round);
   const matchesByRound = seasonMatches
     .filter((m) => m.round === currentRound)
     .sort((a, b) => {
@@ -57,7 +55,7 @@ export default function LigaAngolaBlock() {
 
   const selectSeason = (seasonId: string) => {
     setSelectedSeasonId(seasonId);
-    setCurrentRound(getDefaultRoundForSeason(seasonId));
+    setUserRound(null);
   };
 
   // ─── STATE FOR STANDINGS (CLASSIFICAÇÃO) ───
