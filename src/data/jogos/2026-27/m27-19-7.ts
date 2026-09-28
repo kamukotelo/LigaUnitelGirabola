@@ -6,5 +6,6 @@ export default defineMatch({
   round: 19,
   homeTeamId: 'lobito',
   awayTeamId: 'interclube',
-  schedule: { date: '2027-02-20T14:00:00+00:00', stadium: 'Estádio do Buraco', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-20T14:00:00+00:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'provisional' },
+  // A Académica recebe no Estádio Nacional de Ombaka (indicação de 28/09/2026).
 });
