@@ -6,7 +6,6 @@ export default defineMatch({
   round: 9,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'fcluanda',
-  schedule: { date: '2026-11-01T15:30:00+01:00', stadium: 'Estádio Municipal de Benguela', scheduleStatus: 'official', broadcaster: 'Zsports' },
-  // O 1.º de Maio recebe no Estádio Municipal de Benguela (indicação de 28/09/2026),
-  // não no Estádio de São Filipe do calendário publicado.
+  schedule: { date: '2026-11-01T15:30:00+01:00', stadium: 'Estádio Edelfride Miau', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

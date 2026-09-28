@@ -6,5 +6,6 @@ export default defineMatch({
   round: 3,
   homeTeamId: 'sagrada',
   awayTeamId: 'kabuscorp',
-  schedule: { date: '2026-10-07T16:00:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official' },
+  schedule: { date: '2026-10-07T16:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official' },
+  // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

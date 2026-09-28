@@ -6,5 +6,6 @@ export default defineMatch({
   round: 14,
   homeTeamId: 'libolo',
   awayTeamId: 'kabuscorp',
-  schedule: { date: '2026-12-12T14:00:00+00:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-12T14:00:00+00:00', stadium: 'Estádio Mário Pacheco', scheduleStatus: 'provisional' },
+  // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

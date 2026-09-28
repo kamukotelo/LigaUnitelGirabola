@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, Calendar, Clock, AlertTriangle, ShieldCheck, Trash2, CheckCircle2, Loader2, Save } from 'lucide-react';
-import { TEAMS, type Match } from '@/lib/data';
+import { TEAMS, OFFICIAL_STADIUMS_2026_27, type Match } from '@/lib/data';
 
 interface EditMatchModalProps {
   isOpen: boolean;
@@ -14,27 +14,8 @@ interface EditMatchModalProps {
   onDelete?: (matchId: string) => Promise<void>;
 }
 
-const OFFICIAL_STADIUMS = [
-  'Estádio 22 de Junho',
-  'Estádio do Sagrada Esperança',
-  'Estádio França Ndalu',
-  'Estádio 11 de Novembro',
-  'Estádio Municipal de Benguela',
-  'Estádio Álvaro Buta',
-  'Estádio da Tundavala',
-  'Estádio dos Coqueiros',
-  'Estádio do Santos',
-  'Estádio do Buraco',
-  'Estádio Daniel Lutucuta',
-  'Estádio Mártires da Canhala',
-  'Estádio Mundunduleno',
-  'Estádio do Tafe',
-  'Estádio 1.º de Maio',
-  'Estádio Comandante Jones Kufuna Yembe',
-  'Estádio 4 de Janeiro',
-  'Estádio Vici António',
-  'Estádio do Ferroviário',
-];
+// Só os estádios da lista oficial das equipas (src/lib/data.ts).
+const OFFICIAL_STADIUMS = OFFICIAL_STADIUMS_2026_27;
 
 export default function EditMatchModal({
   isOpen,
@@ -86,7 +67,7 @@ export default function EditMatchModal({
 
       setHomeTeamId(match.homeTeamId);
       setAwayTeamId(match.awayTeamId);
-      setStadium(match.stadium || OFFICIAL_STADIUMS[0]);
+      setStadium(OFFICIAL_STADIUMS.includes(match.stadium) ? match.stadium : '');
       setTimeZone('(UTC+1) Africa/Luanda');
       setError(null);
       setShowDeleteConfirm(false);
@@ -337,19 +318,17 @@ export default function EditMatchModal({
               <label className="absolute -top-2 left-3 bg-white dark:bg-zinc-900 px-1 text-[10px] font-mono text-zinc-500">
                 Instalações
               </label>
-              <input
-                list="stadiums-list"
-                type="text"
+              <select
+                required
                 value={stadium}
                 onChange={(e) => setStadium(e.target.value)}
-                placeholder="Selecione ou introduza o estádio"
                 className="w-full h-11 px-3 bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm font-medium focus:border-blue-600 focus:outline-none"
-              />
-              <datalist id="stadiums-list">
+              >
+                {!OFFICIAL_STADIUMS.includes(stadium) && <option value="">Selecione o estádio</option>}
                 {OFFICIAL_STADIUMS.map((st) => (
-                  <option key={st} value={st} />
+                  <option key={st} value={st}>{st}</option>
                 ))}
-              </datalist>
+              </select>
             </div>
           </div>
 

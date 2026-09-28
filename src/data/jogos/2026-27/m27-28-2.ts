@@ -6,5 +6,6 @@ export default defineMatch({
   round: 28,
   homeTeamId: 'libolo',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2027-05-01T14:00:00+00:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-05-01T14:00:00+00:00', stadium: 'Estádio Mário Pacheco', scheduleStatus: 'provisional' },
+  // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

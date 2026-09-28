@@ -6,5 +6,6 @@ export default defineMatch({
   round: 24,
   homeTeamId: 'cabinda',
   awayTeamId: 'wiliete',
-  schedule: { date: '2027-04-03T14:00:00+00:00', stadium: 'Estádio Vici António', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-03T14:00:00+00:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'provisional' },
+  // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

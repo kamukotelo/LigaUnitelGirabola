@@ -5,7 +5,7 @@ import {
   CheckCircle2, Loader2, FileDown, AlertTriangle, Users, Crown, CalendarClock,
   ShieldCheck, ListChecks, ClipboardPen, History, Plus, Trash2, Save, Trophy,
 } from 'lucide-react';
-import { getMatchesForSeason, UPCOMING_SEASON_ID } from '@/lib/data';
+import { getMatchesForSeason, OFFICIAL_STADIUMS_2026_27, UPCOMING_SEASON_ID } from '@/lib/data';
 
 type SlotPosition = 'GK' | 'DEF' | 'MID' | 'FWD';
 
@@ -386,7 +386,7 @@ function OperationsEditor({ matchId, tab, teamNames }: { matchId: string; tab: O
         <div className={panelClass('space-y-5')}>
           <div className="grid gap-4 md:grid-cols-2">
             <Field label="Data e hora (Africa/Luanda)"><input type="datetime-local" value={data.match.date.slice(0, 16)} onChange={(e) => patchMatch({ date: `${e.target.value}:00+01:00` })} className={inputClass} /></Field>
-            <Field label="Estádio"><input value={data.match.stadium} onChange={(e) => patchMatch({ stadium: e.target.value })} className={inputClass} /></Field>
+            <Field label="Estádio"><select value={OFFICIAL_STADIUMS_2026_27.includes(data.match.stadium) ? data.match.stadium : ''} onChange={(e) => patchMatch({ stadium: e.target.value })} className={inputClass}>{!OFFICIAL_STADIUMS_2026_27.includes(data.match.stadium) && <option value="">Selecione o estádio</option>}{OFFICIAL_STADIUMS_2026_27.map((st) => <option key={st} value={st}>{st}</option>)}</select></Field>
             <Field label="Estado"><select value={data.match.status} onChange={(e) => patchMatch({ status: e.target.value as OperationsData['match']['status'] })} className={inputClass}><option value="scheduled">Programado</option><option value="live">Em direto</option><option value="finished">Terminado</option></select></Field>
             <Field label="Transmissão"><input value={data.match.broadcaster} onChange={(e) => patchMatch({ broadcaster: e.target.value })} className={inputClass} placeholder="Ex.: ZSports" /></Field>
             <Field label="Espectadores"><input type="number" min="0" value={data.match.attendance} onChange={(e) => patchMatch({ attendance: Number(e.target.value) })} className={inputClass} /></Field>
