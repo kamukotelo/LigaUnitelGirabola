@@ -8,7 +8,7 @@ export default defineMatch({
   awayTeamId: 'petro',
   // Adiado por condições meteorológicas e remarcado para o dia seguinte, no
   // mesmo estádio e horário (Comunicado Oficial 007-DCE/ANCAF/2026).
-  schedule: { date: '2026-09-17T15:30:00+01:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-09-17T15:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 0, awayScore: 1, halfTimeScore: '0-1', updatedAt: '2026-09-18T10:05:00+01:00' },
   officials: {
     referee: 'Nelson João Milagre',

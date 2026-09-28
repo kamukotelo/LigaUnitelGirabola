@@ -7,7 +7,7 @@ export default defineMatch({
   round: 5,
   homeTeamId: 'kabuscorp',
   awayTeamId: 'interclube',
-  schedule: { date: '2026-09-20T15:00:00+01:00', stadium: 'Estádio França Ndalu', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-09-20T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-09-20T18:05:00+01:00' },
   // Relatório do Árbitro n.º 39 (20/09/2026). A ficha só traz a convocatória do
   // Kabuscorp; o GD Interclube ainda não tinha jogadores inscritos no relatório.

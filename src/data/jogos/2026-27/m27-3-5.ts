@@ -6,7 +6,7 @@ export default defineMatch({
   round: 3,
   homeTeamId: 'bravos',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2026-09-06T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official' },
+  schedule: { date: '2026-09-06T15:00:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 0, awayScore: 1, halfTimeScore: '0-1', updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['Evandro Henrique Freitas da Rocha', 'Flávio Luís Cadete Dias'], fourth: 'João Chipombe', commissioner: 'Rodrigues Aleixo César' },
   events: [

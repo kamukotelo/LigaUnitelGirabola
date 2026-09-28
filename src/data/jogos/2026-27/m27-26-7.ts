@@ -6,5 +6,5 @@ export default defineMatch({
   round: 26,
   homeTeamId: 'sagrada',
   awayTeamId: 'wiliete',
-  schedule: { date: '2027-04-17T14:00:00+00:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-17T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

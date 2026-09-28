@@ -9,7 +9,7 @@ export default defineMatch({
   round: 4,
   homeTeamId: 'cabinda',
   awayTeamId: 'dago',
-  schedule: { date: '2026-09-09T15:00:00+01:00', stadium: 'Estádio França Ndalu', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-09-09T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-0', updatedAt: '2026-09-10T12:08:00+01:00' },
   officials: { referee: 'António Caluassi Dungula', assistants: ['Victorino Nangolo Dungula', 'Zacarias Chivanja Calembe'], fourth: 'Aldair Quissanga Rodrigues Carmelino', commissioner: 'Alfredo João' },
   coaches: { home: 'Luciano Capoco', away: 'Filipe Nanza' },

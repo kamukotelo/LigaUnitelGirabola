@@ -6,5 +6,5 @@ export default defineMatch({
   round: 20,
   homeTeamId: 'interclube',
   awayTeamId: 'kabuscorp',
-  schedule: { date: '2027-02-27T14:00:00+00:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-27T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

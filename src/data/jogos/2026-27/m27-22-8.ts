@@ -6,5 +6,5 @@ export default defineMatch({
   round: 22,
   homeTeamId: 'interclube',
   awayTeamId: 'libolo',
-  schedule: { date: '2027-03-13T14:00:00+00:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-03-13T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

@@ -6,7 +6,7 @@ export default defineMatch({
   round: 1,
   homeTeamId: 'fcluanda',
   awayTeamId: 'caala',
-  schedule: { date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official' },
+  schedule: { date: '2026-08-23T15:00:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', attendance: 1500, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Gilberto Bernardino Kativa', assistants: ['Estanislau Guedes Tavares Muluta Prata', 'Jeremias Sessenta Cafussa'], fourth: 'Aldair Quissanga Rodrigues Carmelino' },
   events: [

@@ -7,7 +7,7 @@ export default defineMatch({
   round: 1,
   homeTeamId: 'cabinda',
   awayTeamId: 'libolo',
-  schedule: { date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Vici António', scheduleStatus: 'official' },
+  schedule: { date: '2026-08-22T15:00:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 0, awayScore: 3, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Laurindo Feliciano Aureleo' },
   coaches: { home: 'Luciano Capoco', away: 'Osvaldo Roque' },

@@ -7,7 +7,7 @@ export default defineMatch({
   round: 3,
   homeTeamId: 'petro',
   awayTeamId: 'libolo',
-  schedule: { date: '2026-08-26T16:30:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-08-26T16:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 3, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Bernardo Mário', assistants: ['João António', 'António Miguel'], fourth: 'Sabino De Carvalho' },
   coaches: { home: 'João Pedro Sousa', away: 'Osvaldo Roque' },

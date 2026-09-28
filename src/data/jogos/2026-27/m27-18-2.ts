@@ -6,5 +6,5 @@ export default defineMatch({
   round: 18,
   homeTeamId: 'wiliete',
   awayTeamId: 'desphuila',
-  schedule: { date: '2027-02-13T14:00:00+00:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-13T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

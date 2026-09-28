@@ -6,5 +6,5 @@ export default defineMatch({
   round: 19,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'libolo',
-  schedule: { date: '2027-02-20T14:00:00+00:00', stadium: 'Estádio de São Filipe', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-20T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

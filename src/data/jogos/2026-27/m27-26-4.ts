@@ -6,5 +6,5 @@ export default defineMatch({
   round: 26,
   homeTeamId: 'dago',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2027-04-17T14:00:00+00:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-17T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

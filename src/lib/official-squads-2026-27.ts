@@ -493,9 +493,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
     "club": "Wiliete de Benguela",
     "players": [
       {
-        "name": "JOÃO VALONGA BASILIO BARROS",
-        "fullName": "JOÃO VALONGA BASILIO BARROS",
-        "popularName": "",
+        "name": "Nelo",
+        "fullName": "João Valonga Basilio Barros",
+        "popularName": "Nelo",
         "maId": "000647M02",
         "fifaId": "1JZ4N21",
         "gender": "MALE",
@@ -505,9 +505,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "26"
       },
       {
-        "name": "AUGUSTO MANUEL BALSA",
-        "fullName": "AUGUSTO MANUEL BALSA",
-        "popularName": "",
+        "name": "Balsa",
+        "fullName": "Augusto Manuel Balsa",
+        "popularName": "Balsa",
         "maId": "000320M00",
         "fifaId": "1JJFIJ0",
         "gender": "MALE",
@@ -517,9 +517,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "15"
       },
       {
-        "name": "SILVA HINÁRIO ANTÓNIO",
-        "fullName": "SILVA HINÁRIO ANTÓNIO",
-        "popularName": "",
+        "name": "Silva",
+        "fullName": "Silva Hinário António",
+        "popularName": "Silva",
         "maId": "002281M98",
         "fifaId": "1LJZ6E0",
         "gender": "MALE",
@@ -529,9 +529,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "3"
       },
       {
-        "name": "Lukman Idowu Bello",
+        "name": "Bello",
         "fullName": "Lukman Idowu Bello",
-        "popularName": "",
+        "popularName": "Bello",
         "maId": "007235M02",
         "fifaId": "1SN8AC3",
         "gender": "MALE",
@@ -541,9 +541,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "18"
       },
       {
-        "name": "ARMINDO GONÇALVES CANJI",
-        "fullName": "ARMINDO GONÇALVES CANJI",
-        "popularName": "",
+        "name": "Mindinho",
+        "fullName": "Armindo Gonçalves Canji",
+        "popularName": "Mindinho",
         "maId": "000401M04",
         "fifaId": "1JRU7C5",
         "gender": "MALE",
@@ -553,9 +553,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "10"
       },
       {
-        "name": "Carlos Cassissi",
+        "name": "Igui",
         "fullName": "Carlos Cassissi",
-        "popularName": "",
+        "popularName": "Igui",
         "maId": "008144M06",
         "fifaId": "1UQNV32",
         "gender": "MALE",
@@ -565,9 +565,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "24"
       },
       {
-        "name": "GIOVANI CHIPOPOLO",
-        "fullName": "GIOVANI CHIPOPOLO",
-        "popularName": "",
+        "name": "Giovani",
+        "fullName": "Giovani Chipopolo",
+        "popularName": "Giovani",
         "maId": "000544M99",
         "fifaId": "1JWU6Z0",
         "gender": "MALE",
@@ -577,9 +577,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "17"
       },
       {
-        "name": "ANTÓNIO MULE CHITONGO",
-        "fullName": "ANTÓNIO MULE CHITONGO",
-        "popularName": "",
+        "name": "Mule",
+        "fullName": "António Mule Chitongo",
+        "popularName": "Mule",
         "maId": "001123M99",
         "fifaId": "1K39NK6",
         "gender": "MALE",
@@ -589,9 +589,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "8"
       },
       {
-        "name": "Francisco Cubuema Matoco",
+        "name": "Macaiabo",
         "fullName": "Francisco Cubuema Matoco",
-        "popularName": "",
+        "popularName": "Macaiabo",
         "maId": "000888M00",
         "fifaId": "1K1JSJ8",
         "gender": "MALE",
@@ -601,9 +601,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "16"
       },
       {
-        "name": "ELBER DELGADO",
-        "fullName": "ELBER DELGADO",
-        "popularName": "",
+        "name": "Elber",
+        "fullName": "Elber Delgado",
+        "popularName": "Elber",
         "maId": "000325M91",
         "fifaId": "1JM7Y97",
         "gender": "MALE",
@@ -613,9 +613,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "31"
       },
       {
-        "name": "FILOMENO PINHEIRO ALBERTO GILOSO",
-        "fullName": "FILOMENO PINHEIRO ALBERTO GILOSO",
-        "popularName": "",
+        "name": "Filó",
+        "fullName": "Filomeno Pinheiro Alberto Giloso",
+        "popularName": "Filó",
         "maId": "003650M05",
         "fifaId": "1NI87H8",
         "gender": "MALE",
@@ -625,9 +625,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "21"
       },
       {
-        "name": "Nayan Gomes",
+        "name": "Nayan",
         "fullName": "Nayan Gomes",
-        "popularName": "",
+        "popularName": "Nayan",
         "maId": "004505M99",
         "fifaId": "1PKWT84",
         "gender": "MALE",
@@ -637,9 +637,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "1"
       },
       {
-        "name": "Cesar Cangui Uvi Jeremias",
+        "name": "César Cangué",
         "fullName": "Cesar Cangui Uvi Jeremias",
-        "popularName": "",
+        "popularName": "César Cangué",
         "maId": "001110M03",
         "fifaId": "1K36HF0",
         "gender": "MALE",
@@ -649,9 +649,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "34"
       },
       {
-        "name": "RODINO DUMBO JOSE",
-        "fullName": "RODINO DUMBO JOSE",
-        "popularName": "",
+        "name": "Ning",
+        "fullName": "Rodino Dumbo José",
+        "popularName": "Ning",
         "maId": "000540M95",
         "fifaId": "1JWU0L8",
         "gender": "MALE",
@@ -661,9 +661,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "25"
       },
       {
-        "name": "Emanoel Júnior",
+        "name": "Júnior Goiano",
         "fullName": "Emanoel Júnior",
-        "popularName": "",
+        "popularName": "Júnior Goiano",
         "maId": "004709M98",
         "fifaId": "1PNMJ53",
         "gender": "MALE",
@@ -673,9 +673,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "27"
       },
       {
-        "name": "DANIEL ARTUR KAKA",
-        "fullName": "DANIEL ARTUR KAKA",
-        "popularName": "",
+        "name": "Kaká",
+        "fullName": "Daniel Artur Kaká",
+        "popularName": "Kaká",
         "maId": "001293M03",
         "fifaId": "1L05V38",
         "gender": "MALE",
@@ -694,12 +694,12 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "birthDate": "21/05/2007",
         "nationality": "Angola",
         "position": "MF",
-        "jerseyNumber": "20"
+        "jerseyNumber": ""
       },
       {
-        "name": "ARÃO MANUEL LOLOGI",
-        "fullName": "ARÃO MANUEL LOLOGI",
-        "popularName": "",
+        "name": "Wiwi",
+        "fullName": "Arão Manuel Lologi",
+        "popularName": "Wiwi",
         "maId": "000461M93",
         "fifaId": "1JSRPL0",
         "gender": "MALE",
@@ -709,9 +709,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "5"
       },
       {
-        "name": "ZEFERINO VENANCIO LUSSATI",
-        "fullName": "ZEFERINO VENANCIO LUSSATI",
-        "popularName": "",
+        "name": "Quare",
+        "fullName": "Zeferino Venancio Lussati",
+        "popularName": "Quare",
         "maId": "001233M99",
         "fifaId": "1KZR1V5",
         "gender": "MALE",
@@ -721,9 +721,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "33"
       },
       {
-        "name": "VALTER MANUEL MONTEIRO",
-        "fullName": "VALTER MANUEL MONTEIRO",
-        "popularName": "",
+        "name": "Walter Monteiro",
+        "fullName": "Valter Manuel Monteiro",
+        "popularName": "Walter Monteiro",
         "maId": "000412M05",
         "fifaId": "1JRV1H9",
         "gender": "MALE",
@@ -733,9 +733,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "35"
       },
       {
-        "name": "Guilherme Neto",
+        "name": "Guilherme",
         "fullName": "Guilherme Neto",
-        "popularName": "",
+        "popularName": "Guilherme",
         "maId": "005349M93",
         "fifaId": "1PU18X2",
         "gender": "MALE",
@@ -745,9 +745,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "4"
       },
       {
-        "name": "Camilo Mbule Ngongue",
+        "name": "Bito",
         "fullName": "Camilo Mbule Ngongue",
-        "popularName": "",
+        "popularName": "Bito",
         "maId": "000417M01",
         "fifaId": "1JRXS05",
         "gender": "MALE",
@@ -757,7 +757,7 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "28"
       },
       {
-        "name": "Cristovão Paciência",
+        "name": "Mabululu",
         "fullName": "Cristovão Paciência",
         "popularName": "Mabululu",
         "maId": "008897M92",
@@ -769,9 +769,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "9"
       },
       {
-        "name": "JORGE MENDES CORTE REAL CARNEIRO",
-        "fullName": "JORGE MENDES CORTE REAL CARNEIRO",
-        "popularName": "",
+        "name": "Karanga",
+        "fullName": "Jorge Mendes Corte Real Carneiro",
+        "popularName": "Karanga",
         "maId": "000448M92",
         "fifaId": "1JSJBH0",
         "gender": "MALE",
@@ -781,9 +781,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "7"
       },
       {
-        "name": "TEODORO EDVALDO RITA TCHISSINGUI",
-        "fullName": "TEODORO EDVALDO RITA TCHISSINGUI",
-        "popularName": "",
+        "name": "Benny",
+        "fullName": "Teodoro Edvaldo Rita Tchissingui",
+        "popularName": "Benny",
         "maId": "000391M00",
         "fifaId": "1JRTUE9",
         "gender": "MALE",
@@ -793,9 +793,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "12"
       },
       {
-        "name": "Bocar Sidibé",
+        "name": "Sidibé",
         "fullName": "Bocar Sidibé",
-        "popularName": "",
+        "popularName": "Sidibé",
         "maId": "006176M04",
         "fifaId": "1QVFJM7",
         "gender": "MALE",
@@ -814,12 +814,12 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "birthDate": "05/02/2008",
         "nationality": "Angola",
         "position": "DF",
-        "jerseyNumber": "36"
+        "jerseyNumber": ""
       },
       {
-        "name": "Adriano Watchilala Tchombe",
+        "name": "Yano",
         "fullName": "Adriano Watchilala Tchombe",
-        "popularName": "",
+        "popularName": "Yano",
         "maId": "005385M06",
         "fifaId": "1PVXHT8",
         "gender": "MALE",
@@ -829,9 +829,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "13"
       },
       {
-        "name": "Gibele",
-        "fullName": "DEIVI MIGUEL VIEIRA",
-        "popularName": "Gibele",
+        "name": "Gibelé",
+        "fullName": "Deivi Miguel Vieira",
+        "popularName": "Gibelé",
         "maId": "000445M01",
         "fifaId": "1JSJ8T3",
         "gender": "MALE",
@@ -841,9 +841,9 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "jerseyNumber": "11"
       },
       {
-        "name": "CELIO ALBERTO JUNQUEIRA ZUA",
-        "fullName": "CELIO ALBERTO JUNQUEIRA ZUA",
-        "popularName": "",
+        "name": "Célio",
+        "fullName": "Célio Alberto Junqueira Zua",
+        "popularName": "Célio",
         "maId": "002755M03",
         "fifaId": "1M95S64",
         "gender": "MALE",
@@ -862,12 +862,12 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "birthDate": "26/07/2007",
         "nationality": "Angola",
         "position": "GK",
-        "jerseyNumber": "40"
+        "jerseyNumber": ""
       },
       {
-        "name": "Eduardo António Henrique capingana",
-        "fullName": "Eduardo António Henrique capingana",
-        "popularName": "",
+        "name": "Didi Craque",
+        "fullName": "Eduardo António Henrique Capingana",
+        "popularName": "Didi Craque",
         "maId": "003548M98",
         "fifaId": "1NDEMR2",
         "gender": "MALE",
@@ -875,6 +875,18 @@ export const OFFICIAL_SQUADS_2026_27 = [
         "nationality": "Angola",
         "position": "MF",
         "jerseyNumber": "2"
+      },
+      {
+        "name": "Janderson",
+        "fullName": "Janderson de Oliveira Maia",
+        "popularName": "Janderson",
+        "maId": "008898M94",
+        "fifaId": "1JAND06",
+        "gender": "MALE",
+        "birthDate": "14/01/1994",
+        "nationality": "Brazil",
+        "position": "MF",
+        "jerseyNumber": "6"
       }
     ],
     "staff": [

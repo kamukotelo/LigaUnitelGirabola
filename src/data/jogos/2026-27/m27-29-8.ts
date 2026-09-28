@@ -6,5 +6,5 @@ export default defineMatch({
   round: 29,
   homeTeamId: 'bravos',
   awayTeamId: 'fcluanda',
-  schedule: { date: '2027-05-08T14:00:00+00:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-05-08T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

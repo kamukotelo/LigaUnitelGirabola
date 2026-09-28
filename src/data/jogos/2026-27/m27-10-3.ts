@@ -6,5 +6,5 @@ export default defineMatch({
   round: 10,
   homeTeamId: 'libolo',
   awayTeamId: 'dago',
-  schedule: { date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-11-07T15:00:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
 });

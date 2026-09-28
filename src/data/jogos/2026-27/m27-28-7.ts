@@ -6,5 +6,5 @@ export default defineMatch({
   round: 28,
   homeTeamId: 'bravos',
   awayTeamId: 'desphuila',
-  schedule: { date: '2027-05-01T14:00:00+00:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-05-01T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

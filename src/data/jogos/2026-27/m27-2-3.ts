@@ -6,7 +6,7 @@ export default defineMatch({
   round: 2,
   homeTeamId: 'cabinda',
   awayTeamId: 'desphuila',
-  schedule: { date: '2026-08-26T15:30:00+01:00', stadium: 'Estádio Vici António', scheduleStatus: 'official' },
+  schedule: { date: '2026-08-26T15:30:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '1-1', updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Sanda Mateus Miguel Kitu', assistants: ['Natarino António Soares', 'Nelson Lutumba Quiala'], fourth: 'Regina Vita Ngola Catati Bernardo', commissioner: 'Júlio Gonçalves da Silva Lemos' },
   events: [

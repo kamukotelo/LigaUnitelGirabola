@@ -8,7 +8,7 @@ export default defineMatch({
   round: 4,
   homeTeamId: 'wiliete',
   awayTeamId: 'fcluanda',
-  schedule: { date: '2026-09-13T16:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official' },
+  schedule: { date: '2026-09-13T16:00:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 2, awayScore: 0, halfTimeScore: '2-0', updatedAt: '2026-09-13T18:05:00+01:00' },
   officials: { referee: 'Gilberto Bernardino Kativa', assistants: ['António Emiliano Livongue', 'Carlos Pereira Gabriel'], fourth: 'Nuno Eduardo Sumbo' },
   coaches: { home: 'Beto Bianchi', away: 'Rui Santos' },

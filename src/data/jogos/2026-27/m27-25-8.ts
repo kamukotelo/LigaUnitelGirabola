@@ -6,5 +6,5 @@ export default defineMatch({
   round: 25,
   homeTeamId: 'wiliete',
   awayTeamId: 'lundasul',
-  schedule: { date: '2027-04-10T14:00:00+00:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-10T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

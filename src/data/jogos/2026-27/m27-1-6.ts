@@ -7,7 +7,7 @@ export default defineMatch({
   round: 1,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'kabuscorp',
-  schedule: { date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio de São Filipe', scheduleStatus: 'official' },
+  schedule: { date: '2026-08-23T15:00:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-0', attendance: 2000, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Bernardo Hossi Nangolo', assistants: ['António Emiliano Livongue', 'Adolfo Luís Mutenha'], fourth: 'António Caluassi Dungula' },
   coaches: { home: 'Águas da Silva', away: 'Léo Neiva' },

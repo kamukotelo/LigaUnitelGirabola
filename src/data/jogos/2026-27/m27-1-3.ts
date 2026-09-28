@@ -7,7 +7,7 @@ export default defineMatch({
   round: 1,
   homeTeamId: 'dago',
   awayTeamId: 'desphuila',
-  schedule: { date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-08-22T15:00:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', attendance: 200, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'], fourth: 'Miguel Julião Mateus' },
   coaches: { home: 'Filipe Nzanza', away: 'Paulo Torres' },

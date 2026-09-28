@@ -7,7 +7,7 @@ export default defineMatch({
   round: 1,
   homeTeamId: 'bravos',
   awayTeamId: 'sagrada',
-  schedule: { date: '2026-08-22T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official' },
+  schedule: { date: '2026-08-22T15:00:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 3, awayScore: 0, halfTimeScore: '2-0', attendance: 400, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Sanda Mateus Miguel Kitu', assistants: ['Natarino António Soares', 'Nelson Lutumba Quiala'], fourth: 'Custódio Roque Lote' },
   coaches: { home: 'Sandro Mendes', away: 'Francisco Moniz' },

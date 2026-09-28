@@ -6,5 +6,5 @@ export default defineMatch({
   round: 19,
   homeTeamId: 'kabuscorp',
   awayTeamId: 'bravos',
-  schedule: { date: '2027-02-21T14:00:00+00:00', stadium: 'Estádio dos Coqueiros', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-21T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

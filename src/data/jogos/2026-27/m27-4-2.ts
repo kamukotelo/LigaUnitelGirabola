@@ -9,7 +9,7 @@ export default defineMatch({
   round: 4,
   homeTeamId: 'lundasul',
   awayTeamId: 'sagrada',
-  schedule: { date: '2026-09-12T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official' },
+  schedule: { date: '2026-09-12T15:00:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 2, awayScore: 1, halfTimeScore: '1-1', attendance: 4782, updatedAt: '2026-09-12T17:00:00+01:00' },
   officials: { referee: 'Miguel Julião Mateus', assistants: ['Domingos Monteiro Francisco', 'Januário Simões Francisco'], fourth: 'André Muamba Paulo', commissioner: 'Alberto Bumba Senda' },
   coaches: { home: 'Cleverson Silva', away: 'Clemente Martins Mendonça' },

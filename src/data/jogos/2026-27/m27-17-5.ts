@@ -6,5 +6,5 @@ export default defineMatch({
   round: 17,
   homeTeamId: 'fcluanda',
   awayTeamId: 'interclube',
-  schedule: { date: '2027-02-06T14:00:00+00:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-06T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

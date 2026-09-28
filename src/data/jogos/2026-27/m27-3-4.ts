@@ -8,7 +8,7 @@ export default defineMatch({
   round: 3,
   homeTeamId: 'fcluanda',
   awayTeamId: 'cabinda',
-  schedule: { date: '2026-09-05T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official' },
+  schedule: { date: '2026-09-05T15:30:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 2, awayScore: 1, halfTimeScore: '1-1', updatedAt: '2026-09-06T09:00:00+01:00' },
   officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Evanildo Gaspar dos Santos Martins', 'Pedro Domingos de Andrade Micolo'], fourth: 'Nelson Agostinho da Silva', commissioner: 'José Mateus de Carvalho Félix' },
   lineups: {

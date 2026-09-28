@@ -6,5 +6,5 @@ export default defineMatch({
   round: 9,
   homeTeamId: 'saosalvador',
   awayTeamId: 'lundasul',
-  schedule: { date: '2026-10-31T15:00:00+01:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'official' },
+  schedule: { date: '2026-10-31T15:00:00+01:00', scheduleStatus: 'official' },
 });

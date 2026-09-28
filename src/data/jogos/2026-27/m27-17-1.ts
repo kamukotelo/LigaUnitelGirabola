@@ -6,5 +6,5 @@ export default defineMatch({
   round: 17,
   homeTeamId: 'wiliete',
   awayTeamId: 'caala',
-  schedule: { date: '2027-02-06T14:00:00+00:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-06T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

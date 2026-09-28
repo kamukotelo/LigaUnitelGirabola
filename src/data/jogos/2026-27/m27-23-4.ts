@@ -6,5 +6,5 @@ export default defineMatch({
   round: 23,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'sagrada',
-  schedule: { date: '2027-03-20T14:00:00+00:00', stadium: 'Estádio de São Filipe', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-03-20T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

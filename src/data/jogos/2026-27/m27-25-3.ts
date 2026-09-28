@@ -6,5 +6,5 @@ export default defineMatch({
   round: 25,
   homeTeamId: 'dago',
   awayTeamId: 'libolo',
-  schedule: { date: '2027-04-10T14:00:00+00:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-10T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

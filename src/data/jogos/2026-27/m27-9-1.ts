@@ -6,5 +6,5 @@ export default defineMatch({
   round: 9,
   homeTeamId: 'kabuscorp',
   awayTeamId: 'caala',
-  schedule: { date: '2026-11-01T15:30:00+01:00', stadium: 'Estádio dos Coqueiros', scheduleStatus: 'official' },
+  schedule: { date: '2026-11-01T15:30:00+01:00', scheduleStatus: 'official' },
 });

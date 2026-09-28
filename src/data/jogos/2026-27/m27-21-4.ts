@@ -6,5 +6,5 @@ export default defineMatch({
   round: 21,
   homeTeamId: 'libolo',
   awayTeamId: 'fcluanda',
-  schedule: { date: '2027-03-06T14:00:00+00:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-03-06T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

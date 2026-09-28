@@ -32,14 +32,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'bad_request', message: 'Introduza um e-mail válido.' }, { status: 400 });
   }
 
-  // Se o serviço de e-mail não estiver configurado, informa o utilizador
-  // para que possa utilizar a Chave de Segurança Master ANCAF sem ficar bloqueado.
+  // Se o serviço de envio de e-mails não estiver ativo, orienta o utilizador
+  // para a recuperação imediata com a Chave de Segurança ANCAF.
   if (!isAdminMailConfigured()) {
     return NextResponse.json({
       ok: true,
       emailSent: false,
       canUseRecoveryKey: true,
-      message: 'O envio automático de e-mails não está ativo. Utilize a Chave de Segurança ANCAF para redefinir a palavra-passe.',
+      message: 'O envio automático de e-mails não está ativo. Utilize a Chave de Segurança ANCAF para redefinir a palavra-passe imediatamente.',
     });
   }
 
@@ -54,11 +54,16 @@ export async function POST(request: Request) {
       Math.round(PASSWORD_RESET_TTL_SECONDS / 60),
     );
     if (!sent.ok) {
-      // Só o servidor fica a saber; ao cliente responde-se como nos restantes casos.
       console.error('[forgot-password] envio falhou:', sent.reason);
+      return NextResponse.json({
+        ok: true,
+        emailSent: false,
+        canUseRecoveryKey: true,
+        message: 'Falha no envio de e-mail. Utilize a Chave de Segurança ANCAF para redefinir a palavra-passe.',
+      });
     }
   }
 
-  // Resposta deliberadamente genérica: não revela se a conta existe.
-  return NextResponse.json({ ok: true, emailSent: true, canUseRecoveryKey: true });
+  // Resposta genérica segura
+  return NextResponse.json({ ok: true, emailSent: true });
 }

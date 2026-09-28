@@ -6,5 +6,5 @@ export default defineMatch({
   round: 25,
   homeTeamId: 'lobito',
   awayTeamId: 'caala',
-  schedule: { date: '2027-04-10T14:00:00+00:00', stadium: 'Estádio do Buraco', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-10T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

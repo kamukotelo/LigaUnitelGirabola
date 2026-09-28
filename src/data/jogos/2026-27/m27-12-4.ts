@@ -6,5 +6,5 @@ export default defineMatch({
   round: 12,
   homeTeamId: 'petro',
   awayTeamId: 'cabinda',
-  schedule: { date: '2026-11-28T14:00:00+00:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-11-28T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

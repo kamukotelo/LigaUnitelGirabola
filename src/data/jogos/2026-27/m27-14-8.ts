@@ -6,5 +6,5 @@ export default defineMatch({
   round: 14,
   homeTeamId: 'fcluanda',
   awayTeamId: 'bravos',
-  schedule: { date: '2026-12-12T14:00:00+00:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-12T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

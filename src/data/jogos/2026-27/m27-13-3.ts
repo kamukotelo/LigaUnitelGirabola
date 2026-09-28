@@ -6,5 +6,5 @@ export default defineMatch({
   round: 13,
   homeTeamId: 'cabinda',
   awayTeamId: 'primeiromaio',
-  schedule: { date: '2026-12-05T14:00:00+00:00', stadium: 'Estádio Vici António', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-05T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

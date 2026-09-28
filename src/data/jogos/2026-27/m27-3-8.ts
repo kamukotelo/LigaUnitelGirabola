@@ -6,7 +6,7 @@ export default defineMatch({
   round: 3,
   homeTeamId: 'lobito',
   awayTeamId: 'primeiromaio',
-  schedule: { date: '2026-09-05T15:30:00+01:00', stadium: 'Estádio do Buraco', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-09-05T15:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 0, awayScore: 2, halfTimeScore: '0-1', updatedAt: '2026-09-05T18:15:00+01:00' },
   officials: { referee: 'Edson António Esoko', assistants: ['Estanislau Guedes Tavares Muluta Prata', 'João Manuel Fula António'], fourth: 'Nelson Joaquim Camunga', commissioner: 'Manuel Pires Nunda' },
   events: [

@@ -533,6 +533,18 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       {/* ========================================================================= */}
       {activeView === 'jogadores' && (
         <div className="space-y-2.5 sm:space-y-3">
+          <div className="border-b border-zinc-200 pb-3 sm:pb-4 dark:border-zinc-800">
+            <span className="mb-1 block text-[9px] font-mono font-semibold uppercase tracking-widest text-accent sm:text-[10px]">
+              Dossiê individual · Jogadores da competição
+            </span>
+            <h3 className="flex items-center gap-2 text-lg font-display uppercase tracking-wide text-foreground sm:text-xl">
+              <Users size={18} className="shrink-0 text-accent" /> Análise Avançada dos Jogadores
+            </h3>
+            <p className="mt-1 text-[11px] font-mono text-zinc-600 dark:text-zinc-400 sm:text-xs">
+              Indicadores de rendimento individuais extraídos das súmulas oficiais da competição.
+            </p>
+          </div>
+
           {/* 1. SCROLL DE MÉTRICAS (ESTILO SOFASCORE - PILLS HORIZONTAIS) */}
           <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-0.5 px-0.5">
             {STAT_TABS.map((tab) => {

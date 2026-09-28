@@ -6,5 +6,5 @@ export default defineMatch({
   round: 17,
   homeTeamId: 'saosalvador',
   awayTeamId: 'sagrada',
-  schedule: { date: '2027-02-06T14:00:00+00:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-06T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

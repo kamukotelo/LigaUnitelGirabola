@@ -6,7 +6,7 @@ export default defineMatch({
   round: 2,
   homeTeamId: 'interclube',
   awayTeamId: 'fcluanda',
-  schedule: { date: '2026-08-28T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-08-28T15:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 2, awayScore: 1, halfTimeScore: '0-0', attendance: 3623, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Miguel Julião Mateus', assistants: ['Pedro Domingos de Andrade Micolo', 'Domingos Monteiro Francisco'], fourth: 'Aldair Quissanga Rodrigues Carmelino' },
   events: [

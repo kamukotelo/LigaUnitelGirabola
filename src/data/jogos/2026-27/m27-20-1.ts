@@ -6,5 +6,5 @@ export default defineMatch({
   round: 20,
   homeTeamId: 'bravos',
   awayTeamId: 'caala',
-  schedule: { date: '2027-02-27T14:00:00+00:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-27T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

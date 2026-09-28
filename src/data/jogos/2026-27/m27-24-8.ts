@@ -6,5 +6,5 @@ export default defineMatch({
   round: 24,
   homeTeamId: 'petro',
   awayTeamId: 'dago',
-  schedule: { date: '2027-04-03T14:00:00+00:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-03T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

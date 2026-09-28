@@ -6,5 +6,5 @@ export default defineMatch({
   round: 12,
   homeTeamId: 'libolo',
   awayTeamId: 'caala',
-  schedule: { date: '2026-11-28T14:00:00+00:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-11-28T14:00:00+00:00', scheduleStatus: 'provisional' },
 });

@@ -104,14 +104,35 @@ export function getMatchRecord(matchId: string): MatchRecord | undefined {
 // sua própria confirmação (`result.updatedAt`) e a mais recente prevalece.
 export const PLATFORM_MATCH_UPDATED_AT = '2026-09-06T17:50:00+01:00';
 
-/** Recintos oficiais usados como casa durante toda a época 2026/2027. */
+/**
+ * Recinto de casa de cada clube na época 2026/2027 — a fonte única do estádio.
+ * Basta indicar quem joga em casa: o calendário, a ficha de jogo e a API usam
+ * este mapa. Só os jogos fora do recinto habitual (obras, castigo, palco
+ * neutro) declaram `schedule.stadium` no seu registo, e essa escolha prevalece.
+ */
 export const HOME_STADIUMS_2026_27: Readonly<Record<string, string>> = {
-  cabinda: 'Estádio Vici António',
-  lundasul: 'Estádio do Sagrada Esperança',
-  fcluanda: 'Estádio França N’dalu',
+  petro: 'Estádio 11 de Novembro',
   dago: 'Estádio França N’dalu',
+  fcluanda: 'Estádio França N’dalu',
+  interclube: 'Estádio 22 de Junho',
+  kabuscorp: 'Estádio dos Coqueiros',
+  wiliete: 'Estádio Nacional de Ombaka',
+  primeiromaio: 'Estádio de São Filipe',
+  desphuila: 'Estádio da Tundavala',
+  lobito: 'Estádio do Buraco',
+  libolo: 'Estádio Municipal de Calulo',
+  caala: 'Estádio dos Mártires da Canhala',
+  bravos: 'Estádio Mundunduleno',
   sagrada: 'Estádio do Sagrada Esperança',
+  lundasul: 'Estádio do Sagrada Esperança',
+  saosalvador: 'Estádio Álvaro Buta',
+  cabinda: 'Estádio Vici António',
 };
+
+/** Recinto de casa do clube, quando está definido para a época. */
+export function getHomeStadium(teamId: string): string | undefined {
+  return HOME_STADIUMS_2026_27[teamId];
+}
 
 export function applySeasonHomeStadiums(matches: Match[]): Match[] {
   return matches.map((match) => ({
@@ -146,7 +167,7 @@ export function applyOfficialMatchSchedule(matches: Match[]): Match[] {
       ...match,
       date: schedule.date,
       postponed: schedule.postponed,
-      stadium: schedule.stadium,
+      stadium: schedule.stadium ?? HOME_STADIUMS_2026_27[match.homeTeamId] ?? match.stadium,
       scheduleStatus: schedule.scheduleStatus,
       broadcaster: schedule.broadcaster,
       homeScore: result?.homeScore ?? 0,
@@ -308,20 +329,20 @@ export interface NewsArticle {
 export const TEAMS: Team[] = [
   { id: 'petro', name: 'Petro de Luanda', officialName: 'Atlético Petróleos de Luanda', shortName: 'APL', logoUrl: TEAM_CRESTS['petro'], city: 'Luanda', stadium: 'Estádio 11 de Novembro', stadiumCapacity: 50000, founded: 1980, colors: 'Amarelo, Azul e Preto', coach: 'João Pedro Sousa', president: 'Tomás Faria', nickname: 'Tricolores', website: 'https://www.petroatletico.co.ao', colorsHex: ['#F9C304', '#00529B', '#000000'], kits: [{ label: 'Principal', colors: ['#F9C304', '#00529B', '#000000'] }, { label: 'Secundário', colors: ['#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-30' },
   { id: 'wiliete', name: 'Wiliete de Benguela', officialName: 'Wiliete Sport Clube de Benguela', shortName: 'WIL', logoUrl: TEAM_CRESTS['wiliete'], city: 'Benguela', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 2018, colors: 'Verde e Amarelo', coach: 'Beto Bianchi', president: 'Wilson Faria', nickname: 'Wilietes', website: 'https://www.wilietesc.ao', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#FFFFFF', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', logoUrl: TEAM_CRESTS['dago'], city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: "D' Agosto", colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', logoUrl: TEAM_CRESTS['dago'], city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: "D' Agosto", colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', logoUrl: TEAM_CRESTS['desphuila'], city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Paulo Torres', president: 'Lucas Francisco Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', logoUrl: TEAM_CRESTS['bravos'], city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Lourenço Nelito', president: 'Agrione Manuel', nickname: 'Maquisardes', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', logoUrl: TEAM_CRESTS['kabuscorp'], city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leonardo Martins Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'SAG', logoUrl: TEAM_CRESTS['sagrada'], city: 'Dundo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Hungo Francisco Moniz', president: 'Oliveira Gonçalves', nickname: 'Lundas', colorsHex: ['#008751', '#000000'], kits: [{ label: 'Principal', colors: ['#008751', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', logoUrl: TEAM_CRESTS['kabuscorp'], city: 'Luanda', stadium: 'Estádio dos Coqueiros', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leonardo Martins Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'SAG', logoUrl: TEAM_CRESTS['sagrada'], city: 'Dundo', stadium: 'Estádio do Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Hungo Francisco Moniz', president: 'Oliveira Gonçalves', nickname: 'Lundas', colorsHex: ['#008751', '#000000'], kits: [{ label: 'Principal', colors: ['#008751', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'interclube', name: 'GD Interclube', officialName: 'Grupo Desportivo Interclube', shortName: 'INT', logoUrl: TEAM_CRESTS['interclube'], city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Divaldo da Silva Teixeira Alves', president: 'Alexandre Canelas', nickname: 'Polícias', website: 'https://www.interclube.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', logoUrl: TEAM_CRESTS['lundasul'], city: 'Saurimo', stadium: 'Estádio Sagrada Esperança', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', logoUrl: TEAM_CRESTS['lundasul'], city: 'Saurimo', stadium: 'Estádio do Sagrada Esperança', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurílio Silva', president: 'Miguel da Silva', nickname: 'Tchianda', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'libolo', name: 'Recreativo do Libolo', officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', logoUrl: TEAM_CRESTS['libolo'], city: 'Calulo', stadium: 'Estádio Municipal de Calulo', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Osvaldo Roque Gonçalves da Cruz', president: 'João Pereira', nickname: 'Libolenses', colorsHex: ['#FF6600', '#00529B'], kits: [{ label: 'Principal', colors: ['#FF6600', '#00529B'] }, { label: 'Secundário', colors: ['#00529B', '#FF6600'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', logoUrl: TEAM_CRESTS['lobito'], city: 'Lobito', stadium: 'Estádio da Tundavala', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'José Silvestre Pereira Jorge', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#000000', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#000000', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', logoUrl: TEAM_CRESTS['lobito'], city: 'Lobito', stadium: 'Estádio do Buraco', stadiumCapacity: 5000, founded: 1970, colors: 'Preto e Branco', coach: 'José Silvestre Pereira Jorge', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#000000', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#000000', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'saosalvador', name: 'São Salvador', officialName: 'São Salvador do Kongo Futebol Clube', shortName: 'SSK', logoUrl: TEAM_CRESTS['saosalvador'], city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#00529B', '#F9C304'], kits: [{ label: 'Principal', colors: ['#00529B', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
   { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', logoUrl: TEAM_CRESTS['cabinda'], city: 'Cabinda', stadium: 'Estádio Vici António', stadiumCapacity: 25000, founded: 2005, colors: 'Azul e Branco', coach: 'Nzola Seca', president: 'Raimundo Almeida', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
-  { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', logoUrl: TEAM_CRESTS['primeiromaio'], city: 'Benguela', stadium: 'Estádio Municipal', stadiumCapacity: 10000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'caala', name: 'CR Caála', officialName: 'Clube Recreativo da Caála', shortName: 'CRC', logoUrl: TEAM_CRESTS['caala'], city: 'Huambo', stadium: 'Estádio Daniel Lutucuta', stadiumCapacity: 12000, founded: 1944, colors: 'Azul e Branco', coach: 'Artur Benjamim Correia', president: 'Mi Mosquito', nickname: 'Caalenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', logoUrl: TEAM_CRESTS['fcluanda'], city: 'Luanda', stadium: 'Estádio França Ndalu', stadiumCapacity: 10000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', president: 'Paulino Silva', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' }
+  { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', logoUrl: TEAM_CRESTS['primeiromaio'], city: 'Benguela', stadium: 'Estádio de São Filipe', stadiumCapacity: 10000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Águas da Silva', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'caala', name: 'CR Caála', officialName: 'Clube Recreativo da Caála', shortName: 'CRC', logoUrl: TEAM_CRESTS['caala'], city: 'Huambo', stadium: 'Estádio dos Mártires da Canhala', stadiumCapacity: 12000, founded: 1944, colors: 'Azul e Branco', coach: 'Artur Benjamim Correia', president: 'Mi Mosquito', nickname: 'Caalenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', logoUrl: TEAM_CRESTS['fcluanda'], city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 10000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', president: 'Paulino Silva', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' }
 ];
 
 // ── 2. RANKING-SEMENTE ─────────────────────────────────────────────
@@ -1852,7 +1873,9 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['silvano-da-cruz-interclube', 'Silvano da Cruz', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
   ['alberto-alves-interclube', 'Alberto Alves', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
   ['ricardo-batista-fcluanda', 'Ricardo Batista', 'FC Luanda', 'fcluanda', 'Posição por confirmar', 0, 1],
+  ['valegol-caala', 'Valegol', 'CR Caála', 'caala', 'Posição por confirmar', 0, 1],
   ['bello-lukman-wiliete', 'Bello Lukman', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
+  ['ning-wiliete', 'Ning', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['milagre-simba-huila', 'Milagre Carlos Simba', 'Desportivo da Huíla', 'desphuila', 'Avançado', 25, 2],
   ['leonardo-isola-huila', 'Leonardo Manuel Isola Ramos', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 7, 1],
   ['luyeye-cabinda', 'Luyeye Tomás', 'FC Cabinda', 'cabinda', 'Posição por confirmar', 13, 1],
@@ -1893,61 +1916,10 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   careerHistory: [],
 }));
 
-/**
- * Como o próprio clube identifica o atleta na escalação que publica. A
- * inscrição da federação traz o nome civil e só às vezes o `nome_popular`, mas
- * é por estes nomes que o adepto reconhece o jogador na ficha e nos marcadores.
- * A chave é o ID já registado; o nome completo da inscrição mantém-se em
- * `fullName`.
- */
-const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
-  // Wiliete de Benguela — escalação publicada pelo clube na 5.ª jornada.
-  'fifa-1jsrpl0': 'Wiwi',            // nº 5 · Arão Manuel Lologi
-  'fifa-1jsjbh0': 'Karanga',         // nº 7 · Jorge Mendes Corte Real Carneiro
-  'fifa-1k39nk6': 'Mule',            // nº 8 · António Mule Chitongo
-  'fifa-1jru7c5': 'Mindinho',        // nº 10 · Armindo Gonçalves Canji
-  'fifa-1jsj8t3': 'Gibelé',          // nº 11 · Deivi Miguel Vieira
-  'fifa-1pvxht8': 'Yano',            // nº 13 · Adriano Watchilala Tchombe
-  'fifa-1jjfij0': 'Balsa',           // nº 15 · Augusto Manuel Balsa
-  'fifa-1k1jsj8': 'Macaiabo',        // nº 16 · Francisco Cubuema Matoco
-  'fifa-1jwu0l8': 'Ning',            // nº 25 · Rodino Dumbo José
-  'fifa-1pnmj53': 'Júnior Goiano',   // nº 27 · Emanoel Júnior
-  'fifa-1jrxs05': 'Bito',            // nº 28 · Camilo Mbule Ngongue
-  'fifa-1qvfjm7': 'Sidibé',          // nº 30 · Bocar Sidibé
-  'fifa-1m95s64': 'Célio',           // nº 32 · Célio Alberto Junqueira Zua
-  'fifa-1ljz6e0': 'Silva',           // nº 3 · Silva Hinário António
-  'fifa-1ndemr2': 'Didi Craque',     // nº 2 · Eduardo António Henrique Capingana
-  'fifa-1l05v38': 'Artur Kaká',      // nº 19 · Daniel Artur Kaka
-  'fifa-1jrtue9': 'Benny',           // nº 12 · Teodoro Edvaldo Rita Tchissingui
-  'fifa-1ni87h8': 'Filó',            // nº 21 · Filomeno Pinheiro Alberto Giloso
-  'fifa-1uqnv32': 'Igui',            // nº 24 · Carlos Cassissi
-  'fifa-1jz4n21': 'Nelo',            // nº 26 · João Valonga Basílio Barros
-  'fifa-1kzr1v5': 'Quare',           // nº 33 · Zeferino Venâncio Lussati
-  'fifa-1k36hf0': 'César Cangué',    // nº 34 · César Cangui Uvi Jeremias
-  // Recreativo do Libolo — escalação publicada pelo clube na 5.ª jornada.
-  'fifa-1mr7m11': 'Gui',             // nº 11 · Diogo da Rocha Quiamesso
-  'fifa-1pxu766': 'Inglês',          // nº 16 · Fernando José Paulino Lourenço
-  'fifa-1qhqtd1': 'Amado',           // nº 18 · Amado Tiago Marques Haidara
-  // CR Caála — escalação publicada pelo clube na 2.ª jornada.
-  'fifa-1t647t5': 'Vale',            // nº 2 · Valentim Sacuvale
-  'fifa-1lb66s2': 'Tchaba',          // nº 3 · Albano Kupenala
-  'fifa-1kz4es4': 'Bebo',            // nº 6 · Osvaldo
-  'fifa-1k0r4w6': 'Valegol',         // nº 9 · Hermenegildo Sandumbo (a inscrição diz "Valente")
-  'fifa-1jwgzb2': 'Aisson',          // nº 10 · Arilson de Ceita Pereira Jorge
-  'fifa-1jsrqb0': 'Jó Vidal',        // nº 15 · Mariano da Costa Vidal
-  'fifa-1jzj8y2': 'Vieira',          // nº 16 · Francisco
-  'fifa-1l96dj1': 'Bito',            // nº 17 · Gabriel
-  'fifa-1lda172': 'Be Ngueve',       // nº 19 · Benedito Antunes
-  'fifa-1jzhzh1': 'Putchú',          // nº 21 · Gonçalves Zinho Manico
-  'lisneu-caala': 'Neidy Bicho',     // nº 23 · Lisneu Emanuel Neto Simão
-  'fifa-1k2qwk8': 'Kabila',          // nº 24 · Timóteo Sambissa
-  'fifa-1r8lp51': 'Manucho',         // nº 27 · José Manuel Raul
-  'fifa-1k0ag17': 'Fany',            // nº 30 · José Afonso dos Santos Fernando
-  'fifa-1qvfe29': 'Marega',          // nº 34 · Ernesto
-};
-
 const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
   '1SN8AC3': 'bello-lukman-wiliete',
+  '1JAND06': 'janderson-wiliete',
+  '1JWU0L8': 'ning-wiliete',
   '1UXFL56': 'mabululu-wiliete',
   '1JRV1H9': 'valter-monteiro',
   '1LJU8Q3': 'axel-dago',
@@ -2112,18 +2084,14 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
       ?? fallback?.position
       ?? 'Posição por confirmar';
 
-    const clubName = CLUB_PUBLISHED_PLAYER_NAMES_2026_27[id];
-
     return {
       id,
-      name: clubName
-        ?? (record.popularName
-          ? formatOfficialPlayerName(record.popularName)
-          : fallback?.name ?? shortDisplayName(formatOfficialPlayerName(record.name))),
-      nickname: clubName
-        ?? (record.popularName
-          ? formatOfficialPlayerName(record.popularName)
-          : (fallback?.nickname ?? (fallback?.fullName && fallback.name !== fallback.fullName ? fallback.name : undefined))),
+      name: record.popularName
+        ? formatOfficialPlayerName(record.popularName)
+        : fallback?.name ?? shortDisplayName(formatOfficialPlayerName(record.name)),
+      nickname: record.popularName
+        ? formatOfficialPlayerName(record.popularName)
+        : (fallback?.nickname ?? (fallback?.fullName && fallback.name !== fallback.fullName ? fallback.name : undefined)),
       fullName: formatOfficialPlayerName(record.fullName),
       club: squad.club,
       teamId: squad.teamId,
@@ -2135,7 +2103,7 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
       age: ageOn2026SeasonStart(record.birthDate),
       birthDate: record.birthDate || undefined,
       nationality: OFFICIAL_NATIONALITY_LABELS[record.nationality] ?? (record.nationality || 'A confirmar'),
-      height: fallback?.height ?? 'A confirmar',
+      height: record.fifaId === '1JAND06' ? '1.80m' : fallback?.height ?? 'A confirmar',
       maId: record.maId || undefined,
       gender: 'MALE',
       fifaConnectId: record.fifaId || undefined,
@@ -2155,51 +2123,6 @@ export interface TeamStaffMember {
   fifaId?: string;
 }
 
-/**
- * Cargo por número de licença, quando a inscrição de 31/08 o entregou em
- * branco ou errado. Vale sobre o código da inscrição: as entradas marcadas
- * "DCE" são correções recebidas da Direção de Competições; as restantes saem
- * do cargo impresso no relatório oficial de arbitragem de um jogo da época
- * ("Team Official", "Team Staff"). Sem isto, o portal mostrava "Função por
- * confirmar" e a folha de seed reescrevia a lacuna na base de dados a cada
- * publicação.
- */
-const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
-  // Estrela 1.º de Maio
-  '009006M83': 'Equipa técnica',         // Hermino Nunes
-  // Wiliete de Benguela
-  '000535M89': 'Treinador adjunto',   // Feliciano Felisberto Javela (DCE; a inscrição diz gestor da equipa)
-  '000546M85': 'Oficial da equipa',         // Dilson Macuva Alfredo
-  '000556M85': 'Presidente',          // Wilson Fernando Faria (DCE)
-  '003005M03': 'Oficial da equipa',         // Evaristo Gomes
-  '002979M67': 'Treinador adjunto',   // Francisco Junior Paulino (DCE)
-  '008405M66': 'Treinador principal', // Roberto Luiz Pelliser Bianchi — Beto Bianchi (DCE)
-  '000547M84': 'Oficial da equipa',         // Victorino Lunga Visele
-  '000548M89': 'Oficial da equipa',         // Claudio Graciano Ezequiel Zala
-  // Desportivo da Huíla
-  '000850M86': 'Oficial da equipa',         // Alfredo Calunganga
-  '000847M87': 'Oficial da equipa',         // Sidney
-  '000828M64': 'Oficial da equipa',         // Ezequias
-  // Académica do Lobito
-  '000569M72': 'Oficial da equipa',         // António David Almeida
-  '002013M64': 'Oficial da equipa',         // Fernando Luciano Hossi
-  // Bravos do Maquis
-  '003018M81': 'Oficial da equipa',         // Belo Chanhi
-  '000702M85': 'Oficial da equipa',         // Ilunga
-  '000710M75': 'Oficial da equipa',         // Samba
-  '005392M68': 'Oficial da equipa',         // Tomás
-  // Sagrada Esperança
-  '007242M79': 'Oficial da equipa',         // Mendonça
-  // FC Cabinda
-  '007727M75': 'Oficial da equipa',         // Alves Simão Afonso Lede
-};
-
-/** Membros que a Direção de Competições mandou retirar da equipa técnica. */
-const OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27: ReadonlySet<string> = new Set([
-  '003004M94', // António Victorino Baptista (Wiliete)
-  '003009M63', // Jorge Manuel Faial Delgado (Wiliete)
-]);
-
 const OFFICIAL_STAFF_ROLE_LABELS: Readonly<Record<string, string>> = {
   HDCH: 'Treinador principal',
   ASCH: 'Treinador adjunto',
@@ -2216,45 +2139,28 @@ const OFFICIAL_STAFF_ROLE_LABELS: Readonly<Record<string, string>> = {
   MASG: 'Massagista',
 };
 
-/**
- * Cargo final de um membro da equipa técnica. A correção por número de licença
- * manda sobre o código da inscrição — é por ela que entram as decisões da
- * Direção de Competições sobre quem a inscrição classificou mal.
- */
-function officialStaffRoleLabel(member: { role: string; maId: string }): string {
-  return OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27[member.maId]
-    ?? OFFICIAL_STAFF_ROLE_LABELS[member.role]
-    ?? (member.role || 'Função por confirmar');
-}
-
 // Ordem de apresentação da equipa técnica: treinador principal, adjuntos,
-// treinador de guarda-redes, o restante staff e, no fim, a direção. Ordena-se
-// pelo cargo já corrigido, senão um treinador que a inscrição deixou em branco
-// caía para o fim da lista.
-const OFFICIAL_STAFF_LABEL_ORDER: readonly string[] = [
-  'Treinador principal', 'Treinador adjunto', 'Treinador de guarda-redes',
-  'Preparador físico', 'Médico', 'Fisioterapeuta', 'Técnico',
-  'Gestor da equipa', 'Gestor adjunto', 'Responsável de equipamentos',
-  'Massagista', 'Equipa técnica', 'Presidente', 'Oficial da equipa',
+// treinador de guarda-redes e depois o restante staff.
+const OFFICIAL_STAFF_ROLE_ORDER: readonly string[] = [
+  'HDCH', 'ASCH', 'GKCH', 'PTNR', 'TMED', 'DOCT', 'PHYS', 'TCSC',
+  'TMGR', 'AMGR', 'KMGR', 'MASG', 'TSTF',
 ];
 
-function officialStaffRank(label: string): number {
-  const idx = OFFICIAL_STAFF_LABEL_ORDER.indexOf(label);
+function officialStaffRank(role: string): number {
+  const idx = OFFICIAL_STAFF_ROLE_ORDER.indexOf(role);
   if (idx !== -1) return idx;
-  // Funções fora da tabela FIFA (Presidente, Diretor, Oficial da equipa…) e
-  // funções por confirmar ficam no fim, mantendo a ordem do ficheiro.
-  return OFFICIAL_STAFF_LABEL_ORDER.length + (label === 'Função por confirmar' ? 1 : 0);
+  // Funções fora da tabela FIFA (Presidente, Diretor, Oficial da equipa…)
+  // e funções por confirmar ficam no fim, mantendo a ordem do ficheiro.
+  return OFFICIAL_STAFF_ROLE_ORDER.length + (role ? 0 : 1);
 }
 
 export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMember[]>> = Object.fromEntries(
   OFFICIAL_SQUADS_2026_27.map((squad) => [squad.teamId, squad.staff
-    .filter((member) => !OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27.has(member.maId))
-    .map((member, index) => ({ member, index, role: officialStaffRoleLabel(member) }))
-    .map((entry) => ({ ...entry, rank: officialStaffRank(entry.role) }))
+    .map((member, index) => ({ member, index, rank: officialStaffRank(member.role) }))
     .sort((a, b) => a.rank - b.rank || a.index - b.index)
-    .map(({ member, role }) => ({
+    .map(({ member }) => ({
       name: formatOfficialPlayerName(member.name),
-      role,
+      role: OFFICIAL_STAFF_ROLE_LABELS[member.role] ?? (member.role || 'Função por confirmar'),
       nationality: OFFICIAL_NATIONALITY_LABELS[member.nationality] ?? (member.nationality || 'A confirmar'),
       maId: member.maId || undefined,
       fifaId: member.fifaId || undefined,
@@ -2275,7 +2181,7 @@ const currentPlayerBase: Player[] = [
   ...PLAYERS_RAW.filter((player) => !['petro', 'lundasul', 'dago', 'desphuila', 'bravos', 'sagrada', 'cabinda', 'libolo', 'lobito'].includes(player.teamId)
     && !OFFICIAL_SQUAD_TEAM_IDS.has(player.teamId)),
   ...OFFICIAL_REGISTERED_PLAYERS_2026_27,
-  ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27.filter((player) => !officialRegisteredPlayerIds.has(player.id)),
+  ...ADDITIONAL_CONFIRMED_PLAYERS_2026_27.filter((player) => !officialRegisteredPlayerIds.has(player.id) && player.id !== 'kabelo-dlamini'),
 ];
 const currentPlayerBaseIds = new Set(currentPlayerBase.map((player) => player.id));
 
@@ -2837,9 +2743,6 @@ function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
   // assinala explicitamente que continua por definir.
   if (patch.date !== undefined && patch.scheduleStatus === undefined) {
     merged.scheduleStatus = 'official';
-  }
-  if (patch.date !== undefined && patch.postponed === undefined) {
-    merged.postponed = false;
   }
   const touchedScores = patch.homeScore !== undefined || patch.awayScore !== undefined;
   if (touchedScores && patch.score === undefined) {
@@ -3560,33 +3463,18 @@ const PUBLISHED_MATCH_STATS: Readonly<Record<string, PublishedMatchStats>> = Obj
  * total do jogo, pelo que inclui também os cartões cujo jogador ainda não foi
  * identificado — ao contrário da soma por atleta.
  */
-/**
- * Cartões de uma equipa num jogo. Um registo pode trazer só o total da ficha
- * (`stats`), só os cartões identificados ao minuto (`events`) ou os dois — e
- * nem sempre coincidem: há fichas que publicam o total sem dizer a quem, e há
- * jogos com o cartão na cronologia e sem bloco de estatística. Conta-se o
- * maior dos dois, senão um jogo com cartão identificado somava zero.
- */
-function matchCardTotals(match: Match, side: 'home' | 'away'): { yellow: number; red: number } {
-  const sheet = (RUNTIME_DATA.matchStats ?? PUBLISHED_MATCH_STATS)[match.id]?.[side];
-  const events = RUNTIME_DATA.events?.[match.id] ?? getPublishedMatchEvents(match) ?? [];
-  const counted = (type: 'yellow' | 'red') => events.filter((event) => event.type === type && event.team === side).length;
-  return {
-    yellow: Math.max(sheet?.yellowCards ?? 0, counted('yellow')),
-    red: Math.max(sheet?.redCards ?? 0, counted('red')),
-  };
-}
-
 export function getTeamCardTotalsFromSheets(teamId: string): { yellow: number; red: number } {
+  const seasonMatches = getMatchesForSeason(UPCOMING_SEASON_ID);
   let yellow = 0;
   let red = 0;
 
-  for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
-    const side = match.homeTeamId === teamId ? 'home' : match.awayTeamId === teamId ? 'away' : undefined;
+  for (const [matchId, stats] of Object.entries(RUNTIME_DATA.matchStats ?? PUBLISHED_MATCH_STATS)) {
+    const match = seasonMatches.find((m) => m.id === matchId);
+    if (!match) continue;
+    const side = match.homeTeamId === teamId ? stats.home : match.awayTeamId === teamId ? stats.away : undefined;
     if (!side) continue;
-    const totals = matchCardTotals(match, side);
-    yellow += totals.yellow;
-    red += totals.red;
+    yellow += side.yellowCards ?? 0;
+    red += side.redCards ?? 0;
   }
 
   return { yellow, red };
@@ -3596,12 +3484,9 @@ export function getTeamCardTotalsFromSheets(teamId: string): { yellow: number; r
 export function getCurrentSeasonCardReconciliation() {
   let yellowInSheets = 0;
   let redInSheets = 0;
-  for (const match of getMatchesForSeason(UPCOMING_SEASON_ID)) {
-    for (const side of ['home', 'away'] as const) {
-      const totals = matchCardTotals(match, side);
-      yellowInSheets += totals.yellow;
-      redInSheets += totals.red;
-    }
+  for (const stats of Object.values(RUNTIME_DATA.matchStats ?? PUBLISHED_MATCH_STATS)) {
+    yellowInSheets += (stats.home.yellowCards ?? 0) + (stats.away.yellowCards ?? 0);
+    redInSheets += (stats.home.redCards ?? 0) + (stats.away.redCards ?? 0);
   }
 
   const attributed = getCurrentSeasonDiscipline().reduce(
@@ -4156,52 +4041,55 @@ export interface Per90Record {
  */
 export function getCurrentSeasonPer90(): Per90Record[] {
   const players = getPlayers();
-  const trackedMap = new Map(getCurrentSeasonMinutesPlayed().map((r) => [r.id, r]));
+  const totals = new Map<string, Per90Record>();
 
-  // Processar atletas com participações diretas em golo (golos e assistências)
-  const candidates = players.filter((p) => (p.goals ?? 0) > 0 || (p.assists ?? 0) > 0);
-
-  const records: Per90Record[] = candidates.map((p) => {
-    const tracked = trackedMap.get(p.id);
-    const trackedMins = tracked ? tracked.minutesPlayed : 0;
-    const trackedApps = tracked ? tracked.appearances : 0;
-    const untrackedApps = Math.max(0, (p.appearances ?? 0) - trackedApps);
-    // Para partidas sem minutagem de substituição publicada nas súmulas, considera-se a partida regulamentar de 90'
-    const minutesPlayed = Math.max(1, trackedMins + untrackedApps * 90);
-    const goals = p.goals ?? 0;
-    const assists = p.assists ?? 0;
-    const contributions = goals + assists;
-    const goalsPer90 = (goals * 90) / minutesPlayed;
-    const assistsPer90 = (assists * 90) / minutesPlayed;
-
-    return {
-      id: p.id,
-      name: p.name,
-      club: p.club,
-      teamId: p.teamId,
-      minutesPlayed,
-      goals,
-      assists,
-      contributions,
-      goalsPer90,
-      assistsPer90,
+  const entryFor = (playerId: string, fallbackName: string, teamId: string): Per90Record => {
+    const existing = totals.get(playerId);
+    if (existing) return existing;
+    const profile = players.find((candidate) => candidate.id === playerId);
+    const created: Per90Record = {
+      id: playerId,
+      name: profile?.name ?? fallbackName,
+      club: profile?.club ?? TEAMS.find((t) => t.id === teamId)?.name ?? teamId,
+      teamId,
+      minutesPlayed: 0,
+      goals: 0,
+      assists: 0,
+      contributions: 0,
+      goalsPer90: 0,
+      assistsPer90: 0,
     };
-  });
+    totals.set(playerId, created);
+    return created;
+  };
 
-  // Ordenação estritamente descendente:
-  // 1. Quem tem mais G+A vem para cima (contributions descendente)
-  // 2. Desempate por mais golos marcados (goals descendente)
-  // 3. Desempate por maior frequência de golo (goalsPer90 descendente)
-  // 4. Desempate por menor número de minutos necessários (minutesPlayed ascendente)
-  return records
+  for (const { detail, side, teamId, spans } of getEligibleMatchSides()) {
+    for (const span of spans) {
+      if (!span.playerId) continue;
+      entryFor(span.playerId, span.name, teamId).minutesPlayed += spanMinutes(span);
+    }
+
+    for (const event of detail.events) {
+      if (event.team !== side || event.type !== 'goal') continue;
+      if (event.detail?.toLowerCase().includes('autogolo')) continue;
+      if (event.playerId) entryFor(event.playerId, event.player, teamId).goals += 1;
+
+      const assist = event.assist?.trim();
+      if (!assist) continue;
+      const provider = spans.find((span) => span.playerId && foldName(span.name) === foldName(assist));
+      if (provider?.playerId) entryFor(provider.playerId, provider.name, teamId).assists += 1;
+    }
+  }
+
+  return [...totals.values()]
+    .map((row) => ({
+      ...row,
+      contributions: row.goals + row.assists,
+      goalsPer90: row.minutesPlayed > 0 ? (row.goals * 90) / row.minutesPlayed : 0,
+      assistsPer90: row.minutesPlayed > 0 ? (row.assists * 90) / row.minutesPlayed : 0,
+    }))
     .filter((row) => row.contributions > 0)
-    .sort((a, b) =>
-      b.contributions - a.contributions
-      || b.goals - a.goals
-      || b.goalsPer90 - a.goalsPer90
-      || a.minutesPlayed - b.minutesPlayed
-      || a.name.localeCompare(b.name, 'pt')
-    );
+    .sort((a, b) => b.contributions - a.contributions || b.goals - a.goals || a.name.localeCompare(b.name));
 }
 
 /**

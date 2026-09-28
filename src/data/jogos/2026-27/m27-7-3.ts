@@ -6,5 +6,5 @@ export default defineMatch({
   round: 7,
   homeTeamId: 'bravos',
   awayTeamId: 'lundasul',
-  schedule: { date: '2026-10-17T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official' },
+  schedule: { date: '2026-10-17T15:00:00+01:00', scheduleStatus: 'official' },
 });

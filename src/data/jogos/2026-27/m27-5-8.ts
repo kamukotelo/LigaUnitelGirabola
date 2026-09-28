@@ -7,7 +7,7 @@ export default defineMatch({
   round: 5,
   homeTeamId: 'saosalvador',
   awayTeamId: 'cabinda',
-  schedule: { date: '2026-09-20T15:00:00+01:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'official' },
+  schedule: { date: '2026-09-20T15:00:00+01:00', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-09-20T18:05:00+01:00' },
   // Relatório do Árbitro n.º 36 (20/09/2026). A ficha só traz a convocatória do
   // FC Cabinda; o São Salvador ainda não tinha jogadores inscritos no relatório.

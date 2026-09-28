@@ -6,5 +6,5 @@ export default defineMatch({
   round: 13,
   homeTeamId: 'desphuila',
   awayTeamId: 'bravos',
-  schedule: { date: '2026-12-05T14:00:00+00:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-05T14:00:00+00:00', scheduleStatus: 'provisional' },
 });
