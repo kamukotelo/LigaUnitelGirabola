@@ -44,11 +44,12 @@ import {
 } from '@/lib/historical-results-2025-26';
 import TeamCrest from '@/components/ui/TeamCrest';
 import AdvancedStatistics from './AdvancedStatistics';
+import CompetitionRecordsPanel from './CompetitionRecordsPanel';
 import SeasonComparisonMatrix from './SeasonComparisonMatrix';
 import { shown } from '@/lib/display';
 
 type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'yellowcards' | 'redcards' | 'minutes';
-type StatsView = 'jogadores' | 'equipas' | 'avancada' | 'comparador';
+type StatsView = 'resumo' | 'jogadores' | 'equipas' | 'avancada' | 'comparador';
 
 const RANKING_SIZE = 30;
 const HISTORICAL_RANKING_SIZE = 15;
@@ -97,6 +98,7 @@ function cardsLabel(yellow: number, red: number): string {
  * 1. Abas de Estatísticas: Jogadores, Equipas e Análise Avançada (O comparador tem aba própria no hub)
  */
 const STATS_VIEWS: { key: StatsView; label: string }[] = [
+  { key: 'resumo', label: 'Resumo' },
   { key: 'jogadores', label: 'Jogadores' },
   { key: 'equipas', label: 'Equipas' },
   { key: 'avancada', label: 'Análise Avançada' },
@@ -140,20 +142,19 @@ const VALUE_LABELS: Record<StatTab, string> = {
 };
 
 export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
-  const [activeView, setActiveView] = useState<StatsView>('jogadores');
+  const [activeView, setActiveView] = useState<StatsView>(() => {
+    if (typeof window === 'undefined') return 'resumo';
+    const params = new URLSearchParams(window.location.search);
+    const viewParam = params.get('view');
+    if (viewParam === 'resumo' || viewParam === 'jogadores' || viewParam === 'equipas' || viewParam === 'avancada') {
+      return viewParam;
+    }
+    return 'resumo';
+  });
   const [activeTab, setActiveTab] = useState<StatTab>('scorers');
   const [filterTeam, setFilterTeam] = useState<string>('all');
   const [filterPosition, setFilterPosition] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const params = new URLSearchParams(window.location.search);
-    const viewParam = params.get('view');
-    if (viewParam === 'jogadores' || viewParam === 'equipas' || viewParam === 'avancada') {
-      setActiveView(viewParam);
-    }
-  }, []);
 
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
   const allPlayers = useMemo(() => getPlayers(), []);
@@ -191,7 +192,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       if (cs.length > 0) {
         topCleanSheet = {
           id: cs[0].id, name: cs[0].name, club: cs[0].club, teamId: cs[0].teamId,
-          position: cs[0].position, value: cs[0].cleanSheets, secondaryLabel: 'Jogos', secondaryValue: cs[0].appearances,
+          position: cs[0].position, value: cs[0].cleanSheets, secondaryLabel: 'Sofridos', secondaryValue: cs[0].goalsConceded ?? 0,
         };
       }
       const mins = getCurrentSeasonMinutesPlayed();
@@ -279,8 +280,8 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         .filter((gk) => gk.cleanSheets > 0)
         .map((gk) => ({
           id: gk.id, name: gk.name, club: gk.club, teamId: gk.teamId,
-          position: gk.position, value: gk.cleanSheets, secondaryLabel: 'Jogos',
-          secondaryValue: gk.appearances, hasProfile: true,
+          position: gk.position, value: gk.cleanSheets, secondaryLabel: 'Sofridos',
+          secondaryValue: gk.goalsConceded ?? 0, hasProfile: true,
         }));
     } else if (isUpcoming && seasonHasStarted && activeTab === 'minutes') {
       displayPlayers = getCurrentSeasonMinutesPlayed().map((p) => ({
@@ -529,11 +530,26 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         </Link>
       </div>
 
+      {/* VISTA 0: RESUMO NO FORMATO ZEROZERO (GLOBAIS + QUADROS DE RECORDES)      */}
+      {activeView === 'resumo' && <CompetitionRecordsPanel seasonId={seasonId} />}
+
       {/* ========================================================================= */}
       {/* VISTA 1: JOGADORES (FILTROS COMPACTOS & RESULTADOS IMEDIATOS)             */}
       {/* ========================================================================= */}
       {activeView === 'jogadores' && (
         <div className="space-y-2.5 sm:space-y-3">
+          <div className="border-b border-zinc-200 pb-3 sm:pb-4 dark:border-zinc-800">
+            <span className="mb-1 block text-[9px] font-mono font-semibold uppercase tracking-widest text-accent sm:text-[10px]">
+              Dossiê individual · Jogadores da competição
+            </span>
+            <h3 className="flex items-center gap-2 text-lg font-display uppercase tracking-wide text-foreground sm:text-xl">
+              <Users size={18} className="shrink-0 text-accent" /> Análise Avançada dos Jogadores
+            </h3>
+            <p className="mt-1 text-[11px] font-mono text-zinc-600 dark:text-zinc-400 sm:text-xs">
+              Indicadores de rendimento individuais extraídos das súmulas oficiais da competição.
+            </p>
+          </div>
+
           {/* 1. SCROLL DE MÉTRICAS (ESTILO SOFASCORE - PILLS HORIZONTAIS) */}
           <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-0.5 px-0.5">
             {STAT_TABS.map((tab) => {
@@ -718,7 +734,9 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                           <p className="text-[11px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 truncate mt-0.5 font-sans">
                             <span>{shown(player.position) ? player.position : 'Atleta'}</span>
                             <span className="text-zinc-300 dark:text-zinc-600">·</span>
-                            <span className="truncate text-zinc-500 dark:text-zinc-400">{player.club}</span>
+                            <Link href={`/teams/${player.teamId}`} className="truncate text-zinc-500 hover:text-accent dark:text-zinc-400 transition-colors">
+                              {player.club}
+                            </Link>
                           </p>
                         </div>
                       </div>
@@ -764,9 +782,14 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                   const hasPlayer = !!card.player;
 
                   return (
-                    <button
+                    <div
                       key={card.key}
+                      role="button"
+                      tabIndex={0}
                       onClick={() => setActiveTab(card.key)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') setActiveTab(card.key);
+                      }}
                       className={`flex-shrink-0 min-w-[180px] sm:min-w-[200px] p-2.5 rounded-xl border text-left transition-all duration-200 relative overflow-hidden ${
                         isCardActive
                           ? 'border-accent bg-accent/10 shadow-sm ring-1 ring-accent/40'
@@ -795,8 +818,20 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                               </div>
                             </div>
                             <div className="min-w-0">
-                              <p className="text-xs font-bold text-foreground truncate">{card.player!.name}</p>
-                              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 truncate">{card.player!.club}</p>
+                              <Link
+                                href={`/players/${card.player!.id}`}
+                                onClick={(event) => event.stopPropagation()}
+                                className="block text-xs font-bold text-foreground hover:text-accent truncate transition-colors"
+                              >
+                                {card.player!.name}
+                              </Link>
+                              <Link
+                                href={`/teams/${card.player!.teamId}`}
+                                onClick={(event) => event.stopPropagation()}
+                                className="block text-[10px] text-zinc-500 hover:text-accent dark:text-zinc-400 truncate transition-colors"
+                              >
+                                {card.player!.club}
+                              </Link>
                             </div>
                           </div>
 
@@ -814,7 +849,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                           A aguardar dados
                         </div>
                       )}
-                    </button>
+                    </div>
                   );
                 })}
               </div>

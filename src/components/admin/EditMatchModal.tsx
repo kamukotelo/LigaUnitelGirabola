@@ -15,6 +15,8 @@ interface EditMatchModalProps {
 }
 
 const OFFICIAL_STADIUMS = [
+  'Estádio 22 de Junho',
+  'Estádio do Sagrada Esperança',
   'Estádio França Ndalu',
   'Estádio 11 de Novembro',
   'Estádio Municipal de Benguela',
@@ -24,10 +26,14 @@ const OFFICIAL_STADIUMS = [
   'Estádio do Santos',
   'Estádio do Buraco',
   'Estádio Daniel Lutucuta',
+  'Estádio Mártires da Canhala',
+  'Estádio Mundunduleno',
   'Estádio do Tafe',
   'Estádio 1.º de Maio',
   'Estádio Comandante Jones Kufuna Yembe',
   'Estádio 4 de Janeiro',
+  'Estádio Vici António',
+  'Estádio do Ferroviário',
 ];
 
 export default function EditMatchModal({
@@ -331,17 +337,19 @@ export default function EditMatchModal({
               <label className="absolute -top-2 left-3 bg-white dark:bg-zinc-900 px-1 text-[10px] font-mono text-zinc-500">
                 Instalações
               </label>
-              <select
+              <input
+                list="stadiums-list"
+                type="text"
                 value={stadium}
                 onChange={(e) => setStadium(e.target.value)}
+                placeholder="Selecione ou introduza o estádio"
                 className="w-full h-11 px-3 bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm font-medium focus:border-blue-600 focus:outline-none"
-              >
+              />
+              <datalist id="stadiums-list">
                 {OFFICIAL_STADIUMS.map((st) => (
-                  <option key={st} value={st} className="dark:bg-zinc-900">
-                    {st}
-                  </option>
+                  <option key={st} value={st} />
                 ))}
-              </select>
+              </datalist>
             </div>
           </div>
 
@@ -413,7 +421,7 @@ export default function EditMatchModal({
                 className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-mono text-xs font-bold uppercase tracking-widest transition-all shadow-md flex items-center gap-2 disabled:opacity-50"
               >
                 {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-                GUARDAR
+                {saving ? 'A GUARDAR E SINCRONIZAR…' : 'GUARDAR E SINCRONIZAR'}
               </button>
             </div>
           </div>

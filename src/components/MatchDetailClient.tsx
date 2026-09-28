@@ -260,6 +260,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
               <Flag size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">Árbitro: {shown(referee)}</span>
             </div>
           )}
+          {(officials.assistants.map(shown).some(Boolean) || shown(officials.fourth)) && (
           <div className="flex items-start gap-3">
             <Flag size={14} className="text-zinc-600 mt-0.5" />
             <span className="text-zinc-600 dark:text-zinc-400">
@@ -270,6 +271,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
               {/* Delegado (commissioner) intencionalmente ocultado — ver getMatchOfficials() em data.ts */}
             </span>
           </div>
+          )}
           <div className="flex items-center gap-3">
             <Tv size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">Transmissão: {broadcaster}</span>
           </div>

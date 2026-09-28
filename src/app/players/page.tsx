@@ -105,6 +105,7 @@ export default function PlayersPage() {
           <AnimatePresence>
             {visiblePlayers.map((player) => {
               const team = allTeams.find((t) => t.id === player.teamId);
+              const isGoalkeeper = player.position.toLowerCase().includes('guarda');
               return (
                 <motion.div
                   key={player.id}
@@ -149,8 +150,8 @@ export default function PlayersPage() {
                       {/* Stats Overview */}
                       <div className="hidden sm:grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 text-center font-mono">
                         <div className="bg-white/50 dark:bg-black/20 p-1.5 rounded-lg border border-zinc-200/60 dark:border-zinc-900/60">
-                          <span className="text-foreground font-black block text-xs">{player.goals}</span>
-                          <span className="text-[11px] text-zinc-500 uppercase">Golos</span>
+                          <span className="text-foreground font-black block text-xs">{isGoalkeeper ? 'GR' : player.goals}</span>
+                          <span className="text-[11px] text-zinc-500 uppercase">{isGoalkeeper ? 'Posição' : 'Golos'}</span>
                         </div>
                         <div className="bg-white/50 dark:bg-black/20 p-1.5 rounded-lg border border-zinc-200/60 dark:border-zinc-900/60">
                           <span className="text-foreground font-black block text-xs">{player.appearances}</span>

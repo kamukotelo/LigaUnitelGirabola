@@ -29,6 +29,7 @@ const TOTAL_ROUNDS = 30;
 
 const OFFICIAL_PARTNERS = [
   { name: 'Unitel', logo: '/partners/unitel.png', scale: 'scale-[1.6]' },
+  { name: 'Sonangol', logo: '/partners/sonangol.png', scale: 'scale-[1.5]' },
   { name: 'Zsports', logo: '/partners/zsports.png', scale: 'scale-[1.55]' },
   { name: 'Rádio Cinco', logo: '/partners/radio-cinco.png', scale: 'scale-[1.7]' },
   { name: 'CHDCP', logo: '/partners/chdcp.png', scale: 'scale-[1.5]' },
@@ -108,11 +109,11 @@ export default function LigaAngolaBlock() {
           >
             <span className="pr-4 tracking-wider">PARCEIROS OFICIAIS</span>
           </div>
-          <div className="grid w-full flex-1 grid-cols-2 items-center gap-3 px-4 py-4 sm:grid-cols-4 sm:px-6 md:px-10">
+          <div className="grid w-full flex-1 grid-cols-2 items-center gap-3 px-4 py-4 sm:grid-cols-3 md:grid-cols-5 sm:px-6 md:px-10">
             {OFFICIAL_PARTNERS.map((partner) => (
               <div
                 key={partner.name}
-                className="relative flex min-h-20 items-center justify-center overflow-hidden rounded-lg border border-zinc-200/70 bg-white px-3 shadow-sm dark:border-zinc-700/70"
+                className="relative flex min-h-20 items-center justify-center overflow-hidden rounded-lg border border-zinc-200/70 bg-white px-3 shadow-sm dark:border-zinc-700/70 last:col-span-2 sm:last:col-span-1"
               >
                 <Image
                   src={partner.logo}

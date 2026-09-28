@@ -9,18 +9,16 @@ import {
   RefreshCw, Check
 } from 'lucide-react';
 import {
-  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
-} from 'recharts';
-import {
   Player, Team, getPlayers, getMatches, getPlayerById, getTeamById,
-  getPlayerRatings, getRecentRatings, getDetailedMetrics,
   getFifaConnectStatus, FIFA_CHECK_META, FifaCheckKey,
-  getPlayerFicha, getNationalityFlag, getPlayerSeasonMinutes
+  getPlayerFicha, getNationalityFlag, getPlayerSeasonMinutes,
+  getCurrentSeasonCleanSheets,
 } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import { ROUTES } from '@/lib/routes';
 import { useFifaConnectAccess } from '@/lib/use-fifa-connect-access';
 import { shown } from '@/lib/display';
+import PlayerAdvancedStats from '@/components/player/PlayerAdvancedStats';
 
 // Etiqueta de transparência: dados simulados, não oficiais.
 function DemoBadge() {
@@ -283,154 +281,61 @@ function HeatmapField({ position, playerId }: { position: string; playerId: stri
 }
 
 // ── ABA 2: Estatísticas Detalhadas ──────────
-function StatsTab({ player }: { player: Player }) {
-  // O portal ainda não recebe métricas avançadas oficiais por atleta.
-  // Até essa integração existir, mostra apenas totais editoriais confirmados.
+function StatsTab({ player, team }: { player: Player; team?: Team }) {
+  // O portal ainda não recebe métricas avançadas oficiais de tracking por atleta (ratings simulados).
   const hasOfficialAdvancedPlayerMetrics = false;
-  if (!hasOfficialAdvancedPlayerMetrics || !player.statsVerified) {
-    const yellowCards = player.detailedStats?.yellowCards ?? 0;
-    const redCards = player.detailedStats?.redCards ?? 0;
-    // Minutos em campo derivados das escalações e substituições oficiais.
-    const seasonMinutes = getPlayerSeasonMinutes(player.id);
-    const confirmedStats = [
-      { label: 'Jogos', value: player.appearances },
-      { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
-      { label: 'Golos', value: player.goals },
-      { label: 'Assistências', value: player.assists },
-      { label: 'Cartões amarelos', value: yellowCards },
-      { label: 'Cartões vermelhos', value: redCards },
-    ];
-
-    return (
-      <div className="space-y-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {confirmedStats.map((stat) => (
-            <div key={stat.label} className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-5 rounded-2xl text-center">
-              <span className="font-display text-3xl font-black text-foreground">{stat.value}</span>
-              <span className="block mt-1 text-[9px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</span>
-            </div>
-          ))}
-        </div>
-        <div className="p-6 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start">
-          <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={18} />
-          <p className="text-xs text-zinc-500">
-            Os minutos em campo são calculados a partir das escalações e das substituições das fichas oficiais.
-            Ratings, posse, precisão de passe, duelos e remates serão apresentados apenas quando forem publicados nessas fichas.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  const ratings = getPlayerRatings(player);
-  const recent = getRecentRatings(player);
-  const metrics = getDetailedMetrics(player);
-
-  const ratingColor = (r: number) =>
-    r >= 8 ? '#22c55e' : r >= 7 ? '#00F5FF' : r >= 6 ? '#F9C304' : '#ef4444';
-
-  const metricGrid = [
-    { label: 'Precisão de Passe', value: `${metrics.passAccuracy}%` },
-    { label: 'Duelos Ganhos', value: `${metrics.duelsWon}%` },
-    { label: 'Remates à Baliza', value: `${metrics.shotsOnTarget}%` },
-    { label: 'Cartões Amarelos', value: metrics.yellowCards },
-    { label: 'Cartões Vermelhos', value: metrics.redCards },
-    { label: 'Minutos Jogados', value: `${metrics.minutesPlayed}'` },
-  ];
+  const yellowCards = player.detailedStats?.yellowCards ?? 0;
+  const redCards = player.detailedStats?.redCards ?? 0;
+  // Minutos em campo derivados das escalações e substituições oficiais.
+  const seasonMinutes = getPlayerSeasonMinutes(player.id);
+  const isGoalkeeper = player.position.toLowerCase().includes('guarda');
+  const keeperStats = isGoalkeeper
+    ? getCurrentSeasonCleanSheets().find((row) => row.id === player.id)
+    : undefined;
+  const keeperAppearances = keeperStats?.appearances ?? player.appearances;
+  const confirmedStats = isGoalkeeper
+    ? [
+        { label: 'Jogos na baliza', value: keeperAppearances },
+        { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
+        { label: 'Balizas limpas', value: keeperStats?.cleanSheets ?? 0 },
+        { label: 'Golos sofridos', value: keeperStats?.goalsConceded ?? 0 },
+        { label: 'Sofridos por jogo', value: keeperAppearances ? ((keeperStats?.goalsConceded ?? 0) / keeperAppearances).toFixed(2) : '—' },
+        { label: 'Eficácia sem sofrer', value: keeperAppearances ? `${Math.round(((keeperStats?.cleanSheets ?? 0) / keeperAppearances) * 100)}%` : '—' },
+        ...(player.goals > 0 ? [{ label: 'Golos marcados', value: player.goals }] : []),
+        { label: 'Cartões amarelos', value: yellowCards },
+        { label: 'Cartões vermelhos', value: redCards },
+      ]
+    : [
+        { label: 'Jogos', value: player.appearances },
+        { label: 'Minutos', value: seasonMinutes ? `${seasonMinutes.minutesPlayed}'` : '—' },
+        { label: 'Golos', value: player.goals },
+        { label: 'Assistências', value: player.assists },
+        { label: 'Golos por jogo', value: (player.goals / (player.appearances || 1)).toFixed(2) },
+        { label: 'Participações em golo', value: player.goals + player.assists },
+        { label: 'Cartões amarelos', value: yellowCards },
+        { label: 'Cartões vermelhos', value: redCards },
+      ];
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-end"><DemoBadge /></div>
-
-      {/* Índices de avaliação técnica (FAF) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {([
-          { name: 'Índice Técnico', value: ratings.technical, accent: '#00F5FF', caption: 'Avaliação integrada' },
-          { name: 'Índice de Forma', value: ratings.form, accent: '#F9C304', caption: 'Rendimento recente' },
-        ] as const).map((src) => (
-          <AnimatedCard key={src.name} variant="holographic" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <span className="font-display text-foreground uppercase tracking-wider text-sm">{src.name}</span>
-              <span className="text-[10px] font-mono uppercase tracking-widest text-zinc-500">
-                {src.caption}
-              </span>
-            </div>
-            <div className="flex items-end gap-3">
-              <span
-                className="font-display text-5xl font-black leading-none"
-                style={{ color: src.accent }}
-              >
-                {src.value.toFixed(1)}
-              </span>
-              <span className="text-[10px] font-mono text-zinc-500 uppercase mb-1.5">Rating médio</span>
-            </div>
-          </AnimatedCard>
+    <div className="space-y-6">
+      {/* Resumo de Indicadores Principais */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {confirmedStats.map((stat) => (
+          <div key={stat.label} className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-5 rounded-2xl text-center">
+            <span className="font-display text-3xl font-black text-foreground">{stat.value}</span>
+            <span className="block mt-1 text-[9px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</span>
+          </div>
         ))}
       </div>
 
-      {/* Tendência últimos 5 jogos */}
-      <AnimatedCard variant="hud" className="bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-900 p-6">
-        <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
-          <BarChart3 size={16} className="text-accent" /> Tendência de Forma · Últimos 5 Jogos
-        </h3>
-        <div className="h-56 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={recent} margin={{ top: 10, right: 12, left: -18, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
-              <XAxis dataKey="match" stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} />
-              <YAxis domain={[5, 10]} stroke="#52525b" fontSize={11} tickLine={false} axisLine={false} />
-              <Tooltip
-                contentStyle={{
-                  background: '#09090b',
-                  border: '1px solid #27272a',
-                  borderRadius: 12,
-                  fontSize: 12,
-                  fontFamily: 'monospace',
-                }}
-                labelStyle={{ color: '#a1a1aa' }}
-                formatter={(v) => [Number(v).toFixed(1), 'Rating']}
-              />
-              <Line
-                type="monotone"
-                dataKey="rating"
-                stroke="#00F5FF"
-                strokeWidth={2.5}
-                dot={{ r: 4, fill: '#00F5FF', stroke: '#09090b', strokeWidth: 2 }}
-                activeDot={{ r: 6 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="flex flex-wrap gap-2 mt-4">
-          {recent.map((r) => (
-            <span
-              key={r.match}
-              className="px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold border"
-              style={{
-                color: ratingColor(r.rating),
-                borderColor: `${ratingColor(r.rating)}40`,
-                background: `${ratingColor(r.rating)}12`,
-              }}
-            >
-              {r.match}: {r.rating.toFixed(1)}
-            </span>
-          ))}
-        </div>
-      </AnimatedCard>
+      {/* Análise Avançada da Época */}
+      <PlayerAdvancedStats player={player} team={team} />
 
-      {/* Grelha de métricas */}
-      <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-6 rounded-2xl">
-        <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-          <Activity size={16} className="text-primary" /> Métricas de Rendimento
-        </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/60 font-mono">
-          {metricGrid.map((m) => (
-            <div key={m.label} className="bg-zinc-100 dark:bg-black/40 rounded-xl p-3.5">
-              <span className="text-[9px] text-zinc-500 uppercase block mb-1">{m.label}</span>
-              <span className="font-bold text-foreground text-lg block">{m.value}</span>
-            </div>
-          ))}
-        </div>
+      <div className="p-4 bg-zinc-500/5 border border-zinc-500/20 rounded-2xl flex gap-3.5 items-start">
+        <AlertTriangle className="text-zinc-500 flex-shrink-0 mt-0.5" size={16} />
+        <p className="text-xs text-zinc-500 font-mono">
+          Os minutos em campo, golos por intervalo, balizas limpas e rácios de rendimento são calculados a partir das escalações, cronologia de substituições e ocorrências das súmulas oficiais da competição.
+        </p>
       </div>
     </div>
   );
@@ -650,6 +555,10 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
   // aqui aplica as edições de jogador e de clube assim que ficam disponíveis.
   const player = getPlayerById(serverPlayer.id) ?? serverPlayer;
   const team = getTeamById(player.teamId) ?? serverTeam;
+  const isGoalkeeper = player.position.toLowerCase().includes('guarda');
+  const goalkeeperStats = isGoalkeeper
+    ? getCurrentSeasonCleanSheets().find((row) => row.id === player.id)
+    : undefined;
 
   // Goals classification
   const allPlayers = getPlayers();
@@ -759,8 +668,18 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
 
             {/* Stat Rings */}
             <div className="flex flex-wrap gap-6 justify-center md:justify-start pt-2 border-t border-zinc-200/60 dark:border-zinc-900/60">
-              <StatRing value={player.goals} max={maxGoals} label="Golos" color="#D21515" />
-              <StatRing value={player.assists} max={15} label="Assistências" color="#F9C304" />
+              {isGoalkeeper ? (
+                <>
+                  <StatRing value={goalkeeperStats?.cleanSheets ?? 0} max={Math.max(goalkeeperStats?.appearances ?? 1, 1)} label="Balizas limpas" color="#22c55e" />
+                  <StatRing value={goalkeeperStats?.goalsConceded ?? 0} max={Math.max((goalkeeperStats?.appearances ?? 1) * 3, 1)} label="Golos sofridos" color="#F9C304" />
+                  {player.goals > 0 && <StatRing value={player.goals} max={maxGoals} label="Golos marcados" color="#D21515" />}
+                </>
+              ) : (
+                <>
+                  <StatRing value={player.goals} max={maxGoals} label="Golos" color="#D21515" />
+                  <StatRing value={player.assists} max={15} label="Assistências" color="#F9C304" />
+                </>
+              )}
               <StatRing value={player.appearances} max={30} label="Jogos" color="#00F5FF" />
               {player.age > 0 && <StatRing value={player.age} max={40} label="Idade" color="#a855f7" />}
             </div>
@@ -801,7 +720,7 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
           exit={{ opacity: 0, x: -16 }}
           transition={{ duration: 0.25 }}
         >
-          {visibleActiveTab === 'estatisticas' && <StatsTab player={player} />}
+          {visibleActiveTab === 'estatisticas' && <StatsTab player={player} team={team} />}
           {canAccessFifaConnect && visibleActiveTab === 'fifaconnect' && <FifaConnectTab player={player} />}
           {visibleActiveTab === 'perfil' && (
       /* Grid Layout */
@@ -1027,14 +946,29 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
             </h3>
             
             <div className="space-y-4 font-mono text-xs">
-              <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
-                <span className="text-zinc-500">Class. Golos</span>
-                <span className="font-bold text-foreground">{goalRank ? `#${goalRank}º` : '—'}</span>
-              </div>
-              <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
-                <span className="text-zinc-500">Golos por Jogo</span>
-                <span className="font-bold text-foreground">{(player.goals / (player.appearances || 1)).toFixed(2)}</span>
-              </div>
+              {isGoalkeeper ? (
+                <>
+                  <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
+                    <span className="text-zinc-500">Balizas limpas</span>
+                    <span className="font-bold text-foreground">{goalkeeperStats?.cleanSheets ?? 0}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
+                    <span className="text-zinc-500">Golos sofridos</span>
+                    <span className="font-bold text-foreground">{goalkeeperStats?.goalsConceded ?? 0}</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
+                    <span className="text-zinc-500">Class. Golos</span>
+                    <span className="font-bold text-foreground">{goalRank ? `#${goalRank}º` : '—'}</span>
+                  </div>
+                  <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
+                    <span className="text-zinc-500">Golos por Jogo</span>
+                    <span className="font-bold text-foreground">{(player.goals / (player.appearances || 1)).toFixed(2)}</span>
+                  </div>
+                </>
+              )}
               <div className="flex justify-between border-b border-zinc-200/60 dark:border-zinc-900/60 pb-2.5">
                 <span className="text-zinc-500">Minutos Jogados</span>
                 <span className="font-bold text-foreground">

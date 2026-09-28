@@ -24,7 +24,6 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [recoveryMode, setRecoveryMode] = useState(false);
   const [recoverySent, setRecoverySent] = useState(false);
-  const [recoveryMessage, setRecoveryMessage] = useState('');
   const [logs, setLogs] = useState<string[]>([]);
 
   // Add initial console output log lines for futuristic feel
@@ -97,9 +96,6 @@ export default function LoginPage() {
         return;
       }
       setRecoverySent(true);
-      if (body?.message) {
-        setRecoveryMessage(body.message);
-      }
       setLogs((prev) => [...prev, 'Pedido de recuperação processado com segurança.']);
     } catch {
       setError('Falha de ligação ao servidor de autenticação.');
@@ -232,19 +228,26 @@ export default function LoginPage() {
                   </div>
                 </div>}
 
-                {recoveryMode && recoverySent && (
+                {recoveryMode && (
                   <div className="space-y-3">
-                    <div className="flex items-start gap-2.5 p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-600 dark:text-emerald-400 font-mono text-[10px] uppercase font-bold">
-                      <CheckCircle2 size={15} className="shrink-0 mt-0.5" />
-                      <span>{recoveryMessage || 'Se o e-mail estiver associado a uma conta autorizada, receberá um link para definir uma nova palavra-passe.'}</span>
+                    {recoverySent ? (
+                      <div className="flex items-start gap-2.5 p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-600 dark:text-emerald-400 font-mono text-[10px] uppercase font-bold">
+                        <CheckCircle2 size={15} className="shrink-0 mt-0.5" />
+                        <span>Se o e-mail estiver associado a uma conta autorizada, receberá um link para definir uma nova palavra-passe.</span>
+                      </div>
+                    ) : null}
+
+                    <div className="p-3.5 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-xs space-y-2">
+                      <p className="text-zinc-600 dark:text-zinc-400 text-[11px] leading-relaxed">
+                        Tem a <strong>Chave de Segurança ANCAF</strong>? Pode redefinir a palavra-passe imediatamente sem aguardar por e-mail:
+                      </p>
+                      <Link
+                        href={`/reset-password?mode=key${email ? `&email=${encodeURIComponent(email)}` : ''}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-accent hover:underline"
+                      >
+                        <KeyRound size={13} /> Redefinir com Chave de Segurança &rarr;
+                      </Link>
                     </div>
-                    <Link
-                      href={`/reset-password?mode=key${email ? `&email=${encodeURIComponent(email)}` : ''}`}
-                      className="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-accent text-white text-xs font-semibold uppercase tracking-wider hover:bg-accent/90 transition-all shadow-md"
-                    >
-                      <KeyRound size={14} />
-                      <span>Redefinir com Chave de Segurança ANCAF</span>
-                    </Link>
                   </div>
                 )}
 
@@ -272,7 +275,7 @@ export default function LoginPage() {
                   {loading ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>{recoveryMode ? 'A processar...' : 'Autenticando...'}</span>
+                      <span>{recoveryMode ? 'A enviar...' : 'Autenticando...'}</span>
                     </>
                   ) : (
                     <>
@@ -281,18 +284,6 @@ export default function LoginPage() {
                     </>
                   )}
                 </button>
-
-                {recoveryMode && !recoverySent && (
-                  <div className="text-center">
-                    <Link
-                      href={`/reset-password?mode=key${email ? `&email=${encodeURIComponent(email)}` : ''}`}
-                      className="inline-flex items-center gap-1.5 text-xs text-accent hover:underline font-mono"
-                    >
-                      <KeyRound size={13} />
-                      <span>Tem a Chave de Segurança ANCAF? Redefinir diretamente</span>
-                    </Link>
-                  </div>
-                )}
 
                 <div className="relative pt-1">
                   <div className="absolute inset-x-0 top-1/2 h-px bg-zinc-200 dark:bg-zinc-800" aria-hidden="true" />

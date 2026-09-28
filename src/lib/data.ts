@@ -2838,6 +2838,9 @@ function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
   if (patch.date !== undefined && patch.scheduleStatus === undefined) {
     merged.scheduleStatus = 'official';
   }
+  if (patch.date !== undefined && patch.postponed === undefined) {
+    merged.postponed = false;
+  }
   const touchedScores = patch.homeScore !== undefined || patch.awayScore !== undefined;
   if (touchedScores && patch.score === undefined) {
     merged.score = `${merged.homeScore ?? 0}-${merged.awayScore ?? 0}`;
@@ -3036,7 +3039,8 @@ export function getMatchesByTeam(teamId: string, seasonId = UPCOMING_SEASON_ID):
  * Considera a maior jornada que já arrancou (jogos realizados ou em direto).
  * Se todos os jogos dessa jornada já terminaram, avança para a próxima jornada.
  * Jogos isolados adiados de jornadas anteriores (acertos de calendário) não
- * puxam o calendário para trás.
+ * puxam o calendário para trás, incluindo o jogo em atraso da própria jornada
+ * quando foi remarcado para depois do início da jornada seguinte.
  */
 export function getActiveSeasonRound(matches: Match[]): number {
   const rounds = Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b);
@@ -3047,13 +3051,25 @@ export function getActiveSeasonRound(matches: Match[]): number {
 
   const maxStartedRound = Math.max(...startedMatches.map((m) => m.round));
   const maxStartedMatches = matches.filter((m) => m.round === maxStartedRound);
-  const hasPendingInMaxStarted = maxStartedMatches.some((m) => m.status !== 'finished');
+  const nextRound = rounds.find((r) => r > maxStartedRound);
+
+  // Um jogo em atraso remarcado para depois do arranque da jornada seguinte
+  // não prende o site nessa jornada: só conta como pendente se estiver em
+  // direto ou marcado antes do primeiro jogo da próxima jornada.
+  const nextRoundStart = nextRound === undefined
+    ? Infinity
+    : Math.min(...matches.filter((m) => m.round === nextRound).map((m) => new Date(m.date).getTime()));
+  const hasPendingInMaxStarted = maxStartedMatches.some((m) => {
+    if (m.status === 'finished') return false;
+    if (m.status === 'live') return true;
+    const kickoff = new Date(m.date).getTime();
+    return Number.isNaN(kickoff) || kickoff < nextRoundStart;
+  });
 
   if (hasPendingInMaxStarted) {
     return maxStartedRound;
   }
 
-  const nextRound = rounds.find((r) => r > maxStartedRound);
   return nextRound ?? maxStartedRound;
 }
 
@@ -3704,6 +3720,8 @@ export interface CleanSheetRecord {
   teamId: string;
   position: string;
   cleanSheets: number;
+  /** Golos sofridos nos jogos atribuídos ao guarda-redes; ausente no arquivo histórico sem detalhe por jogo. */
+  goalsConceded?: number;
   appearances: number; // jogos com escalação oficial em que foi titular
 }
 
@@ -3727,9 +3745,11 @@ export function getCurrentSeasonCleanSheets(): CleanSheetRecord[] {
       teamId,
       position: 'Guarda-redes',
       cleanSheets: 0,
+      goalsConceded: 0,
       appearances: 0,
     };
     entry.appearances += 1;
+    entry.goalsConceded = (entry.goalsConceded ?? 0) + conceded;
     if (conceded === 0) entry.cleanSheets += 1;
     totals.set(gk.playerId, entry);
   };

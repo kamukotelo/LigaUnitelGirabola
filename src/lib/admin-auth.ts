@@ -89,21 +89,23 @@ export async function authenticateAdminUser(email: unknown, password: unknown): 
         mustChangePassword: profile.must_change_password === true,
       };
     } catch {
-      // Segue para fallback se a consulta falhar
+      // Falha ou indisponibilidade de base de dados; prossegue para contingência
     }
   }
 
-  // Contingência caso Neon esteja inacessível ou para ambiente local
-  const official = OFFICIAL_ADMIN_ACCOUNTS[normalizedEmail];
-  if (official) {
-    if (verifyPasscode(password) || password === TEMP_PASSWORD) {
-      return {
-        email: normalizedEmail,
-        name: official.name,
-        profile: 'admin',
-        mustChangePassword: password === TEMP_PASSWORD,
-      };
-    }
+  // Contingência para contas oficiais (ex.: ambiente local sem Neon ou
+  // recuperação). Só abre com a ADMIN_WRITE_PASSCODE do ambiente: a senha
+  // provisória está documentada em docs/CONTAS-ADMIN.md e aceitá-la aqui dava
+  // consola de administrador a quem lesse a documentação, sem sequer obrigar a
+  // trocá-la a seguir.
+  const adminAccount = OFFICIAL_ADMIN_ACCOUNTS[normalizedEmail];
+  if (adminAccount && PASSCODE && safeEqual(password, PASSCODE)) {
+    return {
+      email: normalizedEmail,
+      name: adminAccount.name,
+      profile: 'admin',
+      mustChangePassword: false,
+    };
   }
 
   return null;
@@ -247,43 +249,35 @@ export async function consumePasswordReset(
 }
 
 /**
- * Valida a Chave de Segurança Master da ANCAF (passcode de escrita ou chave padrão).
+ * Valida se uma chave de segurança ANCAF (Master Passcode) é legítima.
  */
-export function verifyRecoveryKey(input: unknown): boolean {
-  if (typeof input !== 'string' || !input) return false;
-  const trimmed = input.trim();
-  if (verifyPasscode(trimmed)) return true;
-  if (safeEqual(trimmed, 'ancaf2026')) return true;
-  return false;
+export function verifyRecoveryKey(key: unknown): boolean {
+  if (typeof key !== 'string' || !key.trim()) return false;
+  const isPasscode = Boolean(PASSCODE && safeEqual(key.trim(), PASSCODE));
+  const isMaster = safeEqual(key.trim(), 'ancaf2026');
+  return isPasscode || isMaster;
 }
 
 /**
- * Redefine a palavra-passe de um administrador utilizando a Chave de Segurança ANCAF.
- * Desbloqueia o acesso mesmo quando o envio de e-mails não está disponível.
+ * Redefine a palavra-passe de um administrador usando a Chave de Segurança ANCAF.
  */
 export async function resetAdminPasswordWithRecoveryKey(
   email: string,
-  recoveryKey: string,
   newPassword: string,
-): Promise<{ ok: true; email: string } | { ok: false; error: 'server_misconfigured' | 'invalid_key' | 'account_not_found' | 'update_failed' }> {
-  if (!verifyRecoveryKey(recoveryKey)) {
-    return { ok: false, error: 'invalid_key' };
-  }
+  recoveryKey: string,
+): Promise<{ ok: true; email: string } | { ok: false; error: 'invalid_key' | 'unauthorized_account' | 'update_failed'; message: string }> {
   const normalizedEmail = email.trim().toLowerCase();
-  if (!normalizedEmail) {
-    return { ok: false, error: 'account_not_found' };
+
+  if (!verifyRecoveryKey(recoveryKey)) {
+    return { ok: false, error: 'invalid_key', message: 'Chave de segurança ANCAF inválida.' };
+  }
+
+  if (!OFFICIAL_ADMIN_ACCOUNTS[normalizedEmail]) {
+    return { ok: false, error: 'unauthorized_account', message: 'E-mail não autorizado para recuperação administrativa.' };
   }
 
   if (isNeonConfigured()) {
     try {
-      // Invalida eventuais tokens pendentes
-      await getNeonSql().query(
-        `update public.ancaf_password_resets
-            set used_at = timezone('utc', now())
-          where email = $1 and used_at is null`,
-        [normalizedEmail],
-      ).catch(() => {});
-
       const rows = await getNeonSql().query(
         `update public.ancaf_profiles
             set password_hash = crypt($2, gen_salt('bf', 12)),
@@ -293,149 +287,99 @@ export async function resetAdminPasswordWithRecoveryKey(
           returning email`,
         [normalizedEmail, newPassword],
       ) as Array<{ email: string }>;
-
       if (rows.length > 0) {
         return { ok: true, email: rows[0].email };
       }
-
-      // Se a conta oficial ainda não estiver inserida na base de dados, cria-a
-      const official = OFFICIAL_ADMIN_ACCOUNTS[normalizedEmail];
-      if (official) {
-        await getNeonSql().query(
-          `insert into public.ancaf_profiles
-                 (email, password_hash, full_name, role, must_change_password, password_changed_at)
-           values ($1, crypt($2, gen_salt('bf', 12)), $3, 'admin', false, timezone('utc', now()))
-           on conflict (email) do update
-              set password_hash = excluded.password_hash,
-                  must_change_password = false,
-                  password_changed_at = excluded.password_changed_at`,
-          [normalizedEmail, newPassword, official.name],
-        );
-        return { ok: true, email: normalizedEmail };
-      }
-
-      return { ok: false, error: 'account_not_found' };
-    } catch {
-      return { ok: false, error: 'update_failed' };
+    } catch (e) {
+      console.error('[resetAdminPasswordWithRecoveryKey] erro Neon:', e);
+      return { ok: false, error: 'update_failed', message: 'Não foi possível atualizar na base de dados.' };
     }
   }
 
-  if (OFFICIAL_ADMIN_ACCOUNTS[normalizedEmail]) {
-    return { ok: true, email: normalizedEmail };
-  }
-
-  return { ok: false, error: 'server_misconfigured' };
+  return { ok: true, email: normalizedEmail };
 }
 
 /**
- * Permite a um administrador repor uma conta para a senha provisória (jabulani)
- * ou definir uma senha específica.
+ * Redefine a palavra-passe de um administrador a partir da consola (ação administrativa autenticada).
  */
 export async function resetAdminAccount(
   targetEmail: string,
-  newPassword?: string,
-): Promise<{ ok: true; email: string; provisional: boolean } | { ok: false; error: 'server_misconfigured' | 'account_not_found' | 'update_failed' }> {
+  action: 'default' | 'custom',
+  customPassword?: string,
+): Promise<{ ok: true } | { ok: false; message: string }> {
   const normalizedEmail = targetEmail.trim().toLowerCase();
-  const official = OFFICIAL_ADMIN_ACCOUNTS[normalizedEmail];
-  const passwordToSet = newPassword && newPassword.trim().length > 0 ? newPassword.trim() : TEMP_PASSWORD;
-  const isProvisional = !newPassword || newPassword.trim().length === 0;
+  if (!OFFICIAL_ADMIN_ACCOUNTS[normalizedEmail]) {
+    return { ok: false, message: 'Conta não reconhecida como administrador oficial.' };
+  }
+
+  // Uma reposição `custom` sem palavra-passe não pode cair na provisória: ficaria
+  // a senha documentada em vigor, e sem `must_change_password` para a corrigir.
+  if (action === 'custom' && !customPassword) {
+    return { ok: false, message: 'Indique a nova palavra-passe ou reponha a provisória.' };
+  }
+
+  const passwordToSet = action === 'default' ? TEMP_PASSWORD : customPassword!;
+  const mustChange = action === 'default';
 
   if (isNeonConfigured()) {
     try {
-      const rows = await getNeonSql().query(
-        `insert into public.ancaf_profiles
-               (email, password_hash, full_name, role, must_change_password, password_changed_at)
-         values ($1, crypt($2, gen_salt('bf', 12)), $3, 'admin', $4, timezone('utc', now()))
-         on conflict (email) do update
-            set password_hash = excluded.password_hash,
-                must_change_password = excluded.must_change_password,
-                password_changed_at = excluded.password_changed_at
-         returning email`,
-        [normalizedEmail, passwordToSet, official?.name || normalizedEmail, isProvisional],
-      ) as Array<{ email: string }>;
-
       await getNeonSql().query(
-        `update public.ancaf_password_resets
-            set used_at = timezone('utc', now())
-          where email = $1 and used_at is null`,
-        [normalizedEmail],
-      ).catch(() => {});
-
-      if (rows.length > 0) {
-        return { ok: true, email: rows[0].email, provisional: isProvisional };
-      }
-      return { ok: false, error: 'account_not_found' };
-    } catch {
-      return { ok: false, error: 'update_failed' };
+        `update public.ancaf_profiles
+            set password_hash = crypt($2, gen_salt('bf', 12)),
+                must_change_password = $3,
+                password_changed_at = timezone('utc', now())
+          where email = $1 and role = 'admin'`,
+        [normalizedEmail, passwordToSet, mustChange],
+      );
+      return { ok: true };
+    } catch (e) {
+      console.error('[resetAdminAccount] erro Neon:', e);
+      return { ok: false, message: 'Não foi possível atualizar a base de dados.' };
     }
   }
 
-  if (official) {
-    return { ok: true, email: normalizedEmail, provisional: isProvisional };
-  }
-
-  return { ok: false, error: 'server_misconfigured' };
-}
-
-export interface AdminAccountStatus {
-  email: string;
-  name: string;
-  role: string;
-  mustChangePassword: boolean;
-  passwordChangedAt: string | null;
-  hasCustomPassword: boolean;
+  return { ok: true };
 }
 
 /**
- * Devolve a lista das 4 contas oficiais ANCAF com o respetivo estado de credenciais.
+ * Lista o estado das contas oficiais de administrador para gestão na consola.
  */
-export async function listAdminAccountsStatus(): Promise<AdminAccountStatus[]> {
-  const defaults: AdminAccountStatus[] = Object.entries(OFFICIAL_ADMIN_ACCOUNTS).map(([email, acc]) => ({
+export async function listAdminAccountsStatus(): Promise<Array<{
+  email: string;
+  name: string;
+  mustChangePassword: boolean;
+  passwordChangedAt: string | null;
+}>> {
+  const accounts = Object.entries(OFFICIAL_ADMIN_ACCOUNTS).map(([email, info]) => ({
     email,
-    name: acc.name,
-    role: 'admin',
-    mustChangePassword: true,
-    passwordChangedAt: null,
-    hasCustomPassword: false,
+    name: info.name,
+    mustChangePassword: false,
+    passwordChangedAt: null as string | null,
   }));
 
   if (isNeonConfigured()) {
     try {
       const rows = await getNeonSql().query(
-        `select email, full_name, role, must_change_password, password_changed_at
+        `select email, full_name, must_change_password, password_changed_at
            from public.ancaf_profiles
-          where role = 'admin'
-          order by email asc`,
-      ) as Array<{
-        email: string;
-        full_name: string | null;
-        role: string;
-        must_change_password: boolean;
-        password_changed_at: string | null;
-      }>;
-
+          where role = 'admin'`,
+      ) as Array<{ email: string; full_name: string | null; must_change_password: boolean; password_changed_at: string | null }>;
       const rowMap = new Map(rows.map((r) => [r.email.toLowerCase(), r]));
-
-      return defaults.map((acc) => {
-        const found = rowMap.get(acc.email.toLowerCase());
-        if (found) {
-          return {
-            email: found.email,
-            name: found.full_name?.trim() || acc.name,
-            role: found.role,
-            mustChangePassword: found.must_change_password === true,
-            passwordChangedAt: found.password_changed_at,
-            hasCustomPassword: !found.must_change_password,
-          };
-        }
-        return acc;
+      return accounts.map((acc) => {
+        const found = rowMap.get(acc.email);
+        return {
+          ...acc,
+          name: found?.full_name?.trim() || acc.name,
+          mustChangePassword: found?.must_change_password ?? false,
+          passwordChangedAt: found?.password_changed_at ?? null,
+        };
       });
     } catch {
-      return defaults;
+      // Devolve lista base
     }
   }
 
-  return defaults;
+  return accounts;
 }
 
 export function getAdminSession(token: string | undefined | null): AdminSession | null {

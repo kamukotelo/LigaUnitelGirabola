@@ -74,16 +74,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'bad_request', message: 'Secção desconhecida.' }, { status: 400 });
   }
 
-  let serialized: string;
-  try {
-    serialized = JSON.stringify(value ?? {});
-  } catch {
-    return NextResponse.json({ error: 'bad_request', message: 'Os dados enviados não são válidos.' }, { status: 400 });
-  }
-  if (serialized.length > 2_000_000) {
-    return NextResponse.json({ error: 'payload_too_large', message: 'A secção excede o limite de 2 MB.' }, { status: 413 });
-  }
-
   if (!isNeonConfigured()) {
     return NextResponse.json(
       { error: 'server_misconfigured', message: 'Ligação ao Neon não configurada no servidor.' },
@@ -104,6 +94,26 @@ export async function POST(request: Request) {
   const previousRows = section === 'calendar'
     ? await sql.query('select value from public.ancaf_configs where key = $1 limit 1', [keyFor('calendar')]) as { value: string }[]
     : [];
+
+  let payloadValue = value;
+  if (section === 'calendar' && previousRows[0]?.value) {
+    try {
+      const prev = JSON.parse(previousRows[0].value);
+      if (prev && typeof prev === 'object' && !Array.isArray(prev) && typeof value === 'object' && value && !Array.isArray(value)) {
+        payloadValue = { ...prev, ...value };
+      }
+    } catch {}
+  }
+
+  let serialized: string;
+  try {
+    serialized = JSON.stringify(payloadValue ?? {});
+  } catch {
+    return NextResponse.json({ error: 'bad_request', message: 'Os dados enviados não são válidos.' }, { status: 400 });
+  }
+  if (serialized.length > 2_000_000) {
+    return NextResponse.json({ error: 'payload_too_large', message: 'A secção excede o limite de 2 MB.' }, { status: 413 });
+  }
 
   // O calendário público continua a usar o bloco de overrides para reagir em
   // tempo real, mas a fonte operacional tem de ficar igualmente atualizada:

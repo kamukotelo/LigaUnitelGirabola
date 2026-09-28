@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import Link from 'next/link';
 import { Activity, BarChart3, Clock3, Home, Shield, ShieldCheck, TrendingUp, Users } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
@@ -312,7 +313,9 @@ export default function AdvancedStatistics({
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {analytics.teamMetrics.map((team) => (
         <AnimatedCard key={team.teamId} variant="hud" className="p-5">
-          <p className="truncate text-xs font-bold uppercase text-foreground">{team.teamName}</p>
+          <Link href={`/teams/${team.teamId}`} className="block truncate text-xs font-bold uppercase text-foreground hover:text-accent transition-colors">
+            {team.teamName}
+          </Link>
           <p className="mt-3 text-3xl font-black text-accent">{team.efficiency.toFixed(1)}%</p>
           <p className="text-[11px] sm:text-[9px] font-mono uppercase text-zinc-500 dark:text-zinc-400">Aproveitamento</p>
           <p className="mt-3 text-[10px] text-zinc-500 dark:text-zinc-400">Forma: {team.form.map((item) => item === 'W' ? 'V' : item === 'D' ? 'E' : 'D').join(' · ') || '—'}</p>
@@ -329,19 +332,19 @@ export default function AdvancedStatistics({
           headers={teamName ? ['Jogador', 'G+A', 'Minutos', 'G/90', 'A/90'] : ['Jogador', 'Clube', 'G+A', 'Minutos', 'G/90', 'A/90']}
           rows={analytics.playerRates.slice(0, 10).map((row) =>
             teamName
-              ? [row.name, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)]
-              : [row.name, row.club, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)]
+              ? [<Link key="player" href={`/players/${row.id}`} className="hover:text-accent">{row.name}</Link>, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)]
+              : [<Link key="player" href={`/players/${row.id}`} className="hover:text-accent">{row.name}</Link>, <Link key="team" href={`/teams/${row.teamId}`} className="hover:text-accent">{row.club}</Link>, String(row.contributions), `${row.minutesPlayed}'`, row.goalsPer90.toFixed(2), row.assistsPer90.toFixed(2)]
           )}
           empty="Nenhum atleta com participações em golo registadas na época em curso."
         />
       </Panel>
       <Panel title="Balizas limpas" icon={<ShieldCheck size={16} />}>
         <Table
-          headers={teamName ? ['Guarda-redes', 'Jogos', 'Sem sofrer', '%'] : ['Guarda-redes', 'Clube', 'Jogos', 'Sem sofrer', '%']}
+          headers={teamName ? ['Guarda-redes', 'Jogos', 'Balizas limpas', 'Golos sofridos', '%'] : ['Guarda-redes', 'Clube', 'Jogos', 'Balizas limpas', 'Golos sofridos', '%']}
           rows={analytics.cleanSheets.slice(0, 8).map((row) =>
             teamName
-              ? [row.name, String(row.appearances), String(row.cleanSheets), `${row.percentage.toFixed(1)}%`]
-              : [row.name, row.club, String(row.appearances), String(row.cleanSheets), `${row.percentage.toFixed(1)}%`]
+              ? [<Link key="player" href={`/players/${row.id}`} className="hover:text-accent">{row.name}</Link>, String(row.appearances), String(row.cleanSheets), String(row.goalsConceded ?? 0), `${row.percentage.toFixed(1)}%`]
+              : [<Link key="player" href={`/players/${row.id}`} className="hover:text-accent">{row.name}</Link>, <Link key="team" href={`/teams/${row.teamId}`} className="hover:text-accent">{row.club}</Link>, String(row.appearances), String(row.cleanSheets), String(row.goalsConceded ?? 0), `${row.percentage.toFixed(1)}%`]
           )}
           empty="Ainda sem balizas invioladas em jogos com escalação oficial."
         />
@@ -351,8 +354,8 @@ export default function AdvancedStatistics({
           headers={teamName ? ['Jogador', '2 · Doblete', '3 · Hat-trick', '4 · Poker', '5 · Manita', 'Mais de 5'] : ['Jogador', 'Clube', '2 · Doblete', '3 · Hat-trick', '4 · Poker', '5 · Manita', 'Mais de 5']}
           rows={analytics.goalHauls.slice(0, 8).map((row) =>
             teamName
-              ? [row.name, String(row.braces), String(row.hatTricks), String(row.pokers), String(row.manitas), String(row.overFive)]
-              : [row.name, row.club, String(row.braces), String(row.hatTricks), String(row.pokers), String(row.manitas), String(row.overFive)]
+              ? [<Link key="player" href={`/players/${row.id}`} className="hover:text-accent">{row.name}</Link>, String(row.braces), String(row.hatTricks), String(row.pokers), String(row.manitas), String(row.overFive)]
+              : [<Link key="player" href={`/players/${row.id}`} className="hover:text-accent">{row.name}</Link>, <Link key="team" href={`/teams/${row.teamId}`} className="hover:text-accent">{row.club}</Link>, String(row.braces), String(row.hatTricks), String(row.pokers), String(row.manitas), String(row.overFive)]
           )}
           empty="Nenhum jogador marcou duas ou mais vezes no mesmo jogo oficial."
         />
@@ -528,7 +531,7 @@ function Panel({ title, icon, children }: { title: string; icon: React.ReactNode
   return <AnimatedCard variant="hud" className="min-w-0 p-6"><h3 className="mb-5 flex items-center gap-2 font-display text-sm uppercase text-foreground"><span className="text-accent">{icon}</span>{title}</h3>{children}</AnimatedCard>;
 }
 
-function Table({ headers, rows, empty = 'Sem dados oficiais disponíveis.' }: { headers: string[]; rows: string[][]; empty?: string }) {
+function Table({ headers, rows, empty = 'Sem dados oficiais disponíveis.' }: { headers: string[]; rows: React.ReactNode[][]; empty?: string }) {
   if (!rows.length) return <p className="text-xs text-zinc-500">{empty}</p>;
-  return <div className="overflow-x-auto"><table className="w-full min-w-[420px] text-left text-[10px]"><thead><tr className="border-b border-zinc-200 font-mono uppercase text-zinc-500 dark:border-zinc-800">{headers.map((header) => <th key={header} className="pb-2 pr-3">{header}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr key={`${row[0]}-${index}`} className="border-b border-zinc-200/60 dark:border-zinc-800/60">{row.map((cell, cellIndex) => <td key={`${cellIndex}-${cell}`} className={`py-2.5 pr-3 ${cellIndex === 0 ? 'font-semibold text-foreground' : 'font-mono text-zinc-500'}`}>{cell}</td>)}</tr>)}</tbody></table></div>;
+  return <div className="overflow-x-auto"><table className="w-full min-w-[420px] text-left text-[10px]"><thead><tr className="border-b border-zinc-200 font-mono uppercase text-zinc-500 dark:border-zinc-800">{headers.map((header) => <th key={header} className="pb-2 pr-3">{header}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr key={index} className="border-b border-zinc-200/60 dark:border-zinc-800/60">{row.map((cell, cellIndex) => <td key={cellIndex} className={`py-2.5 pr-3 ${cellIndex === 0 ? 'font-semibold text-foreground' : 'font-mono text-zinc-500'}`}>{cell}</td>)}</tr>)}</tbody></table></div>;
 }
