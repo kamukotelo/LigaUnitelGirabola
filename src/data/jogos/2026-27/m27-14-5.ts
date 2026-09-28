@@ -6,5 +6,6 @@ export default defineMatch({
   round: 14,
   homeTeamId: 'lobito',
   awayTeamId: 'lundasul',
-  schedule: { date: '2026-12-12T14:00:00+00:00', stadium: 'Estádio do Buraco', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-12T14:00:00+00:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'provisional' },
+  // A Académica recebe no Estádio Nacional de Ombaka (indicação de 28/09/2026).
 });
