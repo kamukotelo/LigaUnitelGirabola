@@ -6,6 +6,6 @@ export default defineMatch({
   round: 19,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'libolo',
-  schedule: { date: '2027-02-20T14:00:00+00:00', stadium: 'Estádio Edelfride Miau', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-20T14:00:00+00:00', stadium: 'Estádio Municipal de Benguela', scheduleStatus: 'provisional' },
   // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

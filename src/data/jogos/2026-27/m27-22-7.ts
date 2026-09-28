@@ -6,6 +6,6 @@ export default defineMatch({
   round: 22,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2027-03-13T14:00:00+00:00', stadium: 'Estádio Edelfride Miau', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-03-13T14:00:00+00:00', stadium: 'Estádio Municipal de Benguela', scheduleStatus: 'provisional' },
   // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });
