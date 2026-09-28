@@ -2859,6 +2859,22 @@ function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
   return merged;
 }
 
+// Agenda que o registo do jogo fixa: uma edição do painel nunca a sobrepõe.
+const RECORD_SCHEDULE_FIELDS = ['date', 'postponed', 'stadium', 'scheduleStatus', 'broadcaster'] as const;
+
+/**
+ * Tira a um override do painel os campos de agenda quando o jogo tem registo
+ * em src/data/jogos: o mapa oficial mais recente vive no registo, e edições
+ * antigas gravadas na base de dados deixavam horas desatualizadas no site.
+ * O resto do override (resultado, estado, assistência…) continua a valer.
+ */
+function withoutRecordSchedule(matchId: string, patch: Partial<Match>): Partial<Match> {
+  if (!MATCH_RECORD_BY_ID.has(matchId)) return patch;
+  const rest: Partial<Match> = { ...patch };
+  for (const field of RECORD_SCHEDULE_FIELDS) delete rest[field];
+  return rest;
+}
+
 export function applyMatchOverrideMap(list: Match[], ov?: Record<string, Partial<Match>>): Match[] {
   return list.map((m) => {
     const named = {
@@ -2866,7 +2882,7 @@ export function applyMatchOverrideMap(list: Match[], ov?: Record<string, Partial
       homeTeam: getTeamById(m.homeTeamId)?.name ?? m.homeTeam,
       awayTeam: getTeamById(m.awayTeamId)?.name ?? m.awayTeam,
     };
-    return normalizeMatchOverride(named, ov?.[m.id] ?? {});
+    return normalizeMatchOverride(named, withoutRecordSchedule(m.id, ov?.[m.id] ?? {}));
   });
 }
 
