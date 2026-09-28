@@ -6,5 +6,5 @@ export default defineMatch({
   round: 29,
   homeTeamId: 'sagrada',
   awayTeamId: 'dago',
-  schedule: { date: '2027-05-08T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-05-08T14:00:00+00:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'provisional' },
 });

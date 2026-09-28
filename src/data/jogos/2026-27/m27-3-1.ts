@@ -7,7 +7,7 @@ export default defineMatch({
   round: 3,
   homeTeamId: 'lundasul',
   awayTeamId: 'caala',
-  schedule: { date: '2026-09-05T15:00:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-09-05T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '1-0', attendance: 200, updatedAt: '2026-09-06T09:00:00+01:00' },
   officials: { referee: 'Aldair Quissanga Rodrigues Carmelino', assistants: ['Nery Domingos Pereira Amador da Silva', 'Januário Simões Francisco'], fourth: 'Fábio Ricardo dos Santos Macano', commissioner: 'João Amado Muanda Goma' },
   events: [

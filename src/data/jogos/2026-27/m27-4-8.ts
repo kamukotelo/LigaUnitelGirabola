@@ -8,7 +8,7 @@ export default defineMatch({
   round: 4,
   homeTeamId: 'libolo',
   awayTeamId: 'primeiromaio',
-  schedule: { date: '2026-09-12T15:00:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-09-12T15:00:00+01:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 2, awayScore: 1, halfTimeScore: '2-1', updatedAt: '2026-09-12T17:00:00+01:00' },
   coaches: { home: 'Osvaldo Roque', away: 'Águas da Silva' },
   events: [

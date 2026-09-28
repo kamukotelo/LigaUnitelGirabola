@@ -6,5 +6,5 @@ export default defineMatch({
   round: 8,
   homeTeamId: 'desphuila',
   awayTeamId: 'libolo',
-  schedule: { date: '2026-10-25T15:00:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-10-25T15:00:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official' },
 });

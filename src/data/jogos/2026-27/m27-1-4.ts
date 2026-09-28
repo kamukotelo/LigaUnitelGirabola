@@ -6,7 +6,7 @@ export default defineMatch({
   round: 1,
   homeTeamId: 'lundasul',
   awayTeamId: 'petro',
-  schedule: { date: '2026-08-21T15:00:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-08-21T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', attendance: 5000, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Miguel Tchissingu Augusto Américo', assistants: ['João Manuel Fula António', 'Nery Domingos Pereira Amador da Silva'], fourth: 'Isaías Justino Camaxi' },
   coaches: { home: 'Pedro Barros', away: 'João Pedro Sousa' },

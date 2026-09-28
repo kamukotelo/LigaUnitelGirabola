@@ -6,5 +6,5 @@ export default defineMatch({
   round: 11,
   homeTeamId: 'saosalvador',
   awayTeamId: 'dago',
-  schedule: { date: '2026-11-21T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-11-21T14:00:00+00:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'provisional' },
 });

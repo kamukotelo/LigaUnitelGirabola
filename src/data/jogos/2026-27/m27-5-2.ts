@@ -6,7 +6,7 @@ export default defineMatch({
   round: 5,
   homeTeamId: 'dago',
   awayTeamId: 'fcluanda',
-  schedule: { date: '2026-09-19T15:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-09-19T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 3, awayScore: 2, halfTimeScore: '0-1', updatedAt: '2026-09-19T18:47:00+01:00' },
   officials: {
     referee: 'Ailton Jeovane Quissanga Carmelino',

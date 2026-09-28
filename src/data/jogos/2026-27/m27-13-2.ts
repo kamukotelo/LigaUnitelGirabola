@@ -6,5 +6,5 @@ export default defineMatch({
   round: 13,
   homeTeamId: 'saosalvador',
   awayTeamId: 'libolo',
-  schedule: { date: '2026-12-05T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-05T14:00:00+00:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'provisional' },
 });

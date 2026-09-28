@@ -18,7 +18,6 @@ const files = [
   ['004_atomic_match_file_publish', resolve(root, 'supabase/migrations/20260919001000_atomic_match_file_publish.sql')],
   ['005_admin_password_resets', resolve(root, 'supabase/migrations/20260920000000_admin_password_resets.sql')],
   ['006_match_admin_forms', resolve(root, 'supabase/migrations/20260919002000_match_admin_forms.sql')],
-  ['007_wiliete_squad_2026_27', resolve(root, 'supabase/migrations/20260921173000_update_wiliete_squad_2026_27.sql')],
 ];
 
 const pool = new Pool({ connectionString, max: 1 });

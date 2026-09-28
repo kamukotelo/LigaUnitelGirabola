@@ -6,5 +6,5 @@ export default defineMatch({
   round: 22,
   homeTeamId: 'lundasul',
   awayTeamId: 'bravos',
-  schedule: { date: '2027-03-13T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-03-13T14:00:00+00:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'provisional' },
 });

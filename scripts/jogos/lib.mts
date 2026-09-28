@@ -146,13 +146,6 @@ export async function validateRecords(): Promise<ValidationReport> {
     }
   }
 
-  // O recinto de casa é único: ficha do clube e mapa da época dizem o mesmo.
-  for (const [teamId, stadium] of Object.entries(d.HOME_STADIUMS_2026_27 as Record<string, string>)) {
-    const team = d.getTeamById(teamId);
-    if (!team) errors.push(`HOME_STADIUMS_2026_27: "${teamId}" não é um clube da época.`);
-    else if (team.stadium !== stadium) errors.push(`${teamId}: a ficha do clube diz "${team.stadium}" e o mapa da época diz "${stadium}".`);
-  }
-
   const unknownPlayerIds = new Set<string>();
   const knownPlayer = (id: string | undefined) => {
     if (id && !d.getPlayerById(id)) unknownPlayerIds.add(id);
@@ -163,14 +156,7 @@ export async function validateRecords(): Promise<ValidationReport> {
     const { schedule, result, events = [], lineups, stats, officials } = record;
 
     if (!ISO_DATE.test(schedule.date) || Number.isNaN(Date.parse(schedule.date))) errors.push(`${at}: data inválida "${schedule.date}" (usar 2026-09-20T17:15:00+01:00).`);
-    const homeStadium: string | undefined = d.HOME_STADIUMS_2026_27[record.homeTeamId];
-    if (schedule.stadium === undefined) {
-      if (!homeStadium) errors.push(`${at}: falta o estádio — ${record.homeTeamId} não tem recinto de casa definido em HOME_STADIUMS_2026_27.`);
-    } else if (!schedule.stadium.trim()) {
-      errors.push(`${at}: estádio vazio — remove o campo para usar o recinto de casa.`);
-    } else if (schedule.stadium === homeStadium) {
-      warnings.push(`${at}: o estádio declarado é o recinto de casa de ${record.homeTeamId}; podes remover o campo.`);
-    }
+    if (!schedule.stadium?.trim()) errors.push(`${at}: falta o estádio.`);
     if (schedule.scheduleStatus !== 'official' && schedule.scheduleStatus !== 'provisional') errors.push(`${at}: scheduleStatus tem de ser 'official' ou 'provisional'.`);
     if (schedule.broadcaster !== undefined) {
       if (!schedule.broadcaster.trim()) errors.push(`${at}: broadcaster vazio — remove o campo para anunciar a Rádio 5.`);

@@ -6,5 +6,5 @@ export default defineMatch({
   round: 21,
   homeTeamId: 'saosalvador',
   awayTeamId: 'desphuila',
-  schedule: { date: '2027-03-06T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-03-06T14:00:00+00:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'provisional' },
 });

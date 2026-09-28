@@ -24,12 +24,7 @@ export interface MatchRecord {
   /** Agenda efetiva. Sem `broadcaster`, o jogo é anunciado na Rádio 5. */
   schedule: {
     date: string;
-    /**
-     * Só para jogos fora do recinto habitual (obras, castigo, palco neutro).
-     * Sem este campo vale o recinto de casa do clube — ver
-     * HOME_STADIUMS_2026_27 em src/lib/data.ts.
-     */
-    stadium?: string;
+    stadium: string;
     /** Jogo oficialmente adiado, ainda sem nova data confirmada. */
     postponed?: boolean;
     /** `official` só depois de publicado em comunicado ou mapa oficial. */

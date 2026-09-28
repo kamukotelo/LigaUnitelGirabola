@@ -6,7 +6,7 @@ export default defineMatch({
   round: 3,
   homeTeamId: 'dago',
   awayTeamId: 'interclube',
-  schedule: { date: '2026-09-01T15:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-09-01T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 2, awayScore: 1, halfTimeScore: '0-1', updatedAt: '2026-09-01T18:00:00+01:00' },
   officials: { referee: 'Edson António Esoko', assistants: ['Jerson Emiliano dos Santos', 'Estanislau Guedes Tavares Muluta Prata'], fourth: 'Sanda Mateus Miguel Kitu', commissioner: 'Venâncio Matos' },
   coaches: { home: 'Filipe Nzanza', away: 'Divaldo Alves' },

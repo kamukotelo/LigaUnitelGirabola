@@ -6,5 +6,5 @@ export default defineMatch({
   round: 12,
   homeTeamId: 'sagrada',
   awayTeamId: 'desphuila',
-  schedule: { date: '2026-11-28T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-11-28T14:00:00+00:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'provisional' },
 });

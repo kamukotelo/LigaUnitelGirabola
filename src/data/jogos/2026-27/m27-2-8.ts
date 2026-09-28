@@ -7,7 +7,7 @@ export default defineMatch({
   round: 2,
   homeTeamId: 'lobito',
   awayTeamId: 'petro',
-  schedule: { date: '2026-08-30T15:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-08-30T15:30:00+01:00', stadium: 'Estádio do Buraco', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 0, awayScore: 2, halfTimeScore: '0-0', attendance: 5500, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Gilberto Kativa', assistants: ['Jeremias Cafussa', 'Pedro Alberto'], fourth: 'Pedro Katchisosa' },
   coaches: { home: 'Silvestre Pelé', away: 'João Pedro Sousa' },

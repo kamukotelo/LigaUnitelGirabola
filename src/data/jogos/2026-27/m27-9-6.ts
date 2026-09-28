@@ -6,5 +6,5 @@ export default defineMatch({
   round: 9,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'fcluanda',
-  schedule: { date: '2026-11-01T15:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-11-01T15:30:00+01:00', stadium: 'Estádio de São Filipe', scheduleStatus: 'official', broadcaster: 'Zsports' },
 });

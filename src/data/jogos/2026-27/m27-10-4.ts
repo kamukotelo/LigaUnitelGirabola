@@ -6,5 +6,5 @@ export default defineMatch({
   round: 10,
   homeTeamId: 'bravos',
   awayTeamId: 'interclube',
-  schedule: { date: '2026-11-07T15:00:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official' },
 });

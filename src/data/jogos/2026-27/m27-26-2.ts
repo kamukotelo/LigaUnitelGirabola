@@ -6,5 +6,5 @@ export default defineMatch({
   round: 26,
   homeTeamId: 'libolo',
   awayTeamId: 'lobito',
-  schedule: { date: '2027-04-17T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-17T14:00:00+00:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'provisional' },
 });

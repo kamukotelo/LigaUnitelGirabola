@@ -6,5 +6,5 @@ export default defineMatch({
   round: 16,
   homeTeamId: 'sagrada',
   awayTeamId: 'bravos',
-  schedule: { date: '2027-01-31T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-01-31T14:00:00+00:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'provisional' },
 });

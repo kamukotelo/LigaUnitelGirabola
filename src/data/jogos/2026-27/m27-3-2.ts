@@ -8,7 +8,7 @@ export default defineMatch({
   round: 3,
   homeTeamId: 'desphuila',
   awayTeamId: 'wiliete',
-  schedule: { date: '2026-08-31T15:30:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-08-31T15:30:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 0, awayScore: 1, halfTimeScore: '0-0', attendance: 3000, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Chitano Domingos Francisco', assistants: ['Wilson Valdmiro Ntyamba', 'Andália Bimbi Francisco Jeremias'], fourth: 'José Álvaro Clemente Chitumba', commissioner: 'Figueiredo da Costa Francisco' },
   coaches: { home: 'Paulo Torres', away: 'Beto Bianchi' },

@@ -6,7 +6,7 @@ export default defineMatch({
   round: 1,
   homeTeamId: 'saosalvador',
   awayTeamId: 'interclube',
-  schedule: { date: '2026-08-23T15:00:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-08-23T15:00:00+01:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 0, awayScore: 1, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Donaciano Mulumba', assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'], fourth: 'Bernardo Kenge Mário', commissioner: 'Henrique Domingos Bernardo da Rocha' },
   coaches: { home: 'Silva Cussanda', away: 'Divaldo Alves' },

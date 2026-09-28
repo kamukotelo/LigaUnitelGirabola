@@ -6,5 +6,5 @@ export default defineMatch({
   round: 23,
   homeTeamId: 'kabuscorp',
   awayTeamId: 'cabinda',
-  schedule: { date: '2027-03-21T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-03-21T14:00:00+00:00', stadium: 'Estádio dos Coqueiros', scheduleStatus: 'provisional' },
 });

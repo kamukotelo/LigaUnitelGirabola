@@ -44,11 +44,12 @@ import {
 } from '@/lib/historical-results-2025-26';
 import TeamCrest from '@/components/ui/TeamCrest';
 import AdvancedStatistics from './AdvancedStatistics';
+import CompetitionRecordsPanel from './CompetitionRecordsPanel';
 import SeasonComparisonMatrix from './SeasonComparisonMatrix';
 import { shown } from '@/lib/display';
 
 type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'yellowcards' | 'redcards' | 'minutes';
-type StatsView = 'jogadores' | 'equipas' | 'avancada' | 'comparador';
+type StatsView = 'resumo' | 'jogadores' | 'equipas' | 'avancada' | 'comparador';
 
 const RANKING_SIZE = 30;
 const HISTORICAL_RANKING_SIZE = 15;
@@ -97,6 +98,7 @@ function cardsLabel(yellow: number, red: number): string {
  * 1. Abas de Estatísticas: Jogadores, Equipas e Análise Avançada (O comparador tem aba própria no hub)
  */
 const STATS_VIEWS: { key: StatsView; label: string }[] = [
+  { key: 'resumo', label: 'Resumo' },
   { key: 'jogadores', label: 'Jogadores' },
   { key: 'equipas', label: 'Equipas' },
   { key: 'avancada', label: 'Análise Avançada' },
@@ -141,13 +143,13 @@ const VALUE_LABELS: Record<StatTab, string> = {
 
 export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
   const [activeView, setActiveView] = useState<StatsView>(() => {
-    if (typeof window === 'undefined') return 'jogadores';
+    if (typeof window === 'undefined') return 'resumo';
     const params = new URLSearchParams(window.location.search);
     const viewParam = params.get('view');
-    if (viewParam === 'jogadores' || viewParam === 'equipas' || viewParam === 'avancada') {
+    if (viewParam === 'resumo' || viewParam === 'jogadores' || viewParam === 'equipas' || viewParam === 'avancada') {
       return viewParam;
     }
-    return 'jogadores';
+    return 'resumo';
   });
   const [activeTab, setActiveTab] = useState<StatTab>('scorers');
   const [filterTeam, setFilterTeam] = useState<string>('all');
@@ -527,6 +529,9 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
           <span className="text-accent">→</span>
         </Link>
       </div>
+
+      {/* VISTA 0: RESUMO NO FORMATO ZEROZERO (GLOBAIS + QUADROS DE RECORDES)      */}
+      {activeView === 'resumo' && <CompetitionRecordsPanel seasonId={seasonId} />}
 
       {/* ========================================================================= */}
       {/* VISTA 1: JOGADORES (FILTROS COMPACTOS & RESULTADOS IMEDIATOS)             */}

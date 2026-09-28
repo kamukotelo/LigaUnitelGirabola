@@ -6,5 +6,5 @@ export default defineMatch({
   round: 17,
   homeTeamId: 'desphuila',
   awayTeamId: 'cabinda',
-  schedule: { date: '2027-02-06T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-06T14:00:00+00:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'provisional' },
 });

@@ -6,5 +6,5 @@ export default defineMatch({
   round: 18,
   homeTeamId: 'caala',
   awayTeamId: 'lundasul',
-  schedule: { date: '2027-02-13T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-13T14:00:00+00:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'provisional' },
 });

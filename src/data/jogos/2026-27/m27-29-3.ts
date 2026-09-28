@@ -6,5 +6,5 @@ export default defineMatch({
   round: 29,
   homeTeamId: 'kabuscorp',
   awayTeamId: 'libolo',
-  schedule: { date: '2027-05-08T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-05-08T14:00:00+00:00', stadium: 'Estádio dos Coqueiros', scheduleStatus: 'provisional' },
 });

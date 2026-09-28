@@ -6,5 +6,5 @@ export default defineMatch({
   round: 19,
   homeTeamId: 'desphuila',
   awayTeamId: 'caala',
-  schedule: { date: '2027-02-20T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-20T14:00:00+00:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'provisional' },
 });

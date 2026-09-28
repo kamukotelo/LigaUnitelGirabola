@@ -6,7 +6,7 @@ export default defineMatch({
   round: 1,
   homeTeamId: 'wiliete',
   awayTeamId: 'lobito',
-  schedule: { date: '2026-08-23T17:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-08-23T17:30:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 2, awayScore: 0, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['Evandro Henrique Freitas da Rocha', 'Flávio Luís Cadete Dias'], fourth: 'Pedro Filomeno Jacinto Katchisosa', commissioner: 'Romualdo do Rosário Baltazar' },
   coaches: { home: 'Beto Bianchi', away: 'Silvestre Pelé' },

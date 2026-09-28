@@ -6,5 +6,5 @@ export default defineMatch({
   round: 25,
   homeTeamId: 'interclube',
   awayTeamId: 'bravos',
-  schedule: { date: '2027-04-10T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-10T14:00:00+00:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'provisional' },
 });

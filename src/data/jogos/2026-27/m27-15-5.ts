@@ -6,5 +6,5 @@ export default defineMatch({
   round: 15,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'desphuila',
-  schedule: { date: '2026-12-19T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-19T14:00:00+00:00', stadium: 'Estádio de São Filipe', scheduleStatus: 'provisional' },
 });

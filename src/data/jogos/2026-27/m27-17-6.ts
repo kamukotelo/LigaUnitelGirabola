@@ -6,5 +6,5 @@ export default defineMatch({
   round: 17,
   homeTeamId: 'bravos',
   awayTeamId: 'libolo',
-  schedule: { date: '2027-02-06T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-06T14:00:00+00:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'provisional' },
 });

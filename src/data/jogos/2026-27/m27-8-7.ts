@@ -6,5 +6,5 @@ export default defineMatch({
   round: 8,
   homeTeamId: 'wiliete',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2026-10-28T15:00:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-10-28T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official' },
 });

@@ -6,5 +6,5 @@ export default defineMatch({
   round: 10,
   homeTeamId: 'lundasul',
   awayTeamId: 'wiliete',
-  schedule: { date: '2026-11-08T15:00:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-11-08T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', broadcaster: 'Zsports' },
 });

@@ -6,5 +6,5 @@ export default defineMatch({
   round: 15,
   homeTeamId: 'wiliete',
   awayTeamId: 'interclube',
-  schedule: { date: '2026-12-19T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-19T14:00:00+00:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'provisional' },
 });

@@ -6,5 +6,5 @@ export default defineMatch({
   round: 19,
   homeTeamId: 'petro',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2027-02-20T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-02-20T14:00:00+00:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'provisional' },
 });

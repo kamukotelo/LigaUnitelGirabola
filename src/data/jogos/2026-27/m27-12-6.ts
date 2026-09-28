@@ -6,5 +6,5 @@ export default defineMatch({
   round: 12,
   homeTeamId: 'bravos',
   awayTeamId: 'wiliete',
-  schedule: { date: '2026-11-28T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-11-28T14:00:00+00:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'provisional' },
 });

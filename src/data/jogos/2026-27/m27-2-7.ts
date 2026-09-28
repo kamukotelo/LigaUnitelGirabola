@@ -6,7 +6,7 @@ export default defineMatch({
   round: 2,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'dago',
-  schedule: { date: '2026-08-27T15:30:00+01:00', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-08-27T15:30:00+01:00', stadium: 'Estádio de São Filipe', scheduleStatus: 'official', broadcaster: 'Zsports' },
   result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '0-1', updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Chitano Domingos Francisco', assistants: ['Wilson Valdmiro Ntyamba', 'Andália Bimbi Francisco Jeremias'], fourth: 'Flamel Victorino Matos', commissioner: 'José Leopoldo Braga Mavunza' },
   coaches: { home: 'Águas da Silva', away: 'Filipe Nzanza' },

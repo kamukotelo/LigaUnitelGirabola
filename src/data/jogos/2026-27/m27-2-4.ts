@@ -6,7 +6,7 @@ export default defineMatch({
   round: 2,
   homeTeamId: 'sagrada',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2026-08-29T15:00:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-08-29T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 3, awayScore: 1, halfTimeScore: '1-0', attendance: 1000, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Paulo Sérgio Moreira', assistants: ['Lídio Chicomo Cuimbra', 'Segunda Chisseque Francisco'], fourth: 'Donaciano Mulumba' },
   coaches: { home: 'Francisco Moniz', away: 'Domingos Cussanda' },

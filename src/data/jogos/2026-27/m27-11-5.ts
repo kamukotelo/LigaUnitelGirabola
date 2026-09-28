@@ -6,5 +6,5 @@ export default defineMatch({
   round: 11,
   homeTeamId: 'cabinda',
   awayTeamId: 'bravos',
-  schedule: { date: '2026-11-21T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-11-21T14:00:00+00:00', stadium: 'Estádio Vici António', scheduleStatus: 'provisional' },
 });

@@ -6,7 +6,7 @@ export default defineMatch({
   round: 4,
   homeTeamId: 'bravos',
   awayTeamId: 'kabuscorp',
-  schedule: { date: '2026-09-16T15:00:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-09-16T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 1, awayScore: 0, updatedAt: '2026-09-16T17:30:00+01:00' },
   officials: {
     referee: 'Donaciano Mulumba',

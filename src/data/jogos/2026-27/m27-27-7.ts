@@ -6,5 +6,5 @@ export default defineMatch({
   round: 27,
   homeTeamId: 'lundasul',
   awayTeamId: 'fcluanda',
-  schedule: { date: '2027-04-24T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-24T14:00:00+00:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'provisional' },
 });

@@ -6,5 +6,5 @@ export default defineMatch({
   round: 15,
   homeTeamId: 'fcluanda',
   awayTeamId: 'petro',
-  schedule: { date: '2026-12-19T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-19T14:00:00+00:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'provisional' },
 });

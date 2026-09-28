@@ -6,5 +6,5 @@ export default defineMatch({
   round: 14,
   homeTeamId: 'petro',
   awayTeamId: 'desphuila',
-  schedule: { date: '2026-12-12T14:00:00+00:00', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-12T14:00:00+00:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'provisional' },
 });

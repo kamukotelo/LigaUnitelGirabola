@@ -6,5 +6,5 @@ export default defineMatch({
   round: 6,
   homeTeamId: 'fcluanda',
   awayTeamId: 'libolo',
-  schedule: { date: '2026-10-11T15:00:00+01:00', scheduleStatus: 'official' },
+  schedule: { date: '2026-10-11T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official' },
 });
