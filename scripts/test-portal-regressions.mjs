@@ -356,4 +356,17 @@ assert.match(adminLogin, /authenticateAdminUser\(body\.email, body\.password\)/)
 assert.match(loginPage, /JSON\.stringify\(\{ email, password \}\)/);
 assert.match(loginPage, /type="email"[\s\S]*?required/);
 
+// Cada script que o build da Vercel executa tem de existir no deploy: o
+// .vercelignore exclui scripts/ e só deixa passar os listados. Um script em
+// falta partia o deploy logo no início (28/09/2026).
+const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+const vercelIgnore = await readFile(new URL('../.vercelignore', import.meta.url), 'utf8');
+const buildChain = [packageJson.scripts.build, packageJson.scripts['test:regressions']].join(' ');
+for (const script of new Set(buildChain.match(/scripts\/[\w.-]+\.m?[jt]s/g) ?? [])) {
+  assert.ok(
+    vercelIgnore.includes(`!/${script}`),
+    `${script} corre no build mas o .vercelignore exclui-o: acrescentar "!/${script}"`,
+  );
+}
+
 console.log('✓ Proteções contra regressões do portal confirmadas.');
