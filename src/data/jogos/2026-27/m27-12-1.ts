@@ -6,5 +6,6 @@ export default defineMatch({
   round: 12,
   homeTeamId: 'libolo',
   awayTeamId: 'caala',
-  schedule: { date: '2026-11-28T14:00:00+00:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-11-28T14:00:00+00:00', stadium: 'Estádio Mário Pacheco', scheduleStatus: 'provisional' },
+  // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

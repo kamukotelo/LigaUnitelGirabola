@@ -6,5 +6,6 @@ export default defineMatch({
   round: 25,
   homeTeamId: 'cabinda',
   awayTeamId: 'sagrada',
-  schedule: { date: '2027-04-10T14:00:00+00:00', stadium: 'Estádio Vici António', scheduleStatus: 'provisional' },
+  schedule: { date: '2027-04-10T14:00:00+00:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'provisional' },
+  // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

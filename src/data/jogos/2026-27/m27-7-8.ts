@@ -6,5 +6,6 @@ export default defineMatch({
   round: 7,
   homeTeamId: 'libolo',
   awayTeamId: 'interclube',
-  schedule: { date: '2026-10-17T15:30:00+01:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-10-17T15:30:00+01:00', stadium: 'Estádio Mário Pacheco', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

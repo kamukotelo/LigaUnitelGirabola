@@ -6,7 +6,6 @@ export default defineMatch({
   round: 18,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'lobito',
-  schedule: { date: '2027-02-13T14:00:00+00:00', stadium: 'Estádio Municipal de Benguela', scheduleStatus: 'provisional' },
-  // O 1.º de Maio recebe no Estádio Municipal de Benguela (indicação de 28/09/2026),
-  // não no Estádio de São Filipe do calendário publicado.
+  schedule: { date: '2027-02-13T14:00:00+00:00', stadium: 'Estádio Edelfride Miau', scheduleStatus: 'provisional' },
+  // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });
