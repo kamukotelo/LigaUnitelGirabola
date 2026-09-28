@@ -6,5 +6,5 @@ export default defineMatch({
   round: 8,
   homeTeamId: 'desphuila',
   awayTeamId: 'libolo',
-  schedule: { date: '2026-10-25T15:30:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official' },
+  schedule: { date: '2026-10-25T15:30:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
 });

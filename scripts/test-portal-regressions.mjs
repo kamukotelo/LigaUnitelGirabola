@@ -356,6 +356,23 @@ assert.match(adminLogin, /authenticateAdminUser\(body\.email, body\.password\)/)
 assert.match(loginPage, /JSON\.stringify\(\{ email, password \}\)/);
 assert.match(loginPage, /type="email"[\s\S]*?required/);
 
+// 28/09/2026 · Painel /adminancaf2026: o estádio escolhe-se só na lista
+// oficial. Texto livre deixava gravar estádios inexistentes ou antigos.
+const editMatchModal = await readFile(new URL('../src/components/admin/EditMatchModal.tsx', import.meta.url), 'utf8');
+const fichaSection = await readFile(new URL('../src/components/admin/FichaSection.tsx', import.meta.url), 'utf8');
+assert.match(editMatchModal, /const OFFICIAL_STADIUMS = OFFICIAL_STADIUMS_2026_27;/);
+assert.doesNotMatch(editMatchModal, /list="stadiums-list"|<datalist/, 'O estádio do painel não pode voltar a ser texto livre.');
+assert.match(fichaSection, /<Field label="Estádio"><select[^\n]*OFFICIAL_STADIUMS_2026_27/);
+assert.doesNotMatch(fichaSection, /<Field label="Estádio"><input/, 'O estádio da ficha não pode voltar a ser texto livre.');
+assert.match(data, /export const OFFICIAL_STADIUMS_2026_27: readonly string\[\] = \[\.\.\.new Set\(Object\.values\(HOME_STADIUMS_2026_27\)\)\]/);
+// 28/09/2026 · Edições antigas do painel sobrepunham as horas dos registos.
+assert.match(data, /function withoutRecordSchedule\(matchId: string, patch: Partial<Match>\)/);
+assert.match(data, /normalizeMatchOverride\(named, withoutRecordSchedule\(m\.id, ov\?\.\[m\.id\] \?\? \{\}\)\)/);
+// 27/09/2026 · Um jogo em atraso remarcado para depois do arranque da jornada
+// seguinte não pode prender o site na jornada anterior.
+assert.match(data, /const nextRoundStart = nextRound === undefined/);
+assert.match(data, /return Number\.isNaN\(kickoff\) \|\| kickoff < nextRoundStart;/);
+
 // Cada script que o build da Vercel executa tem de existir no deploy: o
 // .vercelignore exclui scripts/ e só deixa passar os listados. Um script em
 // falta partia o deploy logo no início (28/09/2026).

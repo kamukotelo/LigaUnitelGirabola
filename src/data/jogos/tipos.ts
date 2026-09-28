@@ -31,6 +31,16 @@ export interface MatchRecord {
     scheduleStatus: 'official' | 'provisional';
     /** Apenas transmissões televisivas (ex.: 'Zsports'). Nunca 'Rádio 5'. */
     broadcaster?: string;
+    /**
+     * Documento que fixou esta agenda (ex.: 'Comunicado 006-DCE/ANCAF/2026').
+     * Obrigatório num jogo por disputar com `scheduleStatus: 'official'`.
+     */
+    source?: string;
+    /**
+     * Motivo e fonte quando o jogo não é no estádio da casa da equipa
+     * (HOME_STADIUMS_2026_27). Sem isto, a validação recusa o estádio.
+     */
+    stadiumException?: string;
   };
   /** Ausente enquanto o jogo não começou. */
   result?: {

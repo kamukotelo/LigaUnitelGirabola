@@ -6,5 +6,5 @@ export default defineMatch({
   round: 7,
   homeTeamId: 'petro',
   awayTeamId: 'kabuscorp',
-  schedule: { date: '2026-10-14T17:10:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports' },
+  schedule: { date: '2026-10-14T17:10:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
 });

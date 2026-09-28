@@ -6,5 +6,5 @@ export default defineMatch({
   round: 10,
   homeTeamId: 'bravos',
   awayTeamId: 'interclube',
-  schedule: { date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official' },
+  schedule: { date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
 });

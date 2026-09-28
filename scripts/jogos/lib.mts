@@ -163,6 +163,24 @@ export async function validateRecords(): Promise<ValidationReport> {
       else if (/r[áa]dio/i.test(schedule.broadcaster)) errors.push(`${at}: broadcaster "${schedule.broadcaster}" — a Rádio 5 é a transmissão por omissão; remove o campo (senão aparece "Em direto · Rádio 5").`);
     }
 
+    // Jogos por disputar (28/09/2026): a agenda oficial tem de dizer de onde
+    // veio, e o estádio tem de ser o da casa — qualquer outro exige motivo.
+    if (!result) {
+      if (schedule.scheduleStatus === 'official' && !schedule.source?.trim()) {
+        errors.push(`${at}: agenda 'official' sem schedule.source — indica o comunicado ou mapa que a fixou (ou usa 'provisional').`);
+      }
+      if (!d.OFFICIAL_STADIUMS_2026_27.includes(schedule.stadium)) {
+        errors.push(`${at}: estádio "${schedule.stadium}" fora da lista oficial (HOME_STADIUMS_2026_27 em src/lib/data.ts).`);
+      }
+      const homeStadium = d.HOME_STADIUMS_2026_27[record.homeTeamId];
+      if (schedule.stadium !== homeStadium && !schedule.stadiumException?.trim()) {
+        errors.push(`${at}: joga no "${schedule.stadium}" mas a casa de ${record.homeTeamId} é o "${homeStadium}" — corrige ou justifica em schedule.stadiumException.`);
+      }
+    }
+    if (schedule.stadiumException !== undefined && !schedule.stadiumException.trim()) {
+      errors.push(`${at}: stadiumException vazio — remove o campo ou indica o motivo.`);
+    }
+
     if (!result) {
       if (events.length || stats) errors.push(`${at}: tem eventos ou estatísticas mas não tem resultado.`);
     } else {
@@ -216,6 +234,36 @@ export async function validateRecords(): Promise<ValidationReport> {
           const yellows = events.filter((event) => event.type === 'yellow' && event.team === side).length;
           if (yellows !== stats[side].yellowCards) warnings.push(`${at}: ${stats[side].yellowCards} amarelos na estatística ${side === 'home' ? 'da casa' : 'visitante'}, ${yellows} nos eventos.`);
         }
+      }
+    }
+  }
+
+  // Estádios (28/09/2026): cada equipa tem um estádio da casa na lista oficial,
+  // e a ficha do clube mostra esse mesmo estádio.
+  const seasonTeamIds = new Set(records.flatMap((record) => [record.homeTeamId, record.awayTeamId]));
+  for (const teamId of seasonTeamIds) {
+    const homeStadium = d.HOME_STADIUMS_2026_27[teamId];
+    if (!homeStadium) {
+      errors.push(`${teamId}: sem estádio da casa em HOME_STADIUMS_2026_27.`);
+      continue;
+    }
+    const profileStadium = d.getTeamById(teamId)?.stadium;
+    if (profileStadium !== homeStadium) {
+      errors.push(`${teamId}: a ficha do clube indica "${profileStadium}" mas o estádio da casa é "${homeStadium}".`);
+    }
+  }
+  // Dois jogos por disputar no mesmo estádio com menos de 3 h de intervalo.
+  const upcoming = records
+    .filter((record) => !record.result && !record.schedule.postponed)
+    .sort((a, b) => Date.parse(a.schedule.date) - Date.parse(b.schedule.date));
+  for (let i = 0; i < upcoming.length; i += 1) {
+    for (let j = i + 1; j < upcoming.length; j += 1) {
+      const gap = Date.parse(upcoming[j].schedule.date) - Date.parse(upcoming[i].schedule.date);
+      if (gap >= 3 * 3600 * 1000) break;
+      if (upcoming[i].schedule.stadium === upcoming[j].schedule.stadium) {
+        // Nas jornadas provisórias a hora ainda é um marcador: só avisa.
+        const bothOfficial = upcoming[i].schedule.scheduleStatus === 'official' && upcoming[j].schedule.scheduleStatus === 'official';
+        (bothOfficial ? errors : warnings).push(`${upcoming[i].id} e ${upcoming[j].id}: dois jogos no ${upcoming[i].schedule.stadium} com menos de 3 h de intervalo.`);
       }
     }
   }

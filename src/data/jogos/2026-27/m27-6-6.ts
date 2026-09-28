@@ -6,5 +6,5 @@ export default defineMatch({
   round: 6,
   homeTeamId: 'desphuila',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2026-10-10T15:30:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official' },
+  schedule: { date: '2026-10-10T15:30:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official', source: 'Mapa final da 6.ª jornada (28/09/2026)' },
 });

@@ -27,6 +27,8 @@ teu computador fica de fora.
 | `schedule.stadium` | Sempre. |
 | `schedule.postponed` | `true` quando o jogo foi oficialmente adiado e ainda não existe nova data confirmada. |
 | `schedule.scheduleStatus` | `'official'` depois de sair em comunicado/mapa oficial; senão `'provisional'`. |
+| `schedule.source` | **Obrigatório** num jogo por disputar com agenda `'official'`: o comunicado ou mapa que a fixou (ex.: `'Comunicado Oficial 010-DCE/ANCAF/2026'`). |
+| `schedule.stadiumException` | Só quando o jogo **não** é no estádio da casa (`HOME_STADIUMS_2026_27`): motivo e fonte. Sem isto a validação recusa. |
 | `schedule.broadcaster` | **Só transmissões televisivas** (ex.: `'Zsports'`). Sem este campo o jogo aparece como Rádio 5 — nunca escrever `'Rádio 5'`, senão aparece "Em direto · Rádio 5". |
 | `result` | Quando o jogo começa. `status: 'live'` durante o jogo, `'finished'` no fim. `updatedAt` é o instante da confirmação e alimenta "atualizado em". |
 | `officials` | Árbitro, assistentes, 4.º árbitro e delegado (`commissioner`). |

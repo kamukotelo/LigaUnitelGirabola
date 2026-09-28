@@ -6,6 +6,6 @@ export default defineMatch({
   round: 6,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'bravos',
-  schedule: { date: '2026-10-11T15:30:00+01:00', stadium: 'Estádio Municipal de Benguela', scheduleStatus: 'official' },
+  schedule: { date: '2026-10-11T15:30:00+01:00', stadium: 'Estádio Municipal de Benguela', scheduleStatus: 'official', source: 'Mapa final da 6.ª jornada (28/09/2026)' },
   // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });
