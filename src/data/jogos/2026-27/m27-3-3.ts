@@ -6,5 +6,5 @@ export default defineMatch({
   round: 3,
   homeTeamId: 'sagrada',
   awayTeamId: 'kabuscorp',
-  schedule: { date: '2026-10-07T16:00:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', source: 'Remarcação do jogo adiado, registada a 23/09/2026', stadiumException: 'Jogo adiado da 3.ª jornada remarcado para Luanda (23/09/2026)' },
+  schedule: { date: '2026-10-07T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', source: 'Cartaz oficial do jogo adiado da 3.ª jornada, recebido a 29/09/2026', stadiumException: 'Jogo adiado da 3.ª jornada remarcado para Luanda, Estádio França N’dalu (29/09/2026)' },
 });
