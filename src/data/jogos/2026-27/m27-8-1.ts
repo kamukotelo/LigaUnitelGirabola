@@ -6,5 +6,5 @@ export default defineMatch({
   round: 8,
   homeTeamId: 'caala',
   awayTeamId: 'dago',
-  schedule: { date: '2026-10-27T15:30:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  schedule: { date: '2026-10-27T17:10:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos das jornadas 6 a 10, recebido a 29/09/2026' },
 });
