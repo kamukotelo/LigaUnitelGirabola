@@ -37,8 +37,8 @@ function PlayerName({ p }: { p: LineupPlayer }) {
 }
 
 // ── Nota "Inversão do campo": jogos fora do estádio da casa ──────────
-// Aparece quando o registo do jogo tem `schedule.stadiumException` (jogo
-// marcado pela ANCAF fora do estádio da equipa da casa).
+// Aparece só nos jogos cujo registo tem `schedule.fieldInversionNote: true`
+// (jogos indicados pela ANCAF), não em todos os jogos fora do estádio da casa.
 const FIELD_INVERSION_REASONS: Array<{ title: string; text: string }> = [
   {
     title: 'Interdição ou veto de estádios',
@@ -249,7 +249,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
   const publishedManOfTheMatch = match.status === 'finished' ? manOfTheMatch : undefined;
   const officials = getMatchOfficials(match);
   const broadcaster = getMatchBroadcast(match);
-  const fieldInverted = Boolean(getMatchRecord(match.id)?.schedule.stadiumException);
+  const fieldInverted = getMatchRecord(match.id)?.schedule.fieldInversionNote === true;
   return (
     <div className="space-y-8">
       {/* Cronologia */}

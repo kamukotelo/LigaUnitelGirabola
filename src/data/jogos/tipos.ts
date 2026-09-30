@@ -41,6 +41,11 @@ export interface MatchRecord {
      * (HOME_STADIUMS_2026_27). Sem isto, a validação recusa o estádio.
      */
     stadiumException?: string;
+    /**
+     * Mostra na página do jogo o quadro "Inversão do campo" (decisão
+     * administrativa/punição). Só nos jogos indicados pela ANCAF.
+     */
+    fieldInversionNote?: boolean;
   };
   /** Ausente enquanto o jogo não começou. */
   result?: {
