@@ -39,6 +39,18 @@ deploy quando uma delas é violada.
   ficam como o relatório do árbitro os registou.
 - As edições do painel `/adminancaf2026` **não** mudam data, hora, estádio nem
   transmissão de jogos com registo — o registo manda (`withoutRecordSchedule`).
+- **Bloqueios do painel** (`src/lib/admin-match-locks.ts`), aplicados na
+  interface e de novo no servidor (`/api/admin/overrides`,
+  `/api/admin/match-operations`, `/api/fcms/sync`):
+  - jornada e equipas nunca mudam no painel (sorteio oficial);
+  - data, hora, estádio e transmissão de jogos com registo aparecem só de
+    leitura, com a fonte; um pedido que os tente mudar é recusado (422
+    `locked_fields`);
+  - o resultado de um jogo encerrado (registo com `result.status: 'finished'`)
+    só muda com motivo (422 `reason_required`), guardado no histórico
+    (`ancaf_match_audit_log.after_data.correction_reason`).
+  Não remover estes bloqueios: `scripts/test-admin-locks.mts` e
+  `test-portal-regressions` falham o deploy.
 - Ao receber um mapa novo: comparar jogo a jogo com os registos, aplicar só as
   diferenças, e reportar o que o mapa tem de incoerente (ex.: dia da semana que
   não bate com a data) em vez de adivinhar.

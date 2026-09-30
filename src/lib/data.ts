@@ -2876,17 +2876,21 @@ function normalizeMatchOverride(base: Match, patch: Partial<Match>): Match {
 }
 
 // Agenda que o registo do jogo fixa: uma edição do painel nunca a sobrepõe.
-const RECORD_SCHEDULE_FIELDS = ['date', 'postponed', 'stadium', 'scheduleStatus', 'broadcaster'] as const;
+export const RECORD_SCHEDULE_FIELDS = ['date', 'postponed', 'stadium', 'scheduleStatus', 'broadcaster'] as const;
+// Confronto do sorteio (jornada e equipas): nunca muda a partir do painel.
+export const DRAW_FIXTURE_FIELDS = ['round', 'homeTeamId', 'awayTeamId', 'homeTeam', 'awayTeam'] as const;
 
 /**
- * Tira a um override do painel os campos de agenda quando o jogo tem registo
- * em src/data/jogos: o mapa oficial mais recente vive no registo, e edições
- * antigas gravadas na base de dados deixavam horas desatualizadas no site.
+ * Tira a um override do painel a jornada e as equipas (fixadas pelo sorteio)
+ * e, quando o jogo tem registo em src/data/jogos, os campos de agenda: o mapa
+ * oficial mais recente vive no registo, e edições antigas gravadas na base de
+ * dados deixavam horas desatualizadas no site.
  * O resto do override (resultado, estado, assistência…) continua a valer.
  */
 function withoutRecordSchedule(matchId: string, patch: Partial<Match>): Partial<Match> {
-  if (!MATCH_RECORD_BY_ID.has(matchId)) return patch;
   const rest: Partial<Match> = { ...patch };
+  for (const field of DRAW_FIXTURE_FIELDS) delete rest[field];
+  if (!MATCH_RECORD_BY_ID.has(matchId)) return rest;
   for (const field of RECORD_SCHEDULE_FIELDS) delete rest[field];
   return rest;
 }

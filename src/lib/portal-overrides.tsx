@@ -21,6 +21,7 @@ import {
   DEFAULT_SITE_SETTINGS, setPortalOverrides, setPortalData,
   type PortalOverrides, type PortalData, type SiteSettings,
 } from './data';
+import { stripLockedCalendarFields } from './admin-match-locks';
 
 function isConfigured(): boolean {
   return true;
@@ -28,16 +29,32 @@ function isConfigured(): boolean {
 
 export type OverrideSection = 'news' | 'calendar' | 'players' | 'nominations' | 'teams' | 'site';
 
-/** Publica o bloco de uma secção no servidor (usado pela consola de admin). */
-export async function publishOverride(section: OverrideSection, value: unknown): Promise<void> {
-  const res = await fetch('/api/admin/overrides', {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ section, value }),
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
+/**
+ * Publica o bloco de uma secção no servidor (usado pela consola de admin).
+ * Devolve o valor efetivamente publicado: no calendário, sem os campos que o
+ * painel não pode mudar (ver src/lib/admin-match-locks.ts). Se a publicação
+ * corrigir o resultado de um jogo encerrado, pede o motivo e volta a enviar.
+ */
+export async function publishOverride<T>(section: OverrideSection, value: T): Promise<T> {
+  const payload = (section === 'calendar' && value && typeof value === 'object' && !Array.isArray(value)
+    ? stripLockedCalendarFields(value as Record<string, Record<string, unknown>>)
+    : value) as T;
+  let reason: string | undefined;
+  for (;;) {
+    const res = await fetch('/api/admin/overrides', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ section, value: payload, reason }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok) return payload;
+    if (data?.error === 'reason_required' && typeof window !== 'undefined') {
+      const answer = window.prompt(`${data.message}\n\nMotivo da correção (ex.: relatório do árbitro corrigido pela ANCAF):`, reason ?? '');
+      if (answer === null) throw new Error('Publicação cancelada: a correção de um jogo encerrado precisa de motivo.');
+      reason = answer;
+      continue;
+    }
     throw new Error(data?.message || `Não foi possível guardar (${res.status}).`);
   }
 }

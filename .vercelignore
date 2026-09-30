@@ -5,6 +5,7 @@
 !/scripts/test-team-crests.mts
 !/scripts/test-match-records.mts
 !/scripts/test-admin-schedule-override.mts
+!/scripts/test-admin-locks.mts
 !/scripts/jogos.mts
 !/scripts/jogos
 !/scripts/jogos/*

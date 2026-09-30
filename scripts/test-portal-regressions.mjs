@@ -361,10 +361,29 @@ assert.match(loginPage, /type="email"[\s\S]*?required/);
 // oficial. Texto livre deixava gravar estádios inexistentes ou antigos.
 const editMatchModal = await readFile(new URL('../src/components/admin/EditMatchModal.tsx', import.meta.url), 'utf8');
 const fichaSection = await readFile(new URL('../src/components/admin/FichaSection.tsx', import.meta.url), 'utf8');
-assert.match(editMatchModal, /const OFFICIAL_STADIUMS = OFFICIAL_STADIUMS_2026_27;/);
 assert.doesNotMatch(editMatchModal, /list="stadiums-list"|<datalist/, 'O estádio do painel não pode voltar a ser texto livre.');
 assert.match(fichaSection, /<Field label="Estádio"><select[^\n]*OFFICIAL_STADIUMS_2026_27/);
-assert.doesNotMatch(fichaSection, /<Field label="Estádio"><input/, 'O estádio da ficha não pode voltar a ser texto livre.');
+assert.doesNotMatch(fichaSection, /<Field label="Estádio"><input (?!readOnly disabled)/, 'O estádio da ficha não pode voltar a ser texto livre.');
+// 30/09/2026 · Fase 1 dos bloqueios do painel (src/lib/admin-match-locks.ts):
+// jornada, equipas e agenda oficial não se editam no painel, e o servidor recusa
+// pedidos que as tentem mudar. O resultado de um jogo encerrado pede motivo.
+assert.doesNotMatch(editMatchModal, /<select|<input|onSave|onDelete/, 'A agenda oficial da partida tem de ficar só de leitura.');
+assert.match(fichaSection, /data\.match\.scheduleLocked \?/);
+assert.match(fichaSection, /body\?\.error !== 'reason_required'/);
+const adminClient = await readFile(new URL('../src/components/AdminClient.tsx', import.meta.url), 'utf8');
+assert.match(adminClient, /\{scheduleLocked \? \(/);
+assert.match(adminClient, /hasOfficialSchedule\(match\.id\) \? \(/);
+assert.match(adminClient, /stripLockedCalendarFields\(o\.calendar/);
+const overridesRoute = await readFile(new URL('../src/app/api/admin/overrides/route.ts', import.meta.url), 'utf8');
+assert.match(overridesRoute, /screenCalendarOverrides\(value as Record<string, Record<string, unknown>>, previousCalendar\)/);
+assert.match(overridesRoute, /error: 'locked_fields'/);
+assert.match(overridesRoute, /error: 'reason_required'/);
+assert.doesNotMatch(overridesRoute, /row\.(home_team_id|away_team_id|home_team|away_team|round) =/, 'O painel não pode mudar jornada nem equipas na tabela de jogos.');
+const matchOperationsRoute = await readFile(new URL('../src/app/api/admin/match-operations/[matchId]/route.ts', import.meta.url), 'utf8');
+assert.match(matchOperationsRoute, /const schedule = record\s*\?/);
+assert.match(matchOperationsRoute, /error: 'reason_required'/);
+const fcmsSync = await readFile(new URL('../src/app/api/fcms/sync/route.ts', import.meta.url), 'utf8');
+assert.match(fcmsSync, /\.\.\.\(getMatchRecord\(resolved\.matchId\) \? \{\} :/);
 assert.match(data, /export const OFFICIAL_STADIUMS_2026_27: readonly string\[\] = \[\.\.\.new Set\(Object\.values\(HOME_STADIUMS_2026_27\)\)\]/);
 // 28/09/2026 · Edições antigas do painel sobrepunham as horas dos registos.
 assert.match(data, /function withoutRecordSchedule\(matchId: string, patch: Partial<Match>\)/);

@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { ADMIN_COOKIE, getAdminSession } from '@/lib/admin-auth';
 import { checkRateLimit, isSameOriginRequest } from '@/lib/request-security';
-import { getMatchById, getMatchOfficials } from '@/lib/data';
+import { getMatchById, getMatchOfficials, getMatchRecord } from '@/lib/data';
+import { correctionReasonMessage, validCorrectionReason } from '@/lib/admin-match-locks';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { revalidatePortalData } from '@/lib/portal-cache';
 
@@ -52,6 +53,35 @@ function safeEvents(value: unknown): EventInput[] | null {
   return result;
 }
 
+type OperationsMatch = {
+  id: string; date: string; stadium: string; status: string; homeScore: number; awayScore: number;
+  halfTimeScore: string; attendance: number; usefulTimeMinutes: number; broadcaster: string;
+};
+
+// Bloqueios da área administrativa (src/lib/admin-match-locks.ts): num jogo
+// com registo, a agenda mostrada e gravada é sempre a do registo; num jogo
+// encerrado, o resultado de referência é o do relatório do árbitro.
+function withRecord(match: OperationsMatch): OperationsMatch & { scheduleLocked: boolean; scheduleSource: string | null; closed: boolean } {
+  const record = getMatchRecord(match.id);
+  if (!record) return { ...match, scheduleLocked: false, scheduleSource: null, closed: false };
+  const closed = record.result?.status === 'finished';
+  return {
+    ...match,
+    date: record.schedule.date,
+    stadium: record.schedule.stadium,
+    broadcaster: record.schedule.broadcaster ?? '',
+    ...(closed && record.result ? {
+      status: 'finished',
+      homeScore: record.result.homeScore,
+      awayScore: record.result.awayScore,
+      halfTimeScore: record.result.halfTimeScore ?? '',
+    } : {}),
+    scheduleLocked: true,
+    scheduleSource: record.schedule.source ?? null,
+    closed,
+  };
+}
+
 async function sessionOrNull() {
   return getAdminSession((await cookies()).get(ADMIN_COOKIE)?.value);
 }
@@ -75,7 +105,7 @@ export async function GET(_request: Request, { params }: Context) {
     ]);
     const row = matchResult.data;
     return NextResponse.json({
-      match: row ? {
+      match: withRecord(row ? {
         id: matchId, date: row.date, stadium: row.stadium ?? '', status: row.status,
         homeScore: row.home_score ?? 0, awayScore: row.away_score ?? 0,
         halfTimeScore: row.half_time_score ?? '', attendance: row.attendance ?? 0,
@@ -85,7 +115,7 @@ export async function GET(_request: Request, { params }: Context) {
         homeScore: fallback.homeScore, awayScore: fallback.awayScore,
         halfTimeScore: fallback.halfTimeScore ?? '', attendance: fallback.attendance ?? 0,
         usefulTimeMinutes: fallback.usefulTimeMinutes ?? 0, broadcaster: fallback.broadcaster ?? '',
-      },
+      }),
       officials: officialsResult.data ?? {
         referee: officialsFallback.referee, assistant_1: officialsFallback.assistants[0],
         assistant_2: officialsFallback.assistants[1], fourth_official: officialsFallback.fourth,
@@ -101,7 +131,7 @@ export async function GET(_request: Request, { params }: Context) {
     });
   } catch {
     return NextResponse.json({
-      match: { id: matchId, date: fallback.date, stadium: fallback.stadium, status: fallback.status, homeScore: fallback.homeScore, awayScore: fallback.awayScore, halfTimeScore: fallback.halfTimeScore ?? '', attendance: fallback.attendance ?? 0, usefulTimeMinutes: fallback.usefulTimeMinutes ?? 0, broadcaster: fallback.broadcaster ?? '' },
+      match: withRecord({ id: matchId, date: fallback.date, stadium: fallback.stadium, status: fallback.status, homeScore: fallback.homeScore, awayScore: fallback.awayScore, halfTimeScore: fallback.halfTimeScore ?? '', attendance: fallback.attendance ?? 0, usefulTimeMinutes: fallback.usefulTimeMinutes ?? 0, broadcaster: fallback.broadcaster ?? '' }),
       officials: { referee: officialsFallback.referee, assistant_1: officialsFallback.assistants[0], assistant_2: officialsFallback.assistants[1], fourth_official: officialsFallback.fourth, commissioner: '', referee_category: '' },
       events: [], report: { summary: '', incidents: '', pitch_conditions: '', organisation_notes: '', status: 'draft' }, audit: [],
     });
@@ -125,6 +155,10 @@ export async function PUT(request: Request, { params }: Context) {
   const now = new Date().toISOString();
   let before: unknown = {};
   let error: { message: string } | null = null;
+  // O histórico só aceita estas ações (migração 20260919002000): o bloco
+  // "partida" regista-se como 'update'; uma correção leva o motivo nos dados.
+  const action = section === 'match' ? 'update' : String(section);
+  let auditValue: unknown = value;
 
   if (section === 'match') {
     before = (await db.from('ancaf_matches').select('*').eq('id', matchId).maybeSingle()).data ?? {};
@@ -134,13 +168,31 @@ export async function PUT(request: Request, { params }: Context) {
     if (!Number.isInteger(homeScore) || homeScore < 0 || !Number.isInteger(awayScore) || awayScore < 0 || !['scheduled', 'live', 'finished'].includes(String(status))) {
       return NextResponse.json({ error: 'invalid_match', message: 'Estado ou placar inválido.' }, { status: 422 });
     }
+    const record = getMatchRecord(matchId);
+    const halfTimeScore = text(value.halfTimeScore, 20);
+    // Jogo encerrado: mudar o resultado do relatório do árbitro exige motivo.
+    if (record?.result?.status === 'finished') {
+      const official = record.result;
+      const changed = status !== 'finished' || homeScore !== official.homeScore || awayScore !== official.awayScore
+        || halfTimeScore !== (official.halfTimeScore ?? '');
+      if (changed) {
+        const reason = validCorrectionReason(body.reason);
+        if (!reason) return NextResponse.json({ error: 'reason_required', message: correctionReasonMessage([matchId]) }, { status: 422 });
+        auditValue = { ...value, correction_reason: reason };
+      }
+    }
+    // Agenda: num jogo com registo grava-se a do registo (mapa oficial), nunca
+    // a que vier do pedido.
+    const schedule = record
+      ? { date: record.schedule.date, stadium: record.schedule.stadium, broadcaster: record.schedule.broadcaster ?? null, schedule_status: record.schedule.scheduleStatus }
+      : { date: text(value.date, 60), stadium: text(value.stadium, 180), broadcaster: text(value.broadcaster, 100) || null, schedule_status: 'official' };
     const patch = {
-      date: text(value.date, 60), stadium: text(value.stadium, 180), status,
+      ...schedule, status,
       home_score: homeScore, away_score: awayScore, score: status === 'scheduled' ? null : `${homeScore}-${awayScore}`,
-      half_time_score: text(value.halfTimeScore, 20) || null,
+      half_time_score: halfTimeScore || null,
       attendance: Math.max(0, Math.trunc(Number(value.attendance) || 0)),
       useful_time_minutes: Math.min(130, Math.max(0, Math.trunc(Number(value.usefulTimeMinutes) || 0))),
-      broadcaster: text(value.broadcaster, 100) || null, schedule_status: 'official', updated_at: now,
+      updated_at: now,
     };
     ({ error } = await db.from('ancaf_matches').update(patch).eq('id', matchId));
   } else if (section === 'officials') {
@@ -171,7 +223,7 @@ export async function PUT(request: Request, { params }: Context) {
   }
 
   if (error) return NextResponse.json({ error: 'write_failed', message: error.message }, { status: 500 });
-  await db.from('ancaf_match_audit_log').insert({ match_id: matchId, actor_email: session.email, action: section, before_data: before, after_data: value, created_at: now });
+  await db.from('ancaf_match_audit_log').insert({ match_id: matchId, actor_email: session.email, action, before_data: before, after_data: auditValue, created_at: now });
   revalidatePortalData();
   return NextResponse.json({ ok: true, savedAt: now });
 }

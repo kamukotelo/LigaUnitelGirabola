@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import {
   CheckCircle2, Loader2, FileDown, AlertTriangle, Users, Crown, CalendarClock,
-  ShieldCheck, ListChecks, ClipboardPen, History, Plus, Trash2, Save, Trophy,
+  ShieldCheck, Lock, ListChecks, ClipboardPen, History, Plus, Trash2, Save, Trophy,
 } from 'lucide-react';
 import { getMatchesForSeason, OFFICIAL_STADIUMS_2026_27, UPCOMING_SEASON_ID } from '@/lib/data';
 
@@ -56,7 +56,11 @@ type MatchEvent = {
   detail?: string | null;
 };
 type OperationsData = {
-  match: { id: string; date: string; stadium: string; status: 'scheduled' | 'live' | 'finished'; homeScore: number; awayScore: number; halfTimeScore: string; attendance: number; usefulTimeMinutes: number; broadcaster: string };
+  match: {
+    id: string; date: string; stadium: string; status: 'scheduled' | 'live' | 'finished'; homeScore: number; awayScore: number; halfTimeScore: string; attendance: number; usefulTimeMinutes: number; broadcaster: string;
+    // Bloqueios da área administrativa (src/lib/admin-match-locks.ts).
+    scheduleLocked?: boolean; scheduleSource?: string | null; closed?: boolean;
+  };
   officials: { referee: string; referee_category: string; assistant_1: string; assistant_2: string; fourth_official: string; commissioner: string };
   events: MatchEvent[];
   report: { summary: string; incidents: string; pitch_conditions: string; organisation_notes: string; status: 'draft' | 'review' | 'approved' };
@@ -352,10 +356,20 @@ function OperationsEditor({ matchId, tab, teamNames }: { matchId: string; tab: O
     setSaving(true);
     setMessage(null);
     try {
-      const response = await fetch(`/api/admin/match-operations/${encodeURIComponent(matchId)}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ section, value }),
-      });
-      const body = await response.json().catch(() => null);
+      let reason: string | undefined;
+      let response: Response;
+      let body: { error?: string; message?: string } | null;
+      for (;;) {
+        response = await fetch(`/api/admin/match-operations/${encodeURIComponent(matchId)}`, {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ section, value, reason }),
+        });
+        body = await response.json().catch(() => null);
+        // Jogo encerrado: corrigir o resultado pede um motivo, que fica no histórico.
+        if (response.status !== 422 || body?.error !== 'reason_required') break;
+        const answer = window.prompt(`${body.message}\n\nMotivo da correção (ex.: relatório do árbitro corrigido pela ANCAF):`, reason ?? '');
+        if (answer === null) throw new Error('Gravação cancelada: a correção de um jogo encerrado precisa de motivo.');
+        reason = answer;
+      }
       if (!response.ok) throw new Error(body?.message || 'Não foi possível guardar.');
       setMessage({ ok: true, text: 'Alterações guardadas e registadas no histórico.' });
       await load();
@@ -369,6 +383,7 @@ function OperationsEditor({ matchId, tab, teamNames }: { matchId: string; tab: O
   if (loading && !data) return <div className={panelClass('flex items-center gap-2 text-sm text-zinc-500')}><Loader2 size={15} className="animate-spin" /> A carregar ficha operacional…</div>;
   if (!data) return <div className={panelClass()}><p className="text-sm text-red-500">{message?.text || 'Dados indisponíveis.'}</p></div>;
 
+  const lockedTitle = `Definido por: ${data.match.scheduleSource || 'mapa oficial da ANCAF'}`;
   const patchMatch = (patch: Partial<OperationsData['match']>) => setData((current) => current ? { ...current, match: { ...current.match, ...patch } } : current);
   const patchOfficials = (patch: Partial<OperationsData['officials']>) => setData((current) => current ? { ...current, officials: { ...current.officials, ...patch } } : current);
   const patchReport = (patch: Partial<OperationsData['report']>) => setData((current) => current ? { ...current, report: { ...current.report, ...patch } } : current);
@@ -384,11 +399,28 @@ function OperationsEditor({ matchId, tab, teamNames }: { matchId: string; tab: O
 
       {tab === 'match' && (
         <div className={panelClass('space-y-5')}>
+          {data.match.scheduleLocked && (
+            <p className="flex items-center gap-2 text-xs text-zinc-500"><Lock size={13} /> Data, estádio e transmissão vêm de: {data.match.scheduleSource || 'mapa oficial da ANCAF'}. Não se alteram no painel.</p>
+          )}
+          {data.match.closed && (
+            <p className="flex items-center gap-2 text-xs text-amber-600"><AlertTriangle size={13} /> Jogo encerrado: corrigir o resultado pede um motivo, que fica no histórico.</p>
+          )}
           <div className="grid gap-4 md:grid-cols-2">
-            <Field label="Data e hora (Africa/Luanda)"><input type="datetime-local" value={data.match.date.slice(0, 16)} onChange={(e) => patchMatch({ date: `${e.target.value}:00+01:00` })} className={inputClass} /></Field>
-            <Field label="Estádio"><select value={OFFICIAL_STADIUMS_2026_27.includes(data.match.stadium) ? data.match.stadium : ''} onChange={(e) => patchMatch({ stadium: e.target.value })} className={inputClass}>{!OFFICIAL_STADIUMS_2026_27.includes(data.match.stadium) && <option value="">Selecione o estádio</option>}{OFFICIAL_STADIUMS_2026_27.map((st) => <option key={st} value={st}>{st}</option>)}</select></Field>
+            {data.match.scheduleLocked ? (
+              <>
+                <Field label="Data e hora (Africa/Luanda)"><input readOnly disabled value={data.match.date.slice(0, 16).replace('T', ' ')} className={`${inputClass} cursor-not-allowed opacity-70`} title={lockedTitle} /></Field>
+                <Field label="Estádio"><input readOnly disabled value={data.match.stadium} className={`${inputClass} cursor-not-allowed opacity-70`} title={lockedTitle} /></Field>
+              </>
+            ) : (
+              <>
+                <Field label="Data e hora (Africa/Luanda)"><input type="datetime-local" value={data.match.date.slice(0, 16)} onChange={(e) => patchMatch({ date: `${e.target.value}:00+01:00` })} className={inputClass} /></Field>
+                <Field label="Estádio"><select value={OFFICIAL_STADIUMS_2026_27.includes(data.match.stadium) ? data.match.stadium : ''} onChange={(e) => patchMatch({ stadium: e.target.value })} className={inputClass}>{!OFFICIAL_STADIUMS_2026_27.includes(data.match.stadium) && <option value="">Selecione o estádio</option>}{OFFICIAL_STADIUMS_2026_27.map((st) => <option key={st} value={st}>{st}</option>)}</select></Field>
+              </>
+            )}
             <Field label="Estado"><select value={data.match.status} onChange={(e) => patchMatch({ status: e.target.value as OperationsData['match']['status'] })} className={inputClass}><option value="scheduled">Programado</option><option value="live">Em direto</option><option value="finished">Terminado</option></select></Field>
-            <Field label="Transmissão"><input value={data.match.broadcaster} onChange={(e) => patchMatch({ broadcaster: e.target.value })} className={inputClass} placeholder="Ex.: ZSports" /></Field>
+            {data.match.scheduleLocked
+              ? <Field label="Transmissão"><input readOnly disabled value={data.match.broadcaster || 'Rádio 5 (por omissão)'} className={`${inputClass} cursor-not-allowed opacity-70`} title={lockedTitle} /></Field>
+              : <Field label="Transmissão"><input value={data.match.broadcaster} onChange={(e) => patchMatch({ broadcaster: e.target.value })} className={inputClass} placeholder="Ex.: ZSports" /></Field>}
             <Field label="Espectadores"><input type="number" min="0" value={data.match.attendance} onChange={(e) => patchMatch({ attendance: Number(e.target.value) })} className={inputClass} /></Field>
             <Field label="Tempo útil (minutos)"><input type="number" min="0" max="130" value={data.match.usefulTimeMinutes} onChange={(e) => patchMatch({ usefulTimeMinutes: Number(e.target.value) })} className={inputClass} /></Field>
           </div>

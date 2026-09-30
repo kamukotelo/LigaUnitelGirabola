@@ -14,7 +14,7 @@
     "admins": "node --env-file=.env scripts/create-ancaf-admins.mjs",
     "admins:reset": "node --env-file=.env scripts/create-ancaf-admins.mjs --reset",
     "db:seed:generate": "tsx scripts/generate-db-seed.mts",
-    "test:regressions": "node scripts/test-portal-regressions.mjs && tsx scripts/test-team-crests.mts && tsx scripts/test-match-records.mts && tsx scripts/test-admin-schedule-override.mts",
+    "test:regressions": "node scripts/test-portal-regressions.mjs && tsx scripts/test-team-crests.mts && tsx scripts/test-match-records.mts && tsx scripts/test-admin-schedule-override.mts && tsx scripts/test-admin-locks.mts",
     "test:fcms": "tsx scripts/test-fcms-sync.ts",
     "verify:brand-assets": "node scripts/verify-brand-assets.mjs",
     "jogos": "tsx scripts/jogos.mts"

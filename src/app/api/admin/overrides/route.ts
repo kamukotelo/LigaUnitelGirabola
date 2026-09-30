@@ -6,6 +6,9 @@ import { ADMIN_COOKIE, getAdminSession } from '@/lib/admin-auth';
 import { processCalendarUpdate } from '@/lib/match-update-automation';
 import { isSameOriginRequest } from '@/lib/request-security';
 import { PORTAL_DATA_TAG, PORTAL_DATA_MAX_AGE_SECONDS, revalidatePortalData } from '@/lib/portal-cache';
+import {
+  correctionReasonMessage, lockedFieldsMessage, screenCalendarOverrides, stripLockedCalendarFields, validCorrectionReason,
+} from '@/lib/admin-match-locks';
 
 // ── Overrides de conteúdo publicados pela consola de administração ────────
 // Guardados em `ancaf_configs` (chave/valor JSON) sob as chaves `override_*`.
@@ -62,14 +65,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'unauthorized', message: 'Sessão de administração inválida.' }, { status: 401 });
   }
 
-  let body: { section?: unknown; value?: unknown };
+  let body: { section?: unknown; value?: unknown; reason?: unknown };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: 'bad_request', message: 'Corpo inválido.' }, { status: 400 });
   }
 
-  const { section, value } = body;
+  const { section } = body;
+  let { value } = body;
   if (typeof section !== 'string' || !SECTIONS.includes(section as Section)) {
     return NextResponse.json({ error: 'bad_request', message: 'Secção desconhecida.' }, { status: 400 });
   }
@@ -95,14 +99,39 @@ export async function POST(request: Request) {
     ? await sql.query('select value from public.ancaf_configs where key = $1 limit 1', [keyFor('calendar')]) as { value: string }[]
     : [];
 
-  let payloadValue = value;
+  let previousCalendar: Record<string, Record<string, unknown>> = {};
   if (section === 'calendar' && previousRows[0]?.value) {
     try {
       const prev = JSON.parse(previousRows[0].value);
-      if (prev && typeof prev === 'object' && !Array.isArray(prev) && typeof value === 'object' && value && !Array.isArray(value)) {
-        payloadValue = { ...prev, ...value };
-      }
+      if (prev && typeof prev === 'object' && !Array.isArray(prev)) previousCalendar = prev;
     } catch {}
+  }
+
+  // Bloqueios da área administrativa (src/lib/admin-match-locks.ts): jornada,
+  // equipas e agenda oficial não mudam aqui; o resultado de um jogo encerrado
+  // só muda com motivo, que fica no histórico.
+  let correctionReason: string | null = null;
+  let correctedMatches = new Set<string>();
+  if (section === 'calendar' && value && typeof value === 'object' && !Array.isArray(value)) {
+    const screening = screenCalendarOverrides(value as Record<string, Record<string, unknown>>, previousCalendar);
+    if (screening.blocked.length) {
+      return NextResponse.json({ error: 'locked_fields', message: lockedFieldsMessage(screening.blocked), fields: screening.blocked }, { status: 422 });
+    }
+    if (screening.closedResultChanges.length) {
+      correctionReason = validCorrectionReason(body.reason);
+      if (!correctionReason) {
+        return NextResponse.json({
+          error: 'reason_required', message: correctionReasonMessage(screening.closedResultChanges), matchIds: screening.closedResultChanges,
+        }, { status: 422 });
+      }
+      correctedMatches = new Set(screening.closedResultChanges);
+    }
+    value = screening.value;
+  }
+
+  let payloadValue = value;
+  if (section === 'calendar' && value && typeof value === 'object' && !Array.isArray(value)) {
+    payloadValue = stripLockedCalendarFields({ ...previousCalendar, ...(value as Record<string, Record<string, unknown>>) });
   }
 
   let serialized: string;
@@ -121,17 +150,14 @@ export async function POST(request: Request) {
   // de jogos. Assim, ficha, resultados e futuras integrações partilham a
   // mesma data/estado que o calendário.
   if (section === 'calendar' && value && typeof value === 'object' && !Array.isArray(value)) {
+    // Jornada e equipas já foram retiradas acima, tal como a agenda dos jogos
+    // com registo: só chegam aqui campos que o painel pode mudar.
     const rows = Object.entries(value as Record<string, Record<string, unknown>>)
       .filter(([matchId, patch]) => matchId && patch && typeof patch === 'object')
       .map(([matchId, patch]) => {
         const row: Record<string, unknown> = {};
         if (typeof patch.date === 'string') row.date = patch.date;
         if (typeof patch.stadium === 'string') row.stadium = patch.stadium;
-        if (Number.isInteger(patch.round) && Number(patch.round) >= 1 && Number(patch.round) <= 30) row.round = patch.round;
-        if (typeof patch.homeTeamId === 'string' && patch.homeTeamId) row.home_team_id = patch.homeTeamId;
-        if (typeof patch.awayTeamId === 'string' && patch.awayTeamId) row.away_team_id = patch.awayTeamId;
-        if (typeof patch.homeTeam === 'string' && patch.homeTeam) row.home_team = patch.homeTeam;
-        if (typeof patch.awayTeam === 'string' && patch.awayTeam) row.away_team = patch.awayTeam;
         if (patch.status === 'scheduled' || patch.status === 'live' || patch.status === 'finished') row.status = patch.status;
         if (Number.isInteger(patch.homeScore) && Number(patch.homeScore) >= 0) row.home_score = patch.homeScore;
         if (Number.isInteger(patch.awayScore) && Number(patch.awayScore) >= 0) row.away_score = patch.awayScore;
@@ -158,7 +184,10 @@ export async function POST(request: Request) {
         await sql.query(
           `insert into public.ancaf_match_audit_log(match_id, actor_email, action, before_data, after_data)
            values ($1, $2, 'publish', $3::jsonb, $4::jsonb)`,
-          [matchId, session.email, JSON.stringify(before), JSON.stringify({ ...before, ...row })],
+          [
+            matchId, session.email, JSON.stringify(before),
+            JSON.stringify({ ...before, ...row, ...(correctedMatches.has(matchId) ? { correction_reason: correctionReason } : {}) }),
+          ],
         );
       } catch (matchError) {
         const message = matchError instanceof Error ? matchError.message : 'erro desconhecido';

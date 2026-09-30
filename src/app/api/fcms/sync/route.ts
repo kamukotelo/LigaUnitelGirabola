@@ -5,6 +5,7 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin';
 import { checkRateLimit, isSameOriginRequest, safeSecretEqual } from '@/lib/request-security';
 import { fcmsPayloadFingerprint, normaliseFcmsMatches, parseFcmsSyncPayload } from '@/lib/fcms-sync';
 import { revalidatePortalData } from '@/lib/portal-cache';
+import { getMatchRecord } from '@/lib/data';
 
 export const dynamic = 'force-dynamic';
 
@@ -104,8 +105,11 @@ export async function POST(request: Request) {
         score: resolved.match.score,
         half_time_score: resolved.match.halfTimeScore,
         status: 'finished',
-        broadcaster: resolved.match.broadcaster,
-        stadium: resolved.match.stadium || undefined,
+        // Agenda de um jogo com registo vem do mapa oficial (src/data/jogos).
+        ...(getMatchRecord(resolved.matchId) ? {} : {
+          broadcaster: resolved.match.broadcaster,
+          stadium: resolved.match.stadium || undefined,
+        }),
         updated_at: new Date().toISOString(),
       };
       const { error: updateError } = await client.from('ancaf_matches').update(matchUpdate).eq('id', resolved.matchId);

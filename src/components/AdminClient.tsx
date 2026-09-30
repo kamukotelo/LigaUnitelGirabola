@@ -27,6 +27,7 @@ import MatchFileLoaderSection from '@/components/admin/MatchFileLoaderSection';
 import LivePreviewPanel from '@/components/admin/LivePreviewPanel';
 import AdminAccountsModal from '@/components/admin/AdminAccountsModal';
 import { publishOverride, type OverrideSection } from '@/lib/portal-overrides';
+import { hasOfficialSchedule, isMatchClosed, officialScheduleSource, stripLockedCalendarFields } from '@/lib/admin-match-locks';
 import { supabase } from '@/lib/supabase';
 
 // ── Configuração local (persistência local dos overrides do admin) ──────
@@ -98,10 +99,10 @@ function useEditorDraft<T>(section: OverrideSection, storageKey: string, initial
     setSaving(true);
     setError(null);
     try {
-      await publishOverride(section, next);
-      localStorage.setItem(storageKey, JSON.stringify(next));
-      setDraft(next);
-      setBaseline(next);
+      const published = await publishOverride(section, next);
+      localStorage.setItem(storageKey, JSON.stringify(published));
+      setDraft(published);
+      setBaseline(published);
       setSavedAt(new Date().toISOString());
       return true;
     } catch (e) {
@@ -277,7 +278,7 @@ export default function AdminClient({ userProfile }: { userProfile: 'admin' | 'c
       .then((data) => {
         if (cancelled || !data?.overrides) return;
         const o = data.overrides as Record<string, unknown>;
-        if (o.calendar) localStorage.setItem(CAL_KEY, JSON.stringify(o.calendar));
+        if (o.calendar) localStorage.setItem(CAL_KEY, JSON.stringify(stripLockedCalendarFields(o.calendar as Record<string, Record<string, unknown>>)));
         if (o.news) localStorage.setItem(NEWS_KEY, JSON.stringify(o.news));
         if (o.players) localStorage.setItem(PLAYER_KEY, JSON.stringify(o.players));
         if (o.nominations) localStorage.setItem(NOMINATION_KEY, JSON.stringify(o.nominations));
@@ -1060,6 +1061,8 @@ function CalendarSection() {
         {roundMatches.map((m) => {
           const isEdited = !!overrides[m.id];
           const finished = m.status === 'finished';
+          const scheduleLocked = hasOfficialSchedule(m.id);
+          const scheduleSource = officialScheduleSource(m.id);
           return (
             <Panel key={m.id} className={isEdited ? 'border-accent/30' : ''}>
               <div className="flex items-center justify-between mb-4">
@@ -1087,33 +1090,44 @@ function CalendarSection() {
                 </div>
               </div>
 
+              <MatchLockNotice matchId={m.id} />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                <Field label="Data e Hora">
-                  <input
-                    type="datetime-local"
-                    value={isoToLocalInput(m.date)}
-                    onChange={(e) => update(m.id, { date: localInputToIso(e.target.value), scheduleStatus: 'official' })}
-                    className="admin-input"
-                  />
-                </Field>
-                <Field label="Publicação da data">
-                  <select
-                    value={m.scheduleStatus ?? 'official'}
-                    onChange={(e) => update(m.id, { scheduleStatus: e.target.value as Match['scheduleStatus'] })}
-                    className="admin-input"
-                  >
-                    <option value="official">Data oficial</option>
-                    <option value="provisional">Provisória/editável</option>
-                  </select>
-                </Field>
-                <Field label="Estádio">
-                  <input
-                    type="text"
-                    value={m.stadium}
-                    onChange={(e) => update(m.id, { stadium: e.target.value })}
-                    className="admin-input"
-                  />
-                </Field>
+                {scheduleLocked ? (
+                  <>
+                    <LockedField label="Data e Hora" value={formatOfficialDate(m.date)} source={scheduleSource} />
+                    <LockedField label="Publicação da data" value={m.scheduleStatus === 'provisional' ? 'Provisória' : 'Data oficial'} source={scheduleSource} />
+                    <LockedField label="Estádio" value={m.stadium} source={scheduleSource} />
+                  </>
+                ) : (
+                  <>
+                    <Field label="Data e Hora">
+                      <input
+                        type="datetime-local"
+                        value={isoToLocalInput(m.date)}
+                        onChange={(e) => update(m.id, { date: localInputToIso(e.target.value), scheduleStatus: 'official' })}
+                        className="admin-input"
+                      />
+                    </Field>
+                    <Field label="Publicação da data">
+                      <select
+                        value={m.scheduleStatus ?? 'official'}
+                        onChange={(e) => update(m.id, { scheduleStatus: e.target.value as Match['scheduleStatus'] })}
+                        className="admin-input"
+                      >
+                        <option value="official">Data oficial</option>
+                        <option value="provisional">Provisória/editável</option>
+                      </select>
+                    </Field>
+                    <Field label="Estádio">
+                      <input
+                        type="text"
+                        value={m.stadium}
+                        onChange={(e) => update(m.id, { stadium: e.target.value })}
+                        className="admin-input"
+                      />
+                    </Field>
+                  </>
+                )}
                 <Field label="Estado">
                   <select
                     value={m.status}
@@ -1165,15 +1179,19 @@ function CalendarSection() {
                     className="admin-input"
                   />
                 </Field>
-                <Field label="Transmissão TV">
-                  <input
-                    type="text"
-                    placeholder="Atribuição automática"
-                    value={m.broadcaster ?? ''}
-                    onChange={(e) => update(m.id, { broadcaster: e.target.value || undefined })}
-                    className="admin-input"
-                  />
-                </Field>
+                {scheduleLocked ? (
+                  <LockedField label="Transmissão TV" value={m.broadcaster || 'Rádio 5 (por omissão)'} source={scheduleSource} />
+                ) : (
+                  <Field label="Transmissão TV">
+                    <input
+                      type="text"
+                      placeholder="Atribuição automática"
+                      value={m.broadcaster ?? ''}
+                      onChange={(e) => update(m.id, { broadcaster: e.target.value || undefined })}
+                      className="admin-input"
+                    />
+                  </Field>
+                )}
                 <Field label="Assistência (espectadores)">
                   <input
                     type="number"
@@ -1229,6 +1247,50 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest block mb-1.5">{label}</span>
       {children}
     </label>
+  );
+}
+
+// Campo que o painel não pode mudar (ver src/lib/admin-match-locks.ts).
+function LockedField({ label, value, source }: { label: string; value: string; source?: string }) {
+  return (
+    <Field label={label}>
+      <div
+        className="admin-input flex items-center gap-2 opacity-80 cursor-not-allowed"
+        title={source ? `Definido por: ${source}` : 'Definido pelo mapa oficial da ANCAF'}
+      >
+        <Lock size={12} className="flex-shrink-0 text-zinc-500" />
+        <span className="truncate">{value}</span>
+      </div>
+    </Field>
+  );
+}
+
+function formatOfficialDate(iso: string): string {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime())
+    ? iso
+    : d.toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'short', timeStyle: 'short' });
+}
+
+// Aviso por jogo: de onde vem a agenda e se o resultado já está encerrado.
+function MatchLockNotice({ matchId }: { matchId: string }) {
+  const locked = hasOfficialSchedule(matchId);
+  const closed = isMatchClosed(matchId);
+  if (!locked && !closed) return null;
+  const source = officialScheduleSource(matchId);
+  return (
+    <p className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-mono text-zinc-500">
+      {locked && (
+        <span className="inline-flex items-center gap-1">
+          <Lock size={11} /> Data, estádio e transmissão: {source ?? 'mapa oficial da ANCAF'} (não se alteram no painel)
+        </span>
+      )}
+      {closed && (
+        <span className="inline-flex items-center gap-1 text-amber-500">
+          <AlertTriangle size={11} /> Jogo encerrado: corrigir o resultado pede motivo, registado no histórico
+        </span>
+      )}
+    </p>
   );
 }
 
@@ -2185,6 +2247,7 @@ function CompetitionSection() {
                   </div>
                   {edited && <button className="text-[9px] font-mono uppercase text-red-400" onClick={() => { const next = { ...ctl.draft }; delete next[match.id]; ctl.setDraft(next); }}>Repor</button>}
                 </div>
+                <MatchLockNotice matchId={match.id} />
                 <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-end">
                   <Field label={match.homeTeam}>
                     <input aria-label={`Golos de ${match.homeTeam}`} type="number" min={0} className="admin-input text-center text-xl font-bold" value={match.homeScore} onChange={(event) => update(match, { homeScore: Math.max(0, Number(event.target.value)), status: 'finished' })} />
@@ -2200,12 +2263,21 @@ function CompetitionSection() {
                       <option value="scheduled">Agendado</option><option value="live">Ao vivo</option><option value="finished">Terminado</option>
                     </select>
                   </Field>
-                  <Field label="Data e hora"><input type="datetime-local" className="admin-input" value={isoToLocalInput(match.date)} onChange={(event) => update(match, { date: localInputToIso(event.target.value), scheduleStatus: 'official' })} /></Field>
-                  <Field label="Publicação da data">
-                    <select className="admin-input" value={match.scheduleStatus ?? 'official'} onChange={(event) => update(match, { scheduleStatus: event.target.value as Match['scheduleStatus'] })}>
-                      <option value="official">Data oficial</option><option value="provisional">Provisória/editável</option>
-                    </select>
-                  </Field>
+                  {hasOfficialSchedule(match.id) ? (
+                    <>
+                      <LockedField label="Data e hora" value={formatOfficialDate(match.date)} source={officialScheduleSource(match.id)} />
+                      <LockedField label="Publicação da data" value={match.scheduleStatus === 'provisional' ? 'Provisória' : 'Data oficial'} source={officialScheduleSource(match.id)} />
+                    </>
+                  ) : (
+                    <>
+                      <Field label="Data e hora"><input type="datetime-local" className="admin-input" value={isoToLocalInput(match.date)} onChange={(event) => update(match, { date: localInputToIso(event.target.value), scheduleStatus: 'official' })} /></Field>
+                      <Field label="Publicação da data">
+                        <select className="admin-input" value={match.scheduleStatus ?? 'official'} onChange={(event) => update(match, { scheduleStatus: event.target.value as Match['scheduleStatus'] })}>
+                          <option value="official">Data oficial</option><option value="provisional">Provisória/editável</option>
+                        </select>
+                      </Field>
+                    </>
+                  )}
                 </div>
               </Panel>
             );
