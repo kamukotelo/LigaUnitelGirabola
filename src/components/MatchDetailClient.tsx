@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft, MapPin, Calendar, Users, Activity, Award, BarChart3,
-  Goal, ArrowLeftRight, Flag, Trophy, Clock, Tv
+  Goal, ArrowLeftRight, Flag, Trophy, Clock, Tv, ChevronDown
 } from 'lucide-react';
-import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition, getMatchOfficials, getMatchBroadcast, getTeamById } from '@/lib/data';
+import { MatchDetail, Team, LineupPlayer, MatchTeamStats, PitchPosition, getMatchOfficials, getMatchBroadcast, getMatchRecord, getTeamById } from '@/lib/data';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { ROUTES } from '@/lib/routes';
@@ -33,6 +33,74 @@ function PlayerName({ p }: { p: LineupPlayer }) {
     </Link>
   ) : (
     <span>{p.name}</span>
+  );
+}
+
+// ── Nota "Inversão do campo": jogos fora do estádio da casa ──────────
+// Aparece quando o registo do jogo tem `schedule.stadiumException` (jogo
+// marcado pela ANCAF fora do estádio da equipa da casa).
+const FIELD_INVERSION_REASONS: Array<{ title: string; text: string }> = [
+  {
+    title: 'Interdição ou veto de estádios',
+    text: 'Se o estádio habitual de uma equipa não passar nas vistorias técnicas (ex.: falta de condições de segurança ou problemas no relvado), o clube é obrigado a jogar num campo neutro ou aceitar a inversão de campo, jogando primeiro no campo do adversário.',
+  },
+  {
+    title: 'Sanções disciplinares',
+    text: 'O Regulamento Disciplinar da FAF prevê punições como a interdição temporária do campo devido a incidentes com adeptos, obrigando a deslocar o jogo.',
+  },
+  {
+    title: 'Acordo mútuo',
+    text: 'Em situações excecionais (como logística ou indisponibilidade de datas), os dois clubes podem solicitar a alteração da ordem dos jogos (quem joga primeiro em casa).',
+  },
+];
+
+function FieldInversionNote() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 rounded-2xl overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-controls="field-inversion-details"
+        className="w-full flex items-center gap-3 p-5 text-left hover:bg-zinc-100/60 dark:hover:bg-zinc-800/40 transition-colors"
+      >
+        <span className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+          <ArrowLeftRight size={16} />
+        </span>
+        <span className="flex-1 min-w-0">
+          <span className="block font-display text-sm uppercase tracking-wider text-foreground">Inversão do campo</span>
+          <span className="block text-[10px] font-mono uppercase tracking-widest text-zinc-500">Decisão administrativa / punição</span>
+        </span>
+        <ChevronDown size={18} className={`text-zinc-500 flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            id="field-inversion-details"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 pb-5 space-y-3 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+              <p>
+                No futebol nacional, em competições como a Liga Unitel Girabola, um clube pode ser forçado a inverter a ordem dos jogos ou o local da partida por vários motivos:
+              </p>
+              <ul className="space-y-2.5">
+                {FIELD_INVERSION_REASONS.map((reason) => (
+                  <li key={reason.title} className="flex gap-2.5">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                    <span><strong className="text-zinc-800 dark:text-zinc-200">{reason.title}:</strong> {reason.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
@@ -181,6 +249,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
   const publishedManOfTheMatch = match.status === 'finished' ? manOfTheMatch : undefined;
   const officials = getMatchOfficials(match);
   const broadcaster = getMatchBroadcast(match);
+  const fieldInverted = Boolean(getMatchRecord(match.id)?.schedule.stadiumException);
   return (
     <div className="space-y-8">
       {/* Cronologia */}
@@ -246,6 +315,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
         </AnimatedCard>
         )}
 
+        <div className={`grid gap-4 items-start ${fieldInverted ? 'md:grid-cols-2' : ''}`}>
         <div className="bg-white/30 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-900 p-6 rounded-2xl space-y-4 font-mono text-xs">
           <div className="flex items-center gap-3">
             <MapPin size={14} className="text-zinc-600" /> <span className="text-zinc-700 dark:text-zinc-300">{match.stadium}</span>
@@ -289,6 +359,8 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
                 : new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>
+        </div>
+        {fieldInverted && <FieldInversionNote />}
         </div>
       </div>
     </div>
