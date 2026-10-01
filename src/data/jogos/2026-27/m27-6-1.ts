@@ -6,5 +6,5 @@ export default defineMatch({
   round: 6,
   homeTeamId: 'petro',
   awayTeamId: 'caala',
-  schedule: { date: '2026-10-09T17:10:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Alteração comunicada a 01/10/2026: jogo passa para sexta-feira, 09/10, à mesma hora' },
+  schedule: { date: '2026-10-09T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Alteração comunicada a 01/10/2026: jogo passa para sexta-feira, 09/10, às 17:00' },
 });
