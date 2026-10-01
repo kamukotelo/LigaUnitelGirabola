@@ -6,5 +6,5 @@ export default defineMatch({
   round: 7,
   homeTeamId: 'dago',
   awayTeamId: 'wiliete',
-  schedule: { date: '2026-10-14T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  schedule: { date: '2026-10-14T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos das jornadas 6 a 10, revisto a 01/10/2026' },
 });
