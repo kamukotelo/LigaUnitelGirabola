@@ -16,6 +16,8 @@ export const ROUTES = {
   nominations: competitionPath('nomeacoes'),
   teams: '/teams',
   news: '/news',
+  comunicados: '/comunicados',
+  comunicadosFaf: '/comunicados?tab=faf',
   ligaTv: '/ligatv',
   contact: '/contact',
   terms: '/termos',

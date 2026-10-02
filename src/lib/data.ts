@@ -2357,6 +2357,20 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'comunicado-oficial-faf-cd-01-2026',
+    title: 'Conselho de Disciplina da FAF — Deliberações sobre advertências, repreensões e suspensões',
+    category: 'Comunicados Oficiais da FAF',
+    date: '25 set. 2026',
+    isoDate: '2026-09-25',
+    summary: 'O Conselho de Disciplina da Federação Angolana de Futebol publicou as deliberações e o mapa oficial de sanções disciplinares: registo de advertências, repreensões e suspensões decorrentes das jornadas da Liga Unitel Girabola.',
+    content: 'O Conselho de Disciplina da Federação Angolana de Futebol (FAF), reunido na sua sede em Luanda e no exercício das competências disciplinares que lhe estão conferidas pelo Regulamento Disciplinar da FAF e pelo contrato de delegação de competências com a ANCAF, torna público o Comunicado Oficial com as decisões tomadas relativamente aos relatórios de arbitragem e de delegados de jogo das jornadas disputadas na Liga Unitel Girabola.\n\n1. Advertências e Repreensões:\nForam aplicadas advertências e repreensões a atletas e equipas técnicas por conduta antidesportiva de grau menor e desrespeito às instruções da equipa de arbitragem, em conformidade com o artigo 24.º do Regulamento Disciplinar.\n\n2. Suspensões Automáticas e Preventivas:\nForam confirmadas as suspensões de 1 (um) jogo aos atletas punidos com cartão vermelho direto ou duplo amarelo nas últimas partidas, bem como a instauração de averiguações disciplinares a incidentes relatados pelos delegados de jogo.\n\n3. Cumprimento Regulamentar:\nO Conselho de Disciplina reitera o dever de lealdade e fair-play de todos os intervenientes da competição e informa que o mapa de castigos integral está disponível para consulta dos clubes filiados.',
+    status: 'published',
+    author: 'Conselho de Disciplina da FAF',
+    sourceName: 'Federação Angolana de Futebol (FAF)',
+    sourceUrl: 'https://faf.co.ao',
+    publishedAt: '2026-09-25T16:00:00+01:00',
+  },
+  {
     id: 'comunicado-oficial-010-dce-ancaf-2026',
     title: 'Sagrada Esperança–Petro de Luanda adiado para 4 de novembro',
     category: 'Comunicado Oficial',
@@ -3273,6 +3287,25 @@ export function isOfficialCommunication(article: NewsArticle): boolean {
 
 export function getOfficialCommunications(): NewsArticle[] {
   return getNewsArticles().filter(isOfficialCommunication);
+}
+
+/** Identifica comunicados emanados pela Federação Angolana de Futebol ou pelo Conselho de Disciplina. */
+export function isFafCommunication(article: NewsArticle): boolean {
+  const text = `${article.category} ${article.author ?? ''} ${article.sourceName ?? ''} ${article.title}`
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+  return text.includes('faf') || text.includes('disciplina') || text.includes('federacao');
+}
+
+/** Comunicados Oficiais emitidos pela FAF (Conselho de Disciplina). */
+export function getFafCommunications(): NewsArticle[] {
+  return getOfficialCommunications().filter(isFafCommunication);
+}
+
+/** Comunicados Oficiais emitidos pela Direção de Competições da ANCAF (Liga). */
+export function getAncafCommunications(): NewsArticle[] {
+  return getOfficialCommunications().filter((article) => !isFafCommunication(article));
 }
 
 export function getNewsArticleById(id: string): NewsArticle | undefined {

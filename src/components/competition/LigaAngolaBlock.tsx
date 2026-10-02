@@ -402,9 +402,14 @@ export default function LigaAngolaBlock() {
                     <h2 id="official-communications-title" className="font-display text-lg font-black uppercase tracking-wide sm:text-xl">Comunicados Oficiais</h2>
                   </div>
                 </div>
-                <Link href="/comunicados" className="inline-flex min-h-11 w-fit items-center gap-2 rounded-lg bg-white px-4 py-2.5 font-mono text-[11px] font-black uppercase tracking-wide text-[#B9430C] transition-colors hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
-                  Ver todos <ArrowRight size={12} />
-                </Link>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Link href="/comunicados?tab=faf" className="inline-flex min-h-11 w-fit items-center gap-1.5 rounded-lg border border-white/30 bg-white/10 px-3.5 py-2.5 font-mono text-[11px] font-black uppercase tracking-wide text-white transition-colors hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                    Comunicados da FAF
+                  </Link>
+                  <Link href="/comunicados" className="inline-flex min-h-11 w-fit items-center gap-2 rounded-lg bg-white px-4 py-2.5 font-mono text-[11px] font-black uppercase tracking-wide text-[#B9430C] transition-colors hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                    Ver todos <ArrowRight size={12} />
+                  </Link>
+                </div>
               </div>
 
               <div className="grid gap-3 p-4 sm:p-5 md:grid-cols-2">

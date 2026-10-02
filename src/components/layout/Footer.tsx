@@ -65,6 +65,12 @@ export default function Footer() {
                 <Link href={ROUTES.news} className="hover:text-accent transition-colors">Notícias</Link>
               </li>
               <li>
+                <Link href="/comunicados" className="hover:text-accent transition-colors">Comunicados Oficiais</Link>
+              </li>
+              <li>
+                <Link href="/comunicados?tab=faf" className="hover:text-accent transition-colors">Comunicados Oficiais da FAF</Link>
+              </li>
+              <li>
                 <Link href={ROUTES.ligaTv} className="hover:text-accent transition-colors">Liga TV</Link>
               </li>
             </ul>
