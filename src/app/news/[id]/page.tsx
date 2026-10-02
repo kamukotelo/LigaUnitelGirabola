@@ -5,7 +5,7 @@ import { getNewsArticleById } from '@/lib/data';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Calendar, Download } from 'lucide-react';
+import { ArrowLeft, Calendar, Download, FileText } from 'lucide-react';
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import { isOfficialCommunication } from '@/lib/data';
 
