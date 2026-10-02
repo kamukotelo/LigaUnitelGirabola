@@ -386,10 +386,10 @@ export default function MatchDetailClient({
   const homeColor = homeTeam?.colorsHex?.[0] ?? '#5C0F8B';
   const awayColor = awayTeam?.colorsHex?.[0] ?? '#E6540F';
 
-  const tabs: { key: TabKey; label: string; icon: React.ElementType }[] = [
+  const tabs: { key: TabKey; label: string; shortLabel?: string; icon: React.ElementType }[] = [
     { key: 'resumo', label: 'Resumo', icon: Activity },
     { key: 'estatisticas', label: 'Estatísticas', icon: BarChart3 },
-    { key: 'escalacoes', label: 'Escalações', icon: Users },
+    { key: 'escalacoes', label: 'Constituição das Equipas', shortLabel: 'Line up', icon: Users },
   ];
 
   return (
@@ -466,7 +466,9 @@ export default function MatchDetailClient({
               onClick={() => setActiveTab(tab.key)}
               className={`relative flex min-h-11 items-center justify-center gap-1 px-1 py-3 font-mono text-[10px] uppercase tracking-tight transition-colors sm:gap-2 sm:px-4 sm:text-[11px] sm:tracking-widest ${isActive ? 'text-foreground' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
             >
-              <Icon size={14} className={isActive ? 'text-accent' : ''} /> {tab.label}
+              <Icon size={14} className={isActive ? 'text-accent' : ''} />
+              <span className={tab.shortLabel ? 'hidden md:inline' : ''}>{tab.label}</span>
+              {tab.shortLabel && <span className="md:hidden">{tab.shortLabel}</span>}
               {isActive && <motion.span layoutId="matchTabUnderline" className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-accent" />}
             </button>
           );
@@ -487,7 +489,7 @@ export default function MatchDetailClient({
             <>
               {!isFinished && !isLive && (
                 <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-4">
-                  {hasOfficialLineups ? 'Convocatórias oficiais' : 'Onze provável'}
+                  {hasOfficialLineups ? 'Constituição das Equipas (oficial)' : 'Constituição das Equipas (line up)'}
                 </p>
               )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
