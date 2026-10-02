@@ -20,6 +20,7 @@ import {
   getVideoHighlights,
   computeStandings,
   getActiveSeasonRound,
+  getAncafCommunications,
 } from '@/lib/data';
 import { ROUTES } from '@/lib/routes';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
@@ -29,10 +30,10 @@ const TOTAL_ROUNDS = 30;
 
 const OFFICIAL_PARTNERS = [
   { name: 'Unitel', logo: '/partners/unitel.png', scale: 'scale-[1.6]' },
-  { name: 'Sonangol', logo: '/partners/sonangol.png', scale: 'scale-[1.5]' },
   { name: 'Zsports', logo: '/partners/zsports.png', scale: 'scale-[1.55]' },
   { name: 'Rádio Cinco', logo: '/partners/radio-cinco.png', scale: 'scale-[1.7]' },
   { name: 'CHDCP', logo: '/partners/chdcp.png', scale: 'scale-[1.5]' },
+  { name: 'Sonangol', logo: '/partners/sonangol.png', scale: 'scale-[1.5]' },
 ] as const;
 
 function getDefaultRoundForSeason(seasonId: string) {
@@ -69,7 +70,7 @@ export default function LigaAngolaBlock() {
   ).slice(0, 5);
 
   // ─── STATE FOR NEWS (NOTÍCIAS) ───
-  const officialCommunications = getOfficialCommunications().slice(0, 2);
+  const officialCommunications = getAncafCommunications().slice(0, 2);
   const news = getNewsArticles().filter((article) => !isOfficialCommunication(article)).slice(0, 4);
   const featuredNews = news[0];
   const secondaryNews = news.slice(1, 4);
@@ -403,9 +404,6 @@ export default function LigaAngolaBlock() {
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Link href="/comunicados?tab=faf" className="inline-flex min-h-11 w-fit items-center gap-1.5 rounded-lg border border-white/30 bg-white/10 px-3.5 py-2.5 font-mono text-[11px] font-black uppercase tracking-wide text-white transition-colors hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
-                    Comunicados da FAF
-                  </Link>
                   <Link href="/comunicados" className="inline-flex min-h-11 w-fit items-center gap-2 rounded-lg bg-white px-4 py-2.5 font-mono text-[11px] font-black uppercase tracking-wide text-[#B9430C] transition-colors hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
                     Ver todos <ArrowRight size={12} />
                   </Link>

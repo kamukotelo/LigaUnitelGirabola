@@ -116,6 +116,32 @@ export default function NewsDetailPage() {
                 </div>
               </section>
             )}
+            {article.documentUrl && (!article.documentImages || article.documentImages.length === 0) && (
+              <section className="mt-10 border-t border-zinc-200 pt-8 dark:border-zinc-800" aria-labelledby="official-pdf-section">
+                <div className="rounded-2xl border border-blue-200 bg-blue-50/70 p-6 dark:border-blue-900/50 dark:bg-blue-950/20">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-xs">
+                        <FileText size={24} />
+                      </span>
+                      <div>
+                        <p className="font-mono text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400">Documento Oficial Homologado</p>
+                        <h3 id="official-pdf-section" className="font-display text-base font-extrabold uppercase text-foreground">Comunicado Oficial em PDF (9 Páginas)</h3>
+                        <p className="font-mono text-xs text-zinc-500">Documento original autenticado com carimbo e assinatura da Secretaria Geral da FAF</p>
+                      </div>
+                    </div>
+                    <a
+                      href={article.documentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-mono text-xs font-bold uppercase tracking-wide text-white transition-all hover:bg-blue-700 shadow-sm"
+                    >
+                      <Download size={14} /> Descarregar PDF Oficial
+                    </a>
+                  </div>
+                </div>
+              </section>
+            )}
             {article.annexImages && article.annexImages.length > 0 && (
               <section className="mt-10 border-t border-zinc-200 pt-8 dark:border-zinc-800" aria-labelledby="official-annex-pages">
                 <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
