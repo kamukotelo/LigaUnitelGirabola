@@ -8,25 +8,28 @@ import { getSeasonResultsUpdatedAt, SEASONS, TEAMS, UPCOMING_SEASON_ID, computeS
 import AnimatedCard from '@/components/ui/AnimatedCard';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
+import DisciplineTable from './DisciplineTable';
 
 export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
-  const [venue, setVenue] = useState<StandingsVenue>('all');
+  const [venue, setVenue] = useState<StandingsVenue | 'disciplina'>('all');
   const { matches } = useOfficialCalendar(seasonId);
   const selectedSeason = SEASONS.find(s => s.id === seasonId);
   const isUpcoming = seasonId === UPCOMING_SEASON_ID;
-  const standingsList = venue === 'all'
-    ? (isUpcoming ? computeStandings(matches) : getStandingsForSeason(seasonId))
-    : computeStandings(matches, venue);
+  const standingsList = venue === 'disciplina'
+    ? []
+    : venue === 'all'
+      ? (isUpcoming ? computeStandings(matches) : getStandingsForSeason(seasonId))
+      : computeStandings(matches, venue);
 
   // Curiosidades derivadas da tabela calculada (coincidem sempre com os jogos).
-  const bestDefense = [...standingsList].sort((a, b) => a.goalsAgainst - b.goalsAgainst)[0];
-  const bestAttack = [...standingsList].sort((a, b) => b.goalsFor - a.goalsFor)[0];
+  const bestDefense = standingsList.length > 0 ? [...standingsList].sort((a, b) => a.goalsAgainst - b.goalsAgainst)[0] : null;
+  const bestAttack = standingsList.length > 0 ? [...standingsList].sort((a, b) => b.goalsFor - a.goalsFor)[0] : null;
   const champion = standingsList[0];
-  const hasVerifiedGoals = standingsList.every((row) => row.goalsVerified !== false);
+  const hasVerifiedGoals = standingsList.length > 0 && standingsList.every((row) => row.goalsVerified !== false);
 
   return (
     <div className="space-y-8">
-      {isUpcoming && (
+      {isUpcoming && venue !== 'disciplina' && (
         <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
           Classificação atualizada em {new Date(getSeasonResultsUpdatedAt(seasonId)).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda', dateStyle: 'medium', timeStyle: 'short' })} · jogos em direto não contabilizados
         </p>
@@ -39,6 +42,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
             ['home', 'Casa'],
             ['away', 'Fora'],
             ['form5', 'Últimos 5 Jogos'],
+            ['disciplina', 'Índice Disciplinar'],
           ] as const).map(([key, label]) => (
             <button
               key={key}
@@ -57,17 +61,21 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
         </div>
       </div>
 
-      {venue === 'form5' && (
-        <div className="rounded-2xl border border-accent/30 bg-accent/5 p-4 text-xs font-mono text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto text-center">
-          <p className="font-bold text-foreground uppercase tracking-wider flex items-center justify-center gap-2">
-            <TrendingUp size={16} className="text-accent" />
-            Classificação por Momento de Forma (Últimos 5 Jogos)
-          </p>
-          <p className="mt-1 text-[11px] text-zinc-500">
-            A tabela reflete exclusivamente os pontos e o saldo de golos conquistados nas últimas 5 partidas oficiais disputadas por cada clube.
-          </p>
-        </div>
-      )}
+      {venue === 'disciplina' ? (
+        <DisciplineTable seasonId={seasonId} />
+      ) : (
+        <>
+          {venue === 'form5' && (
+            <div className="rounded-2xl border border-accent/30 bg-accent/5 p-4 text-xs font-mono text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto text-center">
+              <p className="font-bold text-foreground uppercase tracking-wider flex items-center justify-center gap-2">
+                <TrendingUp size={16} className="text-accent" />
+                Classificação por Momento de Forma (Últimos 5 Jogos)
+              </p>
+              <p className="mt-1 text-[11px] text-zinc-500">
+                A tabela reflete exclusivamente os pontos e o saldo de golos conquistados nas últimas 5 partidas oficiais disputadas por cada clube.
+              </p>
+            </div>
+          )}
 
       {/* Mobile standings: the essential columns fit without horizontal scrolling. */}
       <AnimatedCard variant="hud" className="overflow-hidden p-0 md:hidden">
@@ -315,7 +323,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
         </AnimatedCard>
 
         {/* Curiosidades — derivadas da tabela, apenas para épocas já disputadas */}
-        {!isUpcoming && champion && hasVerifiedGoals && (
+        {!isUpcoming && champion && hasVerifiedGoals && bestDefense && bestAttack && (
           <AnimatedCard variant="hud" className="p-6">
             <h3 className="text-lg font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <Award size={16} className="text-accent" /> Curiosidades
@@ -333,8 +341,9 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
             </div>
           </AnimatedCard>
         )}
-
-      </div>
+        </div>
+        </>
+      )}
 
     </div>
   );

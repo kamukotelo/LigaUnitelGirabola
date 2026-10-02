@@ -46,10 +46,11 @@ import TeamCrest from '@/components/ui/TeamCrest';
 import AdvancedStatistics from './AdvancedStatistics';
 import CompetitionRecordsPanel from './CompetitionRecordsPanel';
 import SeasonComparisonMatrix from './SeasonComparisonMatrix';
+import DisciplineTable from './DisciplineTable';
 import { shown } from '@/lib/display';
 
 type StatTab = 'scorers' | 'assists' | 'cleansheets' | 'yellowcards' | 'redcards' | 'minutes';
-type StatsView = 'resumo' | 'jogadores' | 'equipas' | 'avancada' | 'comparador';
+type StatsView = 'resumo' | 'jogadores' | 'equipas' | 'disciplina' | 'avancada' | 'comparador';
 
 const RANKING_SIZE = 30;
 const HISTORICAL_RANKING_SIZE = 15;
@@ -101,6 +102,7 @@ const STATS_VIEWS: { key: StatsView; label: string }[] = [
   { key: 'resumo', label: 'Resumo' },
   { key: 'jogadores', label: 'Jogadores' },
   { key: 'equipas', label: 'Equipas' },
+  { key: 'disciplina', label: 'Índice Disciplinar' },
   { key: 'avancada', label: 'Análise Avançada' },
 ];
 
@@ -146,7 +148,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
     if (typeof window === 'undefined') return 'resumo';
     const params = new URLSearchParams(window.location.search);
     const viewParam = params.get('view');
-    if (viewParam === 'resumo' || viewParam === 'jogadores' || viewParam === 'equipas' || viewParam === 'avancada') {
+    if (viewParam === 'resumo' || viewParam === 'jogadores' || viewParam === 'equipas' || viewParam === 'disciplina' || viewParam === 'avancada') {
       return viewParam;
     }
     return 'resumo';
@@ -925,8 +927,36 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             )}
           </div>
 
+          {/* Acesso rápido à Classificação Geral do Índice Disciplinar */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-amber-500/10 border border-amber-500/20 p-3.5 rounded-xl">
+            <div className="flex items-center gap-2.5">
+              <span className="text-base">⚖️</span>
+              <div>
+                <p className="text-xs font-mono font-bold text-foreground uppercase tracking-wide">
+                  Classificação Geral do Índice Disciplinar
+                </p>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                  Tabela Fair Play de conduta disciplinar das 16 equipas no modelo zerozero / Liga Portugal
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setActiveView('disciplina')}
+              className="self-start sm:self-auto rounded-lg bg-accent/15 px-3 py-1.5 text-xs font-mono font-bold uppercase text-accent hover:bg-accent/25 transition-colors shrink-0"
+            >
+              Ver Tabela Geral →
+            </button>
+          </div>
+
           <AdvancedStatistics seasonId={seasonId} teamId={activeTeam === 'all' ? undefined : activeTeam} scope="teams" className="mt-2 space-y-6" />
         </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* VISTA: ÍNDICE DISCIPLINAR (MODELO ZEROZERO / LIGA PORTUGAL)               */}
+      {/* ========================================================================= */}
+      {activeView === 'disciplina' && (
+        <DisciplineTable seasonId={seasonId} />
       )}
 
       {/* ========================================================================= */}
