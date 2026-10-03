@@ -32,7 +32,7 @@ export default function DisciplineTable({ seasonId }: DisciplineTableProps) {
               <Scale size={18} />
             </span>
             <p className="font-mono text-[10px] font-black uppercase tracking-widest text-accent">
-              Estatísticas Oficiais · Modelo zerozero / Liga Portugal
+              Estatísticas Oficiais · Liga Unitel Girabola
             </p>
           </div>
           <h2 className="mt-1 font-display text-xl sm:text-2xl font-black uppercase text-foreground">
@@ -213,7 +213,7 @@ export default function DisciplineTable({ seasonId }: DisciplineTableProps) {
       <div className="flex items-start gap-2 text-[11px] font-mono text-zinc-500 dark:text-zinc-400 bg-zinc-50/70 dark:bg-zinc-900/40 p-4 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80">
         <Info size={16} className="text-accent shrink-0 mt-0.5" />
         <p>
-          <strong className="text-foreground">Regulamento do Índice Disciplinar (zerozero / Liga Portugal):</strong>{' '}
+          <strong className="text-foreground">Critérios do Índice Disciplinar da Liga Unitel Girabola:</strong>{' '}
           Pontuação atribuída por sanção: Amarelo = 1 pt; 2.º Amarelo = 2 pts; Vermelho Direto = 3 pts. A ordenação
           oficial de Fair Play premeia a menor pontuação. Critérios de desempate: menor n.º de vermelhos diretos,
           menor n.º de duplos amarelos, menor n.º de amarelos e maior n.º de jogos realizados.

@@ -7,7 +7,7 @@ import TeamCrest from '@/components/ui/TeamCrest';
 import { getSeasonResultsUpdatedAt, getTeamById } from '@/lib/data';
 import { computeCompetitionRecords, type RecordItem, type RecordRow, type RecordSection } from '@/lib/competition-records';
 
-// Resumo estatístico da competição no formato zerozero: bloco de globais e
+// Resumo estatístico da Liga Unitel Girabola: bloco de globais e
 // quadros de recordes (Equipas · Jogadores · Árbitros · Treinadores), cada um
 // com o recordista, o número de empatados (+N) e o ranking completo em
 // "Detalhes".

@@ -1,4 +1,4 @@
-// Classificação Geral do Índice Disciplinar (Modelo Estatístico zerozero / Liga Portugal)
+// Classificação Geral do Índice Disciplinar da Liga Unitel Girabola
 // Critério: Amarelo = 1 pt | Duplo Amarelo = 2 pts | Vermelho Direto = 3 pts.
 // Menor pontuação lidera a classificação do Fair Play.
 

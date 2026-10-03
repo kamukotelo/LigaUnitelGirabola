@@ -1,4 +1,4 @@
-// Recordes da competição no formato zerozero (Globais · Equipas · Jogadores ·
+// Recordes da Liga Unitel Girabola (Globais · Equipas · Jogadores ·
 // Árbitros · Treinadores). Tudo é derivado dos jogos terminados e das fichas
 // publicadas (eventos, escalações, arbitragem e treinadores): nenhum número é
 // introduzido à mão. Sem ficha publicada, o jogo conta apenas para os

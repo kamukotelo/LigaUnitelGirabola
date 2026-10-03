@@ -124,7 +124,7 @@ const STAT_TABS: {
 ];
 
 /**
- * 3. Scroll de Posições facilitado estilo Sofascore
+ * 3. Navegação horizontal de posições otimizada para dispositivos móveis
  */
 const POSITION_FILTERS = [
   { key: 'all', label: 'Todas as posições', shortLabel: 'Todas' },
@@ -532,7 +532,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
         </Link>
       </div>
 
-      {/* VISTA 0: RESUMO NO FORMATO ZEROZERO (GLOBAIS + QUADROS DE RECORDES)      */}
+      {/* VISTA 0: RESUMO DA LIGA UNITEL GIRABOLA (GLOBAIS + QUADROS DE RECORDES)  */}
       {activeView === 'resumo' && <CompetitionRecordsPanel seasonId={seasonId} />}
 
       {/* ========================================================================= */}
@@ -552,7 +552,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             </p>
           </div>
 
-          {/* 1. SCROLL DE MÉTRICAS (ESTILO SOFASCORE - PILLS HORIZONTAIS) */}
+          {/* 1. NAVEGAÇÃO HORIZONTAL PELAS MÉTRICAS */}
           <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-0.5 px-0.5">
             {STAT_TABS.map((tab) => {
               const active = activeTab === tab.key;
@@ -652,9 +652,9 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
             </motion.div>
           )}
 
-          {/* 3. CARD CONTAINER DE RANKINGS DO SOFASCORE - IMEDIATAMENTE VISÍVEL */}
+          {/* 3. QUADRO DE RANKINGS DA LIGA - IMEDIATAMENTE VISÍVEL */}
           <div className="bg-white dark:bg-zinc-950/80 border border-zinc-200 dark:border-zinc-800/80 rounded-2xl overflow-hidden shadow-xs">
-            {/* Cabeçalho do Bloco Sofascore */}
+            {/* Cabeçalho do quadro de rankings */}
             <div className="flex items-center justify-between px-3.5 sm:px-5 py-2.5 sm:py-3 border-b border-zinc-200/80 dark:border-zinc-800/60 bg-zinc-50/80 dark:bg-zinc-900/40">
               <div className="flex items-center gap-2">
                 <span className="text-base">{activeStatMeta.emoji}</span>
@@ -667,7 +667,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
               </span>
             </div>
 
-            {/* Lista dos Jogadores Estilo Sofascore */}
+            {/* Lista de jogadores */}
             <div className="divide-y divide-zinc-200/70 dark:divide-zinc-800/50">
               {visiblePlayers.length === 0 ? (
                 <div className="p-8 text-center text-zinc-500 dark:text-zinc-400 font-mono text-xs">
@@ -936,7 +936,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                   Classificação Geral do Índice Disciplinar
                 </p>
                 <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
-                  Tabela Fair Play de conduta disciplinar das 16 equipas no modelo zerozero / Liga Portugal
+                  Tabela Fair Play oficial das 16 equipas da Liga Unitel Girabola
                 </p>
               </div>
             </div>
@@ -953,7 +953,7 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
       )}
 
       {/* ========================================================================= */}
-      {/* VISTA: ÍNDICE DISCIPLINAR (MODELO ZEROZERO / LIGA PORTUGAL)               */}
+      {/* VISTA: ÍNDICE DISCIPLINAR DA LIGA UNITEL GIRABOLA                         */}
       {/* ========================================================================= */}
       {activeView === 'disciplina' && (
         <DisciplineTable seasonId={seasonId} />
