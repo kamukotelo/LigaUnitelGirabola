@@ -6,5 +6,5 @@ export default defineMatch({
   round: 10,
   homeTeamId: 'desphuila',
   awayTeamId: 'kabuscorp',
-  schedule: { date: '2026-11-08T15:30:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'DCE/ANCAF, 05/10/2026: domingo, 08/11, 15:30' },
+  schedule: { date: '2026-11-08T15:00:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'DCE/ANCAF, 05/10/2026: domingo, 08/11, 15:00' },
 });
