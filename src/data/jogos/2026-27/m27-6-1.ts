@@ -6,5 +6,5 @@ export default defineMatch({
   round: 6,
   homeTeamId: 'petro',
   awayTeamId: 'caala',
-  schedule: { date: '2026-10-09T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos das jornadas 6 a 10, revisto a 01/10/2026' },
+  schedule: { date: '2026-10-09T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Correção recebida a 05/10/2026: sexta-feira, 09/10, 15:30, Estádio 22 de Junho', stadiumException: 'Jogo marcado para o Estádio 22 de Junho (correção de 05/10/2026)' },
 });
