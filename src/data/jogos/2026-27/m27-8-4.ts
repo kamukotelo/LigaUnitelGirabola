@@ -6,5 +6,5 @@ export default defineMatch({
   round: 8,
   homeTeamId: 'sagrada',
   awayTeamId: 'primeiromaio',
-  schedule: { date: '2026-10-24T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  schedule: { date: '2026-10-24T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'DCE/ANCAF, 05/10/2026: sem transmissão televisiva (Rádio 5)' },
 });
