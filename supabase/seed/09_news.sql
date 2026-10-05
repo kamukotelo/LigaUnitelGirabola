@@ -4,6 +4,53 @@
 -- ═════════════════════════════════════════════════════════════════════
 
 insert into public.ancaf_news (id, title, category, date, iso_date, summary, content, status, author, source_name, source_url, published_at, document_images, document_url, ai_assisted) values
+  ('comunicado-oficial-10-sg-faf-2026-27', 'Comunicado Oficial N.º 10/SG/2026/27 — Critérios de Jogo, Licenciamento de Treinadores, Homologação de Estádios e Deliberações do Conselho de Disciplina', 'Comunicados Oficiais da FAF', '2026-09-16T00:00:00.000Z', '2026-09-16', 'A Federação Angolana de Futebol publicou o Comunicado Oficial N.º 10/SG/2026/27 com deliberações da Direção de Competições (critérios de intervenção no banco e relvado, 60 treinadores com Licença B da CAF e relação dos 15 estádios aprovados) e do Conselho de Disciplina (sanções de 1.º, 2.º e 3.º cartão amarelo, suspensão de 15 dias e multas aplicadas).', 'A Federação Angolana de Futebol (FAF), através da sua Secretaria Geral, publicou o Comunicado Oficial N.º 10/SG/2026/27, assinado pela Secretária Geral Fernanda Iana António, contendo as decisões e diretrizes oficiais relativas à época 2026/2027 do XLIX Campeonato Nacional de Futebol / Liga Unitel Girabola.
+
+CAPÍTULO 1 — DIREÇÃO DE COMPETIÇÕES
+
+1.1 Critérios a cumprir durante o jogo:
+Nos jogos da Liga Unitel Girabola, no banco de suplentes apenas o delegado de jogo tem o direito de se dirigir ao quarto árbitro. Já dentro do campo, apenas os capitães de equipa têm o direito de se dirigir ao árbitro, conforme o regulamento de prova.
+
+1.1.1 Treinadores com a Licença B da CAF:
+Apenas estão habilitados a orientar os jogos das suas equipas os treinadores principais que no mínimo possuam a Licença B. Quanto aos treinadores adjuntos e preparadores físicos, devem possuir no mínimo a Licença C.
+
+Relação dos 60 Treinadores Habilitados com Licença B da CAF:
+1. Águas Zeca da Silva; 2. José Pascoal Vidal; 3. Luciano José Capoco; 4. Adério Francisco Simões; 5. Francisco Paulino; 6. Adilson Gil de Almeida Gomes; 7. Flávio da Silva Amado; 8. Hélder Jorge Silva Cardoso da Cruz; 9. Mariano Júlio; 10. Mateus Manuel Agostinho; 11. Paulo da Cruz Saraiva; 12. Pedro Jorge Neto; 13. Fernando Jordão; 14. Mário Calado; 15. José Alberto Agostinho; 16. Albano Silva; 17. Ivo Raimundo Traça; 18. Henrique Neves Ribeiro Sobrinho; 19. João Machado; 20. Simão Paulo; 21. Jorge Fonseca; 22. Filipe Nzanza; 23. Quintas Sebastião Caetano; 24. José Augusto Matias; 25. Mário Francisco Soares Lopes; 26. Joaquim Fernando Finda; 27. Afonso Paxe Filho; 28. Artur Correia; 29. Domingos Cristóvão da Silva; 30. Edgar Jerónimo; 31. Francisco Nteme Mateus; 32. Henrique Correia; 33. José Luís dos Reis Borges; 34. Paulo Francisco de Sousa Dias; 35. Manuel João Domingos Martins; 36. Mário Avelino Mendonça Catala; 37. Sousa Francisco Garcia; 38. João Ndoce Manfuane; 39. Zeferino Benjamim Jacob Nambi; 40. Romeu Catato Filémon; 41. Fernando Manuel Salongenha; 42. Domingos Cussumua Tchimbungule; 43. Felício Campo Serrote; 44. Arsénio Sebastião Cabungula; 45. Sílvio Albino André; 46. Domingos Silvano Cussanda; 47. Graciano Chinhama Romeu; 48. Sandra Maria dos Santos Dias; 49. Orlando Quissanga Dembo; 50. Benvindo Camuabo Belo Chanhi; 51. Sebastião Palavra Ngola; 52. Rui Manuel Ortet Pereira Moniz; 53. Ernesto Castanheira Gonçalves; 54. Francisco Moniz Hungo; 55. José Silvestre Pereira Jorge; 56. João Pintar da Silva; 57. Osvaldo Roque Gonçalves da Cruz; 58. Paulo Manuel Banha Torres; 59. Francisco Paulino; 60. Isaías Luciano.
+
+1.1.2 Estádios Aprovados para a Época 2026/2027:
+1. Luanda — Estádio 11 de Novembro (Petro de Luanda) — Aprovado;
+2. Luanda — Estádio 22 de Junho (Interclube) — Aprovado;
+3. Luanda — Estádio França Ndalu (1º de Agosto) — Aprovado;
+4. Luanda — Estádio 22 de Junho (Kabuscorp) — Aprovado;
+5. Luanda — Estádio França Ndalu (FC Luanda) — Aprovado;
+6. Benguela — Estádio Nacional de Ombaka (Académica do Lobito) — Aprovado (Ter atenção à Zona 1);
+7. Benguela — Estádio Nacional de Ombaka (Wiliete) — Aprovado (Ter atenção à Zona 1);
+8. Benguela — Estádio Municipal de Benguela (1º de Maio de Benguela) — Aprovado;
+9. Zaire — Estádio Álvaro Buta (São Salvador) — Aprovado (Atenção às Zonas 1, 3 e 7);
+10. Huíla — Estádio da Tundavala (Desportivo da Huíla) — Aprovado;
+11. Huambo — Estádio da Caála (Recreativo da Caála) — Aprovado (Uma noite);
+12. Moxico — Estádio Mundunduleno (Bravos do Maquis) — Aprovado (Ter atenção à vedação);
+13. Lunda-Norte — Estádio Sagrada Esperança (Sagrada Esperança) — Aprovado;
+14. Lunda-Sul — Estádio Sagrada Esperança (Desportivo da Lunda Sul) — Aprovado;
+15. Cuanza Sul — Estádio de Calulo (Recreativo do Libolo) — Aprovado (Ter atenção à Zona 1).
+
+Observação da FAF quanto aos recintos: Os estádios aprovados (homologados) poderão ser suspensos, a qualquer momento, em caso de deficiente manutenção do relvado e/ou das infraestruturas do estádio/campo. É da responsabilidade de cada clube assegurar a manutenção das condições verificadas na data da inspeção durante toda a época desportiva.
+
+CAPÍTULO 2 — CONSELHO DE DISCIPLINA
+
+O Conselho de Disciplina da FAF, reunido em 15/09/2026, deliberou sobre as sanções disciplinares do XLIX Campeonato Nacional de Futebol / Liga Unitel Girabola - Séniores:
+
+a) 1.º Cartão Amarelo — Advertência (alínea a) do n.º 2 do art.º 124.º do R/D da FAF):
+Hermenegildo Sandumbo (lic. 000763M97 - CR Caála), Valentim Sacuvale (lic. 007412M04 - CR Caála), Constantino T. C. Tchitunda (lic. 001412M02 - CD Huíla), João Eduardo (lic. 000658M00 - FC Cabinda), Mário Chiwale C. da Silva (lic. 002177M01 - FC Cabinda), Bruno de Jesus Manuel (lic. 000437M95 - CD 1º de Agosto), Emanoel Júnior (lic. 004709M98 - Wiliete SC Benguela), Ruben Cristiano M. Luwawa (lic. 007431M06 - FC Luanda), Hamilton Ebo (lic. 002896M04 - FC Luanda), Salomão Bunga (lic. 000483M03 - GD Interclube), Alcides Patrício (lic. 001214M04 - GD Interclube), Lourenço C. Sapalo Adriano (lic. 000542M92 - Académica Lobito), Felix Honjo (lic. 000680M97 - CD Lunda Sul), João Baptista Cassicote (lic. 000764M96 - CD Lunda Sul), Mario Bernardo Keta (lic. 000696M96 - CD Lunda Sul), Pedro Domingos Agostinho (lic. 001092M00 - CD Lunda Sul), Hamiltin Cassueca Nguala (lic. 000894M03 - CD Lunda Sul), Bernardo R. Nacavuza (lic. 000716M99 - CD Lunda Sul), Melone Moundo Dala (lic. 000418M01 - GD Sagrada Esperança), Bernardo Lomanda K. Gunda (lic. 001918M02 - CRD Libolo) e Amado Tiago M. Haidara (lic. 005765M06 - CRD Libolo).
+
+b) 2.º Cartão Amarelo — Repreensão por Escrito (alínea b) do n.º 2 do art.º 124.º do R/D da FAF):
+Marcos Lando (lic. 002935M04 - FC Cabinda), Cristiano Malonda M. Lando (lic. 000885M97 - FC Cabinda), Manuel T. Cachindele (lic. 000639M97 - CD Lunda Sul), João Ambrosio (lic. 001130M01 - CD Lunda Sul), Miguel Anselmo B. Daniel (lic. 007614M00 - GD Sagrada Esperança), Alexandre Abel Fernando (lic. 008969M98 - GD Sagrada Esperança), Aristotes Kingui Makani (lic. 001797M95 - CRD Libolo) e Elindo Wanga Paulino (lic. 000567M00 - CD Lunda Sul).
+
+c) 3.º Cartão Amarelo — Repreensão por Escrito (alínea c) do n.º 2 do art.º 124.º do R/D da FAF):
+Elindo Wanga Paulino (lic. 000567M00 - CD Lunda Sul).
+
+d) Suspensão por 15 Dias e Multas Pecuniárias:
+O Técnico Adjunto Sr. Miguel Ângelo M. Alminhas (lic. 009079M84) do Futebol Clube de Luanda foi sancionado com a pena de suspensão por 15 (quinze) dias e multa no valor de 1.500 UCF, equivalente a 132.000,00 Akz (Cento e Trinta e Dois Mil Kwanzas). Cumulativamente, ao abrigo do art.º 61.º do R/D da FAF, o Futebol Clube de Luanda foi punido com a pena de multa de 1.500 UCF (132.000,00 Akz). Os valores referidos devem ser pagos no prazo de 20 (vinte) dias sob pena de agravamento nos termos do art.º 24.º do R/D da FAF.', 'published', 'Secretaria Geral da FAF', 'Federação Angolana de Futebol (FAF)', 'https://faf.co.ao', '2026-09-16T12:00:00+01:00', '[]'::jsonb, '/comunicados/faf-comunicado-010-2026-27/comunicado-oficial-010-sg-faf-2026-27.pdf', false),
   ('comunicado-oficial-010-dce-ancaf-2026', 'Sagrada Esperança–Petro de Luanda adiado para 4 de novembro', 'Comunicado Oficial', '2026-09-19T00:00:00.000Z', '2026-09-19', 'A ANCAF adiou o jogo entre o Sagrada Esperança e o Petro de Luanda, previsto para 20 de setembro, por sete jogadores do Petro estarem convocados para a Seleção Nacional. A partida foi remarcada para 4 de novembro, no mesmo estádio e à mesma hora, e os bilhetes mantêm-se válidos.', 'A Direção de Competições da ANCAF informou que a partida entre o Sagrada Esperança e o Petro de Luanda, originalmente agendada para 20 de setembro de 2026, às 15h30, foi adiada. Em conformidade com o Comunicado Oficial n.º 008-DCE/ANCAF/2026 e com o artigo 38.º do Regulamento de Competições, a decisão atende à comunicação da Federação Angolana de Futebol segundo a qual sete jogadores do Petro de Luanda integram a convocatória da Seleção Nacional para os jogos frente ao Egito, a 25 de setembro, e ao Malawi, a 6 de outubro.
 
 Em coordenação com as direções dos dois clubes e com a equipa de arbitragem, a ANCAF suspendeu a partida e, após a apresentação dos documentos oficiais comprovativos, remarcou o jogo para 4 de novembro de 2026, no mesmo estádio e no mesmo horário.

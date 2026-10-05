@@ -1907,7 +1907,32 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   appearances: 1, jerseyNumber: Number(jerseyNumber), age: 0, nationality: 'Angola', height: 'A confirmar',
   attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
   careerHistory: [],
-}));
+}) as Player).concat([
+  // Wiliete de Benguela — plantel enviado pelo clube a 05/10/2026: o n.º 6 não
+  // consta da inscrição de 31/08 (já jogou na 5.ª jornada, m27-5-6).
+  {
+    id: 'janderson-wiliete', name: 'Janderson', nickname: 'Janderson', fullName: 'Janderson de Oliveira Maia',
+    club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Médio', goals: 0, assists: 0, appearances: 0,
+    jerseyNumber: 6, age: 0, nationality: 'Brasil', height: 'A confirmar',
+    attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+    careerHistory: [],
+  },
+]);
+
+/**
+ * Atletas inscritos que o clube deixou de fora do plantel que enviou. Continuam
+ * com página própria (aparecem em fichas de jogos já disputados), mas saem do
+ * plantel da equipa.
+ */
+const PLAYERS_OUT_OF_CLUB_SQUAD_2026_27: ReadonlySet<string> = new Set([
+  // Wiliete de Benguela — plantel enviado pelo clube a 05/10/2026.
+  'fifa-1ndemr2', // n.º 2 · Didi Craque
+  'fifa-1pu18x2', // n.º 4 · Guilherme Neto
+  'fifa-1scqy89', // n.º 20 · António Kulica
+  'fifa-1ni87h8', // n.º 21 · Filó
+  'fifa-1uqntj4', // n.º 36 · Adenilson Tchingando
+  'kabelo-dlamini',
+]);
 
 /**
  * Como o próprio clube identifica o atleta na escalação que publica. A
@@ -1933,13 +1958,20 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   'fifa-1m95s64': 'Célio',           // nº 32 · Célio Alberto Junqueira Zua
   'fifa-1ljz6e0': 'Silva',           // nº 3 · Silva Hinário António
   'fifa-1ndemr2': 'Didi Craque',     // nº 2 · Eduardo António Henrique Capingana
-  'fifa-1l05v38': 'Artur Kaká',      // nº 19 · Daniel Artur Kaka
+  'fifa-1l05v38': 'Kaká',            // nº 19 · Daniel Artur Kaka (plantel do clube, 05/10/2026)
   'fifa-1jrtue9': 'Benny',           // nº 12 · Teodoro Edvaldo Rita Tchissingui
   'fifa-1ni87h8': 'Filó',            // nº 21 · Filomeno Pinheiro Alberto Giloso
   'fifa-1uqnv32': 'Igui',            // nº 24 · Carlos Cassissi
   'fifa-1jz4n21': 'Nelo',            // nº 26 · João Valonga Basílio Barros
   'fifa-1kzr1v5': 'Quare',           // nº 33 · Zeferino Venâncio Lussati
   'fifa-1k36hf0': 'César Cangué',    // nº 34 · César Cangui Uvi Jeremias
+  // Wiliete de Benguela — plantel enviado pelo clube a 05/10/2026.
+  'fifa-1pkwt84': 'Nayan',           // nº 1 · Nayan Gomes
+  'fifa-1jwu6z0': 'Giovani',         // nº 17 · Giovani Chipopolo
+  'bello-lukman-wiliete': 'Bello',   // nº 18 · Lukman Idowu Bello
+  'fifa-1jm7y97': 'Elber',           // nº 31 · Elber Delgado
+  'valter-monteiro': 'Walter Monteiro', // nº 35 · Valter Manuel Monteiro
+  'fifa-1uqnsl6': 'Abel',            // nº 40 · Abel Samandi Mbambi
   // Recreativo do Libolo — escalação publicada pelo clube na 5.ª jornada.
   'fifa-1mr7m11': 'Gui',             // nº 11 · Diogo da Rocha Quiamesso
   'fifa-1pxu766': 'Inglês',          // nº 16 · Fernando José Paulino Lourenço
@@ -2319,6 +2351,7 @@ const CURRENT_PLAYERS_RAW: Player[] = [
   })),
 ].map((player) => ({
   ...player,
+  ...(PLAYERS_OUT_OF_CLUB_SQUAD_2026_27.has(player.id) ? { registeredSquad: false } : {}),
   goals: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.goals ?? 0,
   assists: 0,
   appearances: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.appearances
