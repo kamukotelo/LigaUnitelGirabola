@@ -84,6 +84,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     'elias-huila': { yellow: 1, red: 0 },
     'fifa-1jm7zr2': { yellow: 1, red: 0 },
     'fifa-1jrtxh4': { yellow: 1, red: 0 },
+    'fifa-1jrxs05': { yellow: 1, red: 0 },
     'fifa-1jsrcp9': { yellow: 1, red: 0 },
     'fifa-1jsrqb0': { yellow: 1, red: 0 },
     'fifa-1jtuys4': { yellow: 1, red: 0 },

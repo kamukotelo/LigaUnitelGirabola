@@ -14,9 +14,11 @@ export default defineMatch({
     { minute: 11, type: 'goal', team: 'home', player: 'Gibelé', playerId: 'fifa-1jsj8t3', detail: '1-0' },
     { minute: 16, type: 'yellow', team: 'away', player: 'Manuel Pereira Londaka', playerId: 'manuel-lobito', detail: 'Comportamento antidesportivo' },
     { minute: 47, type: 'goal', team: 'home', player: 'Valter Monteiro', playerId: 'valter-monteiro', detail: "45'+2 (2-0)" },
+    // Indicado pela DCE/ANCAF a 05/10/2026 (3.º amarelo do Wiliete).
+    { minute: 90, type: 'yellow', team: 'home', player: 'Bito', playerId: 'fifa-1jrxs05' },
   ],
   stats: {
-    home: { corners: 0, yellowCards: 0 },
+    home: { corners: 0, yellowCards: 1 },
     away: { corners: 0, yellowCards: 1 },
     keys: ['corners', 'yellowCards'],
   },

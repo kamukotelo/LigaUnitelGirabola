@@ -78,6 +78,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'antonio-hossi', 0, 0, 1, 1, 0),
   ('2026-27', 'berna', 0, 0, 1, 1, 0),
   ('2026-27', 'fifa-1lih506', 0, 0, 1, 1, 0),
+  ('2026-27', 'fifa-1jrxs05', 0, 0, 1, 1, 0),
   ('2026-27', 'bruno-dago', 0, 0, 1, 1, 0),
   ('2026-27', 'bulaya-dago', 0, 0, 1, 1, 0),
   ('2026-27', 'cahilo-sagrada', 0, 0, 1, 1, 0),
