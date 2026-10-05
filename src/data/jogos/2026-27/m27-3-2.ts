@@ -71,6 +71,6 @@ export default defineMatch({
     { minute: 80, type: 'sub', team: 'home', player: 'Ângelo Cangu', playerOut: 'Pequenino Castro' },
     { minute: 80, type: 'sub', team: 'home', player: 'António Pena', playerOut: 'Constantino Tchicundico' },
     { minute: 80, type: 'sub', team: 'home', player: 'José Augusto Camati', playerOut: 'José Mendes' },
-    { minute: 84, type: 'yellow', team: 'away', player: 'António Mule Chitongo' },
+    { minute: 84, type: 'yellow', team: 'away', player: 'Mule', playerId: 'fifa-1k39nk6' },
   ],
 });

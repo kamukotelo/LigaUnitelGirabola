@@ -11,7 +11,7 @@ export default defineMatch({
   officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['Evandro Henrique Freitas da Rocha', 'Flávio Luís Cadete Dias'], fourth: 'Pedro Filomeno Jacinto Katchisosa', commissioner: 'Romualdo do Rosário Baltazar' },
   coaches: { home: 'Beto Bianchi', away: 'Silvestre Pelé' },
   events: [
-    { minute: 11, type: 'goal', team: 'home', player: 'Kabelo Dlamini', playerId: 'kabelo-dlamini', detail: '1-0' },
+    { minute: 11, type: 'goal', team: 'home', player: 'Gibelé', playerId: 'fifa-1jsj8t3', detail: '1-0' },
     { minute: 16, type: 'yellow', team: 'away', player: 'Manuel Pereira Londaka', playerId: 'manuel-lobito', detail: 'Comportamento antidesportivo' },
     { minute: 47, type: 'goal', team: 'home', player: 'Valter Monteiro', playerId: 'valter-monteiro', detail: "45'+2 (2-0)" },
   ],

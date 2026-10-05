@@ -62,7 +62,7 @@ export default defineMatch({
     { minute: 46, type: 'sub', team: 'away', player: 'Bey', number: 27, playerId: 'fifa-1k1ket3', playerOut: 'Salomão' },
     { minute: 57, type: 'sub', team: 'away', player: 'Sandro', number: 37, playerId: 'fifa-1jrkqx3', playerOut: 'Caneta' },
     { minute: 64, type: 'sub', team: 'away', player: 'Boiado', number: 30, playerId: 'fifa-1jzyk44', playerOut: 'Afonso' },
-    { minute: 66, type: 'goal', team: 'away', player: 'Além', number: 6, playerId: 'alem-interclube', detail: "66' (0-1)" },
+    { minute: 66, type: 'goal', team: 'away', player: 'Além', number: 6, playerId: 'fifa-1jtv3g3', detail: "66' (0-1)" },
     { minute: 67, type: 'sub', team: 'home', player: 'Lando', number: 14, playerId: 'fifa-1ng0f78', playerOut: 'Luquinha' },
     { minute: 67, type: 'sub', team: 'home', player: 'João Vala', number: 8, playerId: 'fifa-1k39my6', playerOut: 'Bigó' },
     { minute: 75, type: 'sub', team: 'home', player: 'Adriano', number: 3, playerId: 'fifa-1t64mh7', playerOut: 'Caetano' },

@@ -12,7 +12,7 @@ export default defineMatch({
   coaches: { home: 'Francisco Moniz', away: 'Domingos Cussanda' },
   events: [
     { minute: 45, type: 'goal', team: 'home', player: 'Mafuta', playerId: 'mafuta-sagrada', detail: '1-0' },
-    { minute: 49, type: 'goal', team: 'away', player: 'Anderson Mputa', playerId: 'anderson-mputa-saosalvador', detail: '1-1' },
+    { minute: 49, type: 'goal', team: 'away', player: 'Anderson Mputa', playerId: 'fifa-1k2pyw6', detail: '1-1' },
     { minute: 64, type: 'goal', team: 'home', player: 'Augusto Fecayamale', ownGoal: true, detail: 'A confirmar · 2-1' },
     { minute: 92, type: 'goal', team: 'home', player: 'M. Dala', playerId: 'm-dala-sagrada', detail: "90'+2 · 3-1" },
     { minute: 25, type: 'sub', team: 'away', player: 'Anderson de Jesus Luís Mputa', playerOut: 'Samuel Chissapa Cachimbombo' },

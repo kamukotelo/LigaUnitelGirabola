@@ -16,7 +16,7 @@ export default defineMatch({
     { minute: 56, type: 'yellow', team: 'away', player: 'Edivaldo Quinanga', playerId: 'fifa-1jtuys4', detail: 'Rasteirar o adversário' },
     { minute: 77, type: 'yellow', team: 'home', player: 'Felix Bulaya', playerId: 'bulaya-dago', detail: 'Rasteirar o adversário' },
     { minute: 79, type: 'goal', team: 'home', player: 'Dagó Tshibamba', playerId: 'dago-tshibamba', detail: '1-1' },
-    { minute: 90, type: 'goal', team: 'home', player: 'Calebi Yanda', playerId: 'fifa-1jm8058', detail: '2-1' },
+    { minute: 90, type: 'goal', team: 'home', player: 'Calebi Yanda', playerId: 'calebi-dago', detail: '2-1' },
   ],
   stats: {
     home: { corners: 4, yellowCards: 2, redCards: 0 },

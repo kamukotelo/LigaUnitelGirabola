@@ -1886,9 +1886,7 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['pequenino-castro-huila', 'Pequenino Castro', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 29, 0],
   ['milton-suca-huila', 'Milton Alberto de Oliveira Suca', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 18, 0],
   ['joao-samazanga-huila', 'João Baptista Ferraz Samazanga Juny', 'Desportivo da Huíla', 'desphuila', 'Posição por confirmar', 34, 0],
-  ['kabelo-dlamini', 'Kabelo Dlamini', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
   ['valter-monteiro', 'Valter Monteiro', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
-  ['alem-interclube', 'Além', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
   ['simao-dianzenza', 'Simao Dianzenza', 'CD 1.º de Agosto', 'dago', 'Defesa', 3, 0],
   ['venancio-dago', 'Venancio Landu Kukula', 'CD 1.º de Agosto', 'dago', 'Médio', 15, 0],
   ['lucas-elias-huila', 'Lucas Elias Antonio Paulo', 'Desportivo da Huíla', 'desphuila', 'Defesa', 13, 0],
@@ -1931,7 +1929,6 @@ const PLAYERS_OUT_OF_CLUB_SQUAD_2026_27: ReadonlySet<string> = new Set([
   'fifa-1scqy89', // n.º 20 · António Kulica
   'fifa-1ni87h8', // n.º 21 · Filó
   'fifa-1uqntj4', // n.º 36 · Adenilson Tchingando
-  'kabelo-dlamini',
 ]);
 
 /**

@@ -11,7 +11,7 @@ export default defineMatch({
   result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '1-0', attendance: 200, updatedAt: '2026-09-06T09:00:00+01:00' },
   officials: { referee: 'Aldair Quissanga Rodrigues Carmelino', assistants: ['Nery Domingos Pereira Amador da Silva', 'Januário Simões Francisco'], fourth: 'Fábio Ricardo dos Santos Macano', commissioner: 'João Amado Muanda Goma' },
   events: [
-    { minute: 1, type: 'yellow', team: 'home', player: 'Cachindele', playerId: 'fifa-1jz48i2' },
+    { minute: 1, type: 'yellow', team: 'home', player: 'Cachindele', playerId: 'manucho-lunda-sul' },
     { minute: 15, type: 'goal', team: 'home', player: 'Mariano da Costa Vidal', playerId: 'fifa-1jsrqb0', ownGoal: true, detail: 'Autogolo · 1-0' },
     { minute: 44, type: 'yellow', team: 'home', player: 'Platiny', playerId: 'platini' },
     { minute: 45, type: 'sub', team: 'home', player: 'João Bivoba Zau', playerId: 'fifa-1kzthb4', playerOut: 'Joaquim Teixeira' },
@@ -22,7 +22,7 @@ export default defineMatch({
     { minute: 61, type: 'sub', team: 'away', player: 'Ernesto Vieira', playerId: 'fifa-1qvfe29', playerOut: 'Gabriel Venâncio' },
     { minute: 64, type: 'yellow', team: 'away', player: 'Arilson de Ceita Pereira Jorge', playerId: 'fifa-1jwgzb2' },
     { minute: 68, type: 'sub', team: 'away', player: 'José Manuel Raul', playerId: 'fifa-1r8lp51', playerOut: 'Timóteo Sambissa' },
-    { minute: 72, type: 'yellow', team: 'home', player: 'Singongo', playerId: 'fifa-1k2pgl3' },
+    { minute: 72, type: 'yellow', team: 'home', player: 'Singongo', playerId: 'fred' },
     { minute: 75, type: 'sub', team: 'home', player: 'João Silvano Caluvili', playerId: 'fifa-1kf4fa8', playerOut: 'Platiny' },
     { minute: 82, type: 'sub', team: 'away', player: 'Tiago Jamba Adelino', playerId: 'fifa-1uy6ar6', playerOut: 'Cuxixima' },
     { minute: 82, type: 'sub', team: 'away', player: 'Osvaldo José', playerId: 'fifa-1kz4es4', playerOut: 'Arilson de Ceita Pereira Jorge' },
