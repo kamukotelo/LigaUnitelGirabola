@@ -6,5 +6,5 @@ export default defineMatch({
   round: 6,
   homeTeamId: 'petro',
   awayTeamId: 'caala',
-  schedule: { date: '2026-10-09T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Correção recebida a 05/10/2026: sexta-feira, 09/10, 15:30, Estádio 22 de Junho', stadiumException: 'Jogo marcado para o Estádio 22 de Junho (correção de 05/10/2026)' },
+  schedule: { date: '2026-10-09T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'DCE/ANCAF, 05/10/2026: sexta-feira, 09/10, 15:30, Estádio 22 de Junho', stadiumException: 'Jogo marcado pela DCE/ANCAF para o Estádio 22 de Junho (05/10/2026)' },
 });

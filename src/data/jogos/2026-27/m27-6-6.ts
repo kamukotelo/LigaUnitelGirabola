@@ -6,5 +6,5 @@ export default defineMatch({
   round: 6,
   homeTeamId: 'desphuila',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2026-10-11T15:30:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official', source: 'Comunicado oficial da 6.ª jornada: domingo, 11/10 (retificação de 05/10/2026)' },
+  schedule: { date: '2026-10-11T15:30:00+01:00', stadium: 'Estádio da Tundavala', scheduleStatus: 'official', source: 'DCE/ANCAF, 05/10/2026: domingo, 11/10, 15:30' },
 });
