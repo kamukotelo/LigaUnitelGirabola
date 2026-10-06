@@ -6,6 +6,8 @@
 //   npm run jogos -- validar [--detalhe]
 //   npm run jogos -- impacto
 //   npm run jogos -- publicar [--sim] [--coautor "Nome <email>"]
+//   npm run jogos -- assistencias exportar [--saida assistencias.csv]
+//   npm run jogos -- assistencias importar assistencias.csv [--gravar]
 import { createInterface } from 'node:readline/promises';
 import path from 'node:path';
 import {
@@ -28,6 +30,7 @@ import {
   validateRecords,
   writeIfChanged,
 } from './jogos/lib.mts';
+import { exportAssists, importAssists } from './jogos/assistencias.mts';
 
 const [action = 'ajuda', ...args] = process.argv.slice(2);
 const hasFlag = (name: string) => args.includes(`--${name}`);
@@ -35,7 +38,7 @@ const option = (name: string) => {
   const position = args.indexOf(`--${name}`);
   return position >= 0 ? args[position + 1] : undefined;
 };
-const VALUE_OPTIONS = new Set(['--coautor', '--destino']);
+const VALUE_OPTIONS = new Set(['--coautor', '--destino', '--saida']);
 const positional = args.filter((arg, position) => !arg.startsWith('--') && !VALUE_OPTIONS.has(args[position - 1]));
 const title = (text: string) => console.log(`\n━━ ${text}`);
 const fold = (value: string) => value.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -187,6 +190,13 @@ async function publish() {
   console.log(`\n✓ Publicado: ${git(['log', '-1', '--format=%h %s'])}\n  A Vercel está a construir o site; confirma em https://ligaunitelgirabola.com dentro de 1–2 minutos.`);
 }
 
+async function assists() {
+  const [mode, file] = positional;
+  if (mode === 'exportar') return exportAssists(option('saida'));
+  if (mode === 'importar') return importAssists(file, hasFlag('gravar'));
+  throw new Error('Usa `assistencias exportar [--saida f.csv]` ou `assistencias importar f.csv [--gravar]`.');
+}
+
 function help() {
   console.log(`Atualização de jogos — registo único por jogo em ${path.relative(ROOT, SEASON_DIR)}/<id>.ts
 
@@ -196,6 +206,8 @@ function help() {
   validar [--detalhe]     verifica todos os registos (erros bloqueiam o build)
   impacto                 compara o portal do último commit com as alterações atuais
   publicar [--sim]        sincroniza, valida, testa, mostra o impacto e publica em produção
+  assistencias exportar   folha com os golos sem assistência (para ver nos vídeos)
+  assistencias importar f.csv [--gravar]   grava as assistências preenchidas na folha
 
 Guia completo: src/data/jogos/LEIA-ME.md`);
 }
@@ -207,6 +219,7 @@ const actions: Record<string, () => unknown> = {
   validar: validate,
   impacto: impact,
   publicar: publish,
+  assistencias: assists,
   __derivados: writeDerived,
   ajuda: help,
 };

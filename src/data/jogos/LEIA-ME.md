@@ -49,6 +49,29 @@ equipas diferentes do sorteio, datas inválidas, `broadcaster` com Rádio 5…).
 
 Exceções que nenhuma ficha comprova ficam em `2026-27/ajustes.ts`, comentadas.
 
+## Assistências (a partir dos vídeos dos golos)
+
+Os relatórios de jogo não trazem assistências; vêm de quem vê os vídeos no
+YouTube. O campo é `assist` no evento do golo, com o nome do jogador tal como o
+portal o mostra (é por ele que o ranking de assistências o encontra):
+
+```ts
+{ minute: 23, type: 'goal', team: 'home', player: 'Ju Cabral', playerId: 'ju-cabral-bravos', assist: 'Lito', detail: '1-0' },
+```
+
+1. `npm run jogos -- assistencias exportar --saida assistencias.csv` — folha com
+   cada golo ainda sem assistência: jogo, minuto, marcador, pesquisa no
+   YouTube e os colegas que estavam em campo. Os penáltis já vêm com "sem".
+2. Quem vê os vídeos preenche `assistencia` (nome do jogador, ou `sem`) e, se
+   quiser, `video`. No Excel: Guardar como CSV (separado por ponto e vírgula).
+3. `npm run jogos -- assistencias importar assistencias.csv` mostra o que muda e
+   recusa linhas incoerentes (golo com outro minuto ou marcador, assistente de
+   outra equipa ou inexistente). Com `--gravar` escreve nos registos.
+4. `npm run jogos -- publicar`.
+
+`validar` recusa uma assistência fora de um golo ou com um nome que não seja de
+um jogador da equipa.
+
 ## Camadas por cima dos registos
 
 O painel `/adminancaf2026` e a base de dados continuam a poder sobrepor-se a um

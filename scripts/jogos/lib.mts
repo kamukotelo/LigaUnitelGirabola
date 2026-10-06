@@ -212,6 +212,15 @@ export async function validateRecords(): Promise<ValidationReport> {
       if (event.minute !== undefined && (!Number.isInteger(event.minute) || event.minute < 0 || event.minute > 130)) errors.push(`${at}: minuto inválido ${event.minute}.`);
       if (event.type === 'sub' && !event.playerOut) errors.push(`${at}: substituição de ${event.player} sem playerOut.`);
       if (event.ownGoal && event.type !== 'goal') errors.push(`${at}: ownGoal só se aplica a golos.`);
+      // Assistência: só em golos e sempre um jogador da mesma equipa, com o nome
+      // usado no portal (é por ele que o ranking de assistências a encontra).
+      if (event.assist) {
+        const teamId = event.team === 'home' ? record.homeTeamId : record.awayTeamId;
+        if (event.type !== 'goal' || event.ownGoal) errors.push(`${at}: assistência "${event.assist}" fora de um golo da equipa.`);
+        else if (!d.getPlayers().some((p: { teamId: string; name: string }) => p.teamId === teamId && p.name === event.assist)) {
+          errors.push(`${at}: a assistência "${event.assist}" não é o nome de um jogador de ${teamId} (use \`npm run jogos -- assistencias importar\`).`);
+        }
+      }
       knownPlayer(event.playerId);
     }
 
