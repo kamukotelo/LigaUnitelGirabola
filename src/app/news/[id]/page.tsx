@@ -126,7 +126,7 @@ export default function NewsDetailPage() {
                       </span>
                       <div>
                         <p className="font-mono text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400">Documento Oficial Homologado</p>
-                        <h3 id="official-pdf-section" className="font-display text-base font-extrabold uppercase text-foreground">Comunicado Oficial em PDF (9 Páginas)</h3>
+                        <h3 id="official-pdf-section" className="font-display text-base font-extrabold uppercase text-foreground">Comunicado Oficial em PDF{article.documentPages ? ` (${article.documentPages} ${article.documentPages === 1 ? 'página' : 'páginas'})` : ''}</h3>
                         <p className="font-mono text-xs text-zinc-500">Documento original autenticado com carimbo e assinatura da Secretaria Geral da FAF</p>
                       </div>
                     </div>

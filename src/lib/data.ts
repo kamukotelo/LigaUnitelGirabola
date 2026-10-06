@@ -314,6 +314,8 @@ export interface NewsArticle {
   documentImages?: string[];
   /** Ficheiro PDF original disponibilizado para consulta e descarga. */
   documentUrl?: string;
+  /** Número de páginas do PDF em `documentUrl`, mostrado no botão de descarga. */
+  documentPages?: number;
   /** Documento anexo ao comunicado (ex.: relatório que fundamenta a decisão). */
   annexTitle?: string;
   annexImages?: string[];
@@ -2387,6 +2389,22 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'comunicado-oficial-11-sg-faf-2026-27',
+    title: 'Comunicado Oficial N.º 11/SG/2026/27 — Deliberações do Conselho de Disciplina: advertências, repreensões e suspensões',
+    category: 'Comunicados Oficiais da FAF',
+    date: '23 set. 2026',
+    isoDate: '2026-09-23',
+    summary: 'A FAF publicou o Comunicado Oficial N.º 11/SG/2026/27 com as deliberações do Conselho de Disciplina de 22/09/2026: 19 advertências por 1.º amarelo, 7 repreensões por 2.º amarelo, 2 por 3.º amarelo, a suspensão de um jogo de José Keta Gonga (Académica) e sanções a elementos do Interclube e do Bravos do Maquis.',
+    content: 'A Federação Angolana de Futebol (FAF), através da sua Secretaria Geral, publicou o Comunicado Oficial N.º 11/SG/2026/27, assinado em Luanda a 23 de setembro de 2026 pela Secretária Geral Fernanda Iana António, com as deliberações do Conselho de Disciplina, reunido a 22/09/2026, relativas ao XLIX Campeonato Nacional de Futebol / Liga Unitel Girabola — Séniores.\n\nCAPÍTULO 1 — CONSELHO DE DISCIPLINA\n\na) 1.º Cartão Amarelo — Advertência (alínea a) do n.º 2 do art.º 124.º do R/D da FAF):\nLuís Caetano Paquete (lic. 001251M04 - Bravos do Maquis), Henock Mangindula (lic. 003056M99 - Kabuscorp), José Semedo Vunge (lic. 001072M96 - Kabuscorp), Célio Nimi (lic. 006197M05 - FC Luanda), Eduardo Moyo (lic. 000946M04 - São Salvador do Kongo), Anderson de J. Luís Mputa (lic. 001076M02 - São Salvador do Kongo), Ruben Constantino Adérito (lic. 000725M03 - Petro de Luanda), Júlio Mavungo André (lic. 000896M02 - FC Cabinda), Jorge Miguel (lic. 000490M95 - GD Interclube), Alberto Miguel (lic. 000482M97 - GD Interclube), Fernando J. Quissanga (lic. 000463M98 - GD Interclube), Domingos Miguel Bravo (lic. 007554M05 - GD Interclube), Benedito Antunes (lic. 001763M55 - CR Caála), Manuel Pombolo António (lic. 000646M01 - Bravos do Maquis), Tiago Uzana Fota (lic. 003075M02 - Bravos do Maquis), António Lopes (lic. 003630M05 - Bravos do Maquis), Maurício Pedro (lic. 000822M02 - Desportivo da Huíla), Isaal Vidal (lic. 000477M05 - Académica do Lobito) e Guilherme A. Muhango (lic. 000543M98 - Académica do Lobito).\n\nb) 2.º Cartão Amarelo — Repreensão por Escrito (alínea b) do n.º 2 do art.º 124.º do R/D da FAF):\nEric Manuel Gouveia Cabral (lic. 001078M99 - Bravos do Maquis), Axel G. M. de Sousa (lic. 002187M03 - CD 1.º de Agosto), Pedro da Silva da Silva (lic. 005642M05 - FC Cabinda), Mbali Mongbongo Sem (lic. 009044M03 - Kabuscorp), Alcides Patrício (lic. 001214M04 - GD Interclube), Jorge Umba Baião (lic. 008954M04 - Académica do Lobito) e Lisneu Emanuel Neto Simão (lic. 000691M00 - CR Caála).\n\nc) 3.º Cartão Amarelo — Repreensão por Escrito (alínea c) do n.º 2 do art.º 124.º do R/D da FAF):\nAndré Alexandre (lic. 001106M01 - Recreativo do Libolo) e Lucas Elias António Paulo (lic. 001158M05 - Desportivo da Huíla).\n\nd) Suspensões:\n\nPor um (1) jogo, por acumulação de cartões: o jogador José Keta Gonga (lic. 005404M04 - Académica do Lobito), nos termos da alínea d) do n.º 2 do art.º 124.º do R/D da FAF.\n\nPor um (1) ano: o treinador de guarda-redes Lourenço Jesus (lic. 000501M74 - GD Interclube), punido com multa no valor de 5.000.000,00 Akz (cinco milhões de kwanzas), nos termos do n.º 1 do art.º 150.º conjugado com o n.º 1 do art.º 119.º do R/D da ANCAF.\n\nPor seis (6) meses: o jogador Kanianga Banza Patrick (lic. 009118M01 - GD Interclube), punido com multa no valor de 5.000.000,00 Akz (cinco milhões de kwanzas), nos termos da alínea c) do n.º 1 do art.º 132.º do R/D da ANCAF.\n\nPor sessenta (60) dias: o treinador principal Divaldo Teixeira Alves (lic. 008876M78 - GD Interclube), punido com multa no valor de 3.000.000,00 Akz (três milhões de kwanzas), nos termos do n.º 1 do art.º 124.º do R/D da ANCAF.\n\nPor quinze (15) dias: o técnico-adjunto Pedro Neto (lic. 000706M71 - Bravos do Maquis), com multa de 1.500 UCF, equivalente a 132.000,00 Akz (cento e trinta e dois mil kwanzas). Cumulativamente, ao abrigo do art.º 61.º do R/D da FAF, o Futebol Clube Bravos do Maquis foi punido com multa de 1.500 UCF (132.000,00 Akz).\n\nOs valores referidos devem ser pagos no prazo de 20 (vinte) dias, sob pena de ser acrescida uma multa nos termos do art.º 24.º do R/D da FAF; os comprovativos de pagamento devem ser remetidos ao Conselho de Disciplina.',
+    status: 'published',
+    author: 'Secretaria Geral da FAF',
+    sourceName: 'Federação Angolana de Futebol (FAF)',
+    sourceUrl: 'https://faf.co.ao',
+    publishedAt: '2026-09-23T12:00:00+01:00',
+    documentUrl: '/comunicados/faf-comunicado-011-2026-27/comunicado-oficial-011-sg-faf-2026-27.pdf',
+    documentPages: 5,
+  },
+  {
     id: 'comunicado-oficial-10-sg-faf-2026-27',
     title: 'Comunicado Oficial N.º 10/SG/2026/27 — Critérios de Jogo, Licenciamento de Treinadores, Homologação de Estádios e Deliberações do Conselho de Disciplina',
     category: 'Comunicados Oficiais da FAF',
@@ -2400,6 +2418,7 @@ export const newsMock: NewsArticle[] = [
     sourceUrl: 'https://faf.co.ao',
     publishedAt: '2026-09-16T12:00:00+01:00',
     documentUrl: '/comunicados/faf-comunicado-010-2026-27/comunicado-oficial-010-sg-faf-2026-27.pdf',
+    documentPages: 2,
   },
   {
     id: 'comunicado-oficial-010-dce-ancaf-2026',
