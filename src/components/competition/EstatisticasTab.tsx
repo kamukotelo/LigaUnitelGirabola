@@ -43,6 +43,7 @@ import {
   HISTORICAL_DISCIPLINE_2025_26,
 } from '@/lib/historical-results-2025-26';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { PLAYER_PHOTOS } from '@/lib/player-photos';
 import AdvancedStatistics from './AdvancedStatistics';
 import CompetitionRecordsPanel from './CompetitionRecordsPanel';
 import SeasonComparisonMatrix from './SeasonComparisonMatrix';
@@ -701,7 +702,12 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
 
                         <div className="relative flex-shrink-0">
                           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700/80 flex items-center justify-center text-xs font-bold text-zinc-700 dark:text-zinc-200 overflow-hidden shadow-xs">
-                            {player.name.slice(0, 2).toUpperCase()}
+                            {PLAYER_PHOTOS[player.id] ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={PLAYER_PHOTOS[player.id]} alt="" loading="lazy" className="w-full h-full object-cover object-top" />
+                            ) : (
+                              player.name.slice(0, 2).toUpperCase()
+                            )}
                           </div>
                           {/* Mini escudo do clube sobreposto no canto inferior */}
                           <div className="absolute -bottom-1 -right-1 bg-white dark:bg-zinc-950 rounded-full p-0.5 shadow-sm border border-zinc-200 dark:border-zinc-800">
@@ -812,8 +818,13 @@ export default function EstatisticasTab({ seasonId }: { seasonId: string }) {
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2 min-w-0">
                             <div className="relative flex-shrink-0">
-                              <div className="w-7 h-7 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-700 dark:text-zinc-200">
-                                {card.player!.name.slice(0, 2).toUpperCase()}
+                              <div className="w-7 h-7 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-[10px] font-bold text-zinc-700 dark:text-zinc-200 overflow-hidden">
+                                {PLAYER_PHOTOS[card.player!.id] ? (
+                                  // eslint-disable-next-line @next/next/no-img-element
+                                  <img src={PLAYER_PHOTOS[card.player!.id]} alt="" loading="lazy" className="w-full h-full object-cover object-top" />
+                                ) : (
+                                  card.player!.name.slice(0, 2).toUpperCase()
+                                )}
                               </div>
                               <div className="absolute -bottom-1 -right-1 bg-white dark:bg-zinc-950 rounded-full p-0.5 border border-zinc-200 dark:border-zinc-800">
                                 <TeamCrest teamId={card.player!.teamId} size={11} />
