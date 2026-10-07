@@ -67,3 +67,11 @@ const KABUSCORP_STAFF_PHOTO_MA_IDS = [
 export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries(
   KABUSCORP_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/kabuscorp/${maId.toLowerCase()}.jpg`]),
 );
+
+/**
+ * Foto do presidente de cada clube, mostrada na Ficha do Clube ao lado do
+ * nome. Chave = id da equipa. Clube sem entrada mostra só o nome.
+ */
+export const CLUB_PRESIDENT_PHOTOS: Readonly<Record<string, string>> = {
+  kabuscorp: STAFF_PHOTOS['001836M65'], // Bento dos Santos Kangamba — presidente de direção
+};

@@ -9,7 +9,7 @@ import {
 } from '@/lib/data';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 import AnimatedCard from '@/components/ui/AnimatedCard';
-import { STAFF_PHOTOS } from '@/lib/player-photos';
+import { CLUB_PRESIDENT_PHOTOS, STAFF_PHOTOS } from '@/lib/player-photos';
 import TeamCrest from '@/components/ui/TeamCrest';
 import TeamAdvancedStats from '@/components/team/TeamAdvancedStats';
 
@@ -229,12 +229,21 @@ export default function TeamDetailClient({
                   ['Atualização da base', team.dataUpdatedAt
                     ? new Date(`${team.dataUpdatedAt}T12:00:00`).toLocaleDateString('pt-AO', { dateStyle: 'medium', timeZone: 'Africa/Luanda' })
                     : '—'],
-                ] as [string, string][]).map(([label, value]) => (
-                  <div key={label} className="flex items-center justify-between gap-3 py-2.5">
-                    <dt className="text-[10px] text-zinc-500 uppercase tracking-wide">{label}</dt>
-                    <dd className="font-bold text-foreground text-right">{value}</dd>
-                  </div>
-                ))}
+                ] as [string, string][]).map(([label, value]) => {
+                  const photo = label === 'Presidente' ? CLUB_PRESIDENT_PHOTOS[team.id] : undefined;
+                  return (
+                    <div key={label} className="flex items-center justify-between gap-3 py-2.5">
+                      <dt className="text-[10px] text-zinc-500 uppercase tracking-wide">{label}</dt>
+                      <dd className="font-bold text-foreground text-right flex items-center justify-end gap-2.5">
+                        {photo && (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={photo} alt={`Foto de ${value}`} loading="lazy" className="w-10 h-12 shrink-0 rounded-lg object-cover object-top border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950" />
+                        )}
+                        {value}
+                      </dd>
+                    </div>
+                  );
+                })}
               </dl>
             </AnimatedCard>
 
