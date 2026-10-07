@@ -48,6 +48,7 @@ export default function TeamDetailClient({
   const standing = getStandingByTeamId(serverTeam.id) ?? serverStanding;
 
   const profile = getTeamProfile(team.id);
+  const presidentPhoto = CLUB_PRESIDENT_PHOTOS[team.id];
 
   // Agrupar todos os atletas sem esconder inscrições cuja posição ainda não foi confirmada.
   const isGoalkeeper = (player: Player) => player.position === 'Guarda-redes';
@@ -213,6 +214,22 @@ export default function TeamDetailClient({
               <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
                 <Shield size={16} className="text-primary" /> Ficha do Clube
               </h3>
+              {presidentPhoto && (
+                <div className="mb-4 flex flex-col items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-5 text-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={presidentPhoto}
+                    alt={`Foto de ${profile?.president ?? 'presidente do clube'}`}
+                    width={480}
+                    height={600}
+                    className="w-28 h-36 rounded-xl object-cover object-top border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950 shadow-sm"
+                  />
+                  <div>
+                    <p className="text-[10px] font-mono uppercase tracking-widest text-primary font-semibold">Presidente</p>
+                    <p className="mt-1 font-display text-lg uppercase leading-tight text-foreground">{profile?.president ?? '—'}</p>
+                  </div>
+                </div>
+              )}
               <dl className="divide-y divide-zinc-200/60 dark:divide-zinc-900/60 text-xs font-mono border-t border-zinc-200/60 dark:border-zinc-900/60">
                 {([
                   ['Nome oficial', profile?.officialName ?? team.name],
@@ -224,26 +241,17 @@ export default function TeamDetailClient({
                   ['Cores', team.colors],
                   ['Apelido / Alcunha', team.nickname ?? team.shortName],
                   ['Treinador', team.coach],
-                  ['Presidente', profile?.president ?? '—'],
+                  ...(presidentPhoto ? [] : [['Presidente', profile?.president ?? '—']]),
                   ['Estado dos dados', team.dataStatus ?? '—'],
                   ['Atualização da base', team.dataUpdatedAt
                     ? new Date(`${team.dataUpdatedAt}T12:00:00`).toLocaleDateString('pt-AO', { dateStyle: 'medium', timeZone: 'Africa/Luanda' })
                     : '—'],
-                ] as [string, string][]).map(([label, value]) => {
-                  const photo = label === 'Presidente' ? CLUB_PRESIDENT_PHOTOS[team.id] : undefined;
-                  return (
-                    <div key={label} className="flex items-center justify-between gap-3 py-2.5">
-                      <dt className="text-[10px] text-zinc-500 uppercase tracking-wide">{label}</dt>
-                      <dd className="font-bold text-foreground text-right flex items-center justify-end gap-2.5">
-                        {photo && (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={photo} alt={`Foto de ${value}`} loading="lazy" className="w-10 h-12 shrink-0 rounded-lg object-cover object-top border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950" />
-                        )}
-                        {value}
-                      </dd>
-                    </div>
-                  );
-                })}
+                ] as [string, string][]).map(([label, value]) => (
+                  <div key={label} className="flex items-center justify-between gap-3 py-2.5">
+                    <dt className="text-[10px] text-zinc-500 uppercase tracking-wide">{label}</dt>
+                    <dd className="font-bold text-foreground text-right">{value}</dd>
+                  </div>
+                ))}
               </dl>
             </AnimatedCard>
 
