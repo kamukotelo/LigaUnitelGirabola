@@ -2266,6 +2266,12 @@ const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
   '007242M79': 'Oficial da equipa',         // Mendonça
   // FC Cabinda
   '007727M75': 'Oficial da equipa',         // Alves Simão Afonso Lede
+  // Kabuscorp — funções da lista do staff enviada pelo clube (07/10/2026)
+  '001836M65': 'Presidente de direção',     // Bento dos Santos Kangamba
+  '003033M67': 'Vice-presidente',           // Raul Mendonça Gaspar
+  '001837M63': 'Assessor de direção',       // José Domingos «Dimas»
+  '007732M86': 'Assistente técnico',        // Daniel Mabata
+  '000948M90': 'Departamento de futebol',   // Filipe Duculo
 };
 
 /** Membros que a Direção de Competições mandou retirar da equipa técnica. */
