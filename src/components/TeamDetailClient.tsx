@@ -9,6 +9,7 @@ import {
 } from '@/lib/data';
 import { useOfficialCalendar } from '@/lib/use-official-calendar';
 import AnimatedCard from '@/components/ui/AnimatedCard';
+import { STAFF_PHOTOS } from '@/lib/player-photos';
 import TeamCrest from '@/components/ui/TeamCrest';
 import TeamAdvancedStats from '@/components/team/TeamAdvancedStats';
 
@@ -493,10 +494,16 @@ export default function TeamDetailClient({
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {teamStaff.map((member) => (
-                  <div key={`${member.maId ?? member.name}-${member.role}`} className="rounded-xl border border-zinc-200 dark:border-zinc-900 bg-white/20 dark:bg-zinc-900/20 p-4">
-                    <p className="text-sm font-bold text-foreground uppercase">{member.name}</p>
-                    <p className="mt-1 text-[10px] font-mono uppercase tracking-wide text-accent">{member.role}</p>
-                    <p className="mt-1 text-[9px] font-mono uppercase text-zinc-500">{member.nationality}</p>
+                  <div key={`${member.maId ?? member.name}-${member.role}`} className="rounded-xl border border-zinc-200 dark:border-zinc-900 bg-white/20 dark:bg-zinc-900/20 p-4 flex items-center gap-3">
+                    {member.maId && STAFF_PHOTOS[member.maId] && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={STAFF_PHOTOS[member.maId]} alt="" loading="lazy" className="w-14 h-14 shrink-0 rounded-lg object-cover object-top bg-zinc-100 dark:bg-zinc-950" />
+                    )}
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-foreground uppercase">{member.name}</p>
+                      <p className="mt-1 text-[10px] font-mono uppercase tracking-wide text-accent">{member.role}</p>
+                      <p className="mt-1 text-[9px] font-mono uppercase text-zinc-500">{member.nationality}</p>
+                    </div>
                   </div>
                 ))}
               </div>

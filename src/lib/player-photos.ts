@@ -39,3 +39,31 @@ const KABUSCORP_PHOTO_IDS = [
 export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries(
   KABUSCORP_PHOTO_IDS.map((id) => [id, `/players/kabuscorp/${id}.jpg`]),
 );
+
+/**
+ * Fotos da equipa técnica e direção, por número de licença (maId) — a lista de
+ * staff pode vir da base de dados, mas a licença é a mesma. Ficheiros em
+ * public/staff/<clube>/<maId em minúsculas>.jpg (recorte 4:5, 480×600).
+ */
+// Kabuscorp — enviadas pelo clube a 07/10/2026. Sem foto: Marcelo Muniz Matos.
+const KABUSCORP_STAFF_PHOTO_MA_IDS = [
+  '007949M77', // Leonardo Neiva — treinador principal
+  '007965M73', // Adriano Lancetta — adjunto
+  '007732M86', // Daniel Mabata — assistente técnico
+  '008244M84', // Marcelo Vitor — preparador físico
+  '001838M73', // Jorge de Almeida — médico
+  '005444M86', // Olavo Miguel — médico
+  '003110M81', // Salomão Manuel — fisioterapeuta
+  '001839M65', // Pedro de Oliveira — massagista
+  '001846M94', // Manuel André — seccionista
+  '001845M82', // Inácio Manuel — seccionista
+  '002978M69', // Roberto Cambundo — director desportivo
+  '000948M90', // Filipe Duculo — departamento de futebol
+  '001836M65', // Bento dos Santos — presidente de direção
+  '003033M67', // Raul Mendonça — vice-presidente
+  '001837M63', // José Domingos — assessor de direção
+] as const;
+
+export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries(
+  KABUSCORP_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/kabuscorp/${maId.toLowerCase()}.jpg`]),
+);
