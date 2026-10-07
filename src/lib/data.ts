@@ -1806,7 +1806,6 @@ const SAGRADA_SQUAD_2026_27: Player[] = [
   ['evaristo-sagrada', 'Evaristo', 'Defesa', 4, 0],
   ['manuel-sagrada', 'Manuel', 'Defesa', 3, 0],
   ['mafuta-sagrada', 'Mafuta', 'Posição por confirmar', 0, 1],
-  ['m-dala-sagrada', 'M. Dala', 'Posição por confirmar', 0, 1],
 ].map(([id, name, position, jerseyNumber, appearances]) => ({
   id: String(id), name: String(name), club: 'Sagrada Esperança', teamId: 'sagrada', position: String(position),
   goals: 0, assists: 0, appearances: Number(appearances), jerseyNumber: Number(jerseyNumber), age: 0,
