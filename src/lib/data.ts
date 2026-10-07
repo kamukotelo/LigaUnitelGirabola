@@ -11,6 +11,7 @@ import {
 } from './historical-results-2025-26';
 import { OFFICIAL_SQUADS_2026_27 } from './official-squads-2026-27';
 import { getTeamCrest, TEAM_CRESTS } from './team-crests';
+import { PLAYER_PHOTOS } from './player-photos';
 import { MATCH_RECORDS_2026_27 } from '../data/jogos/2026-27';
 import { APPEARANCES_WITHOUT_LINEUP_2026_27 } from '../data/jogos/2026-27/ajustes';
 import { SEASON_DERIVED_STATS_2026_27 } from '../data/jogos/2026-27/derivados';
@@ -1991,6 +1992,32 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   'fifa-1r8lp51': 'Manucho',         // nº 27 · José Manuel Raul
   'fifa-1k0ag17': 'Fany',            // nº 30 · José Afonso dos Santos Fernando
   'fifa-1qvfe29': 'Marega',          // nº 34 · Ernesto
+  // Kabuscorp — lista do plantel 2026/27 enviada pelo clube a 07/10/2026.
+  'fifa-1k4a836': 'Zamorano',        // nº 2 · Zamorano Lopes
+  'fifa-1jyp8v8': 'Eliseu',          // nº 3 · Eliseu Cabanga
+  'fifa-1lgpgy7': 'Aldair',          // nº 4 · Adair Garcia Domingos
+  'fifa-1snb179': 'Ady Boyo',        // nº 5 · Saombe Sukuakueche Ángelo Jorge
+  'fifa-1n3uhm6': 'Bayala',          // nº 7 · Bayala Nsimba
+  'fifa-1v363a9': 'Mbali',           // nº 8 · Mbali Mongbongo Sem
+  'fifa-1k2pk58': 'Cuca',            // nº 10 · José Semedo Vunge
+  'fifa-1lgpb81': 'Teo',             // nº 11 · Teodoro Fernandes Correia
+  'fifa-1jriue5': 'JB',              // nº 12 · João Baptista Missenga de Nascimento
+  'fifa-1v363c3': 'Ndongala',        // nº 13 · Liwanda Joslin Ndongala
+  'fifa-1k1sen7': 'Crespo',          // nº 14 · Artur Malungo
+  'fifa-1jm7zr2': 'Danilson',        // nº 15 · Daniel Kilola
+  'fifa-1mppsb5': 'Henock',          // nº 16 · Henock Mangindula
+  'fifa-1jxicb5': 'Mona',            // nº 17 · Celestino Luis Maleco
+  'fifa-1jrku39': 'Benarfa',         // nº 18 · Mankoka Hegene Afonso
+  'fifa-1jm8hd7': 'Jó Paciência',    // nº 19 · Joaquim Paciencia
+  'fifa-1jwts88': 'Tula',            // nº 20 · Enoque Benjamim Tula
+  'fifa-1ma68g7': 'Chiló',           // nº 21 · Mazebo Mavambo João
+  'fifa-1jrtva7': 'Mualucano',       // nº 22 · Augusto Monteiro Mualucano
+  'fifa-1snez57': 'Tresor',          // nº 25 · Tresor Kuyu Nona
+  'fifa-1pnr1r0': 'Joelson',         // nº 27 · Aluízio Joel André Cacharamba
+  'fifa-1qxnl72': 'Abidal',          // nº 28 · Mvemba Matondo Kuanzambi
+  'fifa-1js6m05': 'Vingumba',        // nº 29 · Alberto Elizeu Xavier
+  'fifa-1jrtxh4': 'Diógenes',        // nº 32 · Diógenes Capemba João
+  'fifa-1tgwgg5': 'Jojo',            // nº 35 · Jorge Manuel Pinto
 };
 
 const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
@@ -2335,7 +2362,7 @@ const curatedSquadCarryovers: Player[] = CURATED_SQUAD_LISTS
 currentPlayerBase.push(...curatedSquadCarryovers);
 for (const player of curatedSquadCarryovers) currentPlayerBaseIds.add(player.id);
 
-const CURRENT_PLAYERS_RAW: Player[] = [
+const CURRENT_PLAYERS_RAW: Player[] = ([
   ...currentPlayerBase,
   ...CURRENT_SEASON_SCORERS.filter((scorer) => !currentPlayerBaseIds.has(scorer.id)).map((scorer) => ({
     ...scorer,
@@ -2348,9 +2375,10 @@ const CURRENT_PLAYERS_RAW: Player[] = [
     attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
     careerHistory: [],
   })),
-].map((player) => ({
+] as Player[]).map((player) => ({
   ...player,
   ...(PLAYERS_OUT_OF_CLUB_SQUAD_2026_27.has(player.id) ? { registeredSquad: false } : {}),
+  photoUrl: PLAYER_PHOTOS[player.id] ?? player.photoUrl,
   goals: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.goals ?? 0,
   assists: 0,
   appearances: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.appearances

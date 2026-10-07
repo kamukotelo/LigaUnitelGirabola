@@ -452,6 +452,10 @@ export default function TeamDetailClient({
                       <Link key={player.id} href={`/players/${player.id}`}>
                         <div className="p-4 bg-white/20 dark:bg-zinc-900/20 hover:bg-white/40 dark:hover:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-900 rounded-xl flex items-center justify-between gap-4 transition-all group hover:border-zinc-200 dark:hover:border-zinc-800">
                           <div className="flex items-center gap-3 min-w-0">
+                            {player.photoUrl && (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={player.photoUrl} alt="" loading="lazy" className="w-10 h-10 shrink-0 rounded-lg object-cover object-top bg-zinc-100 dark:bg-zinc-950" />
+                            )}
                             <span className="w-8 h-8 shrink-0 rounded-lg bg-zinc-100 dark:bg-zinc-950 flex items-center justify-center font-mono text-xs text-zinc-600 dark:text-zinc-400 group-hover:text-primary font-bold transition-colors">
                               {player.jerseyNumber > 0 ? `#${player.jerseyNumber}` : '—'}
                             </span>

@@ -124,8 +124,13 @@ export default function PlayersPage() {
                       <div>
                         {/* Header: Photo icon / Jersey Number */}
                         <div className="flex justify-between items-start mb-2 sm:mb-4">
-                          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center font-display text-lg text-primary select-none">
-                            <User className="h-6 w-6 text-accent" />
+                          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center font-display text-lg text-primary select-none">
+                            {player.photoUrl ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={player.photoUrl} alt="" loading="lazy" className="w-full h-full object-cover object-top" />
+                            ) : (
+                              <User className="h-6 w-6 text-accent" />
+                            )}
                           </div>
                           <div className="text-right">
                             <span className="text-xs font-mono font-black text-primary bg-primary/10 border border-primary/25 rounded-md px-2 py-0.5">

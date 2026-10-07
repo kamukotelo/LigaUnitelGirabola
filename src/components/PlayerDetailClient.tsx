@@ -630,12 +630,22 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
         <div className="flex flex-col md:flex-row gap-8 items-center md:items-end text-center md:text-left">
           {/* Jersey Card */}
           <div className="w-40 h-52 bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden running-border relative flex-shrink-0">
+            {player.photoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={player.photoUrl}
+                alt={`Foto de ${player.name}`}
+                width={480}
+                height={600}
+                className="w-full h-full object-cover object-top"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-zinc-200/60 dark:bg-zinc-800/60 text-zinc-600">
+                <Users size={48} className="animate-pulse" />
+              </div>
+            )}
             <div className="absolute top-2 left-2 bg-primary text-white rounded-lg px-2.5 py-1 font-display text-2xl font-black">
               {player.jerseyNumber > 0 ? player.jerseyNumber : '—'}
-            </div>
-            {/* Fallback image */}
-            <div className="w-full h-full flex items-center justify-center bg-zinc-200/60 dark:bg-zinc-800/60 text-zinc-600">
-              <Users size={48} className="animate-pulse" />
             </div>
           </div>
 
