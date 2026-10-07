@@ -22,7 +22,7 @@ export const TEAM_CRESTS: Readonly<Record<string, string>> = Object.freeze({
   dago: '/crests/dago.png',
   desphuila: '/crests/desphuila.png',
   bravos: '/crests/bravos.png',
-  kabuscorp: '/crests/kabuscorp.png',
+  kabuscorp: '/crests/kabuscorp-official-20261007.png',
   sagrada: '/crests/sagrada.jpg',
   interclube: '/crests/interclube.png',
   lundasul: '/crests/lundasul-official-20260812.png',

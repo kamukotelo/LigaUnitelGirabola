@@ -20,6 +20,11 @@ deploy quando uma delas é violada.
   o teste `test-portal-regressions` falha se faltar a exceção.
 - `src/lib/platform-build-info.ts` é reescrito por cada build local: não o
   gravar.
+- **Emblemas dos clubes** (`src/lib/team-crests.ts`) estão fixados por SHA-256
+  em `scripts/verify-brand-assets.mjs`; só se trocam com o emblema enviado pela
+  DCE/ANCAF ou pelo clube. Emblemas já publicados por engano ficam em
+  `FORBIDDEN_CRESTS` e o build falha se voltarem (ex.: Kabuscorp "Sambizanga";
+  o oficial é o Kabuscorp Sport Club do Palanca, confirmado a 07/10/2026).
 
 ## Calendário, horas e estádios
 

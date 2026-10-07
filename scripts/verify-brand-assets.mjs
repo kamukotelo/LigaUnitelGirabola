@@ -18,7 +18,7 @@
 // SHA-256 abaixo (shasum -a 256 <ficheiro>) e publicar.
 // ════════════════════════════════════════════════════════════════════════
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
@@ -31,7 +31,7 @@ const CRESTS = {
   desphuila: ['/crests/desphuila.png', '023b2a100871741dcfe0fd4d66246465471306158c0b1bdcbd1ff68fb19f74eb'],
   fcluanda: ['/crests/fcluanda.png', 'd7fd2d6a76a556e90477cd5e0a420dd6fd655ba2226e555d78b594b41681f6f3'],
   interclube: ['/crests/interclube.png', '5722eb43429f4f75222c5387b67cbeed48efcce754ec3e31cfbb9268eccb5ff6'],
-  kabuscorp: ['/crests/kabuscorp.png', '24a07cb9e65e9d47a3ae21c45400bc1f173ab6cf292a459f835c2ba39c94f135'],
+  kabuscorp: ['/crests/kabuscorp-official-20261007.png', '69a4cd8011287bff7ee4476139ce02be57e9e7b376aa5d52a3029905be0ca600'],
   libolo: ['/crests/libolo.png', 'c113051dd18226f8a13bb6d12423a9a72f4bb452671cc6c8c4319aa8ff903934'],
   lobito: ['/crests/lobito.png', 'ac513757e0a1818b3fad35c4b3847a21d101282b88cc949215c8d1aa2e2d612f'],
   lundasul: ['/crests/lundasul-official-20260812.png', '69abfb770209b07a844153e9d35ae6ce88248f89da68076b2d328edf193e54a6'],
@@ -40,6 +40,14 @@ const CRESTS = {
   sagrada: ['/crests/sagrada.jpg', 'e87282b6487165510152fa60efc1c2b93ebdb6de5a34642b0a9216bf2280f81e'],
   saosalvador: ['/crests/saosalvador.png', '631a4dc0802a01943b5171ebab8a3283da3a01b504a5e0b34cdc4699100d6ae8'],
   wiliete: ['/crests/wiliete.png', '581ffaa770db0549ea58e7c8526c7fd8bf01e9e86737c44195ff79bde7b91bb4'],
+};
+
+// Emblemas que já foram publicados por engano e não podem voltar, em nenhum
+// ficheiro de public/crests/. Kabuscorp: em 09/09 entrou o emblema do
+// "Kabuscorp Futebol Clube do Sambizanga"; o oficial, confirmado pela DCE/ANCAF
+// a 07/10/2026, é o do Kabuscorp Sport Club do Palanca.
+const FORBIDDEN_CRESTS = {
+  '24a07cb9e65e9d47a3ae21c45400bc1f173ab6cf292a459f835c2ba39c94f135': 'emblema antigo do Kabuscorp (Sambizanga)',
 };
 
 const BRAND = {
@@ -68,6 +76,15 @@ const checkFile = (label, publicPath, expected) => {
 // 1. Conteúdo de cada ficheiro.
 for (const [team, [path, hash]] of Object.entries(CRESTS)) checkFile(`Emblema ${team}`, path, hash);
 for (const [path, hash] of Object.entries(BRAND)) checkFile('Logótipo da marca', path, hash);
+
+// 1b. Nenhum ficheiro em public/crests/ pode ser um emblema proibido.
+const crestDir = join(ROOT, 'public', 'crests');
+if (existsSync(crestDir)) {
+  for (const file of readdirSync(crestDir)) {
+    const hash = createHash('sha256').update(readFileSync(join(crestDir, file))).digest('hex');
+    if (FORBIDDEN_CRESTS[hash]) errors.push(`public/crests/${file} é o ${FORBIDDEN_CRESTS[hash]}, que não pode voltar ao site`);
+  }
+}
 
 // 2. O registo aponta exatamente para esses ficheiros.
 const registry = read('src/lib/team-crests.ts');
