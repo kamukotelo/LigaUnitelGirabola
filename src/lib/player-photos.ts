@@ -36,9 +36,41 @@ const KABUSCORP_PHOTO_IDS = [
   'fifa-1tgwgg5', // #35 Jojo
 ] as const;
 
-export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries(
-  KABUSCORP_PHOTO_IDS.map((id) => [id, `/players/kabuscorp/${id}.jpg`]),
-);
+// CD Lunda Sul — fotos enviadas pelo clube a 08/10/2026, com o nome de
+// guerra no ficheiro. Sem correspondência segura no portal: Banana, Gaspar,
+// Jack, Jota e Manucho (duas fotos de pessoas diferentes).
+const LUNDA_SUL_PHOTO_IDS = [
+  'nono',              // #2 Nonó
+  'fifa-1k1k2v2',      // #3 Hanilton (Nguala)
+  'yuri',              // #4 Yuri
+  'fred',              // #5 Fredy
+  'platini',           // #6 Platini
+  'neymar-lunda-sul',  // #7 Neymar
+  'vado-lunda-sul',    // #8 Vado
+  'maranata',          // #10 Maranata
+  'magrinho',          // #11 Magrinho
+  'cacusso',           // #12 Kacusso
+  'ximba',             // #16 Ximba
+  'jepson',            // #17 Jepson
+  'mussa-lunda-sul',   // #20 Mussá
+  'dieu',              // #25 Dieu
+  'sozito',            // #26 Sozito
+  'joca-lunda-sul',    // #27 Joca
+  'kibuata',           // #28 Kibuata
+  'zonzo',             // #33 Zonzo
+  'nicon',             // #34 Nicon
+  'fuca',              // #35 Fuca
+  'fifa-1sc99s4',      // #37 Cláudio Daniel
+  'angola-gr',         // #41 Angola
+  'fifa-1uwn5d8',      // Afonso
+  'fifa-1k0s9k6',      // Bicho
+  'fifa-1m7i902',      // Jairo (Tchilihi Luamba)
+] as const;
+
+export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
+  ...KABUSCORP_PHOTO_IDS.map((id) => [id, `/players/kabuscorp/${id}.jpg`]),
+  ...LUNDA_SUL_PHOTO_IDS.map((id) => [id, `/players/lundasul/${id}.jpg`]),
+]);
 
 /**
  * Fotos da equipa técnica e direção, por número de licença (maId) — a lista de
@@ -64,9 +96,16 @@ const KABUSCORP_STAFF_PHOTO_MA_IDS = [
   '001837M63', // José Domingos — assessor de direção
 ] as const;
 
-export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries(
-  KABUSCORP_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/kabuscorp/${maId.toLowerCase()}.jpg`]),
-);
+// CD Lunda Sul — enviadas pelo clube a 08/10/2026.
+const LUNDA_SUL_STAFF_PHOTO_MA_IDS = [
+  '000801M60', // Iloua Ntumba — médico
+  '003805M90', // Vanderlei Muaximbuba — treinador adjunto
+] as const;
+
+export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
+  ...KABUSCORP_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/kabuscorp/${maId.toLowerCase()}.jpg`]),
+  ...LUNDA_SUL_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/lundasul/${maId.toLowerCase()}.jpg`]),
+]);
 
 /**
  * Foto do presidente de cada clube, mostrada na Ficha do Clube ao lado do
