@@ -104,10 +104,39 @@ const DAGO_PHOTO_IDS = [
   'bencao-dago',      // #36 Benção
 ] as const;
 
+// Sagrada Esperança — fotos enviadas pelo clube a 08/10/2026, com número e
+// nome de guerra no ficheiro, ligadas pela camisola nas escalações oficiais.
+// Sem página no portal: Lito (#4), Manox (#23) e Lulas (#25).
+const SAGRADA_PHOTO_IDS = [
+  'fifa-1v1a1u9',      // #2 Alex (Alexandre Abel Fernando)
+  'manuel-sagrada',    // #3 Manú (Manuel Vunge)
+  'miguel-sagrada',    // #5 Basílio (Miguel Anselmo Basílio Daniel)
+  'dabanda-sagrada',   // #7 Dabanda
+  'guilherme-sagrada', // #8 Celso Cabuço
+  'jorge-sagrada',     // #9 Jorge Txando
+  'lepua-sagrada',     // #10 Lépua
+  'melono-sagrada',    // #11 Melono Dala
+  'nsesani-sagrada',   // #12 Nsesani
+  'leonardo-sagrada',  // #13 Léo Mutunda
+  'pimpao-sagrada',    // #16 Pimpão
+  'gogoro-sagrada',    // #17 Gogoró
+  'silvano-sagrada',   // #18 Vânio (Silvano)
+  'fifa-1l3l5q7',      // #19 Dodão
+  'luis-tati-sagrada', // #20 Luís Tati
+  'fifa-1v0z7l2',      // #21 Messias Neves
+  'mafuta-sagrada',    // #24 Mafuta
+  'barreira-sagrada',  // #28 Barreira
+  'fifa-1l7lpp2',      // #30 Adolfo (GR)
+  'cahilo-sagrada',    // #32 Fernando (Cahilo)
+  'fifa-1l7vm13',      // #33 Cláudio Tunga (Claudio Barbosa)
+  'fifa-1jrv034',      // #34 Kandumba
+] as const;
+
 export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
   ...KABUSCORP_PHOTO_IDS.map((id) => [id, `/players/kabuscorp/${id}.jpg`]),
   ...LUNDA_SUL_PHOTO_IDS.map((id) => [id, `/players/lundasul/${id}.jpg`]),
   ...DAGO_PHOTO_IDS.map((id) => [id, `/players/dago/${id}.jpg`]),
+  ...SAGRADA_PHOTO_IDS.map((id) => [id, `/players/sagrada/${id}.jpg`]),
 ]);
 
 /**
