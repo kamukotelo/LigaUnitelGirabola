@@ -106,10 +106,10 @@ const DAGO_PHOTO_IDS = [
 
 // Sagrada Esperança — fotos enviadas pelo clube a 08/10/2026, com número e
 // nome de guerra no ficheiro, ligadas pela camisola nas escalações oficiais.
-// Sem página no portal: Lito (#4), Manox (#23) e Lulas (#25).
 const SAGRADA_PHOTO_IDS = [
   'fifa-1v1a1u9',      // #2 Alex (Alexandre Abel Fernando)
   'manuel-sagrada',    // #3 Manú (Manuel Vunge)
+  'lito-sagrada',      // #4 Lito
   'miguel-sagrada',    // #5 Basílio (Miguel Anselmo Basílio Daniel)
   'dabanda-sagrada',   // #7 Dabanda
   'guilherme-sagrada', // #8 Celso Cabuço
@@ -124,7 +124,9 @@ const SAGRADA_PHOTO_IDS = [
   'fifa-1l3l5q7',      // #19 Dodão
   'luis-tati-sagrada', // #20 Luís Tati
   'fifa-1v0z7l2',      // #21 Messias Neves
+  'manox-sagrada',     // #23 Manox (Paulo Catumbila)
   'mafuta-sagrada',    // #24 Mafuta
+  'lulas-sagrada',     // #25 Lulas (Manuel Cunha)
   'barreira-sagrada',  // #28 Barreira
   'fifa-1l7lpp2',      // #30 Adolfo (GR)
   'cahilo-sagrada',    // #32 Fernando (Cahilo)

@@ -1929,6 +1929,20 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
     attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
     careerHistory: [],
   })),
+  // Sagrada Esperança — atletas das fichas oficiais de jogo e das fotos enviadas
+  // pelo clube a 08/10/2026 que não constam da inscrição de 31/08. Nome completo
+  // da ficha da 4.ª jornada (Relatório nº 28), ligado pelo número de camisola.
+  ...([
+    ['lito-sagrada', 'Lito', 'Lito', 'Posição por confirmar', 4],
+    ['manox-sagrada', 'Manox', 'Paulo Catumbila', 'Médio', 23],
+    ['lulas-sagrada', 'Lulas', 'Manuel Cunha', 'Defesa', 25],
+  ] as const).map(([id, name, fullName, position, jerseyNumber]) => ({
+    id, name, nickname: name, fullName,
+    club: 'Sagrada Esperança', teamId: 'sagrada', position, goals: 0, assists: 0, appearances: 0,
+    jerseyNumber, age: 0, nationality: 'Angola', height: 'A confirmar',
+    attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+    careerHistory: [],
+  })),
 ]);
 
 /**
