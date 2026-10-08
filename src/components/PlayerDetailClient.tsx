@@ -597,6 +597,20 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
   const clubColor = team?.colorsHex ? team.colorsHex[0] : '#5C0F8B';
 
   const [activeTab, setActiveTab] = useState<TabKey>('perfil');
+  // Padrão do nome: nome completo seguido do nome popular entre parênteses,
+  // ex.: "Niongonona Muliquita (Nonó)". Se o nome popular é só o nome
+  // abreviado (todas as palavras já estão no nome completo), não se repete.
+  const displayName = player.fullName ?? player.name;
+  const rawPopular = player.nickname ?? (player.fullName ? player.name : undefined);
+  // Alguns registos trazem a alcunha já entre parênteses ("Pequenino Castro (Cagodo)").
+  const popularCandidate = rawPopular?.match(/\(([^()]+)\)\s*$/)?.[1].trim() ?? rawPopular;
+  const nameWords = (value: string) =>
+    value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  const fullNameWords = new Set(nameWords(displayName));
+  const popularName =
+    popularCandidate && !nameWords(popularCandidate).every((word) => fullNameWords.has(word))
+      ? popularCandidate
+      : undefined;
   const visibleActiveTab = canAccessFifaConnect || activeTab !== 'fifaconnect' ? activeTab : 'perfil';
   const tabs: { key: TabKey; label: string; icon: React.ElementType }[] = [
     { key: 'perfil', label: 'Perfil Geral', icon: Star },
@@ -655,13 +669,11 @@ export default function PlayerDetailClient({ player: serverPlayer, team: serverT
                 {shown(player.position)}
               </span>
               <h1 className="text-4xl md:text-5xl font-display text-foreground uppercase leading-none font-black">
-                {player.fullName ?? player.name}
+                {displayName}
+                {popularName && (
+                  <span className="text-zinc-500 dark:text-zinc-400"> ({popularName})</span>
+                )}
               </h1>
-              {(player.nickname || (player.fullName && player.fullName !== player.name)) && (
-                <p className="text-zinc-500 dark:text-zinc-500 text-sm mt-1.5 italic">
-                  Alcunha: {player.nickname ?? player.name}
-                </p>
-              )}
               <p className="text-zinc-600 dark:text-zinc-400 font-mono text-xs uppercase tracking-wider mt-1 flex flex-wrap items-center justify-center md:justify-start gap-x-2 gap-y-1">
                 <span className="text-base leading-none">{getNationalityFlag(player.nationality)}</span>
                 <span>{player.nationality}</span>
