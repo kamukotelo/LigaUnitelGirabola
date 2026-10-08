@@ -69,9 +69,41 @@ const LUNDA_SUL_PHOTO_IDS = [
   'fifa-1m7i902',      // #38 Jairo (Tchilihi Luamba)
 ] as const;
 
+// 1.º de Agosto — fotos enviadas pelo clube a 08/10/2026, com o nome de guerra
+// no ficheiro, ligadas pela lista «Atletas para a época 2026/2027» do clube
+// (06/10/2026). Sem página no portal: Paulo (#21), Chinote (#30) e Julião
+// (#31). «Ary Folha» e «Robson» não constam da lista do clube.
+const DAGO_PHOTO_IDS = [
+  'nuno-dago',        // #1 Nuno
+  'milton-dago',      // #2 Milton
+  'simao-dianzenza',  // #3 Mabelé (Simão Dianzenza)
+  'bonifacio-dago',   // #5 Bonifácio
+  'bruno-dago',       // #6 Bruno
+  'mabilson-dago',    // #7 Mabilson
+  'axel-dago',        // #8 Axel
+  'rupson-dago',      // #9 Rupson
+  'calebi-dago',      // #10 Calebi
+  'fernando-dago',    // #11 Fernando
+  'obed-dago',        // #14 Obed
+  'venancio-dago',    // #15 Venâncio
+  'macaia-dago',      // #16 Macaia
+  'dago-tshibamba',   // #17 Dagó
+  'cliver-dago',      // #18 Clíver
+  'fifa-1pxu511',     // #19 Paxe
+  'tombe-dago',       // #20 Tombé
+  'anselmo-dago',     // #22 Anselmo
+  'fifa-1pwaay2',     // #23 Aspirina
+  'fifa-1pxwmn6',     // #24 Erique
+  'fifa-1v12ek6',     // #25 Luciano
+  'castro-dago',      // #27 Castro
+  'bulaya-dago',      // #28 Felix (Bulaya)
+  'bencao-dago',      // #36 Benção
+] as const;
+
 export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
   ...KABUSCORP_PHOTO_IDS.map((id) => [id, `/players/kabuscorp/${id}.jpg`]),
   ...LUNDA_SUL_PHOTO_IDS.map((id) => [id, `/players/lundasul/${id}.jpg`]),
+  ...DAGO_PHOTO_IDS.map((id) => [id, `/players/dago/${id}.jpg`]),
 ]);
 
 /**

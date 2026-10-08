@@ -2017,6 +2017,14 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   'fifa-1js6m05': 'Vingumba',        // nº 29 · Alberto Elizeu Xavier
   'fifa-1jrtxh4': 'Diógenes',        // nº 32 · Diógenes Capemba João
   'fifa-1tgwgg5': 'Jojo',            // nº 35 · Jorge Manuel Pinto
+  // 1.º de Agosto — lista «Atletas para a época 2026/2027» do clube (06/10/2026).
+  'simao-dianzenza': 'Mabelé',       // nº 3 · Simão Dianzenza
+  'dago-tshibamba': 'Dagó',          // nº 17 · Samu Dago
+  'bulaya-dago': 'Felix',            // nº 28 · Felix Bulaya
+  'fifa-1pxu511': 'Paxe',            // nº 19 · Afonso dos Santos
+  'fifa-1pwaay2': 'Aspirina',        // nº 23 · Enoque José Kabesa
+  'fifa-1pxwmn6': 'Erique',          // nº 24 · Erique Joaquim Manuel de Jesus
+  'fifa-1v12ek6': 'Luciano',         // nº 25 · Luciano Manuel dos Santos
 };
 
 const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
@@ -2275,6 +2283,12 @@ const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
   '007169M84': 'Treinador de guarda-redes', // Pedro Barros
   '003805M90': 'Treinador adjunto de guarda-redes', // Vanderlei Muaximbuba
   '000801M60': 'Massagista',                // Iloua Ntumba
+  // 1.º de Agosto — lista «Equipa técnica de futebol» enviada pelo clube (06/10/2026)
+  '002965M79': 'Treinador adjunto',         // Edgar Jerónimo
+  '000966M83': 'Recuperador físico',        // Alejandro Gutierrez
+  '006498F69': 'Enfermeiro',                // Andrade José Mendes
+  '000443M69': 'Delegado ao jogo',          // José Manuel Marcelino
+  '003387M82': 'Delegado suplente',         // Mário Queiroz
 };
 
 /** Membros que a Direção de Competições mandou retirar da equipa técnica. */
@@ -2317,7 +2331,8 @@ function officialStaffRoleLabel(member: { role: string; maId: string }): string 
 const OFFICIAL_STAFF_LABEL_ORDER: readonly string[] = [
   'Treinador principal', 'Treinador adjunto', 'Treinador de guarda-redes',
   'Treinador adjunto de guarda-redes',
-  'Preparador físico', 'Médico', 'Fisioterapeuta', 'Técnico',
+  'Preparador físico', 'Recuperador físico', 'Médico', 'Enfermeiro',
+  'Fisioterapeuta', 'Técnico', 'Delegado ao jogo', 'Delegado suplente',
   'Gestor da equipa', 'Gestor adjunto', 'Responsável de equipamentos',
   'Massagista', 'Equipa técnica', 'Presidente', 'Oficial da equipa',
 ];
