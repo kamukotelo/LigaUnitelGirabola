@@ -174,6 +174,7 @@ export function getStaffPhoto(teamId: string, member: { name: string; maId?: str
  */
 export const CLUB_PRESIDENT_PHOTOS: Readonly<Record<string, string>> = {
   kabuscorp: STAFF_PHOTOS['001836M65'], // Bento dos Santos Kangamba — presidente de direção
-  // Por receber: petro, wiliete, dago, desphuila, bravos, sagrada, interclube,
+  dago: '/presidents/dago.jpg',          // Gouveia de Sá Miranda (08/10/2026)
+  // Por receber: petro, wiliete, desphuila, bravos, sagrada, interclube,
   // lundasul, libolo, lobito, saosalvador, cabinda, primeiromaio, caala, fcluanda.
 };
