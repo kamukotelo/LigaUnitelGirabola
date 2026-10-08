@@ -1916,7 +1916,19 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
     jerseyNumber: 6, age: 0, nationality: 'Brasil', height: 'A confirmar',
     attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
     careerHistory: [],
-  },
+  },  // CD Lunda Sul — lista «Plantel 2026-2027» enviada pelo clube a 08/10/2026:
+  // atletas que não constam da inscrição de 31/08.
+  ...([
+    ['nacavuza-lunda-sul', 'Banana', 'Bernardo Raimundo Nacavuza', 'Defesa', 14],
+    ['gaspar-lunda-sul', 'Gaspar', 'Gaspar Joaquim Valéria Muiuca', 'Guarda-redes', 0],
+    ['jota-lunda-sul', 'Jota', 'Justino Coragem Lucassa Caquesse', 'Avançado', 36],
+  ] as const).map(([id, name, fullName, position, jerseyNumber]) => ({
+    id, name, nickname: name, fullName,
+    club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position, goals: 0, assists: 0, appearances: 0,
+    jerseyNumber, age: 0, nationality: 'Angola', height: 'A confirmar',
+    attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+    careerHistory: [],
+  })),
 ]);
 
 /**
@@ -2345,8 +2357,23 @@ function officialStaffRank(label: string): number {
   return OFFICIAL_STAFF_LABEL_ORDER.length + (label === 'Função por confirmar' ? 1 : 0);
 }
 
+/**
+ * Equipa técnica da lista enviada pelo clube que ainda não consta da inscrição
+ * (sem número de licença). Entra com o código de função FIFA, como a inscrição.
+ */
+const CLUB_LISTED_STAFF_2026_27: Readonly<Record<string, Array<{ name: string; role: string; nationality: string }>>> = {
+  // CD Lunda Sul — lista «Equipa técnica» enviada pelo clube a 08/10/2026.
+  lundasul: [
+    { name: 'Maurílio Silva', role: 'HDCH', nationality: 'Brazil' }, // Cleverson Maurílio Silva
+    { name: 'Ricardo Vieira', role: 'PTNR', nationality: 'Brazil' },
+  ],
+};
+
 export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMember[]>> = Object.fromEntries(
-  OFFICIAL_SQUADS_2026_27.map((squad) => [squad.teamId, squad.staff
+  OFFICIAL_SQUADS_2026_27.map((squad) => [squad.teamId, [
+    ...squad.staff,
+    ...(CLUB_LISTED_STAFF_2026_27[squad.teamId] ?? []).map((member) => ({ ...member, maId: '', fifaId: '' })),
+  ]
     .filter((member) => !OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27.has(member.maId))
     .map((member, index) => ({ member, index, role: officialStaffRoleLabel(member) }))
     .map((entry) => ({ ...entry, rank: officialStaffRank(entry.role) }))

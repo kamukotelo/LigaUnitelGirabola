@@ -1,5 +1,5 @@
 -- ═════════════════════════════════════════════════════════════════════
--- JOGADORES (538)
+-- JOGADORES (541)
 -- Gerado por scripts/generate-db-seed.ts — não editar à mão.
 -- ═════════════════════════════════════════════════════════════════════
 
@@ -530,6 +530,9 @@ insert into public.ancaf_players (id, team_id, club, name, full_name, position, 
   ('sebastiao-palavra', 'fcluanda', 'FC Luanda', 'Sebastião Palavra Ngola', 'Sebastião Palavra Ngola', 'Equipa Técnica', 0, 0, null, 'Angola', 'A confirmar', 0, 0, 1, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('adriano-pedro', 'fcluanda', 'FC Luanda', 'Adriano Manuel Pedro', 'Adriano Manuel Pedro', 'Equipa Técnica', 0, 0, null, 'Angola', 'A confirmar', 0, 0, 1, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('janderson-wiliete', 'wiliete', 'Wiliete de Benguela', 'Janderson', 'Janderson de Oliveira Maia', 'Médio', 6, 0, null, 'Brasil', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
+  ('nacavuza-lunda-sul', 'lundasul', 'Desportivo da Lunda Sul', 'Banana', 'Bernardo Raimundo Nacavuza', 'Defesa', 14, 0, null, 'Angola', 'A confirmar', 0, 0, 1, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
+  ('gaspar-lunda-sul', 'lundasul', 'Desportivo da Lunda Sul', 'Gaspar', 'Gaspar Joaquim Valéria Muiuca', 'Guarda-redes', 0, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
+  ('jota-lunda-sul', 'lundasul', 'Desportivo da Lunda Sul', 'Jota', 'Justino Coragem Lucassa Caquesse', 'Avançado', 36, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('mabele-dago', 'dago', '1.º de Agosto', 'Mabelé', 'Mabelé', 'Defesa', 3, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', false, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('antonio-huila', 'desphuila', 'Desportivo da Huíla', 'António', 'António', 'Médio', 27, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', false, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('mestre-gui-libolo', 'libolo', 'Recreativo do Libolo', 'Mestre Gui', 'Mestre Gui', 'Avançado', 9, 0, null, 'Angola', 'A confirmar', 1, 0, 1, null, 'MALE', null, 'unregistered', false, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),

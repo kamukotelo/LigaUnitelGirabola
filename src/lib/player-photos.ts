@@ -38,8 +38,8 @@ const KABUSCORP_PHOTO_IDS = [
 
 // CD Lunda Sul — fotos enviadas pelo clube a 08/10/2026, com o nome de guerra
 // no ficheiro, ligadas pela lista «Plantel 2026-2027» do clube. Sem página no
-// portal: Banana (#14 Bernardo Raimundo Nacavuza), Gaspar (GR) e Jota (#36
-// Justino Caquesse). Manucho (#19) por confirmar: duas fotos de pessoas diferentes.
+// Manucho (#19): o clube enviou duas fotos que parecem de pessoas diferentes;
+// usa-se a primeira até o clube confirmar.
 const LUNDA_SUL_PHOTO_IDS = [
   'nono',              // #2 Nonó
   'fifa-1k1k2v2',      // #3 Hanilton (Nguala)
@@ -52,7 +52,9 @@ const LUNDA_SUL_PHOTO_IDS = [
   'magrinho',          // #11 Magrinho
   'cacusso',           // #12 Kacusso
   'ximba',             // #16 Ximba
+  'nacavuza-lunda-sul', // #14 Banana
   'jepson',            // #17 Jepson
+  'manucho-lunda-sul', // #19 Manucho (por confirmar)
   'mussa-lunda-sul',   // #20 Mussá
   'dieu',              // #25 Dieu
   'sozito',            // #26 Sozito
@@ -66,7 +68,9 @@ const LUNDA_SUL_PHOTO_IDS = [
   'angola-gr',         // #41 Angola
   'fifa-1k0s9k6',      // #1 Bicho
   'fifa-1mptgz2',      // #32 Jack (Isaac Bombashi)
+  'jota-lunda-sul',     // #36 Jota
   'fifa-1m7i902',      // #38 Jairo (Tchilihi Luamba)
+  'gaspar-lunda-sul',   // Gaspar (GR)
 ] as const;
 
 // 1.º de Agosto — fotos enviadas pelo clube a 08/10/2026, com o nome de guerra
@@ -130,8 +134,7 @@ const KABUSCORP_STAFF_PHOTO_MA_IDS = [
   '001837M63', // José Domingos — assessor de direção
 ] as const;
 
-// CD Lunda Sul — enviadas pelo clube a 08/10/2026. Sem inscrição na lista do
-// portal: Maurílio Silva (treinador principal) e Ricardo Vieira (preparador físico).
+// CD Lunda Sul — enviadas pelo clube a 08/10/2026.
 const LUNDA_SUL_STAFF_PHOTO_MA_IDS = [
   '001200M70', // Domingos dos Santos «Mingo Ayaya» — team manager
   '001202M84', // Lucas «Zeula» — treinador adjunto
@@ -146,6 +149,19 @@ export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries
   ...KABUSCORP_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/kabuscorp/${maId.toLowerCase()}.jpg`]),
   ...LUNDA_SUL_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/lundasul/${maId.toLowerCase()}.jpg`]),
 ]);
+
+/**
+ * Staff da lista do clube ainda sem número de licença: chave = id da equipa +
+ * nome, como aparece na equipa técnica.
+ */
+const STAFF_PHOTOS_BY_NAME: Readonly<Record<string, string>> = {
+  'lundasul:Maurílio Silva': '/staff/lundasul/maurilio-silva.jpg',
+  'lundasul:Ricardo Vieira': '/staff/lundasul/ricardo-vieira.jpg',
+};
+
+export function getStaffPhoto(teamId: string, member: { name: string; maId?: string }): string | undefined {
+  return (member.maId ? STAFF_PHOTOS[member.maId] : undefined) ?? STAFF_PHOTOS_BY_NAME[`${teamId}:${member.name}`];
+}
 
 /**
  * Foto do presidente de cada clube, mostrada na Ficha do Clube ao lado do
