@@ -2271,6 +2271,10 @@ const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
   '001837M63': 'Assessor de direção',       // José Domingos «Dimas»
   '007732M86': 'Assistente técnico',        // Daniel Mabata
   '000948M90': 'Departamento de futebol',   // Filipe Duculo
+  // CD Lunda Sul — funções da lista da equipa técnica enviada pelo clube (08/10/2026)
+  '007169M84': 'Treinador de guarda-redes', // Pedro Barros
+  '003805M90': 'Treinador adjunto de guarda-redes', // Vanderlei Muaximbuba
+  '000801M60': 'Massagista',                // Iloua Ntumba
 };
 
 /** Membros que a Direção de Competições mandou retirar da equipa técnica. */
@@ -2312,6 +2316,7 @@ function officialStaffRoleLabel(member: { role: string; maId: string }): string 
 // caía para o fim da lista.
 const OFFICIAL_STAFF_LABEL_ORDER: readonly string[] = [
   'Treinador principal', 'Treinador adjunto', 'Treinador de guarda-redes',
+  'Treinador adjunto de guarda-redes',
   'Preparador físico', 'Médico', 'Fisioterapeuta', 'Técnico',
   'Gestor da equipa', 'Gestor adjunto', 'Responsável de equipamentos',
   'Massagista', 'Equipa técnica', 'Presidente', 'Oficial da equipa',

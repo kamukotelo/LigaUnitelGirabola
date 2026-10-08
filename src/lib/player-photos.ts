@@ -36,9 +36,10 @@ const KABUSCORP_PHOTO_IDS = [
   'fifa-1tgwgg5', // #35 Jojo
 ] as const;
 
-// CD Lunda Sul — fotos enviadas pelo clube a 08/10/2026, com o nome de
-// guerra no ficheiro. Sem correspondência segura no portal: Banana, Gaspar,
-// Jack, Jota e Manucho (duas fotos de pessoas diferentes).
+// CD Lunda Sul — fotos enviadas pelo clube a 08/10/2026, com o nome de guerra
+// no ficheiro, ligadas pela lista «Plantel 2026-2027» do clube. Sem página no
+// portal: Banana (#14 Bernardo Raimundo Nacavuza), Gaspar (GR) e Jota (#36
+// Justino Caquesse). Manucho (#19) por confirmar: duas fotos de pessoas diferentes.
 const LUNDA_SUL_PHOTO_IDS = [
   'nono',              // #2 Nonó
   'fifa-1k1k2v2',      // #3 Hanilton (Nguala)
@@ -57,14 +58,15 @@ const LUNDA_SUL_PHOTO_IDS = [
   'sozito',            // #26 Sozito
   'joca-lunda-sul',    // #27 Joca
   'kibuata',           // #28 Kibuata
+  'mongadie',          // #23 Afonso (Afonso Manuel Binga)
   'zonzo',             // #33 Zonzo
   'nicon',             // #34 Nicon
   'fuca',              // #35 Fuca
   'fifa-1sc99s4',      // #37 Cláudio Daniel
   'angola-gr',         // #41 Angola
-  'fifa-1uwn5d8',      // Afonso
-  'fifa-1k0s9k6',      // Bicho
-  'fifa-1m7i902',      // Jairo (Tchilihi Luamba)
+  'fifa-1k0s9k6',      // #1 Bicho
+  'fifa-1mptgz2',      // #32 Jack (Isaac Bombashi)
+  'fifa-1m7i902',      // #38 Jairo (Tchilihi Luamba)
 ] as const;
 
 export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
@@ -96,10 +98,16 @@ const KABUSCORP_STAFF_PHOTO_MA_IDS = [
   '001837M63', // José Domingos — assessor de direção
 ] as const;
 
-// CD Lunda Sul — enviadas pelo clube a 08/10/2026.
+// CD Lunda Sul — enviadas pelo clube a 08/10/2026. Sem inscrição na lista do
+// portal: Maurílio Silva (treinador principal) e Ricardo Vieira (preparador físico).
 const LUNDA_SUL_STAFF_PHOTO_MA_IDS = [
-  '000801M60', // Iloua Ntumba — médico
-  '003805M90', // Vanderlei Muaximbuba — treinador adjunto
+  '001200M70', // Domingos dos Santos «Mingo Ayaya» — team manager
+  '001202M84', // Lucas «Zeula» — treinador adjunto
+  '000791M75', // Rogério Riangue «Man Pirras» — treinador adjunto
+  '003805M90', // Vanderlei Muaximbuba — treinador adjunto de guarda-redes
+  '000801M60', // Iloua Ntumba — massagista
+  '007144M88', // Oliveira Nascimento «Meco» — massagista
+  '000800M91', // Domingos Yeno «Max» — técnico de equipamentos
 ] as const;
 
 export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
