@@ -214,19 +214,31 @@ export default function TeamDetailClient({
               <h3 className="text-md font-display text-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
                 <Shield size={16} className="text-primary" /> Ficha do Clube
               </h3>
-              {presidentPhoto && (
+              {/* Presidente em destaque: foto quando o clube a enviou, senão um
+                  marcador do mesmo tamanho até chegar (CLUB_PRESIDENT_PHOTOS). */}
+              {profile?.president && (
                 <div className="mb-4 flex flex-col items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-5 text-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={presidentPhoto}
-                    alt={`Foto de ${profile?.president ?? 'presidente do clube'}`}
-                    width={480}
-                    height={600}
-                    className="w-28 h-36 rounded-xl object-cover object-top border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950 shadow-sm"
-                  />
+                  {presidentPhoto ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={presidentPhoto}
+                      alt={`Foto de ${profile.president}`}
+                      width={480}
+                      height={600}
+                      className="w-28 h-36 rounded-xl object-cover object-top border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-950 shadow-sm"
+                    />
+                  ) : (
+                    <div
+                      role="img"
+                      aria-label={`Foto de ${profile.president} por publicar`}
+                      className="w-28 h-36 rounded-xl border border-dashed border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-950 flex items-center justify-center text-zinc-400 dark:text-zinc-600"
+                    >
+                      <User size={40} strokeWidth={1.5} />
+                    </div>
+                  )}
                   <div>
                     <p className="text-[10px] font-mono uppercase tracking-widest text-primary font-semibold">Presidente</p>
-                    <p className="mt-1 font-display text-lg uppercase leading-tight text-foreground">{profile?.president ?? '—'}</p>
+                    <p className="mt-1 font-display text-lg uppercase leading-tight text-foreground">{profile.president}</p>
                   </div>
                 </div>
               )}
@@ -241,7 +253,7 @@ export default function TeamDetailClient({
                   ['Cores', team.colors],
                   ['Apelido / Alcunha', team.nickname ?? team.shortName],
                   ['Treinador', team.coach],
-                  ...(presidentPhoto ? [] : [['Presidente', profile?.president ?? '—']]),
+                  ...(profile?.president ? [] : [['Presidente', '—']]),
                   ['Estado dos dados', team.dataStatus ?? '—'],
                   ['Atualização da base', team.dataUpdatedAt
                     ? new Date(`${team.dataUpdatedAt}T12:00:00`).toLocaleDateString('pt-AO', { dateStyle: 'medium', timeZone: 'Africa/Luanda' })

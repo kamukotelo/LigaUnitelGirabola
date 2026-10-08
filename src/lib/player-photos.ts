@@ -164,9 +164,16 @@ export function getStaffPhoto(teamId: string, member: { name: string; maId?: str
 }
 
 /**
- * Foto do presidente de cada clube, mostrada na Ficha do Clube ao lado do
- * nome. Chave = id da equipa. Clube sem entrada mostra só o nome.
+ * Foto do presidente de cada clube, em destaque no topo da Ficha do Clube.
+ * Chave = id da equipa. Todos os clubes já mostram o destaque; sem entrada
+ * aqui aparece um marcador «foto por publicar» no lugar da foto.
+ *
+ * Para acrescentar: se o presidente tem licença no staff, use
+ * STAFF_PHOTOS['<maId>']; senão grave public/presidents/<id da equipa>.jpg
+ * (recorte 4:5, 480×600) e aponte para lá.
  */
 export const CLUB_PRESIDENT_PHOTOS: Readonly<Record<string, string>> = {
   kabuscorp: STAFF_PHOTOS['001836M65'], // Bento dos Santos Kangamba — presidente de direção
+  // Por receber: petro, wiliete, dago, desphuila, bravos, sagrada, interclube,
+  // lundasul, libolo, lobito, saosalvador, cabinda, primeiromaio, caala, fcluanda.
 };
