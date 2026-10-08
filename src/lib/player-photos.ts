@@ -204,7 +204,7 @@ export function getStaffPhoto(teamId: string, member: { name: string; maId?: str
  * (recorte 4:5, 480×600) e aponte para lá.
  */
 export const CLUB_PRESIDENT_PHOTOS: Readonly<Record<string, string>> = {
-  kabuscorp: STAFF_PHOTOS['001836M65'], // Bento dos Santos Kangamba — presidente de direção
+  kabuscorp: STAFF_PHOTOS['001836M65'], // Bento dos Santos Kangamba — presidente de direção (foto nova, 08/10/2026)
   dago: '/presidents/dago.jpg',          // Gouveia de Sá Miranda (08/10/2026)
   lundasul: '/presidents/lundasul.jpg',  // Miguel da Silva «Ipwupwu» (08/10/2026)
   // Por receber: petro, wiliete, desphuila, bravos, sagrada, interclube,
