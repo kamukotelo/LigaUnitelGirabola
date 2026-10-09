@@ -1900,6 +1900,8 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['pinto-lobito', 'Pinto', 'Académica do Lobito', 'lobito', 'Avançado', 14, 0],
   ['sabones-lobito', 'Sabones', 'Académica do Lobito', 'lobito', 'Avançado', 17, 0],
   ['cuxixima-caala', 'Domingos Lourenço Cuxixima', 'CR Caála', 'caala', 'Avançado', 7, 0],
+  // Reforço do CR Caála (n.º 38), confirmado a 09/10/2026; ainda fora da inscrição de 31/08.
+  ['yano-caala', 'Yano', 'CR Caála', 'caala', 'Posição por confirmar', 38, 0],
   ['ado-pena-huila', 'Ado Pena', 'Desportivo da Huíla', 'desphuila', 'Médio', 27, 1],
   ['mabululu-wiliete', 'Mabululu', 'Wiliete de Benguela', 'wiliete', 'Avançado', 9, 2],
 ].map(([id, name, club, teamId, position, jerseyNumber, goals]) => ({
@@ -2015,6 +2017,7 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   'lisneu-caala': 'Neidy Bicho',     // nº 23 · Lisneu Emanuel Neto Simão
   'fifa-1k2qwk8': 'Kabila',          // nº 24 · Timóteo Sambissa
   'fifa-1r8lp51': 'Manucho',         // nº 27 · José Manuel Raul
+  'fifa-1uy6ar6': 'Félix II',        // nº 33 · Tiago Jamba Adelino (apelido confirmado a 09/10/2026)
   'fifa-1k0ag17': 'Fany',            // nº 30 · José Afonso dos Santos Fernando
   'fifa-1qvfe29': 'Marega',          // nº 34 · Ernesto
   // Kabuscorp — lista do plantel 2026/27 enviada pelo clube a 07/10/2026.

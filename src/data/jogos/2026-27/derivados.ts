@@ -36,6 +36,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     { id: 'dieu', name: 'David', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Defesa', goals: 1, appearances: 3 },
     { id: 'depu', name: 'Depú', club: 'Petro de Luanda', teamId: 'petro', position: 'Avançado', goals: 1, appearances: 4 },
     { id: 'deybi-flores', name: 'Deybi Flores', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 4 },
+    { id: 'fifa-1uy6ar6', name: 'Félix II', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 1 },
     { id: 'fifa-1ljudk2', name: 'Gelson André', club: 'FC Luanda', teamId: 'fcluanda', position: 'Médio', goals: 1, appearances: 4 },
     { id: 'fifa-1jsj8t3', name: 'Gibelé', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 1, appearances: 4 },
     { id: 'gladilson-bravos', name: 'Gladilson', club: 'Bravos do Maquis', teamId: 'bravos', position: 'Avançado', goals: 1, appearances: 1 },
@@ -58,7 +59,6 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     { id: 'fifa-1qvfjm7', name: 'Sidibé', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Médio', goals: 1, appearances: 4 },
     { id: 'silvano-da-cruz-interclube', name: 'Silvano da Cruz', club: 'GD Interclube', teamId: 'interclube', position: 'Posição por confirmar', goals: 1, appearances: 1 },
     { id: 'fifa-1nb4bp9', name: 'Simão Gonga', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Médio', goals: 1, appearances: 2 },
-    { id: 'fifa-1uy6ar6', name: 'Tiago Adelino', club: 'CR Caála', teamId: 'caala', position: 'Avançado', goals: 1, appearances: 1 },
     { id: 'vanilson', name: 'Vanilson', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 3 },
   ],
   cards: {
