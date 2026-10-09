@@ -6,5 +6,5 @@ export default defineMatch({
   round: 6,
   homeTeamId: 'lundasul',
   awayTeamId: 'cabinda',
-  schedule: { date: '2026-10-10T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'Mapa final da 6.ª jornada (28/09/2026)' },
+  schedule: { date: '2026-10-11T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'DCE/ANCAF, 09/10/2026: domingo, 11/10, 15:00 (comunicado oficial a enviar)' },
 });
