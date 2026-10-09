@@ -9,7 +9,7 @@ export default defineMatch({
   schedule: { date: '2026-10-09T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'DCE/ANCAF, 05/10/2026: sexta-feira, 09/10, 15:30, Estádio 22 de Junho', stadiumException: 'Jogo marcado pela DCE/ANCAF para o Estádio 22 de Junho (05/10/2026)' },
   // Nomeação de arbitragem recebida a 09/10/2026.
   officials: { referee: 'António Caluassi Dungula', assistants: ['Victorino Nangolo Dungula', 'Zacarias Chivanja Calembe'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
-  // Constituição das equipas (folha oficial da DCE/ANCAF, 09/10/2026).
+  // Constituição das equipas (folha oficial da DCE/ANCAF, 09/10/2026, versão corrigida).
   coaches: { home: 'João Pedro Sousa', away: 'Artur Correia' },
   lineups: {
     home: [
@@ -42,7 +42,7 @@ export default defineMatch({
       { name: 'Kuxixima', number: 7, position: 'FWD', isStarter: true, playerId: 'cuxixima-caala' },
       { name: 'Valegol', number: 9, position: 'FWD', isStarter: true, playerId: 'fifa-1k0r4w6' },
       { name: 'Jó Vidal', number: 15, position: 'DEF', isStarter: true, playerId: 'fifa-1jsrqb0' },
-      { name: 'Putchú', number: 18, isStarter: true },
+      { name: 'Lamine Moro', number: 18, isStarter: true },
       { name: 'Neidy Bicho', number: 23, position: 'MID', isStarter: true, playerId: 'lisneu-caala' },
       { name: 'Manucho', number: 27, position: 'FWD', isStarter: true, playerId: 'fifa-1r8lp51' },
       { name: 'Yano', number: 38, isStarter: true, playerId: 'yano-caala' },
