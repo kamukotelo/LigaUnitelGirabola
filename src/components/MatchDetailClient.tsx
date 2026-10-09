@@ -356,7 +356,7 @@ function SummaryTab({ detail }: { detail: MatchDetail }) {
             <span className="text-zinc-700 dark:text-zinc-300">
               {match.postponed
                 ? 'Adiado · À espera de nova data'
-                : new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                : new Date(match.date).toLocaleDateString('pt-AO', { timeZone: 'Africa/Luanda', day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>
         </div>
@@ -414,7 +414,7 @@ export default function MatchDetailClient({
             Jornada {match.round} · {isFinished ? 'Terminado' : isLive ? `${match.liveMinute ?? ''}' · Em direto` : 'Agendado'}
           </span>
           <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider flex items-center gap-2 flex-wrap justify-center">
-            <span className="flex items-center gap-1"><Calendar size={10} /> {match.postponed ? 'Adiado · À espera de nova data' : new Date(match.date).toLocaleDateString('pt-AO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+            <span className="flex items-center gap-1"><Calendar size={10} /> {match.postponed ? 'Adiado · À espera de nova data' : new Date(match.date).toLocaleDateString('pt-AO', { timeZone: 'Africa/Luanda', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
             <span className="flex items-center gap-1"><MapPin size={10} /> {match.stadium}</span>
             <span className="flex items-center gap-1 text-accent"><Tv size={10} /> {getMatchBroadcast(match)}</span>
           </span>

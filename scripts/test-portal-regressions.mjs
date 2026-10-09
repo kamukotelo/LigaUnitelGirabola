@@ -393,6 +393,29 @@ assert.match(data, /normalizeMatchOverride\(named, withoutRecordSchedule\(m\.id,
 assert.match(data, /const nextRoundStart = nextRound === undefined/);
 assert.match(data, /return Number\.isNaN\(kickoff\) \|\| kickoff < nextRoundStart;/);
 
+// 09/10/2026 · A página do jogo mostrava 14:30 num jogo às 15:30: a Vercel
+// gera as páginas em UTC e a hora era formatada sem fuso. Nas páginas públicas,
+// datas e horas formatam-se sempre com timeZone 'Africa/Luanda'.
+{
+  const { readdirSync, statSync } = await import('node:fs');
+  const walk = (dir) => readdirSync(dir).flatMap((name) => {
+    const full = `${dir}/${name}`;
+    return statSync(full).isDirectory() ? walk(full) : /\.tsx?$/.test(name) ? [full] : [];
+  });
+  const root = new URL('../src/', import.meta.url).pathname;
+  const offenders = [];
+  for (const file of walk(root)) {
+    if (/admin/i.test(file)) continue;
+    const text = await readFile(file, 'utf8');
+    for (const match of text.matchAll(/\.toLocale(?:Date|Time)?String\(\s*'pt-(?:AO|PT)'\s*,\s*\{([^}]*)\}/g)) {
+      const options = match[1];
+      if (/(hour|minute|day|month|weekday)\s*:/.test(options) && !/timeZone/.test(options)) offenders.push(file.replace(root, 'src/'));
+    }
+    if (/\.get(?:Hours|Minutes)\(\)/.test(text) && /kickoff|Kickoff|match\.date|dateStr/.test(text)) offenders.push(`${file.replace(root, 'src/')} (getHours/getMinutes)`);
+  }
+  assert.deepEqual([...new Set(offenders)], [], 'Datas/horas formatadas sem o fuso de Luanda');
+}
+
 // Cada script que o build da Vercel executa tem de existir no deploy: o
 // .vercelignore exclui scripts/ e só deixa passar os listados. Um script em
 // falta partia o deploy logo no início (28/09/2026).

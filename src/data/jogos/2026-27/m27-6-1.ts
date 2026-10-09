@@ -7,6 +7,9 @@ export default defineMatch({
   homeTeamId: 'petro',
   awayTeamId: 'caala',
   schedule: { date: '2026-10-09T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'DCE/ANCAF, 05/10/2026: sexta-feira, 09/10, 15:30, Estádio 22 de Junho', stadiumException: 'Jogo marcado pela DCE/ANCAF para o Estádio 22 de Junho (05/10/2026)' },
+  // Resultado recebido a 09/10/2026; houve um cartão vermelho aos 50' (equipa e
+  // jogador por confirmar no relatório do árbitro).
+  result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-09T17:30:00+01:00' },
   // Nomeação de arbitragem recebida a 09/10/2026.
   officials: { referee: 'António Caluassi Dungula', assistants: ['Victorino Nangolo Dungula', 'Zacarias Chivanja Calembe'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
   // Constituição das equipas (folha oficial da DCE/ANCAF, 09/10/2026, versão corrigida).

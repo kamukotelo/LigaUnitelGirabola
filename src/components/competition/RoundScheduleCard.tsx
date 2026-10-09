@@ -18,15 +18,18 @@ export default function RoundScheduleCard({
   title,
 }: RoundScheduleCardProps) {
   const formatMatchKickoff = (dateStr: string) => {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return { dayOfWeek: 'DOMINGO', date: '20/09', time: '15:30' };
+    const utc = new Date(dateStr);
+    if (isNaN(utc.getTime())) return { dayOfWeek: 'DOMINGO', date: '20/09', time: '15:30' };
+    // Hora de Luanda (UTC+1, sem hora de verão), qualquer que seja o fuso do
+    // servidor (a Vercel corre em UTC) ou do visitante.
+    const d = new Date(utc.getTime() + 60 * 60 * 1000);
 
     const days = ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'];
-    const dayOfWeek = days[d.getDay()];
-    const dd = String(d.getDate()).padStart(2, '0');
-    const mm = String(d.getMonth() + 1).padStart(2, '0');
-    const hh = String(d.getHours()).padStart(2, '0');
-    const min = String(d.getMinutes()).padStart(2, '0');
+    const dayOfWeek = days[d.getUTCDay()];
+    const dd = String(d.getUTCDate()).padStart(2, '0');
+    const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const hh = String(d.getUTCHours()).padStart(2, '0');
+    const min = String(d.getUTCMinutes()).padStart(2, '0');
 
     return {
       dayOfWeek,
