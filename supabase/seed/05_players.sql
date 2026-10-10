@@ -1,5 +1,5 @@
 -- ═════════════════════════════════════════════════════════════════════
--- JOGADORES (545)
+-- JOGADORES (548)
 -- Gerado por scripts/generate-db-seed.ts — não editar à mão.
 -- ═════════════════════════════════════════════════════════════════════
 
@@ -534,6 +534,9 @@ insert into public.ancaf_players (id, team_id, club, name, full_name, position, 
   ('nacavuza-lunda-sul', 'lundasul', 'Desportivo da Lunda Sul', 'Banana', 'Bernardo Raimundo Nacavuza', 'Defesa', 14, 0, null, 'Angola', 'A confirmar', 0, 0, 1, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('gaspar-lunda-sul', 'lundasul', 'Desportivo da Lunda Sul', 'Gaspar', 'Gaspar Joaquim Valéria Muiuca', 'Guarda-redes', 0, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('jota-lunda-sul', 'lundasul', 'Desportivo da Lunda Sul', 'Jota', 'Justino Coragem Lucassa Caquesse', 'Avançado', 36, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
+  ('abed-kabuscorp', 'kabuscorp', 'Kabuscorp SC', 'Abed', 'Abed Zito Mungomba', 'Posição por confirmar', 6, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
+  ('platini-kabuscorp', 'kabuscorp', 'Kabuscorp SC', 'Platini', 'Platini', 'Posição por confirmar', 39, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
+  ('julinho-wiliete', 'wiliete', 'Wiliete de Benguela', 'Julinho', 'Julinho', 'Posição por confirmar', 29, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('lito-sagrada', 'sagrada', 'Sagrada Esperança', 'Lito', 'Lito', 'Posição por confirmar', 4, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('manox-sagrada', 'sagrada', 'Sagrada Esperança', 'Manox', 'Paulo Catumbila', 'Médio', 23, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),
   ('lulas-sagrada', 'sagrada', 'Sagrada Esperança', 'Lulas', 'Manuel Cunha', 'Defesa', 25, 0, null, 'Angola', 'A confirmar', 0, 0, 0, null, 'MALE', null, 'unregistered', true, '{"pace":0,"shooting":0,"passing":0,"dribbling":0,"defending":0,"physical":0}'::jsonb, '[]'::jsonb, null),

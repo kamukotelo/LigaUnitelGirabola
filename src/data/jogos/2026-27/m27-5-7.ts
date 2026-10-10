@@ -25,7 +25,7 @@ export default defineMatch({
       { name: 'Zamorano Lopes', number: 2, position: 'DEF', isStarter: true, playerId: 'fifa-1k4a836' },
       { name: 'Eliseu', number: 3, position: 'DEF', isStarter: true, playerId: 'fifa-1jyp8v8' },
       { name: 'Saombe Jorge', number: 5, position: 'DEF', isStarter: true, playerId: 'fifa-1snb179' },
-      { name: 'Abed Zito Mungomba', number: 6, isStarter: true },
+      { name: 'Abed Zito Mungomba', number: 6, isStarter: true, playerId: 'abed-kabuscorp' },
       { name: 'Bayala Nsimba', number: 7, position: 'FWD', isStarter: true, playerId: 'fifa-1n3uhm6' },
       { name: 'José Vunge', number: 10, position: 'MID', isStarter: true, playerId: 'fifa-1k2pk58' },
       { name: 'Teodoro Correia', number: 11, position: 'DEF', isStarter: true, playerId: 'fifa-1lgpb81' },

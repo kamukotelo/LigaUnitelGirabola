@@ -1931,6 +1931,21 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
     attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
     careerHistory: [],
   })),
+  // Kabuscorp SC e Wiliete de Benguela — atletas das folhas oficiais de jogo que
+  // não constam da inscrição de 31/08, confirmados pela DCE/ANCAF a 10/10/2026.
+  // O n.º 6 do Kabuscorp aparece como «Zito», «Abed Zito Mungomba» e «Abed»; o
+  // n.º 39 como «Mpiana» e «Platini» (o mesmo jogador).
+  ...([
+    ['abed-kabuscorp', 'Abed', 'Zito', 'Abed Zito Mungomba', 'Kabuscorp SC', 'kabuscorp', 6],
+    ['platini-kabuscorp', 'Platini', 'Mpiana', undefined, 'Kabuscorp SC', 'kabuscorp', 39],
+    ['julinho-wiliete', 'Julinho', 'Julinho', undefined, 'Wiliete de Benguela', 'wiliete', 29],
+  ] as const).map(([id, name, nickname, fullName, club, teamId, jerseyNumber]) => ({
+    id, name, nickname, ...(fullName ? { fullName } : {}),
+    club, teamId, position: 'Posição por confirmar', goals: 0, assists: 0, appearances: 0,
+    jerseyNumber, age: 0, nationality: 'Angola', height: 'A confirmar',
+    attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
+    careerHistory: [],
+  })),
   // Sagrada Esperança — atletas das fichas oficiais de jogo e das fotos enviadas
   // pelo clube a 08/10/2026 que não constam da inscrição de 31/08. Nome completo
   // da ficha da 4.ª jornada (Relatório nº 28), ligado pelo número de camisola.

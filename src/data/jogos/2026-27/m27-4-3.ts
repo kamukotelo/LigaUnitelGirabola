@@ -32,7 +32,7 @@ export default defineMatch({
       { name: 'Igui', number: 24, position: 'MID', isStarter: false, playerId: 'fifa-1uqnv32' },
       { name: 'Nelo', number: 26, position: 'DEF', isStarter: false, playerId: 'fifa-1jz4n21' },
       // Sem ficha na inscrição de 31/08: fica com o nome do clube, sem página de jogador.
-      { name: 'Julinho', number: 29, isStarter: false },
+      { name: 'Julinho', number: 29, isStarter: false, playerId: 'julinho-wiliete' },
       { name: 'Célio', number: 32, position: 'MID', isStarter: false, playerId: 'fifa-1m95s64' },
       { name: 'Quare', number: 33, position: 'FWD', isStarter: false, playerId: 'fifa-1kzr1v5' },
       { name: 'César Cangué', number: 34, position: 'FWD', isStarter: false, playerId: 'fifa-1k36hf0' },
@@ -48,7 +48,7 @@ export default defineMatch({
     { minute: 45, type: 'goal', team: 'home', player: 'Mabululu', playerId: 'mabululu-wiliete', detail: "45'+6 · 2-0" },
     { minute: 69, type: 'sub', team: 'home', player: 'Célio', number: 32, playerId: 'fifa-1m95s64', playerOut: 'Sidibé' },
     { minute: 81, type: 'sub', team: 'home', player: 'Quare', number: 33, playerId: 'fifa-1kzr1v5', playerOut: 'Bito' },
-    { minute: 81, type: 'sub', team: 'home', player: 'Julinho', number: 29, playerOut: 'Mabululu' },
+    { minute: 81, type: 'sub', team: 'home', player: 'Julinho', number: 29, playerId: 'julinho-wiliete', playerOut: 'Mabululu' },
     { minute: 89, type: 'sub', team: 'home', player: 'Igui', number: 24, playerId: 'fifa-1uqnv32', playerOut: 'Ning' },
   ],
 });

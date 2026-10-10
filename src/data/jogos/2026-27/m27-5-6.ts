@@ -40,7 +40,7 @@ export default defineMatch({
       { name: 'Augusto Manuel Balsa', number: 15, position: 'DEF', isStarter: false, playerId: 'fifa-1jjfij0' },
       { name: 'Francisco Cubuema Matoco', number: 16, position: 'MID', isStarter: false, playerId: 'fifa-1k1jsj8' },
       { name: 'Rodino Dumbo José', number: 25, position: 'FWD', isStarter: false, playerId: 'fifa-1jwu0l8' },
-      { name: 'Julinho', number: 29, isStarter: false },
+      { name: 'Julinho', number: 29, isStarter: false, playerId: 'julinho-wiliete' },
       { name: 'Elber Delgado', number: 31, isStarter: false, playerId: 'fifa-1jm7y97' },
       { name: 'Célio Alberto Junqueira Zua', number: 32, position: 'MID', isStarter: false, playerId: 'fifa-1m95s64' },
       { name: 'Valter Manuel Monteiro', number: 35, position: 'MID', isStarter: false, playerId: 'valter-monteiro' },
