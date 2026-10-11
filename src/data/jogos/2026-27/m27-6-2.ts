@@ -10,6 +10,12 @@ export default defineMatch({
   // A Académica recebe no Estádio Nacional de Ombaka (indicação de 28/09/2026).
   // Nomeação de arbitragem recebida a 11/10/2026.
   officials: { referee: 'Gilberto Bernardino Kativa', assistants: ['Estanislau Guedes Tavares Muluta Prata', 'Jeremias Sessenta Cafussa'], fourth: 'Flamel Victorino Matos' },
+  // Resultado recebido a 11/10/2026 (aguarda o relatório do árbitro).
+  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-0', updatedAt: '2026-10-11T17:00:00+01:00' },
+  events: [
+    { minute: 7, type: 'goal', team: 'home', player: 'António', number: 19, playerId: 'antonio-lobito', detail: '1-0' },
+    { minute: 81, type: 'goal', team: 'away', player: 'Obed', number: 14, playerId: 'obed-dago', detail: '1-1' },
+  ],
   // Constituição das equipas (folha oficial da DCE/ANCAF, 11/10/2026).
   coaches: { home: 'Silvestre Pelé', away: 'Filipe Nzanza' },
   lineups: {

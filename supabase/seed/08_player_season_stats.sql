@@ -4,11 +4,11 @@
 -- ═════════════════════════════════════════════════════════════════════
 
 insert into public.ancaf_player_season_stats (season_id, player_id, goals, assists, appearances, yellow_cards, red_cards) values
-  ('2026-27', 'dago-tshibamba', 5, 0, 5, 1, 0),
+  ('2026-27', 'dago-tshibamba', 5, 0, 6, 1, 0),
   ('2026-27', 'mabululu-wiliete', 4, 0, 5, 0, 0),
   ('2026-27', 'lito-bravos', 3, 0, 3, 0, 0),
   ('2026-27', 'fifa-1jwu0l8', 3, 0, 4, 0, 0),
-  ('2026-27', 'axel-dago', 2, 0, 4, 1, 0),
+  ('2026-27', 'axel-dago', 2, 0, 5, 1, 0),
   ('2026-27', 'fifa-1jz4pi8', 2, 0, 5, 1, 0),
   ('2026-27', 'melono-sagrada', 2, 0, 4, 1, 0),
   ('2026-27', 'fifa-1qw9vb1', 2, 0, 3, 1, 0),
@@ -26,6 +26,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'fifa-1v1a1u9', 1, 0, 3, 2, 0),
   ('2026-27', 'andeloy-libolo', 1, 0, 3, 2, 0),
   ('2026-27', 'fifa-1k2pyw6', 1, 0, 2, 1, 0),
+  ('2026-27', 'antonio-lobito', 1, 0, 2, 0, 0),
   ('2026-27', 'ariclenis-cabinda', 1, 0, 5, 1, 0),
   ('2026-27', 'fifa-1n3uhm6', 1, 0, 4, 0, 0),
   ('2026-27', 'bello-lukman-wiliete', 1, 0, 2, 0, 0),
@@ -33,7 +34,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'beni-papel-saosalvador', 1, 0, 1, 0, 0),
   ('2026-27', 'fifa-1jrxs05', 1, 0, 6, 1, 0),
   ('2026-27', 'leonardo-isola-huila', 1, 0, 4, 0, 0),
-  ('2026-27', 'calebi-dago', 1, 0, 3, 0, 0),
+  ('2026-27', 'calebi-dago', 1, 0, 4, 0, 0),
   ('2026-27', 'cuxixima-libolo', 1, 0, 3, 0, 0),
   ('2026-27', 'dieu', 1, 0, 3, 1, 0),
   ('2026-27', 'depu', 1, 0, 5, 0, 0),
@@ -53,6 +54,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'mestre-gui-libolo', 1, 0, 1, 0, 0),
   ('2026-27', 'moises-primeiromaio', 1, 0, 1, 0, 0),
   ('2026-27', 'mussa-lunda-sul', 1, 0, 3, 1, 0),
+  ('2026-27', 'obed-dago', 1, 0, 2, 0, 0),
   ('2026-27', 'fifa-1mqvbd5', 1, 0, 1, 0, 0),
   ('2026-27', 'patrick-banza-interclube', 1, 0, 1, 0, 0),
   ('2026-27', 'pedro-manuel-interclube', 1, 0, 1, 0, 0),
