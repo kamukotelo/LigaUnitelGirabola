@@ -64,5 +64,8 @@ insert into public.ancaf_referee_nominations (season_id, round, match_id, refere
   ('2026-27', 6, 'm27-6-5', 'Bernardo Kenge Mário', '["João Manuel Fula António","António Domingos Miguel"]'::jsonb, 'Alberto Henrique F. Bartolomeu'),
   ('2026-27', 6, 'm27-6-8', 'Nelson da Silva', '["Evanildo Martins","Pedro Micolo"]'::jsonb, 'Aldair Carmelino'),
   ('2026-27', 6, 'm27-6-2', 'Gilberto Bernardino Kativa', '["Estanislau Guedes Tavares Muluta Prata","Jeremias Sessenta Cafussa"]'::jsonb, 'Flamel Victorino Matos'),
-  ('2026-27', 6, 'm27-6-7', 'Sanda Mateus Miguel Kitu', '["Natarino António Soares","Nélson Lutumba Quiala"]'::jsonb, 'Donaciano Mulumba')
+  ('2026-27', 6, 'm27-6-7', 'Sanda Mateus Miguel Kitu', '["Natarino António Soares","Nélson Lutumba Quiala"]'::jsonb, 'Donaciano Mulumba'),
+  ('2026-27', 6, 'm27-6-3', 'Ailton Jeovane Quissanga Carmelino', '["Ivanildo Meireles de Oliveira Sanches Lopes","Nery Domingos Pereira Amador da Silva"]'::jsonb, 'Nuno Eduardo Sumbo'),
+  ('2026-27', 6, 'm27-6-4', 'Edilson Roberto Gomes André', '["Manuel Luís Benguela","Joaquim Manuel Chiyo"]'::jsonb, 'Bernardo Francisco Moreira'),
+  ('2026-27', 6, 'm27-6-6', 'Miguel Tchissingui Augusto Américo', '["Bernardo Kunjuca Lúcio Serafim","Floriano Cawala"]'::jsonb, 'Bernardo Hossi Nangolo')
 on conflict (match_id) do update set season_id = excluded.season_id, round = excluded.round, referee = excluded.referee, assistants = excluded.assistants, fourth_official = excluded.fourth_official;
