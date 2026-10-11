@@ -35,7 +35,7 @@ export default defineMatch({
       { name: 'Bocar Sidibé', number: 30, position: 'MID', isStarter: true, playerId: 'fifa-1qvfjm7' },
       // Sem ficha na inscrição de 31/08: entram com o nome que o clube publica
       // (Jaderson de Oliveira Maia e João Diogo na súmula), sem página de jogador.
-      { name: 'Janderson', number: 6, isStarter: false },
+      { name: 'Janderson', number: 6, isStarter: false, playerId: 'janderson-wiliete' },
       { name: 'Adriano Watchilala Tchombe', number: 13, position: 'DEF', isStarter: false, playerId: 'fifa-1pvxht8' },
       { name: 'Augusto Manuel Balsa', number: 15, position: 'DEF', isStarter: false, playerId: 'fifa-1jjfij0' },
       { name: 'Francisco Cubuema Matoco', number: 16, position: 'MID', isStarter: false, playerId: 'fifa-1k1jsj8' },
@@ -84,7 +84,7 @@ export default defineMatch({
     // Substituições do Wiliete comunicadas pela DCE. O Recreativo do Libolo
     // não consta da comunicação recebida.
     { minute: 46, type: 'sub', team: 'home', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', playerOut: 'Bito' },
-    { minute: 46, type: 'sub', team: 'home', player: 'Janderson', number: 6, playerOut: 'Sidibé' },
+    { minute: 46, type: 'sub', team: 'home', player: 'Janderson', number: 6, playerId: 'janderson-wiliete', playerOut: 'Sidibé' },
     { minute: 46, type: 'sub', team: 'home', player: 'Célio', number: 32, playerId: 'fifa-1m95s64', playerOut: 'Mule' },
     { minute: 77, type: 'sub', team: 'home', player: 'Valter Monteiro', number: 35, playerId: 'valter-monteiro', playerOut: 'Gibelé' },
     { minute: 84, type: 'sub', team: 'home', player: 'Macaiabo', number: 16, playerId: 'fifa-1k1jsj8', playerOut: 'Mabululu' },

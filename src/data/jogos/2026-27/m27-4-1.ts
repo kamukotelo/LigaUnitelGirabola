@@ -49,7 +49,7 @@ export default defineMatch({
       { name: 'Milton Alberto de Oliveira Suca', number: 18, position: 'FWD', isStarter: true, playerId: 'milton-suca-huila' },
       { name: 'Jeremias Pedro', number: 26, position: 'DEF', isStarter: true, playerId: 'jeremias-huila' },
       { name: 'Pequenino Castro', number: 29, position: 'MID', isStarter: true, playerId: 'pequenino-castro-huila' },
-      { name: 'Adilson Manuel', number: 3, position: 'DEF', isStarter: false },
+      { name: 'Adilson Manuel', number: 3, position: 'DEF', isStarter: false, playerId: 'desphuila-player-3' },
       { name: 'João Milagre Chiva Simões', number: 6, position: 'DEF', isStarter: false, playerId: 'joao-milagre-huila' },
       { name: 'Emanuel Laurindo', number: 12, position: 'GK', isStarter: false, playerId: 'passy-huila' },
       { name: 'Angelo Cangu', number: 21, position: 'MID', isStarter: false, playerId: 'angelo-cangu-huila' },
