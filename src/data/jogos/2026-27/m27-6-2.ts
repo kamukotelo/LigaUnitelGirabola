@@ -8,4 +8,6 @@ export default defineMatch({
   awayTeamId: 'dago',
   schedule: { date: '2026-10-11T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final da 6.ª jornada (28/09/2026)' },
   // A Académica recebe no Estádio Nacional de Ombaka (indicação de 28/09/2026).
+  // Nomeação de arbitragem recebida a 11/10/2026.
+  officials: { referee: 'Gilberto Bernardino Kativa', assistants: ['Estanislau Guedes Tavares Muluta Prata', 'Jeremias Sessenta Cafussa'], fourth: 'Flamel Victorino Matos' },
 });
