@@ -9,6 +9,9 @@ export default defineMatch({
   schedule: { date: '2026-10-10T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final da 6.ª jornada (28/09/2026)', stadiumException: 'Mapa final da 6.ª jornada (28/09/2026) marca o jogo no Estádio 11 de Novembro' },
   // Mapa da 6.ª jornada enviado a 28/09/2026: este jogo realiza-se no Estádio 11 de Novembro, e não no
   // Estádio 22 de Junho habitual do Kabuscorp.
+  // Resultado recebido a 11/10/2026: 1-1. Intervalo, minutos e marcadores por
+  // confirmar no relatório do árbitro; até lá o jogo fica sem eventos.
+  result: { status: 'finished', homeScore: 1, awayScore: 1, updatedAt: '2026-10-11T12:00:00+01:00' },
   // Nomeação de arbitragem e constituição das equipas (folha oficial da DCE/ANCAF, 10/10/2026).
   officials: { referee: 'Nelson da Silva', assistants: ['Evanildo Martins', 'Pedro Micolo'], fourth: 'Aldair Carmelino' },
   coaches: { home: 'Léo Neiva', away: 'Beto Bianchi' },

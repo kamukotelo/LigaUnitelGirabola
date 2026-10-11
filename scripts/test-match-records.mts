@@ -59,7 +59,17 @@ const pending = d.getMatchesForSeason(d.UPCOMING_SEASON_ID)
     .filter((e: { type: string; playerId?: string; ownGoal?: boolean; detail?: string }) => e.type === 'goal' && !e.playerId && !e.ownGoal && !/autogolo/i.test(e.detail ?? ''))
     .map((e: { minute?: number }) => `${m.id} ${e.minute}'`));
 assert.deepEqual(pending.sort(), [...PENDING_SCORERS].sort(), 'Golos sem marcador fora da lista de pendentes.');
+// Jogos cujo resultado chegou sem minutos nem marcadores: ficam sem eventos até
+// ao relatório do árbitro e todos os golos contam como por identificar.
+// m27-6-8 (Kabuscorp 1-1 Wiliete, 10/10): resultado recebido a 11/10/2026.
+const PENDING_MATCHES_WITHOUT_EVENTS: Record<string, number> = { 'm27-6-8': 2 };
+for (const [id, count] of Object.entries(PENDING_MATCHES_WITHOUT_EVENTS)) {
+  const record = d.getMatchRecord(id);
+  assert.equal(record?.events?.length ?? 0, 0, `${id} já tem eventos: tirar da lista de jogos sem eventos.`);
+  assert.equal((record?.result?.homeScore ?? 0) + (record?.result?.awayScore ?? 0), count, `${id}: total de golos não bate com a lista.`);
+}
+const pendingWithoutEvents = Object.values(PENDING_MATCHES_WITHOUT_EVENTS).reduce((sum, n) => sum + n, 0);
 const goals = d.getCurrentSeasonGoalReconciliation();
-assert.equal(goals.goalsUnattributed, PENDING_SCORERS.length, `Há ${goals.goalsUnattributed} golo(s) sem marcador nos registos.`);
+assert.equal(goals.goalsUnattributed, PENDING_SCORERS.length + pendingWithoutEvents, `Há ${goals.goalsUnattributed} golo(s) sem marcador nos registos.`);
 
 console.log(`✓ Registos de jogo válidos e sincronizados (${warnings.length} avisos: \`npm run jogos -- validar\`).`);
