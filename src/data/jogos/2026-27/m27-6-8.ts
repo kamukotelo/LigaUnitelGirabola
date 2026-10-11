@@ -9,9 +9,13 @@ export default defineMatch({
   schedule: { date: '2026-10-10T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final da 6.ª jornada (28/09/2026)', stadiumException: 'Mapa final da 6.ª jornada (28/09/2026) marca o jogo no Estádio 11 de Novembro' },
   // Mapa da 6.ª jornada enviado a 28/09/2026: este jogo realiza-se no Estádio 11 de Novembro, e não no
   // Estádio 22 de Junho habitual do Kabuscorp.
-  // Resultado recebido a 11/10/2026: 1-1. Intervalo, minutos e marcadores por
-  // confirmar no relatório do árbitro; até lá o jogo fica sem eventos.
-  result: { status: 'finished', homeScore: 1, awayScore: 1, updatedAt: '2026-10-11T12:00:00+01:00' },
+  // Resultado recebido a 11/10/2026: 1-1 (intervalo 0-1). Golos de Camilo Mbule
+  // Ngongue «Bito» (Wiliete, n.º 28) aos 32' e de Bayala Nsimba (Kabuscorp, n.º 7) aos 55'.
+  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '0-1', updatedAt: '2026-10-11T12:00:00+01:00' },
+  events: [
+    { minute: 32, type: 'goal', team: 'away', player: 'Bito', number: 28, playerId: 'fifa-1jrxs05', detail: "32' (0-1)" },
+    { minute: 55, type: 'goal', team: 'home', player: 'Bayala', number: 7, playerId: 'fifa-1n3uhm6', detail: "55' (1-1)" },
+  ],
   // Nomeação de arbitragem e constituição das equipas (folha oficial da DCE/ANCAF, 10/10/2026).
   officials: { referee: 'Nelson da Silva', assistants: ['Evanildo Martins', 'Pedro Micolo'], fourth: 'Aldair Carmelino' },
   coaches: { home: 'Léo Neiva', away: 'Beto Bianchi' },

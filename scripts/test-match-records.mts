@@ -61,8 +61,7 @@ const pending = d.getMatchesForSeason(d.UPCOMING_SEASON_ID)
 assert.deepEqual(pending.sort(), [...PENDING_SCORERS].sort(), 'Golos sem marcador fora da lista de pendentes.');
 // Jogos cujo resultado chegou sem minutos nem marcadores: ficam sem eventos até
 // ao relatório do árbitro e todos os golos contam como por identificar.
-// m27-6-8 (Kabuscorp 1-1 Wiliete, 10/10): resultado recebido a 11/10/2026.
-const PENDING_MATCHES_WITHOUT_EVENTS: Record<string, number> = { 'm27-6-8': 2 };
+const PENDING_MATCHES_WITHOUT_EVENTS: Record<string, number> = {};
 for (const [id, count] of Object.entries(PENDING_MATCHES_WITHOUT_EVENTS)) {
   const record = d.getMatchRecord(id);
   assert.equal(record?.events?.length ?? 0, 0, `${id} já tem eventos: tirar da lista de jogos sem eventos.`);
