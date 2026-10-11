@@ -52,7 +52,9 @@ assert.equal(scorers.has('cuxixima-caala'), false, 'Cuxixima não marcou no Rela
 // m27-5-5 55': a fonte assina o golo a «Cláudio», alcunha que não consta do
 // plantel oficial do 1.º de Maio; sem camisola não há como ligar ao plantel.
 // m27-6-5 11' e 15': resultado recebido sem marcadores (aguarda o relatório).
-const PENDING_SCORERS = ["m27-5-2 95'", "m27-5-5 55'", "m27-6-5 11'", "m27-6-5 15'"];
+// m27-6-3 22' e 94' («Cláudio Sozinho», «Jesus Cristo») e m27-6-4 80' e 97'
+// («Kaba», «Robson»): marcadores fora dos plantéis inscritos, por confirmar.
+const PENDING_SCORERS = ["m27-5-2 95'", "m27-5-5 55'", "m27-6-5 11'", "m27-6-5 15'", "m27-6-3 22'", "m27-6-3 94'", "m27-6-4 80'", "m27-6-4 97'"];
 const pending = d.getMatchesForSeason(d.UPCOMING_SEASON_ID)
   .filter((m: { status: string }) => m.status === 'finished')
   .flatMap((m: { id: string }) => d.getMatchDetail(m).events
