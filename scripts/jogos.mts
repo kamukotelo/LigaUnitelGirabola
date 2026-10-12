@@ -143,7 +143,8 @@ async function publish() {
 
   title(`6/6 · Publicar em ${target}`);
   const allowed = /^(src\/data\/jogos\/|supabase\/seed\/)/;
-  const entries = git(['status', '--porcelain', '--untracked-files=all']).split('\n').filter(Boolean)
+  // Sem `git()`: o trim dele come o espaço inicial do estado (« M src/…») e o slice(3) cortava o caminho.
+  const entries = run('git', ['status', '--porcelain', '--untracked-files=all'], { quiet: true }).split('\n').filter(Boolean)
     .map((line) => line.slice(3).split(' -> ').pop()!.replace(/^"|"$/g, ''));
   const inScope = entries.filter((file) => allowed.test(file));
   const outOfScope = entries.filter((file) => !allowed.test(file));
