@@ -7,6 +7,8 @@ export default defineMatch({
   homeTeamId: 'lundasul',
   awayTeamId: 'cabinda',
   schedule: { date: '2026-10-11T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'Comunicado Oficial 012-DCE/ANCAF/2026 (09/10/2026): adiado por força maior para domingo, 11/10, 15:00' },
+  // Resultado recebido a 12/10/2026 (aguarda o relatório do árbitro).
+  result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-11T17:00:00+01:00' },
   // Nomeação de arbitragem recebida a 11/10/2026.
   officials: { referee: 'Sanda Mateus Miguel Kitu', assistants: ['Natarino António Soares', 'Nélson Lutumba Quiala'], fourth: 'Donaciano Mulumba' },
 });
