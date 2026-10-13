@@ -8,7 +8,7 @@ export default defineMatch({
   awayTeamId: 'bravos',
   schedule: { date: '2026-10-11T15:30:00+01:00', stadium: 'Estádio Municipal de Benguela', scheduleStatus: 'official', source: 'Mapa final da 6.ª jornada (28/09/2026)' },
   // Nomeação de arbitragem recebida a 11/10/2026.
-  officials: { referee: 'Ailton Jeovane Quissanga Carmelino', assistants: ['Ivanildo Meireles de Oliveira Sanches Lopes', 'Nery Domingos Pereira Amador da Silva'], fourth: 'Nuno Eduardo Sumbo' },
+  officials: { referee: 'Ailton Jeovane Quissanga Carmelino', assistants: ['Ivanildo Meirelles de Oliveira Sanches Lopes', 'Nery Domingos Pereira Amador da Silva'], fourth: 'Nuno Eduardo Sumbo' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (11/10/2026).
   // Posições e ligações ao plantel só onde fichas anteriores as confirmam.
   coaches: { home: 'Mavi Lopes', away: 'Sandro Mendes' },

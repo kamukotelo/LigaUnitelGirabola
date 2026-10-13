@@ -10,7 +10,7 @@ export default defineMatch({
   // Resultado recebido a 07/10/2026 (aguarda o relatório do árbitro).
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-07T17:47:00+01:00' },
   // Nomeação de arbitragem recebida a 06/10/2026.
-  officials: { referee: 'Edilson André', assistants: ['Joaquim Chiyo', 'Domingos Francisco'], fourth: 'Sabino de Carvalho' },
+  officials: { referee: 'Edilson André', assistants: ['Joaquim Chiyo', 'Domingos Francisco'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
   events: [
     { minute: 77, type: 'goal', team: 'home', player: 'M. Dala', playerId: 'melono-sagrada', detail: '1-0' },
   ],
