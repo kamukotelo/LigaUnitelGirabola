@@ -483,7 +483,14 @@ export default function MatchDetailClient({
         >
           {activeTab === 'resumo' && <SummaryTab detail={detail} />}
           {activeTab === 'estatisticas' && <StatsTab home={detail.homeStats} away={detail.awayStats} isFinished={isFinished} officialStatKeys={detail.officialStatKeys} />}
-          {activeTab === 'escalacoes' && (
+          {activeTab === 'escalacoes' && detail.lineupPublicFrom !== undefined && (
+            <p className="text-xs font-mono text-zinc-500 uppercase tracking-widest py-8 text-center">
+              O line up é publicado 1 hora antes do início do jogo, às{' '}
+              {new Date(detail.lineupPublicFrom).toLocaleTimeString('pt-PT', { timeZone: 'Africa/Luanda', hour: '2-digit', minute: '2-digit' })}
+              {' '}(hora de Luanda).
+            </p>
+          )}
+          {activeTab === 'escalacoes' && detail.lineupPublicFrom === undefined && (
             <>
               {!isFinished && !isLive && (
                 <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-4">

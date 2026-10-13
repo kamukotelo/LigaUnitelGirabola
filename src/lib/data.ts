@@ -16,6 +16,7 @@ import { MATCH_RECORDS_2026_27 } from '../data/jogos/2026-27';
 import { APPEARANCES_WITHOUT_LINEUP_2026_27 } from '../data/jogos/2026-27/ajustes';
 import { SEASON_DERIVED_STATS_2026_27 } from '../data/jogos/2026-27/derivados';
 import type { MatchRecord, MatchRecordLineupPlayer, SeasonDerivedStats } from '../data/jogos/tipos';
+import { isLineupPublic, lineupPublicFrom } from './lineup-embargo';
 
 export interface Team {
   id: string;
@@ -3661,6 +3662,8 @@ export interface MatchDetail {
   referee: string;
   homeCoach?: string;
   awayCoach?: string;
+  /** Line up ainda em embargo: instante (ms) em que passa a público (1 h antes do início). */
+  lineupPublicFrom?: number;
   manOfTheMatch?: { name: string; playerId?: string; rating: number; team: 'home' | 'away' };
 }
 
@@ -4487,8 +4490,10 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
 
 export function getMatchDetail(match: Match): MatchDetail {
   // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código.
-  const dbLineup = RUNTIME_DATA.lineups?.[match.id];
-  const publishedLineups = dbLineup ?? getRecordLineups(match);
+  // Antes de 1 h do início o line up não é público, mesmo que esteja carregado.
+  const lineupPublic = isLineupPublic(match);
+  const dbLineup = lineupPublic ? RUNTIME_DATA.lineups?.[match.id] : undefined;
+  const publishedLineups = lineupPublic ? dbLineup ?? getRecordLineups(match) : undefined;
   const homeLineup = reconcileLineupPlayers(match.homeTeamId, publishedLineups?.home ?? []);
   const awayLineup = reconcileLineupPlayers(match.awayTeamId, publishedLineups?.away ?? []);
   const homeNames = buildLineupNameIndex(publishedLineups?.home ?? [], homeLineup);
@@ -4523,8 +4528,9 @@ export function getMatchDetail(match: Match): MatchDetail {
     events,
     attendance: match.attendance ?? 0,
     referee: match.referee ?? getMatchOfficials(match).referee,
-    homeCoach: dbLineup?.homeCoach ?? PUBLISHED_MATCH_COACHES[match.id]?.home,
-    awayCoach: dbLineup?.awayCoach ?? PUBLISHED_MATCH_COACHES[match.id]?.away,
+    homeCoach: lineupPublic ? dbLineup?.homeCoach ?? PUBLISHED_MATCH_COACHES[match.id]?.home : undefined,
+    awayCoach: lineupPublic ? dbLineup?.awayCoach ?? PUBLISHED_MATCH_COACHES[match.id]?.away : undefined,
+    lineupPublicFrom: lineupPublic ? undefined : lineupPublicFrom(match.date),
     manOfTheMatch: undefined,
   };
 }

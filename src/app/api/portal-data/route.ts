@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import { unstable_cache } from 'next/cache';
 import { getNeonSql, isNeonConfigured } from '@/lib/neon';
 import { PORTAL_DATA_TAG, PORTAL_DATA_MAX_AGE_SECONDS } from '@/lib/portal-cache';
-import type { PortalData } from '@/lib/data';
+import { getMatchById, getMatchRecord, type PortalData } from '@/lib/data';
+import { isLineupPublic } from '@/lib/lineup-embargo';
 
 // GET /api/portal-data — instantâneo do conteúdo migrado para a BD (tabelas
 // ancaf_*), consumido no browser por PortalDataProvider. Cresce por vagas;
@@ -285,11 +286,25 @@ const getSnapshot = unstable_cache(buildSnapshot, ['portal-data-snapshot'], {
   revalidate: PORTAL_DATA_MAX_AGE_SECONDS,
 });
 
+// Line ups confirmados no painel só saem desta rota a partir de 1 h antes do
+// início do jogo. Filtra-se a cada pedido, fora da cache, para o line up
+// aparecer à hora certa e não só quando o instantâneo for recalculado.
+function withLineupEmbargo(snapshot: Snapshot, now = Date.now()): Snapshot {
+  const lineups = snapshot.data.lineups;
+  if (!lineups) return snapshot;
+  const visible = Object.fromEntries(Object.entries(lineups).filter(([matchId]) => {
+    const record = getMatchRecord(matchId);
+    const match = record ? { date: record.schedule.date, status: record.result?.status } : getMatchById(matchId);
+    return !match || isLineupPublic(match, now);
+  }));
+  return { ...snapshot, data: { ...snapshot.data, lineups: visible } };
+}
+
 // GET /api/portal-data — instantâneo em cache; recalculado quando o admin
 // publica (revalidatePortalData) ou ao fim de PORTAL_DATA_MAX_AGE_SECONDS.
 export async function GET() {
   try {
-    return NextResponse.json(await getSnapshot());
+    return NextResponse.json(withLineupEmbargo(await getSnapshot()));
   } catch {
     // Base de dados indisponível: o portal continua a funcionar com os dados
     // base de src/lib/data.ts. A falha não é guardada em cache.
