@@ -5,7 +5,7 @@
 
 delete from public.ancaf_team_staff where team_id in ('primeiromaio', 'wiliete', 'desphuila', 'dago', 'kabuscorp', 'lobito', 'fcluanda', 'libolo', 'caala', 'interclube', 'bravos', 'sagrada', 'lundasul', 'saosalvador', 'petro', 'cabinda');
 insert into public.ancaf_team_staff (team_id, name, role, nationality, ma_id, fifa_id, sort_rank) values
-  ('primeiromaio', 'Águas da Silva', 'Treinador principal', 'Angola', '000796M73', '1K0SAP5', 0),
+  ('primeiromaio', 'Mavi Lopes', 'Treinador principal', 'A confirmar', null, null, 0),
   ('primeiromaio', 'José Nguli Nahenda', 'Treinador de guarda-redes', 'Angola', '001229M84', '1KZG174', 1),
   ('primeiromaio', 'Zamba Victor', 'Treinador de guarda-redes', 'Angola', '002185M83', '1LJU067', 2),
   ('primeiromaio', 'Adirio Francisco Simoes', 'Preparador físico', 'Angola', '003010M86', '1MK9CA3', 3),
@@ -223,10 +223,10 @@ insert into public.ancaf_team_staff (team_id, name, role, nationality, ma_id, fi
   ('petro', 'Arcanjo Massuquina Mulanvo', 'Oficial da equipa', 'Angola', '003144M92', '1MU13Q0', 12),
   ('petro', 'Leandro Filipe Vieira e Silva', 'Oficial da equipa', 'Angola', '005330M94', '162EQ06', 13),
   ('petro', 'Bruno Miguel da Cruz Vicente', 'Diretor', 'Angola', '000383M78', '1JRT024', 14),
-  ('cabinda', 'Albertino Pongo Sala', 'Treinador adjunto', 'Angola', '007730M63', '1TFP4D8', 0),
-  ('cabinda', 'Emanuel Mbango Nguba', 'Fisioterapeuta', 'Angola', '007728M65', '1TFP4A9', 1),
-  ('cabinda', 'Isidro José Segunda', 'Gestor da equipa', 'Angola', '007729M65', '1TFP4C3', 2),
-  ('cabinda', 'Alves Simão Afonso Lede', 'Oficial da equipa', 'Angola', '007727M75', '1TFP483', 3),
-  ('cabinda', 'Luciano Capoco', 'Função por confirmar', 'Angola', '001088M82', '1K2QZY0', 4),
+  ('cabinda', 'Luciano Capoco', 'Treinador principal', 'Angola', '001088M82', '1K2QZY0', 0),
+  ('cabinda', 'Albertino Pongo Sala', 'Treinador adjunto', 'Angola', '007730M63', '1TFP4D8', 1),
+  ('cabinda', 'Emanuel Mbango Nguba', 'Fisioterapeuta', 'Angola', '007728M65', '1TFP4A9', 2),
+  ('cabinda', 'Isidro José Segunda', 'Gestor da equipa', 'Angola', '007729M65', '1TFP4C3', 3),
+  ('cabinda', 'Alves Simão Afonso Lede', 'Oficial da equipa', 'Angola', '007727M75', '1TFP483', 4),
   ('cabinda', 'Zola Nseca', 'Função por confirmar', 'Angola', '000515M75', '1JV2NI3', 5),
   ('cabinda', 'Mona 2', 'Função por confirmar', 'Angola', '000537M93', '1JWTWN4', 6);
