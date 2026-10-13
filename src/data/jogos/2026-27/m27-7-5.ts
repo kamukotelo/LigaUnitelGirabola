@@ -7,6 +7,12 @@ export default defineMatch({
   homeTeamId: 'petro',
   awayTeamId: 'kabuscorp',
   schedule: { date: '2026-10-13T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos das jornadas 6 a 10, revisto a 01/10/2026' },
+  // Resultado recebido a 13/10/2026 (ficha FCMS, «Finished»): 1-0, golo de
+  // Jonathan Toro (Petro, n.º 8) aos 14'.
+  result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-10-13T19:15:00+01:00' },
+  events: [
+    { minute: 14, type: 'goal', team: 'home', player: 'Toro', number: 8, playerId: 'jonathan-toro', detail: "14' (1-0)" },
+  ],
   // Nomeação de arbitragem recebida a 12/10/2026.
   officials: { referee: 'Edson António Esoko', assistants: ['Jerson Emiliano dos Santos', 'Ivanildo Meirelles de Oliveira Sanches Lopes'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (13/10/2026).

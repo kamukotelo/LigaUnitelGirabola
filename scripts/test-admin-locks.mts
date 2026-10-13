@@ -7,7 +7,12 @@ import {
   isMatchClosed, screenCalendarOverrides, stripLockedCalendarFields, validCorrectionReason,
 } from '../src/lib/admin-match-locks.ts';
 
-const upcoming = 'm27-7-5';
+// Um jogo com registo ainda por disputar (muda à medida que a época avança).
+const upcoming = getMatchesForSeason(UPCOMING_SEASON_ID).find((match) => {
+  const record = getMatchRecord(match.id);
+  return record && !record.result;
+})?.id;
+assert.ok(upcoming, 'nenhum jogo por disputar nos registos');
 const closed = getMatchesForSeason(UPCOMING_SEASON_ID).find((match) => getMatchRecord(match.id)?.result?.status === 'finished');
 assert.ok(closed, 'nenhum jogo encerrado nos registos');
 assert.equal(isMatchClosed(closed.id), true);
