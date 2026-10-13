@@ -6,5 +6,5 @@ export default defineMatch({
   round: 10,
   homeTeamId: 'petro',
   awayTeamId: 'primeiromaio',
-  schedule: { date: '2026-11-08T17:10:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  schedule: { date: '2026-11-08T17:15:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos transmitidos pela Zsports, jornadas 6 a 10, versão corrigida (recebida a 13/10/2026): 17:15' },
 });
