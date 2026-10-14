@@ -134,11 +134,39 @@ const SAGRADA_PHOTO_IDS = [
   'fifa-1jrv034',      // #34 Kandumba
 ] as const;
 
+// Wiliete — fotos enviadas pelo clube a 08–09/10/2026, ligadas pela «Lista
+// nominal atletas WSCB-SAD» (07/10/2026). As fotos sem nome no ficheiro só
+// entram quando o número se lê nos calções (#1, #6, #13, #32); as restantes
+// esperam que o clube as identifique.
+const WILIETE_PHOTO_IDS = [
+  'fifa-1pkwt84',         // #1 Nayan (GR)
+  'fifa-1jsrpl0',         // #5 Wiwi
+  'janderson-wiliete',    // #6 Janderson
+  'fifa-1jsjbh0',         // #7 Karanga
+  'fifa-1k39nk6',         // #8 Mule
+  'mabululu-wiliete',     // #9 Mabululu
+  'fifa-1jru7c5',         // #10 Mindinho
+  'fifa-1jsj8t3',         // #11 Gibelé
+  'fifa-1pvxht8',         // #13 Yano
+  'fifa-1jwu6z0',         // #17 Giovani
+  'bello-lukman-wiliete', // #18 Belo (Lukman Bello)
+  'fifa-1l05v38',         // #19 Kaká
+  'fifa-1jwu0l8',         // #25 Ning
+  'fifa-1pnmj53',         // #27 Júnior (Goiano)
+  'fifa-1jrxs05',         // #28 Bito
+  'fifa-1qvfjm7',         // #30 Sidibé
+  'fifa-1m95s64',         // #32 Célio
+  'fifa-1kzr1v5',         // #33 Quare
+  'fifa-1k36hf0',         // #34 César (Cangué)
+  'valter-monteiro',      // #35 Valter
+] as const;
+
 export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
   ...KABUSCORP_PHOTO_IDS.map((id) => [id, `/players/kabuscorp/${id}.jpg`]),
   ...LUNDA_SUL_PHOTO_IDS.map((id) => [id, `/players/lundasul/${id}.jpg`]),
   ...DAGO_PHOTO_IDS.map((id) => [id, `/players/dago/${id}.jpg`]),
   ...SAGRADA_PHOTO_IDS.map((id) => [id, `/players/sagrada/${id}.jpg`]),
+  ...WILIETE_PHOTO_IDS.map((id) => [id, `/players/wiliete/${id}.jpg`]),
 ]);
 
 /**
