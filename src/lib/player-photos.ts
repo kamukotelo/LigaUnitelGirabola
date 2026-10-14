@@ -161,12 +161,56 @@ const WILIETE_PHOTO_IDS = [
   'valter-monteiro',      // #35 Valter
 ] as const;
 
+// São Salvador do Kongo — fotos enviadas pelo clube a 14/10/2026 na ficha
+// «Clube Desportivo São Salvador do Kongo», ligadas pelo nome completo (a ficha
+// traz números diferentes dos inscritos para Tchutchu, Busquet e Artur). Sem
+// página no portal: Muanza (#37), Germano (#24), Paquetá (#36) e Adonai (#38).
+const SAO_SALVADOR_PHOTO_IDS = [
+  'fifa-1mubkp5', // #1 Kuanzambi (GR)
+  'fifa-1kz4h82', // #2 Zenilson (José Garcia)
+  'fifa-1t64mh7', // #3 Adriano
+  'fifa-1jzirz7', // #4 Gui (Manuel de Matos)
+  'fifa-1lih9v9', // #5 Feca
+  'fifa-1lih506', // #6 Bigo (Fernando Camuege)
+  'fifa-1k1sev5', // #7 Beni Papel (Batomene de Sousa)
+  'fifa-1k39my6', // #8 João Vala (João Vemba)
+  'fifa-1pny3g2', // #9 Geremias (Afonso Lukombo)
+  'fifa-1jrutw6', // #10 Ary
+  'fifa-1ljwbm7', // #11 Xavier
+  'fifa-1jtv5a6', // #12 Gelson (Francisco Mangala, GR)
+  'fifa-1lih5k4', // #13 Ramilton
+  'fifa-1ng0f78', // #14 Lando
+  'fifa-1px5zq4', // #15 Kelson (Pacheco Alfredo)
+  'fifa-1ljvyf9', // #16 Manucho (Manuel Vieira Almeida)
+  'fifa-1lih3r9', // #17 Luquinha
+  'fifa-1ljz672', // #18 Paulenta (Paulo Panda)
+  'fifa-1qpt743', // #19 Félix
+  'fifa-1ljvxk1', // #20 Kimuanga (Nginakanda Vicente)
+  'fifa-1k2pdb8', // #21 Samuel
+  'fifa-1k1sm82', // #22 Eduardo
+  'fifa-1nizqe4', // #23 Okita (Jonas Rodrigues)
+  'fifa-1sr5rk8', // #25 Wilson
+  'fifa-1k2pyw6', // #26 Anderson
+  'fifa-1k12nm6', // #27 Dino (Justino César)
+  'fifa-1thb252', // #28 Chinho (Constantino Domingos)
+  'fifa-1sd3tm3', // #29 Tchutchu (Rivaldo Pacheco)
+  'fifa-1swd8d7', // #30 Caetano
+  'fifa-1k29464', // #31 Mano (António Mateus, GR)
+  'fifa-1ljw6r1', // #32 Busquet (João Kuanzambi Lukombo Júnior)
+  'fifa-1lj6z32', // #33 MC (Lutonda Sebastião)
+  'fifa-1liwqf9', // #34 Artur
+  'fifa-1k2wue9', // #35 Moyo (Pedro Moyo, GR)
+] as const;
+
 export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
   ...KABUSCORP_PHOTO_IDS.map((id) => [id, `/players/kabuscorp/${id}.jpg`]),
   ...LUNDA_SUL_PHOTO_IDS.map((id) => [id, `/players/lundasul/${id}.jpg`]),
   ...DAGO_PHOTO_IDS.map((id) => [id, `/players/dago/${id}.jpg`]),
   ...SAGRADA_PHOTO_IDS.map((id) => [id, `/players/sagrada/${id}.jpg`]),
   ...WILIETE_PHOTO_IDS.map((id) => [id, `/players/wiliete/${id}.jpg`]),
+  ...SAO_SALVADOR_PHOTO_IDS.map((id) => [id, `/players/saosalvador/${id}.jpg`]),
+  // Beni Papel tem ainda um registo à parte nas fichas de jogo: é o #7 Batomene.
+  ['beni-papel-saosalvador', '/players/saosalvador/fifa-1k1sev5.jpg'],
 ]);
 
 /**
@@ -204,9 +248,27 @@ const LUNDA_SUL_STAFF_PHOTO_MA_IDS = [
   '000800M91', // Domingos Yeno «Max» — técnico de equipamentos
 ] as const;
 
+// São Salvador do Kongo — enviadas pelo clube a 14/10/2026. Sem foto: Eduardo
+// Bakadila (massagista) e Joaquim Matondo (team manager).
+const SAO_SALVADOR_STAFF_PHOTO_MA_IDS = [
+  '002256M84', // Domingos Silvano Cussanda «Silva» — treinador principal
+  '003178M94', // Salvador Cardoso — treinador adjunto
+  '003126M87', // Eduardo Mendes Marciano «Mendonça» — treinador adjunto
+  '000559M96', // Mota Sumbo — treinador de guarda-redes
+  '002279M84', // Manuel Sousa — preparador físico
+  '003167M96', // Miguel Santana Mário «Jeancy» — técnico de material
+  '002326M90', // António Morgado Tulomba — médico
+  '001208M66', // Marcos Pedro — massagista
+  '007268F83', // Matondo Nsamu — fisioterapeuta
+  '009030M73', // Manuel Moniz «Vici» — presidente de direção
+  '003162M82', // André Vuvu Marques — secretário-geral
+  '001327M98', // Cardoso Nunes Ferreira — director
+] as const;
+
 export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
   ...KABUSCORP_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/kabuscorp/${maId.toLowerCase()}.jpg`]),
   ...LUNDA_SUL_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/lundasul/${maId.toLowerCase()}.jpg`]),
+  ...SAO_SALVADOR_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/saosalvador/${maId.toLowerCase()}.jpg`]),
 ]);
 
 /**
@@ -235,6 +297,7 @@ export const CLUB_PRESIDENT_PHOTOS: Readonly<Record<string, string>> = {
   kabuscorp: STAFF_PHOTOS['001836M65'], // Bento dos Santos Kangamba — presidente de direção (foto nova, 08/10/2026)
   dago: '/presidents/dago.jpg',          // Gouveia de Sá Miranda (08/10/2026)
   lundasul: '/presidents/lundasul.jpg',  // Miguel da Silva «Ipwupwu» (08/10/2026)
+  saosalvador: STAFF_PHOTOS['009030M73'], // Manuel Moniz «Vici» (14/10/2026)
   // Por receber: petro, wiliete, desphuila, bravos, sagrada, interclube,
-  // libolo, lobito, saosalvador, cabinda, primeiromaio, caala, fcluanda.
+  // libolo, lobito, cabinda, primeiromaio, caala, fcluanda.
 };
