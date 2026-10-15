@@ -161,6 +161,40 @@ const WILIETE_PHOTO_IDS = [
   'valter-monteiro',      // #35 Valter
 ] as const;
 
+// Desportivo da Huíla — fotos enviadas pelo clube a 14/10/2026, com o nome de
+// guerra no ficheiro, ligadas pelo «Plantel Sénior Masculino 2026/27» do clube.
+// Sem página no portal: Ady (#3), Mendes (#9, Adulai Jaló), Jó (#11, José Jó),
+// Filó (#16), Mama (#17), Marcelo (#36) e Adó Jr (#37). Adó Pena (#27) sem foto.
+// Geovany (#35) não consta do plantel do clube, mas a foto veio com o nome.
+const HUILA_PHOTO_IDS = [
+  'ndulo-huila',            // #1 Ndulo (GR)
+  'katendi-huila',          // #2 Zinho (Nsambo Katendi)
+  'dos-santos-huila',       // #4 Santos
+  'joao-milagre-huila',     // #6 Jó (João Milagre)
+  'leonardo-isola-huila',   // #7 Cabibi
+  'mauricio-pedro-huila',   // #8 Djeizy
+  'mendes-huila',           // #10 Mendes (José Nzombo)
+  'passy-huila',            // #12 Passy (GR)
+  'lucas-elias-huila',      // #13 Ludy
+  'elias-huila',            // #15 Elias
+  'milton-suca-huila',      // #18 Milton
+  'fifa-1liyl15',           // #19 Casemiro (Alegria Safewangue)
+  'toyzinho-huila',         // #20 Toyzinho
+  'angelo-cangu-huila',     // #21 Tchutchu
+  'fifa-1m7ibh3',           // #22 Jenivaldo (GR)
+  'fifa-1k176v9',           // #23 Dino (Florentino António)
+  'fifa-1k140k2',           // #24 Tchanga (Isidro Tchiangalala Chingango)
+  'milagre-simba-huila',    // #25 Mira
+  'jeremias-huila',         // #26 Jeremias
+  'fifa-1pq2jf4',           // #28 Jamiro (José Augusto Camati)
+  'pequenino-castro-huila', // #29 Cagodó
+  'fifa-1mdngv9',           // #31 Leo (Diloy Valério)
+  'tchicundico-huila',      // #32 Costa (Constantino Tchitunda)
+  'fifa-1lniyj8',           // #33 Teté (Jorge Ismael Handanga José)
+  'joao-samazanga-huila',   // #34 Juny
+  'geovany-huila',          // #35 Geovany
+] as const;
+
 // São Salvador do Kongo — fotos enviadas pelo clube a 14/10/2026 na ficha
 // «Clube Desportivo São Salvador do Kongo», ligadas pelo nome completo (a ficha
 // traz números diferentes dos inscritos para Tchutchu, Busquet e Artur). Sem
@@ -235,6 +269,7 @@ export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntrie
   ...SAGRADA_PHOTO_IDS.map((id) => [id, `/players/sagrada/${id}.jpg`]),
   ...WILIETE_PHOTO_IDS.map((id) => [id, `/players/wiliete/${id}.jpg`]),
   ...FC_LUANDA_PHOTO_IDS.map((id) => [id, `/players/fcluanda/${id}.jpg`]),
+  ...HUILA_PHOTO_IDS.map((id) => [id, `/players/desphuila/${id}.jpg`]),
   ...SAO_SALVADOR_PHOTO_IDS.map((id) => [id, `/players/saosalvador/${id}.jpg`]),
   // Beni Papel tem ainda um registo à parte nas fichas de jogo: é o #7 Batomene.
   ['beni-papel-saosalvador', '/players/saosalvador/fifa-1k1sev5.jpg'],
@@ -275,6 +310,18 @@ const LUNDA_SUL_STAFF_PHOTO_MA_IDS = [
   '000800M91', // Domingos Yeno «Max» — técnico de equipamentos
 ] as const;
 
+// Desportivo da Huíla — enviadas pelo clube a 14/10/2026 com o «Plantel Sénior
+// Masculino 2026/27».
+const HUILA_STAFF_PHOTO_MA_IDS = [
+  '000857M71', // Paulo Torres — treinador principal
+  '000858M63', // Luís Borges — preparador físico
+  '000847M87', // Sidney Candeias — técnico de scouting
+  '000850M86', // Alfredo Calunganga «Chiwé» — técnico de scouting
+  '002968M71', // Zela Barroso Emanuel — técnico de scouting
+  '000832M66', // David Santos «Santos» — equipa médica
+  '000831M67', // João António «Jojó» — equipa médica
+] as const;
+
 // São Salvador do Kongo — enviadas pelo clube a 14/10/2026. Sem foto: Eduardo
 // Bakadila (massagista) e Joaquim Matondo (team manager).
 const SAO_SALVADOR_STAFF_PHOTO_MA_IDS = [
@@ -308,6 +355,7 @@ export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries
   ...LUNDA_SUL_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/lundasul/${maId.toLowerCase()}.jpg`]),
   ...FC_LUANDA_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/fcluanda/${maId.toLowerCase()}.jpg`]),
   ...SAO_SALVADOR_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/saosalvador/${maId.toLowerCase()}.jpg`]),
+  ...HUILA_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/desphuila/${maId.toLowerCase()}.jpg`]),
 ]);
 
 /**
@@ -338,6 +386,7 @@ export const CLUB_PRESIDENT_PHOTOS: Readonly<Record<string, string>> = {
   lundasul: '/presidents/lundasul.jpg',  // Miguel da Silva «Ipwupwu» (08/10/2026)
   fcluanda: STAFF_PHOTOS['007496M57'],   // Paulino Silva (14/10/2026)
   saosalvador: STAFF_PHOTOS['009030M73'], // Manuel Moniz «Vici» (14/10/2026)
-  // Por receber: petro, wiliete, desphuila, bravos, sagrada, interclube,
+  desphuila: '/presidents/desphuila.jpg', // Lucas Francisco Ndjongo (14/10/2026)
+  // Por receber: petro, wiliete, bravos, sagrada, interclube,
   // libolo, lobito, cabinda, primeiromaio, caala.
 };
