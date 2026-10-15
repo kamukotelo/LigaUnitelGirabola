@@ -202,12 +202,39 @@ const SAO_SALVADOR_PHOTO_IDS = [
   'fifa-1k2wue9', // #35 Moyo (Pedro Moyo, GR)
 ] as const;
 
+// FC Luanda — «Plantel FC Luanda – 1.ª volta» enviado pelo clube (14/10/2026),
+// com nome de guerra e número por foto, ligado pelo número das fichas de jogo.
+// Por ligar (número do clube ≠ número nas fichas): Viegas/2, Kelson/5,
+// Chinés/6, Paiza/24, Edmilson/25. Sem página no portal (fora do plantel
+// inscrito): Kaba/11, Tiago/18, Dollymenga/19, Yabala/20, Gabriel/21,
+// Franck/31, Francês/31.
+const FC_LUANDA_PHOTO_IDS = [
+  'fifa-1t6azn3', // #1 Cafula (GR)
+  'fifa-1qhqn96', // #4 Joel
+  'fifa-1liwnq8', // #7 Motivado
+  'fifa-1ljudk2', // #8 Cabeto
+  'fifa-1l11132', // #9 Chiquinho
+  'fifa-1l7lph0', // #10 Denilson
+  'fifa-1l7wk59', // #12 Patrício (GR)
+  'fifa-1t6b2z2', // #15 Rubem
+  'fifa-1m8xdu3', // #16 Noé
+  'fifa-1k2wth5', // #17 Filipe
+  'fifa-1l7w9k9', // #22 Deo (GR)
+  'fifa-1l064e1', // #23 Miguel
+  'fifa-1qw3z14', // #26 Célio
+  'fifa-1v0ca42', // #27 Batista
+  'fifa-1maldr2', // #28 Pedro
+  'fifa-1qw9vb1', // #30 Jaime
+  'fifa-1malhf8', // #31 Kano
+] as const;
+
 export const PLAYER_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
   ...KABUSCORP_PHOTO_IDS.map((id) => [id, `/players/kabuscorp/${id}.jpg`]),
   ...LUNDA_SUL_PHOTO_IDS.map((id) => [id, `/players/lundasul/${id}.jpg`]),
   ...DAGO_PHOTO_IDS.map((id) => [id, `/players/dago/${id}.jpg`]),
   ...SAGRADA_PHOTO_IDS.map((id) => [id, `/players/sagrada/${id}.jpg`]),
   ...WILIETE_PHOTO_IDS.map((id) => [id, `/players/wiliete/${id}.jpg`]),
+  ...FC_LUANDA_PHOTO_IDS.map((id) => [id, `/players/fcluanda/${id}.jpg`]),
   ...SAO_SALVADOR_PHOTO_IDS.map((id) => [id, `/players/saosalvador/${id}.jpg`]),
   // Beni Papel tem ainda um registo à parte nas fichas de jogo: é o #7 Batomene.
   ['beni-papel-saosalvador', '/players/saosalvador/fifa-1k1sev5.jpg'],
@@ -265,9 +292,21 @@ const SAO_SALVADOR_STAFF_PHOTO_MA_IDS = [
   '001327M98', // Cardoso Nunes Ferreira — director
 ] as const;
 
+// FC Luanda — enviadas pelo clube a 14/10/2026. Fora da lista de staff do
+// portal (sem licença na lista): Ruy Santos, Palinhas, Alminhas e Álvaro.
+const FC_LUANDA_STAFF_PHOTO_MA_IDS = [
+  '007496M57', // Paulino Silva — presidente
+  '007495M80', // Adriano Manuel Pedro — director do departamento de futebol
+  '007763M89', // Albino da Silva — técnico de licenciamento
+  '006322M75', // Matoso da Cruz — treinador de guarda-redes
+  '008953M90', // Sebastião Palavra Ngola — preparador físico
+  '008007F02', // Lourdes Sicato — fisioterapeuta
+] as const;
+
 export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries([
   ...KABUSCORP_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/kabuscorp/${maId.toLowerCase()}.jpg`]),
   ...LUNDA_SUL_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/lundasul/${maId.toLowerCase()}.jpg`]),
+  ...FC_LUANDA_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/fcluanda/${maId.toLowerCase()}.jpg`]),
   ...SAO_SALVADOR_STAFF_PHOTO_MA_IDS.map((maId) => [maId, `/staff/saosalvador/${maId.toLowerCase()}.jpg`]),
 ]);
 
@@ -297,7 +336,8 @@ export const CLUB_PRESIDENT_PHOTOS: Readonly<Record<string, string>> = {
   kabuscorp: STAFF_PHOTOS['001836M65'], // Bento dos Santos Kangamba — presidente de direção (foto nova, 08/10/2026)
   dago: '/presidents/dago.jpg',          // Gouveia de Sá Miranda (08/10/2026)
   lundasul: '/presidents/lundasul.jpg',  // Miguel da Silva «Ipwupwu» (08/10/2026)
+  fcluanda: STAFF_PHOTOS['007496M57'],   // Paulino Silva (14/10/2026)
   saosalvador: STAFF_PHOTOS['009030M73'], // Manuel Moniz «Vici» (14/10/2026)
   // Por receber: petro, wiliete, desphuila, bravos, sagrada, interclube,
-  // libolo, lobito, cabinda, primeiromaio, caala, fcluanda.
+  // libolo, lobito, cabinda, primeiromaio, caala.
 };
