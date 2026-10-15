@@ -9,6 +9,8 @@ export default defineMatch({
   awayTeamId: 'bravos',
   schedule: { date: '2026-09-20T15:00:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '0-2', updatedAt: '2026-09-20T17:45:00+01:00' },
+  // Equipa de arbitragem: «Oficiais da partida» do FCMS (jogo encerrado).
+  officials: { referee: 'José Álvaro Clemente Chitumba', assistants: ['António Emiliano Livongue', 'Pedro Nguelengue Alberto'], fourth: 'Ana Kuvundu Pumba', commissioner: 'Manuel da Silva Maria' },
   events: [
     { minute: 14, type: 'goal', team: 'away', player: 'Lito', number: 23, playerId: 'lito-bravos', detail: "14' (0-1)" },
     { minute: 29, type: 'goal', team: 'away', player: 'Ju Cabral', number: 8, playerId: 'ju-cabral-bravos', detail: "29' (0-2)" },
