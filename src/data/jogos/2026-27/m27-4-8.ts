@@ -10,6 +10,8 @@ export default defineMatch({
   awayTeamId: 'primeiromaio',
   schedule: { date: '2026-09-12T15:00:00+01:00', stadium: 'Estádio Municipal de Calulo', scheduleStatus: 'official' },
   result: { status: 'finished', homeScore: 2, awayScore: 1, halfTimeScore: '2-1', updatedAt: '2026-09-12T17:00:00+01:00' },
+  // Equipa de arbitragem: «Oficiais da partida» do FCMS (jogo encerrado).
+  officials: { referee: 'Aldair Quissanga Rodrigues Carmelino', assistants: ['Evandro Henrique Freitas da Rocha', 'Nelson Lutumba Quiala'], fourth: 'Augusto Sawambo Pedro', commissioner: 'Romualdo do Rosário Baltazar' },
   coaches: { home: 'Osvaldo Roque', away: 'Águas da Silva' },
   events: [
     { minute: 7, type: 'goal', team: 'away', player: 'Tchutchu', number: 22, playerId: 'fifa-1nb4bp9', detail: "7' (0-1)" },
