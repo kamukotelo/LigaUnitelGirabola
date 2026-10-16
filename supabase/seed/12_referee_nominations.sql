@@ -76,5 +76,6 @@ insert into public.ancaf_referee_nominations (season_id, round, match_id, refere
   ('2026-27', 7, 'm27-7-3', 'Miguel Tchissingui Augusto Américo', '["Bernardo Kunjuca Lúcio Serafim","Floriano Cawala"]'::jsonb, 'Custódio Roque Lote'),
   ('2026-27', 7, 'm27-7-6', 'Nelson João Milagre', '["Manuel Daniel Coelho","Hélder João Milagre"]'::jsonb, 'Alberto Henrique F. Bartolomeu'),
   ('2026-27', 7, 'm27-7-8', 'Nelson Agostinho da Silva', '["Lourenço Manuel João","Domingos Jacinto Francisco Ferreira"]'::jsonb, 'Ernesto Magalhães'),
-  ('2026-27', 7, 'm27-7-7', 'Sabino Garcez de Sousa de Carvalho', '["Evandro Henrique Freitas da Rocha","João Manuel Fula António"]'::jsonb, 'Garcia Luhamo Remos')
+  ('2026-27', 7, 'm27-7-7', 'Sabino Garcez de Sousa de Carvalho', '["Evandro Henrique Freitas da Rocha","João Manuel Fula António"]'::jsonb, 'Garcia Luhamo Remos'),
+  ('2026-27', 7, 'm27-7-2', 'Donaciano Mulumba', '["Alzandre Diógenes Muiamba Capola","Manuel Dulo Cabaça"]'::jsonb, 'Sanda Mateus Miguel Kitu')
 on conflict (match_id) do update set season_id = excluded.season_id, round = excluded.round, referee = excluded.referee, assistants = excluded.assistants, fourth_official = excluded.fourth_official;
