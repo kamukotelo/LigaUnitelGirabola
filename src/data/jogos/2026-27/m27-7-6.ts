@@ -6,6 +6,7 @@ export default defineMatch({
   round: 7,
   homeTeamId: 'cabinda',
   awayTeamId: 'lobito',
-  schedule: { date: '2026-10-17T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
-  // Estádio da lista oficial de estádios das equipas (28/09/2026).
+  // Estádio mudado do França N’dalu para o 22 de Junho a pedido recebido a 15/10/2026
+  // (Emanuel Valodia, encaminhado pelo administrador do portal). Data e hora sem alteração.
+  schedule: { date: '2026-10-17T15:00:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026); estádio: pedido de 15/10/2026', stadiumException: 'Jogo transferido para o Estádio 22 de Junho (pedido recebido a 15/10/2026)' },
 });
