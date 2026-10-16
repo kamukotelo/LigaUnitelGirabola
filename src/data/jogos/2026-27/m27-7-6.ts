@@ -9,4 +9,6 @@ export default defineMatch({
   // Estádio mudado do França N’dalu para o 22 de Junho a pedido recebido a 15/10/2026
   // (Emanuel Valodia, encaminhado pelo administrador do portal). Data e hora sem alteração.
   schedule: { date: '2026-10-17T15:00:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026); estádio: pedido de 15/10/2026', stadiumException: 'Jogo transferido para o Estádio 22 de Junho (pedido recebido a 15/10/2026)' },
+  // Nomeação de arbitragem recebida a 16/10/2026 (nomes completos das fichas anteriores).
+  officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Alberto Henrique F. Bartolomeu' },
 });
