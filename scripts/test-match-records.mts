@@ -54,7 +54,7 @@ assert.equal(scorers.has('cuxixima-caala'), false, 'Cuxixima não marcou no Rela
 // m27-6-5 11' e 15': resultado recebido sem marcadores (aguarda o relatório).
 // m27-6-3 22' e 94' («Cláudio Sozinho», «Jesus Cristo») e m27-6-4 80' e 97'
 // («Kaba», «Robson»): marcadores fora dos plantéis inscritos, por confirmar.
-const PENDING_SCORERS = ["m27-5-2 95'", "m27-5-5 55'", "m27-6-5 11'", "m27-6-5 15'", "m27-6-3 22'", "m27-6-3 94'", "m27-6-4 80'", "m27-6-4 97'", "m27-7-1 85'"];
+const PENDING_SCORERS = ["m27-5-2 95'", "m27-5-5 55'", "m27-6-5 11'", "m27-6-5 15'", "m27-6-3 22'", "m27-6-3 94'", "m27-6-4 80'", "m27-6-4 97'", "m27-7-1 85'", "m27-7-2 25'", "m27-7-7 83'", "m27-7-7 90'"];
 const pending = d.getMatchesForSeason(d.UPCOMING_SEASON_ID)
   .filter((m: { status: string }) => m.status === 'finished')
   .flatMap((m: { id: string }) => d.getMatchDetail(m).events
