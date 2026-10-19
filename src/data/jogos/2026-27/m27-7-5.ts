@@ -12,6 +12,15 @@ export default defineMatch({
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-10-13T19:15:00+01:00' },
   events: [
     { minute: 14, type: 'goal', team: 'home', player: 'Toro', number: 8, playerId: 'jonathan-toro', detail: "14' (1-0)" },
+    // Substituições e cartões do Petro recebidos a 19/10/2026 (sem dados do Kabuscorp).
+    { minute: 38, type: 'yellow', team: 'home', player: 'Jorge Pereira', number: 20, playerId: 'jorge-pereira' },
+    { minute: 44, type: 'yellow', team: 'home', player: 'Berna', number: 13, playerId: 'berna' },
+    { minute: 59, type: 'sub', team: 'home', player: 'Ivan Cavaleiro', number: 7, playerId: 'ivan-cavaleiro', playerOut: 'Berna' },
+    { minute: 68, type: 'sub', team: 'home', player: 'Mário Balbúrdia', number: 6, playerId: 'mario-balburdia', playerOut: 'Toro' },
+    { minute: 68, type: 'sub', team: 'home', player: 'Aparício', number: 10, playerId: 'pedro-aparicio', playerOut: 'Tiago Azulão' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Hélder Costa', number: 11, playerId: 'helder-costa', playerOut: 'Ivan Cavaleiro' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis', playerOut: 'Depú' },
+    { minute: 89, type: 'yellow', team: 'home', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis' },
   ],
   // Nomeação de arbitragem recebida a 12/10/2026.
   officials: { referee: 'Edson António Esoko', assistants: ['Jerson Emiliano dos Santos', 'Ivanildo Meirelles de Oliveira Sanches Lopes'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
