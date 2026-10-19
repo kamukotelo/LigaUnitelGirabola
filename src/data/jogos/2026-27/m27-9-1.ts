@@ -6,5 +6,5 @@ export default defineMatch({
   round: 9,
   homeTeamId: 'kabuscorp',
   awayTeamId: 'caala',
-  schedule: { date: '2026-11-01T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Cartaz oficial da 9.ª jornada, recebido a 29/09/2026', stadiumException: 'Jogo marcado para o Estádio França N’dalu no cartaz oficial (29/09/2026)' },
+  schedule: { date: '2026-11-01T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Cartaz oficial da 9.ª jornada (29/09/2026); hora: mapa corrigido da Zsports, jornadas 6 a 10 (13/10/2026), 15:00', stadiumException: 'Jogo marcado para o Estádio França N’dalu no cartaz oficial (29/09/2026)' },
 });
