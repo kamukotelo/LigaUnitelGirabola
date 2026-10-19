@@ -7,8 +7,8 @@ export default defineMatch({
   homeTeamId: 'saosalvador',
   awayTeamId: 'primeiromaio',
   schedule: { date: '2026-10-18T15:00:00+01:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  // Resultado conferido com o Relatório do Árbitro n.º 54 (19/10/2026).
   result: { status: 'finished', homeScore: 2, awayScore: 1, halfTimeScore: '1-0', updatedAt: '2026-10-19T21:00:00+01:00' },
-  officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['Evandro Henrique Freitas da Rocha', 'João Manuel Fula António'], fourth: 'Garcia Luhamo Remos', commissioner: 'Dinilson Gourgel Ferreira de Almeida' },
   events: [
     // Golos, cartões e substituições do Relatório do Árbitro n.º 54 (ANCAF), conferido a 19/10/2026.
     { minute: 43, type: 'yellow', team: 'home', player: 'Artur Firmino', number: 34, playerId: 'fifa-1liwqf9', detail: 'Comportamento antidesportivo' },
@@ -78,6 +78,8 @@ export default defineMatch({
       { name: 'Joaquim Tchingombe', number: 56, position: 'GK', isStarter: false, playerId: 'fifa-1nb4dq1' },
     ],
   },
+  // Nomeação de arbitragem recebida a 16/10/2026 (nomes completos das fichas anteriores).
+  officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['Evandro Henrique Freitas da Rocha', 'João Manuel Fula António'], fourth: 'Garcia Luhamo Remos', commissioner: 'Dinilson Gourgel Ferreira de Almeida' },
   // O mapa final da ANCAF (28/09/2026) escreve «Domingo, 17/10», mas 17/10 é
   // sábado; a data confirmada é domingo, 18/10.
 });

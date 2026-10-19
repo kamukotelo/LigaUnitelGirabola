@@ -8,9 +8,11 @@ export default defineMatch({
   awayTeamId: 'desphuila',
   // Sem Zsports: fora da lista de jogos transmitidos pela Zsports da 6.ª à 10.ª jornada,
   // recebida a 12/10/2026 (o mapa de 28/09/2026 indicava Zsports). Fica na Rádio 5.
-  schedule: { date: '2026-10-18T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  // Hora de início 15:00 segundo o Relatório do Árbitro n.º 55 (19/10/2026); o mapa
+  // indicava 15:30.
+  schedule: { date: '2026-10-18T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026); hora: Relatório do Árbitro n.º 55 (19/10/2026)' },
+  // Resultado conferido com o Relatório do Árbitro n.º 55 (19/10/2026).
   result: { status: 'finished', homeScore: 0, awayScore: 2, halfTimeScore: '0-1', attendance: 1000, updatedAt: '2026-10-19T21:00:00+01:00' },
-  officials: { referee: 'Donaciano Mulumba', assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'], fourth: 'Sanda Mateus Miguel Kitu', commissioner: 'Henrique Domingos Bernardo da Rocha' },
   events: [
     // Golos, cartões e substituições do Relatório do Árbitro n.º 55 (ANCAF), conferido a 19/10/2026.
     { minute: 18, type: 'yellow', team: 'away', player: 'Ludy', number: 13, playerId: 'lucas-elias-huila', detail: 'impedir um ataque prometedor a equipa adversária, ao passar uma rasteira ao jogador adversário' },
@@ -77,4 +79,6 @@ export default defineMatch({
       { name: 'Diloy Valerio', number: 31, position: 'FWD', isStarter: false, playerId: 'fifa-1mdngv9' },
     ],
   },
+  // Nomeação de arbitragem recebida a 16/10/2026 (nomes completos das fichas anteriores).
+  officials: { referee: 'Donaciano Mulumba', assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'], fourth: 'Sanda Mateus Miguel Kitu', commissioner: 'Henrique Domingos Bernardo da Rocha' },
 });
