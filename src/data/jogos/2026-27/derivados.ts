@@ -140,7 +140,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     'kibuata': { yellow: 2, red: 0 },
     'kinito': { yellow: 1, red: 0 },
     'lisneu-caala': { yellow: 1, red: 0 },
-    'lucas-elias-huila': { yellow: 2, red: 0 },
+    'lucas-elias-huila': { yellow: 4, red: 1 },
     'luciano-capoco-cabinda': { yellow: 1, red: 0 },
     'luyeye-cabinda': { yellow: 2, red: 0 },
     'magrinho': { yellow: 1, red: 0 },
