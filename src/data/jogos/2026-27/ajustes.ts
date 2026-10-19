@@ -8,5 +8,6 @@
  * não podem ser contadas a partir do registo). Somam às presenças calculadas.
  */
 export const APPEARANCES_WITHOUT_LINEUP_2026_27: Readonly<Record<string, number>> = {
-  'fifa-1jrku39': 1, // Mankoka Afonso (Kabuscorp SC)
+  // Mankoka Afonso (Kabuscorp SC) saiu a 19/10/2026: os jogos do Kabuscorp passaram
+  // a ter escalação dos Relatórios do Árbitro n.º 14 e 31.
 };

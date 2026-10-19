@@ -9,11 +9,33 @@ export default defineMatch({
   schedule: { date: '2026-10-09T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'DCE/ANCAF, 05/10/2026: sexta-feira, 09/10, 15:30, Estádio 22 de Junho', stadiumException: 'Jogo marcado pela DCE/ANCAF para o Estádio 22 de Junho (05/10/2026)' },
   // Resultado recebido a 09/10/2026; houve um cartão vermelho aos 50' (equipa e
   // jogador por confirmar no relatório do árbitro).
-  result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-09T17:30:00+01:00' },
+  result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-19T21:00:00+01:00' },
   // Nomeação de arbitragem recebida a 09/10/2026.
-  officials: { referee: 'António Caluassi Dungula', assistants: ['Victorino Nangolo Dungula', 'Zacarias Chivanja Calembe'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
+  officials: { referee: 'António Caluassi Dungula', assistants: ['Victorino Nangolo Dungula', 'Zacarias Chivanja Calembe'], fourth: 'Sabino Garcez de Sousa de Carvalho', commissioner: 'Mbunga Nkazi' },
+  events: [
+    // Golos, cartões e substituições do Relatório do Árbitro n.º 41 (ANCAF), conferido a 19/10/2026.
+    { minute: 31, type: 'yellow', team: 'home', player: 'Vanilson', number: 17, playerId: 'vanilson', detail: 'Jogo negligente' },
+    { minute: 37, type: 'yellow', team: 'away', player: 'Lamine Moro', number: 18, detail: 'Falta táctica' },
+    { minute: 49, type: 'yellow', team: 'home', player: 'Vanilson', number: 17, playerId: 'vanilson', detail: 'Falta táctica puxando ostensivamente o adversário' },
+    { minute: 49, type: 'red', team: 'home', player: 'Vanilson', number: 17, playerId: 'vanilson', detail: 'Segundo amarelo' },
+    { minute: 50, type: 'yellow', team: 'away', player: 'Benvindo', number: 4, playerId: 'fifa-1jz4pi8', detail: 'Pisou de forma negligente o adversário' },
+    { minute: 65, type: 'sub', team: 'home', player: 'Ivan Cavaleiro', number: 7, playerId: 'ivan-cavaleiro', playerOut: 'Hélder Costa' },
+    { minute: 65, type: 'sub', team: 'home', player: 'Deybi Flores', number: 12, playerId: 'deybi-flores', playerOut: 'Aparício' },
+    { minute: 65, type: 'sub', team: 'home', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis', playerOut: 'Jorge Pereira' },
+    { minute: 74, type: 'sub', team: 'home', player: 'Vidinho', number: 18, playerId: 'vidinho', playerOut: 'Hossi' },
+    { minute: 74, type: 'sub', team: 'away', player: 'Bebo', number: 6, playerId: 'fifa-1kz4es4', playerOut: 'Kuxixima' },
+    { minute: 79, type: 'sub', team: 'away', player: 'Putchú', number: 21, playerId: 'fifa-1jzhzh1', playerOut: 'Yano' },
+    { minute: 82, type: 'sub', team: 'home', player: 'Tiago Azulão', number: 26, playerId: 'tiago-azulao', playerOut: 'Depú' },
+    { minute: 83, type: 'yellow', team: 'home', player: 'Carlos Eduardo Maurício Pacheco', detail: 'Oficial de equipa · Protestos' },
+    { minute: 84, type: 'sub', team: 'away', player: 'Aisson', number: 10, playerId: 'fifa-1jwgzb2', playerOut: 'Lamine Moro' },
+    { minute: 87, type: 'yellow', team: 'away', player: 'Gabriel Pacheco de Sousa', detail: 'Team manager · Protestos' },
+    { minute: 90, type: 'yellow', team: 'away', player: 'Neidy Bicho', number: 23, playerId: 'lisneu-caala', detail: 'Jogo perigoso' },
+    { minute: 92, type: 'sub', team: 'away', player: 'Bito', number: 17, playerId: 'fifa-1l96dj1', playerOut: 'Benvindo', detail: "90'+2" },
+    { minute: 92, type: 'sub', team: 'away', player: 'Vale', number: 2, playerId: 'fifa-1t647t5', playerOut: 'Manucho', detail: "90'+2" },
+  ],
   // Constituição das equipas (folha oficial da DCE/ANCAF, 09/10/2026, versão corrigida).
   coaches: { home: 'João Pedro Sousa', away: 'Artur Correia' },
+  // Conferidas com o Relatório do Árbitro n.º 41 (19/10/2026).
   lineups: {
     home: [
       { name: 'Hugo Marques', number: 1, position: 'GK', isStarter: true, playerId: 'hugo-marques' },
@@ -27,13 +49,13 @@ export default defineMatch({
       { name: 'Kinito', number: 24, position: 'DEF', isStarter: true, playerId: 'kinito' },
       { name: 'Hossi', number: 27, position: 'DEF', isStarter: true, playerId: 'antonio-hossi' },
       { name: 'Depú', number: 29, position: 'FWD', isStarter: true, playerId: 'depu' },
-      { name: 'Neblú', number: 22, position: 'GK', isStarter: false, playerId: 'neblu' },
       { name: 'Léo Bolgado', number: 5, position: 'DEF', isStarter: false, playerId: 'leo-bolgado' },
       { name: 'Ivan Cavaleiro', number: 7, position: 'FWD', isStarter: false, playerId: 'ivan-cavaleiro' },
       { name: 'Toro', number: 8, position: 'MID', isStarter: false, playerId: 'jonathan-toro' },
       { name: 'Deybi Flores', number: 12, position: 'MID', isStarter: false, playerId: 'deybi-flores' },
       { name: 'Berna', number: 13, position: 'DEF', isStarter: false, playerId: 'berna' },
       { name: 'Vidinho', number: 18, position: 'DEF', isStarter: false, playerId: 'vidinho' },
+      { name: 'Neblú', number: 22, position: 'GK', isStarter: false, playerId: 'neblu' },
       { name: 'Tiago Reis', number: 23, position: 'FWD', isStarter: false, playerId: 'tiago-reis' },
       { name: 'Tiago Azulão', number: 26, position: 'FWD', isStarter: false, playerId: 'tiago-azulao' },
     ],
@@ -49,7 +71,6 @@ export default defineMatch({
       { name: 'Neidy Bicho', number: 23, position: 'MID', isStarter: true, playerId: 'lisneu-caala' },
       { name: 'Manucho', number: 27, position: 'FWD', isStarter: true, playerId: 'fifa-1r8lp51' },
       { name: 'Yano', number: 38, isStarter: true, playerId: 'yano-caala' },
-      { name: 'Landú', number: 22, position: 'GK', isStarter: false, playerId: 'fifa-1k002p8' },
       { name: 'Vale', number: 2, position: 'DEF', isStarter: false, playerId: 'fifa-1t647t5' },
       { name: 'Bebo', number: 6, position: 'MID', isStarter: false, playerId: 'fifa-1kz4es4' },
       { name: 'C. Sozinho', number: 8, position: 'MID', isStarter: false, playerId: 'fifa-1k0rem6' },
@@ -57,6 +78,7 @@ export default defineMatch({
       { name: 'Bito', number: 17, position: 'FWD', isStarter: false, playerId: 'fifa-1l96dj1' },
       { name: 'Be Ngueve', number: 19, position: 'MID', isStarter: false, playerId: 'fifa-1lda172' },
       { name: 'Putchú', number: 21, position: 'DEF', isStarter: false, playerId: 'fifa-1jzhzh1' },
+      { name: 'Landú', number: 22, position: 'GK', isStarter: false, playerId: 'fifa-1k002p8' },
       { name: 'Félix II', number: 33, position: 'FWD', isStarter: false, playerId: 'fifa-1uy6ar6' },
     ],
   },

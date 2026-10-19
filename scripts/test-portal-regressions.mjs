@@ -176,7 +176,9 @@ assert.doesNotMatch(derived, /id: 'cuxixima-caala'/, 'Cuxixima não marcou no Re
 assert.match(derived, /id: 'fifa-1jz4pi8'[^\n]*goals: 2,/);
 assert.match(record('m27-4-1'), /officials: \{ referee: 'Paulo Sérgio Moreira'[^\n]*commissioner: 'Manuel André António'/);
 assert.match(publishedCalendar, /"id": "m27-4-3"[\s\S]*?"homeScore": 2[\s\S]*?"awayScore": 0[\s\S]*?"halfTimeScore": "2-0"[\s\S]*?"status": "finished"/);
-assert.match(record('m27-3-8'), /home: \{ corners: 1, yellowCards: 6 \},\s*away: \{ corners: 0, yellowCards: 3 \}/);
+// Amarelos conforme o Relatório do Árbitro n.º 21 (conferido a 19/10/2026): 5 do Lobito
+// e 5 do 1.º de Maio, contando o 2.º amarelo de Nixon (90'+3).
+assert.match(record('m27-3-8'), /home: \{ corners: 1, yellowCards: 5 \},\s*away: \{ corners: 0, yellowCards: 5 \}/);
 
 // 4.ª jornada · FC Cabinda 1-1 CD 1.º de Agosto (09/09/2026, Estádio França Ndalu).
 assert.match(record('m27-4-5'), /result: \{ status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-0'/);

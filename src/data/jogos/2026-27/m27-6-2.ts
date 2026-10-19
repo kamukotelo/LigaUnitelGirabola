@@ -9,15 +9,28 @@ export default defineMatch({
   schedule: { date: '2026-10-11T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final da 6.ª jornada (28/09/2026)' },
   // A Académica recebe no Estádio Nacional de Ombaka (indicação de 28/09/2026).
   // Nomeação de arbitragem recebida a 11/10/2026.
-  officials: { referee: 'Gilberto Bernardino Kativa', assistants: ['Estanislau Guedes Tavares Muluta Prata', 'Jeremias Sessenta Cafussa'], fourth: 'Flamel Victorino Matos' },
+  officials: { referee: 'Gilberto Bernardino Kativa', assistants: ['Estanislau Guedes Tavares Muluta Prata', 'Jeremias Sessenta Cafussa'], fourth: 'Flamel Victorino Matos', commissioner: 'Júlio Gonçalves da Silva Lemos' },
   // Resultado recebido a 11/10/2026 (aguarda o relatório do árbitro).
-  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-0', updatedAt: '2026-10-11T17:00:00+01:00' },
+  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-0', attendance: 500, updatedAt: '2026-10-19T21:00:00+01:00' },
   events: [
+    // Golos, cartões e substituições do Relatório do Árbitro n.º 45 (ANCAF), conferido a 19/10/2026.
     { minute: 7, type: 'goal', team: 'home', player: 'António', number: 19, playerId: 'antonio-lobito', detail: '1-0' },
-    { minute: 81, type: 'goal', team: 'away', player: 'Obed', number: 14, playerId: 'obed-dago', detail: '1-1' },
+    { minute: 34, type: 'yellow', team: 'home', player: 'Januário', number: 7, playerId: 'januario-lobito', detail: 'Rasteirou o seu adversário' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Mabilson', number: 7, playerId: 'mabilson-dago', playerOut: 'Félix Bulaya' },
+    { minute: 57, type: 'yellow', team: 'away', player: 'Dagó', number: 17, playerId: 'dago-tshibamba', detail: 'Comportamento antidesportivo' },
+    { minute: 60, type: 'sub', team: 'away', player: 'Obed', number: 14, playerId: 'obed-dago', playerOut: 'Macaia' },
+    { minute: 70, type: 'sub', team: 'home', player: 'Luís Panda', number: 31, playerId: 'fifa-1l60xh8', playerOut: 'Valério' },
+    { minute: 74, type: 'sub', team: 'away', player: 'Clíver', number: 18, playerId: 'cliver-dago', playerOut: 'Mabelé' },
+    { minute: 74, type: 'sub', team: 'away', player: 'Tombé', number: 20, playerId: 'tombe-dago', playerOut: 'Fernando' },
+    { minute: 80, type: 'goal', team: 'away', player: 'Obed', number: 14, playerId: 'obed-dago', detail: '1-1' },
+    { minute: 81, type: 'sub', team: 'home', player: 'João Chimema', number: 37, playerOut: 'Januário' },
+    { minute: 81, type: 'sub', team: 'home', player: 'Vidal', number: 20, playerOut: 'Quiteque' },
+    { minute: 86, type: 'yellow', team: 'home', player: 'Vidal', number: 20, detail: 'Agarrar o seu adversário' },
+    { minute: 92, type: 'sub', team: 'home', player: 'Elieve', number: 9, playerOut: 'António', detail: "90'+2" },
   ],
   // Constituição das equipas (folha oficial da DCE/ANCAF, 11/10/2026).
   coaches: { home: 'Silvestre Pelé', away: 'Filipe Nzanza' },
+  // Conferidas com o Relatório do Árbitro n.º 45 (19/10/2026).
   lineups: {
     home: [
       { name: 'Muhango', number: 12, position: 'GK', isStarter: true, playerId: 'guilherme-lobito' },
@@ -27,18 +40,18 @@ export default defineMatch({
       { name: 'Januário', number: 7, position: 'MID', isStarter: true, playerId: 'januario-lobito' },
       { name: 'Quiteque', number: 8, position: 'MID', isStarter: true, playerId: 'quiteque-lobito' },
       { name: 'Calela', number: 13, position: 'DEF', isStarter: true, playerId: 'fifa-1jrj1l5' },
-      { name: 'Guilherme', number: 18, isStarter: true },
+      { name: 'Guilherme', number: 18, position: 'DEF', isStarter: true, playerId: 'fifa-1pu18x2' },
       { name: 'António', number: 19, position: 'FWD', isStarter: true, playerId: 'antonio-lobito' },
       { name: 'Farrada', number: 26, position: 'DEF', isStarter: true, playerId: 'fifa-1nc8yh3' },
       { name: 'Valério', number: 29, position: 'MID', isStarter: true, playerId: 'valerio-lobito' },
-      { name: 'Sebastião', number: 30, isStarter: false },
       { name: 'Joel', number: 2, position: 'DEF', isStarter: false, playerId: 'joel-lobito' },
       { name: 'Elieve', number: 9, isStarter: false },
       { name: 'Florentino', number: 11, position: 'FWD', isStarter: false, playerId: 'kaporal' },
       { name: 'Vidal', number: 20, isStarter: false },
       { name: 'Jorge', number: 28, position: 'DEF', isStarter: false, playerId: 'jorge-28-lobito' },
+      { name: 'Sebastião', number: 30, isStarter: false },
       { name: 'Luís Panda', number: 31, position: 'MID', isStarter: false, playerId: 'fifa-1l60xh8' },
-      { name: 'Didi Craque', number: 32, isStarter: false },
+      { name: 'Didi Craque', number: 32, position: 'MID', isStarter: false, playerId: 'fifa-1ndemr2' },
       { name: 'João Chimema', number: 37, isStarter: false },
     ],
     away: [
@@ -53,7 +66,6 @@ export default defineMatch({
       { name: 'Macaia', number: 16, position: 'DEF', isStarter: true, playerId: 'macaia-dago' },
       { name: 'Dagó', number: 17, position: 'FWD', isStarter: true, playerId: 'dago-tshibamba' },
       { name: 'Félix Bulaya', number: 28, position: 'DEF', isStarter: true, playerId: 'bulaya-dago' },
-      { name: 'Anselmo', number: 22, position: 'GK', isStarter: false, playerId: 'anselmo-dago' },
       { name: 'Bruno', number: 6, position: 'FWD', isStarter: false, playerId: 'bruno-dago' },
       { name: 'Mabilson', number: 7, position: 'MID', isStarter: false, playerId: 'mabilson-dago' },
       { name: 'Obed', number: 14, position: 'FWD', isStarter: false, playerId: 'obed-dago' },
@@ -61,6 +73,7 @@ export default defineMatch({
       { name: 'Paxe', number: 19, isStarter: false, playerId: 'fifa-1pxu511' },
       { name: 'Tombé', number: 20, position: 'MID', isStarter: false, playerId: 'tombe-dago' },
       { name: 'Paulo', number: 21, isStarter: false },
+      { name: 'Anselmo', number: 22, position: 'GK', isStarter: false, playerId: 'anselmo-dago' },
       { name: 'Luciano', number: 25, isStarter: false, playerId: 'fifa-1v12ek6' },
     ],
   },

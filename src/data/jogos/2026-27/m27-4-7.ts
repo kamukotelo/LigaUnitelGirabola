@@ -10,9 +10,10 @@ export default defineMatch({
   homeTeamId: 'interclube',
   awayTeamId: 'lobito',
   schedule: { date: '2026-09-10T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports' },
-  result: { status: 'finished', homeScore: 2, awayScore: 0, halfTimeScore: '2-0', updatedAt: '2026-09-10T17:30:00+01:00' },
+  result: { status: 'finished', homeScore: 2, awayScore: 0, halfTimeScore: '2-0', updatedAt: '2026-10-19T21:00:00+01:00' },
   officials: { referee: 'Bernardo Kenge Mário', assistants: ['Nery Domingos Pereira Amador da Silva', 'Josemar Ageu Domingos Francisco'], fourth: 'Sabino Garcez de Sousa de Carvalho', commissioner: 'Alberto Bumba Senda' },
   coaches: { home: 'Divaldo Alves', away: 'Silvestre Pelé' },
+  // Conferidas com o Relatório do Árbitro n.º 26 (19/10/2026).
   lineups: {
     home: [
       { name: 'Ru', number: 22, position: 'GK', isStarter: true, isCaptain: false, playerId: 'fifa-1jtvf71' },
@@ -26,8 +27,8 @@ export default defineMatch({
       { name: 'Betinho', number: 29, position: 'FWD', isStarter: true, isCaptain: false, playerId: 'fifa-1k0sa99' },
       { name: 'Caneta', number: 32, position: 'MID', isStarter: true, isCaptain: false, playerId: 'fifa-1k26vw6' },
       { name: 'Paulo Gaspar', number: 33, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'fifa-1m92d85' },
-      { name: 'Panzo', number: 12, position: 'GK', isStarter: false, isCaptain: false, playerId: 'fifa-1jz6pv1' },
       { name: 'Gaby', number: 8, position: 'MID', isStarter: false, isCaptain: false, playerId: 'fifa-1qfxvu3' },
+      { name: 'Panzo', number: 12, position: 'GK', isStarter: false, isCaptain: false, playerId: 'fifa-1jz6pv1' },
       { name: 'Walter', number: 20, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'fifa-1uz41e0' },
       { name: 'Altura', number: 23, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'fifa-1m7hyz3' },
       { name: 'Toy', number: 26, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'fifa-1t9mip7' },
@@ -39,6 +40,7 @@ export default defineMatch({
     away: [
       { name: 'Muhango', number: 12, position: 'GK', isStarter: true, isCaptain: false, playerId: 'guilherme-lobito' },
       { name: 'Januário', number: 7, position: 'MID', isStarter: true, isCaptain: false, playerId: 'januario-lobito' },
+      { name: 'Valério', number: 29, position: 'MID', isStarter: true, isCaptain: false, playerId: 'valerio-lobito' },
       { name: 'Rosário', number: 4, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'rosario-lobito' },
       { name: 'Lourenço', number: 5, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'lourenco-lobito' },
       { name: 'Quiteque', number: 8, position: 'MID', isStarter: true, isCaptain: false, playerId: 'quiteque-lobito' },
@@ -47,7 +49,6 @@ export default defineMatch({
       { name: 'Pinto', number: 14, position: 'FWD', isStarter: true, isCaptain: false, playerId: 'pinto-lobito' },
       { name: 'Leonel', number: 22, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'leonel-lobito' },
       { name: 'Jorge', number: 28, position: 'DEF', isStarter: true, isCaptain: false, playerId: 'jorge-28-lobito' },
-      { name: 'Valério', number: 29, position: 'MID', isStarter: true, isCaptain: false, playerId: 'valerio-lobito' },
       { name: 'Marcos', number: 40, position: 'GK', isStarter: false, isCaptain: false, playerId: 'marcos-lobito' },
       { name: 'Florentino', number: 11, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'kaporal' },
       { name: 'Serafim', number: 15, position: 'MID', isStarter: false, isCaptain: false, playerId: 'fifa-1l13q80' },
@@ -60,8 +61,22 @@ export default defineMatch({
     ],
   },
   events: [
-    { minute: 26, type: 'goal', team: 'home', player: 'Patrick Banza', number: 7, playerId: 'patrick-banza-interclube', detail: "26' (1-0)" },
-    { minute: 39, type: 'goal', team: 'home', player: 'Pedro Manuel', playerId: 'pedro-manuel-interclube', detail: "39' (2-0)" },
+    // Golos, cartões e substituições do Relatório do Árbitro n.º 26 (ANCAF), conferido a 19/10/2026.
+    { minute: 24, type: 'goal', team: 'home', player: 'Patrick Banza', number: 7, playerId: 'patrick-banza-interclube', detail: '1-0' },
+    { minute: 30, type: 'yellow', team: 'home', player: 'Salomão', number: 5, playerId: 'fifa-1jtv4k9', detail: 'Por ter impedido o adversário de uma jogada prometedora.' },
+    { minute: 38, type: 'goal', team: 'home', player: 'Caneta', number: 32, playerId: 'fifa-1k26vw6', detail: '2-0' },
+    { minute: 46, type: 'sub', team: 'away', player: 'António', number: 19, playerId: 'antonio-lobito', playerOut: 'Pinto' },
+    { minute: 46, type: 'sub', team: 'away', player: 'Joaquim', number: 16, playerId: 'joaquim-lobito', playerOut: 'Valério' },
+    { minute: 62, type: 'yellow', team: 'away', player: 'Lourenço', number: 5, playerId: 'lourenco-lobito', detail: 'Por ter rasteirado o adversário.' },
+    { minute: 67, type: 'yellow', team: 'home', player: 'Alcides', number: 14, playerId: 'fifa-1kz4cq5', detail: 'Por ter agarrado o adversário' },
+    { minute: 70, type: 'sub', team: 'away', player: 'Florentino', number: 11, playerId: 'kaporal', playerOut: 'Januário' },
+    { minute: 76, type: 'sub', team: 'home', player: 'Boiado', number: 30, playerId: 'fifa-1jzyk44', playerOut: 'Patrick Banza' },
+    { minute: 76, type: 'sub', team: 'home', player: 'Toy', number: 26, playerId: 'fifa-1t9mip7', playerOut: 'Alcides' },
+    { minute: 76, type: 'sub', team: 'home', player: 'Sandro', number: 37, playerId: 'fifa-1jrkqx3', playerOut: 'Caneta' },
+    { minute: 81, type: 'sub', team: 'away', player: 'Sabones', number: 17, playerId: 'sabones-lobito', playerOut: 'Quiteque' },
+    { minute: 87, type: 'sub', team: 'away', player: 'Miguel', number: 24, playerId: 'miguel-lobito', playerOut: 'Ezequiel' },
+    { minute: 94, type: 'sub', team: 'home', player: 'Gaby', number: 8, playerId: 'fifa-1qfxvu3', playerOut: 'Além', detail: "90'+4" },
+    { minute: 94, type: 'sub', team: 'home', player: 'Walter', number: 20, playerId: 'fifa-1uz41e0', playerOut: 'Betinho', detail: "90'+4" },
   ],
   stats: {
     home: { corners: 4, yellowCards: 2, redCards: 0 },

@@ -9,14 +9,32 @@ export default defineMatch({
   schedule: { date: '2026-10-13T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos das jornadas 6 a 10, revisto a 01/10/2026' },
   // Resultado recebido a 13/10/2026 (ficha FCMS, «Finished»): 1-0, golo de
   // Jonathan Toro (Petro, n.º 8) aos 14'.
-  result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-10-13T19:15:00+01:00' },
+  result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '1-0', attendance: 8000, updatedAt: '2026-10-19T21:00:00+01:00' },
   events: [
-    { minute: 14, type: 'goal', team: 'home', player: 'Toro', number: 8, playerId: 'jonathan-toro', detail: "14' (1-0)" },
+    // Golos, cartões e substituições do Relatório do Árbitro n.º 49 (ANCAF), conferido a 19/10/2026.
+    { minute: 17, type: 'goal', team: 'home', player: 'Toro', number: 8, playerId: 'jonathan-toro', detail: '1-0' },
+    { minute: 19, type: 'yellow', team: 'away', player: 'Danilson', number: 15, playerId: 'fifa-1jm7zr2', detail: 'Por negligência' },
+    { minute: 38, type: 'yellow', team: 'home', player: 'Jorge Pereira', number: 20, playerId: 'jorge-pereira', detail: 'Agarrar oadversário' },
+    { minute: 44, type: 'yellow', team: 'home', player: 'Berna', number: 13, playerId: 'berna', detail: 'Rasteirar o adversário' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Joelson', number: 27, playerId: 'fifa-1pnr1r0', playerOut: 'Danilson' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Zamorano', number: 2, playerId: 'fifa-1k4a836', playerOut: 'Diógenes' },
+    { minute: 59, type: 'sub', team: 'home', player: 'Ivan Cavaleiro', number: 7, playerId: 'ivan-cavaleiro', playerOut: 'Berna' },
+    { minute: 59, type: 'sub', team: 'away', player: 'Mona', number: 17, playerId: 'fifa-1jxicb5', playerOut: 'Téo' },
+    { minute: 68, type: 'sub', team: 'home', player: 'Mário Balbúrdia', number: 6, playerId: 'mario-balburdia', playerOut: 'Toro' },
+    { minute: 68, type: 'sub', team: 'home', player: 'Aparício', number: 10, playerId: 'pedro-aparicio', playerOut: 'Tiago Azulão' },
+    { minute: 71, type: 'sub', team: 'away', player: 'Abed Zito', number: 6, playerId: 'abed-kabuscorp', playerOut: 'Crespo' },
+    { minute: 73, type: 'yellow', team: 'away', player: 'Aldair', number: 4, playerId: 'fifa-1lgpgy7', detail: 'Rasteirar o adversário' },
+    { minute: 77, type: 'sub', team: 'away', player: 'Mpiana', number: 39, playerOut: 'Jó Paciência' },
+    { minute: 80, type: 'yellow', team: 'away', player: 'Ady Boyo', number: 5, playerId: 'fifa-1snb179', detail: 'Rasteirar o adversário' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Hélder Costa', number: 11, playerId: 'helder-costa', playerOut: 'Ivan Cavaleiro' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis', playerOut: 'Depú' },
+    { minute: 89, type: 'yellow', team: 'home', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis', detail: 'Discordar por palavras a decisão do Árbitro' },
   ],
   // Nomeação de arbitragem recebida a 12/10/2026.
-  officials: { referee: 'Edson António Esoko', assistants: ['Jerson Emiliano dos Santos', 'Ivanildo Meirelles de Oliveira Sanches Lopes'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
+  officials: { referee: 'Edson António Esoko', assistants: ['Jerson Emiliano dos Santos', 'Ivanildo Meirelles de Oliveira Sanches Lopes'], fourth: 'Sabino Garcez de Sousa de Carvalho', commissioner: 'José Mateus de Carvalho Félix' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (13/10/2026).
   coaches: { home: 'João Pedro Sousa', away: 'Léo Neiva' },
+  // Conferidas com o Relatório do Árbitro n.º 49 (19/10/2026).
   lineups: {
     home: [
       { name: 'Hugo Marques', number: 1, position: 'GK', isStarter: true, playerId: 'hugo-marques' },
@@ -30,14 +48,14 @@ export default defineMatch({
       { name: 'Eddie Afonso', number: 25, position: 'DEF', isStarter: true, playerId: 'eddie-afonso' },
       { name: 'Hossi', number: 27, position: 'DEF', isStarter: true, playerId: 'antonio-hossi' },
       { name: 'Depú', number: 29, position: 'FWD', isStarter: true, playerId: 'depu' },
-      { name: 'Neblú', number: 22, position: 'GK', isStarter: false, playerId: 'neblu' },
       { name: 'Léo Bolgado', number: 5, position: 'DEF', isStarter: false, playerId: 'leo-bolgado' },
       { name: 'Mário Balbúrdia', number: 6, position: 'MID', isStarter: false, playerId: 'mario-balburdia' },
       { name: 'Ivan Cavaleiro', number: 7, position: 'FWD', isStarter: false, playerId: 'ivan-cavaleiro' },
-      { name: 'Lucas João', number: 9, isStarter: false },
+      { name: 'Lucas João', number: 9, position: 'FWD', isStarter: false, playerId: 'lucas-joao' },
       { name: 'Aparício', number: 10, position: 'MID', isStarter: false, playerId: 'pedro-aparicio' },
       { name: 'Hélder Costa', number: 11, position: 'FWD', isStarter: false, playerId: 'helder-costa' },
       { name: 'Vidinho', number: 18, position: 'DEF', isStarter: false, playerId: 'vidinho' },
+      { name: 'Neblú', number: 22, position: 'GK', isStarter: false, playerId: 'neblu' },
       { name: 'Tiago Reis', number: 23, position: 'FWD', isStarter: false, playerId: 'tiago-reis' },
     ],
     away: [
@@ -52,13 +70,13 @@ export default defineMatch({
       { name: 'Danilson', number: 15, position: 'MID', isStarter: true, playerId: 'fifa-1jm7zr2' },
       { name: 'Jó Paciência', number: 19, position: 'FWD', isStarter: true, playerId: 'fifa-1jm8hd7' },
       { name: 'Diógenes', number: 32, position: 'MID', isStarter: true, playerId: 'fifa-1jrtxh4' },
-      { name: 'Mualucano', number: 22, position: 'GK', isStarter: false, playerId: 'fifa-1jrtva7' },
       { name: 'Zamorano', number: 2, position: 'DEF', isStarter: false, playerId: 'fifa-1k4a836' },
       { name: 'Abed Zito', number: 6, isStarter: false, playerId: 'abed-kabuscorp' },
-      { name: 'Mbali Cem', number: 8, isStarter: false },
+      { name: 'Mbali Cem', number: 8, position: 'MID', isStarter: false, playerId: 'fifa-1v363a9' },
       { name: 'Ndongala', number: 13, position: 'DEF', isStarter: false, playerId: 'fifa-1v363c3' },
       { name: 'Mona', number: 17, position: 'FWD', isStarter: false, playerId: 'fifa-1jxicb5' },
       { name: 'Tula', number: 20, position: 'MID', isStarter: false, playerId: 'fifa-1jwts88' },
+      { name: 'Mualucano', number: 22, position: 'GK', isStarter: false, playerId: 'fifa-1jrtva7' },
       { name: 'Joelson', number: 27, position: 'MID', isStarter: false, playerId: 'fifa-1pnr1r0' },
       { name: 'Mpiana', number: 39, isStarter: false },
     ],

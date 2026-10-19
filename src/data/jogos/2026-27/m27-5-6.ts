@@ -8,18 +8,14 @@ export default defineMatch({
   homeTeamId: 'wiliete',
   awayTeamId: 'libolo',
   schedule: { date: '2026-09-20T17:15:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', broadcaster: 'Zsports' },
-  result: { status: 'finished', homeScore: 5, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-09-20T19:16:00+01:00' },
+  result: { status: 'finished', homeScore: 5, awayScore: 0, halfTimeScore: '1-0', attendance: 2000, updatedAt: '2026-10-19T21:00:00+01:00' },
   // Relatório do Árbitro n.º 38 (20/09/2026).
-  officials: {
-    referee: 'Paulo Sérgio Moreira',
-    assistants: ['Lídio Chicomo Cuimbra', 'Segunda Chisseque Francisco'],
-    fourth: 'Nelson Joaquim Camunga',
-    commissioner: 'António Caxala Muachihuissa',
-  },
+  officials: { referee: 'Paulo Sérgio Moreira', assistants: ['Lídio Chicomo Cuimbra', 'Segunda Chisseque Francisco'], fourth: 'Nelson Joaquim Camunga', commissioner: 'António Caxala Muachihuissa' },
   coaches: { away: 'Osvaldo Roque' },
   // Onze inicial e suplentes da ficha oficial (Relatório do Árbitro n.º 38).
   // Os quatro sem ficha na inscrição — Mário (1), Quinho (21), Lino (26) e
   // Jacinto (29) — ficam com o nome que o clube publica.
+  // Conferidas com o Relatório do Árbitro n.º 38 (19/10/2026).
   lineups: {
     home: [
       { name: 'Nayan Gomes', number: 1, position: 'GK', isStarter: true, playerId: 'fifa-1pkwt84' },
@@ -33,15 +29,13 @@ export default defineMatch({
       { name: 'Emanoel Júnior', number: 27, position: 'DEF', isStarter: true, playerId: 'fifa-1pnmj53' },
       { name: 'Camilo Mbule Ngongue', number: 28, position: 'MID', isStarter: true, playerId: 'fifa-1jrxs05' },
       { name: 'Bocar Sidibé', number: 30, position: 'MID', isStarter: true, playerId: 'fifa-1qvfjm7' },
-      // Sem ficha na inscrição de 31/08: entram com o nome que o clube publica
-      // (Jaderson de Oliveira Maia e João Diogo na súmula), sem página de jogador.
-      { name: 'Janderson', number: 6, isStarter: false, playerId: 'janderson-wiliete' },
+      { name: 'Janderson', number: 6, position: 'MID', isStarter: false, playerId: 'janderson-wiliete' },
       { name: 'Adriano Watchilala Tchombe', number: 13, position: 'DEF', isStarter: false, playerId: 'fifa-1pvxht8' },
       { name: 'Augusto Manuel Balsa', number: 15, position: 'DEF', isStarter: false, playerId: 'fifa-1jjfij0' },
       { name: 'Francisco Cubuema Matoco', number: 16, position: 'MID', isStarter: false, playerId: 'fifa-1k1jsj8' },
       { name: 'Rodino Dumbo José', number: 25, position: 'FWD', isStarter: false, playerId: 'fifa-1jwu0l8' },
       { name: 'Julinho', number: 29, isStarter: false, playerId: 'julinho-wiliete' },
-      { name: 'Elber Delgado', number: 31, isStarter: false, playerId: 'fifa-1jm7y97' },
+      { name: 'Elber Delgado', number: 31, position: 'GK', isStarter: false, playerId: 'fifa-1jm7y97' },
       { name: 'Célio Alberto Junqueira Zua', number: 32, position: 'MID', isStarter: false, playerId: 'fifa-1m95s64' },
       { name: 'Valter Manuel Monteiro', number: 35, position: 'MID', isStarter: false, playerId: 'valter-monteiro' },
     ],
@@ -69,25 +63,23 @@ export default defineMatch({
     ],
   },
   events: [
-    { minute: 1, type: 'goal', team: 'home', player: 'Bocar Sidibé', number: 30, playerId: 'fifa-1qvfjm7', detail: "1' (1-0)" },
-    { minute: 49, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: "49' (2-0)" },
-    { minute: 63, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: "63' (3-0)" },
-    { minute: 82, type: 'goal', team: 'home', player: 'Rodino Dumbo José', number: 25, playerId: 'fifa-1jwu0l8', detail: "82' (4-0)" },
-    { minute: 87, type: 'goal', team: 'home', player: 'Valter Monteiro', number: 35, playerId: 'valter-monteiro', detail: "87' (5-0)" },
-    // Cartão e substituições do Recreativo do Libolo comunicados pela DCE.
-    { minute: 27, type: 'sub', team: 'away', player: 'Catraio', number: 24, playerId: 'catraio-libolo', playerOut: 'Cuxixima' },
-    { minute: 38, type: 'yellow', team: 'away', player: 'Andeloy', number: 10, playerId: 'andeloy-libolo' },
-    { minute: 66, type: 'sub', team: 'away', player: 'Gui', number: 11, playerId: 'fifa-1mr7m11', playerOut: 'Tchube' },
-    { minute: 66, type: 'sub', team: 'away', player: 'Quinho', number: 21, playerOut: 'Maninho' },
-    { minute: 77, type: 'sub', team: 'away', player: 'Lino', number: 26, playerOut: 'Andeloy' },
-    { minute: 84, type: 'sub', team: 'away', player: 'Inglês', number: 16, playerId: 'fifa-1pxu766', playerOut: 'Nelo' },
-    // Substituições do Wiliete comunicadas pela DCE. O Recreativo do Libolo
-    // não consta da comunicação recebida.
-    { minute: 46, type: 'sub', team: 'home', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', playerOut: 'Bito' },
-    { minute: 46, type: 'sub', team: 'home', player: 'Janderson', number: 6, playerId: 'janderson-wiliete', playerOut: 'Sidibé' },
-    { minute: 46, type: 'sub', team: 'home', player: 'Célio', number: 32, playerId: 'fifa-1m95s64', playerOut: 'Mule' },
-    { minute: 77, type: 'sub', team: 'home', player: 'Valter Monteiro', number: 35, playerId: 'valter-monteiro', playerOut: 'Gibelé' },
-    { minute: 84, type: 'sub', team: 'home', player: 'Macaiabo', number: 16, playerId: 'fifa-1k1jsj8', playerOut: 'Mabululu' },
+    // Golos, cartões e substituições do Relatório do Árbitro n.º 38 (ANCAF), conferido a 19/10/2026.
+    { minute: 1, type: 'goal', team: 'home', player: 'Bocar Sidibé', number: 30, playerId: 'fifa-1qvfjm7', detail: '1-0' },
+    { minute: 27, type: 'sub', team: 'away', player: 'Zinadine Zidane Moisés Catraio', number: 24, playerId: 'catraio-libolo', playerOut: 'Edmilson João Francisco Cuxixima' },
+    { minute: 38, type: 'yellow', team: 'away', player: 'André Alexandre', number: 10, playerId: 'andeloy-libolo', detail: 'Comportamento antidesportivo' },
+    { minute: 46, type: 'sub', team: 'home', player: 'Rodino Dumbo José', number: 25, playerId: 'fifa-1jwu0l8', playerOut: 'Camilo Mbule Ngongue' },
+    { minute: 46, type: 'sub', team: 'home', player: 'Célio Alberto Junqueira Zua', number: 32, playerId: 'fifa-1m95s64', playerOut: 'Bocar Sidibé' },
+    { minute: 46, type: 'sub', team: 'home', player: 'Janderson', number: 6, playerId: 'janderson-wiliete', playerOut: 'António Mule Chitongo' },
+    { minute: 48, type: 'goal', team: 'home', player: 'Cristovão Paciência', number: 9, playerId: 'mabululu-wiliete', detail: '2-0' },
+    { minute: 62, type: 'goal', team: 'home', player: 'Cristovão Paciência', number: 9, playerId: 'mabululu-wiliete', detail: '3-0' },
+    { minute: 66, type: 'sub', team: 'away', player: 'Diogo da Rocha Quiamesso', number: 11, playerId: 'fifa-1mr7m11', playerOut: 'Ilídio da Silva' },
+    { minute: 66, type: 'sub', team: 'away', player: 'Quinho', number: 21, playerOut: 'Adelino Wima Calunhi António' },
+    { minute: 77, type: 'sub', team: 'home', player: 'Valter Manuel Monteiro', number: 35, playerId: 'valter-monteiro', playerOut: 'Deivi Miguel Vieira' },
+    { minute: 77, type: 'sub', team: 'away', player: 'Lino', number: 26, playerOut: 'André Alexandre' },
+    { minute: 80, type: 'goal', team: 'home', player: 'Rodino Dumbo José', number: 25, playerId: 'fifa-1jwu0l8', detail: '4-0' },
+    { minute: 84, type: 'sub', team: 'home', player: 'Francisco Cubuema Matoco', number: 16, playerId: 'fifa-1k1jsj8', playerOut: 'Cristovão Paciência' },
+    { minute: 84, type: 'sub', team: 'away', player: 'Fernando José Paulino Lourenço', number: 16, playerId: 'fifa-1pxu766', playerOut: 'Manuel Manjolo' },
+    { minute: 85, type: 'goal', team: 'home', player: 'Valter Manuel Monteiro', number: 35, playerId: 'valter-monteiro', detail: '5-0' },
   ],
   stats: {
     home: { yellowCards: 0 },

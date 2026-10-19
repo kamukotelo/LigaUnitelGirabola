@@ -11,14 +11,32 @@ export default defineMatch({
   // Estádio 22 de Junho habitual do Kabuscorp.
   // Resultado recebido a 11/10/2026: 1-1 (intervalo 0-1). Golos de Camilo Mbule
   // Ngongue «Bito» (Wiliete, n.º 28) aos 32' e de Bayala Nsimba (Kabuscorp, n.º 7) aos 55'.
-  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '0-1', updatedAt: '2026-10-11T12:00:00+01:00' },
+  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '0-1', updatedAt: '2026-10-19T21:00:00+01:00' },
   events: [
-    { minute: 32, type: 'goal', team: 'away', player: 'Bito', number: 28, playerId: 'fifa-1jrxs05', detail: "32' (0-1)" },
-    { minute: 55, type: 'goal', team: 'home', player: 'Bayala', number: 7, playerId: 'fifa-1n3uhm6', detail: "55' (1-1)" },
+    // Golos, cartões e substituições do Relatório do Árbitro n.º 43 (ANCAF), conferido a 19/10/2026.
+    { minute: 31, type: 'goal', team: 'away', player: 'Bito', number: 28, playerId: 'fifa-1jrxs05', detail: '0-1' },
+    { minute: 54, type: 'goal', team: 'home', player: 'Bayala', number: 7, playerId: 'fifa-1n3uhm6', detail: '1-1' },
+    { minute: 57, type: 'yellow', team: 'home', player: 'Aldair', number: 4, playerId: 'fifa-1lgpgy7', detail: 'Comportamento antidesportivo' },
+    { minute: 58, type: 'sub', team: 'away', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', playerOut: 'Janderson' },
+    { minute: 58, type: 'sub', team: 'away', player: 'Sidibé', number: 30, playerId: 'fifa-1qvfjm7', playerOut: 'Valter Monteiro' },
+    { minute: 61, type: 'sub', team: 'home', player: 'Platini', number: 39, playerId: 'platini-kabuscorp', playerOut: 'Crespo' },
+    { minute: 61, type: 'sub', team: 'home', player: 'Mona', number: 17, playerId: 'fifa-1jxicb5', playerOut: 'Téo' },
+    { minute: 63, type: 'yellow', team: 'home', player: 'Henock', number: 16, playerId: 'fifa-1mppsb5', detail: 'Comportamento antidesportivo' },
+    { minute: 71, type: 'yellow', team: 'away', player: 'Roberto Luiz Pelliser Bianchi', detail: 'Oficial de equipa · Divergência por palavras ou atos' },
+    { minute: 74, type: 'yellow', team: 'away', player: 'Ning', number: 25, playerId: 'fifa-1jwu0l8', detail: 'Comportamento antidesportivo' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Tula', number: 20, playerId: 'fifa-1jwts88', playerOut: 'Bayala' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Zamorano', number: 2, playerId: 'fifa-1k4a836', playerOut: 'Diógenes' },
+    { minute: 80, type: 'sub', team: 'home', player: 'Jojo', number: 35, playerId: 'fifa-1tgwgg5', playerOut: 'Cuca' },
+    { minute: 82, type: 'yellow', team: 'away', player: 'Roberto Luiz Pelliser Bianchi', detail: 'Oficial de equipa · 2.º amarelo' },
+    { minute: 82, type: 'red', team: 'away', player: 'Roberto Luiz Pelliser Bianchi', detail: 'Oficial de equipa · Segundo amarelo' },
+    { minute: 83, type: 'sub', team: 'away', player: 'Célio Zua', number: 32, playerId: 'fifa-1m95s64', playerOut: 'Mabululu' },
+    { minute: 83, type: 'sub', team: 'away', player: 'Julinho', number: 29, playerId: 'julinho-wiliete', playerOut: 'Mindinho' },
+    { minute: 83, type: 'sub', team: 'away', player: 'Mule', number: 8, playerId: 'fifa-1k39nk6', playerOut: 'Gibelé' },
   ],
   // Nomeação de arbitragem e constituição das equipas (folha oficial da DCE/ANCAF, 10/10/2026).
-  officials: { referee: 'Nelson da Silva', assistants: ['Evanildo Martins', 'Pedro Micolo'], fourth: 'Aldair Carmelino' },
+  officials: { referee: 'Nelson Agostinho da Silva', assistants: ['Evanildo Gaspar dos Santos Martins', 'Pedro Domingos de Andrade Micolo'], fourth: 'Aldair Quissanga Rodrigues Carmelino', commissioner: 'Romualdo do Rosário Baltazar' },
   coaches: { home: 'Léo Neiva', away: 'Beto Bianchi' },
+  // Conferidas com o Relatório do Árbitro n.º 43 (19/10/2026).
   lineups: {
     home: [
       { name: 'JB', number: 12, position: 'GK', isStarter: true, playerId: 'fifa-1jriue5' },
@@ -32,12 +50,12 @@ export default defineMatch({
       { name: 'Danilson', number: 15, position: 'MID', isStarter: true, playerId: 'fifa-1jm7zr2' },
       { name: 'Jó Paciência', number: 19, position: 'FWD', isStarter: true, playerId: 'fifa-1jm8hd7' },
       { name: 'Diógenes', number: 32, position: 'MID', isStarter: true, playerId: 'fifa-1jrtxh4' },
-      { name: 'Mualucano', number: 22, position: 'GK', isStarter: false, playerId: 'fifa-1jrtva7' },
       { name: 'Zamorano', number: 2, position: 'DEF', isStarter: false, playerId: 'fifa-1k4a836' },
       { name: 'Abed', number: 6, isStarter: false, playerId: 'abed-kabuscorp' },
       { name: 'Ndongala', number: 13, position: 'DEF', isStarter: false, playerId: 'fifa-1v363c3' },
       { name: 'Mona', number: 17, position: 'FWD', isStarter: false, playerId: 'fifa-1jxicb5' },
       { name: 'Tula', number: 20, position: 'MID', isStarter: false, playerId: 'fifa-1jwts88' },
+      { name: 'Mualucano', number: 22, position: 'GK', isStarter: false, playerId: 'fifa-1jrtva7' },
       { name: 'Joelson', number: 27, position: 'MID', isStarter: false, playerId: 'fifa-1pnr1r0' },
       { name: 'Jojo', number: 35, position: 'MID', isStarter: false, playerId: 'fifa-1tgwgg5' },
       { name: 'Platini', number: 39, isStarter: false, playerId: 'platini-kabuscorp' },
@@ -54,9 +72,9 @@ export default defineMatch({
       { name: 'Júnior Goiano', number: 27, position: 'DEF', isStarter: true, playerId: 'fifa-1pnmj53' },
       { name: 'Bito', number: 28, position: 'MID', isStarter: true, playerId: 'fifa-1jrxs05' },
       { name: 'Valter Monteiro', number: 35, position: 'MID', isStarter: true, playerId: 'valter-monteiro' },
-      { name: 'Benny', number: 12, position: 'GK', isStarter: false, playerId: 'fifa-1jrtue9' },
       { name: 'Silva', number: 3, position: 'DEF', isStarter: false, playerId: 'fifa-1ljz6e0' },
       { name: 'Mule', number: 8, position: 'MID', isStarter: false, playerId: 'fifa-1k39nk6' },
+      { name: 'Benny', number: 12, position: 'GK', isStarter: false, playerId: 'fifa-1jrtue9' },
       { name: 'Balsa', number: 15, position: 'DEF', isStarter: false, playerId: 'fifa-1jjfij0' },
       { name: 'Ning', number: 25, position: 'FWD', isStarter: false, playerId: 'fifa-1jwu0l8' },
       { name: 'Julinho', number: 29, isStarter: false, playerId: 'julinho-wiliete' },

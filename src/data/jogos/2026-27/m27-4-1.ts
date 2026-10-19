@@ -11,9 +11,10 @@ export default defineMatch({
   homeTeamId: 'caala',
   awayTeamId: 'desphuila',
   schedule: { date: '2026-09-13T15:00:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official' },
-  result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '1-0', attendance: 1200, updatedAt: '2026-09-14T05:50:00+01:00' },
+  result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '1-0', attendance: 1200, updatedAt: '2026-10-19T21:00:00+01:00' },
   officials: { referee: 'Paulo Sérgio Moreira', assistants: ['Lídio Chicomo Cuimbra', 'Segunda Chisseque Francisco'], fourth: 'Bento João Muachissengue', commissioner: 'Manuel André António' },
   coaches: { home: 'Artur Benjamim Correia', away: 'Paulo Torres' },
+  // Conferidas com o Relatório do Árbitro n.º 29 (19/10/2026).
   lineups: {
     home: [
       { name: 'Landu Mavanga', number: 22, position: 'GK', isStarter: true, playerId: 'fifa-1k002p8' },
@@ -39,13 +40,13 @@ export default defineMatch({
     ],
     away: [
       { name: 'Cristóvão Simão', number: 1, position: 'GK', isStarter: true, playerId: 'ndulo-huila' },
+      { name: 'Elias Daniel', number: 15, position: 'MID', isStarter: true, playerId: 'elias-huila' },
       { name: 'Nsambo Katendi', number: 2, position: 'DEF', isStarter: true, playerId: 'katendi-huila' },
       { name: 'António dos Santos Futila Kinanga', number: 4, position: 'DEF', isStarter: true, playerId: 'dos-santos-huila' },
       { name: 'Leonardo Manuel Isola Ramos', number: 7, position: 'FWD', isStarter: true, playerId: 'leonardo-isola-huila' },
       { name: 'Mauricio Pedro', number: 8, position: 'MID', isStarter: true, playerId: 'mauricio-pedro-huila' },
       { name: 'José Mendes', number: 10, position: 'FWD', isStarter: true, playerId: 'mendes-huila' },
       { name: 'Lucas Elias António Paulo', number: 13, position: 'DEF', isStarter: true, playerId: 'lucas-elias-huila' },
-      { name: 'Elias Daniel', number: 15, position: 'MID', isStarter: true, playerId: 'elias-huila' },
       { name: 'Milton Alberto de Oliveira Suca', number: 18, position: 'FWD', isStarter: true, playerId: 'milton-suca-huila' },
       { name: 'Jeremias Pedro', number: 26, position: 'DEF', isStarter: true, playerId: 'jeremias-huila' },
       { name: 'Pequenino Castro', number: 29, position: 'MID', isStarter: true, playerId: 'pequenino-castro-huila' },
@@ -61,11 +62,12 @@ export default defineMatch({
     ],
   },
   events: [
-    { minute: 12, type: 'goal', team: 'home', player: 'Benvindo Miguel André Afonso', number: 4, playerId: 'fifa-1jz4pi8', detail: "12' (1-0)" },
+    // Golos, cartões e substituições do Relatório do Árbitro n.º 29 (ANCAF), conferido a 19/10/2026.
+    { minute: 12, type: 'goal', team: 'home', player: 'Benvindo Miguel André Afonso', number: 4, playerId: 'fifa-1jz4pi8', detail: '1-0' },
     { minute: 46, type: 'sub', team: 'home', player: 'Hermenegildo Sandumbo', number: 9, playerId: 'fifa-1k0r4w6', playerOut: 'Ernesto Vieira' },
     { minute: 46, type: 'sub', team: 'away', player: 'Milagre Carlos Simba', number: 25, playerId: 'milagre-simba-huila', playerOut: 'Milton Alberto de Oliveira Suca' },
     { minute: 46, type: 'sub', team: 'away', player: 'Constantino Tchicundico Cassoma Tchitunda', number: 32, playerId: 'tchicundico-huila', playerOut: 'Mauricio Pedro' },
-    { minute: 52, type: 'goal', team: 'away', player: 'Milagre Carlos Simba', number: 25, playerId: 'milagre-simba-huila', detail: "52' (1-1)" },
+    { minute: 52, type: 'goal', team: 'away', player: 'Milagre Carlos Simba', number: 25, playerId: 'milagre-simba-huila', detail: '1-1' },
     { minute: 53, type: 'sub', team: 'home', player: 'Benedito Antunes', number: 19, playerId: 'fifa-1lda172', playerOut: 'Benvindo Miguel André Afonso' },
     { minute: 53, type: 'sub', team: 'home', player: 'José Manuel Raul', number: 27, playerId: 'fifa-1r8lp51', playerOut: 'Timoteo Sambissa' },
     { minute: 61, type: 'yellow', team: 'away', player: 'Constantino Tchicundico Cassoma Tchitunda', number: 32, playerId: 'tchicundico-huila', detail: 'Comportamento antidesportivo' },
@@ -74,9 +76,9 @@ export default defineMatch({
     { minute: 74, type: 'sub', team: 'home', player: 'Adriano Belmiro Duarte Nicolau', number: 38, playerOut: 'Arilson de Ceita Pereira Jorge' },
     { minute: 80, type: 'sub', team: 'home', player: 'Osvaldo José', number: 6, playerId: 'fifa-1kz4es4', playerOut: 'Domingos Lourenço Cuxixima' },
     { minute: 84, type: 'yellow', team: 'home', player: 'Valentim Sacuvale', number: 2, playerId: 'fifa-1t647t5', detail: 'Comportamento antidesportivo' },
-    { minute: 92, type: 'yellow', team: 'home', player: 'Hermenegildo Sandumbo', number: 9, playerId: 'fifa-1k0r4w6', detail: "90'+2' · Comportamento antidesportivo" },
-    { minute: 92, type: 'sub', team: 'away', player: 'António Pena', number: 27, playerId: 'ado-pena-huila', playerOut: 'José Mendes' },
-    { minute: 94, type: 'goal', team: 'away', player: 'António Pena', number: 27, playerId: 'ado-pena-huila', detail: "90'+4' (1-2)" },
+    { minute: 92, type: 'yellow', team: 'home', player: 'Hermenegildo Sandumbo', number: 9, playerId: 'fifa-1k0r4w6', detail: "90'+2 · Comportamento antidesportivo" },
+    { minute: 92, type: 'sub', team: 'away', player: 'António Pena', number: 27, playerId: 'ado-pena-huila', playerOut: 'José Mendes', detail: "90'+2" },
+    { minute: 94, type: 'goal', team: 'away', player: 'António Pena', number: 27, playerId: 'ado-pena-huila', detail: "90'+4 · 1-2" },
   ],
   stats: {
     home: { yellowCards: 2, redCards: 0 },

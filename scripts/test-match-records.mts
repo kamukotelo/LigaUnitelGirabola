@@ -47,14 +47,16 @@ assert.equal(scorers.get('fifa-1jz4pi8')?.goals, 2, 'Benvindo marcou aos 12\' no
 assert.equal(scorers.has('cuxixima-caala'), false, 'Cuxixima não marcou no Relatório 29.');
 
 // Todos os golos dos resultados têm marcador ou são autogolos assinalados.
-// Exceção única: golos cujo autor a fonte oficial ainda não identificou ficam
-// em branco no site (nunca com "por confirmar") e têm de estar listados aqui.
-// m27-5-5 55': a fonte assina o golo a «Cláudio», alcunha que não consta do
-// plantel oficial do 1.º de Maio; sem camisola não há como ligar ao plantel.
-// m27-6-5 11' e 15': resultado recebido sem marcadores (aguarda o relatório).
-// m27-6-3 22' e 94' («Cláudio Sozinho», «Jesus Cristo») e m27-6-4 80' e 97'
-// («Kaba», «Robson»): marcadores fora dos plantéis inscritos, por confirmar.
-const PENDING_SCORERS = ["m27-5-2 95'", "m27-5-5 55'", "m27-6-5 11'", "m27-6-5 15'", "m27-6-3 22'", "m27-6-3 94'", "m27-6-4 80'", "m27-6-4 97'"];
+// Exceção única: golos de jogadores que ainda não constam do plantel do portal
+// (sem página de jogador) e têm de estar listados aqui. Desde 19/10/2026 todos
+// os marcadores vêm identificados (nome e camisola) nos Relatórios do Árbitro:
+// m27-5-5 52' e m27-6-3 21' — n.º 30 Rui Mungongo («Cláudio»), 1.º de Maio;
+// m27-6-3 90' — n.º 27 Jesus Cristo Vikeya Kataya, 1.º de Maio;
+// m27-6-4 79' — n.º 11 João José António, FC Luanda;
+// m27-6-4 96' — n.º 9 Edimilson Hilário Teresa Sete («Robson»), Recreativo do Libolo;
+// m27-7-1 86' — n.º 28 Ejaita Ifoni, CR Caála;
+// m27-7-7 88' — n.º 11 Nixon Guylherme Rocha Brizolara, 1.º de Maio.
+const PENDING_SCORERS = ["m27-5-5 52'", "m27-6-3 21'", "m27-6-3 90'", "m27-6-4 79'", "m27-6-4 96'", "m27-7-1 86'", "m27-7-7 88'"];
 const pending = d.getMatchesForSeason(d.UPCOMING_SEASON_ID)
   .filter((m: { status: string }) => m.status === 'finished')
   .flatMap((m: { id: string }) => d.getMatchDetail(m).events
