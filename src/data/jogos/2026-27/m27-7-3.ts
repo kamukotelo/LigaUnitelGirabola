@@ -9,6 +9,24 @@ export default defineMatch({
   schedule: { date: '2026-10-17T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
   // Resultado recebido a 17/10/2026 (aguarda o relatório do árbitro).
   result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-17T18:30:00+01:00' },
+  // Substituições e cartões amarelos recebidos a 19/10/2026.
+  events: [
+    { minute: 31, type: 'sub', team: 'home', player: 'Osah', number: 16, playerId: 'fifa-1mrrs47', playerOut: 'Abraão' },
+    { minute: 34, type: 'yellow', team: 'home', player: 'Jú Cabral', number: 8, playerId: 'ju-cabral-bravos' },
+    { minute: 62, type: 'yellow', team: 'away', player: 'Joca', number: 27, playerId: 'joca-lunda-sul' },
+    { minute: 67, type: 'yellow', team: 'home', player: 'Tiago', number: 15, playerId: 'tiago-bravos' },
+    { minute: 69, type: 'sub', team: 'away', player: 'Jack', number: 32, playerOut: 'Ximba' },
+    { minute: 69, type: 'sub', team: 'away', player: 'Banana', number: 14, playerOut: 'Joca' },
+    { minute: 76, type: 'sub', team: 'home', player: 'Toni', number: 25, playerId: 'tony-bravos', playerOut: 'André' },
+    { minute: 76, type: 'sub', team: 'home', player: 'Lizandro', number: 14, playerOut: 'Jú Cabral' },
+    { minute: 83, type: 'sub', team: 'home', player: 'Milson', number: 29, playerOut: 'Lito' },
+    { minute: 83, type: 'sub', team: 'away', player: 'Nonó', number: 2, playerId: 'nono', playerOut: 'Dieu' },
+    { minute: 87, type: 'sub', team: 'away', player: 'Magrinho', number: 11, playerId: 'magrinho', playerOut: 'Maranata' },
+    { minute: 87, type: 'sub', team: 'away', player: 'Caluvili', number: 33, playerId: 'zonzo', playerOut: 'Mussá' },
+    { minute: 90, type: 'yellow', team: 'home', player: 'Osah', number: 16, playerId: 'fifa-1mrrs47' },
+    { minute: 90, type: 'yellow', team: 'away', player: 'Jepson', number: 17, playerId: 'jepson' },
+    { minute: 90, type: 'yellow', team: 'away', player: 'Manucho', number: 19, playerId: 'manucho-lunda-sul' },
+  ],
   // Nomeação de arbitragem recebida a 16/10/2026 (nomes completos das fichas anteriores).
   officials: { referee: 'Miguel Tchissingui Augusto Américo', assistants: ['Bernardo Kunjuca Lúcio Serafim', 'Floriano Cawala'], fourth: 'Custódio Roque Lote' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (17/10/2026).
