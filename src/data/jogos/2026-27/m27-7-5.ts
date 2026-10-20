@@ -23,7 +23,7 @@ export default defineMatch({
     { minute: 68, type: 'sub', team: 'home', player: 'Aparício', number: 10, playerId: 'pedro-aparicio', playerOut: 'Tiago Azulão' },
     { minute: 71, type: 'sub', team: 'away', player: 'Abed Zito', number: 6, playerId: 'abed-kabuscorp', playerOut: 'Crespo' },
     { minute: 73, type: 'yellow', team: 'away', player: 'Aldair', number: 4, playerId: 'fifa-1lgpgy7', detail: 'Rasteirar o adversário' },
-    { minute: 77, type: 'sub', team: 'away', player: 'Mpiana', number: 39, playerOut: 'Jó Paciência' },
+    { minute: 77, type: 'sub', team: 'away', player: 'Mpiana', number: 39, playerId: 'platini-kabuscorp', playerOut: 'Jó Paciência' },
     { minute: 80, type: 'yellow', team: 'away', player: 'Ady Boyo', number: 5, playerId: 'fifa-1snb179', detail: 'Rasteirar o adversário' },
     { minute: 80, type: 'sub', team: 'home', player: 'Hélder Costa', number: 11, playerId: 'helder-costa', playerOut: 'Ivan Cavaleiro' },
     { minute: 80, type: 'sub', team: 'home', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis', playerOut: 'Depú' },
@@ -77,7 +77,7 @@ export default defineMatch({
       { name: 'Tula', number: 20, position: 'MID', isStarter: false, playerId: 'fifa-1jwts88' },
       { name: 'Mualucano', number: 22, position: 'GK', isStarter: false, playerId: 'fifa-1jrtva7' },
       { name: 'Joelson', number: 27, position: 'MID', isStarter: false, playerId: 'fifa-1pnr1r0' },
-      { name: 'Mpiana', number: 39, isStarter: false },
+      { name: 'Mpiana', number: 39, isStarter: false, playerId: 'platini-kabuscorp' },
     ],
   },
 });

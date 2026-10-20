@@ -55,7 +55,7 @@ export default defineMatch({
       { name: 'Júlio Mavungo André', number: 17, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'julio-cabinda' },
       { name: 'Domingos Paixão Paulino Lourenço', number: 19, position: 'MID', isStarter: false, isCaptain: false, playerId: 'domingos-paixao-cabinda' },
       { name: 'Fernando Matombe Bazonga', number: 21, position: 'MID', isStarter: false, isCaptain: false, playerId: 'fernando-cabinda' },
-      { name: 'Crichano Diacango', number: 28, position: 'FWD', isStarter: false, isCaptain: false },
+      { name: 'Crichano Diacango', number: 28, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'crichano-cabinda' },
     ],
   },
   events: [
@@ -69,7 +69,7 @@ export default defineMatch({
     { minute: 33, type: 'yellow', team: 'home', player: 'Jaime Caetano', number: 30, playerId: 'fifa-1qw9vb1', detail: 'Rasteiro o Adversário' },
     { minute: 45, type: 'sub', team: 'home', player: 'Francisco Chiquinho', number: 9, playerId: 'fifa-1l11132', playerOut: 'Pedro Paulo' },
     { minute: 45, type: 'sub', team: 'away', player: 'Fernando Matombe Bazonga', number: 21, playerId: 'fernando-cabinda', playerOut: 'Cristiano Malonda' },
-    { minute: 45, type: 'sub', team: 'away', player: 'Crichano Diacango', number: 28, playerOut: 'Gedeon Macosso Mananga' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Crichano Diacango', number: 28, playerId: 'crichano-cabinda', playerOut: 'Gedeon Macosso Mananga' },
     { minute: 45, type: 'sub', team: 'away', player: 'Júlio Mavungo André', number: 17, playerId: 'julio-cabinda', playerOut: 'Frederico Zau' },
     { minute: 47, type: 'yellow', team: 'away', player: 'Luyeye Tomás Tomás', number: 13, playerId: 'luyeye-cabinda', detail: 'Rasteiro o Adversário' },
     { minute: 67, type: 'goal', team: 'home', player: 'Jaime Caetano', number: 30, playerId: 'fifa-1qw9vb1', detail: '2-1' },

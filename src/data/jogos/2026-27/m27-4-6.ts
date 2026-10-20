@@ -29,7 +29,7 @@ export default defineMatch({
       { name: 'Manuel', number: 4, position: 'MID', isStarter: false, playerId: 'fifa-1jzirz7' },
       { name: 'João Vala', number: 8, position: 'MID', isStarter: false, playerId: 'fifa-1k39my6' },
       { name: 'Jonas', number: 23, position: 'DEF', isStarter: false, playerId: 'fifa-1nizqe4' },
-      { name: 'Germano', number: 24, position: 'DEF', isStarter: false },
+      { name: 'Germano', number: 24, position: 'DEF', isStarter: false, playerId: 'germano-fumela-saosalvador' },
       { name: 'Wilson', number: 25, position: 'DEF', isStarter: false, playerId: 'fifa-1sr5rk8' },
       { name: 'Anderson', number: 26, position: 'FWD', isStarter: false, playerId: 'fifa-1k2pyw6' },
       { name: 'António Mateus', number: 31, position: 'GK', isStarter: false, playerId: 'fifa-1k29464' },
