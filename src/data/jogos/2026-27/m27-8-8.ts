@@ -6,6 +6,6 @@ export default defineMatch({
   round: 8,
   homeTeamId: 'cabinda',
   awayTeamId: 'kabuscorp',
-  schedule: { date: '2026-10-27T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  schedule: { date: '2026-10-28T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', source: 'Pedido do Diretor (21/10/2026): de 27/10 para 28/10, mesma hora; antes: Mapa final das jornadas 7 a 10 (28/09/2026)' },
   // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });
