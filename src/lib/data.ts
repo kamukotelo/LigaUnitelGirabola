@@ -1869,6 +1869,10 @@ const LIBOLO_SQUAD_2026_27: Player[] = [
 
 const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['silvano-da-cruz-interclube', 'Silvano da Cruz', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
+  // 1.º de Agosto — novos no plantel enviado pelo clube a 23/10/2026.
+  ['diego-lopes-dago', 'Diego Lopes', 'CD 1.º de Agosto', 'dago', 'Guarda-redes', 12, 0],
+  ['juliao-dago', 'Julião', 'CD 1.º de Agosto', 'dago', 'Guarda-redes', 31, 0],
+  ['aguinaldo-dago', 'Aguinaldo', 'CD 1.º de Agosto', 'dago', 'Médio', 13, 0],
   ['alberto-alves-interclube', 'Alberto Alves', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
   ['ricardo-batista-fcluanda', 'Ricardo Batista', 'FC Luanda', 'fcluanda', 'Posição por confirmar', 0, 1],
   ['bello-lukman-wiliete', 'Bello Lukman', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
@@ -2015,6 +2019,44 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
 ]);
 
 /**
+ * Número, posição e nome curto do plantel que o próprio clube enviou. Prevalece
+ * sobre a inscrição da federação (que no 1.º de Agosto não traz posições) e
+ * devolve ao plantel quem a inscrição deixava sem número.
+ */
+const CLUB_SQUAD_LISTS_2026_27: Readonly<Record<string, { jerseyNumber: number; position: string; name?: string }>> = {
+  // 1.º de Agosto — plantel até ao fim do ano, enviado pelo clube a 23/10/2026.
+  'nuno-dago': { jerseyNumber: 1, position: 'Guarda-redes' },
+  'anselmo-dago': { jerseyNumber: 22, position: 'Guarda-redes' },
+  'juliao-dago': { jerseyNumber: 31, position: 'Guarda-redes' },
+  'diego-lopes-dago': { jerseyNumber: 12, position: 'Guarda-redes' },
+  'bonifacio-dago': { jerseyNumber: 5, position: 'Defesa' },
+  'venancio-dago': { jerseyNumber: 15, position: 'Defesa' },
+  'bencao-dago': { jerseyNumber: 36, position: 'Defesa' },
+  'fifa-1pxu511': { jerseyNumber: 19, position: 'Defesa' }, // Paxe
+  'paulo-costa-dago': { jerseyNumber: 21, position: 'Defesa' },
+  'milton-dago': { jerseyNumber: 2, position: 'Defesa' },
+  'simao-dianzenza': { jerseyNumber: 3, position: 'Defesa' }, // Mabelé
+  'macaia-dago': { jerseyNumber: 16, position: 'Médio' },
+  'bruno-dago': { jerseyNumber: 6, position: 'Médio' },
+  'calebi-dago': { jerseyNumber: 10, position: 'Médio' },
+  'axel-dago': { jerseyNumber: 8, position: 'Médio' },
+  'fifa-1pxwmn6': { jerseyNumber: 24, position: 'Médio' }, // Erique
+  'aguinaldo-dago': { jerseyNumber: 13, position: 'Médio' },
+  'mabilson-dago': { jerseyNumber: 7, position: 'Avançado' },
+  'fernando-dago': { jerseyNumber: 11, position: 'Avançado', name: 'Fernandinho' },
+  'fifa-1pny6s0': { jerseyNumber: 30, position: 'Avançado', name: 'Eliseu Francisco' },
+  'rupson-dago': { jerseyNumber: 9, position: 'Avançado' },
+  'cliver-dago': { jerseyNumber: 18, position: 'Avançado' },
+  'bulaya-dago': { jerseyNumber: 28, position: 'Avançado' }, // Félix
+  'castro-dago': { jerseyNumber: 27, position: 'Avançado' },
+  'fifa-1v12ek6': { jerseyNumber: 25, position: 'Avançado' }, // Luciano
+  'tombe-dago': { jerseyNumber: 20, position: 'Avançado' },
+  'obed-dago': { jerseyNumber: 14, position: 'Avançado' },
+  'fifa-1pwaay2': { jerseyNumber: 23, position: 'Avançado' }, // Aspirina
+  'dago-tshibamba': { jerseyNumber: 17, position: 'Avançado' },
+};
+
+/**
  * Atletas inscritos que o clube deixou de fora do plantel que enviou. Continuam
  * com página própria (aparecem em fichas de jogos já disputados), mas saem do
  * plantel da equipa.
@@ -2026,6 +2068,9 @@ const PLAYERS_OUT_OF_CLUB_SQUAD_2026_27: ReadonlySet<string> = new Set([
   'fifa-1scqy89', // n.º 20 · António Kulica
   'fifa-1ni87h8', // n.º 21 · Filó
   'fifa-1uqntj4', // n.º 36 · Adenilson Tchingando
+  // 1.º de Agosto — plantel enviado pelo clube a 23/10/2026.
+  'amilton-vicente-dago', // n.º 30 · Amilton Chinote Simba Vicente
+  'justo-pucusso-dago', // n.º 31 · Justo Pucusso
 ]);
 
 /**
@@ -2116,7 +2161,7 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   // 1.º de Agosto — lista «Atletas para a época 2026/2027» do clube (06/10/2026).
   'simao-dianzenza': 'Mabelé',       // nº 3 · Simão Dianzenza
   'dago-tshibamba': 'Dagó',          // nº 17 · Samu Dago
-  'bulaya-dago': 'Felix',            // nº 28 · Felix Bulaya
+  'bulaya-dago': 'Félix',            // nº 28 · Felix Bulaya
   'fifa-1pxu511': 'Paxe',            // nº 19 · Afonso dos Santos
   'fifa-1pwaay2': 'Aspirina',        // nº 23 · Enoque José Kabesa
   'fifa-1pxwmn6': 'Erique',          // nº 24 · Erique Joaquim Manuel de Jesus
@@ -2520,6 +2565,12 @@ const CURRENT_PLAYERS_RAW: Player[] = ([
 ] as Player[]).map((player) => ({
   ...player,
   ...(PLAYERS_OUT_OF_CLUB_SQUAD_2026_27.has(player.id) ? { registeredSquad: false } : {}),
+  ...(CLUB_SQUAD_LISTS_2026_27[player.id] ? {
+    jerseyNumber: CLUB_SQUAD_LISTS_2026_27[player.id].jerseyNumber,
+    position: CLUB_SQUAD_LISTS_2026_27[player.id].position,
+    ...(CLUB_SQUAD_LISTS_2026_27[player.id].name ? { name: CLUB_SQUAD_LISTS_2026_27[player.id].name, nickname: CLUB_SQUAD_LISTS_2026_27[player.id].name } : {}),
+    registeredSquad: true,
+  } : {}),
   photoUrl: PLAYER_PHOTOS[player.id] ?? player.photoUrl,
   goals: CURRENT_SEASON_PLAYER_TOTALS.get(player.id)?.goals ?? 0,
   assists: 0,

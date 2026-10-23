@@ -12,7 +12,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     { id: 'fifa-1jwu0l8', name: 'Ning', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Avançado', goals: 3, appearances: 5 },
     { id: 'fifa-1jtv3g3', name: 'Além', club: 'GD Interclube', teamId: 'interclube', position: 'Médio', goals: 2, appearances: 7 },
     { id: 'fifa-1k2pyw6', name: 'Anderson Mputa', club: 'São Salvador', teamId: 'saosalvador', position: 'Avançado', goals: 2, appearances: 5 },
-    { id: 'axel-dago', name: 'Axel', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 2, appearances: 6 },
+    { id: 'axel-dago', name: 'Axel', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Médio', goals: 2, appearances: 6 },
     { id: 'fifa-1jz4pi8', name: 'Benvindo Afonso', club: 'CR Caála', teamId: 'caala', position: 'Médio', goals: 2, appearances: 7 },
     { id: 'fifa-1k0sa99', name: 'Betinho', club: 'GD Interclube', teamId: 'interclube', position: 'Avançado', goals: 2, appearances: 7 },
     { id: 'claudio-primeiromaio', name: 'Cláudio', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 2, appearances: 3 },
