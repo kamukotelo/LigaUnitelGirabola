@@ -163,12 +163,13 @@ const WILIETE_PHOTO_IDS = [
 
 // Desportivo da Huíla — fotos enviadas pelo clube a 14/10/2026, com o nome de
 // guerra no ficheiro, ligadas pelo «Plantel Sénior Masculino 2026/27» do clube.
-// Sem página no portal: Ady (#3), Mendes (#9, Adulai Jaló), Jó (#11, José Jó),
+// Sem página no portal: Mendes (#9, Adulai Jaló), Jó (#11, José Jó),
 // Filó (#16), Mama (#17), Marcelo (#36) e Adó Jr (#37). Adó Pena (#27) sem foto.
 // Geovany (#35) não consta do plantel do clube, mas a foto veio com o nome.
 const HUILA_PHOTO_IDS = [
   'ndulo-huila',            // #1 Ndulo (GR)
   'katendi-huila',          // #2 Zinho (Nsambo Katendi)
+  'desphuila-player-3',     // #3 Ady (Adilson Manuel)
   'dos-santos-huila',       // #4 Santos
   'joao-milagre-huila',     // #6 Jó (João Milagre)
   'leonardo-isola-huila',   // #7 Cabibi

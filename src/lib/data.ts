@@ -2174,6 +2174,8 @@ const CLUB_PUBLISHED_PLAYER_NAMES_2026_27: Readonly<Record<string, string>> = {
   'fifa-1pwaay2': 'Aspirina',        // nº 23 · Enoque José Kabesa
   'fifa-1pxwmn6': 'Erique',          // nº 24 · Erique Joaquim Manuel de Jesus
   'fifa-1v12ek6': 'Luciano',         // nº 25 · Luciano Manuel dos Santos
+  // Desportivo da Huíla — «Plantel Sénior Masculino 2026/27» do clube (14/10/2026).
+  'desphuila-player-3': 'Ady',       // nº 3 · Adilson Manuel (licença 000765M89)
 };
 
 const OFFICIAL_PLAYER_ID_BY_FIFA_ID: Readonly<Record<string, string>> = {
