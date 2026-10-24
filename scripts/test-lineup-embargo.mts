@@ -25,6 +25,13 @@ try {
   assert.equal(hidden.homeLineup.length + hidden.awayLineup.length, 0, `${base.id}: line up visível antes de 1 h do início`);
   assert.equal(hidden.homeCoach ?? hidden.awayCoach, undefined, `${base.id}: treinadores do line up visíveis antes de 1 h do início`);
   assert.equal(hidden.lineupPublicFrom, at('2026-10-13T16:00:00+01:00'));
+
+  // Blindagem do cliente: simulação de acesso no browser de visitante para jogo por disputar sob embargo
+  (globalThis as any).window = {};
+  const browserRecord = getMatchRecord('m27-8-4');
+  assert.equal(browserRecord?.lineups, undefined, 'm27-8-4: escalação exposta no browser para jogo sob embargo');
+  delete (globalThis as any).window;
+
   Date.now = () => at('2026-10-13T16:30:00+01:00');
   const shown = getMatchDetail(upcoming);
   assert.ok(shown.homeLineup.length > 0, `${base.id}: line up escondido a menos de 1 h do início`);

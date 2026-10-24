@@ -17,9 +17,11 @@ import {
   applyMatchOverrideMap,
   applySeasonHomeStadiums,
   getTeamById,
+  getMatchDetail,
   Match,
   PLATFORM_MATCH_UPDATED_AT,
 } from '@/lib/data';
+import { isLineupPublic, lineupPublicFrom } from '@/lib/lineup-embargo';
 import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/lib/published-ancaf-calendar';
 import { PLATFORM_BUILD_PUBLISHED_AT } from '@/lib/platform-build-info';
 
@@ -358,7 +360,21 @@ export async function GET(request: Request) {
         { status: 404 },
       );
     }
-    return NextResponse.json({ match, source: dynamicSource, generatedAt: dynamicSource.generatedAt });
+    const serverNow = Date.now();
+    const detail = getMatchDetail(match, serverNow);
+    // Garantia estrita do servidor: se o jogo não é público no relógio do servidor,
+    // purga expressamente qualquer jogador ou treinador do payload retornado.
+    if (!isLineupPublic(match, serverNow)) {
+      detail.homeLineup = [];
+      detail.awayLineup = [];
+      detail.homeCoach = undefined;
+      detail.awayCoach = undefined;
+      detail.lineupPublicFrom = lineupPublicFrom(match.date);
+    }
+    return NextResponse.json(
+      { match, detail, serverTime: serverNow, source: dynamicSource, generatedAt: dynamicSource.generatedAt },
+      { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } },
+    );
   }
 
   // Validação do parâmetro round.

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
-import { getMatchById, getMatchDetail, getTeamById, type Match } from '@/lib/data';
+import { getMatchById, getMatchDetail, getTeamById, type Match, type MatchDetail } from '@/lib/data';
 import MatchDetailClient from '@/components/MatchDetailClient';
 import { ROUTES } from '@/lib/routes';
 
@@ -12,7 +12,9 @@ export default function MatchDetailPage() {
   const { id } = useParams<{ id: string }>();
   const isDynamicCalendarMatch = id.startsWith('m27-');
   const [match, setMatch] = useState<Match | undefined>(() => isDynamicCalendarMatch ? undefined : getMatchById(id));
+  const [serverDetail, setServerDetail] = useState<MatchDetail | undefined>();
   const [loading, setLoading] = useState(isDynamicCalendarMatch);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     if (!isDynamicCalendarMatch) return;
@@ -21,10 +23,15 @@ export default function MatchDetailPage() {
     fetch(`/api/ancaf?format=matches&id=${encodeURIComponent(id)}`, { cache: 'no-store' })
       .then(async (response) => {
         if (!response.ok) throw new Error(`Jogo não encontrado (${response.status})`);
-        return response.json() as Promise<{ match: Match }>;
+        return response.json() as Promise<{ match: Match; detail?: MatchDetail }>;
       })
       .then((data) => {
-        if (!cancelled) setMatch(data.match);
+        if (!cancelled) {
+          setMatch(data.match);
+          if (data.detail) {
+            setServerDetail(data.detail);
+          }
+        }
       })
       .catch(() => {
         if (!cancelled) setMatch(undefined);
@@ -34,7 +41,21 @@ export default function MatchDetailPage() {
       });
 
     return () => { cancelled = true; };
-  }, [id, isDynamicCalendarMatch]);
+  }, [id, isDynamicCalendarMatch, reloadKey]);
+
+  // Se o line up estiver sob embargo, agenda a atualização automática assim
+  // que o embargo expirar segundo a hora oficial do servidor.
+  useEffect(() => {
+    if (!serverDetail?.lineupPublicFrom) return;
+    const remainingMs = serverDetail.lineupPublicFrom - Date.now();
+    if (remainingMs <= 0 || remainingMs > 24 * 60 * 60 * 1000) return;
+
+    const timer = setTimeout(() => {
+      setReloadKey((prev) => prev + 1);
+    }, remainingMs + 1000);
+
+    return () => clearTimeout(timer);
+  }, [serverDetail?.lineupPublicFrom]);
 
   if (loading) {
     return (
@@ -55,7 +76,7 @@ export default function MatchDetailPage() {
     );
   }
 
-  const detail = getMatchDetail(match);
+  const detail = serverDetail ?? getMatchDetail(match);
   const homeTeam = getTeamById(match.homeTeamId);
   const awayTeam = getTeamById(match.awayTeamId);
 

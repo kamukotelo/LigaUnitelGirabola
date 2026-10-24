@@ -99,7 +99,15 @@ const MATCH_RECORD_BY_FIXTURE: ReadonlyMap<string, MatchRecord> = new Map(
 
 /** Registo publicado de um jogo da época em curso, quando existe. */
 export function getMatchRecord(matchId: string): MatchRecord | undefined {
-  return MATCH_RECORD_BY_ID.get(matchId);
+  const record = MATCH_RECORD_BY_ID.get(matchId);
+  if (!record) return undefined;
+  // No browser do cliente, um jogo por disputar sob embargo não expõe
+  // escalações brutas em memória; o line up é servido pela API do servidor.
+  if (typeof window !== 'undefined' && record.lineups && !isLineupPublic({ date: record.schedule.date, status: record.result?.status })) {
+    const { lineups: _l, coaches: _c, ...safe } = record;
+    return safe as MatchRecord;
+  }
+  return record;
 }
 
 // Data editorial mínima das etiquetas "atualizado em": cada resultado traz a
@@ -3875,7 +3883,8 @@ function reconcileMatchEvents(events: MatchEventDetail[], home: LineupNameIndex,
 }
 
 /** Escalação publicada no registo do jogo. */
-function getRecordLineups(match: Match): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+function getRecordLineups(match: Match, now: number = Date.now()): { home: LineupPlayer[]; away: LineupPlayer[] } | undefined {
+  if (!isLineupPublic(match, now)) return undefined;
   const lineups = MATCH_RECORD_BY_ID.get(match.id)?.lineups;
   if (!lineups) return undefined;
   const withRating = (slot: MatchRecordLineupPlayer): LineupPlayer => ({ ...slot, rating: slot.rating ?? 0 });
@@ -4580,12 +4589,12 @@ const PUBLISHED_MATCH_COACHES: Readonly<Record<string, { home?: string; away?: s
   MATCH_RECORDS_2026_27.flatMap((record) => (record.coaches ? [[record.id, record.coaches]] : [])),
 );
 
-export function getMatchDetail(match: Match): MatchDetail {
+export function getMatchDetail(match: Match, now: number = Date.now()): MatchDetail {
   // Prioridade: BD (ancaf_match_lineups) → escalações publicadas em código.
   // Antes de 1 h do início o line up não é público, mesmo que esteja carregado.
-  const lineupPublic = isLineupPublic(match);
+  const lineupPublic = isLineupPublic(match, now);
   const dbLineup = lineupPublic ? RUNTIME_DATA.lineups?.[match.id] : undefined;
-  const publishedLineups = lineupPublic ? dbLineup ?? getRecordLineups(match) : undefined;
+  const publishedLineups = lineupPublic ? dbLineup ?? getRecordLineups(match, now) : undefined;
   const homeLineup = reconcileLineupPlayers(match.homeTeamId, publishedLineups?.home ?? []);
   const awayLineup = reconcileLineupPlayers(match.awayTeamId, publishedLineups?.away ?? []);
   const homeNames = buildLineupNameIndex(publishedLineups?.home ?? [], homeLineup);
