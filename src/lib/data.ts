@@ -3777,9 +3777,15 @@ export function getPlayerMatchName(player: Player): string {
  */
 function reconcileLineupPlayers(teamId: string, lineup: LineupPlayer[]): LineupPlayer[] {
   const squad = getPlayersByTeam(teamId);
+  // Atletas identificados explicitamente (playerId) noutra entrada da mesma
+  // escalação não são atribuídos pela camisola: quando um jogador muda de
+  // número (ex.: Super com a 12), a camisola antiga pode ser de outro atleta.
+  const claimed = new Set(lineup.map((slot) => slot.playerId).filter(Boolean));
   return lineup.map((slot) => {
     const byId = slot.playerId ? squad.find((player) => player.id === slot.playerId) : undefined;
-    const byShirt = slot.number > 0 ? squad.find((player) => player.jerseyNumber === slot.number) : undefined;
+    const byShirt = slot.number > 0
+      ? squad.find((player) => player.jerseyNumber === slot.number && (player.id === slot.playerId || !claimed.has(player.id)))
+      : undefined;
     const player = byShirt ?? byId;
     if (!player) return slot;
     return {
