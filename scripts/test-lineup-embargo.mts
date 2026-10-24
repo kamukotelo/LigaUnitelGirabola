@@ -26,10 +26,14 @@ try {
   assert.equal(hidden.homeCoach ?? hidden.awayCoach, undefined, `${base.id}: treinadores do line up visíveis antes de 1 h do início`);
   assert.equal(hidden.lineupPublicFrom, at('2026-10-13T16:00:00+01:00'));
 
-  // Blindagem do cliente: simulação de acesso no browser de visitante para jogo por disputar sob embargo
+  // Blindagem do cliente: simulação de acesso no browser de visitante. Um jogo
+  // por disputar sob embargo não traz a escalação; um terminado traz sempre.
+  const withLineup = getMatchesForSeason(UPCOMING_SEASON_ID).filter((match) => getMatchRecord(match.id)?.lineups?.home.length);
+  const embargoed = withLineup.find((match) => match.status === 'scheduled' && Date.parse(match.date) > at('2026-10-13T16:00:00+01:00'));
+  const finished = withLineup.find((match) => match.status === 'finished');
   (globalThis as any).window = {};
-  const browserRecord = getMatchRecord('m27-8-4');
-  assert.equal(browserRecord?.lineups, undefined, 'm27-8-4: escalação exposta no browser para jogo sob embargo');
+  if (embargoed) assert.equal(getMatchRecord(embargoed.id)?.lineups, undefined, `${embargoed.id}: escalação exposta no browser para jogo sob embargo`);
+  if (finished) assert.ok(getMatchRecord(finished.id)?.lineups?.home.length, `${finished.id}: escalação de jogo terminado escondida no browser`);
   delete (globalThis as any).window;
 
   Date.now = () => at('2026-10-13T16:30:00+01:00');
