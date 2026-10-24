@@ -13,6 +13,7 @@ export default function MatchDetailPage() {
   const isDynamicCalendarMatch = id.startsWith('m27-');
   const [match, setMatch] = useState<Match | undefined>(() => isDynamicCalendarMatch ? undefined : getMatchById(id));
   const [serverDetail, setServerDetail] = useState<MatchDetail | undefined>();
+  const [serverNow, setServerNow] = useState<number | undefined>();
   const [loading, setLoading] = useState(isDynamicCalendarMatch);
   const [reloadKey, setReloadKey] = useState(0);
 
@@ -23,13 +24,16 @@ export default function MatchDetailPage() {
     fetch(`/api/ancaf?format=matches&id=${encodeURIComponent(id)}`, { cache: 'no-store' })
       .then(async (response) => {
         if (!response.ok) throw new Error(`Jogo não encontrado (${response.status})`);
-        return response.json() as Promise<{ match: Match; detail?: MatchDetail }>;
+        return response.json() as Promise<{ match: Match; detail?: MatchDetail; serverTime?: number }>;
       })
       .then((data) => {
         if (!cancelled) {
           setMatch(data.match);
           if (data.detail) {
             setServerDetail(data.detail);
+          }
+          if (typeof data.serverTime === 'number') {
+            setServerNow(data.serverTime);
           }
         }
       })
@@ -47,15 +51,17 @@ export default function MatchDetailPage() {
   // que o embargo expirar segundo a hora oficial do servidor.
   useEffect(() => {
     if (!serverDetail?.lineupPublicFrom) return;
-    const remainingMs = serverDetail.lineupPublicFrom - Date.now();
-    if (remainingMs <= 0 || remainingMs > 24 * 60 * 60 * 1000) return;
+    const referenceNow = serverNow ?? Date.now();
+    const remainingMs = serverDetail.lineupPublicFrom - referenceNow;
+    if (remainingMs > 24 * 60 * 60 * 1000) return;
+    const delayMs = Math.max(1500, remainingMs + 1000);
 
     const timer = setTimeout(() => {
       setReloadKey((prev) => prev + 1);
-    }, remainingMs + 1000);
+    }, delayMs);
 
     return () => clearTimeout(timer);
-  }, [serverDetail?.lineupPublicFrom]);
+  }, [serverDetail?.lineupPublicFrom, serverNow, reloadKey]);
 
   if (loading) {
     return (

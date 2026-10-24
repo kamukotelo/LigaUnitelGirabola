@@ -22,6 +22,7 @@ import {
   PLATFORM_MATCH_UPDATED_AT,
 } from '@/lib/data';
 import { isLineupPublic, lineupPublicFrom } from '@/lib/lineup-embargo';
+import { getMatchLineups } from '@/lib/match-lineups';
 import { PUBLISHED_ANCAF_CALENDAR_SOURCE, PUBLISHED_MATCHES_2026_27 } from '@/lib/published-ancaf-calendar';
 import { PLATFORM_BUILD_PUBLISHED_AT } from '@/lib/platform-build-info';
 
@@ -370,6 +371,35 @@ export async function GET(request: Request) {
       detail.homeCoach = undefined;
       detail.awayCoach = undefined;
       detail.lineupPublicFrom = lineupPublicFrom(match.date);
+    } else {
+      // Quando público, junta eventuais escalações confirmadas na BD (ancaf_match_lineups).
+      const storedLineups = await getMatchLineups(match.id);
+      const dbHome = storedLineups.find((l) => l.side === 'home' && l.confirmedBy !== 'código');
+      const dbAway = storedLineups.find((l) => l.side === 'away' && l.confirmedBy !== 'código');
+      if (dbHome && dbHome.players.length > 0) {
+        detail.homeLineup = dbHome.players.map((p) => ({
+          name: p.name,
+          playerId: p.playerId ?? undefined,
+          number: p.number,
+          position: p.position ?? undefined,
+          rating: 0,
+          isStarter: p.isStarter,
+          isCaptain: p.isCaptain || undefined,
+        }));
+        if (dbHome.coach) detail.homeCoach = dbHome.coach;
+      }
+      if (dbAway && dbAway.players.length > 0) {
+        detail.awayLineup = dbAway.players.map((p) => ({
+          name: p.name,
+          playerId: p.playerId ?? undefined,
+          number: p.number,
+          position: p.position ?? undefined,
+          rating: 0,
+          isStarter: p.isStarter,
+          isCaptain: p.isCaptain || undefined,
+        }));
+        if (dbAway.coach) detail.awayCoach = dbAway.coach;
+      }
     }
     return NextResponse.json(
       { match, detail, serverTime: serverNow, source: dynamicSource, generatedAt: dynamicSource.generatedAt },

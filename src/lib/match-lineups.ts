@@ -1,4 +1,6 @@
 import 'server-only';
+import { getMatchRecord, getPlayerMatchName, getPlayersByTeam } from '@/lib/data';
+import { getNeonSql, isNeonConfigured } from '@/lib/neon';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export type SlotPosition = 'GK' | 'DEF' | 'MID' | 'FWD';
@@ -57,24 +59,83 @@ export function sanitizeLineupPlayers(players: unknown): LineupSlot[] {
     .slice(0, 30);
 }
 
-export async function getMatchLineups(matchId: string): Promise<StoredMatchLineup[]> {
-  try {
-    const { data } = await getSupabaseAdmin()
-      .from('ancaf_match_lineups')
-      .select('match_id, team_id, side, players, coach, confirmed_at, confirmed_by')
-      .eq('match_id', matchId);
-    return (data ?? []).map((row) => ({
-      matchId: row.match_id as string,
-      teamId: row.team_id as string,
-      side: row.side as 'home' | 'away',
-      players: sanitizeLineupPlayers(row.players),
-      coach: (row.coach as string | null) ?? null,
-      confirmedAt: (row.confirmed_at as string | null) ?? null,
-      confirmedBy: (row.confirmed_by as string | null) ?? null,
-    }));
-  } catch {
-    return [];
+function buildRecordFallbackLineups(matchId: string, existingSides: Set<'home' | 'away'>): StoredMatchLineup[] {
+  const record = getMatchRecord(matchId);
+  if (!record?.lineups) return [];
+  const fallbacks: StoredMatchLineup[] = [];
+  for (const side of ['home', 'away'] as const) {
+    if (existingSides.has(side)) continue;
+    const rawPlayers = record.lineups[side];
+    if (!rawPlayers || rawPlayers.length === 0) continue;
+    const teamId = side === 'home' ? record.homeTeamId : record.awayTeamId;
+    const squad = getPlayersByTeam(teamId);
+    const claimed = new Set(rawPlayers.map((slot) => slot.playerId).filter(Boolean));
+    const players: LineupSlot[] = rawPlayers.map((slot) => {
+      const byId = slot.playerId ? squad.find((p) => p.id === slot.playerId) : undefined;
+      const byShirt = slot.number > 0
+        ? squad.find((p) => p.jerseyNumber === slot.number && (p.id === slot.playerId || !claimed.has(p.id)))
+        : undefined;
+      const player = byShirt ?? byId;
+      return {
+        playerId: player?.id ?? slot.playerId ?? null,
+        name: player ? getPlayerMatchName(player) : slot.name,
+        number: slot.number,
+        position: slot.position ?? toSlotPosition(player?.position) ?? null,
+        isStarter: slot.isStarter,
+        isCaptain: slot.isCaptain === true,
+      };
+    });
+    fallbacks.push({
+      matchId,
+      teamId,
+      side,
+      players,
+      coach: record.coaches?.[side] ?? null,
+      confirmedAt: record.result?.updatedAt ?? record.schedule.date,
+      confirmedBy: 'código',
+    });
   }
+  return fallbacks;
+}
+
+export async function getMatchLineups(matchId: string): Promise<StoredMatchLineup[]> {
+  let dbRows: StoredMatchLineup[] = [];
+  try {
+    if (isNeonConfigured()) {
+      const rows = (await getNeonSql().query(
+        'select match_id, team_id, side, players, coach, confirmed_at, confirmed_by from public.ancaf_match_lineups where match_id = $1',
+        [matchId],
+      )) as Array<Record<string, unknown>>;
+      dbRows = rows.map((row) => ({
+        matchId: String(row.match_id),
+        teamId: String(row.team_id),
+        side: row.side as 'home' | 'away',
+        players: sanitizeLineupPlayers(row.players),
+        coach: (row.coach as string | null) ?? null,
+        confirmedAt: row.confirmed_at ? String(row.confirmed_at) : null,
+        confirmedBy: (row.confirmed_by as string | null) ?? null,
+      }));
+    } else {
+      const { data } = await getSupabaseAdmin()
+        .from('ancaf_match_lineups')
+        .select('match_id, team_id, side, players, coach, confirmed_at, confirmed_by')
+        .eq('match_id', matchId);
+      dbRows = (data ?? []).map((row) => ({
+        matchId: row.match_id as string,
+        teamId: row.team_id as string,
+        side: row.side as 'home' | 'away',
+        players: sanitizeLineupPlayers(row.players),
+        coach: (row.coach as string | null) ?? null,
+        confirmedAt: (row.confirmed_at as string | null) ?? null,
+        confirmedBy: (row.confirmed_by as string | null) ?? null,
+      }));
+    }
+  } catch {
+    dbRows = [];
+  }
+
+  const existingSides = new Set(dbRows.map((r) => r.side));
+  return [...dbRows, ...buildRecordFallbackLineups(matchId, existingSides)];
 }
 
 export async function saveMatchLineup(input: {
@@ -87,6 +148,21 @@ export async function saveMatchLineup(input: {
 }): Promise<{ ok: true } | { ok: false; error: string }> {
   const now = new Date().toISOString();
   try {
+    if (isNeonConfigured()) {
+      await getNeonSql().query(
+        `insert into public.ancaf_match_lineups (match_id, team_id, side, players, coach, confirmed_by, confirmed_at, updated_at)
+         values ($1, $2, $3, $4::jsonb, $5, $6, $7, $7)
+         on conflict (match_id, team_id) do update set
+           side = excluded.side,
+           players = excluded.players,
+           coach = excluded.coach,
+           confirmed_by = excluded.confirmed_by,
+           confirmed_at = excluded.confirmed_at,
+           updated_at = excluded.updated_at`,
+        [input.matchId, input.teamId, input.side, JSON.stringify(input.players), input.coach, input.confirmedBy, now],
+      );
+      return { ok: true };
+    }
     const { error } = await getSupabaseAdmin()
       .from('ancaf_match_lineups')
       .upsert(

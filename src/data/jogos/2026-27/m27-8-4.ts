@@ -7,6 +7,8 @@ export default defineMatch({
   homeTeamId: 'sagrada',
   awayTeamId: 'primeiromaio',
   schedule: { date: '2026-10-24T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'DCE/ANCAF, 05/10/2026: sem transmissão televisiva (Rádio 5)' },
+  // Nomeação de arbitragem da «Constituição das Equipas» oficial (24/10/2026).
+  officials: { referee: 'Sanda Mateus Miguel Kitu', assistants: ['Evandro Henrique Freitas da Rocha', 'Natarino António Soares'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
   // Onze inicial, suplentes e treinadores da «Constituição das Equipas» oficial
   // do jogo (24/10/2026). Só ficam públicos 1 h antes do início (lineup-embargo).
   coaches: { home: 'Luís Quintas', away: 'Mavi Lopes' },

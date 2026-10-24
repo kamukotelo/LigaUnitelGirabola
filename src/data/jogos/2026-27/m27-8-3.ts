@@ -17,6 +17,7 @@ export default defineMatch({
       {
         "name": "Caxito",
         "number": 30,
+        "position": "GK",
         "isStarter": true,
         "playerId": "caxito-lobito"
       },
@@ -91,8 +92,9 @@ export default defineMatch({
       {
         "name": "Gui",
         "number": 12,
+        "position": "GK",
         "isStarter": false,
-        "playerId": "dialanda-lobito"
+        "playerId": "guilherme-lobito"
       },
       {
         "name": "Elieve",
