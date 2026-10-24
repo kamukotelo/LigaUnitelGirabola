@@ -7,6 +7,12 @@ export default defineMatch({
   homeTeamId: 'lobito',
   awayTeamId: 'fcluanda',
   schedule: { date: '2026-10-24T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  // Resultado e marcadores do quadro de resultados enviado pelo utilizador (24/10/2026); Relatório do Árbitro por receber.
+  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '0-0', updatedAt: '2026-10-24T17:00:00+01:00' },
+  events: [
+    { minute: 53, type: 'goal', team: 'away', player: 'Cabeto', number: 8, playerId: 'fifa-1ljudk2', detail: '0-1' },
+    { minute: 64, type: 'goal', team: 'home', player: 'Bebucho', number: 19, playerId: 'antonio-lobito', detail: '1-1' },
+  ],
   // A Académica recebe no Estádio Nacional de Ombaka (indicação de 28/09/2026).
   // Constituição das Equipas: imagens fornecidas pelo utilizador em 24/10/2026.
   // Ordem, nomes e camisolas transcritos da ficha; 11 titulares e 9 suplentes por equipa.

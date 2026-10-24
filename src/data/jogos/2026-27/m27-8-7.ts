@@ -6,5 +6,5 @@ export default defineMatch({
   round: 8,
   homeTeamId: 'wiliete',
   awayTeamId: 'saosalvador',
-  schedule: { date: '2026-10-28T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  schedule: { date: '2026-10-28T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', postponed: true, scheduleStatus: 'official', source: 'Adiado, sem nova data (informação do utilizador a 24/10/2026; comunicado ANCAF por anexar); antes: Mapa final das jornadas 7 a 10 (28/09/2026)' },
 });
