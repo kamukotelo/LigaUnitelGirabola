@@ -7,6 +7,15 @@ export default defineMatch({
   homeTeamId: 'lundasul',
   awayTeamId: 'interclube',
   schedule: { date: '2026-10-25T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'DCE/ANCAF, 05/10/2026: sem transmissão televisiva (Rádio 5)' },
+  // Resultado recebido a 25/10/2026 (aguarda o relatório do árbitro). «Jack» (n.º 32)
+  // ainda sem ficha no plantel da Lunda Sul.
+  result: { status: 'finished', homeScore: 3, awayScore: 1, halfTimeScore: '0-1', updatedAt: '2026-10-25T18:05:00+01:00' },
+  events: [
+    { minute: 41, type: 'goal', team: 'away', player: 'Boiado', number: 30, playerId: 'fifa-1jzyk44', detail: '0-1' },
+    { minute: 48, type: 'goal', team: 'home', player: 'Jepson', number: 17, playerId: 'jepson', detail: '1-1' },
+    { minute: 51, type: 'goal', team: 'home', player: 'Mussá', number: 20, playerId: 'mussa-lunda-sul', detail: '2-1' },
+    { minute: 94, type: 'goal', team: 'home', player: 'Jack', number: 32, detail: "90'+4 · 3-1" },
+  ],
   // Equipa de arbitragem do «Lineup Geral» oficial (25/10/2026; nomes completos das fichas anteriores).
   officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['João Manuel Fula António', 'Evandro Henrique Freitas da Rocha'], fourth: 'Sanda Mateus Miguel Kitu' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (25/10/2026).
