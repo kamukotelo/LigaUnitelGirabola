@@ -6,7 +6,7 @@ export default defineMatch({
   round: 8,
   homeTeamId: 'cabinda',
   awayTeamId: 'kabuscorp',
-  // Adiamento de 24/10/2026 anulado a 25/10/2026: marcado por engano, sem comunicado da ANCAF.
-  schedule: { date: '2026-10-28T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', source: 'Pedido do Diretor (21/10/2026): de 27/10 para 28/10, mesma hora; antes: Mapa final das jornadas 7 a 10 (28/09/2026)' },
-  // Estádio da lista oficial de estádios das equipas (28/09/2026).
+  // Remarcado para quarta, 04/11/2026, com o estádio ainda por anunciar, a pedido
+  // recebido a 26/10/2026 (Emanuel Valodia); a hora não foi indicada e mantém-se 15:00.
+  schedule: { date: '2026-11-04T15:00:00+01:00', stadium: 'Estádio a anunciar', stadiumPending: true, scheduleStatus: 'official', source: 'Pedido recebido a 26/10/2026: 04/11, estádio a anunciar; antes: 28/10, 15:00, Estádio França N’dalu' },
 });

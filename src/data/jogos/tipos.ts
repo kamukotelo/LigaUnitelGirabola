@@ -37,6 +37,12 @@ export interface MatchRecord {
      */
     source?: string;
     /**
+     * Estádio ainda por anunciar: `stadium` fica 'Estádio a anunciar' e as
+     * regras de estádio (lista oficial, estádio da casa, intervalo de 3 h) só
+     * se aplicam quando o estádio for indicado.
+     */
+    stadiumPending?: boolean;
+    /**
      * Motivo e fonte quando o jogo não é no estádio da casa da equipa
      * (HOME_STADIUMS_2026_27). Sem isto, a validação recusa o estádio.
      */

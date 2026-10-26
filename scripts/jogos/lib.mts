@@ -169,11 +169,13 @@ export async function validateRecords(): Promise<ValidationReport> {
       if (schedule.scheduleStatus === 'official' && !schedule.source?.trim()) {
         errors.push(`${at}: agenda 'official' sem schedule.source — indica o comunicado ou mapa que a fixou (ou usa 'provisional').`);
       }
-      if (!d.OFFICIAL_STADIUMS_2026_27.includes(schedule.stadium)) {
+      if (schedule.stadiumPending) {
+        if (schedule.stadium !== 'Estádio a anunciar') errors.push(`${at}: stadiumPending exige stadium 'Estádio a anunciar'.`);
+      } else if (!d.OFFICIAL_STADIUMS_2026_27.includes(schedule.stadium)) {
         errors.push(`${at}: estádio "${schedule.stadium}" fora da lista oficial (HOME_STADIUMS_2026_27 em src/lib/data.ts).`);
       }
       const homeStadium = d.HOME_STADIUMS_2026_27[record.homeTeamId];
-      if (schedule.stadium !== homeStadium && !schedule.stadiumException?.trim()) {
+      if (!schedule.stadiumPending && schedule.stadium !== homeStadium && !schedule.stadiumException?.trim()) {
         errors.push(`${at}: joga no "${schedule.stadium}" mas a casa de ${record.homeTeamId} é o "${homeStadium}" — corrige ou justifica em schedule.stadiumException.`);
       }
     }
@@ -263,7 +265,7 @@ export async function validateRecords(): Promise<ValidationReport> {
   }
   // Dois jogos por disputar no mesmo estádio com menos de 3 h de intervalo.
   const upcoming = records
-    .filter((record) => !record.result && !record.schedule.postponed)
+    .filter((record) => !record.result && !record.schedule.postponed && !record.schedule.stadiumPending)
     .sort((a, b) => Date.parse(a.schedule.date) - Date.parse(b.schedule.date));
   for (let i = 0; i < upcoming.length; i += 1) {
     for (let j = i + 1; j < upcoming.length; j += 1) {
