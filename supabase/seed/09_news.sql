@@ -51,6 +51,21 @@ Elindo Wanga Paulino (lic. 000567M00 - CD Lunda Sul).
 
 d) Suspensão por 15 Dias e Multas Pecuniárias:
 O Técnico Adjunto Sr. Miguel Ângelo M. Alminhas (lic. 009079M84) do Futebol Clube de Luanda foi sancionado com a pena de suspensão por 15 (quinze) dias e multa no valor de 1.500 UCF, equivalente a 132.000,00 Akz (Cento e Trinta e Dois Mil Kwanzas). Cumulativamente, ao abrigo do art.º 61.º do R/D da FAF, o Futebol Clube de Luanda foi punido com a pena de multa de 1.500 UCF (132.000,00 Akz). Os valores referidos devem ser pagos no prazo de 20 (vinte) dias sob pena de agravamento nos termos do art.º 24.º do R/D da FAF.', 'published', 'Secretaria Geral da FAF', 'Federação Angolana de Futebol (FAF)', 'https://faf.co.ao', '2026-09-16T12:00:00+01:00', '[]'::jsonb, '/comunicados/faf-comunicado-010-2026-27/comunicado-oficial-010-sg-faf-2026-27.pdf', false),
+  ('comunicado-oficial-013-dce-ancaf-2026', 'FC Cabinda–Kabuscorp SC adiado para 4 de novembro', 'Comunicado Oficial', '2026-10-26T00:00:00.000Z', '2026-10-26', 'A ANCAF adiou por motivo de força maior o jogo entre o FC Cabinda e o Kabuscorp SC: a delegação do Kabuscorp, que jogou na RD Congo a 25 de outubro para a Taça das Confederações da CAF, só regressa a Angola a 27 à noite. A partida joga-se a 4 de novembro, à mesma hora, em estádio a designar pelo FC Cabinda.', 'A Direção de Competições da ANCAF informou o adiamento da partida entre o FC Cabinda e o Kabuscorp SC, da 8.ª jornada da Liga Unitel Girabola, originalmente agendada para 27 de outubro de 2026, às 15h00.
+
+Por motivos de força maior, a delegação do Kabuscorp SC, após o jogo da 2.ª mão da 2.ª eliminatória da Taça das Confederações da CAF, realizado a 25 de outubro, às 14h00, na República Democrática do Congo, só tem voo de regresso a Angola a 27 de outubro, à noite.
+
+Em coordenação com as direções dos dois clubes e com a equipa de arbitragem, a ANCAF deliberou:
+
+• Suspensão imediata: a partida agendada fica oficialmente adiada.
+
+• Nova calendarização: após a apresentação dos documentos oficiais que comprovam o motivo de força maior, e nos termos do n.º 2 do artigo 32.º do Regulamento de Competições da ANCAF, o jogo foi remarcado para 4 de novembro, no estádio a designar pelo FC Cabinda e no mesmo horário.
+
+• Validade de bilhetes: todos os ingressos adquiridos para este jogo mantêm-se válidos para a nova data.
+
+A ANCAF lamenta os inconvenientes causados aos clubes, patrocinadores e adeptos, reiterando que a preparação e a igualdade de condições competitivas para todas as equipas, bem como a participação das equipas angolanas nas competições africanas, serão sempre prioridades absolutas.
+
+O comunicado é assinado por Valódia dos Santos, Diretor de Competições, e pelo Presidente da ANCAF, João Lusevi Kueno.', 'published', 'Direção de Competições da ANCAF', 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol', 'https://ancaf.co.ao', '2026-10-26T12:00:00+01:00', '["/comunicados/comunicado-013-2026/pagina-1.png"]'::jsonb, '/comunicados/comunicado-013-2026/comunicado-013-dce-ancaf-2026.pdf', false),
   ('comunicado-oficial-011-dce-ancaf-2026', '1.º de Agosto–Wiliete adiado para 4 de novembro', 'Comunicado Oficial', '2026-10-07T00:00:00.000Z', '2026-10-07', 'A ANCAF adiou o jogo entre o CD 1.º de Agosto e o Wiliete SC de Benguela, previsto para 14 de outubro, para dar descanso às equipas angolanas nas Afrotaças. A partida joga-se a 4 de novembro, às 15h30, no mesmo estádio.', 'A Direção de Competições da ANCAF informou o adiamento da partida entre o CD 1.º de Agosto e o Wiliete SC de Benguela, da 7.ª jornada da Liga Unitel Girabola, originalmente agendada para 14 de outubro de 2026, às 15h30.
 
 De acordo com o artigo 38.º do Regulamento de Competições e em conformidade com o Comunicado Oficial n.º 008-DCE/ANCAF/2026, a medida visa dar o devido descanso às equipas angolanas envolvidas nas Afrotaças, sendo desejo e interesse da ANCAF que todas as equipas atinjam a fase de grupos das respetivas competições africanas. A medida foi considerada para as quatro equipas angolanas presentes na 2.ª fase de qualificação, tendo anuído o CD 1.º de Agosto, o Kabuscorp SC do Palanca e o Wiliete SC de Benguela.
