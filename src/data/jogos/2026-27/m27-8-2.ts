@@ -7,6 +7,12 @@ export default defineMatch({
   homeTeamId: 'bravos',
   awayTeamId: 'petro',
   schedule: { date: '2026-10-27T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  // Resultado e marcadores do quadro de resultados enviado pelo utilizador (27/10/2026); Relatório do Árbitro por receber.
+  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '0-0', updatedAt: '2026-10-27T17:00:00+01:00' },
+  events: [
+    { minute: 51, type: 'goal', team: 'home', player: 'Lito', number: 23, playerId: 'lito-bravos', detail: '1-0' },
+    { minute: 90, type: 'goal', team: 'away', player: 'Tiago Azulão', number: 26, playerId: 'tiago-azulao', detail: '1-1' },
+  ],
   // Arbitragem do «Lineup Geral» oficial do jogo (27/10/2026); nomes completos das fichas anteriores.
   officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Paulo Sérgio Moreira' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (27/10/2026).
