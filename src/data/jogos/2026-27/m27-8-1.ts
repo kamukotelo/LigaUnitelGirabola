@@ -7,8 +7,8 @@ export default defineMatch({
   homeTeamId: 'caala',
   awayTeamId: 'dago',
   schedule: { date: '2026-10-27T17:15:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos transmitidos pela Zsports, jornadas 6 a 10, versão corrigida (recebida a 13/10/2026): 17:15' },
-  // Marcador ao vivo recebido a 27/10/2026 (65'); falta o resultado final.
-  result: { status: 'live', homeScore: 1, awayScore: 0, halfTimeScore: '1-0', liveMinute: 65, updatedAt: '2026-10-27T18:35:00+01:00' },
+  // Resultado final 1-0 confirmado a 28/10/2026 (Futebol Total; aguarda o relatório do árbitro).
+  result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-10-28T08:45:00+01:00' },
   events: [
     { minute: 34, type: 'goal', team: 'home', player: 'Manucho', number: 27, playerId: 'fifa-1r8lp51', detail: '1-0' },
   ],
