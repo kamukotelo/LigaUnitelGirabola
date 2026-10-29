@@ -6,5 +6,5 @@ export default defineMatch({
   round: 13,
   homeTeamId: 'lundasul',
   awayTeamId: 'dago',
-  schedule: { date: '2026-12-05T14:00:00+00:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-02T15:30:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
 });

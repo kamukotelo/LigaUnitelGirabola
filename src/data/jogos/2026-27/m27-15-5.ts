@@ -6,6 +6,6 @@ export default defineMatch({
   round: 15,
   homeTeamId: 'primeiromaio',
   awayTeamId: 'desphuila',
-  schedule: { date: '2026-12-19T14:00:00+00:00', stadium: 'Estádio Municipal de Benguela', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-12-20T15:30:00+01:00', stadium: 'Estádio Municipal de Benguela', scheduleStatus: 'official', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
   // Estádio da lista oficial de estádios das equipas (28/09/2026).
 });

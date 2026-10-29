@@ -6,12 +6,5 @@ export default defineMatch({
   round: 14,
   homeTeamId: 'petro',
   awayTeamId: 'desphuila',
-  // Antecipado da 14.ª jornada (12/12) a pedido do Diretor de Competições: 04/11 às 17:30
-  // (26/10/2026) e depois terça, 03/11, às 17:00 (26/10/2026, Emanuel Valodia).
-  schedule: {
-    date: '2026-11-03T17:00:00+01:00',
-    stadium: 'Estádio 11 de Novembro',
-    scheduleStatus: 'official',
-    source: 'Pedido do Diretor de Competições (26/10/2026): terça, 03/11, 17:00; publicação autorizada pelo administrador sem comunicado.',
-  },
+  schedule: { date: '2026-11-03T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
 });

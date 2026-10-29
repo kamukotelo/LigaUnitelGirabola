@@ -6,5 +6,5 @@ export default defineMatch({
   round: 11,
   homeTeamId: 'wiliete',
   awayTeamId: 'sagrada',
-  schedule: { date: '2026-11-21T14:00:00+00:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'provisional' },
+  schedule: { date: '2026-11-22T18:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
 });
