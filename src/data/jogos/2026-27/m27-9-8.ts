@@ -7,6 +7,12 @@ export default defineMatch({
   homeTeamId: 'dago',
   awayTeamId: 'petro',
   schedule: { date: '2026-10-31T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  // Resultado recebido a 31/10/2026 (aguarda o relatório do árbitro).
+  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '0-0', updatedAt: '2026-10-31T17:35:00+01:00' },
+  events: [
+    { minute: 49, type: 'goal', team: 'away', player: 'Vanilson', number: 17, playerId: 'vanilson', detail: '0-1' },
+    { minute: 95, type: 'goal', team: 'home', player: 'Dagó', number: 17, playerId: 'dago-tshibamba', detail: "90'+5 · 1-1" },
+  ],
   // Constituição das equipas: Lineup Geral oficial da 9.ª jornada (31/10/2026), CLÁSSICO.
   // Escalações públicas a partir de 1 h antes do início (embargo existente).
   officials: { referee: 'Bernardo Nangolo', assistants: ['Jerson dos Santos', 'Ivanildo Lopes'], fourth: 'Bernardo Mário' },
