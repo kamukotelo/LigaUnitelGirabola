@@ -50,7 +50,7 @@ assert.equal(scorers.has('cuxixima-caala'), false, 'Cuxixima não marcou no Rela
 // Exceção única: golos cujo marcador não tem página de jogador no portal têm de
 // estar listados aqui. Desde 19/10/2026 todos os marcadores dos Relatórios do
 // Árbitro n.º 1–55 estão identificados e ligados ao plantel (lista vazia).
-const PENDING_SCORERS: string[] = ["m27-8-6 94'", "m27-8-7 60'"];
+const PENDING_SCORERS: string[] = ["m27-8-6 94'", "m27-8-7 60'", "m27-9-5 42'", "m27-9-7 82'"];
 const pending = d.getMatchesForSeason(d.UPCOMING_SEASON_ID)
   .filter((m: { status: string }) => m.status === 'finished')
   .flatMap((m: { id: string }) => d.getMatchDetail(m).events

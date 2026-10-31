@@ -7,6 +7,18 @@ export default defineMatch({
   homeTeamId: 'libolo',
   awayTeamId: 'sagrada',
   schedule: { date: '2026-10-31T15:00:00+01:00', stadium: 'Estádio Mário Pacheco', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  // Resultado recebido a 31/10/2026 (aguarda o relatório do árbitro). A fonte atribui os golos
+  // dos 25' e 34' a «Amado Salem»: ficam no Amado (n.º 18, avançado titular), não no
+  // guarda-redes Valdez (Amado Salem Miguel). Golo do Sagrada aos 42' e expulsão no Libolo
+  // aos 90'+7 sem jogador identificado.
+  result: { status: 'finished', homeScore: 3, awayScore: 1, halfTimeScore: '2-1', updatedAt: '2026-10-31T17:30:00+01:00' },
+  events: [
+    { minute: 25, type: 'goal', team: 'home', player: 'Amado', number: 18, playerId: 'fifa-1qhqtd1', detail: '1-0' },
+    { minute: 34, type: 'goal', team: 'home', player: 'Amado', number: 18, playerId: 'fifa-1qhqtd1', detail: '2-0' },
+    { minute: 42, type: 'goal', team: 'away', player: '', detail: '2-1' },
+    { minute: 66, type: 'goal', team: 'home', player: 'Robson', number: 9, playerId: 'robson-libolo', detail: '3-1' },
+    { minute: 97, type: 'red', team: 'home', player: '', detail: "90'+7" },
+  ],
   // Estádio da lista oficial de estádios das equipas (28/09/2026).
   // Constituição das equipas: Lineup Geral oficial da 9.ª jornada (31/10/2026), LIBOLO.
   // Escalações públicas a partir de 1 h antes do início (embargo existente).
