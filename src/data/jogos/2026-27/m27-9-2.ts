@@ -8,6 +8,13 @@ export default defineMatch({
   awayTeamId: 'cabinda',
   // Transmissão Zsports (ZAP) reconfirmada pela ANCAF com o line up (01/11/2026).
   schedule: { date: '2026-11-01T17:15:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos transmitidos pela Zsports, jornadas 6 a 10, versão corrigida (recebida a 13/10/2026): 17:15' },
+  // Resultado recebido a 01/11/2026 (aguarda o relatório do árbitro).
+  result: { status: 'finished', homeScore: 3, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-11-01T19:28:00+01:00' },
+  events: [
+    { minute: 43, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: '1-0' },
+    { minute: 67, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: '2-0' },
+    { minute: 78, type: 'goal', team: 'home', player: 'Buba Jammeh', number: 14, detail: '3-0' },
+  ],
   // Equipa de arbitragem do «Lineup Geral» oficial (01/11/2026; nomes completos das fichas anteriores).
   officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['João Manuel Fula António', 'Evandro Henrique Freitas da Rocha'], fourth: 'Avelino Tchivela' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (01/11/2026).

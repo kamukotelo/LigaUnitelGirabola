@@ -7,6 +7,14 @@ export default defineMatch({
   homeTeamId: 'kabuscorp',
   awayTeamId: 'caala',
   schedule: { date: '2026-11-01T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Cartaz oficial da 9.ª jornada (29/09/2026); hora: mapa corrigido da Zsports, jornadas 6 a 10 (13/10/2026), 15:00', stadiumException: 'Jogo marcado para o Estádio França N’dalu no cartaz oficial (29/09/2026)' },
+  // Resultado recebido a 01/11/2026 (aguarda o relatório do árbitro): amarelos aos 16' (Caála),
+  // 53' e 90'+3 (Kabuscorp), sem jogador identificado.
+  result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-01T19:28:00+01:00' },
+  events: [
+    { minute: 16, type: 'yellow', team: 'away', player: '' },
+    { minute: 53, type: 'yellow', team: 'home', player: '' },
+    { minute: 93, type: 'yellow', team: 'home', player: '', detail: "90'+3" },
+  ],
   // Equipa de arbitragem do «Lineup Geral» oficial (01/11/2026; nomes completos das fichas anteriores).
   officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'], fourth: 'Rafael Dala' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (01/11/2026).
