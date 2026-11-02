@@ -51,6 +51,22 @@ Elindo Wanga Paulino (lic. 000567M00 - CD Lunda Sul).
 
 d) Suspensão por 15 Dias e Multas Pecuniárias:
 O Técnico Adjunto Sr. Miguel Ângelo M. Alminhas (lic. 009079M84) do Futebol Clube de Luanda foi sancionado com a pena de suspensão por 15 (quinze) dias e multa no valor de 1.500 UCF, equivalente a 132.000,00 Akz (Cento e Trinta e Dois Mil Kwanzas). Cumulativamente, ao abrigo do art.º 61.º do R/D da FAF, o Futebol Clube de Luanda foi punido com a pena de multa de 1.500 UCF (132.000,00 Akz). Os valores referidos devem ser pagos no prazo de 20 (vinte) dias sob pena de agravamento nos termos do art.º 24.º do R/D da FAF.', 'published', 'Secretaria Geral da FAF', 'Federação Angolana de Futebol (FAF)', 'https://faf.co.ao', '2026-09-16T12:00:00+01:00', '[]'::jsonb, '/comunicados/faf-comunicado-010-2026-27/comunicado-oficial-010-sg-faf-2026-27.pdf', false),
+  ('nota-presidente-ancaf-alteracoes-jogos-2026-11-02', 'Alterações de data ou hora dos jogos exigem 15 dias de antecedência', 'Comunicado Oficial', '2026-11-02T00:00:00.000Z', '2026-11-02', 'A ANCAF informou os clubes da Liga Unitel Girabola de que qualquer pedido de alteração da data ou do horário de um jogo passa a ter de ser comunicado à Direção de Competições com pelo menos 15 dias de antecedência, para cumprir os compromissos de transmissão com a ZAP e a A Bola TV.', 'Numa nota dirigida aos presidentes e diretores dos departamentos de futebol dos clubes da Liga Unitel Girabola, a ANCAF lembra que os contratos com a ZAP e a A Bola TV, detentoras dos direitos de transmissão televisiva da competição, assentam num plano de transmissões definido previamente, e que a estabilidade do calendário é essencial para o cumprimento dessas obrigações.
+
+A ANCAF constata uma frequência significativa de pedidos de alteração de datas e horários de jogos já calendarizados, com constrangimentos na organização das transmissões, na mobilização de meios técnicos e humanos, na comercialização dos espaços publicitários e na programação dos operadores de televisão.
+
+A partir de 2 de novembro de 2026, qualquer intenção de alterar a data e/ou o horário de um jogo deve ser comunicada formalmente à Direção de Competições da ANCAF com uma antecedência mínima de 15 dias em relação à data inicialmente prevista para o encontro.
+
+A medida visa garantir:
+
+• o cumprimento dos compromissos contratuais com os parceiros de transmissão televisiva;
+• a adequada planificação operacional das jornadas;
+• a preservação da credibilidade institucional da competição;
+• a salvaguarda dos interesses financeiros da Liga e dos seus participantes.
+
+A ANCAF sublinha que alterações sucessivas, comunicadas fora de prazos razoáveis, podem comprometer o número de jogos previstos para transmissão, afetar as contrapartidas financeiras contratadas e expor a competição a riscos reputacionais junto de parceiros, patrocinadores e demais interessados, e apela à colaboração e ao sentido de responsabilidade de todos os clubes.
+
+A nota foi emitida em Luanda, a 2 de novembro de 2026, e assinada pelo Presidente da ANCAF, João Lusevi Kueno.', 'published', 'João Lusevi Kueno — Presidente da ANCAF', 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol', 'https://ancaf.co.ao', '2026-11-02T19:54:00+01:00', '["/comunicados/nota-presidente-ancaf-alteracoes-jogos-2026/pagina-1.png","/comunicados/nota-presidente-ancaf-alteracoes-jogos-2026/pagina-2.png"]'::jsonb, '/comunicados/nota-presidente-ancaf-alteracoes-jogos-2026/nota-presidente-ancaf-alteracoes-jogos-02-11-2026.pdf', false),
   ('comunicado-oficial-013-dce-ancaf-2026', 'FC Cabinda–Kabuscorp SC adiado para 4 de novembro', 'Comunicado Oficial', '2026-10-26T00:00:00.000Z', '2026-10-26', 'A ANCAF adiou por motivo de força maior o jogo entre o FC Cabinda e o Kabuscorp SC: a delegação do Kabuscorp, que jogou na RD Congo a 25 de outubro para a Taça das Confederações da CAF, só regressa a Angola a 27 à noite. A partida joga-se a 4 de novembro, à mesma hora, em estádio a designar pelo FC Cabinda.', 'A Direção de Competições da ANCAF informou o adiamento da partida entre o FC Cabinda e o Kabuscorp SC, da 8.ª jornada da Liga Unitel Girabola, originalmente agendada para 27 de outubro de 2026, às 15h00.
 
 Por motivos de força maior, a delegação do Kabuscorp SC, após o jogo da 2.ª mão da 2.ª eliminatória da Taça das Confederações da CAF, realizado a 25 de outubro, às 14h00, na República Democrática do Congo, só tem voo de regresso a Angola a 27 de outubro, à noite.
