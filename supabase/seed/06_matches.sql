@@ -67,7 +67,7 @@ insert into public.ancaf_matches (id, season_id, round, home_team_id, away_team_
   ('m27-8-2', '2026-27', 8, 'bravos', 'petro', 'Bravos do Maquis', 'Petro de Luanda', 1, 1, '1-1', '0-0', '2026-10-27T14:00:00.000Z', 'Estádio Mundunduleno', 'finished', 'official', null, 'Zsports', null, null),
   ('m27-8-1', '2026-27', 8, 'caala', 'dago', 'CR Caála', 'CD 1.º de Agosto', 1, 0, '1-0', '1-0', '2026-10-27T16:15:00.000Z', 'Estádio Daniel Lutucuta', 'finished', 'official', null, 'Zsports', null, null),
   ('m27-8-7', '2026-27', 8, 'wiliete', 'saosalvador', 'Wiliete de Benguela', 'São Salvador', 1, 0, '1-0', '0-0', '2026-10-28T15:00:00.000Z', 'Estádio Nacional de Ombaka', 'finished', 'official', null, null, null, null),
-  ('m27-8-8', '2026-27', 8, 'cabinda', 'kabuscorp', 'FC Cabinda', 'Kabuscorp SC', 0, 0, null, null, '2026-11-04T14:00:00.000Z', 'Estádio a anunciar', 'scheduled', 'official', null, null, null, null),
+  ('m27-8-8', '2026-27', 8, 'cabinda', 'kabuscorp', 'FC Cabinda', 'Kabuscorp SC', 0, 0, null, null, '2026-11-15T14:00:00.000Z', 'Estádio a anunciar', 'scheduled', 'official', null, null, null, null),
   ('m27-9-4', '2026-27', 9, 'interclube', 'desphuila', 'GD Interclube', 'Desportivo da Huíla', 0, 0, '0-0', null, '2026-10-30T14:30:00.000Z', 'Estádio 22 de Junho', 'finished', 'official', null, 'Zsports', null, null),
   ('m27-9-5', '2026-27', 9, 'libolo', 'sagrada', 'Recreativo do Libolo', 'Sagrada Esperança', 3, 1, '3-1', '2-1', '2026-10-31T14:00:00.000Z', 'Estádio Mário Pacheco', 'finished', 'official', null, null, null, null),
   ('m27-9-7', '2026-27', 9, 'lobito', 'bravos', 'Académica do Lobito', 'Bravos do Maquis', 0, 1, '0-1', '0-0', '2026-10-31T14:30:00.000Z', 'Estádio Nacional de Ombaka', 'finished', 'official', null, null, null, null),
