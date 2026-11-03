@@ -11,7 +11,7 @@ export default defineMatch({
   officials: { referee: 'Bernardo Kenge Mário', assistants: ['Pedro Domingos de Andrade Micolo', 'João Manuel Fula António'], fourth: 'Sanda Mateus Miguel Kitu' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (03/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
-  // O n.º 6 do Petro vem como «Toro» (repetido do n.º 8); o n.º 6 é o Mário Balbúrdia em todas as fichas anteriores.
+  // A primeira versão trazia o n.º 6 do Petro como «Toro»; a versão corrigida (03/11/2026) confirma Mário Balbúrdia.
   coaches: { home: 'Alexandre Santos', away: 'Paulo Torres' },
   lineups: {
     home: [
