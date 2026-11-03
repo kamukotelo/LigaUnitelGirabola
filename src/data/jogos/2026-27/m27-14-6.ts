@@ -7,6 +7,7 @@ export default defineMatch({
   homeTeamId: 'petro',
   awayTeamId: 'desphuila',
   schedule: { date: '2026-11-03T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
+  result: { status: 'finished', homeScore: 4, awayScore: 0, halfTimeScore: '2-0', updatedAt: '2026-11-03T19:00:00+01:00' },
   // Equipa de arbitragem do «Lineup Geral» oficial (03/11/2026; nomes completos das fichas anteriores).
   officials: { referee: 'Bernardo Kenge Mário', assistants: ['Pedro Domingos de Andrade Micolo', 'João Manuel Fula António'], fourth: 'Sanda Mateus Miguel Kitu' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (03/11/2026).
@@ -59,4 +60,10 @@ export default defineMatch({
       { name: 'Costa', number: 32, position: 'MID', isStarter: false, playerId: 'tchicundico-huila' },
     ],
   },
+  events: [
+    { minute: 34, type: 'goal', team: 'home', player: 'Vanilson', number: 17, playerId: 'vanilson', detail: '1-0' },
+    { minute: 41, type: 'goal', team: 'home', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis', detail: '2-0' },
+    { minute: 89, type: 'goal', team: 'home', player: 'Lucas João', number: 9, playerId: 'lucas-joao', detail: '3-0' },
+    { minute: 91, type: 'goal', team: 'home', player: 'Hélder Costa', number: 11, playerId: 'helder-costa', detail: "90'+1 · 4-0" },
+  ],
 });
