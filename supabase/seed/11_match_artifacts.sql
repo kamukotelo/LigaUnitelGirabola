@@ -1088,7 +1088,7 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-8-2', 90, 'goal', 'away', 'Tiago Azulão', 'tiago-azulao', null, null, '1-1', 1),
   ('m27-8-1', 34, 'goal', 'home', 'Manucho', 'fifa-1r8lp51', null, null, '1-0', 0),
   ('m27-8-7', 46, 'yellow', 'away', null, null, null, null, null, 0),
-  ('m27-8-7', 60, 'goal', 'home', null, null, null, null, '1-0', 1),
+  ('m27-8-7', 60, 'goal', 'home', 'Mabululu', 'mabululu-wiliete', null, null, '1-0', 1),
   ('m27-8-7', 83, 'yellow', 'home', null, null, null, null, null, 2),
   ('m27-9-5', 25, 'goal', 'home', 'Amado', 'fifa-1qhqtd1', null, null, '1-0', 0),
   ('m27-9-5', 34, 'goal', 'home', 'Amado', 'fifa-1qhqtd1', null, null, '2-0', 1),

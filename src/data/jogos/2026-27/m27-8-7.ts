@@ -9,12 +9,14 @@ export default defineMatch({
   // Adiamento de 24/10/2026 anulado a 25/10/2026: marcado por engano, sem comunicado da ANCAF.
   // Hora 15:00 → 16:00 a pedido do Diretor de Competições (26/10/2026, Emanuel Valodia).
   schedule: { date: '2026-10-28T16:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026); hora: pedido do Diretor de Competições (26/10/2026), 16:00' },
-  // Resultado recebido a 28/10/2026 (aguarda o relatório do árbitro): golo do Wiliete aos 60'
-  // e amarelos aos 46' (São Salvador) e 83' (Wiliete), todos sem jogador identificado.
+  // Resultado recebido a 28/10/2026 (aguarda o relatório do árbitro). Golo do Wiliete aos 60'
+  // atribuído ao Mabululu pelo balanço publicado pelo Wiliete (04/11/2026: 7 golos no Girabola,
+  // o único golo do Wiliete que faltava identificar). Amarelos aos 46' (São Salvador) e 83'
+  // (Wiliete) sem jogador identificado.
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-28T18:21:00+01:00' },
   events: [
     { minute: 46, type: 'yellow', team: 'away', player: '' },
-    { minute: 60, type: 'goal', team: 'home', player: '', detail: '1-0' },
+    { minute: 60, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: '1-0' },
     { minute: 83, type: 'yellow', team: 'home', player: '' },
   ],
   // Equipa de arbitragem do «Lineup Geral» oficial (28/10/2026; nomes completos das fichas anteriores).
