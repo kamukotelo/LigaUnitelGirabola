@@ -7,4 +7,7 @@ export default defineMatch({
   homeTeamId: 'dago',
   awayTeamId: 'wiliete',
   schedule: { date: '2026-11-04T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Comunicado Oficial 011-DCE/ANCAF/2026 (07/10/2026): adiado para 04/11, mesmo estádio e horário' },
+  // Resultado final da Liga Unitel Girabola recebido a 04/11/2026 (aguarda o relatório do árbitro);
+  // sem resultado ao intervalo.
+  result: { status: 'finished', homeScore: 0, awayScore: 0, updatedAt: '2026-11-04T19:21:00+01:00' },
 });
