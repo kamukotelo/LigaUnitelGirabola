@@ -69,4 +69,20 @@ const pendingWithoutEvents = Object.values(PENDING_MATCHES_WITHOUT_EVENTS).reduc
 const goals = d.getCurrentSeasonGoalReconciliation();
 assert.equal(goals.goalsUnattributed, PENDING_SCORERS.length + pendingWithoutEvents, `Há ${goals.goalsUnattributed} golo(s) sem marcador nos registos.`);
 
+// Jornada ativa: um jogo antecipado de uma jornada futura não arrasta o site
+// para essa jornada (05/11/2026: o Petro–Huíla da J14, jogado a 03/11, abria o
+// site na J14 em vez da J10).
+{
+  const fake = (round: number, n: number, status: string) => ({ id: `t-${round}-${n}`, round, status, date: `2026-11-${String(round).padStart(2, '0')}T15:00:00+01:00` });
+  const roundOf = (r: number, statuses: string[]) => statuses.map((status, i) => fake(r, i, status));
+  const done = Array(8).fill('finished');
+  const todo = Array(8).fill('scheduled');
+  const base = [...roundOf(9, done), ...roundOf(10, todo), ...roundOf(11, todo)];
+  assert.equal(d.getActiveSeasonRound(base), 10, 'Com a J9 encerrada, a jornada ativa é a J10.');
+  const anticipated = [...roundOf(9, done), ...roundOf(10, todo), ...roundOf(11, ['finished', ...todo.slice(1)])];
+  assert.equal(d.getActiveSeasonRound(anticipated), 10, 'Um jogo antecipado da J11 não muda a jornada ativa.');
+  const underway = [...roundOf(9, done), ...roundOf(10, ['finished', 'finished', 'finished', 'finished', 'live', 'scheduled', 'scheduled', 'scheduled']), ...roundOf(11, todo)];
+  assert.equal(d.getActiveSeasonRound(underway), 10, 'Uma jornada a meio continua ativa.');
+}
+
 console.log(`✓ Registos de jogo válidos e sincronizados (${warnings.length} avisos: \`npm run jogos -- validar\`).`);

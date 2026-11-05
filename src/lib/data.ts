@@ -3422,7 +3422,8 @@ export function getMatchesByTeam(teamId: string, seasonId = UPCOMING_SEASON_ID):
 
 /**
  * Determina a jornada atualmente ativa / em curso de uma época.
- * Considera a maior jornada que já arrancou (jogos realizados ou em direto).
+ * Considera a maior jornada que já arrancou (pelo menos metade dos jogos
+ * realizados ou em direto; jogos antecipados de jornadas futuras não contam).
  * Se todos os jogos dessa jornada já terminaram, avança para a próxima jornada.
  * Jogos isolados adiados de jornadas anteriores (acertos de calendário) não
  * puxam o calendário para trás, incluindo o jogo em atraso da própria jornada
@@ -3435,7 +3436,17 @@ export function getActiveSeasonRound(matches: Match[]): number {
   const startedMatches = matches.filter((m) => m.status !== 'scheduled');
   if (startedMatches.length === 0) return rounds[0];
 
-  const maxStartedRound = Math.max(...startedMatches.map((m) => m.round));
+  // Só conta como «arrancada» a jornada com pelo menos metade dos jogos já
+  // iniciados: um jogo antecipado de uma jornada futura (ex.: Petro–Huíla da
+  // J14 jogado a 03/11) não arrasta o site para essa jornada.
+  const startedRounds = rounds.filter((r) => {
+    const roundMatches = matches.filter((m) => m.round === r);
+    const started = roundMatches.filter((m) => m.status !== 'scheduled').length;
+    return started * 2 >= roundMatches.length;
+  });
+  const maxStartedRound = startedRounds.length
+    ? Math.max(...startedRounds)
+    : Math.min(...startedMatches.map((m) => m.round));
   const maxStartedMatches = matches.filter((m) => m.round === maxStartedRound);
   const nextRound = rounds.find((r) => r > maxStartedRound);
 
