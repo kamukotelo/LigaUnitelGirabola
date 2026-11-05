@@ -135,6 +135,12 @@ export const HOME_STADIUMS_2026_27: Readonly<Record<string, string>> = {
   cabinda: 'Estádio França N’dalu',
 };
 
+/** Recintos fora da lista de casa que a DCE/ANCAF já indicou para jogos
+ * concretos. Só são aceites num jogo com `schedule.stadiumException`. */
+export const EXCEPTION_STADIUMS_2026_27: readonly string[] = [
+  'Estádio do Tafe', // FC Cabinda–Bravos do Maquis, 11.ª jornada (DCE/ANCAF, 05/11/2026)
+];
+
 /** Estádios aceites no painel de administração: só os da lista oficial. */
 export const OFFICIAL_STADIUMS_2026_27: readonly string[] = [...new Set(Object.values(HOME_STADIUMS_2026_27))]
   .sort((a, b) => a.localeCompare(b, 'pt'));

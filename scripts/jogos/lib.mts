@@ -171,8 +171,9 @@ export async function validateRecords(): Promise<ValidationReport> {
       }
       if (schedule.stadiumPending) {
         if (schedule.stadium !== 'Estádio a anunciar') errors.push(`${at}: stadiumPending exige stadium 'Estádio a anunciar'.`);
-      } else if (!d.OFFICIAL_STADIUMS_2026_27.includes(schedule.stadium)) {
-        errors.push(`${at}: estádio "${schedule.stadium}" fora da lista oficial (HOME_STADIUMS_2026_27 em src/lib/data.ts).`);
+      } else if (!d.OFFICIAL_STADIUMS_2026_27.includes(schedule.stadium)
+        && !(d.EXCEPTION_STADIUMS_2026_27.includes(schedule.stadium) && schedule.stadiumException?.trim())) {
+        errors.push(`${at}: estádio "${schedule.stadium}" fora da lista oficial (HOME_STADIUMS_2026_27 em src/lib/data.ts; EXCEPTION_STADIUMS_2026_27 só com stadiumException).`);
       }
       const homeStadium = d.HOME_STADIUMS_2026_27[record.homeTeamId];
       if (!schedule.stadiumPending && schedule.stadium !== homeStadium && !schedule.stadiumException?.trim()) {
