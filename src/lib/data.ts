@@ -132,14 +132,14 @@ export const HOME_STADIUMS_2026_27: Readonly<Record<string, string>> = {
   lundasul: 'Estádio do Sagrada Esperança',
   libolo: 'Estádio Mário Pacheco',
   saosalvador: 'Estádio Álvaro Buta',
-  cabinda: 'Estádio França N’dalu',
+  // Estádio do Tafe (Cabinda), confirmado pelo Diretor de Competições DCE/ANCAF
+  // (Emanuel Valodia, 05/11/2026); antes: Estádio França N’dalu.
+  cabinda: 'Estádio do Tafe',
 };
 
 /** Recintos fora da lista de casa que a DCE/ANCAF já indicou para jogos
  * concretos. Só são aceites num jogo com `schedule.stadiumException`. */
-export const EXCEPTION_STADIUMS_2026_27: readonly string[] = [
-  'Estádio do Tafe', // FC Cabinda–Bravos do Maquis, 11.ª jornada (DCE/ANCAF, 05/11/2026)
-];
+export const EXCEPTION_STADIUMS_2026_27: readonly string[] = [];
 
 /** Estádios aceites no painel de administração: só os da lista oficial. */
 export const OFFICIAL_STADIUMS_2026_27: readonly string[] = [...new Set(Object.values(HOME_STADIUMS_2026_27))]
@@ -352,7 +352,7 @@ export const TEAMS: Team[] = [
   { id: 'libolo', name: 'Recreativo do Libolo', officialName: 'Clube Recreativo e Desportivo do Libolo', shortName: 'CRL', logoUrl: TEAM_CRESTS['libolo'], city: 'Calulo', stadium: 'Estádio Mário Pacheco', stadiumCapacity: 10000, founded: 1942, colors: 'Laranja e Azul', coach: 'Osvaldo Roque Gonçalves da Cruz', president: 'João Pereira', nickname: 'Libolenses', colorsHex: ['#FF6600', '#00529B'], kits: [{ label: 'Principal', colors: ['#FF6600', '#00529B'] }, { label: 'Secundário', colors: ['#00529B', '#FF6600'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'lobito', name: 'Académica do Lobito', officialName: 'Académica Petróleos Clube do Lobito', shortName: 'ACA', logoUrl: TEAM_CRESTS['lobito'], city: 'Lobito', stadium: 'Estádio Nacional de Ombaka', stadiumCapacity: 35000, founded: 1970, colors: 'Preto e Branco', coach: 'José Silvestre Pereira Jorge', president: 'Luís Borges', nickname: 'Estudantes', colorsHex: ['#000000', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#000000', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'saosalvador', name: 'São Salvador', officialName: 'São Salvador do Kongo Futebol Clube', shortName: 'SSK', logoUrl: TEAM_CRESTS['saosalvador'], city: 'Mbanza Kongo', stadium: 'Estádio Álvaro Buta', stadiumCapacity: 5000, founded: 1999, colors: 'Azul e Amarelo', coach: 'Silva Kussanda', president: 'Moniz Manuel', nickname: 'Kongos', colorsHex: ['#00529B', '#F9C304'], kits: [{ label: 'Principal', colors: ['#00529B', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-10' },
-  { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', logoUrl: TEAM_CRESTS['cabinda'], city: 'Cabinda', stadium: 'Estádio França N’dalu', stadiumCapacity: 25000, founded: 2005, colors: 'Azul e Branco', coach: 'Luciano Capoco', president: 'Raimundo Almeida', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-10-11' },
+  { id: 'cabinda', name: 'FC Cabinda', officialName: 'Futebol Clube de Cabinda', shortName: 'FCC', logoUrl: TEAM_CRESTS['cabinda'], city: 'Cabinda', stadium: 'Estádio do Tafe', stadiumCapacity: 9000, founded: 2005, colors: 'Azul e Branco', coach: 'Luciano Capoco', president: 'Raimundo Almeida', nickname: 'Gorilas do Norte', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-10-11' },
   { id: 'primeiromaio', name: 'Estrela 1.º de Maio', officialName: 'Estrela Clube Primeiro de Maio', shortName: 'MAI', logoUrl: TEAM_CRESTS['primeiromaio'], city: 'Benguela', stadium: 'Estádio Municipal de Benguela', stadiumCapacity: 10000, founded: 1981, colors: 'Vermelho e Branco', coach: 'Mavi Lopes', president: 'Tony Santos', nickname: 'Proletários', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-10-11' },
   { id: 'caala', name: 'CR Caála', officialName: 'Clube Recreativo da Caála', shortName: 'CRC', logoUrl: TEAM_CRESTS['caala'], city: 'Huambo', stadium: 'Estádio Daniel Lutucuta', stadiumCapacity: 12000, founded: 1944, colors: 'Azul e Branco', coach: 'Artur Benjamim Correia', president: 'Mi Mosquito', nickname: 'Caalenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'fcluanda', name: 'FC Luanda', officialName: 'Futebol Clube de Luanda', shortName: 'FCL', logoUrl: TEAM_CRESTS['fcluanda'], city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 10000, founded: 2020, colors: 'Azul e Branco', coach: 'Rui Santos', president: 'Paulino Silva', nickname: 'Luandenses', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' }
