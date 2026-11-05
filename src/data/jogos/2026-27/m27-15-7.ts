@@ -6,5 +6,6 @@ export default defineMatch({
   round: 15,
   homeTeamId: 'fcluanda',
   awayTeamId: 'petro',
-  schedule: { date: '2026-12-15T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
+  // Terça 15/12 → quarta 16/12 (mesma hora e estádio), indicação do Diretor de Competições (Emanuel Valodia, 05/11/2026).
+  schedule: { date: '2026-12-16T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Diretor de Competições DCE/ANCAF (Emanuel Valodia, 05/11/2026): dia 16/12; hora, estádio e Zsports: Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas, recebido em 29/10/2026' },
 });
