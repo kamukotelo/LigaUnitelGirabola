@@ -1,0 +1,77 @@
+# Publica automaticamente no `main` as atualizações de jogos feitas noutro branch.
+#
+# Corre em cada push para um branch que não seja o `main`. Só publica quando:
+#   1. todas as diferenças face ao `main` estão em `src/data/jogos/` ou `supabase/seed/`
+#      (qualquer outra alteração fica à espera de revisão, sem publicação automática);
+#   2. o branch contém o `main` atual (avanço direto, sem merge nem reescrita);
+#   3. validação, testes de regressão e verificação de tipos passam.
+# Ver a secção «Publicação automática dos jogos» do CLAUDE.md.
+name: Publicar jogos no main
+
+on:
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar-jogos-main
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verificar âmbito (só dados de jogos)
+        id: scope
+        run: |
+          git fetch origin main
+          changed="$(git diff --name-only origin/main...HEAD)"
+          if [ -z "$changed" ]; then
+            echo "Nada de novo face ao main."; echo "publish=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          outside="$(printf '%s\n' "$changed" | grep -Ev '^(src/data/jogos/|supabase/seed/)' || true)"
+          if [ -n "$outside" ]; then
+            echo "::notice::Não publicado automaticamente: o branch altera ficheiros fora dos dados de jogos:"
+            printf '%s\n' "$outside"
+            echo "publish=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            echo "::error::O main tem commits que este branch não tem. Fazer 'git pull --rebase origin main' e enviar de novo."
+            exit 1
+          fi
+          printf 'Jogos a publicar:\n%s\n' "$changed"
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        if: steps.scope.outputs.publish == 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        if: steps.scope.outputs.publish == 'true'
+        run: npm ci --no-audit --no-fund
+
+      - name: Validar registos de jogo
+        if: steps.scope.outputs.publish == 'true'
+        run: npm run jogos -- validar
+
+      - name: Testes de regressão
+        if: steps.scope.outputs.publish == 'true'
+        run: npm run test:regressions
+
+      - name: Verificação de tipos
+        if: steps.scope.outputs.publish == 'true'
+        run: npx tsc --noEmit -p .
+
+      - name: Publicar no main
+        if: steps.scope.outputs.publish == 'true'
+        run: |
+          git push origin HEAD:main
+          echo "::notice::Publicado no main: $(git log -1 --format='%h %s'). Confirmar em Vercel → Deployments que fica Ready."

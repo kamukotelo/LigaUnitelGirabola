@@ -26,6 +26,24 @@ deploy quando uma delas é violada.
   `FORBIDDEN_CRESTS` e o build falha se voltarem (ex.: Kabuscorp "Sambizanga";
   o oficial é o Kabuscorp Sport Club do Palanca, confirmado a 07/10/2026).
 
+## Publicação automática dos jogos
+
+- **Toda a atualização de jogos vai para o `main` logo a seguir**, sem esperar
+  por pedido: resultados, golos, marcadores, cartões, escalações, árbitros e
+  agendas em `src/data/jogos/` (com os ficheiros gerados em `supabase/seed/`).
+  A classificação do site só muda quando o `main` muda.
+- Caminho normal: `npm run jogos -- publicar` (ou `publicar --sim` sem
+  terminal interativo). Valida, testa e envia para o `main`.
+- Se a sessão só puder enviar para o seu branch de trabalho, a GitHub Action
+  `.github/workflows/publicar-jogos.yml` faz o envio: quando o branch só tem
+  diferenças em `src/data/jogos/` e `supabase/seed/`, contém o `main` atual e
+  os testes passam, avança o `main` para esse commit.
+- Manter os commits de jogos **separados** de alterações de código: um commit
+  que mexa noutros ficheiros (ex.: `scripts/`, `src/lib/`) impede a publicação
+  automática do branch inteiro, que fica à espera de revisão.
+- Alterações de código, design ou regras **não** são publicadas
+  automaticamente.
+
 ## Calendário, horas e estádios
 
 - **Fonte única de cada jogo: `src/data/jogos/2026-27/<id>.ts`.** Ver
