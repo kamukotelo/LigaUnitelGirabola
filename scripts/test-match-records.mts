@@ -69,20 +69,32 @@ const pendingWithoutEvents = Object.values(PENDING_MATCHES_WITHOUT_EVENTS).reduc
 const goals = d.getCurrentSeasonGoalReconciliation();
 assert.equal(goals.goalsUnattributed, PENDING_SCORERS.length + pendingWithoutEvents, `Há ${goals.goalsUnattributed} golo(s) sem marcador nos registos.`);
 
-// Jornada ativa: um jogo antecipado de uma jornada futura não arrasta o site
-// para essa jornada (05/11/2026: o Petro–Huíla da J14, jogado a 03/11, abria o
-// site na J14 em vez da J10).
+// Jornada ativa = a próxima depois da última jornada finalizada (05/11/2026:
+// o Petro–Huíla da J14, jogado a 03/11, abria o site na J14 em vez da J10).
 {
-  const fake = (round: number, n: number, status: string) => ({ id: `t-${round}-${n}`, round, status, date: `2026-11-${String(round).padStart(2, '0')}T15:00:00+01:00` });
-  const roundOf = (r: number, statuses: string[]) => statuses.map((status, i) => fake(r, i, status));
+  type Fake = { id: string; round: number; status: string; date: string; postponed?: boolean };
+  const day = (round: number) => `2026-${round > 9 ? '12' : '11'}-${String(round > 9 ? round - 9 : round).padStart(2, '0')}T15:00:00+01:00`;
+  const roundOf = (r: number, statuses: string[]): Fake[] => statuses.map((status, i) => ({ id: `t-${r}-${i}`, round: r, status, date: day(r) }));
   const done = Array(8).fill('finished');
   const todo = Array(8).fill('scheduled');
-  const base = [...roundOf(9, done), ...roundOf(10, todo), ...roundOf(11, todo)];
-  assert.equal(d.getActiveSeasonRound(base), 10, 'Com a J9 encerrada, a jornada ativa é a J10.');
-  const anticipated = [...roundOf(9, done), ...roundOf(10, todo), ...roundOf(11, ['finished', ...todo.slice(1)])];
-  assert.equal(d.getActiveSeasonRound(anticipated), 10, 'Um jogo antecipado da J11 não muda a jornada ativa.');
-  const underway = [...roundOf(9, done), ...roundOf(10, ['finished', 'finished', 'finished', 'finished', 'live', 'scheduled', 'scheduled', 'scheduled']), ...roundOf(11, todo)];
-  assert.equal(d.getActiveSeasonRound(underway), 10, 'Uma jornada a meio continua ativa.');
+  const active = (list: Fake[]) => d.getActiveSeasonRound(list);
+  const season = (overrides: Record<number, Fake[]>) => [8, 9, 10, 11, 12, 13, 14].flatMap((r) => overrides[r] ?? roundOf(r, r <= 9 ? done : todo));
+
+  assert.equal(active(season({})), 10, 'Com a J9 finalizada, a jornada mostrada é a J10.');
+  assert.equal(active(season({ 14: roundOf(14, ['finished', ...todo.slice(1)]) })), 10, 'Um jogo antecipado da J14 não muda a jornada mostrada.');
+  assert.equal(active(season({ 10: roundOf(10, ['finished', 'finished', 'finished', 'finished', 'live', 'scheduled', 'scheduled', 'scheduled']) })), 10, 'Uma jornada a meio continua a ser a mostrada.');
+  assert.equal(active(season({ 10: roundOf(10, done) })), 11, 'Com a J10 finalizada, passa para a J11.');
+  const delayed = roundOf(8, done);
+  delayed[0] = { ...delayed[0], status: 'scheduled', date: day(10) };
+  assert.equal(active(season({ 8: delayed })), 10, 'Um jogo em atraso remarcado para mais tarde não prende o site na J8.');
+  const postponed = roundOf(9, done);
+  postponed[0] = { ...postponed[0], status: 'scheduled', postponed: true };
+  assert.equal(active(season({ 9: postponed })), 10, 'Um jogo adiado sem data não prende o site na J9.');
+  const pending = roundOf(9, done);
+  pending[0] = { ...pending[0], status: 'scheduled' };
+  assert.equal(active(season({ 9: pending })), 9, 'Um jogo da J9 por jogar na data normal mantém a J9.');
+  const anticipated13 = season({ 10: roundOf(10, done), 11: roundOf(11, done), 12: roundOf(12, done), 14: roundOf(14, ['finished', ...todo.slice(1)]) });
+  assert.equal(active(anticipated13), 13, 'O jogo antecipado da J14 não faz os jogos da J13 parecerem em atraso.');
 }
 
 console.log(`✓ Registos de jogo válidos e sincronizados (${warnings.length} avisos: \`npm run jogos -- validar\`).`);

@@ -3421,53 +3421,46 @@ export function getMatchesByTeam(teamId: string, seasonId = UPCOMING_SEASON_ID):
 }
 
 /**
- * Determina a jornada atualmente ativa / em curso de uma época.
- * Considera a maior jornada que já arrancou (pelo menos metade dos jogos
- * realizados ou em direto; jogos antecipados de jornadas futuras não contam).
- * Se todos os jogos dessa jornada já terminaram, avança para a próxima jornada.
- * Jogos isolados adiados de jornadas anteriores (acertos de calendário) não
- * puxam o calendário para trás, incluindo o jogo em atraso da própria jornada
- * quando foi remarcado para depois do início da jornada seguinte.
+ * Determina a jornada que o site mostra por omissão: **a próxima depois da
+ * última jornada finalizada**, ou seja, a primeira jornada (por ordem) que
+ * ainda não está finalizada. Não olha para jornadas que apenas «arrancaram»:
+ * um jogo antecipado de uma jornada futura (ex.: Petro–Huíla da J14, jogado a
+ * 03/11/2026) não muda nada.
+ *
+ * Uma jornada está finalizada quando todos os jogos estão encerrados, à
+ * exceção dos jogos em atraso: adiados sem data (`postponed`) ou remarcados
+ * para depois da data habitual da jornada seguinte (mediana das horas dos
+ * seus jogos). Um jogo em direto nunca conta como em atraso.
  */
 export function getActiveSeasonRound(matches: Match[]): number {
   const rounds = Array.from(new Set(matches.map((m) => m.round))).sort((a, b) => a - b);
   if (rounds.length === 0) return 1;
 
-  const startedMatches = matches.filter((m) => m.status !== 'scheduled');
-  if (startedMatches.length === 0) return rounds[0];
+  const kickoffsOf = (round: number) => matches
+    .filter((m) => m.round === round)
+    .map((m) => new Date(m.date).getTime())
+    .filter((t) => !Number.isNaN(t))
+    .sort((a, b) => a - b);
+  const typicalKickoff = (round: number | undefined) => {
+    if (round === undefined) return Infinity;
+    const kickoffs = kickoffsOf(round);
+    return kickoffs.length ? kickoffs[Math.floor((kickoffs.length - 1) / 2)] : Infinity;
+  };
 
-  // Só conta como «arrancada» a jornada com pelo menos metade dos jogos já
-  // iniciados: um jogo antecipado de uma jornada futura (ex.: Petro–Huíla da
-  // J14 jogado a 03/11) não arrasta o site para essa jornada.
-  const startedRounds = rounds.filter((r) => {
-    const roundMatches = matches.filter((m) => m.round === r);
-    const started = roundMatches.filter((m) => m.status !== 'scheduled').length;
-    return started * 2 >= roundMatches.length;
-  });
-  const maxStartedRound = startedRounds.length
-    ? Math.max(...startedRounds)
-    : Math.min(...startedMatches.map((m) => m.round));
-  const maxStartedMatches = matches.filter((m) => m.round === maxStartedRound);
-  const nextRound = rounds.find((r) => r > maxStartedRound);
+  const isFinalized = (index: number) => {
+    const round = rounds[index];
+    const nextTypical = typicalKickoff(rounds[index + 1]);
+    return matches.filter((m) => m.round === round).every((m) => {
+      if (m.status === 'finished') return true;
+      if (m.status === 'live') return false;
+      if (m.postponed) return true;
+      const kickoff = new Date(m.date).getTime();
+      return !Number.isNaN(kickoff) && kickoff > nextTypical;
+    });
+  };
 
-  // Um jogo em atraso remarcado para depois do arranque da jornada seguinte
-  // não prende o site nessa jornada: só conta como pendente se estiver em
-  // direto ou marcado antes do primeiro jogo da próxima jornada.
-  const nextRoundStart = nextRound === undefined
-    ? Infinity
-    : Math.min(...matches.filter((m) => m.round === nextRound).map((m) => new Date(m.date).getTime()));
-  const hasPendingInMaxStarted = maxStartedMatches.some((m) => {
-    if (m.status === 'finished') return false;
-    if (m.status === 'live') return true;
-    const kickoff = new Date(m.date).getTime();
-    return Number.isNaN(kickoff) || kickoff < nextRoundStart;
-  });
-
-  if (hasPendingInMaxStarted) {
-    return maxStartedRound;
-  }
-
-  return nextRound ?? maxStartedRound;
+  const firstOpen = rounds.findIndex((_, index) => !isFinalized(index));
+  return firstOpen === -1 ? rounds[rounds.length - 1] : rounds[firstOpen];
 }
 
 // Aplica os overrides de jogador (admin) sobre os dados brutos e reenriquece,

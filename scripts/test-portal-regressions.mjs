@@ -392,8 +392,10 @@ assert.match(data, /function withoutRecordSchedule\(matchId: string, patch: Part
 assert.match(data, /normalizeMatchOverride\(named, withoutRecordSchedule\(m\.id, ov\?\.\[m\.id\] \?\? \{\}\)\)/);
 // 27/09/2026 · Um jogo em atraso remarcado para depois do arranque da jornada
 // seguinte não pode prender o site na jornada anterior.
-assert.match(data, /const nextRoundStart = nextRound === undefined/);
-assert.match(data, /return Number\.isNaN\(kickoff\) \|\| kickoff < nextRoundStart;/);
+// 05/11/2026 · A jornada mostrada é a próxima depois da última finalizada (um
+// jogo antecipado da J14 abria o site na J14). Casos em test-match-records.
+assert.match(data, /const firstOpen = rounds\.findIndex\(\(_, index\) => !isFinalized\(index\)\);/);
+assert.match(data, /return !Number\.isNaN\(kickoff\) && kickoff > nextTypical;/);
 
 // 09/10/2026 · A página do jogo mostrava 14:30 num jogo às 15:30: a Vercel
 // gera as páginas em UTC e a hora era formatada sem fuso. Nas páginas públicas,
