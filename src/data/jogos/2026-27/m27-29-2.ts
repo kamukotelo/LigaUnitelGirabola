@@ -6,6 +6,6 @@ export default defineMatch({
   round: 29,
   homeTeamId: 'cabinda',
   awayTeamId: 'interclube',
-  schedule: { date: '2027-05-08T14:00:00+00:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'provisional' },
-  // Estádio da lista oficial de estádios das equipas (28/09/2026).
+  // Estádio França N’dalu → Estádio do Tafe, estádio da casa do FC Cabinda (DCE/ANCAF, 05/11/2026).
+  schedule: { date: '2027-05-08T14:00:00+00:00', stadium: 'Estádio do Tafe', scheduleStatus: 'provisional' },
 });
