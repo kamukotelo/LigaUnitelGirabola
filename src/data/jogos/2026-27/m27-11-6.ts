@@ -6,6 +6,7 @@ export default defineMatch({
   round: 11,
   homeTeamId: 'kabuscorp',
   awayTeamId: 'fcluanda',
-  schedule: { date: '2026-11-22T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
-  // O Kabuscorp recebe no Estádio 22 de Junho (indicação de 28/09/2026).
+  // Estádio 22 de Junho → Estádio França N’dalu, indicação no grupo DCE/ANCAF (05/11/2026, 15:35).
+  // Data, hora e transmissão mantêm-se (domingo 22/11, 15:30, Zsports).
+  schedule: { date: '2026-11-22T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Grupo DCE/ANCAF (05/11/2026): Estádio França N’dalu; antes: Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026', stadiumException: 'Indicação DCE/ANCAF de 05/11/2026: jogo no Estádio França N’dalu, e não no Estádio 22 de Junho habitual do Kabuscorp' },
 });
