@@ -75,7 +75,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'nixon-primeiromaio', 1, 0, 5, 2, 1),
   ('2026-27', 'obed-dago', 1, 0, 4, 0, 0),
   ('2026-27', 'patrick-banza-interclube', 1, 0, 2, 0, 1),
-  ('2026-27', 'fifa-1liwnq8', 1, 0, 9, 1, 0),
+  ('2026-27', 'fifa-1liwnq8', 1, 0, 8, 1, 0),
   ('2026-27', 'ruben-aderito', 1, 0, 8, 1, 0),
   ('2026-27', 'dabanda-sagrada', 1, 0, 8, 0, 0),
   ('2026-27', 'fifa-1qvfjm7', 1, 0, 6, 0, 0),

@@ -364,8 +364,8 @@ export const STAFF_PHOTOS: Readonly<Record<string, string>> = Object.fromEntries
  * nome, como aparece na equipa técnica.
  */
 const STAFF_PHOTOS_BY_NAME: Readonly<Record<string, string>> = {
-  'lundasul:Maurílio Silva': '/staff/lundasul/maurilio-silva.jpg',
-  'lundasul:Ricardo Vieira': '/staff/lundasul/ricardo-vieira.jpg',
+  'lundasul:Cleverson Silva': '/staff/lundasul/maurilio-silva.jpg',
+  'lundasul:Ricardo Alexandre de Paulo Vieira': '/staff/lundasul/ricardo-vieira.jpg',
 };
 
 export function getStaffPhoto(teamId: string, member: { name: string; maId?: string }): string | undefined {

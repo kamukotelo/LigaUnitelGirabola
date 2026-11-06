@@ -2094,6 +2094,8 @@ const PLAYERS_OUT_OF_CLUB_SQUAD_2026_27: ReadonlySet<string> = new Set([
   'sebastiao-palavra', // FC Luanda · preparador físico (m27-2-5)
   'adriano-pedro', // FC Luanda · secretário técnico (m27-2-5)
   'cipriano-cumba-cabinda', // FC Cabinda · oficial de equipa (m27-2-3)
+  // FC Luanda — exclusão pedida na lista de 06/11/2026 (a página e o golo mantêm-se).
+  'ricardo-batista-fcluanda',
   'luciano-capoco-cabinda', // FC Cabinda · treinador principal (m27-2-3)
 ]);
 
@@ -2339,6 +2341,57 @@ const OFFICIAL_FULL_NAME_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
   // CD 1.º de Agosto
   '004967M09': 'Eliseu Sebastião Francisco',
   '004958M08': 'Felisberto Kanjeque Carvalho',
+  // GD Sagrada Esperança
+  '000418M01': 'Melone Moundo Dala',
+  // FC Luanda (nome completo ligado pelo n.º de camisola)
+  '002896M04': 'Hamilton Ebo',
+  '002014M04': 'Pedro Chissaluquila',
+  '001357M05': 'Francisco Chiquinho',
+  '001538M06': 'Denilson Makokisa',
+  '001566M05': 'Ludiakueno Afonso',
+  '002901M07': 'Domingos André',
+  '001560M03': 'Deo Yoka',
+  '001336M04': 'Domingo Bangula',
+  '002894M04': 'Pedro Paulo',
+  '006241M07': 'Jaime Caetano',
+  '002899M05': 'Kano Oscar',
+  // GD Interclube
+  '000483M03': 'Salomão Bunga',
+  '000482M97': 'Alberto Miguel',
+  '000481M99': 'Edivaldo Quinanga',
+  '000490M95': 'Jorge Miguel',
+  '002451M04': 'Moisés Figueira António',
+  '000793M98': 'Felisberto Tchacuiva',
+  '002748M06': 'Paulo Gaspar',
+};
+
+/**
+ * Licença e nome completo de atletas que não constam da inscrição de 31/08.
+ * Fonte: listas de licenças enviadas a 06/11/2026.
+ */
+const CLUB_LICENSED_PLAYERS_2026_27: Readonly<Record<string, { maId: string; fullName: string }>> = {
+  // GD Sagrada Esperança
+  'manox-sagrada': { maId: '005666M04', fullName: 'Paulo Holandes Jamba Catumbila' },
+  'lulas-sagrada': { maId: '000348M96', fullName: 'Manuel Nganlula Salo Cunha' },
+  // CD Lunda Sul
+  'nacavuza-lunda-sul': { maId: '000716M99', fullName: 'Bernardo Raimundo Nacavuza' },
+  'jota-lunda-sul': { maId: '001739M02', fullName: 'Justino Coragem Lucassa Caquece' },
+  // Académica do Lobito
+  'quiteque-lobito': { maId: '000318M06', fullName: 'António Ngola Quiteque' },
+  'pinto-lobito': { maId: '001101M00', fullName: 'Isaac Pinto' },
+  'sabones-lobito': { maId: '009072M06', fullName: 'Miguel Cassanga Sabones' },
+};
+
+/** Nome completo do staff por licença. Fonte: listas de licenças enviadas a 06/11/2026. */
+const OFFICIAL_STAFF_FULL_NAME_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
+  // GD Sagrada Esperança
+  '007242M79': 'Clemente Martins Mendonça',
+  '000753M66': 'Pedro Borges Marcos',
+  '007283M92': 'Nascimento António Dala',
+  '007247M76': 'Humberto Jorge Garcia Mendes',
+  '000757M72': 'Temístocles Alfredo Esteves',
+  '008942M62': 'Neves Curionga Caquehele',
+  '000975M63': 'Sebastião Francisco Bernardo',
 };
 
 const OFFICIAL_FIFA_ID_COUNTS = OFFICIAL_SQUADS_2026_27.reduce((counts, squad) => {
@@ -2480,6 +2533,8 @@ const OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27: ReadonlySet<string> = new Set([
   '003004M94', // António Victorino Baptista (Wiliete)
   '003009M63', // Jorge Manuel Faial Delgado (Wiliete)
   '000796M73', // Águas da Silva (Estrela 1.º de Maio) — substituído por Mavi Lopes (Lineup Geral da 6.ª jornada, 11/10/2026)
+  '008885M71', // João Pedro Ramos Borges Sousa (Petro de Luanda) — ex-treinador principal (exclusão pedida a 06/11/2026)
+  '008886M83', // Rafael Garcia Tonioli Defendi (Petro de Luanda) — ex-treinador de guarda-redes (exclusão pedida a 06/11/2026)
 ]);
 
 const OFFICIAL_STAFF_ROLE_LABELS: Readonly<Record<string, string>> = {
@@ -2542,7 +2597,8 @@ const CLUB_LISTED_STAFF_2026_27: Readonly<Record<string, Array<{ name: string; r
   ],
   // Estrela 1.º de Maio — novo treinador principal, no Lineup Geral da 6.ª jornada (11/10/2026).
   primeiromaio: [
-    { name: 'Mavi Lopes', role: 'HDCH', nationality: '' },
+    // Nome completo e licença da lista enviada a 06/11/2026.
+    { name: 'Mavison Pierri Lacerda do Nascimento Lopes', role: 'HDCH', nationality: '', maId: '009473M82' },
   ],
   // CD Lunda Sul — lista «Equipa técnica» enviada pelo clube a 08/10/2026.
   // FC Cabinda — oficial de equipa no Relatório do Árbitro da 2.ª jornada (m27-2-3).
@@ -2550,8 +2606,13 @@ const CLUB_LISTED_STAFF_2026_27: Readonly<Record<string, Array<{ name: string; r
     { name: 'Cipriano Cumba Rafael', role: 'Oficial da equipa', nationality: 'Angola' },
   ],
   lundasul: [
-    { name: 'Maurílio Silva', role: 'HDCH', nationality: 'Brazil' }, // Cleverson Maurílio Silva
-    { name: 'Ricardo Vieira', role: 'PTNR', nationality: 'Brazil' },
+    // Nome e licença da lista enviada a 06/11/2026.
+    { name: 'Cleverson Silva', role: 'HDCH', nationality: 'Brazil', maId: '001204M69' }, // «Maurílio Silva» nas fichas de jogo
+    { name: 'Ricardo Alexandre de Paulo Vieira', role: 'PTNR', nationality: 'Brazil', maId: '009077M76' },
+  ],
+  // GD Sagrada Esperança — staff da lista de licenças enviada a 06/11/2026 (função por confirmar).
+  sagrada: [
+    { name: 'Quintas Caetano', role: '', nationality: '', maId: '001143M77' },
   ],
 };
 
@@ -2565,7 +2626,7 @@ export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMembe
     .map((entry) => ({ ...entry, rank: officialStaffRank(entry.role) }))
     .sort((a, b) => a.rank - b.rank || a.index - b.index)
     .map(({ member, role }) => ({
-      name: formatOfficialPlayerName(member.name),
+      name: formatOfficialPlayerName(OFFICIAL_STAFF_FULL_NAME_BY_MA_ID_2026_27[member.maId] ?? member.name),
       role,
       nationality: OFFICIAL_NATIONALITY_LABELS[member.nationality] ?? (member.nationality || 'A confirmar'),
       maId: member.maId || undefined,
@@ -2616,6 +2677,7 @@ const CURRENT_PLAYERS_RAW: Player[] = ([
 ] as Player[]).map((player) => ({
   ...player,
   ...(PLAYERS_OUT_OF_CLUB_SQUAD_2026_27.has(player.id) ? { registeredSquad: false } : {}),
+  ...(CLUB_LICENSED_PLAYERS_2026_27[player.id] ?? {}),
   ...(CLUB_SQUAD_LISTS_2026_27[player.id] ? {
     jerseyNumber: CLUB_SQUAD_LISTS_2026_27[player.id].jerseyNumber,
     position: CLUB_SQUAD_LISTS_2026_27[player.id].position,

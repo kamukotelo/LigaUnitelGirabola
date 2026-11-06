@@ -75,7 +75,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     { id: 'nixon-primeiromaio', name: 'Nixon', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 5 },
     { id: 'obed-dago', name: 'Obed', club: 'CD 1.º de Agosto', teamId: 'dago', position: 'Avançado', goals: 1, appearances: 4 },
     { id: 'patrick-banza-interclube', name: 'Patrick Banza', club: 'GD Interclube', teamId: 'interclube', position: 'Avançado', goals: 1, appearances: 2 },
-    { id: 'fifa-1liwnq8', name: 'Pedro', club: 'FC Luanda', teamId: 'fcluanda', position: 'Médio', goals: 1, appearances: 9 },
+    { id: 'fifa-1liwnq8', name: 'Pedro', club: 'FC Luanda', teamId: 'fcluanda', position: 'Médio', goals: 1, appearances: 8 },
     { id: 'ruben-aderito', name: 'Rúben Adérito', club: 'Petro de Luanda', teamId: 'petro', position: 'Defesa', goals: 1, appearances: 8 },
     { id: 'dabanda-sagrada', name: 'Sebastiao', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Avançado', goals: 1, appearances: 8 },
     { id: 'fifa-1qvfjm7', name: 'Sidibé', club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Médio', goals: 1, appearances: 6 },
