@@ -149,7 +149,6 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     'fifa-1kztk20': { yellow: 1, red: 0 },
     'fifa-1l7lph0': { yellow: 1, red: 0 },
     'fifa-1l7wk59': { yellow: 1, red: 0 },
-    'fifa-1l96dj1': { yellow: 1, red: 0 },
     'fifa-1lda172': { yellow: 1, red: 0 },
     'fifa-1lgpgy7': { yellow: 3, red: 0 },
     'fifa-1lih506': { yellow: 3, red: 0 },

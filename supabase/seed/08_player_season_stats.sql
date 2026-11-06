@@ -133,7 +133,6 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'nacavuza-lunda-sul', 0, 0, 1, 1, 0),
   ('2026-27', 'fifa-1lda172', 0, 0, 1, 1, 0),
   ('2026-27', 'beny-libolo', 0, 0, 1, 1, 0),
-  ('2026-27', 'fifa-1l96dj1', 0, 0, 1, 1, 0),
   ('2026-27', 'bruno-dago', 0, 0, 1, 1, 0),
   ('2026-27', 'cahilo-sagrada', 0, 0, 1, 1, 0),
   ('2026-27', 'fifa-1qw3z14', 0, 0, 1, 1, 0),

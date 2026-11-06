@@ -223,10 +223,13 @@ insert into public.ancaf_team_staff (team_id, name, role, nationality, ma_id, fi
   ('petro', 'Arcanjo Massuquina Mulanvo', 'Oficial da equipa', 'Angola', '003144M92', '1MU13Q0', 12),
   ('petro', 'Leandro Filipe Vieira e Silva', 'Oficial da equipa', 'Angola', '005330M94', '162EQ06', 13),
   ('petro', 'Bruno Miguel da Cruz Vicente', 'Diretor', 'Angola', '000383M78', '1JRT024', 14),
+  ('petro', 'Alexandre Miguel Crispim dos Santos', 'Função por confirmar', 'A confirmar', '000340M76', null, 15),
+  ('petro', 'Adriano Silva Soares', 'Função por confirmar', 'A confirmar', '000341M82', null, 16),
   ('cabinda', 'Luciano Capoco', 'Treinador principal', 'Angola', '001088M82', '1K2QZY0', 0),
   ('cabinda', 'Albertino Pongo Sala', 'Treinador adjunto', 'Angola', '007730M63', '1TFP4D8', 1),
   ('cabinda', 'Emanuel Mbango Nguba', 'Fisioterapeuta', 'Angola', '007728M65', '1TFP4A9', 2),
   ('cabinda', 'Isidro José Segunda', 'Gestor da equipa', 'Angola', '007729M65', '1TFP4C3', 3),
   ('cabinda', 'Alves Simão Afonso Lede', 'Oficial da equipa', 'Angola', '007727M75', '1TFP483', 4),
-  ('cabinda', 'Zola Nseca', 'Função por confirmar', 'Angola', '000515M75', '1JV2NI3', 5),
-  ('cabinda', 'Mona 2', 'Função por confirmar', 'Angola', '000537M93', '1JWTWN4', 6);
+  ('cabinda', 'Cipriano Cumba Rafael', 'Oficial da equipa', 'Angola', null, null, 5),
+  ('cabinda', 'Zola Nseca', 'Função por confirmar', 'Angola', '000515M75', '1JV2NI3', 6),
+  ('cabinda', 'Mona 2', 'Função por confirmar', 'Angola', '000537M93', '1JWTWN4', 7);
