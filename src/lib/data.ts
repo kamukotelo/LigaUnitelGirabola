@@ -2096,6 +2096,9 @@ const PLAYERS_OUT_OF_CLUB_SQUAD_2026_27: ReadonlySet<string> = new Set([
   'cipriano-cumba-cabinda', // FC Cabinda · oficial de equipa (m27-2-3)
   // FC Luanda — exclusão pedida na lista de 06/11/2026 (a página e o golo mantêm-se).
   'ricardo-batista-fcluanda',
+  // GD Interclube — exclusão pedida a 06/11/2026 (a página e o golo mantêm-se).
+  'silvano-da-cruz-interclube',
+  'alberto-alves-interclube',
   'luciano-capoco-cabinda', // FC Cabinda · treinador principal (m27-2-3)
 ]);
 
