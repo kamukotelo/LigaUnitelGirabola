@@ -38,11 +38,11 @@ COR_CABECALHO_FG = "FFCC00"   # Dourado Girabola
 COR_BORDA = "D0D7DE"
 COR_TITULO = "0F1720"
 
-FONTE_CABECALHO = Font(name="Arial", size=11, bold=True, color=COR_CABECALHO_FG)
+FONTE_CABECALHO = Font(name="Calibri", size=11, bold=True, color=COR_CABECALHO_FG)
 FILL_CABECALHO = PatternFill(start_color=COR_CABECALHO_BG, end_color=COR_CABECALHO_BG, fill_type="solid")
-FONTE_DADOS = Font(name="Arial", size=10)
-FONTE_TITULO = Font(name="Arial", size=14, bold=True, color=COR_TITULO)
-FONTE_NOTA = Font(name="Arial", size=10, italic=True, color="5A6672")
+FONTE_DADOS = Font(name="Calibri", size=10)
+FONTE_TITULO = Font(name="Calibri", size=14, bold=True, color=COR_TITULO)
+FONTE_NOTA = Font(name="Calibri", size=10, italic=True, color="5A6672")
 
 BORDA = Border(
     left=Side(style="thin", color=COR_BORDA),
@@ -383,12 +383,12 @@ def construir_aba_instrucoes(wb, incluir_exemplo):
         ws.append([chave, texto])
         row_idx = ws.max_row
         titulo = texto == "" and chave != ""
-        ws.cell(row=row_idx, column=1).font = Font(name="Arial", size=10, bold=True)
+        ws.cell(row=row_idx, column=1).font = Font(name="Calibri", size=10, bold=True)
         ws.cell(row=row_idx, column=1).alignment = AL_ESQUERDA
         ws.cell(row=row_idx, column=2).font = FONTE_DADOS
         ws.cell(row=row_idx, column=2).alignment = Alignment(horizontal="left", vertical="center", wrap_text=True)
         if titulo:
-            ws.cell(row=row_idx, column=1).font = Font(name="Arial", size=11, bold=True, color=COR_CABECALHO_BG)
+            ws.cell(row=row_idx, column=1).font = Font(name="Calibri", size=11, bold=True, color=COR_CABECALHO_BG)
 
     ws.column_dimensions["A"].width = 24
     ws.column_dimensions["B"].width = 118

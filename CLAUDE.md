@@ -80,6 +80,23 @@ deploy quando uma delas é violada.
 - `src/lib/published-ancaf-calendar.ts` é a cópia do sorteio recebido: não se
   edita para mudar agendas.
 
+## Documentos e apresentações
+
+- **Fonte padrão: Calibri** em todos os documentos gerados (PDF, Word, Excel,
+  listas, relatórios, comunicados) e em todas as apresentações PowerPoint
+  (`.pptx`): títulos, texto, tabelas e números/códigos. Usar negrito ou
+  tamanho para hierarquia, não outra família.
+- Em HTML para impressão/PDF: `font-family: Calibri, Carlito, sans-serif`
+  (Carlito é a substituta métrica quando a Calibri não está instalada).
+  Neste Mac a Calibri só existe dentro do Office
+  (`/Applications/Microsoft PowerPoint.app/Contents/Resources/DFonts/`):
+  carregá-la com `@font-face` (ver `scripts/gerar-listas-modelo-a.mts`) e
+  confirmar no PDF que a fonte embutida é `Calibri`, não `Helvetica`.
+- Em `python-pptx`/`python-docx`/`openpyxl`: `font.name = "Calibri"` em
+  todos os textos, incluindo os definidos nos modelos e nas tabelas.
+- Outra fonte só se o pedido o disser expressamente (ex.: identidade de um
+  parceiro).
+
 ## Validação
 
 `npm run jogos -- validar` recusa, entre outros:

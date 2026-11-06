@@ -24,6 +24,31 @@ OUTPUT = ROOT / "output" / "pdf" / "walkthrough-presenca-digital-clubes.pdf"
 LOGO = ROOT / "public" / "logo-girabola-horizontal.png"
 
 
+# Fonte padrão (CLAUDE.md): Calibri. Neste Mac só existe dentro do Office;
+# sem ela, recorre à Helvetica e avisa.
+def _registar_calibri():
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont
+    from reportlab.lib.fonts import addMapping
+    pastas = [
+        Path("/Library/Fonts"), Path.home() / "Library/Fonts",
+        Path("/Applications/Microsoft PowerPoint.app/Contents/Resources/DFonts"),
+        Path("/Applications/Microsoft Word.app/Contents/Resources/DFonts"),
+    ]
+    for pasta in pastas:
+        if (pasta / "Calibri.ttf").exists() and (pasta / "Calibrib.ttf").exists():
+            pdfmetrics.registerFont(TTFont("Calibri", str(pasta / "Calibri.ttf")))
+            pdfmetrics.registerFont(TTFont("Calibri-Bold", str(pasta / "Calibrib.ttf")))
+            addMapping("Calibri", 0, 0, "Calibri"); addMapping("Calibri", 1, 0, "Calibri-Bold")
+            addMapping("Calibri", 0, 1, "Calibri"); addMapping("Calibri", 1, 1, "Calibri-Bold")
+            return "Calibri", "Calibri-Bold"
+    print("⚠ Calibri não encontrada; a usar Helvetica.")
+    return "Helvetica", "Helvetica-Bold"
+
+
+FONTE, FONTE_NEGRITO = _registar_calibri()
+
+
 club_rows = [
     ["petro", "Petro de Luanda", "https://petroatletico.co.ao/", "https://www.facebook.com/atleticopetroleosluanda", "https://www.instagram.com/petro_de_luanda_oficial/", "YouTube: @petrodeluandaoficial"],
     ["dago", "1.º de Agosto", "http://www.primeiroagosto.com/", "https://www.facebook.com/clube1deagosto/", "https://www.instagram.com/cdagosto/", "-"],
@@ -50,7 +75,7 @@ def make_styles():
         "title": ParagraphStyle(
             "TitleCustom",
             parent=base["Title"],
-            fontName="Helvetica-Bold",
+            fontName=FONTE_NEGRITO,
             fontSize=24,
             leading=30,
             textColor=colors.HexColor("#2F1242"),
@@ -60,7 +85,7 @@ def make_styles():
         "subtitle": ParagraphStyle(
             "SubtitleCustom",
             parent=base["BodyText"],
-            fontName="Helvetica",
+            fontName=FONTE,
             fontSize=10,
             leading=15,
             textColor=colors.HexColor("#555555"),
@@ -69,7 +94,7 @@ def make_styles():
         "h1": ParagraphStyle(
             "HeadingCustom",
             parent=base["Heading1"],
-            fontName="Helvetica-Bold",
+            fontName=FONTE_NEGRITO,
             fontSize=16,
             leading=20,
             textColor=colors.HexColor("#5C0F8B"),
@@ -79,7 +104,7 @@ def make_styles():
         "h2": ParagraphStyle(
             "SubHeadingCustom",
             parent=base["Heading2"],
-            fontName="Helvetica-Bold",
+            fontName=FONTE_NEGRITO,
             fontSize=12,
             leading=16,
             textColor=colors.HexColor("#222222"),
@@ -89,7 +114,7 @@ def make_styles():
         "body": ParagraphStyle(
             "BodyCustom",
             parent=base["BodyText"],
-            fontName="Helvetica",
+            fontName=FONTE,
             fontSize=9.5,
             leading=14,
             textColor=colors.HexColor("#222222"),
@@ -98,7 +123,7 @@ def make_styles():
         "bullet": ParagraphStyle(
             "BulletCustom",
             parent=base["BodyText"],
-            fontName="Helvetica",
+            fontName=FONTE,
             fontSize=9,
             leading=13,
             leftIndent=12,
@@ -109,7 +134,7 @@ def make_styles():
         "small": ParagraphStyle(
             "SmallCustom",
             parent=base["BodyText"],
-            fontName="Helvetica",
+            fontName=FONTE,
             fontSize=7,
             leading=8.5,
             textColor=colors.HexColor("#222222"),
@@ -118,7 +143,7 @@ def make_styles():
         "small_center": ParagraphStyle(
             "SmallCenterCustom",
             parent=base["BodyText"],
-            fontName="Helvetica-Bold",
+            fontName=FONTE_NEGRITO,
             fontSize=7.3,
             leading=8.5,
             textColor=colors.white,
@@ -137,10 +162,10 @@ def header_footer(canvas, doc):
     width, height = doc.pagesize
     canvas.setStrokeColor(colors.HexColor("#E4E4E7"))
     canvas.line(doc.leftMargin, height - 1.15 * cm, width - doc.rightMargin, height - 1.15 * cm)
-    canvas.setFont("Helvetica-Bold", 8)
+    canvas.setFont(FONTE_NEGRITO, 8)
     canvas.setFillColor(colors.HexColor("#5C0F8B"))
     canvas.drawString(doc.leftMargin, height - 0.82 * cm, "Liga Unitel Girabola")
-    canvas.setFont("Helvetica", 7)
+    canvas.setFont(FONTE, 7)
     canvas.setFillColor(colors.HexColor("#666666"))
     canvas.drawRightString(width - doc.rightMargin, 0.75 * cm, f"Página {doc.page}")
     canvas.restoreState()

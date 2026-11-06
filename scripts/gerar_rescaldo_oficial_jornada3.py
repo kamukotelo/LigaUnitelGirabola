@@ -229,14 +229,14 @@ def add_header(slide, tag, titulo):
     p_tag.font.size = Pt(11)
     p_tag.font.bold = True
     p_tag.font.color.rgb = COR_DOURADO
-    p_tag.font.name = "Arial"
+    p_tag.font.name = "Calibri"
 
     p_tit = tf.add_paragraph()
     p_tit.text = titulo.upper()
     p_tit.font.size = Pt(28)
     p_tit.font.bold = True
     p_tit.font.color.rgb = COR_BRANCO
-    p_tit.font.name = "Arial"
+    p_tit.font.name = "Calibri"
 
 def set_cell_props(cell, text, font_size=11, bold=False, color=COR_BRANCO, align=PP_ALIGN.CENTER, bg_color=None):
     """Formata célula de tabela com fundo e alinhamento vertical/horizontal."""
@@ -259,7 +259,7 @@ def set_cell_props(cell, text, font_size=11, bold=False, color=COR_BRANCO, align
     p.font.size = Pt(font_size)
     p.font.bold = bold
     p.font.color.rgb = color
-    p.font.name = "Arial"
+    p.font.name = "Calibri"
     p.alignment = align
 
 
@@ -282,27 +282,27 @@ p.text = "LIGA UNITEL GIRABOLA 2026/27"
 p.font.size = Pt(16)
 p.font.bold = True
 p.font.color.rgb = COR_DOURADO
-p.font.name = "Arial"
+p.font.name = "Calibri"
 
 p2 = tf1.add_paragraph()
 p2.text = "RESCALDO OFICIAL"
 p2.font.size = Pt(44)
 p2.font.bold = True
 p2.font.color.rgb = COR_BRANCO
-p2.font.name = "Arial"
+p2.font.name = "Calibri"
 
 p3 = tf1.add_paragraph()
 p3.text = "3.ª JORNADA"
 p3.font.size = Pt(44)
 p3.font.bold = True
 p3.font.color.rgb = COR_AZUL_DEST
-p3.font.name = "Arial"
+p3.font.name = "Calibri"
 
 p4 = tf1.add_paragraph()
 p4.text = "Resultados • Classificação • Análise Tática • Antevisão da 4.ª Jornada"
 p4.font.size = Pt(16)
 p4.font.color.rgb = COR_CINZA_TEXTO
-p4.font.name = "Arial"
+p4.font.name = "Calibri"
 
 # Card institucional lateral direito
 card_inst = add_shape(slide1, MSO_SHAPE.ROUNDED_RECTANGLE, Inches(9.0), Inches(1.8), Inches(3.5), Inches(3.8), COR_AZUL_SEC, COR_AZUL_DEST)
@@ -315,7 +315,7 @@ p.text = "DESTAQUES DA JORNADA"
 p.font.size = Pt(14)
 p.font.bold = True
 p.font.color.rgb = COR_DOURADO
-p.font.name = "Arial"
+p.font.name = "Calibri"
 
 pontos_capa = [
     ("🏆 1.º de Agosto Isolado", "3 vitórias em 3 jogos (9 pts)"),
@@ -368,20 +368,20 @@ for i, (valor, rotulo, sub, cor_borda) in enumerate(cards_dados):
     p.font.size = Pt(44)
     p.font.bold = True
     p.font.color.rgb = cor_borda
-    p.font.name = "Arial"
+    p.font.name = "Calibri"
 
     p2 = tf_c.add_paragraph()
     p2.text = rotulo
     p2.font.size = Pt(14)
     p2.font.bold = True
     p2.font.color.rgb = COR_BRANCO
-    p2.font.name = "Arial"
+    p2.font.name = "Calibri"
 
     p3 = tf_c.add_paragraph()
     p3.text = sub
     p3.font.size = Pt(11)
     p3.font.color.rgb = COR_CINZA_TEXTO
-    p3.font.name = "Arial"
+    p3.font.name = "Calibri"
 
 
 # ==========================================
@@ -1140,6 +1140,27 @@ p4.alignment = PP_ALIGN.CENTER
 # ==========================================
 # GUARDAR APRESENTAÇÃO & LIMPEZA
 # ==========================================
+
+def aplicar_calibri(apresentacao):
+    """Fonte padrão (CLAUDE.md): Calibri em todo o texto, incluindo tabelas e grupos."""
+    def runs_de(shape):
+        if shape.shape_type == 6:  # grupo
+            for s in shape.shapes:
+                yield from runs_de(s)
+        if getattr(shape, "has_text_frame", False) and shape.has_text_frame:
+            for par in shape.text_frame.paragraphs:
+                yield from par.runs
+        if getattr(shape, "has_table", False) and shape.has_table:
+            for row in shape.table.rows:
+                for cell in row.cells:
+                    for par in cell.text_frame.paragraphs:
+                        yield from par.runs
+    for slide in apresentacao.slides:
+        for shape in slide.shapes:
+            for run in runs_de(shape):
+                run.font.name = "Calibri"
+
+aplicar_calibri(prs)
 prs.save(FICHEIRO_SAIDA)
 
 # Limpeza dos ficheiros de imagem temporários gerados pelo matplotlib
