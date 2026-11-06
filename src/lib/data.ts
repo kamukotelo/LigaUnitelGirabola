@@ -1884,9 +1884,6 @@ const LIBOLO_SQUAD_2026_27: Player[] = [
 const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['silvano-da-cruz-interclube', 'Silvano da Cruz', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
   // 1.º de Agosto — novos no plantel enviado pelo clube a 23/10/2026.
-  ['diego-lopes-dago', 'Diego Lopes', 'CD 1.º de Agosto', 'dago', 'Guarda-redes', 12, 0],
-  ['juliao-dago', 'Julião', 'CD 1.º de Agosto', 'dago', 'Guarda-redes', 31, 0],
-  ['aguinaldo-dago', 'Aguinaldo', 'CD 1.º de Agosto', 'dago', 'Médio', 13, 0],
   ['alberto-alves-interclube', 'Alberto Alves', 'GD Interclube', 'interclube', 'Posição por confirmar', 0, 1],
   ['ricardo-batista-fcluanda', 'Ricardo Batista', 'FC Luanda', 'fcluanda', 'Posição por confirmar', 0, 1],
   ['bello-lukman-wiliete', 'Bello Lukman', 'Wiliete de Benguela', 'wiliete', 'Posição por confirmar', 0, 1],
@@ -1919,8 +1916,6 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ['pinto-lobito', 'Pinto', 'Académica do Lobito', 'lobito', 'Avançado', 14, 0],
   ['sabones-lobito', 'Sabones', 'Académica do Lobito', 'lobito', 'Avançado', 17, 0],
   ['cuxixima-caala', 'Domingos Lourenço Cuxixima', 'CR Caála', 'caala', 'Avançado', 7, 0],
-  // Reforço do CR Caála (n.º 38), confirmado a 09/10/2026; ainda fora da inscrição de 31/08.
-  ['yano-caala', 'Yano', 'CR Caála', 'caala', 'Posição por confirmar', 38, 0],
   ['ado-pena-huila', 'Ado Pena', 'Desportivo da Huíla', 'desphuila', 'Médio', 27, 1],
   ['mabululu-wiliete', 'Mabululu', 'Wiliete de Benguela', 'wiliete', 'Avançado', 9, 2],
 ].map(([id, name, club, teamId, position, jerseyNumber, goals]) => ({
@@ -1932,7 +1927,8 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   // Wiliete de Benguela — plantel enviado pelo clube a 05/10/2026: o n.º 6 não
   // consta da inscrição de 31/08 (já jogou na 5.ª jornada, m27-5-6).
   {
-    id: 'janderson-wiliete', name: 'Janderson', nickname: 'Janderson', fullName: 'Janderson de Oliveira Maia',
+    // Licença e nome da lista enviada a 06/11/2026: «Jaderson de Oliveira Maia» (007266M94).
+    id: 'janderson-wiliete', name: 'Janderson', nickname: 'Janderson', fullName: 'Jaderson de Oliveira Maia', maId: '007266M94',
     club: 'Wiliete de Benguela', teamId: 'wiliete', position: 'Médio', goals: 0, assists: 0, appearances: 0,
     jerseyNumber: 6, age: 0, nationality: 'Brasil', height: 'A confirmar',
     attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
@@ -1955,11 +1951,11 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   // O n.º 6 do Kabuscorp aparece como «Zito», «Abed Zito Mungomba» e «Abed»; o
   // n.º 39 como «Mpiana» e «Platini» (o mesmo jogador).
   ...([
-    ['abed-kabuscorp', 'Abed', 'Zito', 'Abed Zito Mungomba', 'Kabuscorp SC', 'kabuscorp', 6],
-    ['platini-kabuscorp', 'Platini', 'Mpiana', undefined, 'Kabuscorp SC', 'kabuscorp', 39],
-    ['julinho-wiliete', 'Julinho', 'Julinho', undefined, 'Wiliete de Benguela', 'wiliete', 29],
-  ] as const).map(([id, name, nickname, fullName, club, teamId, jerseyNumber]) => ({
-    id, name, nickname, ...(fullName ? { fullName } : {}),
+    ['abed-kabuscorp', 'Abed', 'Zito', 'Abed Zito Mungomba', 'Kabuscorp SC', 'kabuscorp', 6, '009060M05'],
+    ['platini-kabuscorp', 'Platini', 'Mpiana', 'Platini Mpiana Monzinzi', 'Kabuscorp SC', 'kabuscorp', 39, '009238M96'],
+    ['julinho-wiliete', 'Julinho', 'Julinho', 'João Diogo', 'Wiliete de Benguela', 'wiliete', 29, '000491M99'],
+  ] as const).map(([id, name, nickname, fullName, club, teamId, jerseyNumber, maId]) => ({
+    id, name, nickname, ...(fullName ? { fullName } : {}), maId,
     club, teamId, position: 'Posição por confirmar', goals: 0, assists: 0, appearances: 0,
     jerseyNumber, age: 0, nationality: 'Angola', height: 'A confirmar',
     attributes: { pace: 0, shooting: 0, passing: 0, dribbling: 0, defending: 0, physical: 0 },
@@ -1985,7 +1981,9 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
   ...([
     ['antonio-lopes-bravos', 'António Lopes', 'António Lopes', '003630M05', 'bravos', 'Posição por confirmar', 18],
     ['caiser-bravos', 'Caiser', 'Caiser Sérgio Gomes', '009153M00', 'bravos', 'Posição por confirmar', 5],
-    ['adriano-nicolau-caala', 'Adriano Nicolau', 'Adriano Belmiro Duarte Nicolau', '000399M92', 'caala', 'Posição por confirmar', 38],
+    // N.º 38 do Caála: «Adriano Nicolau» nos relatórios da 4.ª à 7.ª jornada e «Yano» na 8.ª e 9.ª
+    // (o mesmo atleta; a antiga entrada «yano-caala», sem licença, foi fundida aqui a 06/11/2026).
+    ['adriano-nicolau-caala', 'Yano', 'Adriano Belmiro Duarte Nicolau', '000399M92', 'caala', 'Posição por confirmar', 38],
     ['ifony-caala', 'Ifony', 'Ejaita Ifoni', '009384M00', 'caala', 'Posição por confirmar', 28],
     ['lamine-moro-caala', 'Lamine Moro', 'Lamine Moro', '009386M94', 'caala', 'Posição por confirmar', 18],
     ['kadima-cabinda', 'Kadima', 'Efraim Rosário Sabi Kadima', '000630M00', 'cabinda', 'Posição por confirmar', 37],
@@ -1993,7 +1991,12 @@ const ADDITIONAL_CONFIRMED_PLAYERS_2026_27: Player[] = [
     ['ary-chato-cabinda', 'Ary Chato', 'Neves Paulo Osvaldo', '001384M94', 'cabinda', 'Posição por confirmar', 38],
     ['pino-cabinda', 'Pinó', 'António Alberto Sumbo Luemba', '002971M95', 'cabinda', 'Posição por confirmar', 39],
     ['crichano-cabinda', 'Crichano Diacango', 'Crichano Diacango', '007482M01', 'cabinda', 'Posição por confirmar', 28],
-    ['justo-pucusso-dago', 'Justo Pucusso', 'Justo Pucusso', '000657M92', 'dago', 'Posição por confirmar', 31],
+    ['justo-pucusso-dago', 'Justo Pucusso', 'Justo Mateus Pucusso', '000657M92', 'dago', 'Guarda-redes', 31],
+    // 1.º de Agosto — lista de licenças enviada a 06/11/2026 (n.º 12, 13, 34 e 38).
+    ['diego-lopes-dago', 'Diego Lopes', 'Diego Washington Ferreira Lopes', '009150M99', 'dago', 'Guarda-redes', 12],
+    ['aguinaldo-dago', 'Aguinaldo', 'Aguinaldo Matias', '001998M98', 'dago', 'Médio', 13],
+    ['josue-mungwengi-dago', 'Josué Mungwengi', 'Josué Mungwengi', '009419M01', 'dago', 'Posição por confirmar', 34],
+    ['wilfrid-nkaya-dago', 'Wilfrid Nkaya', 'Wilfrid Nkaya', '009418M99', 'dago', 'Posição por confirmar', 38],
     ['amilton-vicente-dago', 'Amilton Vicente', 'Amilton Chinote Simba Vicente', '000899M03', 'dago', 'Posição por confirmar', 30],
     ['paulo-costa-dago', 'Paulo', 'Paulo de Sousa Lopes da Costa', '001335M04', 'dago', 'Posição por confirmar', 21],
     ['joao-antonio-fcluanda', 'João António', 'João José António', '001406M03', 'fcluanda', 'Posição por confirmar', 11],
@@ -2041,7 +2044,6 @@ const CLUB_SQUAD_LISTS_2026_27: Readonly<Record<string, { jerseyNumber: number; 
   // 1.º de Agosto — plantel até ao fim do ano, enviado pelo clube a 23/10/2026.
   'nuno-dago': { jerseyNumber: 1, position: 'Guarda-redes' },
   'anselmo-dago': { jerseyNumber: 22, position: 'Guarda-redes' },
-  'juliao-dago': { jerseyNumber: 31, position: 'Guarda-redes' },
   'diego-lopes-dago': { jerseyNumber: 12, position: 'Guarda-redes' },
   'bonifacio-dago': { jerseyNumber: 5, position: 'Defesa' },
   'venancio-dago': { jerseyNumber: 15, position: 'Defesa' },
@@ -2058,7 +2060,12 @@ const CLUB_SQUAD_LISTS_2026_27: Readonly<Record<string, { jerseyNumber: number; 
   'aguinaldo-dago': { jerseyNumber: 13, position: 'Médio' },
   'mabilson-dago': { jerseyNumber: 7, position: 'Avançado' },
   'fernando-dago': { jerseyNumber: 11, position: 'Avançado', name: 'Fernandinho' },
-  'fifa-1pny6s0': { jerseyNumber: 30, position: 'Avançado', name: 'Eliseu Francisco' },
+  // Lista de licenças de 06/11/2026: Eliseu passa ao n.º 33; Amilton (30), Justo (31)
+  // e Felisberto (35) voltam ao plantel.
+  'fifa-1pny6s0': { jerseyNumber: 33, position: 'Avançado', name: 'Eliseu Francisco' },
+  'amilton-vicente-dago': { jerseyNumber: 30, position: 'Posição por confirmar' },
+  'justo-pucusso-dago': { jerseyNumber: 31, position: 'Guarda-redes' },
+  'fifa-1pny6e7': { jerseyNumber: 35, position: 'Posição por confirmar' }, // Felisberto Kanjeque Carvalho
   'rupson-dago': { jerseyNumber: 9, position: 'Avançado' },
   'cliver-dago': { jerseyNumber: 18, position: 'Avançado' },
   'bulaya-dago': { jerseyNumber: 28, position: 'Avançado' }, // Félix
@@ -2082,9 +2089,12 @@ const PLAYERS_OUT_OF_CLUB_SQUAD_2026_27: ReadonlySet<string> = new Set([
   'fifa-1scqy89', // n.º 20 · António Kulica
   'fifa-1ni87h8', // n.º 21 · Filó
   'fifa-1uqntj4', // n.º 36 · Adenilson Tchingando
-  // 1.º de Agosto — plantel enviado pelo clube a 23/10/2026.
-  'amilton-vicente-dago', // n.º 30 · Amilton Chinote Simba Vicente
-  'justo-pucusso-dago', // n.º 31 · Justo Pucusso
+  // Oficiais de equipa que entraram como atletas por terem levado cartão amarelo
+  // (a página e o cartão mantêm-se; aparecem na equipa técnica do clube).
+  'sebastiao-palavra', // FC Luanda · preparador físico (m27-2-5)
+  'adriano-pedro', // FC Luanda · secretário técnico (m27-2-5)
+  'cipriano-cumba-cabinda', // FC Cabinda · oficial de equipa (m27-2-3)
+  'luciano-capoco-cabinda', // FC Cabinda · treinador principal (m27-2-3)
 ]);
 
 /**
@@ -2315,6 +2325,22 @@ const OFFICIAL_SQUAD_FALLBACKS: Player[] = [
   ...PLAYERS_RAW,
 ];
 
+/**
+ * Nome completo por licença, quando a inscrição de 31/08 trouxe só o primeiro
+ * nome ou texto a mais. Fonte: listas de licenças enviadas a 06/11/2026.
+ */
+const OFFICIAL_FULL_NAME_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
+  // CR Caála
+  '001215M00': 'Osvaldo José',
+  '000673M97': 'Francisco Chitanga',
+  '001592M05': 'Gabriel Venâncio',
+  '000721M90': 'Landu Mavanga',
+  '006171M05': 'Ernesto Vieira',
+  // CD 1.º de Agosto
+  '004967M09': 'Eliseu Sebastião Francisco',
+  '004958M08': 'Felisberto Kanjeque Carvalho',
+};
+
 const OFFICIAL_FIFA_ID_COUNTS = OFFICIAL_SQUADS_2026_27.reduce((counts, squad) => {
   squad.players.forEach((record) => {
     if (record.fifaId) counts.set(record.fifaId, (counts.get(record.fifaId) ?? 0) + 1);
@@ -2362,7 +2388,7 @@ const OFFICIAL_REGISTERED_PLAYERS_2026_27: Player[] = OFFICIAL_SQUADS_2026_27.fl
         ?? (record.popularName
           ? formatOfficialPlayerName(record.popularName)
           : (fallback?.nickname ?? (fallback?.fullName && fallback.name !== fallback.fullName ? fallback.name : undefined))),
-      fullName: formatOfficialPlayerName(record.fullName),
+      fullName: formatOfficialPlayerName(OFFICIAL_FULL_NAME_BY_MA_ID_2026_27[record.maId] ?? record.fullName),
       club: squad.club,
       teamId: squad.teamId,
       position,
@@ -2508,12 +2534,21 @@ function officialStaffRank(label: string): number {
  * Equipa técnica da lista enviada pelo clube que ainda não consta da inscrição
  * (sem número de licença). Entra com o código de função FIFA, como a inscrição.
  */
-const CLUB_LISTED_STAFF_2026_27: Readonly<Record<string, Array<{ name: string; role: string; nationality: string }>>> = {
+const CLUB_LISTED_STAFF_2026_27: Readonly<Record<string, Array<{ name: string; role: string; nationality: string; maId?: string }>>> = {
+  // Petro de Luanda — staff da lista de licenças enviada a 06/11/2026 (função por confirmar).
+  petro: [
+    { name: 'Alexandre Miguel Crispim dos Santos', role: '', nationality: '', maId: '000340M76' },
+    { name: 'Adriano Silva Soares', role: '', nationality: '', maId: '000341M82' },
+  ],
   // Estrela 1.º de Maio — novo treinador principal, no Lineup Geral da 6.ª jornada (11/10/2026).
   primeiromaio: [
     { name: 'Mavi Lopes', role: 'HDCH', nationality: '' },
   ],
   // CD Lunda Sul — lista «Equipa técnica» enviada pelo clube a 08/10/2026.
+  // FC Cabinda — oficial de equipa no Relatório do Árbitro da 2.ª jornada (m27-2-3).
+  cabinda: [
+    { name: 'Cipriano Cumba Rafael', role: 'Oficial da equipa', nationality: 'Angola' },
+  ],
   lundasul: [
     { name: 'Maurílio Silva', role: 'HDCH', nationality: 'Brazil' }, // Cleverson Maurílio Silva
     { name: 'Ricardo Vieira', role: 'PTNR', nationality: 'Brazil' },
@@ -2523,7 +2558,7 @@ const CLUB_LISTED_STAFF_2026_27: Readonly<Record<string, Array<{ name: string; r
 export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMember[]>> = Object.fromEntries(
   OFFICIAL_SQUADS_2026_27.map((squad) => [squad.teamId, [
     ...squad.staff,
-    ...(CLUB_LISTED_STAFF_2026_27[squad.teamId] ?? []).map((member) => ({ ...member, maId: '', fifaId: '' })),
+    ...(CLUB_LISTED_STAFF_2026_27[squad.teamId] ?? []).map((member) => ({ ...member, maId: member.maId ?? '', fifaId: '' })),
   ]
     .filter((member) => !OFFICIAL_STAFF_REMOVED_MA_IDS_2026_27.has(member.maId))
     .map((member, index) => ({ member, index, role: officialStaffRoleLabel(member) }))

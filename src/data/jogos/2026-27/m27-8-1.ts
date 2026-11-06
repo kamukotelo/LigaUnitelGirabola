@@ -38,7 +38,7 @@ export default defineMatch({
       { name: 'Putchú', number: 21, position: 'DEF', isStarter: false, playerId: 'fifa-1jzhzh1' },
       { name: 'Kabila', number: 24, position: 'FWD', isStarter: false, playerId: 'fifa-1k2qwk8' },
       { name: 'Félix II', number: 33, position: 'FWD', isStarter: false, playerId: 'fifa-1uy6ar6' },
-      { name: 'Yano', number: 38, isStarter: false, playerId: 'yano-caala' },
+      { name: 'Yano', number: 38, isStarter: false, playerId: 'adriano-nicolau-caala' },
     ],
     away: [
       { name: 'Anselmo', number: 22, position: 'GK', isStarter: true, playerId: 'anselmo-dago' },
