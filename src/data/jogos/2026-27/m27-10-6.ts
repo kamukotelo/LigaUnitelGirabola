@@ -7,6 +7,12 @@ export default defineMatch({
   homeTeamId: 'sagrada',
   awayTeamId: 'cabinda',
   schedule: { date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
+  // Resultado e marcadores recebidos a 07/11/2026 (captura da app; aguarda o relatório do árbitro).
+  result: { status: 'finished', homeScore: 2, awayScore: 0, halfTimeScore: '2-0', updatedAt: '2026-11-07T18:33:00+01:00' },
+  events: [
+    { minute: 10, type: 'goal', team: 'home', player: 'Dabanda', number: 7, playerId: 'dabanda-sagrada', detail: '1-0' },
+    { minute: 35, type: 'goal', team: 'home', player: 'Mafuta', number: 24, playerId: 'afonso-sagrada', detail: '2-0' },
+  ],
   // Equipa de arbitragem do «Lineup Geral» oficial (07/11/2026; nomes completos das fichas anteriores).
   officials: { referee: 'Miguel Tchissingui Augusto Américo', assistants: ['Bernardo Kunjuca Lúcio Serafim', 'Floriano Cawala'], fourth: 'Ayrton Micuta' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (07/11/2026).
