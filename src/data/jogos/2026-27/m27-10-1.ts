@@ -14,6 +14,15 @@ export default defineMatch({
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Caála: o Lineup traz «Landú» também no n.º 2 (o n.º 2 do plantel é Vale); ligado pela camisola.
   // Nelinho (n.º 20) e Caio (n.º 35, Caála); Afonso (n.º 1), João (n.º 23) e Hugo (n.º 34, Académica) ainda não constam das listas de plantel recebidas.
+  // Resultado e marcadores recebidos a 08/11/2026 (captura da app; aguarda o relatório do árbitro).
+  // O golo dos 79' aparece na app como «Higino», que não está na escalação da Académica (o único Higino do
+  // campeonato é do Bravos do Maquis): fica sem marcador até ao relatório.
+  result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '0-0', updatedAt: '2026-11-08T17:45:00+01:00' },
+  events: [
+    { minute: 79, type: 'goal', team: 'away', player: '', detail: '0-1' },
+    { minute: 87, type: 'goal', team: 'away', player: 'Florentino', number: 11, playerId: 'kaporal', detail: '0-2' },
+    { minute: 89, type: 'goal', team: 'home', player: 'Benvindo', number: 4, playerId: 'fifa-1jz4pi8', detail: '1-2' },
+  ],
   coaches: { home: 'Artur Correia', away: 'Silvestre Pelé' },
   lineups: {
     home: [
