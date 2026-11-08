@@ -60,4 +60,11 @@ export default defineMatch({
       { name: 'Erique', number: 24, position: 'DEF', isStarter: false, playerId: 'fifa-1pxwmn6' },
     ],
   },
+  // Resultado, marcadores e expulsão recebidos a 08/11/2026 (captura da app; aguarda o relatório do árbitro).
+  result: { status: 'finished', homeScore: 2, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-08T17:06:00+01:00' },
+  events: [
+    { minute: 60, type: 'red', team: 'away', player: 'Dago', number: 17, playerId: 'dago-tshibamba' },
+    { minute: 75, type: 'goal', team: 'home', player: 'Amado', number: 18, playerId: 'fifa-1qhqtd1', detail: 'Grande penalidade · 1-0' },
+    { minute: 84, type: 'goal', team: 'home', player: 'Robson', number: 9, playerId: 'robson-libolo', detail: '2-0' },
+  ],
 });
