@@ -173,7 +173,8 @@ assert.match(
   'Os golos do m27-4-1 têm de seguir o Relatório 29.',
 );
 assert.doesNotMatch(derived, /id: 'cuxixima-caala'/, 'Cuxixima não marcou no Relatório 29.');
-assert.match(derived, /id: 'fifa-1jz4pi8'[^\n]*goals: 2,/);
+// Benvindo tem pelo menos os 2 golos dos relatórios (m27-4-1 e anteriores); os golos de jornadas seguintes somam-se.
+assert.ok(Number(derived.match(/id: 'fifa-1jz4pi8'[^\n]*goals: (\d+),/)?.[1] ?? 0) >= 2);
 assert.match(record('m27-4-1'), /officials: \{ referee: 'Paulo Sérgio Moreira'[^\n]*commissioner: 'Manuel André António'/);
 assert.match(publishedCalendar, /"id": "m27-4-3"[\s\S]*?"homeScore": 2[\s\S]*?"awayScore": 0[\s\S]*?"halfTimeScore": "2-0"[\s\S]*?"status": "finished"/);
 // Amarelos conforme o Relatório do Árbitro n.º 21 (conferido a 19/10/2026): 5 do Lobito
