@@ -12,6 +12,13 @@ export default defineMatch({
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (08/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Michel (n.º 12, 1.º de Maio) ainda não consta das listas de plantel recebidas.
+  // Resultado, marcador e expulsão recebidos a 08/11/2026 (captura da app; aguarda o relatório do árbitro).
+  // A app não identifica o jogador expulso aos 70' (1.º de Maio).
+  result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-08T21:27:00+01:00' },
+  events: [
+    { minute: 70, type: 'red', team: 'away', player: '' },
+    { minute: 83, type: 'goal', team: 'home', player: 'Kinito', number: 24, playerId: 'kinito', detail: '1-0' },
+  ],
   coaches: { home: 'Alexandre Santos', away: 'Mavi Lopes' },
   lineups: {
     home: [
