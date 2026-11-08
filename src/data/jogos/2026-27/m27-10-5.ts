@@ -14,6 +14,11 @@ export default defineMatch({
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Sem correspondência no plantel (como na 9.ª jornada): Viegas (n.º 2), Pedro Matendi (n.º 3), Kaba (n.º 11), D Paiza (n.º 24)
   // e Edmilson (n.º 25) do FC Luanda; Gui (n.º 4) e Mano (n.º 31) do São Salvador.
+  // Resultado e marcador recebidos a 08/11/2026 (captura da app; aguarda o relatório do árbitro).
+  result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-11-08T17:35:00+01:00' },
+  events: [
+    { minute: 5, type: 'goal', team: 'home', player: 'Gabriel', number: 21, playerId: 'gabriel-cavalcante-fcluanda', detail: '1-0' },
+  ],
   coaches: { home: 'Rui Santos', away: 'Silva Kussanda' },
   lineups: {
     home: [
