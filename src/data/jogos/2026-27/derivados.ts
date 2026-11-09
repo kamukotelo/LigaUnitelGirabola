@@ -113,7 +113,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     'cristiano-cabinda': { yellow: 2, red: 0 },
     'cuxixima-libolo': { yellow: 1, red: 0 },
     'dabanda-bravos': { yellow: 1, red: 0 },
-    'dago-tshibamba': { yellow: 2, red: 1 },
+    'dago-tshibamba': { yellow: 2, red: 0 },
     'deybi-flores': { yellow: 1, red: 0 },
     'dieu': { yellow: 2, red: 0 },
     'elias-huila': { yellow: 1, red: 0 },
