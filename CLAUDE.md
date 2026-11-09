@@ -80,6 +80,31 @@ deploy quando uma delas é violada.
 - `src/lib/published-ancaf-calendar.ts` é a cópia do sorteio recebido: não se
   edita para mudar agendas.
 
+## Regras disciplinares (cartões e suspensões)
+
+Tabela «Regras disciplinares» da competição no FCMS, enviada pelo Diretor de
+Competições (Emanuel Valodia, 09/11/2026). Aplica-se a jogadores:
+
+| Tipo de infrator | Tipo de cartão | Número de cartões | Jogos de suspensão |
+|---|---|---|---|
+| Jogador | Amarelo | 5 | 1 |
+| Jogador | Amarelo | 3 | 1 |
+| Jogador | Vermelho (2.º amarelo) | 2 | 1 |
+| Jogador | Vermelho (direto) | 1 | 2 |
+
+- Transcrito tal como o FCMS mostra. A tabela não diz se a contagem de
+  amarelos recomeça depois de uma suspensão, o que acontece depois do 5.º
+  amarelo, nem o que significa ao certo o «2» do vermelho por 2.º amarelo:
+  não adivinhar; perguntar à DCE/ANCAF antes de calcular suspensões para lá
+  do que a tabela diz.
+- O Conselho de Disciplina da FAF continua a ser quem publica as sanções
+  (comunicados); estas regras servem para prever e verificar suspensões, não
+  substituem o comunicado.
+- **Só contam cartões confirmados** no Relatório do Árbitro (FCMS). Cartões
+  vindos de capturas de apps de resultados não servem para suspensões: o
+  vermelho a Dagó no Libolo–1.º de Agosto (08/11/2026) foi publicado a partir
+  de uma captura e era inexistente.
+
 ## Documentos e apresentações
 
 - **Fonte padrão: Calibri** em todos os documentos gerados (PDF, Word, Excel,
