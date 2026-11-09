@@ -63,8 +63,21 @@ export default defineMatch({
   // Resultado e marcadores recebidos a 08/11/2026 (captura da app; aguarda o relatório do árbitro).
   // Removido a 09/11/2026 o vermelho a Dagó (60') que veio da mesma captura: indicado como inexistente.
   result: { status: 'finished', homeScore: 2, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-08T17:06:00+01:00' },
+  // Substituições e amarelos recebidos a 09/11/2026 (Futebol Total; aguardam o relatório do árbitro).
+  // Pedro (n.º 17, Libolo) viu amarelo aos 87' sem constar das substituições: amarelo no banco ou substituição em falta.
   events: [
+    { minute: 29, type: 'yellow', team: 'home', player: 'Andeloy', number: 10, playerId: 'andeloy-libolo' },
+    { minute: 65, type: 'sub', team: 'away', player: 'Obed', number: 14, playerId: 'obed-dago', playerOut: 'Aspirina' },
+    { minute: 67, type: 'sub', team: 'home', player: 'Gui', number: 11, playerId: 'fifa-1mr7m11', playerOut: 'Tchube' },
+    { minute: 67, type: 'sub', team: 'home', player: 'Jorgito', number: 15, playerId: 'jorgito-libolo', playerOut: 'Catraio' },
     { minute: 75, type: 'goal', team: 'home', player: 'Amado', number: 18, playerId: 'fifa-1qhqtd1', detail: 'Grande penalidade · 1-0' },
+    { minute: 76, type: 'sub', team: 'away', player: 'Clíver', number: 18, playerId: 'cliver-dago', playerOut: 'Mabilson' },
+    { minute: 76, type: 'sub', team: 'away', player: 'Rupson', number: 9, playerId: 'rupson-dago', playerOut: 'Bruno' },
+    { minute: 79, type: 'sub', team: 'home', player: 'Quinho', number: 21, playerId: 'quinho-libolo', playerOut: 'Amado' },
+    { minute: 79, type: 'sub', team: 'home', player: 'Robson', number: 9, playerId: 'robson-libolo', playerOut: 'Cuxixima' },
     { minute: 84, type: 'goal', team: 'home', player: 'Robson', number: 9, playerId: 'robson-libolo', detail: '2-0' },
+    { minute: 87, type: 'yellow', team: 'home', player: 'Pedro', number: 17, playerId: 'pedro-libolo' },
+    { minute: 90, type: 'sub', team: 'home', player: 'Márcio', number: 13, playerOut: 'Toty' },
+    { minute: 90, type: 'yellow', team: 'away', player: 'Fernando', number: 11, playerId: 'fernando-dago' },
   ],
 });
