@@ -9,8 +9,23 @@ export default defineMatch({
   schedule: { date: '2026-10-27T17:15:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos transmitidos pela Zsports, jornadas 6 a 10, versão corrigida (recebida a 13/10/2026): 17:15' },
   // Resultado final 1-0 confirmado a 28/10/2026 (Futebol Total; aguarda o relatório do árbitro).
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-10-28T08:45:00+01:00' },
+  // Substituições e amarelos recebidos a 09/11/2026 (Futebol Total; aguardam o relatório do árbitro).
   events: [
+    { minute: 10, type: 'sub', team: 'away', player: 'Calebi Yanda', number: 10, playerId: 'calebi-dago', playerOut: 'Obed' },
+    { minute: 14, type: 'yellow', team: 'away', player: 'Paulo', number: 21, playerId: 'paulo-costa-dago' },
     { minute: 34, type: 'goal', team: 'home', player: 'Manucho', number: 27, playerId: 'fifa-1r8lp51', detail: '1-0' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Milton', number: 2, playerId: 'milton-dago', playerOut: 'Paulo' },
+    { minute: 45, type: 'sub', team: 'away', player: 'Mabilson', number: 7, playerId: 'mabilson-dago', playerOut: 'Tombé' },
+    { minute: 55, type: 'yellow', team: 'home', player: 'Benvindo', number: 4, playerId: 'fifa-1jz4pi8' },
+    { minute: 62, type: 'sub', team: 'home', player: 'Kabila', number: 24, playerId: 'fifa-1k2qwk8', playerOut: 'Manucho' },
+    { minute: 62, type: 'yellow', team: 'home', player: 'Tchaba', number: 3, playerId: 'fifa-1lb66s2' },
+    { minute: 65, type: 'sub', team: 'home', player: 'Aisson', number: 10, playerId: 'fifa-1jwgzb2', playerOut: 'Ifoni' },
+    { minute: 72, type: 'yellow', team: 'home', player: 'Fany', number: 30, playerId: 'fifa-1k0ag17' },
+    { minute: 77, type: 'sub', team: 'home', player: 'Be Ngueve', number: 19, playerId: 'fifa-1lda172', playerOut: 'Benvindo' },
+    { minute: 77, type: 'sub', team: 'home', player: 'Bebo', number: 6, playerId: 'fifa-1kz4es4', playerOut: 'Kuxixima' },
+    { minute: 77, type: 'sub', team: 'home', player: 'Yano', number: 38, playerId: 'adriano-nicolau-caala', playerOut: 'Valegol' },
+    { minute: 78, type: 'sub', team: 'away', player: 'Rupson', number: 9, playerId: 'rupson-dago', playerOut: 'Fernando' },
+    { minute: 78, type: 'sub', team: 'away', player: 'Félix Bulaya', number: 28, playerId: 'bulaya-dago', playerOut: 'Venâncio' },
   ],
   // Equipa de arbitragem do «Lineup Geral» oficial (27/10/2026; nomes completos das fichas anteriores).
   officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'], fourth: 'Ana Kuvundu Pumba' },
