@@ -10,7 +10,7 @@ export default defineMatch({
   // Resultado final da Liga Unitel Girabola recebido a 04/11/2026 (aguarda o relatório do árbitro);
   // sem resultado ao intervalo.
   result: { status: 'finished', homeScore: 0, awayScore: 0, updatedAt: '2026-11-04T19:21:00+01:00' },
-  // Substituições e amarelos do 1.º de Agosto recebidos a 10/11/2026 (Futebol Total; aguardam o relatório do árbitro).
+  // Substituições, amarelos e vermelho (Macaia, 80') do 1.º de Agosto recebidos a 10/11/2026 (Futebol Total; aguardam o relatório do árbitro).
   events: [
     { minute: 65, type: 'yellow', team: 'home', player: 'Paxe', number: 19, playerId: 'fifa-1pxu511' },
     { minute: 71, type: 'sub', team: 'home', player: 'Mabelé', number: 3, playerId: 'simao-dianzenza', playerOut: 'Paxe' },
@@ -19,6 +19,7 @@ export default defineMatch({
     { minute: 75, type: 'yellow', team: 'home', player: 'Mabelé', number: 3, playerId: 'simao-dianzenza' },
     { minute: 78, type: 'sub', team: 'home', player: 'Tombé', number: 20, playerId: 'tombe-dago', playerOut: 'Fernando' },
     { minute: 80, type: 'yellow', team: 'home', player: 'Dago', number: 17, playerId: 'dago-tshibamba' },
+    { minute: 80, type: 'red', team: 'home', player: 'Macaia', number: 16, playerId: 'macaia-dago' },
     { minute: 86, type: 'yellow', team: 'home', player: 'Tombé', number: 20, playerId: 'tombe-dago' },
   ],
   // Equipa de arbitragem, onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (04/11/2026; nomes completos dos árbitros das fichas anteriores).

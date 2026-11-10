@@ -221,7 +221,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     'lucas-elias-huila': { yellow: 5, red: 1 },
     'luciano-capoco-cabinda': { yellow: 1, red: 0 },
     'luyeye-cabinda': { yellow: 3, red: 0 },
-    'macaia-dago': { yellow: 1, red: 0 },
+    'macaia-dago': { yellow: 1, red: 1 },
     'magrinho': { yellow: 1, red: 0 },
     'manox-sagrada': { yellow: 1, red: 0 },
     'manucho-lunda-sul': { yellow: 3, red: 0 },
