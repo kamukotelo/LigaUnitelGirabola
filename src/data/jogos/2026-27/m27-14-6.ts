@@ -9,7 +9,8 @@ export default defineMatch({
   schedule: { date: '2026-11-03T17:00:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
   result: { status: 'finished', homeScore: 4, awayScore: 0, halfTimeScore: '2-0', updatedAt: '2026-11-03T19:00:00+01:00' },
   // Equipa de arbitragem do «Lineup Geral» oficial (03/11/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Bernardo Kenge Mário', assistants: ['Pedro Domingos de Andrade Micolo', 'João Manuel Fula António'], fourth: 'Sanda Mateus Miguel Kitu' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 112 (recebido a 12/11/2026).
+  officials: { referee: 'Bernardo Kenge Mário', assistants: ['Pedro Domingos de Andrade Micolo', 'João Manuel Fula António'], fourth: 'Sanda Mateus Miguel Kitu', commissioner: 'Idoluviz de Fátima Dias' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (03/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // A primeira versão trazia o n.º 6 do Petro como «Toro»; a versão corrigida (03/11/2026) confirma Mário Balbúrdia.
@@ -62,8 +63,12 @@ export default defineMatch({
   },
   events: [
     { minute: 34, type: 'goal', team: 'home', player: 'Vanilson', number: 17, playerId: 'vanilson', detail: '1-0' },
-    { minute: 41, type: 'goal', team: 'home', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis', detail: '2-0' },
-    { minute: 89, type: 'goal', team: 'home', player: 'Lucas João', number: 9, playerId: 'lucas-joao', detail: '3-0' },
-    { minute: 91, type: 'goal', team: 'home', player: 'Hélder Costa', number: 11, playerId: 'helder-costa', detail: "90'+1 · 4-0" },
+    { minute: 41, type: 'yellow', team: 'away', player: 'Cagodó', number: 29, playerId: 'pequenino-castro-huila', detail: 'Rasteirar o adversário' },
+    { minute: 43, type: 'goal', team: 'home', player: 'Tiago Reis', number: 23, playerId: 'tiago-reis', detail: '2-0' },
+    { minute: 63, type: 'yellow', team: 'home', player: 'Kinito', number: 24, playerId: 'kinito', detail: 'Entrada brusca sobre o adversário' },
+    { minute: 69, type: 'yellow', team: 'away', player: 'Elias', number: 15, playerId: 'elias-huila', detail: 'Impedir o progresso do adversário' },
+    { minute: 79, type: 'yellow', team: 'away', player: 'Dos Santos', number: 4, playerId: 'dos-santos-huila', detail: 'Excesso de faltas' },
+    { minute: 85, type: 'goal', team: 'home', player: 'Lucas João', number: 9, playerId: 'lucas-joao', detail: '3-0' },
+    { minute: 87, type: 'goal', team: 'home', player: 'Hélder Costa', number: 11, playerId: 'helder-costa', detail: '4-0' },
   ],
 });

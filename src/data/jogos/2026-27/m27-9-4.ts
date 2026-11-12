@@ -7,10 +7,17 @@ export default defineMatch({
   homeTeamId: 'interclube',
   awayTeamId: 'desphuila',
   // Resultado final 0-0 confirmado pelo utilizador em 31/10/2026.
-  result: { status: 'finished', homeScore: 0, awayScore: 0, updatedAt: '2026-10-31T11:45:00+01:00' },
+  result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-31T11:45:00+01:00' },
+  events: [
+    { minute: 40, type: 'yellow', team: 'home', player: 'Salomão', number: 5, playerId: 'fifa-1jtv4k9', detail: 'Jogo perigoso' },
+    { minute: 67, type: 'yellow', team: 'home', player: 'Lionel', number: 2, playerId: 'fifa-1pny691', detail: 'Agarrar o adversário (falta tática)' },
+    { minute: 95, type: 'yellow', team: 'away', player: 'Ndulo', number: 1, playerId: 'ndulo-huila', detail: "90'+5 · Retardar o reinício do jogo, simulando lesão" },
+    { minute: 95, type: 'yellow', team: 'away', player: 'Cagodó', number: 29, playerId: 'pequenino-castro-huila', detail: "90'+5 · Palavras desrespeitosas ao árbitro" },
+  ],
   schedule: { date: '2026-10-30T15:30:00+01:00', stadium: 'Estádio 22 de Junho', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
   // Fonte: Lineup_Geral_9ªJ INTERCLUBE.pdf, Constituição das Equipas (30/10/2026).
-  officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Sanda Mateus Miguel Kitu' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 65 (recebido a 12/11/2026).
+  officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Sanda Mateus Miguel Kitu', commissioner: 'Venâncio Matos' },
   coaches: { home: 'Divaldo Alves', away: 'Paulo Torres' },
   lineups: {
     home: [

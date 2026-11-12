@@ -7,12 +7,15 @@ export default defineMatch({
   homeTeamId: 'sagrada',
   awayTeamId: 'kabuscorp',
   schedule: { date: '2026-10-07T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', source: 'Cartaz oficial do jogo adiado da 3.ª jornada, recebido a 29/09/2026', stadiumException: 'Jogo adiado da 3.ª jornada remarcado para Luanda, Estádio França N’dalu (29/09/2026)', fieldInversionNote: true },
-  // Resultado recebido a 07/10/2026 (aguarda o relatório do árbitro).
+  // Resultado recebido a 07/10/2026 (relatório do árbitro n.º 24 recebido a 12/11/2026).
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-07T17:47:00+01:00' },
   // Nomeação de arbitragem recebida a 06/10/2026.
-  officials: { referee: 'Edilson André', assistants: ['Joaquim Chiyo', 'Domingos Francisco'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 24 (recebido a 12/11/2026).
+  officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Joaquim Manuel Chiyo', 'Domingos Monteiro Francisco'], fourth: 'Sabino Garcez de Sousa de Carvalho', commissioner: 'Pedro Simão dos Santos' },
   events: [
-    { minute: 77, type: 'goal', team: 'home', player: 'M. Dala', playerId: 'melono-sagrada', detail: '1-0' },
+    { minute: 58, type: 'yellow', team: 'away', player: 'Bayala', number: 7, playerId: 'fifa-1n3uhm6', detail: 'Comportamento antidesportivo' },
+    { minute: 76, type: 'yellow', team: 'home', player: 'Melono Dala', number: 11, playerId: 'melono-sagrada', detail: 'Comportamento antidesportivo' },
+    { minute: 77, type: 'goal', team: 'home', player: 'Melono Dala', number: 11, playerId: 'melono-sagrada', detail: '1-0' },
   ],
   // Escalações publicadas pela Liga (cartazes "XI", 07/10/2026).
   lineups: {

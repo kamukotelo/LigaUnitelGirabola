@@ -8,16 +8,25 @@ export default defineMatch({
   awayTeamId: 'primeiromaio',
   schedule: { date: '2026-11-08T17:15:00+01:00', stadium: 'Estádio 11 de Novembro', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos transmitidos pela Zsports, jornadas 6 a 10, versão corrigida (recebida a 13/10/2026): 17:15' },
   // Equipa de arbitragem do «Lineup Geral» oficial (08/11/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Donaciano Mulumba', assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'], fourth: 'Sanda Mateus Miguel Kitu' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 80 (recebido a 12/11/2026).
+  officials: { referee: 'Donaciano Mulumba', assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'], fourth: 'Sanda Mateus Miguel Kitu', commissioner: 'Agostinho Basílio Muluta Prata' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (08/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Michel (n.º 12, 1.º de Maio) ainda não consta das listas de plantel recebidas.
-  // Resultado, marcador e expulsão recebidos a 08/11/2026 (captura da app; aguarda o relatório do árbitro).
+  // Resultado, marcador e expulsão recebidos a 08/11/2026 (captura da app; relatório do árbitro n.º 80 recebido a 12/11/2026).
   // A app não identifica o jogador expulso aos 70' (1.º de Maio).
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-08T21:27:00+01:00' },
   events: [
-    { minute: 70, type: 'red', team: 'away', player: '' },
-    { minute: 83, type: 'goal', team: 'home', player: 'Kinito', number: 24, playerId: 'kinito', detail: '1-0' },
+    { minute: 29, type: 'yellow', team: 'home', player: 'Tiago Azulão', number: 26, playerId: 'tiago-azulao', detail: 'Agarrar o adversário' },
+    { minute: 53, type: 'yellow', team: 'away', player: 'Kimich', number: 37, playerId: 'fifa-1kf4ix9', detail: 'Agarrar o adversário' },
+    { minute: 55, type: 'yellow', team: 'away', player: 'Nixon', number: 11, playerId: 'nixon-primeiromaio', detail: 'Comportamento antidesportivo' },
+    { minute: 63, type: 'yellow', team: 'home', player: 'Toro', number: 8, playerId: 'jonathan-toro', detail: 'Rasteirar o adversário' },
+    { minute: 65, type: 'yellow', team: 'away', player: 'Messito', number: 34, playerId: 'fifa-1malez5', detail: 'Rasteirar o adversário para impedir um ataque prometedor' },
+    { minute: 69, type: 'yellow', team: 'away', player: 'Messito', number: 34, playerId: 'fifa-1malez5', detail: '2.º amarelo' },
+    { minute: 69, type: 'red', team: 'away', player: 'Messito', number: 34, playerId: 'fifa-1malez5', detail: 'Segundo amarelo' },
+    { minute: 82, type: 'goal', team: 'home', player: 'Kinito', number: 24, playerId: 'kinito', detail: '1-0' },
+    { minute: 85, type: 'yellow', team: 'away', player: 'Mavison Pierri Lacerda do Nascimento Lopes', detail: 'Treinador · Protestar as decisões da equipa de arbitragem' },
+    { minute: 93, type: 'yellow', team: 'away', player: 'Balaka', number: 24, playerId: 'fifa-1jz4j23', detail: "90'+3 · Falta para impedir um ataque prometedor" },
   ],
   coaches: { home: 'Alexandre Santos', away: 'Mavi Lopes' },
   lineups: {

@@ -7,18 +7,19 @@ export default defineMatch({
   homeTeamId: 'dago',
   awayTeamId: 'petro',
   schedule: { date: '2026-10-31T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
-  // Resultado recebido a 31/10/2026 (aguarda o relatório do árbitro).
+  // Resultado recebido a 31/10/2026 (relatório do árbitro n.º 68 recebido a 12/11/2026).
   result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '0-0', updatedAt: '2026-10-31T17:35:00+01:00' },
-  // Substituições e amarelos recebidos a 09/11/2026 (Futebol Total; aguardam o relatório do árbitro).
+  // Substituições e amarelos recebidos a 09/11/2026 (Futebol Total; relatório do árbitro n.º 68 recebido a 12/11/2026).
   events: [
     { minute: 31, type: 'yellow', team: 'home', player: 'Milton', number: 2, playerId: 'milton-dago' },
     { minute: 39, type: 'yellow', team: 'home', player: 'Macaia', number: 16, playerId: 'macaia-dago' },
-    { minute: 49, type: 'goal', team: 'away', player: 'Vanilson', number: 17, playerId: 'vanilson', detail: '0-1' },
+    { minute: 48, type: 'goal', team: 'away', player: 'Vanilson', number: 17, playerId: 'vanilson', detail: '0-1' },
     { minute: 56, type: 'sub', team: 'home', player: 'Tombé', number: 20, playerId: 'tombe-dago', playerOut: 'Venâncio' },
     { minute: 56, type: 'sub', team: 'home', player: 'Obed', number: 14, playerId: 'obed-dago', playerOut: 'Félix Bulaya' },
     { minute: 60, type: 'sub', team: 'away', player: 'Depú', number: 29, playerId: 'depu', playerOut: 'Tiago Azulão' },
     { minute: 60, type: 'sub', team: 'away', player: 'Hélder Costa', number: 11, playerId: 'helder-costa', playerOut: 'Vanilson' },
     { minute: 63, type: 'yellow', team: 'away', player: 'Hélder Costa', number: 11, playerId: 'helder-costa' },
+    { minute: 72, type: 'yellow', team: 'away', player: 'Joaquim Valinho Reis Frazão', detail: 'Oficial de equipa' },
     { minute: 77, type: 'sub', team: 'home', player: 'Rupson', number: 9, playerId: 'rupson-dago', playerOut: 'Mabilson' },
     { minute: 77, type: 'sub', team: 'home', player: 'Paxe', number: 19, playerId: 'fifa-1pxu511', playerOut: 'Mabelé' },
     { minute: 80, type: 'sub', team: 'away', player: 'Léo Bolgado', number: 5, playerId: 'leo-bolgado', playerOut: 'Aparício' },
@@ -27,12 +28,13 @@ export default defineMatch({
     { minute: 85, type: 'sub', team: 'away', player: 'Ilídio Panda', number: 33, playerId: 'ilidio-panda', playerOut: 'Toro' },
     { minute: 86, type: 'sub', team: 'home', player: 'Luciano', number: 25, playerId: 'fifa-1v12ek6', playerOut: 'Fernando' },
     { minute: 90, type: 'yellow', team: 'home', player: 'Axel', number: 8, playerId: 'axel-dago' },
-    { minute: 90, type: 'yellow', team: 'home', player: 'Dago', number: 17, playerId: 'dago-tshibamba' },
-    { minute: 95, type: 'goal', team: 'home', player: 'Dagó', number: 17, playerId: 'dago-tshibamba', detail: "90'+5 · 1-1" },
+    { minute: 92, type: 'goal', team: 'home', player: 'Dago', number: 17, playerId: 'dago-tshibamba', detail: "90'+2 · 1-1" },
+    { minute: 94, type: 'yellow', team: 'home', player: 'Dago', number: 17, playerId: 'dago-tshibamba', detail: "90'+4" },
   ],
   // Constituição das equipas: Lineup Geral oficial da 9.ª jornada (31/10/2026), CLÁSSICO.
   // Escalações públicas a partir de 1 h antes do início (embargo existente).
-  officials: { referee: 'Bernardo Nangolo', assistants: ['Jerson dos Santos', 'Ivanildo Lopes'], fourth: 'Bernardo Mário' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 68 (recebido a 12/11/2026).
+  officials: { referee: 'Bernardo Hossi Nangolo', assistants: ['Jerson Emiliano dos Santos', 'Ivanildo Meirelles de Oliveira Sanches Lopes'], fourth: 'Bernardo Kenge Mário', commissioner: 'José Mateus de Carvalho Félix' },
   coaches: { home: 'Filipe Nzanza', away: 'Alexandre Santos' },
   lineups: {
     home: [

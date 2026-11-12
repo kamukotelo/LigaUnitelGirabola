@@ -8,13 +8,24 @@ export default defineMatch({
   awayTeamId: 'primeiromaio',
   schedule: { date: '2026-10-24T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'DCE/ANCAF, 05/10/2026: sem transmissão televisiva (Rádio 5)' },
   // Nomeação de arbitragem da «Constituição das Equipas» oficial (24/10/2026).
-  officials: { referee: 'Sanda Mateus Miguel Kitu', assistants: ['Evandro Henrique Freitas da Rocha', 'Natarino António Soares'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
-  // Resultado e marcadores do quadro de resultados enviado pelo utilizador (24/10/2026); Relatório do Árbitro por receber.
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 58 (recebido a 12/11/2026).
+  officials: { referee: 'Sanda Mateus Miguel Kitu', assistants: ['Evandro Henrique Freitas da Rocha', 'Natarino António Soares'], fourth: 'Sabino Garcez de Sousa de Carvalho', commissioner: 'Dinilson Gourgel Ferreira de Almeida' },
+  // Resultado e marcadores do quadro de resultados enviado pelo utilizador (24/10/2026); Relatório do Árbitro n.º 58 recebido a 12/11/2026.
   result: { status: 'finished', homeScore: 3, awayScore: 0, halfTimeScore: '2-0', updatedAt: '2026-10-24T17:00:00+01:00' },
   events: [
-    { minute: 16, type: 'goal', team: 'home', player: 'Luís Tati', number: 20, playerId: 'luis-tati-sagrada', detail: '1-0' },
+    { minute: 5, type: 'goal', team: 'home', player: 'Luís Tati', number: 20, playerId: 'luis-tati-sagrada', detail: '1-0' },
+    { minute: 12, type: 'yellow', team: 'home', player: 'Manú', number: 3, playerId: 'manuel-sagrada', detail: 'Agarrar o adversário' },
+    { minute: 20, type: 'yellow', team: 'home', player: 'Luís Tati', number: 20, playerId: 'luis-tati-sagrada', detail: 'Rasteirar o adversário' },
+    { minute: 41, type: 'yellow', team: 'away', player: 'Damimi', number: 4, playerId: 'fifa-1qf49d2', detail: 'Agarrar o adversário' },
     { minute: 43, type: 'goal', team: 'home', player: 'Dabanda', number: 7, playerId: 'dabanda-sagrada', detail: '2-0' },
-    { minute: 84, type: 'goal', team: 'home', player: 'Melono Dala', number: 11, playerId: 'melono-sagrada', detail: 'Grande penalidade · 3-0' },
+    { minute: 81, type: 'yellow', team: 'away', player: 'Amor', number: 13, playerId: 'fifa-1jxib83', detail: 'Rasteirar o adversário' },
+    { minute: 81, type: 'yellow', team: 'away', player: 'Balaka', number: 24, playerId: 'fifa-1jz4j23', detail: 'Não respeitar a decisão do árbitro' },
+    { minute: 83, type: 'goal', team: 'home', player: 'Melono Dala', number: 11, playerId: 'melono-sagrada', detail: 'Grande penalidade · 3-0' },
+    { minute: 84, type: 'yellow', team: 'away', player: 'Fernando Fita António Francisco', detail: 'Oficial de equipa · Protestar a decisão da equipa de arbitragem' },
+    { minute: 87, type: 'yellow', team: 'home', player: 'Pedro', number: 26, playerId: 'pedro-soba-sagrada', detail: 'Agarrar o adversário' },
+    { minute: 92, type: 'yellow', team: 'away', player: 'Geúda', number: 18, playerId: 'fifa-1jzjeu2', detail: "90'+2 · Agarrar o adversário" },
+    { minute: 92, type: 'yellow', team: 'away', player: 'Super', number: 12, playerId: 'fifa-1k1sg53', detail: "90'+2 · Não respeitar a decisão do árbitro" },
+    { minute: 94, type: 'yellow', team: 'home', player: 'Cláudio', number: 33, playerId: 'fifa-1l7vm13', detail: "90'+4 · Rasteirar o adversário" },
   ],
   // Onze inicial, suplentes e treinadores da «Constituição das Equipas» oficial
   // do jogo (24/10/2026). Só ficam públicos 1 h antes do início (lineup-embargo).

@@ -9,7 +9,8 @@ export default defineMatch({
   schedule: { date: '2026-11-08T15:00:00+01:00', stadium: 'Estádio Mário Pacheco', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026); correção para 08/11 confirmada pelo administrador em 29/10/2026' },
   // Estádio da lista oficial de estádios das equipas (28/09/2026).
   // Equipa de arbitragem do «Lineup Geral» oficial (08/11/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Nelson Agostinho da Silva', assistants: ['Domingos Jacinto Francisco Ferreira', 'Lourenço Manuel João'], fourth: 'Ernesto Magalhães' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 75 (recebido a 12/11/2026).
+  officials: { referee: 'Nelson Agostinho da Silva', assistants: ['Domingos Jacinto Francisco Ferreira', 'Lourenço Manuel João'], fourth: 'Maurício Magalhães Ernesto dos Santos', commissioner: 'Figueiredo da Costa Francisco' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (08/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Márcio (n.º 13, Libolo) ainda não consta das listas de plantel recebidas.
@@ -60,13 +61,13 @@ export default defineMatch({
       { name: 'Erique', number: 24, position: 'DEF', isStarter: false, playerId: 'fifa-1pxwmn6' },
     ],
   },
-  // Resultado e marcadores recebidos a 08/11/2026 (captura da app; aguarda o relatório do árbitro).
+  // Resultado e marcadores recebidos a 08/11/2026 (captura da app; relatório do árbitro n.º 75 recebido a 12/11/2026).
   // Removido a 09/11/2026 o vermelho a Dagó (60') que veio da mesma captura: indicado como inexistente.
   result: { status: 'finished', homeScore: 2, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-08T17:06:00+01:00' },
-  // Substituições e amarelos recebidos a 09/11/2026 (Futebol Total; aguardam o relatório do árbitro).
+  // Substituições e amarelos recebidos a 09/11/2026 (Futebol Total; relatório do árbitro n.º 75 recebido a 12/11/2026).
   // Pedro (n.º 17, Libolo) viu amarelo aos 87' sem constar das substituições: amarelo no banco ou substituição em falta.
   events: [
-    { minute: 29, type: 'yellow', team: 'home', player: 'Andeloy', number: 10, playerId: 'andeloy-libolo' },
+    { minute: 29, type: 'yellow', team: 'home', player: 'Andeloy', number: 10, playerId: 'andeloy-libolo', detail: 'Comportamento antidesportivo' },
     { minute: 65, type: 'sub', team: 'away', player: 'Obed', number: 14, playerId: 'obed-dago', playerOut: 'Aspirina' },
     { minute: 67, type: 'sub', team: 'home', player: 'Gui', number: 11, playerId: 'fifa-1mr7m11', playerOut: 'Tchube' },
     { minute: 67, type: 'sub', team: 'home', player: 'Jorgito', number: 15, playerId: 'jorgito-libolo', playerOut: 'Catraio' },
@@ -75,9 +76,9 @@ export default defineMatch({
     { minute: 76, type: 'sub', team: 'away', player: 'Rupson', number: 9, playerId: 'rupson-dago', playerOut: 'Bruno' },
     { minute: 79, type: 'sub', team: 'home', player: 'Quinho', number: 21, playerId: 'quinho-libolo', playerOut: 'Amado' },
     { minute: 79, type: 'sub', team: 'home', player: 'Robson', number: 9, playerId: 'robson-libolo', playerOut: 'Cuxixima' },
-    { minute: 84, type: 'goal', team: 'home', player: 'Robson', number: 9, playerId: 'robson-libolo', detail: '2-0' },
-    { minute: 87, type: 'yellow', team: 'home', player: 'Pedro', number: 17, playerId: 'pedro-libolo' },
+    { minute: 86, type: 'goal', team: 'home', player: 'Robson', number: 9, playerId: 'robson-libolo', detail: '2-0' },
+    { minute: 87, type: 'yellow', team: 'home', player: 'Pedro', number: 17, playerId: 'pedro-libolo', detail: 'Não respeitar a distância regulamentar' },
     { minute: 90, type: 'sub', team: 'home', player: 'Márcio', number: 13, playerOut: 'Toty' },
-    { minute: 90, type: 'yellow', team: 'away', player: 'Fernando', number: 11, playerId: 'fernando-dago' },
+    { minute: 93, type: 'yellow', team: 'away', player: 'Fernando', number: 11, playerId: 'fernando-dago', detail: "90'+3 · Comportamento antidesportivo" },
   ],
 });

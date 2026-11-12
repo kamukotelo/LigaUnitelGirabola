@@ -9,19 +9,25 @@ export default defineMatch({
   // Hora 15:00 → 15:30 a pedido do Diretor de Competições (02/11/2026, Emanuel Valodia).
   schedule: { date: '2026-11-08T15:30:00+01:00', stadium: 'Estádio Daniel Lutucuta', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026); hora: pedido do Diretor de Competições (02/11/2026), 15:30' },
   // Equipa de arbitragem do «Lineup Geral» oficial (08/11/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Chitano Domingos Francisco', assistants: ['Wilson Valdmiro Ntyamba', 'Andália Bimbi Francisco Jeremias'], fourth: 'Alexandre Muhongo' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 79 (recebido a 12/11/2026).
+  officials: { referee: 'Chitano Domingos Francisco', assistants: ['Wilson Valdmiro Ntyamba', 'Andália Bimbi Francisco Jeremias'], fourth: 'Alexandre Bengue Muhongo', commissioner: 'Manuel da Silva Maria' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (08/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Caála: o Lineup traz «Landú» também no n.º 2 (o n.º 2 do plantel é Vale); ligado pela camisola.
   // Nelinho (n.º 20) e Caio (n.º 35, Caála); Afonso (n.º 1), João (n.º 23) e Hugo (n.º 34, Académica) ainda não constam das listas de plantel recebidas.
-  // Resultado e marcadores recebidos a 08/11/2026 (captura da app; aguarda o relatório do árbitro).
+  // Resultado e marcadores recebidos a 08/11/2026 (captura da app; relatório do árbitro n.º 79 recebido a 12/11/2026).
   // O golo dos 79' aparece na app como «Higino», que não está na escalação da Académica (o único Higino do
   // campeonato é do Bravos do Maquis): fica sem marcador até ao relatório.
   result: { status: 'finished', homeScore: 1, awayScore: 2, halfTimeScore: '0-0', updatedAt: '2026-11-08T17:45:00+01:00' },
   events: [
-    { minute: 79, type: 'goal', team: 'away', player: '', detail: '0-1' },
-    { minute: 87, type: 'goal', team: 'away', player: 'Florentino', number: 11, playerId: 'kaporal', detail: '0-2' },
+    { minute: 1, type: 'yellow', team: 'home', player: 'Kuxixima', number: 7, playerId: 'cuxixima-caala', detail: 'Jogo perigoso' },
+    { minute: 24, type: 'yellow', team: 'home', player: 'Neidy Bicho', number: 23, playerId: 'lisneu-caala', detail: 'Rasteirar o adversário' },
+    { minute: 79, type: 'goal', team: 'away', player: 'Ezequiel', number: 10, playerId: 'ezequiel-lobito', detail: '0-1' },
+    { minute: 85, type: 'goal', team: 'away', player: 'Florentino', number: 11, playerId: 'kaporal', detail: '0-2' },
+    { minute: 85, type: 'yellow', team: 'away', player: 'Florentino', number: 11, playerId: 'kaporal', detail: 'Tirar a camisola na celebração do golo' },
     { minute: 89, type: 'goal', team: 'home', player: 'Benvindo', number: 4, playerId: 'fifa-1jz4pi8', detail: '1-2' },
+    { minute: 92, type: 'yellow', team: 'home', player: 'Bito', number: 17, playerId: 'fifa-1l96dj1', detail: "90'+2 · Comportamento antidesportivo" },
+    { minute: 95, type: 'yellow', team: 'away', player: 'Carlos Eduardo Katangua Sambaca', detail: "90'+5 · Treinador de guarda-redes · Divergência por palavras ou atos" },
   ],
   coaches: { home: 'Artur Correia', away: 'Silvestre Pelé' },
   lineups: {

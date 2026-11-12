@@ -7,14 +7,15 @@ export default defineMatch({
   homeTeamId: 'bravos',
   awayTeamId: 'interclube',
   schedule: { date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
-  // Resultado e marcadores recebidos a 07/11/2026 (captura da app; aguarda o relatório do árbitro).
+  // Resultado e marcadores recebidos a 07/11/2026 (captura da app; relatório do árbitro n.º 74 recebido a 12/11/2026).
   result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-0', updatedAt: '2026-11-07T18:33:00+01:00' },
   events: [
     { minute: 2, type: 'goal', team: 'home', player: 'Lito', number: 23, playerId: 'lito-bravos', detail: '1-0' },
-    { minute: 58, type: 'goal', team: 'away', player: 'Betinho', number: 29, playerId: 'fifa-1k0sa99', detail: '1-1' },
+    { minute: 57, type: 'goal', team: 'away', player: 'Boiado', number: 30, playerId: 'fifa-1jzyk44', detail: '1-1' },
   ],
   // Equipa de arbitragem do «Lineup Geral» oficial (07/11/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Edson António Esoko', assistants: ['Jerson Emiliano dos Santos', 'Estanislau Guedes Tavares Muluta Prata'], fourth: 'João Chipombe' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 74 (recebido a 12/11/2026).
+  officials: { referee: 'Edson António Esoko', assistants: ['Jerson Emiliano dos Santos', 'Estanislau Guedes Tavares Muluta Prata'], fourth: 'João Chipombe', commissioner: 'Alfredo João' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (07/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   coaches: { home: 'Sandro Mendes', away: 'Divaldo Alves' },

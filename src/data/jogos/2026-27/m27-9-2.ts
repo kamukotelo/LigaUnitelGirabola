@@ -8,15 +8,20 @@ export default defineMatch({
   awayTeamId: 'cabinda',
   // Transmissão Zsports (ZAP) reconfirmada pela ANCAF com o line up (01/11/2026).
   schedule: { date: '2026-11-01T17:15:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa de jogos transmitidos pela Zsports, jornadas 6 a 10, versão corrigida (recebida a 13/10/2026): 17:15' },
-  // Resultado recebido a 01/11/2026 (aguarda o relatório do árbitro).
+  // Resultado recebido a 01/11/2026 (relatório do árbitro n.º 72 recebido a 12/11/2026).
   result: { status: 'finished', homeScore: 3, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-11-01T19:28:00+01:00' },
   events: [
-    { minute: 43, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: '1-0' },
-    { minute: 67, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: '2-0' },
-    { minute: 78, type: 'goal', team: 'home', player: 'Buba Jammeh', number: 14, detail: '3-0' },
+    { minute: 18, type: 'yellow', team: 'away', player: 'Pinó', number: 39, playerId: 'pino-cabinda' },
+    { minute: 34, type: 'yellow', team: 'home', player: 'Wiwi', number: 5, playerId: 'fifa-1jsrpl0' },
+    { minute: 36, type: 'yellow', team: 'home', player: 'Janderson', number: 6, playerId: 'janderson-wiliete' },
+    { minute: 42, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: '1-0' },
+    { minute: 47, type: 'yellow', team: 'away', player: 'Lax', number: 2, playerId: 'rodrigo-cabinda', detail: "45'+2" },
+    { minute: 66, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: '2-0' },
+    { minute: 76, type: 'goal', team: 'home', player: 'Buba Jammeh', number: 14, detail: '3-0' },
   ],
   // Equipa de arbitragem do «Lineup Geral» oficial (01/11/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['João Manuel Fula António', 'Evandro Henrique Freitas da Rocha'], fourth: 'Avelino Tchivela' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 72 (recebido a 12/11/2026).
+  officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['João Manuel Fula António', 'Evandro Henrique Freitas da Rocha'], fourth: 'Avelino Augusto Tchivela', commissioner: 'Idoluviz de Fátima Dias' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (01/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Buba Jammeh (n.º 14, Wiliete) e Nelsinho (n.º 32, Cabinda) ainda não constam das listas de plantel recebidas.

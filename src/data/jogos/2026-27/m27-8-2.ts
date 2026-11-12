@@ -7,14 +7,18 @@ export default defineMatch({
   homeTeamId: 'bravos',
   awayTeamId: 'petro',
   schedule: { date: '2026-10-27T15:00:00+01:00', stadium: 'Estádio Mundunduleno', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
-  // Resultado e marcadores do quadro de resultados enviado pelo utilizador (27/10/2026); Relatório do Árbitro por receber.
+  // Resultado e marcadores do quadro de resultados enviado pelo utilizador (27/10/2026); Relatório do Árbitro n.º 61 recebido a 12/11/2026.
   result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '0-0', updatedAt: '2026-10-27T17:00:00+01:00' },
   events: [
-    { minute: 51, type: 'goal', team: 'home', player: 'Lito', number: 23, playerId: 'lito-bravos', detail: '1-0' },
-    { minute: 90, type: 'goal', team: 'away', player: 'Tiago Azulão', number: 26, playerId: 'tiago-azulao', detail: '1-1' },
+    { minute: 38, type: 'yellow', team: 'home', player: 'Higino', number: 10, playerId: 'higino-bravos', detail: 'Rasteirar o adversário' },
+    { minute: 49, type: 'goal', team: 'home', player: 'Lito', number: 23, playerId: 'lito-bravos', detail: '1-0' },
+    { minute: 69, type: 'yellow', team: 'away', player: 'Hugo Marques', number: 1, playerId: 'hugo-marques', detail: 'Insurgir-se com palavras contra a equipa de arbitragem' },
+    { minute: 70, type: 'yellow', team: 'home', player: 'Lopes', number: 18, playerId: 'antonio-lopes-bravos', detail: 'Agarrar o adversário (falta tática)' },
+    { minute: 92, type: 'goal', team: 'away', player: 'Tiago Azulão', number: 26, playerId: 'tiago-azulao', detail: "90'+2 · 1-1" },
   ],
   // Arbitragem do «Lineup Geral» oficial do jogo (27/10/2026); nomes completos das fichas anteriores.
-  officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Paulo Sérgio Moreira' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 61 (recebido a 12/11/2026).
+  officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Paulo Sérgio Moreira', commissioner: 'Alfredo João' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (27/10/2026).
   // Ligações ao plantel pelas fichas anteriores das duas equipas (todas as camisolas conferem;
   // «Dos Santos» é o n.º 32, Santos Kiaku). Público só 1 h antes do início (lineup-embargo.ts).

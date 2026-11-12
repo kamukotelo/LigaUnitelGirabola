@@ -9,18 +9,19 @@ export default defineMatch({
   // Adiamento de 24/10/2026 anulado a 25/10/2026: marcado por engano, sem comunicado da ANCAF.
   // Hora 15:00 → 16:00 a pedido do Diretor de Competições (26/10/2026, Emanuel Valodia).
   schedule: { date: '2026-10-28T16:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026); hora: pedido do Diretor de Competições (26/10/2026), 16:00' },
-  // Resultado recebido a 28/10/2026 (aguarda o relatório do árbitro). Golo do Wiliete aos 60'
+  // Resultado recebido a 28/10/2026 (relatório do árbitro n.º 64 recebido a 12/11/2026). Golo do Wiliete aos 60'
   // atribuído ao Mabululu pelo balanço publicado pelo Wiliete (04/11/2026: 7 golos no Girabola,
   // o único golo do Wiliete que faltava identificar). Amarelos aos 46' (São Salvador) e 83'
   // (Wiliete) sem jogador identificado.
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-10-28T18:21:00+01:00' },
   events: [
-    { minute: 46, type: 'yellow', team: 'away', player: '' },
-    { minute: 60, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: '1-0' },
-    { minute: 83, type: 'yellow', team: 'home', player: '' },
+    { minute: 10, type: 'yellow', team: 'away', player: 'Ary', number: 10, playerId: 'fifa-1jrutw6', detail: 'Falta tática' },
+    { minute: 59, type: 'goal', team: 'home', player: 'Mabululu', number: 9, playerId: 'mabululu-wiliete', detail: '1-0' },
+    { minute: 83, type: 'yellow', team: 'away', player: 'Manuel de Matos', number: 4, playerId: 'fifa-1jzirz7', detail: 'Contestar persistentemente a decisão da equipa de arbitragem' },
   ],
   // Equipa de arbitragem do «Lineup Geral» oficial (28/10/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Chitano Domingos Francisco', assistants: ['Wilson Valdmiro Ntyamba', 'Andália Bimbi Francisco Jeremias'], fourth: 'António Caluassi Dungula' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 64 (recebido a 12/11/2026).
+  officials: { referee: 'Chitano Domingos Francisco', assistants: ['Wilson Valdmiro Ntyamba', 'Andália Bimbi Francisco Jeremias'], fourth: 'António Caluassi Dungula', commissioner: 'Júlio Gonçalves da Silva Lemos' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (28/10/2026).
   // Ligações ao plantel só onde o número e o nome batem com as fichas anteriores («Mano» n.º 31,
   // «Gui» n.º 4 e «Okita» n.º 23 do São Salvador e «Merdi» n.º 22 do Wiliete ficam por confirmar).

@@ -7,14 +7,19 @@ export default defineMatch({
   homeTeamId: 'sagrada',
   awayTeamId: 'cabinda',
   schedule: { date: '2026-11-07T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
-  // Resultado e marcadores recebidos a 07/11/2026 (captura da app; aguarda o relatório do árbitro).
+  // Resultado e marcadores recebidos a 07/11/2026 (captura da app; relatório do árbitro n.º 73 recebido a 12/11/2026).
   result: { status: 'finished', homeScore: 2, awayScore: 0, halfTimeScore: '2-0', updatedAt: '2026-11-07T18:33:00+01:00' },
   events: [
     { minute: 10, type: 'goal', team: 'home', player: 'Dabanda', number: 7, playerId: 'dabanda-sagrada', detail: '1-0' },
-    { minute: 35, type: 'goal', team: 'home', player: 'Mafuta', number: 24, playerId: 'afonso-sagrada', detail: '2-0' },
+    { minute: 32, type: 'yellow', team: 'away', player: 'Chiquinho', number: 4, playerId: 'fifa-1qtzy92', detail: 'Comportamento antidesportivo' },
+    { minute: 33, type: 'goal', team: 'home', player: 'Mafuta', number: 24, playerId: 'afonso-sagrada', detail: '2-0' },
+    { minute: 34, type: 'yellow', team: 'home', player: 'Alexandre', number: 2, playerId: 'fifa-1v1a1u9', detail: 'Comportamento antidesportivo' },
+    { minute: 81, type: 'yellow', team: 'home', player: 'Kulica', number: 39, playerId: 'fifa-1scqy89', detail: 'Comportamento antidesportivo' },
+    { minute: 86, type: 'yellow', team: 'home', player: 'Barreira', number: 28, playerId: 'barreira-sagrada', detail: 'Comportamento antidesportivo' },
   ],
   // Equipa de arbitragem do «Lineup Geral» oficial (07/11/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Miguel Tchissingui Augusto Américo', assistants: ['Bernardo Kunjuca Lúcio Serafim', 'Floriano Cawala'], fourth: 'Ayrton Micuta' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 73 (recebido a 12/11/2026).
+  officials: { referee: 'Miguel Tchissingui Augusto Américo', assistants: ['Bernardo Kunjuca Lúcio Serafim', 'Floriano Cawala'], fourth: 'Ayrton João Micuta', commissioner: 'Alberto Bumba Senda' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (07/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Kissito (n.º 22, Sagrada) e Nelsinho (n.º 32, Cabinda) ainda não constam das listas de plantel recebidas.

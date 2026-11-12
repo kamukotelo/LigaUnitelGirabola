@@ -7,11 +7,12 @@ export default defineMatch({
   homeTeamId: 'dago',
   awayTeamId: 'wiliete',
   schedule: { date: '2026-11-04T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Comunicado Oficial 011-DCE/ANCAF/2026 (07/10/2026): adiado para 04/11, mesmo estádio e horário' },
-  // Resultado final da Liga Unitel Girabola recebido a 04/11/2026 (aguarda o relatório do árbitro);
+  // Resultado final da Liga Unitel Girabola recebido a 04/11/2026 (relatório do árbitro n.º 56 recebido a 12/11/2026);
   // sem resultado ao intervalo.
-  result: { status: 'finished', homeScore: 0, awayScore: 0, updatedAt: '2026-11-04T19:21:00+01:00' },
-  // Substituições, amarelos e vermelho (Macaia, 80') do 1.º de Agosto recebidos a 10/11/2026 (Futebol Total; aguardam o relatório do árbitro).
+  result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-04T19:21:00+01:00' },
+  // Substituições, amarelos e vermelho (Macaia, 80') do 1.º de Agosto recebidos a 10/11/2026 (Futebol Total; relatório do árbitro n.º 56 recebido a 12/11/2026).
   events: [
+    { minute: 57, type: 'yellow', team: 'away', player: 'Sidibé', number: 30, playerId: 'fifa-1qvfjm7' },
     { minute: 65, type: 'yellow', team: 'home', player: 'Paxe', number: 19, playerId: 'fifa-1pxu511' },
     { minute: 71, type: 'sub', team: 'home', player: 'Mabelé', number: 3, playerId: 'simao-dianzenza', playerOut: 'Paxe' },
     { minute: 71, type: 'sub', team: 'home', player: 'Félix Bulaya', number: 28, playerId: 'bulaya-dago', playerOut: 'Aspirina' },
@@ -19,12 +20,15 @@ export default defineMatch({
     { minute: 75, type: 'yellow', team: 'home', player: 'Mabelé', number: 3, playerId: 'simao-dianzenza' },
     { minute: 78, type: 'sub', team: 'home', player: 'Tombé', number: 20, playerId: 'tombe-dago', playerOut: 'Fernando' },
     { minute: 80, type: 'yellow', team: 'home', player: 'Dago', number: 17, playerId: 'dago-tshibamba' },
+    { minute: 80, type: 'yellow', team: 'home', player: 'Filipe Nanza', detail: 'Treinador' },
     { minute: 80, type: 'red', team: 'home', player: 'Macaia', number: 16, playerId: 'macaia-dago' },
     { minute: 86, type: 'yellow', team: 'home', player: 'Tombé', number: 20, playerId: 'tombe-dago' },
+    { minute: 87, type: 'yellow', team: 'away', player: 'Júnior Goiano', number: 27, playerId: 'fifa-1pnmj53' },
   ],
   // Equipa de arbitragem, onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (04/11/2026; nomes completos dos árbitros das fichas anteriores).
   // Buba Jammeh (n.º 14, Wiliete) ainda não consta das listas de plantel recebidas.
-  officials: { referee: 'Ailton Jeovane Quissanga Carmelino', assistants: ['Evanildo Gaspar dos Santos Martins', 'Estanislau Guedes Tavares Muluta Prata'], fourth: 'António Domingos Miguel' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 56 (recebido a 12/11/2026).
+  officials: { referee: 'Ailton Jeovane Quissanga Carmelino', assistants: ['Evanildo Gaspar dos Santos Martins', 'Estanislau Guedes Tavares Muluta Prata'], fourth: 'António Domingos Miguel', commissioner: 'José Leopoldo Braga Mavunza' },
   coaches: { home: 'Filipe Nzanza', away: 'Beto Bianchi' },
   lineups: {
     home: [

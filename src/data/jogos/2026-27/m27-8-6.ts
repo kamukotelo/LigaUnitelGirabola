@@ -7,17 +7,23 @@ export default defineMatch({
   homeTeamId: 'lundasul',
   awayTeamId: 'interclube',
   schedule: { date: '2026-10-25T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'DCE/ANCAF, 05/10/2026: sem transmissão televisiva (Rádio 5)' },
-  // Resultado recebido a 25/10/2026 (aguarda o relatório do árbitro). «Jack» (n.º 32)
+  // Resultado recebido a 25/10/2026 (relatório do árbitro n.º 59 recebido a 12/11/2026). «Jack» (n.º 32)
   // ainda sem ficha no plantel da Lunda Sul.
   result: { status: 'finished', homeScore: 3, awayScore: 1, halfTimeScore: '0-1', updatedAt: '2026-10-25T18:05:00+01:00' },
   events: [
-    { minute: 41, type: 'goal', team: 'away', player: 'Boiado', number: 30, playerId: 'fifa-1jzyk44', detail: '0-1' },
-    { minute: 48, type: 'goal', team: 'home', player: 'Jepson', number: 17, playerId: 'jepson', detail: '1-1' },
-    { minute: 51, type: 'goal', team: 'home', player: 'Mussá', number: 20, playerId: 'mussa-lunda-sul', detail: '2-1' },
-    { minute: 94, type: 'goal', team: 'home', player: 'Jack', number: 32, detail: "90'+4 · 3-1" },
+    { minute: 15, type: 'yellow', team: 'home', player: 'Platini', number: 6, playerId: 'platini', detail: 'Comportamento antidesportivo' },
+    { minute: 32, type: 'goal', team: 'away', player: 'Boiado', number: 30, playerId: 'fifa-1jzyk44', detail: '0-1' },
+    { minute: 45, type: 'yellow', team: 'away', player: 'Jhonatan', number: 19, playerId: 'jhonatan-interclube', detail: 'Comportamento antidesportivo' },
+    { minute: 47, type: 'goal', team: 'home', player: 'Jepson', number: 17, playerId: 'jepson', detail: '1-1' },
+    { minute: 50, type: 'goal', team: 'home', player: 'Mussá', number: 20, playerId: 'mussa-lunda-sul', detail: '2-1' },
+    { minute: 63, type: 'yellow', team: 'away', player: 'Rui', number: 22, playerId: 'fifa-1jtvf71', detail: 'Divergência por palavras ou atos' },
+    { minute: 63, type: 'yellow', team: 'away', player: 'Nandinho', number: 25, playerId: 'fifa-1jsrqx5', detail: 'Divergência por palavras ou atos' },
+    { minute: 63, type: 'yellow', team: 'away', player: 'Toy', number: 26, playerId: 'fifa-1t9mip7', detail: 'Comportamento antidesportivo' },
+    { minute: 93, type: 'goal', team: 'home', player: 'Jack', number: 32, detail: "90'+3 · 3-1" },
   ],
   // Equipa de arbitragem do «Lineup Geral» oficial (25/10/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['João Manuel Fula António', 'Evandro Henrique Freitas da Rocha'], fourth: 'Sanda Mateus Miguel Kitu' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 59 (recebido a 12/11/2026).
+  officials: { referee: 'Sabino Garcez de Sousa de Carvalho', assistants: ['João Manuel Fula António', 'Evandro Henrique Freitas da Rocha'], fourth: 'Sanda Mateus Miguel Kitu', commissioner: 'Dinilson Gourgel Ferreira de Almeida' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (25/10/2026).
   coaches: { home: 'Maurílio Silva', away: 'Divaldo Alves' },
   lineups: {

@@ -9,15 +9,16 @@ export default defineMatch({
   // Hora 15:00 → 15:30 a pedido do Diretor de Competições (02/11/2026, Emanuel Valodia).
   schedule: { date: '2026-11-08T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026); hora: pedido do Diretor de Competições (02/11/2026), 15:30' },
   // Equipa de arbitragem do «Lineup Geral» oficial (08/11/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'], fourth: 'Sabino Garcez de Sousa de Carvalho' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 78 (recebido a 12/11/2026).
+  officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'], fourth: 'Sabino Garcez de Sousa de Carvalho', commissioner: 'Teresa Dukuivaluca Leitão' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (08/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Sem correspondência no plantel (como na 9.ª jornada): Viegas (n.º 2), Pedro Matendi (n.º 3), Kaba (n.º 11), D Paiza (n.º 24)
   // e Edmilson (n.º 25) do FC Luanda; Gui (n.º 4) e Mano (n.º 31) do São Salvador.
-  // Resultado e marcador recebidos a 08/11/2026 (captura da app; aguarda o relatório do árbitro).
+  // Resultado e marcador recebidos a 08/11/2026 (captura da app; relatório do árbitro n.º 78 recebido a 12/11/2026).
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '1-0', updatedAt: '2026-11-08T17:35:00+01:00' },
   events: [
-    { minute: 5, type: 'goal', team: 'home', player: 'Gabriel', number: 21, playerId: 'gabriel-cavalcante-fcluanda', detail: '1-0' },
+    { minute: 12, type: 'goal', team: 'home', player: 'Gabriel', number: 21, playerId: 'gabriel-cavalcante-fcluanda', detail: '1-0' },
   ],
   coaches: { home: 'Rui Santos', away: 'Silva Kussanda' },
   lineups: {

@@ -7,22 +7,27 @@ export default defineMatch({
   homeTeamId: 'libolo',
   awayTeamId: 'sagrada',
   schedule: { date: '2026-10-31T15:00:00+01:00', stadium: 'Estádio Mário Pacheco', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
-  // Resultado recebido a 31/10/2026 (aguarda o relatório do árbitro). A fonte atribui os golos
+  // Resultado recebido a 31/10/2026 (relatório do árbitro n.º 66 recebido a 12/11/2026). A fonte atribui os golos
   // dos 25' e 34' a «Amado Salem»: ficam no Amado (n.º 18, avançado titular), não no
   // guarda-redes Valdez (Amado Salem Miguel). Golo do Sagrada aos 42' e expulsão no Libolo
   // aos 90'+7 sem jogador identificado.
   result: { status: 'finished', homeScore: 3, awayScore: 1, halfTimeScore: '2-1', updatedAt: '2026-10-31T17:30:00+01:00' },
   events: [
-    { minute: 25, type: 'goal', team: 'home', player: 'Amado', number: 18, playerId: 'fifa-1qhqtd1', detail: '1-0' },
-    { minute: 34, type: 'goal', team: 'home', player: 'Amado', number: 18, playerId: 'fifa-1qhqtd1', detail: '2-0' },
-    { minute: 42, type: 'goal', team: 'away', player: '', detail: '2-1' },
+    { minute: 16, type: 'yellow', team: 'away', player: 'Dabanda', number: 7, playerId: 'dabanda-sagrada', detail: 'Falta tática' },
+    { minute: 24, type: 'goal', team: 'home', player: 'Amado', number: 18, playerId: 'fifa-1qhqtd1', detail: '1-0' },
+    { minute: 33, type: 'goal', team: 'home', player: 'Amado', number: 18, playerId: 'fifa-1qhqtd1', detail: '2-0' },
+    { minute: 33, type: 'yellow', team: 'away', player: 'Leonardo', number: 13, playerId: 'leonardo-sagrada', detail: 'Desaprovar a decisão do árbitro' },
+    { minute: 41, type: 'goal', team: 'away', player: 'Dabanda', number: 7, playerId: 'dabanda-sagrada', detail: '2-1' },
+    { minute: 65, type: 'yellow', team: 'away', player: 'Luís Tati', number: 20, playerId: 'luis-tati-sagrada', detail: 'Falta tática' },
     { minute: 66, type: 'goal', team: 'home', player: 'Robson', number: 9, playerId: 'robson-libolo', detail: '3-1' },
-    { minute: 97, type: 'red', team: 'home', player: '', detail: "90'+7" },
+    { minute: 82, type: 'yellow', team: 'home', player: 'Nelo', number: 14, playerId: 'nelo-libolo', detail: 'Retardar o reinício do jogo' },
+    { minute: 96, type: 'red', team: 'home', player: 'Tubarão', number: 30, playerId: 'tubarao-libolo', detail: "90'+6 · Jogo brusco grave" },
   ],
   // Estádio da lista oficial de estádios das equipas (28/09/2026).
   // Constituição das equipas: Lineup Geral oficial da 9.ª jornada (31/10/2026), LIBOLO.
   // Escalações públicas a partir de 1 h antes do início (embargo existente).
-  officials: { referee: 'António Dungula', assistants: ['Victorino Dungula', 'Zacarias Calembe'], fourth: 'Augusto Pedro' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 66 (recebido a 12/11/2026).
+  officials: { referee: 'António Caluassi Dungula', assistants: ['Victorino Nangolo Dungula', 'Zacarias Chivanja Calembe'], fourth: 'Augusto Sawambo Pedro', commissioner: 'João Amado Muanda Goma' },
   coaches: { home: 'Osvaldo Roque', away: 'Luís Quintas' },
   lineups: {
     home: [

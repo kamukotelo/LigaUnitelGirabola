@@ -7,16 +7,19 @@ export default defineMatch({
   homeTeamId: 'kabuscorp',
   awayTeamId: 'caala',
   schedule: { date: '2026-11-01T15:00:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Cartaz oficial da 9.ª jornada (29/09/2026); hora: mapa corrigido da Zsports, jornadas 6 a 10 (13/10/2026), 15:00', stadiumException: 'Jogo marcado para o Estádio França N’dalu no cartaz oficial (29/09/2026)' },
-  // Resultado recebido a 01/11/2026 (aguarda o relatório do árbitro): amarelos aos 16' (Caála),
+  // Resultado recebido a 01/11/2026 (relatório do árbitro n.º 70 recebido a 12/11/2026): amarelos aos 16' (Caála),
   // 53' e 90'+3 (Kabuscorp), sem jogador identificado.
   result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-01T19:28:00+01:00' },
   events: [
-    { minute: 16, type: 'yellow', team: 'away', player: '' },
-    { minute: 53, type: 'yellow', team: 'home', player: '' },
-    { minute: 93, type: 'yellow', team: 'home', player: '', detail: "90'+3" },
+    { minute: 46, type: 'yellow', team: 'away', player: 'Lamine Moro', number: 18, playerId: 'lamine-moro-caala', detail: 'Comportamento antidesportivo' },
+    { minute: 52, type: 'yellow', team: 'home', player: 'Mona', number: 17, playerId: 'fifa-1jxicb5', detail: 'Comportamento antidesportivo' },
+    { minute: 60, type: 'yellow', team: 'away', player: 'Neidy Bicho', number: 23, playerId: 'lisneu-caala', detail: 'Comportamento antidesportivo' },
+    { minute: 61, type: 'yellow', team: 'home', player: 'Abidal', number: 28, playerId: 'fifa-1qxnl72', detail: 'Comportamento antidesportivo' },
+    { minute: 92, type: 'yellow', team: 'home', player: 'Joelson', number: 27, playerId: 'fifa-1pnr1r0', detail: "90'+2 · Comportamento antidesportivo" },
   ],
   // Equipa de arbitragem do «Lineup Geral» oficial (01/11/2026; nomes completos das fichas anteriores).
-  officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'], fourth: 'Rafael Dala' },
+  // Arbitragem, golos e cartões do Relatório do Árbitro n.º 70 (recebido a 12/11/2026).
+  officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'], fourth: 'Rafael Miguel Dala', commissioner: 'Agostinho Basílio Muluta Prata' },
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (01/11/2026).
   // Público só a partir de 1 h antes do início (embargo de line ups).
   // Miguel (n.º 31, Kabuscorp) e Nelinho (n.º 20, Caála) ainda não constam das listas de plantel recebidas.
