@@ -57,6 +57,17 @@ export default function NewsDetailPage() {
             {article.aiAssisted && (
               <p className="mt-3 text-xs text-zinc-500 font-mono">Texto produzido com assistência de IA e submetido a validação editorial humana.</p>
             )}
+            {article.updateNote && (
+              <aside
+                role="note"
+                className="mt-6 rounded-lg border-l-4 border-accent bg-accent/10 px-4 py-3 font-mono text-sm text-zinc-800 dark:text-zinc-200"
+              >
+                <p className="text-[10px] font-bold uppercase tracking-wider text-accent mb-1">
+                  Atualização · {article.updateNote.date}
+                </p>
+                <p className="leading-relaxed">{article.updateNote.text}</p>
+              </aside>
+            )}
           </header>
 
           <div className="prose prose-zinc dark:prose-invert max-w-none font-mono">

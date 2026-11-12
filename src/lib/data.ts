@@ -336,6 +336,11 @@ export interface NewsArticle {
   annexTitle?: string;
   annexImages?: string[];
   annexUrl?: string;
+  /**
+   * Nota editorial do portal sobre alterações posteriores (ex.: nova data ou
+   * estádio). O texto do comunicado mantém-se fiel ao documento oficial.
+   */
+  updateNote?: { date: string; text: string };
 }
 
 // ── 1. EQUIPAS PARTICIPANTES ───────────────────────────────────────
@@ -2709,6 +2714,10 @@ export const newsMock: NewsArticle[] = [
     sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
     sourceUrl: 'https://ancaf.co.ao',
     publishedAt: '2026-10-26T12:00:00+01:00',
+    updateNote: {
+      date: '05 nov. 2026',
+      text: 'Depois deste comunicado, a Direção de Competições da ANCAF remarcou o jogo para 15 de novembro de 2026, às 15h00, no Estádio do Tafe (data: 03/11/2026; estádio: 05/11/2026). O texto abaixo reproduz o comunicado original.',
+    },
     documentImages: ['/comunicados/comunicado-013-2026/pagina-1.png'],
     documentUrl: '/comunicados/comunicado-013-2026/comunicado-013-dce-ancaf-2026.pdf',
     documentPages: 1,
