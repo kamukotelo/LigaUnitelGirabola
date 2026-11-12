@@ -10,6 +10,8 @@ export default defineMatch({
   // Resultado recebido a 25/10/2026 (aguarda o relatório do árbitro). «Zinho» é o
   // Katendi (n.º 2), como no Relatório do Árbitro n.º 55 do FC Luanda–Huíla.
   result: { status: 'finished', homeScore: 2, awayScore: 1, halfTimeScore: '0-0', updatedAt: '2026-10-25T18:05:00+01:00' },
+  // Equipa de arbitragem do Relatório do Árbitro n.º 60 (12/11/2026).
+  officials: { referee: 'Chitano Domingos Francisco', assistants: ['Wilson Valdmiro Ntyamba', 'Andália Bimbi Francisco Jeremias'], fourth: 'Edson António Esoko', commissioner: 'Manuel Pires Nunda' },
   events: [
     { minute: 53, type: 'goal', team: 'home', player: 'Katendi', number: 2, playerId: 'katendi-huila', detail: '1-0' },
     { minute: 76, type: 'goal', team: 'home', player: 'Angelo Cangu', number: 21, playerId: 'angelo-cangu-huila', detail: '2-0' },

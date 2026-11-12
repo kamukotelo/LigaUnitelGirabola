@@ -9,6 +9,8 @@ export default defineMatch({
   schedule: { date: '2026-10-24T15:00:00+01:00', stadium: 'Estádio Nacional de Ombaka', scheduleStatus: 'official', source: 'Mapa final das jornadas 7 a 10 (28/09/2026)' },
   // Resultado e marcadores do quadro de resultados enviado pelo utilizador (24/10/2026); Relatório do Árbitro por receber.
   result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '0-0', updatedAt: '2026-10-24T17:00:00+01:00' },
+  // Equipa de arbitragem do Relatório do Árbitro n.º 57 (12/11/2026).
+  officials: { referee: 'Nelson Agostinho da Silva', assistants: ['Domingos Jacinto Francisco Ferreira', 'Lourenço Manuel João'], fourth: 'Pedro Filomeno Jacinto Katchisosa', commissioner: 'Manuel da Silva Maria' },
   events: [
     { minute: 53, type: 'goal', team: 'away', player: 'Cabeto', number: 8, playerId: 'fifa-1ljudk2', detail: '0-1' },
     { minute: 64, type: 'goal', team: 'home', player: 'Bebucho', number: 19, playerId: 'antonio-lobito', detail: '1-1' },
