@@ -17,6 +17,8 @@ export default defineMatch({
   // 15/11/2026): 11 titulares e 9 suplentes por equipa; árbitros todos «Confirmado».
   // Francisco Luemba (#4) aparece no 11 inicial com o aviso «Suspensão» do FCMS.
   officials: { referee: 'Donaciano Mulumba', assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'], fourth: 'António Domingos Miguel' },
+  // Treinadores e constituição conferidos com a ficha «Constituição das Equipas» (PDF DCE/ANCAF, 15/11/2026).
+  coaches: { home: 'Luciano Capoco', away: 'Roque Sapiri' },
   lineups: {
     home: [
       { name: 'João Eduardo', number: 1, position: 'GK', isStarter: true, isCaptain: false, playerId: 'cabinda-player-1' },
@@ -28,8 +30,8 @@ export default defineMatch({
       { name: 'Mário Chiwale Caluaco da Silva Mário', number: 24, position: 'MID', isStarter: true, isCaptain: false, playerId: 'fifa-1ljjyh4' },
       { name: 'Ariclenis Afonso Araújo Lede', number: 29, position: 'FWD', isStarter: true, isCaptain: false, playerId: 'ariclenis-cabinda' },
       { name: 'Pedro da Silva da Silva', number: 30, position: 'FWD', isStarter: true, isCaptain: false, playerId: 'pedro-da-silva-cabinda' },
-      { name: 'Neves Paulo Osvaldo', number: 38, position: 'FWD', isStarter: true, isCaptain: false },
-      { name: 'António Alberto Sumbo Luemba', number: 39, position: 'MID', isStarter: true, isCaptain: false },
+      { name: 'Neves Paulo Osvaldo', number: 38, position: 'FWD', isStarter: true, isCaptain: false, playerId: 'ary-chato-cabinda' },
+      { name: 'António Alberto Sumbo Luemba', number: 39, position: 'MID', isStarter: true, isCaptain: false, playerId: 'pino-cabinda' },
       { name: 'António Kapata', number: 9, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'antonio-kapata-cabinda' },
       { name: 'Rodilson Sumbo da Costa', number: 10, position: 'MID', isStarter: false, isCaptain: false, playerId: 'fifa-1thxac4' },
       { name: 'Francisco Domingas Chicapa', number: 12, position: 'GK', isStarter: false, isCaptain: false, playerId: 'francisco-cabinda' },
@@ -38,7 +40,7 @@ export default defineMatch({
       { name: 'Cornelio Queba Lelo Baptista', number: 15, position: 'MID', isStarter: false, isCaptain: false, playerId: 'cornelio-cabinda' },
       { name: 'Frederico Zau', number: 20, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'frederico-cabinda' },
       { name: 'João Cambo', number: 25, position: 'DEF', isStarter: false, isCaptain: false, playerId: 'joao-cambo-cabinda' },
-      { name: 'Faustino Rafael Chimone Bacia', number: 35, position: 'FWD', isStarter: false, isCaptain: false },
+      { name: 'Faustino Rafael Chimone Bacia', number: 35, position: 'FWD', isStarter: false, isCaptain: false, playerId: 'bilele-cabinda' },
     ],
     away: [
       { name: 'Brudel Efonge Liyongo', number: 1, position: 'GK', isStarter: true, isCaptain: false, playerId: 'brudel-kabuscorp' },
