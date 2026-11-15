@@ -13,6 +13,12 @@ export default defineMatch({
   // Data 04/11 → 15/11 a pedido do Diretor de Competições (03/11/2026, Emanuel Valodia); hora e estádio sem alteração.
   // Estádio a anunciar → Estádio do Tafe, novo estádio da casa do FC Cabinda (DCE/ANCAF, 05/11/2026).
   schedule: { date: '2026-11-15T15:00:00+01:00', stadium: 'Estádio do Tafe', scheduleStatus: 'official', source: 'Estádio do Tafe: Diretor de Competições DCE/ANCAF (Emanuel Valodia, 05/11/2026); Comunicado Oficial 013-DCE/ANCAF/2026 (26/10/2026): estádio a designar pelo FC Cabinda; data: pedido do Diretor de Competições (03/11/2026), 15/11, 15:00' },
+  // Resultado: captura da Sofascore enviada pelo utilizador (15/11/2026, 17:29): 1-0, intervalo 0-0,
+  // golo do FC Cabinda aos 90'. Marcador por identificar até ao Relatório do Árbitro.
+  result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-15T17:29:00+01:00' },
+  events: [
+    { minute: 90, type: 'goal', team: 'home', player: 'Por identificar', detail: '1-0' },
+  ],
   // Equipa de arbitragem e escalações da ficha do jogo no FCMS (Diretor de Competições DCE/ANCAF,
   // 15/11/2026): 11 titulares e 9 suplentes por equipa; árbitros todos «Confirmado».
   // Francisco Luemba (#4) aparece no 11 inicial com o aviso «Suspensão» do FCMS.

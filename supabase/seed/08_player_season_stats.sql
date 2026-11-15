@@ -40,7 +40,7 @@ insert into public.ancaf_player_season_stats (season_id, player_id, goals, assis
   ('2026-27', 'fifa-1v1a1u9', 1, 0, 8, 3, 0),
   ('2026-27', 'andeloy-libolo', 1, 0, 9, 4, 0),
   ('2026-27', 'angelo-cangu-huila', 1, 0, 9, 1, 0),
-  ('2026-27', 'ariclenis-cabinda', 1, 0, 7, 3, 0),
+  ('2026-27', 'ariclenis-cabinda', 1, 0, 8, 3, 0),
   ('2026-27', 'fifa-1v0ca42', 1, 0, 5, 1, 0),
   ('2026-27', 'fifa-1k1sev5', 1, 0, 9, 0, 0),
   ('2026-27', 'fifa-1n3uhm6', 1, 0, 7, 1, 0),

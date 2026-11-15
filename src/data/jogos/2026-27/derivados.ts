@@ -40,7 +40,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     { id: 'fifa-1v1a1u9', name: 'Alexandre Fernando', club: 'Sagrada Esperança', teamId: 'sagrada', position: 'Posição por confirmar', goals: 1, appearances: 8 },
     { id: 'andeloy-libolo', name: 'Andeloy', club: 'Recreativo do Libolo', teamId: 'libolo', position: 'Médio', goals: 1, appearances: 9 },
     { id: 'angelo-cangu-huila', name: 'Angelo Cangu (Tchutchu)', club: 'Desportivo da Huíla', teamId: 'desphuila', position: 'Médio', goals: 1, appearances: 9 },
-    { id: 'ariclenis-cabinda', name: 'Ariclenis Afonso Araújo Lede', club: 'FC Cabinda', teamId: 'cabinda', position: 'Avançado', goals: 1, appearances: 7 },
+    { id: 'ariclenis-cabinda', name: 'Ariclenis Afonso Araújo Lede', club: 'FC Cabinda', teamId: 'cabinda', position: 'Avançado', goals: 1, appearances: 8 },
     { id: 'fifa-1v0ca42', name: 'Batista Kachama', club: 'FC Luanda', teamId: 'fcluanda', position: 'Médio', goals: 1, appearances: 5 },
     { id: 'fifa-1k1sev5', name: 'Batomene de Sousa', club: 'São Salvador', teamId: 'saosalvador', position: 'Avançado', goals: 1, appearances: 9 },
     { id: 'fifa-1n3uhm6', name: 'Bayala', club: 'Kabuscorp SC', teamId: 'kabuscorp', position: 'Avançado', goals: 1, appearances: 7 },
