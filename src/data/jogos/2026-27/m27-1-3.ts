@@ -11,10 +11,11 @@ export default defineMatch({
   result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', attendance: 200, updatedAt: '2026-09-06T17:50:00+01:00' },
   officials: { referee: 'Edilson Roberto Gomes André', assistants: ['Manuel Luís Benguela', 'Joaquim Manuel Chiyo'], fourth: 'Miguel Julião Mateus' },
   coaches: { home: 'Filipe Nzanza', away: 'Paulo Torres' },
+  // Capitães: ícone «C» do Relatório do Árbitro (Match No: 4, página 1).
   lineups: {
     home: [
       { name: 'Nuno', number: 1, position: 'GK', isStarter: true, playerId: 'nuno-dago' },
-      { name: 'Bonifácio', number: 5, position: 'DEF', isStarter: true, playerId: 'bonifacio-dago' },
+      { name: 'Bonifácio', number: 5, position: 'DEF', isStarter: true, isCaptain: true, playerId: 'bonifacio-dago' },
       { name: 'Mabelé', number: 3, position: 'DEF', isStarter: true, playerId: 'mabele-dago' },
       { name: 'Macaia', number: 16, position: 'DEF', isStarter: true, playerId: 'macaia-dago' },
       { name: 'Milton', number: 2, position: 'DEF', isStarter: true, playerId: 'milton-dago' },
@@ -40,7 +41,7 @@ export default defineMatch({
       { name: 'Dos Santos', number: 4, position: 'DEF', isStarter: true, playerId: 'dos-santos-huila' },
       { name: 'Katendi', number: 2, position: 'DEF', isStarter: true, playerId: 'katendi-huila' },
       { name: 'Jeremias', number: 26, position: 'DEF', isStarter: true, playerId: 'jeremias-huila' },
-      { name: 'Elias', number: 15, position: 'MID', isStarter: true, playerId: 'elias-huila' },
+      { name: 'Elias', number: 15, position: 'MID', isStarter: true, isCaptain: true, playerId: 'elias-huila' },
       { name: 'Angelo Cangu (Tchutchu)', number: 21, position: 'MID', isStarter: true, playerId: 'angelo-cangu-huila' },
       { name: 'Tchicundico Cassoma Tchitunda (Constantino)', number: 32, position: 'MID', isStarter: true, playerId: 'tchicundico-huila' },
       { name: 'Milton Alberto de Oliveira Suca', number: 18, position: 'FWD', isStarter: true, playerId: 'milton-suca-huila' },

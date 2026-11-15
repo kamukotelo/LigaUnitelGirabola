@@ -26,10 +26,11 @@ export default defineMatch({
   // Escalações enviadas pelos clubes (01/10/2026).
   coaches: { home: 'Rui Santos', away: 'Artur Correia' },
   // Conferidas com o Relatório do Árbitro n.º 5 (19/10/2026).
+  // Capitães: ícone «C» do Relatório do Árbitro (Match No: 5, página 1).
   lineups: {
     home: [
       { name: 'Patrício', number: 12, position: 'GK', isStarter: true, playerId: 'fifa-1l7wk59' },
-      { name: 'Filipe', number: 17, position: 'DEF', isStarter: true, playerId: 'fifa-1k2wth5' },
+      { name: 'Filipe', number: 17, position: 'DEF', isStarter: true, isCaptain: true, playerId: 'fifa-1k2wth5' },
       { name: 'Joel', number: 4, position: 'DEF', isStarter: true, playerId: 'fifa-1qhqn96' },
       { name: 'Cabeto', number: 8, position: 'MID', isStarter: true, playerId: 'fifa-1ljudk2' },
       { name: 'Denilson', number: 10, position: 'FWD', isStarter: true, playerId: 'fifa-1l7lph0' },
@@ -50,7 +51,7 @@ export default defineMatch({
     ],
     away: [
       { name: 'Landu', number: 22, position: 'GK', isStarter: true, playerId: 'fifa-1k002p8' },
-      { name: 'Valegol', number: 9, position: 'FWD', isStarter: true, playerId: 'fifa-1k0r4w6' },
+      { name: 'Valegol', number: 9, position: 'FWD', isStarter: true, isCaptain: true, playerId: 'fifa-1k0r4w6' },
       { name: 'Vale', number: 2, position: 'DEF', isStarter: true, playerId: 'fifa-1t647t5' },
       { name: 'Tchaba', number: 3, position: 'DEF', isStarter: true, playerId: 'fifa-1lb66s2' },
       { name: 'Kuxixima', number: 7, position: 'FWD', isStarter: true, playerId: 'cuxixima-caala' },

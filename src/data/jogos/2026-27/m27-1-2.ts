@@ -12,10 +12,11 @@ export default defineMatch({
   officials: { referee: 'Sanda Mateus Miguel Kitu', assistants: ['Natarino António Soares', 'Nelson Lutumba Quiala'], fourth: 'Custódio Roque Lote', commissioner: 'Alfredo João' },
   coaches: { home: 'Sandro Mendes', away: 'Francisco Moniz' },
   // Conferidas com o Relatório do Árbitro n.º 2 (19/10/2026).
+  // Capitães: ícone «C» do Relatório do Árbitro (Match No: 2, página 1).
   lineups: {
     home: [
       { name: 'Nathan', number: 22, position: 'GK', isStarter: true, playerId: 'nathan-bravos' },
-      { name: 'Manico', number: 26, position: 'DEF', isStarter: true, playerId: 'manico-bravos' },
+      { name: 'Manico', number: 26, position: 'DEF', isStarter: true, isCaptain: true, playerId: 'manico-bravos' },
       { name: 'Denilson', number: 2, position: 'DEF', isStarter: true, playerId: 'denilson-bravos' },
       { name: 'Caprego', number: 24, position: 'DEF', isStarter: true, playerId: 'caprego-bravos' },
       { name: 'Dabanda', number: 27, position: 'DEF', isStarter: true, playerId: 'dabanda-bravos' },
@@ -36,7 +37,7 @@ export default defineMatch({
     ],
     away: [
       { name: 'Leonardo', number: 13, position: 'GK', isStarter: true, playerId: 'leonardo-sagrada' },
-      { name: 'Dabanda', number: 7, position: 'FWD', isStarter: true, playerId: 'dabanda-sagrada' },
+      { name: 'Dabanda', number: 7, position: 'FWD', isStarter: true, isCaptain: true, playerId: 'dabanda-sagrada' },
       { name: 'Miguel', number: 5, position: 'DEF', isStarter: true, playerId: 'miguel-sagrada' },
       { name: 'Jorge', number: 9, position: 'FWD', isStarter: true, playerId: 'jorge-sagrada' },
       { name: 'Lépua', number: 10, position: 'MID', isStarter: true, playerId: 'lepua-sagrada' },

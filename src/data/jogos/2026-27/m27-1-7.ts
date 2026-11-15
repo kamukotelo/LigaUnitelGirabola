@@ -12,10 +12,11 @@ export default defineMatch({
   officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Laurindo Feliciano Aureleo', commissioner: 'Dinilson Gourgel Ferreira de Almeida' },
   coaches: { home: 'Luciano Capoco', away: 'Osvaldo Roque' },
   // Conferidas com o Relatório do Árbitro n.º 3 (19/10/2026).
+  // Capitães: ícone «C» do Relatório do Árbitro (Match No: 3, página 1).
   lineups: {
     home: [
       { name: 'Francisco', number: 12, position: 'GK', isStarter: true, playerId: 'francisco-cabinda' },
-      { name: 'Rodrigo', number: 2, position: 'DEF', isStarter: true, playerId: 'rodrigo-cabinda' },
+      { name: 'Rodrigo', number: 2, position: 'DEF', isStarter: true, isCaptain: true, playerId: 'rodrigo-cabinda' },
       { name: 'Gedeon', number: 3, position: 'FWD', isStarter: true, playerId: 'gedeon-cabinda' },
       { name: 'Marcos', number: 5, position: 'DEF', isStarter: true, playerId: 'marcos-cabinda' },
       { name: 'Cristiano', number: 8, position: 'MID', isStarter: true, playerId: 'cristiano-cabinda' },
@@ -35,7 +36,7 @@ export default defineMatch({
     ],
     away: [
       { name: 'Beny', number: 12, position: 'GK', isStarter: true, playerId: 'beny-libolo' },
-      { name: 'Maninho', number: 5, position: 'DEF', isStarter: true, playerId: 'maninho-libolo' },
+      { name: 'Maninho', number: 5, position: 'DEF', isStarter: true, isCaptain: true, playerId: 'maninho-libolo' },
       { name: 'Marcos', number: 3, position: 'DEF', isStarter: true, playerId: 'marcos-libolo' },
       { name: 'Toti', number: 4, position: 'DEF', isStarter: true, playerId: 'toti-libolo' },
       { name: 'Chimito', number: 6, position: 'MID', isStarter: true, playerId: 'chimito-libolo' },

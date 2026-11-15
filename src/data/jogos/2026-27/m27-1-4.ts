@@ -11,10 +11,11 @@ export default defineMatch({
   officials: { referee: 'Miguel Tchissingui Augusto Américo', assistants: ['João Manuel Fula António', 'Nery Domingos Pereira Amador da Silva'], fourth: 'Isaías Justino Camaxi', commissioner: 'Alberto Bumba Senda' },
   coaches: { home: 'Pedro Barros', away: 'João Pedro Sousa' },
   // Conferidas com o Relatório do Árbitro n.º 1 (19/10/2026).
+  // Capitães: ícone «C» do Relatório do Árbitro (Match No: 1, página 1).
   lineups: {
     home: [
       { name: 'Kacusso', number: 12, position: 'GK', isStarter: true, playerId: 'cacusso' },
-      { name: 'Mussá', number: 20, position: 'FWD', isStarter: true, playerId: 'mussa-lunda-sul' },
+      { name: 'Mussá', number: 20, position: 'FWD', isStarter: true, isCaptain: true, playerId: 'mussa-lunda-sul' },
       { name: 'Fredy', number: 5, position: 'DEF', isStarter: true, playerId: 'fred' },
       { name: 'Platiny', number: 6, position: 'MID', isStarter: true, playerId: 'platini' },
       { name: 'Vado', number: 8, position: 'MID', isStarter: true, playerId: 'vado-lunda-sul' },
@@ -36,7 +37,7 @@ export default defineMatch({
     ],
     away: [
       { name: 'Neblú', number: 22, position: 'GK', isStarter: true, playerId: 'neblu' },
-      { name: 'Tiago Azulão', number: 26, position: 'FWD', isStarter: true, playerId: 'tiago-azulao' },
+      { name: 'Tiago Azulão', number: 26, position: 'FWD', isStarter: true, isCaptain: true, playerId: 'tiago-azulao' },
       { name: 'Rúben Adérito', number: 4, position: 'DEF', isStarter: true, playerId: 'ruben-aderito' },
       { name: 'Léo Bolgado', number: 5, position: 'DEF', isStarter: true, playerId: 'leo-bolgado' },
       { name: 'Mário Balbúrdia', number: 6, position: 'MID', isStarter: true, playerId: 'mario-balburdia' },

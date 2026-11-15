@@ -12,10 +12,11 @@ export default defineMatch({
   officials: { referee: 'Bernardo Hossi Nangolo', assistants: ['António Emiliano Livongue', 'Adolfo Luís Mutenha'], fourth: 'António Caluassi Dungula', commissioner: 'Manuel da Silva Maria' },
   coaches: { home: 'Águas da Silva', away: 'Léo Neiva' },
   // Conferidas com o Relatório do Árbitro n.º 6 (19/10/2026).
+  // Capitães: ícone «C» do Relatório do Árbitro (Match No: 6, página 1).
   lineups: {
     home: [
       { name: 'Super', number: 1, position: 'GK', isStarter: true, playerId: 'fifa-1k1sg53' },
-      { name: 'Márcio', number: 7, position: 'DEF', isStarter: true, playerId: 'fifa-1jyn4k6' },
+      { name: 'Márcio', number: 7, position: 'DEF', isStarter: true, isCaptain: true, playerId: 'fifa-1jyn4k6' },
       { name: 'Moisés', number: 5, position: 'DEF', isStarter: true, playerId: 'fifa-1k1hkv2' },
       { name: 'Bicho', number: 6, position: 'MID', isStarter: true, playerId: 'fifa-1jxhxl1' },
       { name: 'Deco', number: 9, position: 'FWD', isStarter: true, playerId: 'fifa-1jsrcp9' },
@@ -37,7 +38,7 @@ export default defineMatch({
     ],
     away: [
       { name: 'Augusto Mualucano', number: 22, position: 'GK', isStarter: true, playerId: 'fifa-1jrtva7' },
-      { name: 'Henock Mangindula', number: 16, position: 'DEF', isStarter: true, playerId: 'fifa-1mppsb5' },
+      { name: 'Henock Mangindula', number: 16, position: 'DEF', isStarter: true, isCaptain: true, playerId: 'fifa-1mppsb5' },
       { name: 'Zamorano Lopes', number: 2, position: 'DEF', isStarter: true, playerId: 'fifa-1k4a836' },
       { name: 'Eliseu Cabanga', number: 3, position: 'DEF', isStarter: true, playerId: 'fifa-1jyp8v8' },
       { name: 'Adair Domingos', number: 4, position: 'DEF', isStarter: true, playerId: 'fifa-1lgpgy7' },
