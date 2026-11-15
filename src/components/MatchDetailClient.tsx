@@ -191,6 +191,15 @@ function LineupColumn({ title, accent, lineup, isFinished, coach }: { title: str
       <div className="flex items-center gap-3 min-w-0">
         <span className="w-6 text-center text-zinc-500 flex-shrink-0">{p.number > 0 ? p.number : '—'}</span>
         <span className="text-zinc-800 dark:text-zinc-200 break-words leading-tight"><PlayerName p={p} /></span>
+        {p.isCaptain && (
+          <span
+            className="flex-shrink-0 inline-flex items-center justify-center w-4 h-4 rounded-full bg-amber-400 text-black text-[9px] font-bold leading-none"
+            title="Capitão"
+            aria-label="Capitão"
+          >
+            C
+          </span>
+        )}
       </div>
       {isFinished && p.rating > 0 && (
         <span

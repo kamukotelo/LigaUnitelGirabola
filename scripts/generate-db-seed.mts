@@ -288,7 +288,7 @@ let skipped = 0;
       const pack = (lu: Array<Record<string, unknown>>) =>
         lu.map((p) => ({
           playerId: p.playerId ?? null, name: p.name, number: p.number ?? 0,
-          position: p.position ?? null, isStarter: p.isStarter === true, isCaptain: false,
+          position: p.position ?? null, isStarter: p.isStarter === true, isCaptain: p.isCaptain === true,
         }));
       lineupRows.push([s(match.id), s(match.homeTeamId), s('home'), jsonb(pack(homeLineup)), s(det.homeCoach), s('seed')]);
       lineupRows.push([s(match.id), s(match.awayTeamId), s('away'), jsonb(pack(awayLineup)), s(det.awayCoach), s('seed')]);
