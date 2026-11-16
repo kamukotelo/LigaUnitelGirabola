@@ -279,7 +279,7 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-1-1', 65, 'sub', 'away', 'Benvindo Afonso', 'fifa-1jz4pi8', null, 'Aisson', null, 5),
   ('m27-1-1', 79, 'sub', 'away', 'Bebo', 'fifa-1kz4es4', null, 'Be Ngueve', null, 6),
   ('m27-1-1', 79, 'sub', 'away', 'Bito', 'fifa-1l96dj1', null, 'Valegol', null, 7),
-  ('m27-1-1', 81, 'sub', 'home', 'Domingos', 'fifa-1l08hy2', null, 'Arnaldo Dielo', null, 8),
+  ('m27-1-1', 81, 'sub', 'home', 'Domingos', 'fifa-1mall47', null, 'Arnaldo Dielo', null, 8),
   ('m27-1-1', 81, 'sub', 'home', 'Batista Kachama', 'fifa-1v0ca42', null, 'Domingos', null, 9),
   ('m27-1-1', 87, 'sub', 'home', 'Francisco', 'fifa-1l11132', null, 'Denilson', null, 10),
   ('m27-1-6', 21, 'goal', 'home', 'Odenir Jorge', 'fifa-1mqvbd5', null, null, '1-0', 0),
