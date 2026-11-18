@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Tv, Swords, Crown } from 'lucide-react';
 import { TEAMS, type Match } from '@/lib/data';
 import TeamCrest from '@/components/ui/TeamCrest';
+import { isDerbiLuanda } from '@/components/competition/CalendarioTab';
 
 interface RoundScheduleCardProps {
   round: number;
@@ -43,13 +44,11 @@ export default function RoundScheduleCard({
     if (teams.includes('petro') && teams.includes('dago')) {
       return { label: 'CLÁSSICO', type: 'classico' };
     }
-    if ((teams.includes('dago') && teams.includes('fcluanda')) ||
-        (teams.includes('kabuscorp') && teams.includes('interclube')) ||
-        (teams.includes('petro') && teams.includes('interclube')) ||
-        (teams.includes('petro') && teams.includes('kabuscorp'))) {
+    // Entre equipas de Luanda, tudo o que não é Petro–1.º de Agosto é dérbi (DCE/ANCAF, 18/11/2026).
+    if (isDerbiLuanda(m)) {
       return { label: 'DÉRBI LUANDA', type: 'derbi' };
     }
-    if (teams.includes('sagrada') && teams.includes('petro')) {
+    if (teams.includes('sagrada') && (teams.includes('petro') || teams.includes('dago'))) {
       return { label: 'CLÁSSICO', type: 'classico' };
     }
     return null;

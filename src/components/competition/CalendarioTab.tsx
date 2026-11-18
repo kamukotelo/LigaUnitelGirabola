@@ -56,9 +56,11 @@ export function isClassicMatch(m: Match): boolean {
   const t = [m.homeTeamId, m.awayTeamId];
   // O Grande Clássico dos Clássicos
   if (t.includes('petro') && t.includes('dago')) return true;
-  // Grandes confrontos históricos da I Divisão
-  if (t.includes('petro') && (t.includes('sagrada') || t.includes('interclube') || t.includes('kabuscorp'))) return true;
-  if (t.includes('dago') && (t.includes('sagrada') || t.includes('interclube') || t.includes('kabuscorp'))) return true;
+  // Grandes confrontos históricos da I Divisão fora de Luanda. Entre equipas de
+  // Luanda só o Petro–1.º de Agosto é Clássico: Interclube–Petro, 1.º de Agosto–
+  // Kabuscorp e os restantes são «Dérbi de Luanda» (Diretor de Competições
+  // DCE/ANCAF, Emanuel Valodia, grupo DCE, 18/11/2026).
+  if ((t.includes('petro') || t.includes('dago')) && t.includes('sagrada')) return true;
   return false;
 }
 
