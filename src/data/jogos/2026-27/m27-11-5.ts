@@ -9,4 +9,6 @@ export default defineMatch({
   // Domingo 22/11 15:00 → sábado 21/11 15:00, indicação do Diretor de Competições (Emanuel Valodia, 05/11/2026).
   // Estádio França N’dalu → Estádio do Tafe, novo estádio da casa do FC Cabinda (DCE/ANCAF, 05/11/2026).
   schedule: { date: '2026-11-21T15:00:00+01:00', stadium: 'Estádio do Tafe', scheduleStatus: 'official', source: 'Diretor de Competições DCE/ANCAF (Emanuel Valodia, 05/11/2026): sábado 21/11, 15:00; Estádio do Tafe: DCE/ANCAF, 05/11/2026; antes: Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas, recebido em 29/10/2026' },
+  // Nomeação de árbitros, jogo n.º 82 (mensagem enviada pelo utilizador, 19/11/2026); nomes completos dos registos anteriores (Luciano Sabala como veio na nomeação).
+  officials: { referee: 'Bernardo Kenge Mário', assistants: ['João Manuel Fula António', 'Josemar Ageu Domingos Francisco'], fourth: 'Luciano Sabala' },
 });

@@ -7,4 +7,6 @@ export default defineMatch({
   homeTeamId: 'lundasul',
   awayTeamId: 'desphuila',
   schedule: { date: '2026-11-22T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
+  // Nomeação de árbitros, jogo n.º 85 (mensagem enviada pelo utilizador, 19/11/2026); nomes completos dos registos anteriores.
+  officials: { referee: 'Nelson Agostinho da Silva', assistants: ['Domingos Jacinto Francisco Ferreira', 'Lourenço Manuel João'], fourth: 'Isaías Justino Camaxi' },
 });
