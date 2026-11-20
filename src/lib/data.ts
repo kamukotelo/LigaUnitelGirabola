@@ -2731,6 +2731,29 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'carta-presidente-ancaf-fvs-2026-11-20',
+    title: 'Football Video Support (FVS): ANCAF pede aos clubes reflexão sobre a tecnologia de arbitragem',
+    category: 'Comunicado Oficial',
+    date: '20 nov. 2026',
+    isoDate: '2026-11-20',
+    summary: 'Em carta aos presidentes dos clubes, o Presidente da ANCAF, João Lusevi Kueno, apresenta o Football Video Support (FVS), a alternativa da FIFA ao VAR em que o árbitro de campo revê lances a pedido das equipas, e pede aos clubes que promovam uma reflexão interna sobre a eventual adoção do modelo nas competições nacionais.',
+    content: 'Numa carta dirigida aos presidentes dos clubes da ANCAF, o Presidente João Lusevi Kueno chama a atenção para o Football Video Support (FVS), uma solução desenvolvida pela FIFA que está a ser testada e implementada em diversas competições internacionais como alternativa mais simples e acessível ao VAR tradicional. A iniciativa surge na sequência da recente visita da ANCAF à República Checa.\n\nA ANCAF pede aos presidentes que partilhem a informação com os departamentos de futebol, as equipas técnicas e os demais responsáveis desportivos dos clubes, para promover uma reflexão interna sobre as oportunidades, os desafios e as implicações da eventual adoção deste modelo nas competições nacionais.\n\nO QUE É O FVS\n\nO FVS é frequentemente descrito como uma versão simplificada do VAR. Não existe uma equipa de árbitros de vídeo a acompanhar o jogo numa sala de operações: é o próprio árbitro principal que revê os lances através das imagens disponíveis. O VAR convencional exige entre 8 e 12 câmaras, sala VOR, árbitro VAR, assistente VAR, operadores de replay e equipamentos de comunicação especializados, com custos operacionais muito elevados. A FIFA criou o FVS para democratizar o acesso à tecnologia, reduzir custos, melhorar a justiça desportiva e permitir que competições com menos recursos também beneficiem do apoio vídeo.\n\nCOMO FUNCIONA\n\nO jogo é gravado por 4, 6 ou 8 câmaras. Não há árbitro VAR nem AVAR e não existe revisão automática de incidentes: o árbitro de campo continua a ser o único responsável pelas decisões. Os treinadores podem pedir revisões, num número limitado por jogo (a FIFA tem testado três pedidos por equipa). Se a revisão der razão à equipa, o pedido é mantido; se a decisão do árbitro for confirmada, a equipa perde um pedido, numa lógica semelhante à do ténis ou do voleibol.\n\nTal como o VAR, o FVS só se aplica a situações que podem alterar significativamente o resultado: golos (bola que ultrapassou ou não a linha, falta antes do golo, fora de jogo evidente), grandes penalidades (penálti mal assinalado ou por assinalar), cartões vermelhos diretos (conduta violenta, jogo brusco grave) e erro de identidade. Quando a revisão é pedida, o jogo é interrompido, o árbitro dirige-se ao monitor, analisa os ângulos disponíveis e toma a decisão final.\n\nVAR, VAR LIGHT E FVS\n\nNo VAR e no VAR Light existe árbitro VAR dedicado, sala de operações (simplificada no VAR Light) e revisão automática, e as equipas não podem pedir revisão; o custo é muito elevado no VAR e médio no VAR Light. No FVS não há árbitro VAR nem sala de operações, as equipas podem pedir revisão, o custo é baixo e o número de câmaras é reduzido. Só o FVS é considerado pela FIFA uma alternativa ao VAR. O VAR Light mantém o protocolo IFAB do VAR, com menos câmaras e uma infraestrutura simplificada.\n\nVANTAGENS E LIMITAÇÕES\n\nAs vantagens são o menor custo, a maior acessibilidade e transparência (as equipas podem pedir a revisão de um lance decisivo) e a facilidade logística. As limitações: nem todos os erros são corrigidos, porque um lance pode passar despercebido se nenhuma equipa pedir revisão; com menos câmaras pode não existir o ângulo ideal; as equipas podem usar os pedidos de forma estratégica para quebrar o ritmo do jogo ou pressionar a arbitragem; e o árbitro tem maior responsabilidade, sem o «segundo olhar» permanente da equipa VAR.\n\nA FIFA considera o FVS especialmente adequado para ligas profissionais emergentes, competições femininas, campeonatos juvenis, federações com recursos limitados e países em desenvolvimento futebolístico. O objetivo não é substituir o VAR nas grandes competições, mas oferecer uma solução intermédia que aumente a justiça das decisões sem os custos do VAR completo.\n\nA ANCAF continuará a acompanhar a evolução desta matéria e está completamente aberta para receber inputs e reflexões sobre o assunto.\n\nJoão Lusevi Kueno\nPresidente da Associação Nacional dos Clubes Angolanos de Futebol (ANCAF)',
+    status: 'published',
+    author: 'João Lusevi Kueno — Presidente da ANCAF',
+    sourceName: 'ANCAF — Associação Nacional dos Clubes Angolanos de Futebol',
+    sourceUrl: 'https://ancaf.co.ao',
+    publishedAt: '2026-11-20T12:00:00+01:00',
+    documentImages: [
+      '/comunicados/carta-presidente-ancaf-fvs-2026/pagina-1.png',
+      '/comunicados/carta-presidente-ancaf-fvs-2026/pagina-2.png',
+      '/comunicados/carta-presidente-ancaf-fvs-2026/pagina-3.png',
+      '/comunicados/carta-presidente-ancaf-fvs-2026/pagina-4.png',
+      '/comunicados/carta-presidente-ancaf-fvs-2026/pagina-5.png',
+    ],
+    documentUrl: '/comunicados/carta-presidente-ancaf-fvs-2026/football-video-support-fvs-20-11-2026.pdf',
+    documentPages: 5,
+  },
+  {
     id: 'comunicado-oficial-10-sg-faf-2026-27',
     title: 'Comunicado Oficial N.º 10/SG/2026/27 — Critérios de Jogo, Licenciamento de Treinadores, Homologação de Estádios e Deliberações do Conselho de Disciplina',
     category: 'Comunicados Oficiais da FAF',
