@@ -9,6 +9,16 @@ export default defineMatch({
   schedule: { date: '2026-11-20T15:30:00+01:00', stadium: 'Estádio Álvaro Buta', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
   // Nomeação de árbitros, jogo n.º 81 (mensagem enviada pelo utilizador, 19/11/2026); nomes completos dos registos anteriores.
   officials: { referee: 'Donaciano Mulumba', assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'], fourth: 'Garcia Luhamo Remos' },
+  // Resultado e marcadores: captura da Sofascore enviada pelo utilizador (20/11/2026, 19:15): 1-3, intervalo 0-1.
+  // Marcadores ligados pela ficha: «Afonso dos Santos Paxe» = Paxe (#19), «B. Caetano» = Bonifácio Caetano (#5),
+  // «Francisco Carlos Chilumbo» = Tombé (#20, suplente). Cartões e substituições: aguardar o Relatório do Árbitro.
+  result: { status: 'finished', homeScore: 1, awayScore: 3, halfTimeScore: '0-1', updatedAt: '2026-11-20T19:15:00+01:00' },
+  events: [
+    { minute: 39, type: 'goal', team: 'away', player: 'Paxe', number: 19, playerId: 'fifa-1pxu511', detail: '0-1' },
+    { minute: 56, type: 'goal', team: 'away', player: 'Bonifácio', number: 5, playerId: 'bonifacio-dago', detail: '0-2' },
+    { minute: 75, type: 'goal', team: 'home', player: 'Anderson Mputa', number: 26, playerId: 'fifa-1k2pyw6', detail: '1-2' },
+    { minute: 94, type: 'goal', team: 'away', player: 'Tombé', number: 20, playerId: 'tombe-dago', detail: "90'+4 · 1-3" },
+  ],
   // Constituição das Equipas (PDF DCE/ANCAF, «Lineup Geral 11.ª J», recebido a 20/11/2026): 11 titulares e 9 suplentes
   // por equipa, treinadores e árbitros iguais à nomeação. A ficha não marca capitães. Ligação ao plantel pela camisola e
   // nome dos jogos anteriores; sem ligação quando a camisola já pertenceu a outro jogador (Gui #4, Zenilson #2,
