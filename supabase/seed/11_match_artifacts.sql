@@ -1263,7 +1263,7 @@ insert into public.ancaf_match_events (match_id, minute, type, team_side, player
   ('m27-10-2', 93, 'yellow', 'away', 'Paulo Mutossi', 'fifa-1jz4j23', null, null, '90''+3 · Falta para impedir um ataque prometedor', 9),
   ('m27-11-4', 39, 'goal', 'away', 'Paxe', 'fifa-1pxu511', null, null, '0-1', 0),
   ('m27-11-4', 56, 'goal', 'away', 'Bonifácio', 'bonifacio-dago', null, null, '0-2', 1),
-  ('m27-11-4', 75, 'goal', 'home', 'Anderson Mputa', 'fifa-1k2pyw6', null, null, '1-2', 2),
+  ('m27-11-4', 90, 'goal', 'home', 'Anderson Mputa', 'fifa-1k2pyw6', null, null, '1-2', 2),
   ('m27-11-4', 94, 'goal', 'away', 'Tombé', 'tombe-dago', null, null, '90''+4 · 1-3', 3),
   ('m27-14-6', 34, 'goal', 'home', 'Vanilson', 'vanilson', null, null, '1-0', 0),
   ('m27-14-6', 41, 'yellow', 'away', 'Pequenino Castro (Cagodo)', 'pequenino-castro-huila', null, null, 'Rasteirar o adversário', 1),
