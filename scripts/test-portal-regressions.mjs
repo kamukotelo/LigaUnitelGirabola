@@ -184,7 +184,8 @@ assert.match(record('m27-3-8'), /home: \{ corners: 1, yellowCards: 5 \},\s*away:
 // 4.ª jornada · FC Cabinda 1-1 CD 1.º de Agosto (09/09/2026, Estádio França Ndalu).
 assert.match(record('m27-4-5'), /result: \{ status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-0'/);
 assert.match(record('m27-4-5'), /events: \[[\s\S]*?playerId: 'luyeye-cabinda'[\s\S]*?playerId: 'axel-dago'/);
-assert.match(derived, /id: 'luyeye-cabinda'[^\n]*goals: 2,/);
+// Os dois golos já confirmados mantêm-se; jornadas novas podem aumentar o total.
+assert.ok(Number(/id: 'luyeye-cabinda'[^\n]*goals: (\d+),/.exec(derived)?.[1]) >= 2);
 assert.match(derived, /id: 'axel-dago'[^\n]*goals: 2,/);
 
 // A ficha FC Luanda–FC Cabinda deve manter as convocatórias e a arbitragem
