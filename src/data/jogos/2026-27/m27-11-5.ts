@@ -58,4 +58,13 @@ export default defineMatch({
       { name: 'Milson', number: 29, isStarter: false, playerId: 'fifa-1m8y3d4' },
     ],
   },
+  // Resultado, intervalo e goleadores: captura SofaScore enviada pelo utilizador em 21/11/2026 (18:18–18:19, Luanda).
+  // «C. Gomes» na captura corresponde a Caiser Sérgio Gomes, n.º 5 do Maquis no plantel.
+  result: { status: 'finished', homeScore: 2, awayScore: 2, halfTimeScore: '0-0', updatedAt: '2026-11-21T18:19:00+01:00' },
+  events: [
+    { minute: 53, type: 'goal', team: 'home', player: 'Luyeye', number: 13, playerId: 'luyeye-cabinda', detail: '1-0 · Penálti' },
+    { minute: 71, type: 'goal', team: 'away', player: 'Caiser', number: 5, playerId: 'caiser-bravos', detail: '1-1' },
+    { minute: 75, type: 'goal', team: 'home', player: 'António Kapata', number: 9, playerId: 'antonio-kapata-cabinda', detail: '2-1' },
+    { minute: 82, type: 'goal', team: 'away', player: 'Jú Cabral', number: 8, playerId: 'ju-cabral-bravos', detail: '2-2' },
+  ],
 });

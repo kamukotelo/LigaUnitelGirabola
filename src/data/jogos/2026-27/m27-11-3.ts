@@ -59,4 +59,9 @@ export default defineMatch({
       { name: 'Jairo Muanha', number: 34, position: 'MID', isStarter: false, playerId: 'jairo-muanha' },
     ],
   },
+  // Resultado, intervalo e goleadores: captura SofaScore enviada pelo utilizador em 21/11/2026 (18:18–18:19, Luanda).
+  result: { status: 'finished', homeScore: 0, awayScore: 1, halfTimeScore: '0-0', updatedAt: '2026-11-21T18:19:00+01:00' },
+  events: [
+    { minute: 79, type: 'goal', team: 'away', player: 'Lucas João', number: 9, playerId: 'lucas-joao', detail: '0-1' },
+  ],
 });
