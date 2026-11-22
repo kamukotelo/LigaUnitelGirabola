@@ -560,7 +560,9 @@ html {
   align-items: center;
   justify-content: center;
   user-select: none;
-  opacity: 0.25;
+  /* 0.25 deixava o texto do logótipo legível através dos cartões semitransparentes,
+     por cima de nomes e separadores (revisão 22/11/2026). */
+  opacity: 0.08;
 }
 
 @media (min-width: 1024px) {
@@ -568,7 +570,7 @@ html {
     left: 78%;
     width: 480px;
     height: 480px;
-    opacity: 0.28;
+    opacity: 0.1;
   }
 }
 

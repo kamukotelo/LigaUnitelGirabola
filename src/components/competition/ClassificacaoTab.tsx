@@ -197,7 +197,7 @@ export default function ClassificacaoTab({ seasonId }: { seasonId: string }) {
                     <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm hidden sm:table-cell">{row.won}</td>
                     <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm hidden sm:table-cell">{row.drawn}</td>
                     <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-xs sm:text-sm hidden sm:table-cell">{row.lost}</td>
-                    <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-[10px] sm:text-xs hidden md:table-cell">
+                    <td className="py-4 px-2 sm:px-3 text-center font-mono text-zinc-600 dark:text-zinc-400 text-[10px] sm:text-xs whitespace-nowrap hidden md:table-cell">
                       {row.goalsVerified === false ? '—' : `${row.goalsFor}-${row.goalsAgainst}`}
                     </td>
                     <td className={`py-4 px-2 sm:px-3 text-center font-mono font-semibold text-xs ${row.goalsVerified === false ? 'text-zinc-400' : row.goalDifference >= 0 ? 'text-green-500' : 'text-red-500'}`}>

@@ -150,11 +150,12 @@ export default function Navbar() {
                   className="h-12 w-auto object-contain dark:brightness-0 dark:invert"
                 />
               )}
-                <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold group-hover:text-accent transition-colors">
+                <span className="hidden 2xl:inline text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-bold group-hover:text-accent transition-colors">
                   Institucional
                 </span>
               </a>
-              <div className="ml-1 flex items-center gap-0.5 border-l border-zinc-200 pl-2 dark:border-zinc-800" aria-label="Canais oficiais da ANCAF">
+              {/* Entre 1280 e 1535 px não há espaço para os canais: o botão «Acesso reservado» saía do ecrã. */}
+              <div className="ml-1 hidden 2xl:flex items-center gap-0.5 border-l border-zinc-200 pl-2 dark:border-zinc-800" aria-label="Canais oficiais da ANCAF">
                 {ANCAF_CHANNELS.map(({ label, href, icon: Icon }) => (
                   <a
                     key={label}
@@ -174,7 +175,8 @@ export default function Navbar() {
             <div className="hidden xl:block h-8 w-px bg-zinc-300 dark:bg-zinc-800/80 mx-3 xl:mx-4" />
 
             {/* Marca oficial da competição */}
-            <Brand size="sm" className="max-w-[min(58vw,15rem)] overflow-hidden xl:hidden" />
+            {/* Sem overflow-hidden: as margens negativas do lockup cortavam o topo do escudo em telemóvel/tablet. */}
+            <Brand size="sm" className="shrink-0 xl:hidden" />
             <Brand size="sm" className="hidden xl:flex" />
           </div>
 

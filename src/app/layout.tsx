@@ -103,7 +103,7 @@ export default function RootLayout({
           <HoloBgLogo />
 
           <Navbar />
-          <main className="flex-1 z-10 pt-16 pb-16 md:pt-20 xl:pb-0">
+          <main className="relative flex-1 z-10 pt-16 pb-16 md:pt-20 xl:pb-0">
             {children}
           </main>
           <Footer />
