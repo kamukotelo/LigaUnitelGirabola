@@ -350,7 +350,7 @@ export const TEAMS: Team[] = [
   { id: 'dago', name: 'CD 1.º de Agosto', officialName: 'Clube Desportivo 1.º de Agosto', shortName: '1AG', logoUrl: TEAM_CRESTS['dago'], city: 'Luanda', stadium: 'Estádio França N’dalu', stadiumCapacity: 20000, founded: 1977, colors: 'Vermelho e Preto', coach: 'Filipe Nzanza', president: 'Gouveia de Sá Miranda', nickname: "D' Agosto", colorsHex: ['#D21515', '#000000'], kits: [{ label: 'Principal', colors: ['#D21515', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'desphuila', name: 'Desportivo da Huíla', officialName: 'Clube Desportivo da Huíla', shortName: 'CDH', logoUrl: TEAM_CRESTS['desphuila'], city: 'Lubango', stadium: 'Estádio da Tundavala', stadiumCapacity: 20000, founded: 1998, colors: 'Vermelho e Branco', coach: 'Paulo Torres', president: 'Lucas Francisco Ndjongo', nickname: 'Huilanos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'bravos', name: 'Bravos do Maquis', officialName: 'Futebol Clube Bravos do Maquis', shortName: 'BMQ', logoUrl: TEAM_CRESTS['bravos'], city: 'Luena', stadium: 'Estádio Mundunduleno', stadiumCapacity: 4300, founded: 1983, colors: 'Azul e Branco', coach: 'Lourenço Nelito', president: 'Agrione Manuel', nickname: 'Maquisardes', website: 'https://www.bravosdomaquis.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#F9C304', '#000000'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
-  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', logoUrl: TEAM_CRESTS['kabuscorp'], city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Leonardo Martins Neiva', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
+  { id: 'kabuscorp', name: 'Kabuscorp SC', officialName: 'Kabuscorp Sport Clube do Palanca', shortName: 'KAB', logoUrl: TEAM_CRESTS['kabuscorp'], city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 12000, founded: 1994, colors: 'Vermelho e Branco', coach: 'Marcelo Vítor Froeder', president: 'Bento Kangamba', nickname: 'Palanquinos', colorsHex: ['#D21515', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#D21515', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#D21515'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'sagrada', name: 'Sagrada Esperança', officialName: 'Clube Desportivo Sagrada Esperança', shortName: 'SAG', logoUrl: TEAM_CRESTS['sagrada'], city: 'Dundo', stadium: 'Estádio do Sagrada Esperança', stadiumCapacity: 8000, founded: 1976, colors: 'Verde e Preto', coach: 'Hungo Francisco Moniz', president: 'Oliveira Gonçalves', nickname: 'Lundas', colorsHex: ['#008751', '#000000'], kits: [{ label: 'Principal', colors: ['#008751', '#000000'] }, { label: 'Secundário', colors: ['#000000', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'interclube', name: 'GD Interclube', officialName: 'Grupo Desportivo Interclube', shortName: 'INT', logoUrl: TEAM_CRESTS['interclube'], city: 'Luanda', stadium: 'Estádio 22 de Junho', stadiumCapacity: 8000, founded: 1976, colors: 'Azul e Branco', coach: 'Divaldo da Silva Teixeira Alves', president: 'Alexandre Canelas', nickname: 'Polícias', website: 'https://www.interclube.co.ao', colorsHex: ['#00529B', '#FFFFFF'], kits: [{ label: 'Principal', colors: ['#00529B', '#FFFFFF'] }, { label: 'Secundário', colors: ['#FFFFFF', '#00529B'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
   { id: 'lundasul', name: 'Desportivo da Lunda Sul', officialName: 'Clube Desportivo da Lunda-Sul', shortName: 'DLS', logoUrl: TEAM_CRESTS['lundasul'], city: 'Saurimo', stadium: 'Estádio do Sagrada Esperança', stadiumCapacity: 7000, founded: 2020, colors: 'Verde e Amarelo', coach: 'Maurílio Silva', president: 'Miguel da Silva «Ipwupwu»', nickname: 'Tchianda', colorsHex: ['#008751', '#F9C304'], kits: [{ label: 'Principal', colors: ['#008751', '#F9C304'] }, { label: 'Secundário', colors: ['#F9C304', '#008751'] }], dataStatus: 'Atualizado', dataUpdatedAt: '2026-08-31' },
@@ -2392,6 +2392,8 @@ const CLUB_LICENSED_PLAYERS_2026_27: Readonly<Record<string, { maId: string; ful
 
 /** Nome completo do staff por licença. Fonte: listas de licenças enviadas a 06/11/2026. */
 const OFFICIAL_STAFF_FULL_NAME_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
+  // Kabuscorp — «MARCELO VITOR FROEDER CHRISPINIANO» na inscrição
+  '008244M84': 'Marcelo Vítor Froeder Chrispiniano',
   // GD Sagrada Esperança
   '007242M79': 'Clemente Martins Mendonça',
   '000753M66': 'Pedro Borges Marcos',
@@ -2490,6 +2492,8 @@ export interface TeamStaffMember {
  * publicação.
  */
 const OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
+  // Kabuscorp — treinador interino (indicação do utilizador, 22/11/2026; a inscrição diz preparador físico)
+  '008244M84': 'Treinador principal (interino)', // Marcelo Vítor Froeder
   // Estrela 1.º de Maio
   '009006M83': 'Equipa técnica',         // Hermino Nunes
   // Wiliete de Benguela
@@ -2566,6 +2570,11 @@ const OFFICIAL_STAFF_ROLE_LABELS: Readonly<Record<string, string>> = {
  * manda sobre o código da inscrição — é por ela que entram as decisões da
  * Direção de Competições sobre quem a inscrição classificou mal.
  */
+/** Nacionalidade corrigida por número de licença quando a inscrição está errada. */
+const OFFICIAL_STAFF_NATIONALITY_BY_MA_ID_2026_27: Readonly<Record<string, string>> = {
+  '008244M84': 'Brazil', // Marcelo Vítor Froeder (Kabuscorp) — brasileiro, indicação de 22/11/2026; a inscrição diz Angola
+};
+
 function officialStaffRoleLabel(member: { role: string; maId: string }): string {
   return OFFICIAL_STAFF_ROLE_BY_MA_ID_2026_27[member.maId]
     ?? OFFICIAL_STAFF_ROLE_LABELS[member.role]
@@ -2577,7 +2586,7 @@ function officialStaffRoleLabel(member: { role: string; maId: string }): string 
 // pelo cargo já corrigido, senão um treinador que a inscrição deixou em branco
 // caía para o fim da lista.
 const OFFICIAL_STAFF_LABEL_ORDER: readonly string[] = [
-  'Treinador principal', 'Treinador adjunto', 'Treinador de guarda-redes',
+  'Treinador principal (interino)', 'Treinador principal', 'Treinador adjunto', 'Treinador de guarda-redes',
   'Treinador adjunto de guarda-redes',
   'Preparador físico', 'Recuperador físico', 'Médico', 'Enfermeiro',
   'Fisioterapeuta', 'Técnico', 'Delegado ao jogo', 'Delegado suplente',
@@ -2636,7 +2645,10 @@ export const OFFICIAL_TEAM_STAFF_2026_27: Readonly<Record<string, TeamStaffMembe
     .map(({ member, role }) => ({
       name: formatOfficialPlayerName(OFFICIAL_STAFF_FULL_NAME_BY_MA_ID_2026_27[member.maId] ?? member.name),
       role,
-      nationality: OFFICIAL_NATIONALITY_LABELS[member.nationality] ?? (member.nationality || 'A confirmar'),
+      nationality: (() => {
+        const nationality = OFFICIAL_STAFF_NATIONALITY_BY_MA_ID_2026_27[member.maId] ?? member.nationality;
+        return OFFICIAL_NATIONALITY_LABELS[nationality] ?? (nationality || 'A confirmar');
+      })(),
       maId: member.maId || undefined,
       fifaId: member.fifaId || undefined,
     }))]),

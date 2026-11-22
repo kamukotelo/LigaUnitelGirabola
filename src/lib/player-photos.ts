@@ -286,7 +286,7 @@ const KABUSCORP_STAFF_PHOTO_MA_IDS = [
   '007949M77', // Leonardo Neiva — treinador principal
   '007965M73', // Adriano Lancetta — adjunto
   '007732M86', // Daniel Mabata — assistente técnico
-  '008244M84', // Marcelo Vitor — preparador físico
+  '008244M84', // Marcelo Vítor Froeder — treinador interino (antes preparador físico)
   '001838M73', // Jorge de Almeida — médico
   '005444M86', // Olavo Miguel — médico
   '003110M81', // Salomão Manuel — fisioterapeuta

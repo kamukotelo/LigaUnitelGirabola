@@ -161,7 +161,8 @@ function teamCards(detail: MatchDetail, side: 'home' | 'away', hasEvents: boolea
 }
 
 function headCoach(teamId: string) {
-  return getTeamStaff(teamId).find((member) => member.role === 'Treinador principal')?.name;
+  return getTeamStaff(teamId).find((member) => member.role === 'Treinador principal (interino)')?.name
+    ?? getTeamStaff(teamId).find((member) => member.role === 'Treinador principal')?.name;
 }
 
 /**
