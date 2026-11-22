@@ -172,7 +172,8 @@ assert.match(
   /events: \[[\s\S]*?minute: 12, type: 'goal'[^\n]*playerId: 'fifa-1jz4pi8'[\s\S]*?minute: 52, type: 'goal'[^\n]*playerId: 'milagre-simba-huila'[\s\S]*?minute: 94, type: 'goal'[^\n]*playerId: 'ado-pena-huila'/,
   'Os golos do m27-4-1 têm de seguir o Relatório 29.',
 );
-assert.doesNotMatch(derived, /id: 'cuxixima-caala'/, 'Cuxixima não marcou no Relatório 29.');
+// Cuxixima passou a ter golos noutros jogos (m27-11-1, 22/11/2026): a garantia é que nenhum é no m27-4-1.
+assert.doesNotMatch(record('m27-4-1'), /type: 'goal'[^\n]*playerId: 'cuxixima-caala'/, 'Cuxixima não marcou no Relatório 29.');
 // Benvindo tem pelo menos os 2 golos dos relatórios (m27-4-1 e anteriores); os golos de jornadas seguintes somam-se.
 assert.ok(Number(derived.match(/id: 'fifa-1jz4pi8'[^\n]*goals: (\d+),/)?.[1] ?? 0) >= 2);
 assert.match(record('m27-4-1'), /officials: \{ referee: 'Paulo Sérgio Moreira'[^\n]*commissioner: 'Manuel André António'/);
