@@ -25,7 +25,7 @@ export default defineMatch({
   officials: { referee: 'Donaciano Mulumba', assistants: ['Alzandre Diógenes Muiamba Capola', 'Manuel Dulo Cabaça'], fourth: 'António Domingos Miguel' },
   // Treinadores e constituição conferidos com a ficha «Constituição das Equipas» (PDF DCE/ANCAF, 15/11/2026).
   // Treinador do Kabuscorp: Marcelo Vitor, por indicação do utilizador (15/11/2026); a ficha PDF dizia Roque Sapiri.
-  coaches: { home: 'Luciano Capoco', away: 'Marcelo Vitor' },
+  coaches: { home: 'Luciano Capoco', away: 'Marcelo Vítor Froeder' },
   lineups: {
     home: [
       { name: 'João Eduardo', number: 1, position: 'GK', isStarter: true, isCaptain: false, playerId: 'cabinda-player-1' },

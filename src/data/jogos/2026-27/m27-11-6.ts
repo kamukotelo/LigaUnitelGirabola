@@ -15,7 +15,7 @@ export default defineMatch({
   // por equipa, treinadores e árbitros iguais à nomeação. A ficha não marca capitães. Ligação ao plantel pela camisola e
   // nome dos jogos anteriores; sem ligação (sem página ou camisola já de outro jogador): Miguel #31 (Kabuscorp); Viegas #2,
   // Kaba #11, Pedro Matendi #3, Yabala #20, D Paiza #24 e Edmilson #25 (FC Luanda).
-  coaches: { home: 'Marcelo Vitor', away: 'Rui Santos' },
+  coaches: { home: 'Marcelo Vítor Froeder', away: 'Rui Santos' },
   lineups: {
     home: [
       { name: 'Efonge', number: 1, position: 'GK', isStarter: true, playerId: 'brudel-kabuscorp' },
