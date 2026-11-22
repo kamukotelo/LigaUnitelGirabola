@@ -11,6 +11,13 @@ export default defineMatch({
   schedule: { date: '2026-11-22T15:30:00+01:00', stadium: 'Estádio França N’dalu', scheduleStatus: 'official', broadcaster: 'Zsports', source: 'Grupo DCE/ANCAF (05/11/2026): Estádio França N’dalu; antes: Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026', stadiumException: 'Indicação DCE/ANCAF de 05/11/2026: jogo no Estádio França N’dalu, e não no Estádio 22 de Junho habitual do Kabuscorp' },
   // Nomeação de árbitros, jogo n.º 87 (mensagem enviada pelo utilizador, 19/11/2026); nomes completos dos registos anteriores.
   officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Bernardo Francisco Moreira' },
+  // Resultado e marcadores: captura da Sofascore enviada pelo utilizador (22/11/2026, 17:38): 1-1, intervalo 1-1.
+  // «Jaime Caetano» = Jaime (#30, FC Luanda) e «J. Paciência» = Jó Paciência (#19, Kabuscorp), ambos titulares na ficha.
+  result: { status: 'finished', homeScore: 1, awayScore: 1, halfTimeScore: '1-1', updatedAt: '2026-11-22T17:38:00+01:00' },
+  events: [
+    { minute: 31, type: 'goal', team: 'away', player: 'Jaime', number: 30, playerId: 'fifa-1qw9vb1', detail: '0-1' },
+    { minute: 34, type: 'goal', team: 'home', player: 'Jó Paciência', number: 19, playerId: 'fifa-1jm8hd7', detail: '1-1' },
+  ],
   // Constituição das Equipas (PDF DCE/ANCAF, «Lineup Geral 11.ª J», recebido a 22/11/2026): 11 titulares e 9 suplentes
   // por equipa, treinadores e árbitros iguais à nomeação. A ficha não marca capitães. Ligação ao plantel pela camisola e
   // nome dos jogos anteriores; sem ligação (sem página ou camisola já de outro jogador): Miguel #31 (Kabuscorp); Viegas #2,
