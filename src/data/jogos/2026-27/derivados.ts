@@ -77,6 +77,7 @@ export const SEASON_DERIVED_STATS_2026_27: SeasonDerivedStats = {
     { id: 'fifa-1nw4p04', name: 'Jonas Lucas', club: 'GD Interclube', teamId: 'interclube', position: 'Avançado', goals: 1, appearances: 1 },
     { id: 'jonathan-toro', name: 'Jonathan Toro', club: 'Petro de Luanda', teamId: 'petro', position: 'Médio', goals: 1, appearances: 9 },
     { id: 'kessie-messi-primeiromaio', name: 'Kessie Messi', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Posição por confirmar', goals: 1, appearances: 5 },
+    { id: 'kibuata', name: 'Kibuata', club: 'Desportivo da Lunda Sul', teamId: 'lundasul', position: 'Defesa', goals: 1, appearances: 6 },
     { id: 'kinito', name: 'Kinito', club: 'Petro de Luanda', teamId: 'petro', position: 'Defesa', goals: 1, appearances: 9 },
     { id: 'fifa-1kztk20', name: 'Luis Escovalo', club: 'Estrela 1.º de Maio', teamId: 'primeiromaio', position: 'Médio', goals: 1, appearances: 7 },
     { id: 'fifa-1l60xh8', name: 'Luís Panda', club: 'Académica do Lobito', teamId: 'lobito', position: 'Médio', goals: 1, appearances: 5 },
