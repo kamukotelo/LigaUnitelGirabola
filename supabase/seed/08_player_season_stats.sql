@@ -6,9 +6,9 @@
 insert into public.ancaf_player_season_stats (season_id, player_id, goals, assists, appearances, yellow_cards, red_cards) values
   ('2026-27', 'mabululu-wiliete', 8, 0, 10, 0, 0),
   ('2026-27', 'dago-tshibamba', 6, 0, 11, 4, 0),
+  ('2026-27', 'melono-sagrada', 6, 0, 9, 2, 0),
   ('2026-27', 'lito-bravos', 6, 0, 11, 1, 0),
   ('2026-27', 'fifa-1qhqtd1', 5, 0, 9, 1, 0),
-  ('2026-27', 'melono-sagrada', 5, 0, 8, 2, 0),
   ('2026-27', 'fifa-1k2pyw6', 4, 0, 9, 2, 0),
   ('2026-27', 'fifa-1jz4pi8', 4, 0, 11, 3, 0),
   ('2026-27', 'robson-libolo', 4, 0, 5, 0, 0),
