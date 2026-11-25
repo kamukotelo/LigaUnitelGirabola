@@ -11,6 +11,7 @@ export default defineMatch({
   officials: { referee: 'Gilberto Bernardino Kativa', assistants: ['Estanislau Guedes Tavares Muluta Prata', 'Jeremias Sessenta Cafussa'], fourth: 'Sanda Mateus Miguel Kitu' },
   // Onze inicial e suplentes do FCMS, enviados pelo utilizador em 25/11/2026.
   // A ficha assinala Joaquim Balanga e Rodrigo Ngimbi como capitães.
+  coaches: { home: 'Joaquim Valinho (adjunto)', away: 'Luciano Capoco' },
   lineups: {
     home: [
       { name: 'Ruben Constantino Adérito', number: 4, position: 'DEF', isStarter: true, playerId: 'ruben-aderito' },
