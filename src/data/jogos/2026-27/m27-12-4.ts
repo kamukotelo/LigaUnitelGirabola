@@ -57,4 +57,12 @@ export default defineMatch({
       { name: 'Fábio Serrote Bernardo', number: 41, isStarter: false },
     ],
   },
+  // Resultado e goleadores: SofaScore, enviado pelo utilizador em 25/11/2026.
+  result: { status: 'finished', homeScore: 3, awayScore: 1, updatedAt: '2026-11-25T21:52:00+01:00' },
+  events: [
+    { minute: 13, type: 'goal', team: 'home', player: 'Berna', number: 13, playerId: 'berna', detail: '1-0' },
+    { minute: 22, type: 'goal', team: 'home', player: 'Depú', number: 29, playerId: 'depu', detail: '2-0' },
+    { minute: 59, type: 'goal', team: 'home', player: 'Lucas João', number: 9, playerId: 'lucas-joao', detail: '3-0' },
+    { minute: 62, type: 'goal', team: 'away', player: 'António Kapata', number: 9, playerId: 'antonio-kapata-cabinda', detail: '3-1' },
+  ],
 });

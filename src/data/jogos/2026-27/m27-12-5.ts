@@ -61,4 +61,11 @@ export default defineMatch({
       { name: 'Platini Mpiana Monzinzi', number: 39, position: 'FWD', isStarter: false, playerId: 'platini-kabuscorp' },
     ],
   },
+  // Resultado e goleadores: SofaScore, enviado pelo utilizador em 25/11/2026.
+  result: { status: 'finished', homeScore: 1, awayScore: 2, updatedAt: '2026-11-25T21:52:00+01:00' },
+  events: [
+    { minute: 76, type: 'goal', team: 'away', player: 'Jó Paciência', number: 19, playerId: 'fifa-1jm8hd7', detail: '0-1' },
+    { minute: 86, type: 'goal', team: 'home', player: 'Paxe', number: 19, playerId: 'fifa-1pxu511', detail: '1-1' },
+    { minute: 100, type: 'goal', team: 'away', player: 'Jó Paciência', number: 19, playerId: 'fifa-1jm8hd7', detail: "90'+10 · 1-2" },
+  ],
 });
