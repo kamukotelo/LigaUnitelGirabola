@@ -305,6 +305,7 @@ export default function LoginPage() {
                   {recoveryMode ? <ArrowLeft size={15} /> : <KeyRound size={15} />}
                   <span>{recoveryMode ? 'Voltar ao início de sessão' : 'Recuperar palavra-passe'}</span>
                 </button>
+                <Link href="/area-clubes" className="block text-center text-sm underline">Área de Clubes</Link>
               </motion.form>
             ) : (
               <motion.div

@@ -154,7 +154,7 @@ export default function Navbar() {
                   Institucional
                 </span>
               </a>
-              {/* Entre 1280 e 1535 px não há espaço para os canais: o botão «Acesso reservado» saía do ecrã. */}
+              {/* Entre 1280 e 1535 px não há espaço para os canais: o botão «Área de Clubes» saía do ecrã. */}
               <div className="ml-1 hidden 2xl:flex items-center gap-0.5 border-l border-zinc-200 pl-2 dark:border-zinc-800" aria-label="Canais oficiais da ANCAF">
                 {ANCAF_CHANNELS.map(({ label, href, icon: Icon }) => (
                   <a
@@ -206,8 +206,8 @@ export default function Navbar() {
           {/* Right Action Button */}
           <div className="hidden xl:flex items-center gap-2 flex-shrink-0">
             <ThemeToggle />
-            <Link href="/login" className="rounded-lg border border-zinc-300 px-3 py-2 text-xs font-bold text-zinc-700 transition hover:border-primary hover:text-primary dark:border-zinc-700 dark:text-zinc-300 whitespace-nowrap">
-              Acesso reservado
+            <Link href="/area-clubes" className="rounded-lg border border-zinc-300 px-3 py-2 text-xs font-bold text-zinc-700 transition hover:border-primary hover:text-primary dark:border-zinc-700 dark:text-zinc-300 whitespace-nowrap">
+              Área de Clubes
             </Link>
           </div>
 
@@ -344,12 +344,12 @@ export default function Navbar() {
 
               <motion.div variants={itemVariants} className="shrink-0 border-t border-zinc-200/80 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 dark:border-zinc-800/80 sm:px-5 sm:pb-4 sm:pt-4">
                 <Link
-                  href="/login"
+                  href="/area-clubes"
                   onClick={() => setIsOpen(false)}
                   className="premium-button flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl py-3 text-center text-sm"
                 >
                   <LogIn size={17} />
-                  <span>Acesso reservado</span>
+                  <span>Área de Clubes</span>
                   <ArrowRight size={16} />
                 </Link>
                 <p className="mt-2 hidden text-center text-[9px] font-mono uppercase tracking-widest text-zinc-500 sm:block">

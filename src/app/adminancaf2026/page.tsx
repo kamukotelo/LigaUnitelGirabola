@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import AdminClient from '@/components/AdminClient';
@@ -22,5 +23,14 @@ export default async function AdminPage() {
   // Conta ainda com a senha provisória — não serve a consola até ser trocada.
   if (session.mustChangePassword) return <ChangePasswordGate email={session.email} />;
 
-  return <AdminClient userProfile={session.profile} />;
+  return (
+    <>
+      {session.profile === 'admin' && (
+        <div className="content-shell pt-4">
+          <Link href="/adminancaf2026/clubes" className="text-sm font-semibold underline">Envios dos clubes</Link>
+        </div>
+      )}
+      <AdminClient userProfile={session.profile} />
+    </>
+  );
 }

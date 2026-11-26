@@ -71,3 +71,26 @@ export async function sendPasswordResetEmail(
     return { ok: false, reason: `Falha de ligação ao serviço de e-mail: ${String(error).slice(0, 200)}` };
   }
 }
+
+export async function sendClubAccessEmail(to: string, code: string, validMinutes: number): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.ADMIN_NOTIFICATION_FROM || process.env.NEWS_NOTIFICATION_FROM;
+  if (!apiKey || !from) return false;
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(8_000),
+      body: JSON.stringify({
+        from,
+        to: [to],
+        subject: 'Código de acesso à Área de Clubes',
+        text: `O seu código de acesso à Área de Clubes da Liga Unitel Girabola é ${code}. É válido durante ${validMinutes} minutos. Se não pediu este código, ignore esta mensagem.`,
+      }),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
