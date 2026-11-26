@@ -2743,6 +2743,22 @@ export const TOP_ASSISTS: PlayerStats[] = PLAYERS
 // ── 6. NOTÍCIAS COMPLETA MOCKS ─────────────────────────────────────
 export const newsMock: NewsArticle[] = [
   {
+    id: 'ancaf-1-agosto-kabuscorp-2026-11-26',
+    title: 'ANCAF repudia atos de violência e abre inquérito sobre incidentes no jogo 1.º de Agosto – Kabuscorp',
+    category: 'Comunicado Oficial',
+    date: '26 nov. 2026',
+    isoDate: '2026-11-26',
+    summary: 'A ANCAF abriu um processo de averiguação interno sobre os incidentes registados no Estádio França Ndalu no encontro da 12.ª jornada da Liga Unitel Girabola.',
+    content: 'A Direção da ANCAF repudiou os episódios de violência registados em 25 de novembro de 2026 no Estádio França Ndalu, durante o encontro da 12.ª jornada entre o 1.º de Agosto e o Kabuscorp do Palanca.\n\nSegundo o comunicado, a ANCAF instaurou um processo de averiguação interno em colaboração com as direções dos dois clubes e com as autoridades policiais, para apurar os factos e identificar os responsáveis. A ANCAF informou que as medidas disciplinares e regulamentares cabíveis serão tomadas após a conclusão das diligências.',
+    status: 'published',
+    author: 'Direção da ANCAF',
+    sourceName: 'ANCAF',
+    sourceUrl: 'https://ancaf.co.ao',
+    documentImages: ['/comunicados/ancaf-1-agosto-kabuscorp-2026-11-26/pagina-1.png'],
+    documentUrl: '/comunicados/ancaf-1-agosto-kabuscorp-2026-11-26/comunicado.pdf',
+    documentPages: 1,
+  },
+  {
     id: 'carta-presidente-ancaf-fvs-2026-11-20',
     title: 'Football Video Support (FVS): ANCAF pede aos clubes reflexão sobre a tecnologia de arbitragem',
     category: 'Comunicado Oficial',
