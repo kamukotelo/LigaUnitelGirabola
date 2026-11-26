@@ -20,6 +20,7 @@ const files = [
   ['006_match_admin_forms', resolve(root, 'supabase/migrations/20260919002000_match_admin_forms.sql')],
   ['007_club_access', resolve(root, 'supabase/migrations/20261126000000_club_access.sql')],
   ['008_club_portal', resolve(root, 'supabase/migrations/20261126001000_club_portal.sql')],
+  ['009_club_demo_access', resolve(root, 'supabase/migrations/20261126002000_club_demo_access.sql')],
 ];
 
 const pool = new Pool({ connectionString, max: 1 });

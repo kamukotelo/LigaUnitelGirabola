@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react';
 
 export default function ClubAccessForm() {
   const [busy, setBusy] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -35,12 +36,15 @@ export default function ClubAccessForm() {
     <form method="post" onSubmit={handleSubmit} className="space-y-5">
       <label className="grid gap-2 text-sm font-semibold">
         Utilizador do clube
-        <input name="username" autoComplete="username" required maxLength={12} className={inputClass} />
+        <input name="username" autoCapitalize="characters" spellCheck={false} autoComplete="username" required maxLength={12} className={inputClass} />
       </label>
       <label className="grid gap-2 text-sm font-semibold">
         Palavra-passe
-        <input name="password" type="password" autoComplete="current-password" required maxLength={72} className={inputClass} />
+        <input name="password" type={showPassword ? 'text' : 'password'} autoComplete="current-password" required maxLength={72} className={inputClass} />
       </label>
+      <button type="button" aria-pressed={showPassword} onClick={() => setShowPassword(!showPassword)} className="text-sm underline">
+        {showPassword ? 'Ocultar palavra-passe' : 'Mostrar palavra-passe'}
+      </button>
       {error && <p role="alert" className="text-sm text-red-700 dark:text-red-400">{error}</p>}
       <button type="submit" disabled={busy} className="premium-button min-h-11 w-full rounded-xl px-4 py-2 disabled:opacity-60">
         {busy ? 'A entrar…' : 'Entrar'}

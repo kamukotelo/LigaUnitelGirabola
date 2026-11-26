@@ -84,12 +84,15 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   const jar = await cookies();
   const admin = getAdminSession(jar.get(ADMIN_COOKIE)?.value);
-  if (admin?.profile !== 'admin' || admin.mustChangePassword) return error('Acesso reservado à ANCAF.', 403);
+  const isAdmin = admin?.profile === 'admin' && !admin.mustChangePassword;
+  const club = isAdmin ? null : await getClubPortalSession(jar.get(CLUB_PORTAL_COOKIE)?.value);
+  if (!isAdmin && !club) return error('Inicie sessão para descarregar anexos.', 403);
   const id = new URL(request.url).searchParams.get('anexo') ?? '';
   if (!/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(id)) return error('Anexo inválido.', 400);
   const [file] = await getNeonSql()`
     select filename, encode(attachment, 'base64') as data
     from public.ancaf_club_submissions where id = ${id} and attachment is not null
+      and (${isAdmin}::boolean or team_id = ${club?.team_id ?? null})
   `;
   if (!file) return error('Anexo não encontrado.', 404);
   return new Response(new Uint8Array(Buffer.from(file.data, 'base64')), {
