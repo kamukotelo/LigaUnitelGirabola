@@ -21,6 +21,7 @@ const files = [
   ['007_club_access', resolve(root, 'supabase/migrations/20261126000000_club_access.sql')],
   ['008_club_portal', resolve(root, 'supabase/migrations/20261126001000_club_portal.sql')],
   ['009_club_demo_access', resolve(root, 'supabase/migrations/20261126002000_club_demo_access.sql')],
+  ['010_club_workflow', resolve(root, 'supabase/migrations/20261126003000_club_workflow.sql')],
 ];
 
 const pool = new Pool({ connectionString, max: 1 });

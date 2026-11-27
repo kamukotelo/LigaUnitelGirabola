@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+import ClubRequestDetails from '@/components/ClubRequestDetails';
 import TeamCrest from '@/components/ui/TeamCrest';
 import { CLUB_PORTAL_COOKIE, getClubPortalSession } from '@/lib/club-auth';
-import { CLUB_CATEGORIES, type ClubCategory } from '@/lib/club-submissions';
+import { CLUB_CATEGORIES, CLUB_STATUSES, type ClubRequest, type ClubStatus } from '@/lib/club-submissions';
 import { getTeamById } from '@/lib/data';
 import { getNeonSql } from '@/lib/neon';
 import ClubAccessForm from './ClubAccessForm';
@@ -18,11 +19,22 @@ export default async function ClubAreaPage() {
   const token = (await cookies()).get(CLUB_PORTAL_COOKIE)?.value;
   const session = await getClubPortalSession(token);
   const team = session ? getTeamById(session.team_id) : undefined;
-  const submissions = session ? await getNeonSql()`
-    select id, category, subject, message, filename, created_at::text
-      from public.ancaf_club_submissions where team_id = ${session.team_id}
-      order by created_at desc, id desc limit 20
-  ` as { id: string; category: ClubCategory; subject: string; message: string; filename: string | null; created_at: string }[] : [];
+  const [submissions, counts] = session ? await Promise.all([
+    getNeonSql()`
+      select id, category, subject, message, filename, created_at::text, status, details, assigned_to, revision, updates, files
+      from public.ancaf_club_workflow where team_id = ${session.team_id}
+      order by (status = 'corrigir') desc, activity_at desc, id desc limit 30
+    `.then((rows) => rows as ClubRequest[]),
+    getNeonSql()`
+      select status, count(*)::integer as total
+      from public.ancaf_club_submissions where team_id = ${session.team_id} group by status
+    `.then((rows) => rows as { status: ClubStatus; total: number }[]),
+  ]) : [[], []];
+
+  const recentReplies = submissions.flatMap((item) =>
+    item.updates.filter((update) => update.author === 'ancaf' && update.message)
+      .map((update) => ({ ...update, requestId: item.id, subject: item.subject })),
+  ).sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)).slice(0, 3);
 
   return (
     <div className="page-shell">
@@ -41,23 +53,42 @@ export default async function ClubAreaPage() {
                 </button>
               </form>
             </header>
-            {team && <Link href={`/teams/${team.id}`} className="mt-4 inline-block text-sm font-semibold underline">Ficha pública do clube</Link>}
+            <nav aria-label="Acções do clube" className="mt-4 flex flex-wrap gap-4 text-sm font-semibold">
+              <a href="#novo-envio" className="underline">Novo envio</a>
+              <a href="#historico" className="underline">Histórico e respostas</a>
+              {team && <Link href={`/teams/${team.id}`} className="underline">Ficha pública do clube</Link>}
+            </nav>
+            <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {Object.entries(CLUB_STATUSES).map(([status, label]) => (
+                <div key={status} className={`rounded-xl border p-3 ${status === 'corrigir' ? 'border-amber-500/50' : 'border-zinc-200 dark:border-zinc-800'}`}>
+                  <dt className="text-sm">{label}</dt>
+                  <dd className="text-2xl font-semibold">{counts.find((entry) => entry.status === status)?.total ?? 0}</dd>
+                </div>
+              ))}
+            </dl>
+            {recentReplies.length > 0 && (
+              <section className="mt-6 rounded-xl border border-zinc-200 p-4 dark:border-zinc-800">
+                <h2 className="mb-2 text-lg font-semibold">Respostas recentes da ANCAF</h2>
+                <ul className="grid gap-2 text-sm">
+                  {recentReplies.map((reply) => <li key={reply.id}>
+                    <a href={`#pedido-${reply.requestId}`} className="font-semibold underline">{reply.subject}</a>
+                    <p className="line-clamp-2 break-words">{reply.message}</p>
+                  </li>)}
+                </ul>
+              </section>
+            )}
             <ClubSubmissionForm />
-            <section className="mt-8 border-t border-zinc-200 pt-5 dark:border-zinc-800">
-              <h2 className="mb-3 text-xl font-semibold">Últimos envios do clube</h2>
+            <section id="historico" className="mt-8 border-t border-zinc-200 pt-5 dark:border-zinc-800">
+              <h2 className="mb-3 text-xl font-semibold">Histórico e respostas da ANCAF</h2>
               {submissions.length === 0 ? <p className="text-sm">Ainda não há envios registados.</p> : (
                 <ul className="grid gap-3">
-                  {submissions.map((item) => <li key={item.id} className="rounded-xl border border-zinc-200 p-4 text-sm dark:border-zinc-800">
-                    <details>
+                  {submissions.map((item) => <li id={`pedido-${item.id}`} key={item.id} className="scroll-mt-24 rounded-xl border border-zinc-200 p-4 text-sm dark:border-zinc-800">
+                    <details open={item.status === 'corrigir' || undefined}>
                       <summary className="cursor-pointer break-words">
-                        <span className="font-semibold">{item.subject}</span> · {CLUB_CATEGORIES[item.category]}
+                        <span className="font-semibold">{item.subject}</span> · {CLUB_CATEGORIES[item.category]} · {CLUB_STATUSES[item.status]}
                       </summary>
-                      <p className="mt-2 text-xs text-zinc-500">
-                        {new Date(item.created_at).toLocaleString('pt-AO', { timeZone: 'Africa/Luanda' })}
-                      </p>
-                      {item.message && <p className="mt-2 whitespace-pre-wrap break-words">{item.message}</p>}
-                      {item.filename && <a href={`/api/club-portal?anexo=${item.id}`} className="mt-2 inline-block break-all underline">Descarregar {item.filename}</a>}
-                      <p className="mt-2 break-all text-xs text-zinc-500">Referência {item.id}</p>
+                      <ClubRequestDetails item={item} />
+                      {item.status === 'corrigir' && <ClubSubmissionForm correctionId={item.id} />}
                     </details>
                   </li>)}
                 </ul>
