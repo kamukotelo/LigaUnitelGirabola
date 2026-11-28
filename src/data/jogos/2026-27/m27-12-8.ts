@@ -9,6 +9,12 @@ export default defineMatch({
   schedule: { date: '2026-11-28T15:00:00+01:00', stadium: 'Estádio do Sagrada Esperança', scheduleStatus: 'official', source: 'Mapa oficial DCE/ANCAF — 11.ª a 15.ª jornadas (Eng. Valódia), recebido em 29/10/2026' },
   // Equipa de arbitragem do «Lineup Geral» oficial (28/11/2026; nomes completos das fichas anteriores).
   officials: { referee: 'Nelson João Milagre', assistants: ['Manuel Daniel Coelho', 'Hélder João Milagre'], fourth: 'Donaciano Mulumba' },
+  // Resultado e marcador: captura da Sofascore enviada pelo utilizador (28/11/2026, 20:31): 1-0, intervalo 0-0,
+  // «M. Dala» 90'+2 = Melono Dala (#11, titular na ficha).
+  result: { status: 'finished', homeScore: 1, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-28T20:31:00+01:00' },
+  events: [
+    { minute: 92, type: 'goal', team: 'home', player: 'Melono Dala', number: 11, playerId: 'melono-sagrada', detail: "90'+2 · 1-0" },
+  ],
   // Onze inicial, suplentes e treinadores do «Lineup Geral» oficial do jogo (Lineup_Geral_12ªJ GD SAGRADA ESPERANÇA.pdf, 28/11/2026).
   // Wilfreid (n.º 22, Sagrada), Jenivaldo (n.º 22), Zé Jó (n.º 5) e Mama Sane (n.º 17, Huíla) ainda sem ficha de jogador.
   coaches: { home: 'Baciro Candé', away: 'Paulo Torres' },

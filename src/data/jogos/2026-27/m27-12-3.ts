@@ -57,4 +57,6 @@ export default defineMatch({
       { name: 'Paqueta', number: 36, isStarter: false },
     ],
   },
+  // Resultado: captura da Sofascore enviada pelo utilizador (28/11/2026, 20:31): 0-0, intervalo 0-0.
+  result: { status: 'finished', homeScore: 0, awayScore: 0, halfTimeScore: '0-0', updatedAt: '2026-11-28T20:31:00+01:00' },
 });
