@@ -50,12 +50,12 @@ assert.equal((d.getMatchRecord('m27-4-1')?.events ?? []).some((e: { type: string
 // Exceção única: golos cujo marcador não tem página de jogador no portal têm de
 // estar listados aqui. Desde 19/10/2026 todos os marcadores dos Relatórios do
 // Árbitro n.º 1–55 estão identificados e ligados ao plantel (lista vazia).
-const PENDING_SCORERS: string[] = ["m27-8-6 93'", "m27-9-2 76'", "m27-8-8 90'", "m27-11-1 26'", "m27-11-1 63'", "m27-11-7 47'"];
+const PENDING_SCORERS: string[] = ["m27-8-6 93'", "m27-9-2 76'", "m27-8-8 90'", "m27-11-1 26'", "m27-11-1 63'", "m27-11-7 47'", "m27-12-1 ?'"];
 const pending = d.getMatchesForSeason(d.UPCOMING_SEASON_ID)
   .filter((m: { status: string }) => m.status === 'finished')
   .flatMap((m: { id: string }) => d.getMatchDetail(m).events
     .filter((e: { type: string; playerId?: string; ownGoal?: boolean; detail?: string }) => e.type === 'goal' && !e.playerId && !e.ownGoal && !/autogolo/i.test(e.detail ?? ''))
-    .map((e: { minute?: number }) => `${m.id} ${e.minute}'`));
+    .map((e: { minute?: number }) => `${m.id} ${e.minute ?? '?'}'`));
 assert.deepEqual(pending.sort(), [...PENDING_SCORERS].sort(), 'Golos sem marcador fora da lista de pendentes.');
 // Jogos cujo resultado chegou sem minutos nem marcadores: ficam sem eventos até
 // ao relatório do árbitro e todos os golos contam como por identificar.
